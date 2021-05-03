@@ -40,7 +40,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2.3.0
         with:
           key: ${{ secrets.GH_PAGES_DEPLOY }}
-          known_hosts: unnecessary
+          known_hosts: '140.82.113.3'
       - name: Release to GitHub Pages
         env:
           USE_SSH: true
