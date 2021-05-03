@@ -13,4 +13,4 @@ jobs:
           node-version: 12
       - run: yarn
       - run: yarn build
-      - run: GIT_USER=git yarn deploy
+      - run: GIT_USER=MohabMohie GIT_PASS=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 yarn deploy
