@@ -9,8 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: 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
           node-version: 12
       - run: yarn
       - run: yarn build
-      - run: GIT_USER=MohabMohie GIT_PASS=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 yarn deploy
+      - run: GIT_USER=MohabMohie yarn deploy
