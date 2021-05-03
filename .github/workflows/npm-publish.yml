@@ -12,6 +12,4 @@ jobs:
           node-version: 12
       - run: yarn
       - run: yarn build
-      - run: git config --global user.email "Mohab.MohieElDeen@outlook.com"
-      - run: git config --global user.name "Mohab Mohie"
-      - run: GIT_USER=MohabMohie GIT_PASS=${{ secrets.GITHUB_TOKEN }} USE_SSH=true yarn deploy
+      - run: USE_SSH=true yarn deploy
