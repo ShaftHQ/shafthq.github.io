@@ -12,4 +12,6 @@ jobs:
           node-version: 14.16.1
       - run: yarn
       - run: yarn build
+      - run: git config --global user.email "Mohab.MohieElDeen@outlook.com"
+      - run: git config --global user.name "Mohab Mohie"
       - run: GIT_USER=MohabMohie yarn deploy
