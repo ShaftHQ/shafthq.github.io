@@ -3,12 +3,13 @@ name: Publish User Guide
 on: [push]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 12
-      - run: npm run build
-      - run: GIT_USER=MohabMohie yarn deploy
+      - run: yarn
+      - run: yarn build
+      - run: GIT_USER=MohabMohie USE_SSH=true yarn deploy
