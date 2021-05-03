@@ -2,7 +2,7 @@ module.exports = {
   title: 'SHAFT User Guide',
   tagline: 'This is the official user guide for using SHAFT; The Unified Test Automation Engine.',
   url: 'https://mohabmohie.github.io',
-  baseUrl: '/apidocs/',
+  baseUrl: '/SHAFT_Engine_Docusaurus/',
   onBrokenLinks: 'throw',
   favicon: 'img/shaft.ico',
   organizationName: 'MohabMohie', // Usually your GitHub org/user name.
