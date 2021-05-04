@@ -46,8 +46,5 @@ jobs:
           key: ${{ runner.os }}-${{ env.WORKDIR }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.WORKDIR }}-
-      - run: yarn
       - run: yarn build
       - run: GIT_USER=MohabMohie GIT_PASS=${{secrets.PERSONAL_TOKEN}} yarn deploy
-          fi
-          npm run deploy
