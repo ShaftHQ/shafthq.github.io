@@ -11,7 +11,7 @@
 5. Create a pull request to merge your contribution to the main user guide project.
 6. After the PR is reviewed and merged, the new docs will be built and released automatically via CI/CD.
 
-# Website
+# SHAFT User Guide
 
 This website is built using [Docusaurus 2](https://v2.docusaurus.io/), a modern static website generator.
 
