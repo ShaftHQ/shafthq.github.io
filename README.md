@@ -9,7 +9,7 @@
 3. Edit this file https://github.com/MohabMohie/SHAFT_Engine_Docusaurus/blob/master/sidebars.js to add your newly created .md file.
 4. Follow the steps here https://github.com/MohabMohie/SHAFT_Engine_Docusaurus#installation to build and run the project locally to make sure that it's working as expected.
 5. Create a pull request to merge your contribution to the main user guide project.
-6. After the PR is reviewed and merged, the new docs will be built and released automatically via CI/CD.
+6. After the PR is reviewed and merged, the new docs will be built and released automatically via CI/CD to this url: https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/
 
 # SHAFT User Guide
 
