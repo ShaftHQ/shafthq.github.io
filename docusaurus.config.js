@@ -70,8 +70,8 @@ module.exports = {
               to: 'https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/index.html',
             },
             {
-              label: 'BinTray',
-              to: 'https://bintray.com/mohabmohie/SHAFT/SHAFT_Engine/_latestVersion',
+              label: 'JFrog',
+              to: 'https://automatest.jfrog.io/ui/packages/gav:%2F%2Fio.github.mohabmohie:SHAFT_ENGINE',
             },
             {
               label: 'Maven Central',
