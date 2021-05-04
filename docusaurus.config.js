@@ -93,13 +93,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://github.com/MohabMohie/SHAFT_Engine_Docusaurus/edit/master/website/',
+            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/',
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
           editUrl:
-            'https://github.com/MohabMohie/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
+            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
