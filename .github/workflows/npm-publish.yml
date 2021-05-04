@@ -2,35 +2,52 @@ name: documentation
 
 on: [push]
 
+env:
+  WORKDIR: /
+
 jobs:
   gh-release:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: /
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      
+      - name: Setup Node
+        uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      #- uses: webfactory/ssh-agent@v0.5.2
-      #  with:
-      #    ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
-      #- name: Install SSH Key
-      #  uses: shimataro/ssh-key-action@v2.3.0
-      #  with:
-      #    key: ${{secrets.GH_PAGES_DEPLOY}}
-      #    known_hosts: '140.82.113.3'
-      - name: Release to GitHub Pages
-        env:
-          USE_SSH: false
-          GIT_USER: MohabMohie
-          GIT_PASS: ${{secrets.PERSONAL_TOKEN}}
-        run: |
-          git config --global user.email "actions@github.com"
-          git config --global user.name "gh-actions"
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
+          
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-${{ env.WORKDIR }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.WORKDIR }}-
+      - run: yarn
+      - run: yarn build
+      - run: GIT_USER=MohabMohie GIT_PASS=${{secrets.PERSONAL_TOKEN}} yarn deploy
           fi
           npm run deploy
