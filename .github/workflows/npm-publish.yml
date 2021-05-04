@@ -3,7 +3,7 @@ name: documentation
 on: [push]
 
 env:
-  WORKDIR: /
+  WORKDIR: ''
 
 jobs:
   gh-release:
