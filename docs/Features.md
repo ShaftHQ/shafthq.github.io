@@ -1,7 +1,7 @@
 ---
-id: Web_GUI
-title: Web GUI with SHAFT
-sidebar_label: Web GUI
+id: Features
+title: Features
+sidebar_label: Features
 ---
 
  
@@ -26,7 +26,7 @@ later on you might need to change those defaults, you can always [edit configura
 - Saves the configuration and conflict-resolution headace.
 
 
-## Create your first project using shaft 
+
 
 
  [browsers]: <todo>
