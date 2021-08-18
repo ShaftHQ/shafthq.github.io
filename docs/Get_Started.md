@@ -5,7 +5,7 @@ sidebar_label: Usage
 ---
 
 ## Web Driver
-In order to interact with web pages you will need an instance of [WebDriver]
+- In order to interact with web pages you will need an instance of [WebDriver]
 ````java
  import org.openqa.selenium.WebDriver;
 
@@ -13,7 +13,11 @@ In order to interact with web pages you will need an instance of [WebDriver]
 ````
 Upon Executing this line [DriverFactory] will detect your desired configuration from the [properties files], if you have not set those don't worry, SHAFT has a set of
  [default configurations] that will be used and you can always [edit configurations] .<br/>
-Execution environment is defaulted to Local i.e tests will be run on your own machine, so SHAFT will auto-detect your operating system and the version of the default browser , searches for the appropriate WebDriver version on your machine and download it if it can't be found,and finally run it which is openning a new browser window.
+Execution environment is defaulted to Local i.e tests will be run on your own machine, so SHAFT will use [webdrivermanager] to auto-detect your operating system and the version of the default browser , searches for the appropriate WebDriver version on your machine and download it if it can't be found,and finally run it which is openning a new browser window.
+- in order to close all running driver instances use
+````java
+	DriverFactory.closeAllDrivers();
+````
 ## Browser Interactions 
 The [BrowserActions] class handles browser actions like navigation and window controls
 ### Navigation
@@ -100,9 +104,38 @@ The method getWindowHandle​() returns a String containing the window handle, w
  String pageSource = BrowserActions.getPageSource(driver);
 ````
 Gets the current page source and returns it as a string
+## Browser Interactions Demo
+ ````java
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
 
+import com.shaft.driver.DriverFactory;
+import com.shaft.gui.browser.BrowserActions;
+
+public class ShaftDemo {
+
+	int width = 515; 
+	int height =500; 
+	
+	@Test
+	public void browserActions_Demo() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver,"https://www.google.com/","google");
+		System.out.println(BrowserActions.getCurrentURL(driver));
+		BrowserActions.navigateToURL(driver,"https://www.youtube.com/");
+		System.out.println(BrowserActions.getCurrentWindowTitle(driver));
+		BrowserActions.navigateBack(driver);
+		BrowserActions.navigateForward(driver);
+		BrowserActions.setWindowSize(driver, width, height);
+		System.out.println(BrowserActions.getWindowSize(driver));
+	    DriverFactory.closeAllDrivers();
+	
+	}
+}
+````
+As you skim through the concole output you will notice the awesome reporting SHAFT provides for each performed action, and it gets even better, please see the [reporting] section for more on that.
 ## Element Interactions 
-The [ElementActions] class handles browser actions. <br/>
+The [ElementActions] class is responsible for handling interactions with web elements. <br/>
 #### Click on an Element 
 In order to interact with elements appearing on web page you'll first need to locate the element using one of WebDriver's locating strategies([By methods]) like ID, Class Name, 
 XPath, CSS Selectors, link Text, Partial link text, Name, or Tag name.
@@ -152,6 +185,8 @@ import org.openqa.selenium.By;
  [properties files]:<todo>
   [edit configurations]:<todo>
   [DriverFactory]:<todo>
+  [reporting]:<todo>
+  [webdrivermanager]:<https://github.com/bonigarcia/webdrivermanager>
   [BrowserActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html>
  [ElementActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html>
  [By methods]:<https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html>
