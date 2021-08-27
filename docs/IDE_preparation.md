@@ -28,10 +28,15 @@ TestNG plugin comes pre-installed with IntelliJ but needs to be installed if you
  Eclipse might show a warning regarding the installation of unsigned software, choose install anyway.<br/>
  For the change to be effective, Eclipse will prompt for a re-start, choose re-start now.
 
-#### IntelliJ listeners
 
-#### create new maven project
 
-#### add shaft dependencies
+### create new maven project
+
+### add shaft dependencies
+
+### IntelliJ listeners
+![run](https://live.staticflickr.com/65535/51405765833_62bec5179c_c.jpg)
+![edit](https://live.staticflickr.com/65535/51404743097_5c1f1e559d_c.jpg)
+![template](https://live.staticflickr.com/65535/51406472770_2ca0728272_c.jpg)
 
 [TestNG]:<https://testng.org/doc/>
