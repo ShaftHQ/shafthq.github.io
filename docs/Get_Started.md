@@ -180,6 +180,27 @@ import org.openqa.selenium.By;
  ElementActions.hover(driver,elementLocator);
 ````
 
+#### Drag and drop
+- Drag an element into a target element
+````java
+
+  By sourceElement = By.id("draggable");    // Locator to the element you want to drag
+  By targetElement = By.id("destination");  // Locator to the destination element
+ 
+ ElementActions.dragAndDrop(driver,sourceElement,targetElement);
+````
+- Drag an element to a specified position
+````java
+
+  By sourceElement = By.id("draggable");    // Locator to the element you want to drag
+  int xPos= 500;
+  int yPos= 500;
+ 
+ ElementActions.dragAndDrop(driver,sourceElement,xPos,yPos);
+````
+
+
+
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
 [default configurations]:<todo>
  [properties files]:<todo>
