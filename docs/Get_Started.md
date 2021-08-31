@@ -202,11 +202,11 @@ import org.openqa.selenium.By;
 
 
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
-[default configurations]:<todo>
- [properties files]:<todo>
-  [edit configurations]:<todo>
-  [DriverFactory]:<todo>
-  [reporting]:<todo>
+[default configurations]:<#>
+ [properties files]:<#>
+  [edit configurations]:<#>
+  [DriverFactory]:<#>
+  [reporting]:<#>
   [webdrivermanager]:<https://github.com/bonigarcia/webdrivermanager>
   [BrowserActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html>
  [ElementActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html>

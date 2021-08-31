@@ -18,9 +18,9 @@ You can use any Java IDE you prefer
 ### Maven system variables
 
 
-[java version]:<todo>
+[java version]:<#>
 [oracle website]:<https://www.oracle.com/java/technologies/javase/jdk15-archive-downloads.html>
 [java]:<https://java.com/en/download/help/path.html>
 [Eclipse]: <https://www.eclipse.org/downloads/packages/installer>
 [IntelliJ]:<https://www.jetbrains.com/idea/download/>
-[step]:<todo intellij steps>
+[step]:<#>

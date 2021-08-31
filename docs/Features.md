@@ -29,9 +29,9 @@ later on you might need to change those defaults, you can always [edit configura
 
 
 
- [browsers]: <todo>
-  [reports]: <todo>
-[verification methods]: <todo>
-[SHAFT components]: <todo>
-[error hanling techniques]: <todo>
-[edit configurations]: <todo>
+ [browsers]: <#>
+  [reports]: <#>
+[verification methods]: <#>
+[SHAFT components]: <#>
+[error hanling techniques]: <#>
+[edit configurations]: <#>
