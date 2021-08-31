@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{64:function(a){a.exports=JSON.parse('{"allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","slug":"automatest","name":"automatest","count":1,"permalink":"/SHAFT_Engine_Docusaurus/blog/tags/automatest"}')}}]);
