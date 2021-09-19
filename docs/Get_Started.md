@@ -198,6 +198,137 @@ import org.openqa.selenium.By;
  
  ElementActions.dragAndDrop(driver,sourceElement,xPos,yPos);
 ````
+#### Get Tag name
+````java
+ String TagName = ElementActions.getTagName(driver, ElementLocator);
+````
+Retrieves tag name from the target element and returns it as a string value.
+#### Get the value of an element attribute
+````java
+// The locator to your element
+  By  googleSearchBox = By.cssSelector(".gLFyf.gsfi");
+ //get the value of the 'name' attribute
+ String attributeValue = ElementActions.getAttribute(driver, googleSearchBox, "name");
+````
+Returns the value of the given attribute as a String,you will allso be able to see something like this 
+![report](https://live.staticflickr.com/65535/51492494310_076bca3fdc.jpg) <br/>
+in the automatically generated Allure report, for more on that see [Reporting].
+
+#### Get the value of a CSS property
+````java
+ String propertyValue = ElementActions.getCSSProperty​(driver, elementLocator, "width");
+````
+#### Get context handle\s
+<!---
+Needs further auditing
+-->
+you need to get the context handle in order to be able to switch back to it 
+- Return the handle for currently active context.
+````java
+String currentContext = ElementActions.getContext(driver);
+````
+- Returns a list of unique handles for all the currently open contexts.
+````java
+ElementActions.getContextHandles(driver);
+````
+#### Switching focus to a different context
+````java
+ElementActions.setContext(currentContext);
+````
+#### Insert text into a text field
+````java
+ElementActions.type(driver, textFieldLocator, "any text you would like to type");
+````
+#### Get elements count
+to find the number of elements matching a specific locator
+````java
+int numOfElements = ElementActions.getElementsCount(driver, locatorToMultipleElements);
+````
+## Element Interactions demo (1)
+````java
+package shaftDemo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+
+import com.shaft.driver.DriverFactory;
+import com.shaft.gui.browser.BrowserActions;
+import com.shaft.gui.element.ElementActions;
+
+public class Demo {
+
+	private By searchBox = By.name("q");
+	private By results = By.cssSelector("h3.LC20lb");
+	@Test
+	public void method() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver, "https://www.google.com");
+		ElementActions.type(driver, searchBox, "SHAFT_ENGINE");
+		ElementActions.keyPress(driver, searchBox, "ENTER");
+		int num = ElementActions.getElementsCount(driver, results);
+		System.out.println(num);
+		
+	}
+}
+
+````
+#### Get selected option from a drop down
+````java
+//  Locator to the Drop Down element
+  By  dropDown = By.id("dropdown");
+ //Retrieve selected text and store it in a string variable
+ String SelectedItem = ElementActions.getAttribute(driver, googleSearchBox, "name");
+````
+Retrieves the selected text from the target drop-down list element and returns it as a string value.
+
+#### Select an option from a drop down list
+````java
+//  Locator to the Drop Down element
+  By  dropDown = By.id("dropdown");
+ //Retrieve selected text and store it in a string variable
+  ElementActions.select(driver, dropDown, "Option 1");
+````
+## Element Interactions demo (2)
+````java
+package shaftDemo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+
+import com.shaft.driver.DriverFactory;
+import com.shaft.gui.browser.BrowserActions;
+import com.shaft.gui.element.ElementActions;
+
+public class DropDownDemo {
+
+	private By dropDown = By.id("dropdown");
+	
+	@Test
+	public void method() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver, "https://the-internet.herokuapp.com/dropdown");
+		ElementActions.getSelectedText(driver, dropDown);
+		ElementActions.select(driver, dropDown, "Option 1");
+		ElementActions.getSelectedText(driver, dropDown);
+		
+	}
+		
+}
+
+
+````
+* To verify the results you can use traditional String variables, check SHAFT results in the Allure report (as shown in the image below), or 
+you can use other [verification] techniques. 
+![report_2](https://live.staticflickr.com/65535/51492098708_dd5f557495_z.jpg) <br/>
+
+#### Get size of an element
+````java
+ String elementSize = ElementActions.getSize(driver, TargetElementLocator);
+````
+Retrieves element size from the target element and returns it as a string value.
+* An alternative to using [getCSSProperty​] to get width and height values separately
 
 
 
@@ -211,3 +342,6 @@ import org.openqa.selenium.By;
   [BrowserActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html>
  [ElementActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html>
  [By methods]:<https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html>
+ [Reporting]:<#>
+ [verification]:<#>
+ [getCSSProperty​]:<#get-the-value-of-a-css-property>
