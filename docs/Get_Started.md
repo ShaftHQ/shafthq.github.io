@@ -179,6 +179,35 @@ import org.openqa.selenium.By;
  //Hover over target element
  ElementActions.hover(driver,elementLocator);
 ````
+#### Hover and click
+- Hover over an element to show hover menue then click on one of the displayed options
+````java
+
+By clickable = By.xpath("//a[contains(text(),'Video Games ') ] ");
+By hoverItem = By.linkText("Popular Toys");
+ 
+ElementActions.hoverAndClick(driver, hoverItem, clickable);
+````
+- for multi-level hover menus You need to hover on the category, then hover on a subcategory, and so on until you finally click on the clickable item.
+````java
+public class HoverAndClickDemo {
+
+	List<By> hoverLocators =new ArrayList<By>();
+	By clickable = By.linkText("Car");
+
+	@Test
+	public void demo() {
+		
+		hoverLocators.add(By.linkText("Popular Toys"));
+		hoverLocators.add(By.xpath("//a[contains(text(),'Video Games ') ] "));
+		
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver,"https://phppot.com/demo/multilevel-dropdown-menu-with-pure-css/");
+		ElementActions.hoverAndClick(driver, hoverLocators, clickable);
+	}
+}
+````
+![hoverAndClick](https://live.staticflickr.com/65535/51627720576_1bd0cf9c6f_z.jpg) <br/>
 
 #### Drag and drop
 - Drag an element into a target element
@@ -236,8 +265,13 @@ ElementActions.getContextHandles(driver);
 ElementActions.setContext(currentContext);
 ````
 #### Insert text into a text field
+- clear text inside a text field (if any), and insert new text value
 ````java
 ElementActions.type(driver, textFieldLocator, "any text you would like to type");
+````
+- Append to existing text 
+````java
+ElementActions.typeAppend(driver, textFieldLocator, "text added to the end");
 ````
 #### Get elements count
 to find the number of elements matching a specific locator
@@ -329,7 +363,47 @@ you can use other [verification] techniques.
 ````
 Retrieves element size from the target element and returns it as a string value.
 * An alternative to using [getCSSProperty​] to get width and height values separately
+#### Get elements text
+Retrieves text from the target text field and returns it as a string value.
+````java
+String text = ElementActions.getText(driver, textBox);
+````
+#### Get state of an element
 
+- Check if an element is clickable
+
+````java
+public class DynamicControlsDemo {
+
+	By textField=By.xpath("//form[@id='input-example']/input");
+	By changeState=By.xpath("//form[@id='input-example']/button");
+	@Test
+	public void alternate() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver, "https://the-internet.herokuapp.com/dynamic_controls");
+		//--1-- check that initially the text box is not clickable
+		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		//--2-- press the button to enable the text box
+		ElementActions.click(driver, changeState);
+		//--3-- check again whether the text box is clickable
+		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		//--4-- attempt to click on the text box
+		ElementActions.click(driver, textField);
+		//--5-- finally verify the state of the check box
+		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		ElementActions.type(driver, textField, "SHAFT is awesome !");
+	}
+}
+````
+![clickable](https://live.staticflickr.com/65535/51628756225_c75d0b22c3_z.jpg) <br/>
+
+The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clicable as shown in the previous image captured from the Allure report.  
+- Check if an element is displayed
+````java
+System.out.println(ElementActions.isElementDisplayed(driver, elementLocator));
+````
+returns a boolean indicating whether the element is displayed
+#### wait for state of an element to change 
 
 
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
