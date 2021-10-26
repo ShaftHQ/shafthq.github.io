@@ -30,8 +30,8 @@ later on you might need to change those defaults, you can always [edit configura
 
 
 
- [browsers]: <#>
-  [reports]: <#>
+[browsers]: <#>
+[reports]: <#>
 [verification methods]: <#>
 [SHAFT components]: <#>
 [error hanling techniques]: <#>

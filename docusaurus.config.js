@@ -16,15 +16,9 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/Features',
+          to: 'docs/',
           activeBasePath: 'docs',
-          label: 'Setup',
-          position: 'left',
-        },
-        {
-          to: 'docs/Browser_Actions',
-          activeBasePath: 'docs',
-          label: 'Web GUI',
+          label: 'Docs',
           position: 'left',
         },
 //        {to: 'blog', label: 'Blog', position: 'left'},
@@ -38,30 +32,34 @@ module.exports = {
     footer: {
       style: 'dark',
       links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Setup',
-              to: 'docs/Features',
-            },
-            {
-              label: 'Web GUI',
-              to: 'docs/Browser_Actions',
-            },
-          ],
-        },
+//        {
+//          title: 'Docs',
+//          items: [
+//            {
+//              label: 'Style Guide',
+//              to: 'docs/',
+//            },
+//            {
+//              label: 'Web GUI',
+//              to: 'docs/Browser_Actions',
+//            },
+//          ],
+//        },
         {
           title: 'Community',
           items: [
             {
-              label: 'Automatest - Software Test Automation Hub',
+              label: 'Automatest - Software Test Automation Hub (Facebook)',
               href: 'https://www.facebook.com/groups/Automatest',
+            },
+            {
+              label: 'Automatest - Dev Channel (Slack)',
+              href: 'https://join.slack.com/t/automatest-workspace/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'More Resources',
           items: [
 //            {
 //              label: 'Blog',

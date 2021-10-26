@@ -138,14 +138,14 @@ As you skim through the console output you will notice the awesome reporting SHA
 
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
 [default configurations]:<#>
- [properties files]:<#>
-  [edit configurations]:<#>
-  [DriverFactory]:<#>
-  [reporting]:<#>
-  [webdrivermanager]:<https://github.com/bonigarcia/webdrivermanager>
-  [BrowserActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html>
- [ElementActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html>
- [By methods]:<https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html>
- [Reporting]:<#>
- [verification]:<#>
- [getCSSProperty​]:<#get-the-value-of-a-css-property>
+[properties files]:<#>
+[edit configurations]:<#>
+[DriverFactory]:<#>
+[reporting]:<#>
+[webdrivermanager]:<https://github.com/bonigarcia/webdrivermanager>
+[BrowserActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html>
+[ElementActions]:<https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html>
+[By methods]:<https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html>
+[Reporting]:<#>
+[verification]:<#>
+[getCSSProperty​]:<#get-the-value-of-a-css-property>
