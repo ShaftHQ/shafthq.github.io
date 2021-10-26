@@ -4,11 +4,12 @@ title: IDE preparation
 sidebar_label: IDE preparation
 ---
 ## IntelliJ
+
 ###Project Creation
-[![Project Creation](https://img.youtube.com/vi/IhC2vW8YpHY/0.jpg "Click to navigate to Youtube")](https://youtu.be/IhC2vW8YpHY)
+[![Project Creation](https://img.youtube.com/vi/IhC2vW8YpHY/0.jpg "Click to view on Youtube")](https://youtu.be/IhC2vW8YpHY)
 
 ### Upgrading to SHAFT
-[![Upgrading to SHAFT](https://img.youtube.com/vi/2LKCmBndWNo/0.jpg "Click to navigate to Youtube")](https://youtu.be/2LKCmBndWNo)
+[![Upgrading to SHAFT](https://img.youtube.com/vi/2LKCmBndWNo/0.jpg "Click to view on Youtube")](https://youtu.be/2LKCmBndWNo)
 
 ### Adding SHAFT listeners
 ![run](https://live.staticflickr.com/65535/51405765833_62bec5179c_c.jpg)
@@ -40,6 +41,6 @@ sidebar_label: IDE preparation
   - For the change to be effective, Eclipse will prompt for a re-start, choose re-start now.
 
 ### Project Creation
-[![Project Creation](https://img.youtube.com/vi/3TYGteD843M/0.jpg "Click to navigate to Youtube")](https://www.youtube.com/watch?v=3TYGteD843M)
+[![Project Creation](https://img.youtube.com/vi/3TYGteD843M/0.jpg "Click to view on Youtube")](https://www.youtube.com/watch?v=3TYGteD843M)
 
 [TestNG]:<https://testng.org/doc/>

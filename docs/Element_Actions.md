@@ -263,7 +263,8 @@ The text field is disabled by default,directly after clicking the enable button 
 System.out.println(ElementActions.isElementDisplayed(driver, elementLocator));
 ````
 returns a boolean indicating whether the element is displayed
-### wait for state of an element to change
+
+[comment]: <> (### wait for state of an element to change)
 
 
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
