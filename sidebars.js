@@ -1,6 +1,6 @@
 module.exports = {
   someSidebar: {
-    Setup: ['doc1','IDE_preparation'],
-    "Web GUI": ['Features','Get_Started'],
+    "Setup": ['Features','Prerequisites','IDE_preparation'],
+    "Web GUI": ['Browser_Actions','Element_Actions'],
   },
 };

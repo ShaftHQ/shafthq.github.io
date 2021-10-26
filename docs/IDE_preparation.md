@@ -4,10 +4,10 @@ title: IDE preparation
 sidebar_label: IDE preparation
 ---
 
-### Eclipse TestNg plugin
+## Eclipse TestNG plugin
 SHAFT uses [TestNG] for test managment, thus you will need to install TestNG plugin to better manage and configure your tests.
 TestNG plugin comes pre-installed with IntelliJ but needs to be installed if you are using Eclipse.
-#### Installation
+### Installation
 - Step #1: Once Eclipse is launched, click on Help and then Eclipse Marketplace.
 
 ![marketplace](https://cdn.lambdatest.com/blog/wp-content/uploads/2020/07/Eclipse-Marketplace.png)
@@ -30,11 +30,14 @@ TestNG plugin comes pre-installed with IntelliJ but needs to be installed if you
 
 
 
-### create new maven project
+## Project Creation
+[![Project Creation](https://img.youtube.com/vi/IhC2vW8YpHY/0.jpg)](https://youtu.be/IhC2vW8YpHY)
 
-### add shaft dependencies
 
-### IntelliJ listeners
+## Upgrading to SHAFT
+[![Upgrading to SHAFT](https://img.youtube.com/vi/2LKCmBndWNo/0.jpg)](https://youtu.be/2LKCmBndWNo)
+
+## Adding SHAFT listeners to IntelliJ
 ![run](https://live.staticflickr.com/65535/51405765833_62bec5179c_c.jpg)
 ![edit](https://live.staticflickr.com/65535/51404743097_5c1f1e559d_c.jpg)
 ![template](https://live.staticflickr.com/65535/51406472770_2ca0728272_c.jpg)

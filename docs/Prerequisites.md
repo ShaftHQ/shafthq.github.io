@@ -1,5 +1,5 @@
 ---
-id: doc1
+id: Prerequisites
 title: Prerequisites
 sidebar_label: Prerequisites
 ---
