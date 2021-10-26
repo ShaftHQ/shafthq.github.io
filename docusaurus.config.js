@@ -16,12 +16,18 @@ module.exports = {
       },
       items: [
         {
-          to: 'docs/',
+          to: 'docs/Features',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Setup',
           position: 'left',
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
+        {
+          to: 'docs/Browser_Actions',
+          activeBasePath: 'docs',
+          label: 'Web GUI',
+          position: 'left',
+        },
+//        {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/MohabMohie/SHAFT_ENGINE',
           label: 'GitHub',
@@ -36,13 +42,13 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
-              to: 'docs/',
+              label: 'Setup',
+              to: 'docs/Features',
             },
-            /*{
-              label: 'Second Doc',
-              to: 'docs/doc2/',
-            },*/
+            {
+              label: 'Web GUI',
+              to: 'docs/Browser_Actions',
+            },
           ],
         },
         {
@@ -57,10 +63,10 @@ module.exports = {
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: 'blog',
-            },
+//            {
+//              label: 'Blog',
+//              to: 'blog',
+//            },
             {
               label: 'Configuration Manager',
               to: 'https://mohabmohie.github.io/SHAFT_ENGINE/',
@@ -89,18 +95,18 @@ module.exports = {
       {
         docs: {
           // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'doc1',
+          homePageId: 'Features',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
             'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          editUrl:
-            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
-        },
+//        blog: {
+//          showReadingTime: true,
+//          // Please change this to your repo.
+//          editUrl:
+//            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
+//        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
