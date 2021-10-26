@@ -11,15 +11,15 @@ In order to interact with elements appearing on web page you'll first need to lo
 XPath, CSS Selectors, link Text, Partial link text, Name, or Tag name.
 
  ````java
- import org.openqa.selenium.By;
- import org.openqa.selenium.WebDriver;
- 
- // get a WebDriver instance 
- WebDriver driver = DriverFactory.getDriver();
- // a By object is used to store the locator to your element
- private By elementLocator = By.id("sign_in_btn");
- //click on target element
- ElementActions.click(driver,elementLocator);
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+//get a WebDriver instance 
+WebDriver driver = DriverFactory.getDriver();
+//a By object is used to store the locator to your element
+private By elementLocator = By.id("sign_in_btn");
+//click on target element
+ElementActions.click(driver,elementLocator);
 ````
 The method click will wait for your target element to be interactable and then attempts to click on it using Selenium WebDriver, if that didn't work it will
 attempt to click using JavaScript
@@ -27,32 +27,29 @@ attempt to click using JavaScript
 ````java
 import org.openqa.selenium.By;
 
- ElementActions.clickAndHold(driver,By.cssSelector("div.hold_counter"));
-
+ElementActions.clickAndHold(driver,By.cssSelector("div.hold_counter"));
 ````
 Waits for the element to be clickable, and then clicks and holds it.
 ### Double Click​
 ````java
 import org.openqa.selenium.By;
 
-// store the locator to your element
-  By elementLocator = By.className("double_click_btn");
- //Double click target element
- ElementActions.doubleClick(driver,elementLocator);
+//store the locator to your element
+By elementLocator = By.className("double_click_btn");
+//Double click target element
+ElementActions.doubleClick(driver,elementLocator);
 ````
 ### Hover
 ````java
 import org.openqa.selenium.By;
-
-// The locator to your element
-  By elementLocator = By.tagName("span");
- //Hover over target element
- ElementActions.hover(driver,elementLocator);
+//The locator to your element
+By elementLocator = By.tagName("span");
+//Hover over target element
+ElementActions.hover(driver,elementLocator);
 ````
 ### Hover and click
 - Hover over an element to show hover menue then click on one of the displayed options
 ````java
-
 By clickable = By.xpath("//a[contains(text(),'Video Games ') ] ");
 By hoverItem = By.linkText("Popular Toys");
  
@@ -61,13 +58,11 @@ ElementActions.hoverAndClick(driver, hoverItem, clickable);
 - for multi-level hover menus You need to hover on the category, then hover on a subcategory, and so on until you finally click on the clickable item.
 ````java
 public class HoverAndClickDemo {
-
 	List<By> hoverLocators =new ArrayList<By>();
 	By clickable = By.linkText("Car");
 
 	@Test
 	public void demo() {
-		
 		hoverLocators.add(By.linkText("Popular Toys"));
 		hoverLocators.add(By.xpath("//a[contains(text(),'Video Games ') ] "));
 		
@@ -82,32 +77,30 @@ public class HoverAndClickDemo {
 ### Drag and drop
 - Drag an element into a target element
 ````java
+By sourceElement = By.id("draggable");    // Locator to the element you want to drag
+By targetElement = By.id("destination");  // Locator to the destination element
 
-  By sourceElement = By.id("draggable");    // Locator to the element you want to drag
-  By targetElement = By.id("destination");  // Locator to the destination element
- 
- ElementActions.dragAndDrop(driver,sourceElement,targetElement);
+ElementActions.dragAndDrop(driver,sourceElement,targetElement);
 ````
 - Drag an element to a specified position
 ````java
+By sourceElement = By.id("draggable");    // Locator to the element you want to drag
+int xPos= 500;
+int yPos= 500;
 
-  By sourceElement = By.id("draggable");    // Locator to the element you want to drag
-  int xPos= 500;
-  int yPos= 500;
- 
- ElementActions.dragAndDrop(driver,sourceElement,xPos,yPos);
+ElementActions.dragAndDrop(driver,sourceElement,xPos,yPos);
 ````
 ### Get Tag name
 ````java
- String TagName = ElementActions.getTagName(driver, ElementLocator);
+String TagName = ElementActions.getTagName(driver, ElementLocator);
 ````
 Retrieves tag name from the target element and returns it as a string value.
 ### Get the value of an element attribute
 ````java
-// The locator to your element
-  By  googleSearchBox = By.cssSelector(".gLFyf.gsfi");
- //get the value of the 'name' attribute
- String attributeValue = ElementActions.getAttribute(driver, googleSearchBox, "name");
+//The locator to your element
+By googleSearchBox = By.cssSelector(".gLFyf.gsfi");
+//get the value of the 'name' attribute
+String attributeValue = ElementActions.getAttribute(driver, googleSearchBox, "name");
 ````
 Returns the value of the given attribute as a String,you will allso be able to see something like this
 ![report](https://live.staticflickr.com/65535/51492494310_076bca3fdc.jpg) <br/>
@@ -115,7 +108,7 @@ in the automatically generated Allure report, for more on that see [Reporting].
 
 ### Get the value of a CSS property
 ````java
- String propertyValue = ElementActions.getCSSProperty​(driver, elementLocator, "width");
+String propertyValue = ElementActions.getCSSProperty​(driver, elementLocator, "width");
 ````
 ### Get context handle\s
 <!---
@@ -148,7 +141,7 @@ to find the number of elements matching a specific locator
 ````java
 int numOfElements = ElementActions.getElementsCount(driver, locatorToMultipleElements);
 ````
-## Element Actions Sample Code Snippet (1)
+## Sample Code Snippet
 ````java
 package shaftDemo;
 
@@ -161,9 +154,9 @@ import com.shaft.gui.browser.BrowserActions;
 import com.shaft.gui.element.ElementActions;
 
 public class Demo {
-
 	private By searchBox = By.name("q");
 	private By results = By.cssSelector("h3.LC20lb");
+    
 	@Test
 	public void method() {
 		WebDriver driver = DriverFactory.getDriver();
@@ -175,25 +168,24 @@ public class Demo {
 		
 	}
 }
-
 ````
 ### Get selected option from a drop down
 ````java
-//  Locator to the Drop Down element
-  By  dropDown = By.id("dropdown");
- //Retrieve selected text and store it in a string variable
- String SelectedItem = ElementActions.getAttribute(driver, googleSearchBox, "name");
+//Locator to the Drop Down element
+By dropDown = By.id("dropdown");
+//Retrieve selected text and store it in a string variable
+String SelectedItem = ElementActions.getAttribute(driver, googleSearchBox, "name");
 ````
 Retrieves the selected text from the target drop-down list element and returns it as a string value.
 
 ### Select an option from a drop down list
 ````java
-//  Locator to the Drop Down element
-  By  dropDown = By.id("dropdown");
- //Retrieve selected text and store it in a string variable
-  ElementActions.select(driver, dropDown, "Option 1");
+//Locator to the Drop Down element
+By dropDown = By.id("dropdown");
+//Retrieve selected text and store it in a string variable
+ElementActions.select(driver, dropDown, "Option 1");
 ````
-## Element Actions Sample Code Snippet (2)
+## Sample Code Snippet
 ````java
 package shaftDemo;
 
@@ -220,8 +212,6 @@ public class DropDownDemo {
 	}
 		
 }
-
-
 ````
 * To verify the results you can use traditional String variables, check SHAFT results in the Allure report (as shown in the image below), or
   you can use other [verification] techniques.
@@ -229,7 +219,7 @@ public class DropDownDemo {
 
 ### Get size of an element
 ````java
- String elementSize = ElementActions.getSize(driver, TargetElementLocator);
+String elementSize = ElementActions.getSize(driver, TargetElementLocator);
 ````
 Retrieves element size from the target element and returns it as a string value.
 * An alternative to using [getCSSProperty​] to get width and height values separately
@@ -244,9 +234,9 @@ String text = ElementActions.getText(driver, textBox);
 
 ````java
 public class DynamicControlsDemo {
-
 	By textField=By.xpath("//form[@id='input-example']/input");
 	By changeState=By.xpath("//form[@id='input-example']/button");
+    
 	@Test
 	public void alternate() {
 		WebDriver driver = DriverFactory.getDriver();

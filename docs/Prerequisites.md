@@ -4,22 +4,18 @@ title: Prerequisites
 sidebar_label: Prerequisites
 ---
 ### Java JDK
-Download and install the appropriate Java jdk version according to the current [java version] of SHAFT .
-You can download java version 17 from [oracle website].
-### System variables for JDK
-Please follow the steps mentioned on [java] website to Set System variables.
+- It is recommended to use the portable JDK version which you can download while creating the project inside IntelliJ.
+- You can also download and install the appropriate Java JDK version according to the current [supported java version] of SHAFT.
+- You can download java version 17 from [here].
+
 ### IDE
-You can use any Java IDE you prefer
-- [Eclipse] 
-- [IntelliJ] 
+- You can download any Java IDE you prefer
+- And we highly recommend using the latest stable version from one of the below options
+  - [IntelliJ] 
+  - [Eclipse]
 
-### Maven
-
-### Maven system variables
-
-
-[java version]:<#>
-[oracle website]:<https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html>
+[supported java version]:<#>
+[here]:<https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html>
 [java]:<https://java.com/en/download/help/path.html>
 [Eclipse]: <https://www.eclipse.org/downloads/packages/installer>
 [IntelliJ]:<https://www.jetbrains.com/idea/download/>
