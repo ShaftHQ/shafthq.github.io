@@ -264,8 +264,6 @@ System.out.println(ElementActions.isElementDisplayed(driver, elementLocator));
 ````
 returns a boolean indicating whether the element is displayed
 
-[comment]: <> (### wait for state of an element to change)
-
 
 [WebDriver]:<https://www.selenium.dev/documentation/en/webdriver/>
 [default configurations]:<#>
