@@ -127,6 +127,17 @@ ElementActions.getContextHandles(driver);
 ````java
 ElementActions.setContext(currentContext);
 ````
+### Handling IFrames
+In order to interact with elements within IFrames you neeed to first change driver's focus to the IFrame, once done you will need to switch back to the original content
+- Switching focus to an IFrame
+````java
+By iFrameLocator = By.id("ifr_id");
+ElementActions.switchToIframe(driver,iFrameLocator );
+````
+- switching back to default content
+````java
+ElementActions.switchToDefaultContent(driver);
+````
 ### Insert text into a text field
 - clear text inside a text field (if any), and insert new text value
 ````java
