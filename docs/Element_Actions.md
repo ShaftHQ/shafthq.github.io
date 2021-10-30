@@ -119,13 +119,28 @@ you need to get the context handle in order to be able to switch back to it
 ````java
 String currentContext = ElementActions.getContext(driver);
 ````
-- Returns a list of unique handles for all the currently open contexts.
+- Return a list of unique handles for all the currently open contexts.
 ````java
 ElementActions.getContextHandles(driver);
 ````
 ### Switching focus to a different context
 ````java
 ElementActions.setContext(currentContext);
+````
+### Get window handle\s
+you need to get the window handle in order to be able to switch back to it
+- Return the handle for currently active window.
+````java
+String currentWindow = ElementActions.getWindowHandle(driver);
+````
+- Return a list of unique handles for all the currently open windows.
+````java
+ElementActions.getWindowHandles(driver);
+````
+### Switching focus to a different window
+switch driver's focus to a different window using its name or handle
+````java
+ElementActions.switchToWindow(currentWindow);
 ````
 ### Handling IFrames
 In order to interact with elements within IFrames you neeed to first change driver's focus to the IFrame, once done you will need to switch back to the original content
