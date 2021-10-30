@@ -156,12 +156,14 @@ import com.shaft.gui.element.ElementActions;
 
 public class TypingDemo {
 	By textField = By.id("tinymce");
+	By textIFrame = By.id("mce_0_ifr");
 
 	@Test
 	void type() {
 		WebDriver driver = DriverFactory.getDriver();
 		BrowserActions.navigateToURL(driver, "https://the-internet.herokuapp.com/tinymce");
-		driver.switchTo().frame("mce_0_ifr");
+		// switch focus to IFrame containing the text field
+		ElementActions.switchToIframe(driver,textIFrame );
 		//append text to the end
 		ElementActions.typeAppend(driver, textField, "this is added text");
 		// copy the whole paragraph
