@@ -136,6 +136,47 @@ ElementActions.type(driver, textFieldLocator, "any text you would like to type")
 ````java
 ElementActions.typeAppend(driver, textFieldLocator, "text added to the end");
 ````
+###  Perform Clipboard action
+copy,cut or paste text
+````java
+ElementActions.clipboardActions(driver, textFieldLocator, "copy");
+````
+ supports the following actions "copy", "paste", "cut", "select all", "unselect"
+
+## Sample Code Snippet
+````java
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+
+import com.shaft.driver.DriverFactory;
+import com.shaft.gui.browser.BrowserActions;
+import com.shaft.gui.element.ElementActions;
+
+public class TypingDemo {
+	By textField = By.id("tinymce");
+
+	@Test
+	void type() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver, "https://the-internet.herokuapp.com/tinymce");
+		driver.switchTo().frame("mce_0_ifr");
+		//append text to the end
+		ElementActions.typeAppend(driver, textField, "this is added text");
+		// copy the whole paragraph
+		ElementActions.clipboardActions(driver,textField,"select all");
+		ElementActions.clipboardActions(driver, textField, "copy");
+		//replace original text using type
+		ElementActions.type(driver, textField, "new text that overrides old content , ");
+		//paste previously copied paragraph
+		ElementActions.clipboardActions(driver, textField, "paste");
+		
+	}
+}
+
+````
+
 ### Get elements count
 to find the number of elements matching a specific locator
 ````java
