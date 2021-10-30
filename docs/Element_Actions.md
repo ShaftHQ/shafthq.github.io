@@ -119,13 +119,39 @@ you need to get the context handle in order to be able to switch back to it
 ````java
 String currentContext = ElementActions.getContext(driver);
 ````
-- Returns a list of unique handles for all the currently open contexts.
+- Return a list of unique handles for all the currently open contexts.
 ````java
 ElementActions.getContextHandles(driver);
 ````
 ### Switching focus to a different context
 ````java
 ElementActions.setContext(currentContext);
+````
+### Get window handle\s
+you need to get the window handle in order to be able to switch back to it
+- Return the handle for currently active window.
+````java
+String currentWindow = ElementActions.getWindowHandle(driver);
+````
+- Return a list of unique handles for all the currently open windows.
+````java
+ElementActions.getWindowHandles(driver);
+````
+### Switching focus to a different window
+switch driver's focus to a different window using its name or handle
+````java
+ElementActions.switchToWindow(currentWindow);
+````
+### Handling IFrames
+In order to interact with elements within IFrames you neeed to first change driver's focus to the IFrame, once done you will need to switch back to the original content
+- Switching focus to an IFrame
+````java
+By iFrameLocator = By.id("ifr_id");
+ElementActions.switchToIframe(driver,iFrameLocator );
+````
+- switching back to default content
+````java
+ElementActions.switchToDefaultContent(driver);
 ````
 ### Insert text into a text field
 - clear text inside a text field (if any), and insert new text value
@@ -136,6 +162,49 @@ ElementActions.type(driver, textFieldLocator, "any text you would like to type")
 ````java
 ElementActions.typeAppend(driver, textFieldLocator, "text added to the end");
 ````
+###  Perform Clipboard action
+copy,cut or paste text
+````java
+ElementActions.clipboardActions(driver, textFieldLocator, "copy");
+````
+ supports the following actions "copy", "paste", "cut", "select all", "unselect"
+
+## Sample Code Snippet
+````java
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+
+import com.shaft.driver.DriverFactory;
+import com.shaft.gui.browser.BrowserActions;
+import com.shaft.gui.element.ElementActions;
+
+public class TypingDemo {
+	By textField = By.id("tinymce");
+	By textIFrame = By.id("mce_0_ifr");
+
+	@Test
+	void type() {
+		WebDriver driver = DriverFactory.getDriver();
+		BrowserActions.navigateToURL(driver, "https://the-internet.herokuapp.com/tinymce");
+		// switch focus to IFrame containing the text field
+		ElementActions.switchToIframe(driver,textIFrame );
+		//append text to the end
+		ElementActions.typeAppend(driver, textField, "this is added text");
+		// copy the whole paragraph
+		ElementActions.clipboardActions(driver,textField,"select all");
+		ElementActions.clipboardActions(driver, textField, "copy");
+		//replace original text using type
+		ElementActions.type(driver, textField, "new text that overrides old content , ");
+		//paste previously copied paragraph
+		ElementActions.clipboardActions(driver, textField, "paste");
+		
+	}
+}
+
+````
+
 ### Get elements count
 to find the number of elements matching a specific locator
 ````java
