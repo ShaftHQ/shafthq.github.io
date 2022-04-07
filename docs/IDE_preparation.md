@@ -5,16 +5,41 @@ sidebar_label: IDE preparation
 ---
 ## IntelliJ
 
-###Project Creation
+### Project Creation
+Watch the following video
+
 [![Project Creation](https://img.youtube.com/vi/IhC2vW8YpHY/0.jpg "Click to view on Youtube")](https://youtu.be/IhC2vW8YpHY)
 
 ### Upgrading to SHAFT
+Watch the following video
+
 [![Upgrading to SHAFT](https://img.youtube.com/vi/2LKCmBndWNo/0.jpg "Click to view on Youtube")](https://youtu.be/2LKCmBndWNo)
 
 ### Adding SHAFT listeners
+##### Follow these steps:
+1. Click on **Run** dorpdown menu and then select **Edit Configuration**
+
 ![run](https://live.staticflickr.com/65535/51405765833_62bec5179c_c.jpg)
+
+2. Click on **Edit Configuration** button
+
 ![edit](https://live.staticflickr.com/65535/51404743097_5c1f1e559d_c.jpg)
+
+3. Click on **TestNG** button
+
 ![template](https://live.staticflickr.com/65535/51406472770_2ca0728272_c.jpg)
+
+4. Click on the **+** icon
+
+![add](screenshots/2.png)
+
+5. In the search box we have to type __com.shaft.tools.\*__ then click on search icon. We have to add each of the following listeners by selecting each one of then and then click on **Ok** button
+
+![listeners](screenshots/3.png)
+
+6. Click on **Apply** button and then on **Ok** button
+
+![applyingConfiguration](screenshots/4.jpg)
 
 ## Eclipse
 - SHAFT uses [TestNG] for test management, thus you will need to install TestNG plugin.

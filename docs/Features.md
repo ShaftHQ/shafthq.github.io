@@ -6,7 +6,8 @@ sidebar_label: Features
 
 ## What ? 
 SHAFT ENGINE is an open-source Test Automation Engine that allows you to perform multiple actions to test a web application's functionality, behaviour and appearance
-- Interact with a web application like a normal user would through a web browser, see list of supported [browsers]
+- Interact with a web application like a normal user would through the following browsers: <br/>
+*Chrome, Safari, Firfox, Edge & Internet Explorer*
 - Verify the application response, through a wide variety of [verification methods].
 - Document the process and produce highly-detailed [reports].
 
@@ -28,3 +29,18 @@ SHAFT ENGINE is an open-source Test Automation Engine that allows you to perform
 [SHAFT components]: <#>
 [error handling techniques]: <#>
 [edit configurations]: <#>
+
+## Sample test case:
+- Shaft is an easy engine to use, just with these following lines of code you can interacte easily with web browsers, APIs, CLIs, Database. For example, on GUI level we can follow these basic lines of code: 
+
+```java
+public class SampleTest {
+    private WebDriver driver = DriverFactory.getDriver();
+
+    @Test
+    public void navigateToGoogleHomeAndAssertPageTitle() {
+	BrowserActions.navigateToURL(driver, "https://www.google.com/ncr", "https://www.google.com");
+    Validations.assertThat().browser(driver.get()).attribute("title").isEqualTo("Google").perform();
+    }
+}
+``` 
