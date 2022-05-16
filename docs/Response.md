@@ -6,7 +6,7 @@ sidebar_labe: Response Validations
 
 #### We can make many assertions and verifications on API response by using the _Class RestValidationsBuilder_ through using the following methods:
 
-###### 1. isEqualToFileContent():
+###  isEqualToFileContent():
 * We use this method to check if the content of the provided actual response object is equal to the expected file content.
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -24,7 +24,7 @@ public class Testing {
 }
 ```
 
-###### 2. doesNotEqualFileContent():
+###  doesNotEqualFileContent():
 * We use this method to check if the content of the provided actual response object is not equal to the expected file content. 
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -42,7 +42,7 @@ public class Testing {
 }
 ```
 
-###### 3. containsFileContent():
+###  containsFileContent():
 * We use this method to check if the content of the provided actual response object contains the expected file content. 
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -61,7 +61,7 @@ public class Testing {
 ```
 
 
-###### 4. doesNotContainFileContent():
+###  doesNotContainFileContent():
 * We use this method to check if the content of the provided actual response object does not contain the expected file content. 
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -80,7 +80,7 @@ public class Testing {
 ```
 
 
-###### 5. extractedJsonValue():
+###  extractedJsonValue():
 * We use this method to to extract a certain value from the provided actual response object and check against it. 
 * Needed parameters: jsonPath - JSONPath of the target value; the JSONPath expression that will be evaluated in order to extract the desired value [without the trailing $.] , please refer to these urls for examples: https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html http://jsonpath.com/.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
@@ -99,7 +99,7 @@ public class Testing {
 ```
 
 
-###### 6. matchesSchema():
+###  matchesSchema():
 * We use this method to check if the content of the provided actual response object matches the schema for the expected file content. 
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -118,7 +118,7 @@ public class Testing {
 ```
 
 
-###### 7. doesNotMatchSchema():
+###  doesNotMatchSchema():
 * We use this method to check if the content of the provided actual response object matches the schema for the expected file content. 
 * Needed parameters: fileRelativePath - relative path to the target expected response file.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.

@@ -6,7 +6,7 @@ sidebar_labe: Element Validations
 
 #### We can make many assertions and verifications on web elements by using the _Class WebDriverElementValidationsBuilder_ through using the following methods:
 
-###### 1. exists():
+###  exists():
 * We use this method to check that the target element exists. 
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation. 
 
@@ -22,7 +22,7 @@ public class Testing {
     }
 }
 ```
-###### 2. doesNotExist():
+###  doesNotExist():
 * We use this method to check that the target element does not exist. 
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 
@@ -39,7 +39,7 @@ public class Testing {
 }
 ```
 
-###### 3. matchesReferenceImage():
+###  matchesReferenceImage():
 * We use this method to check that the target element matches a reference image (using the Artificial Intelligence library OpenCV). On the first test run this method will take a screenshot of the target element and the test will pass, and on following runs the element will be compared against that reference image. The reference images are stored under src/test/resources/DynamicObjectRepository for later maintenance. This method returns.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 ```java
@@ -55,7 +55,7 @@ public class Testing {
 }
 ```
 
-###### 4. doesNotMatchReferenceImage():
+###  doesNotMatchReferenceImage():
 * We use this method to check that the target element does not match a reference image (using the Artificial Intelligence library OpenCV). On the first test run this method will take a screenshot of the target element and the test will pass, and on following runs the element will be compared against that reference image. The reference images are stored under src/test/resources/DynamicObjectRepository for later maintenance.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 ```java
@@ -71,7 +71,7 @@ public class Testing {
 }
 ```
 
-###### 5. attribute():
+###  attribute():
 * We use this method to check against a certain element attribute if it is isEqualTo, Contians, equals, doesNotEqual, doesNotContain, isTrue, isFalse, ...
 * Needed parameters: elementAttribute - the target element attribute that will be checked against.
 * This method returns a NativeValidationsBuilder object to continue building your validation. 
@@ -90,7 +90,7 @@ public class Testing {
 }     
 ```
 
-###### 6. isSelected():
+###  isSelected():
 * We use this method to check against the provided elements selected attribute
 * This method returns a NativeValidationsBuilder object to continue building your validation
 ```java
@@ -106,7 +106,7 @@ public class Testing {
 }
 ```
 
-###### 7. isChecked():
+###  isChecked():
 * We use this method to check against the provided elements checked attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -122,7 +122,7 @@ public class Testing {
 }
 ```
 
-###### 8. isVisible():
+###  isVisible():
 * We use this method to check against the provided elements hidden attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -138,7 +138,7 @@ public class Testing {
 }
 ```
     
-###### 9. isEnabled():
+###  isEnabled():
 * We use this method to check against the provided elements disabled attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -154,7 +154,7 @@ public class Testing {
 }
 ```
     
-###### 10. isNotSelected():
+###  isNotSelected():
 * We use this method to check against the provided elements selected attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -170,7 +170,7 @@ public class Testing {
 }
 ```
 
-###### 11. isNotChecked():
+###  isNotChecked():
 * We use this method to check against the provided elements checked attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -186,7 +186,7 @@ public class Testing {
 }
 ```
 
-###### 12. isHidden():
+###  isHidden():
 * We use this method to check against the provided elements hidden attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -202,7 +202,7 @@ public class Testing {
 }
 ```
 
-###### 13. isDisabled():
+###  isDisabled():
 * We use this method to check against the provided elements disabled attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 ```java
@@ -217,7 +217,7 @@ public class Testing {
     }
 }
 ```
-###### 14. text():
+###  text():
 * We use this method to check against the provided elements text attribute.
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 * Note that we can make other validations upon the attribute like:

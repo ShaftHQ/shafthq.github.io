@@ -6,7 +6,7 @@ sidebar_labe: Objects Validations
 
 #### We can make many assertions and verifications on objects by using the _Class NativeValidationsBuilder_ through using the following methods:
 
-###### 1. isEqualTo():
+###  isEqualTo():
 * We use this method to check that the actual object is equal to the expected value.
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -24,7 +24,7 @@ public class Testing {
 }
 ```
 
-###### 2. equals():
+###  equals():
 * This method overrides the default object method equals and is the same as calling isEqualTo(expectedValue).perform();
 * So we use this method to check that the actual object is equal to the expected value.
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
@@ -43,7 +43,7 @@ public class Testing {
 }
 ```
 
-###### 3. doesNotEqual():
+###  doesNotEqual():
 * We use this method to check that the actual object is not equal to the expected value.
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -61,7 +61,7 @@ public class Testing {
 }
 ```
 
-###### 4. contains():
+###  contains():
 * We use this method to check that the actual object contains the expected value.
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -79,7 +79,7 @@ public class Testing {
 }
 ```
 
-###### 5. doesNotContain():
+###  doesNotContain():
 * We use this method to check that the actual object does not contain the expected value.
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -97,7 +97,7 @@ public class Testing {
 }
 ```
 
-###### 6. matchesRegex():
+###  matchesRegex():
 * We use this method to check that the actual object matches the expected regular expression.
 * Needed parameters: expectedValue - the test data / expected regular expression for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -115,7 +115,7 @@ public class Testing {
 }
 ```
 
-###### 7. doesNotMatchRegex():
+###  doesNotMatchRegex():
 * We use this method to check that the actual object does not match the expected regular expression.
 * Needed parameters: expectedValue - the test data / expected regular expression for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -133,7 +133,7 @@ public class Testing {
 }
 ```
 
-###### 8. equalsIgnoringCaseSensitivity():
+###  equalsIgnoringCaseSensitivity():
 * We use this method to check that the actual object is equal to the expected value (ignoring case sensitivity).
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -151,7 +151,7 @@ public class Testing {
 }
 ```
 
-###### 9. doesNotEqualIgnoringCaseSensitivity():
+###  doesNotEqualIgnoringCaseSensitivity():
 * We use this method to check that the actual object is not equal to the expected value (ignoring case sensitivity).
 * Needed parameters: expectedValue - the test data / expected value for the object under test.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
@@ -169,7 +169,7 @@ public class Testing {
 }
 ```
 
-###### 10. isNull():
+###  isNull():
 * We use this method to check that the actual object is null.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 
@@ -186,7 +186,7 @@ public class Testing {
 }
 ```
 
-###### 11. isNotNull():
+###  isNotNull():
 * We use this method to check that the actual object is not null.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 
@@ -203,7 +203,7 @@ public class Testing {
 }
 ```
 
-###### 12. isTrue():
+###  isTrue():
 * We use this method to check that the actual object is true.
 * This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
 
