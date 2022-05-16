@@ -6,9 +6,9 @@ sidebar_labe: Browser Validations
 
 #### We can make many assertions and verifications on web the browser itself by using the _Class WebDriverBrowserValidationsBuilder_ through using the following methods:
 
-###### 1. attribute():
+###### attribute():
 * We use this method to check check against a certain browser attribute.
-* Needed parameters: browserAttribute - the target browser attribute that will be checked against.
+* Needed parameters: browserAttribute - the target browser attribute that will be checked against. So we can pass as a string the required browser attribute like url or tilte
 * This method returns a NativeValidationsBuilder object to continue building your validation.
 
 ```java
@@ -17,43 +17,11 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().browser(driver).attribute().perform();
+        Validations.assertThat().browser(driver).attribute(browserAttribute "url").perform();
+        Validations.assertThat().browser(driver).attribute(browserAttribute "title").perform();
         //make verification
-        Validations.verifyThat().browser(driver).attribute().perform();
-    }
-}
-```
-
-###### 2. url():
-* We use this method to check against the current page URL.
-* This method returns a NativeValidationsBuilder object to continue building your validation.
-
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().browser(driver).
-        //make verification
-        Validations.verifyThat().browser(driver).
-    }
-}
-```
-
-###### 3. title():
-* We use this method to check check against the current page title.
-* This method returns a NativeValidationsBuilder object to continue building your validation.
-
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().browser(driver).
-        //make verification
-        Validations.verifyThat().browser(driver).
+        Validations.verifyThat().browser(driver).attribute(browserAttribute "url").perform();
+        Validations.verifyThat().browser(driver).attribute(browserAttribute "title").perform();
     }
 }
 ```
