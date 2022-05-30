@@ -7,7 +7,7 @@ sidebar_label: Touch Actions
 #### We can interact with Touch Actions via the following methods: 
 
 ### performElementAction():
-* We use this method to call the Element Actions within the current Touch Actions instance. For example in the following code sample we need to tap on a text box to type a string. So we call the element action that we want to perform to make a touchMethod(), which is tap(elemtent locator), then perform this action to make another touchMethod(), which is type(locator, String ""). 
+* We use this method to call the Element Actions within the current Touch Actions instance. For example, in case of trying to tap a text box to type something. In that case we have to perform type(), an element action, within the tap(), the touch action. 
 * This method returns a WebDriverElementActions object.
 
 ```java
@@ -17,10 +17,18 @@ public class Testing {
     public void touchActions(){
         new TouchActions(driver).touchMethod(element locator).performElementAction().touchMethod(element, String "");
     }
+
+    @Test2
+    public void touchActions(){
+        driver.element().performTouchAction()
+                .tap(locator)
+                .performElementAction()
+                .type(locator, String "")
+    }
 }
 ```
 ### nativeKeyboardKeyPress():
-* We use this method to send a keypress via the device soft keyboard. For example, in the following code sample, we have to determine where we want to open the soft keyboard, then press the keys that we want. 
+* We use this method to send a keypress via the device soft keyboard. 
 * Needed parameters: key - the key that should be pressed.
 * This method returns a self-reference to be used to chain actions.
 
