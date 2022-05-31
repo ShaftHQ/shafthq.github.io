@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{76:function(o){o.exports=JSON.parse('{"allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","slug":"from-zero-to-hero","name":"fromzerotohero","count":1,"permalink":"/SHAFT_Engine_Docusaurus/blog/tags/from-zero-to-hero"}')}}]);
