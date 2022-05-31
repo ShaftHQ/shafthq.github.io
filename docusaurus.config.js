@@ -1,6 +1,6 @@
 module.exports = {
   title: 'SHAFT User Guide',
-  tagline: 'This is the official user guide for using SHAFT; The Unified Test Automation Engine.',
+  tagline: 'Stop reinventing the wheel. Start using SHAFT.',
   url: 'https://mohabmohie.github.io',
   baseUrl: '/SHAFT_Engine_Docusaurus/',
   onBrokenLinks: 'throw',
@@ -18,7 +18,19 @@ module.exports = {
         {
           to: 'docs/',
           activeBasePath: 'docs',
-          label: 'Docs',
+          label: 'Setup',
+          position: 'left',
+        },
+        {
+          to: 'docs/Browser_Actions/',
+          activeBasePath: 'docs',
+          label: 'Web GUI',
+          position: 'left',
+        },
+        {
+          to: 'docs/Overview/',
+          activeBasePath: 'docs',
+          label: 'Validations',
           position: 'left',
         },
 //        {to: 'blog', label: 'Blog', position: 'left'},
@@ -73,10 +85,10 @@ module.exports = {
               label: 'JavaDocs',
               to: 'https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/index.html',
             },
-            {
-              label: 'JFrog',
-              to: 'https://automatest.jfrog.io/ui/packages/gav:%2F%2Fio.github.mohabmohie:SHAFT_ENGINE',
-            },
+//            {
+//              label: 'JFrog',
+//              to: 'https://automatest.jfrog.io/ui/packages/gav:%2F%2Fio.github.mohabmohie:SHAFT_ENGINE',
+//            },
             {
               label: 'Maven Central',
               to: 'https://search.maven.org/search?q=g:%22io.github.mohabmohie%22%20AND%20a:%22SHAFT_ENGINE%22',
