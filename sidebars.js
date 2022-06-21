@@ -1,7 +1,20 @@
 module.exports = {
-  someSidebar: {
-    "Setup": ['Features','Prerequisites','IDE_preparation'],
-    "Web GUI": ['Browser_Actions','Element_Actions'],
-    "Validations": ['Overview','Browser', 'Elements', 'Nums', 'Objects', 'Files', 'Response', 'ForceFail'],
-  },
+    someSidebar: {
+        Setup: ['Features', 'Prerequisites', 'IDE_preparation', 'Quick_Start'],
+        'Web GUI': ['Browser_Actions', 'Element_Actions'],
+        Validations: [
+            'Overview',
+            'Browser',
+            'Elements',
+            'Nums',
+            'Objects',
+            'Files',
+            'Response',
+            'ForceFail',
+        ],
+        'SHAFT Features': [
+            'features/retryFailedTests',
+            'features/browserRelatedFeatures',
+        ],
+    },
 };
