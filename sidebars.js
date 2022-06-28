@@ -14,7 +14,8 @@ module.exports = {
         ],
         'SHAFT Features': [
             'features/retryFailedTests',
-            'features/browserRelatedFeatures',
+            'features/BrowserRelatedFeatures',
+            'features/GUI_Elements_Features'
         ],
     },
 };
