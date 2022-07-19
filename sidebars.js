@@ -1,7 +1,8 @@
 module.exports = {
     someSidebar: {
-        Setup: ['Features', 'Prerequisites', 'IDE_preparation', 'Quick_Start', 'Touch_Actions'],
+        Setup: ['Features', 'Prerequisites', 'IDE_preparation', 'Quick_Start'],
         'Web GUI': ['Browser_Actions', 'Element_Actions'],
+        'Mobile GUI': ['Touch_Actions']
         Validations: [
             'Overview',
             'Browser',
@@ -14,7 +15,8 @@ module.exports = {
         ],
         'SHAFT Features': [
             'features/retryFailedTests',
-            'features/browserRelatedFeatures',
+            'features/BrowserRelatedFeatures',
+            'features/GUI_Elements_Features'
         ],
     },
 };

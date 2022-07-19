@@ -6,10 +6,10 @@
 ### The contribution process is very simple:
 1. Fork this project.
 2. Create your own .md files under the "docs" directory. you can follow the provided sample to learn how to use markdown syntax for the .md files and you can use something like https://dillinger.io/ to help you create the .md file.
-3. Edit this file https://github.com/MohabMohie/SHAFT_Engine_Docusaurus/blob/master/sidebars.js to add your newly created .md file.
-4. Follow the steps here https://github.com/MohabMohie/SHAFT_Engine_Docusaurus#installation to build and run the project locally to make sure that it's working as expected.
+3. Edit this file https://github.com/ShaftHQ/SHAFT_Engine_Docusaurus/blob/master/sidebars.js to add your newly created .md file.
+4. Follow the steps here https://github.com/ShaftHQ/SHAFT_Engine_Docusaurus#installation to build and run the project locally to make sure that it's working as expected.
 5. Create a pull request to merge your contribution to the main user guide project.
-6. After the PR is reviewed and merged, the new docs will be built and released automatically via CI/CD to this url: https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/
+6. After the PR is reviewed and merged, the new docs will be built and released automatically via CI/CD to this url: https://ShaftHQ.github.io/SHAFT_Engine_Docusaurus/
 
 # SHAFT User Guide
 
