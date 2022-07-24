@@ -2,7 +2,7 @@ module.exports = {
     someSidebar: {
         Setup: ['Features', 'Prerequisites', 'IDE_preparation', 'Quick_Start'],
         'Web GUI': ['Browser_Actions', 'Element_Actions'],
-        'Mobile GUI': ['Touch_Actions']
+        'Mobile GUI': ['Touch_Actions'],
         Validations: [
             'Overview',
             'Browser',
