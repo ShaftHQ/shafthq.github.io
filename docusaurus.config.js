@@ -33,6 +33,12 @@ module.exports = {
           label: 'Validations',
           position: 'left',
         },
+        {
+          to: 'docs/features/retryFailedTests',
+          activeBasePath: 'docs',
+          label: 'Cool Features',
+          position: 'left',
+        },
 //        {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/MohabMohie/SHAFT_ENGINE',
