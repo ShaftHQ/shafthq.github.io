@@ -1,7 +1,7 @@
 module.exports = {
   title: 'SHAFT User Guide',
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
-  url: 'https://mohabmohie.github.io',
+  url: 'https://shafthq.github.io',
   baseUrl: '/SHAFT_Engine_Docusaurus/',
   onBrokenLinks: 'throw',
   favicon: 'img/shaft.ico',
@@ -41,7 +41,7 @@ module.exports = {
         },
 //        {to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/MohabMohie/SHAFT_ENGINE',
+          href: 'https://github.com/shafthq/SHAFT_ENGINE',
           label: 'GitHub',
           position: 'right',
         },
@@ -85,11 +85,11 @@ module.exports = {
 //            },
             {
               label: 'Configuration Manager',
-              to: 'https://mohabmohie.github.io/SHAFT_ENGINE/',
+              to: 'https://shafthq.github.io/SHAFT_ENGINE/',
             },
             {
               label: 'JavaDocs',
-              to: 'https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/index.html',
+              to: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
             },
 //            {
 //              label: 'JFrog',
@@ -115,13 +115,13 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           editUrl:
-            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/',
+            'https://shafthq.github.io/SHAFT_Engine_Docusaurus/edit/master/website/',
         },
 //        blog: {
 //          showReadingTime: true,
 //          // Please change this to your repo.
 //          editUrl:
-//            'https://mohabmohie.github.io/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
+//            'https://shafthq.github.io/SHAFT_Engine_Docusaurus/edit/master/website/blog/',
 //        },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
