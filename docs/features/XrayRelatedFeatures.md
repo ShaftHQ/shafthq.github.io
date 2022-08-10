@@ -6,7 +6,7 @@ sidebar_label: Xray Features
 
 ### Integration: 
 
-This feature allows us to report our test execution results and buugs. By default SHAFT engine recommend keeping this feature disabled while creating/maintaining the automation scripts to avoid reporting misleading results. Please note that if the integration feature is disabled, the rest of XRay features will be disabled accordingly regardless if they are enabled or disabled. 
+This feature allows us to report our test execution results and bugs. By default SHAFT engine recommend keeping this feature disabled while creating/maintaining the automation scripts to avoid reporting misleading results. Please note that if the integration feature is disabled, the rest of XRay features will be disabled accordingly regardless if they are enabled or disabled. 
 
 You can change this default feature from 2 locations:
 
@@ -139,28 +139,9 @@ By openning the **_JiraXRay.properties_** file you can type the path of **_repor
 
 ### Execution suite name: 
 
-This is an optional feature that allows us to give a name for you execution suite. Just we have to type the name that you want. 
+This is an optional feature that allows us to give a name for your execution suite. Just we have to type the name that you want. 
 
-You can type the authorized username from 2 locations:
-
-* #### Through configuration manager:
-
-By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_Execution suite name_** by typing the executions suite name save the file and replace the corresponding config file in your project.
-
-
-![ConfigurationMnagerExecutionSuiteName](imgs/Xray/CMExecutionSuiteName.jpg)
-
-* #### Through properties files
-
-By openning the **_JiraXRay.properties_** file you can type your test execution name value in the key of **_ExecutionName_** before the colon.
-
-![PropIExecutionSuiteName](imgs/Xray/PropExecutionSuiteName.jpg)
-
-### Execution suite name: 
-
-This is an optional feature that allows us to give a name for you execution suite. Just we have to type the name that you want. 
-
-You can type the authorized username from 2 locations:
+You can type the execution suite name from 2 locations:
 
 * #### Through configuration manager:
 
@@ -175,3 +156,40 @@ By openning the **_JiraXRay.properties_** file you can type your test execution 
 
 ![PropIExecutionSuiteName](imgs/Xray/PropExecutionSuiteName.jpg)
 
+### Execution description: 
+
+This is an optional feature that allows us to give a description for your execution suite. Just we have to type the description that you want. 
+
+You can type the execution suite description from 2 locations:
+
+* #### Through configuration manager:
+
+By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_Execution description_** by typing the executions suite description then save the file and replace the corresponding config file in your project.
+
+
+![ConfigurationMnagerExecutionSuiteName](imgs/Xray/CMExecutionDescription.jpg)
+
+* #### Through properties files
+
+By openning the **_JiraXRay.properties_** file you can type your test execution name value in the key of **_ExecutionDescription_** before the colon.
+
+![PropIExecutionSuiteName](imgs/Xray/PropExecutionDesciption.jpg)
+
+### Reporting Bugs: 
+
+This feature allows us to report the detected issues from our execution. By default SHAFT engine recommend keeping this feature disabled while creating/maintaining the automation scripts to avoid reporting misleading results. That is because enabling this option while tests are under maintenance might spam your jira board. the reporting will be done after each testcase run and bug will be created contains the execution attachments and log.
+
+You can change this default feature from 2 locations:
+
+* #### Through configuration manager:
+
+By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_Reporting Bugs_** by checking on the radio button on **Enabled** or **Disabled** and then save the file and replace the corresponding config file in your project.
+
+
+![ConfigurationMnagerIntegration](imgs/Xray/CMReportingBugs.jpg)
+
+* #### Through properties files
+
+مش صححححححBy openning the **_JiraXRay.properties_** file you can change the value of **_jiraInteraction_** to be **ture** or **false**.
+
+![PropIntegration](imgs/Xray/PropIntegration.jpg)
