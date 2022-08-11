@@ -3,6 +3,9 @@ module.exports = {
         Setup: ['Features', 'Prerequisites', 'IDE_preparation', 'Quick_Start'],
         'Web GUI': ['Browser_Actions', 'Element_Actions'],
         'Mobile GUI': ['Touch_Actions'],
+        API: [
+            'Request_Builder'
+        ],
         Validations: [
             'Overview',
             'Browser',
