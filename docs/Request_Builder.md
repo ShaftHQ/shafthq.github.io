@@ -65,7 +65,7 @@ api.setAuthentication("username", "password", AuthenticationType.BASIC).perform(
 ### Add Cookie
 Append a cookie to the current session to be used in the current and all the following requests. This feature is commonly used for authentication cookies.
 ```java
-api.addCookie("key", "value").perform();
+api.addCookie("session_id", "1234").perform();
 ```
 
 ### Set Target Status Code
@@ -87,7 +87,7 @@ api.setContentType(ContentType.JSON).perform();
 Append a header to the current session to be used in the current and all the following requests.
 This feature is commonly used for authentication tokens
 ```java
-api.addHeader("key", "value").perform();
+api.addHeader("Accept-Charset", "utf-8").perform();
 ```
 
 ### Set Request Body
@@ -96,23 +96,23 @@ Sets the body (if any) for the API request that you're currently building.
 ```java
 String body = """
          {
-            "key1": "value1",
-            "key2": "value2"
+            "name": "adam",
+            "job": "engineer"
         }""";
 api.setRequestBody(body).perform();
 ```
 #### String Hash Map
 ```java
 HashMap body = new HashMap<>();
-body.put("key1", "value1");
-body.put("key2", "value2");
+body.put("name", "adam");
+body.put("job", "engineer");
 api.setRequestBody(body).perform();
 ```
 #### String JSONObject
 ```java
 JSONObject body = new JSONObject();
-body.put("key1", "value1");
-body.put("key2", "value2");
+body.put("name", "adam");
+body.put("job", "engineer");
 api.setRequestBody(body).perform();
 ```
 
@@ -121,19 +121,19 @@ Sets the parameters (if any) for the API request that you're currently building.
 
 #### Parameters Type FORM
 ```java
-List<List<Object>> parameters = Arrays.asList(Arrays.asList("key1", "value1"), Arrays.asList("key2", "value2"));
+List<List<Object>> parameters = Arrays.asList(Arrays.asList("username", "john"), Arrays.asList("password","1234"));
 api.setParameters(parameters, RestActions.ParametersType.FORM).perform();
 ```
 #### Parameters Type QUERY
 ```java
-List<List<Object>> parameters = Arrays.asList(Arrays.asList("key1", "value1"), Arrays.asList("key2", "value2"));
+List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
 api.setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
 
 ### Set URL Arguments
 Sets the url arguments (if any) for the API request that you're currently building.
 ```java
-api.setUrlArguments("username=test&password=test").perform();
+api.setUrlArguments("username=john&password=1234").perform();
 ```
 
 ### Add Config
@@ -162,7 +162,7 @@ api.useRelaxedHTTPSValidation("SSL").perform();
 ### Append Default Content Charset To Content Type If Undefined
 Tells whether REST Assured should automatically append the content charset to the content-type header if not defined explicitly. Note that this does not affect multipart form data. Default is true.
 ```java
-api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(false).perform();
+api.appendDefaultContentCharsetToContentTypeIfUndefined(false).perform();
 ```
 <br/><br/>
 
