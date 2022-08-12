@@ -25,53 +25,57 @@ Add the request method and give it the serviceName
 
 #### Get
 ```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/posts").perform();
 ```
 #### Post
 ```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.post("/posts").perform();
 ```
 #### Put
 ```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.put("/posts/1").perform();
 ```
 #### Patch
 ```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.patch("/posts/1").perform();
 ```
 #### Delete
 ```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.delete("/posts/1").perform();
 ```
 
 ### Set Authentication
 Set the authentication method that will be used by the API request that you're currently building. By default, this value is set to AuthenticationType.NONE but you can change it by calling this method. If you use thie method the authentication token will be saved automatically for all the following requests using the same session.
 
-#### Authentication Type NONE
+#### Authentication Type BASIC
 ```java
-api.setAuthentication("username", "password", AuthenticationType.NONE).perform();
+api = new SHAFT.API("https://postman-echo.com");
+api.get("/basic-auth").setAuthentication("postman", "password", AuthenticationType.BASIC).perform();
 ```
 
 #### Authentication Type FORM
 ```java
-api.setAuthentication("username", "password", AuthenticationType.FORM).perform();
-```
-
-#### Authentication Type BASIC
-```java
-api.setAuthentication("username", "password", AuthenticationType.BASIC).perform();
+api = new SHAFT.API("serviceURI");
+api.get("serviceName").setAuthentication("username", "password", AuthenticationType.FORM).perform();
 ```
 
 ### Add Cookie
 Append a cookie to the current session to be used in the current and all the following requests. This feature is commonly used for authentication cookies.
 ```java
-api.addCookie("session_id", "1234").perform();
+api = new SHAFT.API("serviceURI");
+api.post("serviceName").addCookie("session_id", "1234").perform();
 ```
 
 ### Set Target Status Code
 Sets the expected target status code for the API request that you're currently building. By default, this value is set to 200, but you can change it by calling the **setTargetStatusCode** method.
 ```java
-api.setTargetStatusCode(200).perform();
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setTargetStatusCode(200).perform();
 ```
 
 ### Set Content Type
@@ -80,40 +84,55 @@ By default, this value is set to **ContentType.ANY** but you can change it by ca
 
 contentType Enumeration of common [IANA](http://www.iana.org/assignments/media-types/media-types.xhtml) content-types. This may be used to specify a request or response content-type more easily than specifying the full string each time. Example: **ContentType.JSON**
 ```java
-api.setContentType(ContentType.JSON).perform();
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setContentType("application/json").perform();
+```
+```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setContentType(ContentType.JSON).perform();
 ```
 
 ### Add Header
 Append a header to the current session to be used in the current and all the following requests.
 This feature is commonly used for authentication tokens
 ```java
-api.addHeader("Accept-Charset", "utf-8").perform();
+api = new SHAFT.API("serviceURI");
+String token = "@1234z"
+api.post("serviceName").addHeader("Authorization", "Bearer " + token).perform();
+api.post("serviceName").addHeader("Accept-Charset", "utf-8").perform();
 ```
 
 ### Set Request Body
 Sets the body (if any) for the API request that you're currently building.
+```java
+api = new SHAFT.API("serviceURI");
+api.post("serviceName").setRequestBody(body).perform();
+```
 #### String Body
 ```java
+api = new SHAFT.API("https://reqres.in/");
 String body = """
          {
             "name": "adam",
             "job": "engineer"
         }""";
-api.setRequestBody(body).perform();
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
 #### String Hash Map
 ```java
+api = new SHAFT.API("https://reqres.in/");
 HashMap body = new HashMap<>();
 body.put("name", "adam");
 body.put("job", "engineer");
-api.setRequestBody(body).perform();
+api.setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
 #### String JSONObject
 ```java
+api = new SHAFT.API("https://reqres.in/");
 JSONObject body = new JSONObject();
 body.put("name", "adam");
 body.put("job", "engineer");
-api.setRequestBody(body).perform();
+api.setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
 
 ### Set Parameters
@@ -121,48 +140,60 @@ Sets the parameters (if any) for the API request that you're currently building.
 
 #### Parameters Type FORM
 ```java
+api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("username", "john"), Arrays.asList("password","1234"));
-api.setParameters(parameters, RestActions.ParametersType.FORM).perform();
+api.post("serviceName").setParameters(parameters, RestActions.ParametersType.FORM).perform();
 ```
 #### Parameters Type QUERY
 ```java
+api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
-api.setParameters(parameters, RestActions.ParametersType.QUERY).perform();
+api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
 
 ### Set URL Arguments
 Sets the url arguments (if any) for the API request that you're currently building.
 ```java
-api.setUrlArguments("username=john&password=1234").perform();
+api = new SHAFT.API("serviceURI");
+api.post("serviceName").setUrlArguments("username=john&password=1234").perform();
+```
+```java
+api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/comments").setUrlArguments("postId=1").setTargetStatusCode(201).perform();
 ```
 
 ### Add Config
 Append a config to the current session to be used in the current and all the following requests.
 ```java
+api = new SHAFT.API("serviceURI");
 RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
-api.addConfig(RestAssured.config).perform();
+api.post("serviceName").addConfig(RestAssured.config).perform();
 ```
 
 ### Enable URL Encoding
 Tells whether REST Assured should automatically encode the URI if not defined explicitly. Note that this does not affect multipart form data. Default is true.
 ```java
-api.enableUrlEncoding(false).perform();
+api = new SHAFT.API("serviceURI");
+api.post("serviceName").enableUrlEncoding(false).perform();
 ```
 
 ### Use Relaxed HTTPS Validation
 set useRelaxedHTTPSValidation configuration to trust all hosts regardless if the SSL certificate is invalid in the request builder 'SSL' is the protocol name by default
 
 ```java
-api.useRelaxedHTTPSValidation().perform();
+api = new SHAFT.API("serviceURI");
+api.get("serviceName").useRelaxedHTTPSValidation().perform();
 ```
 ```java
-api.useRelaxedHTTPSValidation("SSL").perform();
+api = new SHAFT.API("serviceURI");
+api.get("serviceName").useRelaxedHTTPSValidation("SSL").perform();
 ```
 
 ### Append Default Content Charset To Content Type If Undefined
 Tells whether REST Assured should automatically append the content charset to the content-type header if not defined explicitly. Note that this does not affect multipart form data. Default is true.
 ```java
-api.appendDefaultContentCharsetToContentTypeIfUndefined(false).perform();
+api = new SHAFT.API("serviceURI");
+api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(false).perform();
 ```
 <br/><br/>
 
