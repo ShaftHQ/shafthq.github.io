@@ -28,6 +28,18 @@ module.exports = {
           position: 'left',
         },
         {
+          to: 'docs/Touch_Actions/',
+          activeBasePath: 'docs',
+          label: 'Mobile GUI',
+          position: 'left',
+        },
+        {
+          to: 'docs/Request_Builder/',
+          activeBasePath: 'docs',
+          label: 'API',
+          position: 'left',
+        },
+        {
           to: 'docs/Overview/',
           activeBasePath: 'docs',
           label: 'Validations',
