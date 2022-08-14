@@ -173,7 +173,7 @@ By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.
 
 By openning the **_JiraXRay.properties_** file you can type your test execution name value in the key of **_ExecutionDescription_** before the colon.
 
-![PropIExecutionSuiteName](imgs/Xray/PropExecutionDesciption.jpg)
+![PropIExecutionDescription](imgs/Xray/PropExecutionDesciption.jpg)
 
 ### Reporting Bugs: 
 
@@ -186,10 +186,46 @@ You can change this default feature from 2 locations:
 By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_Reporting Bugs_** by checking on the radio button on **Enabled** or **Disabled** and then save the file and replace the corresponding config file in your project.
 
 
-![ConfigurationMnagerIntegration](imgs/Xray/CMReportingBugs.jpg)
+![ConfigurationMnagerReportingBugs](imgs/Xray/CMReportingBugs.jpg)
 
 * #### Through properties files
 
-مش صححححححBy openning the **_JiraXRay.properties_** file you can change the value of **_jiraInteraction_** to be **ture** or **false**.
+By openning the **_JiraXRay.properties_** file you can change the value of **_ReportBugs_** to be **ture** or **false**.
 
-![PropIntegration](imgs/Xray/PropIntegration.jpg)
+![PropReportingBugs](imgs/Xray/PropReportingBug.jpg)
+
+### Assignee:
+
+This an optional feature that enables you to make an asignee to whom will be sent the test execution results automatically. 
+
+You can type the assignee account from 2 locations:
+
+* #### Through configuration manager:
+
+By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_Assignee_** by typing the Jira user account to whom we want to assign the created tickets then save the file and replace the corresponding config file in your project.
+
+![ConfigurationMnagerAssignee](imgs/Xray/CMAssignee.jpg)
+
+* #### Through properties files
+
+By openning the **_JiraXRay.properties_** file you can type the Jira user account to whom we want to assign the created tickets in the key of **_assignee_**.
+
+![PropAssignee](imgs/Xray/PropAssignee.jpg)
+
+### Allure.link.tms.pattern:
+
+This feature enables you to autolink your Jira ticket, test case, user story or epic, to xray url in allure report. So we need to use tms annotation _@tms_ and to determine the pattern that allure must follow in order to build the ticket's link. Simply the pattern is the the domain and the browser.  
+
+You can enable the allure.link.tms.pattern account from 2 locations:
+
+* #### Through configuration manager:
+
+By openeing the **_ XRay _** tab on the [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/ "Configuration Manager"), you can change the default configuration of **_allure.link.tms.pattern_** by typing the type the pattern to be able to generate the autolink then save the file and replace the corresponding config file in your project.
+
+![ConfigurationMnagerAllureLinkTMS](imgs/Xray/CMAllureLinkTMS.jpg)
+
+* #### Through properties files
+
+By openning the **_JiraXRay.properties_** file you can type the pattern to be able to generate the autolink in the key of **_allure.link.tms.pattern_**.
+
+![PropAllurLinkTMS](imgs/Xray/PropAllureLinkTMS.jpg)
