@@ -17,7 +17,7 @@ module.exports = {
             'features/retryFailedTests',
             'features/BrowserRelatedFeatures',
             'features/GUI_Elements_Features',
-            'features/XrayFeature'
+            'features/XrayIntegration'
         ],
     },
 };
