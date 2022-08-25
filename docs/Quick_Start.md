@@ -53,4 +53,4 @@ public class Test_Wizard_GUI {
 
 -   Run it as a TestNG Test Class.
 -   The execution report will open automatically in your default web browser after the test run is completed.
--   You can change the target browser, operating system, timeouts, and other configurations using the ⚙️ [Configuration Manager](https://mohabmohie.github.io/SHAFT_ENGINE/).
+-   You can change the target browser, operating system, timeouts, and other configurations using the ⚙️ [Configuration Manager](https://shafthq.github.io/SHAFT_ENGINE/).
