@@ -19,7 +19,8 @@ module.exports = {
         'SHAFT Features': [
             'features/retryFailedTests',
             'features/BrowserRelatedFeatures',
-            'features/GUI_Elements_Features'
+            'features/GUI_Elements_Features',
+            'features/XrayIntegration'
         ],
     },
 };

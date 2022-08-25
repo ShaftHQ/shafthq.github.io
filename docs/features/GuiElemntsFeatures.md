@@ -8,7 +8,7 @@ sidebar_label: GUI Elements Features
 
 By default SHAFT engine is running some checks in all the elements; one of theses checks is to check if the element is visible or not before dealing with it. By default this feature is enabled. 
 
-You can change this default browser from 2 locations:
+You can change this default feature from 2 locations:
 
 * #### Through configuration manager:
 
@@ -19,8 +19,6 @@ By openeing the **_ Flags _** tab on the [Configuration Manager](https://shafthq
 
 ![ConfigurationMnagerElementVisibilty](imgs/ElementsFeatures/GeneratePropertiesFile.jpg)
 
-![ConfigurationMnagerElementVisibilty](imgs/ElementsFeatures/ReplaceFlagsFile.jpg)
-
 * #### Through properties files
 
 By openning the **_PlatformFlags.properties_** file you can change the value of **_forceCheckForElementVisibility_** to be **ture** or **false**.
@@ -30,7 +28,7 @@ By openning the **_PlatformFlags.properties_** file you can change the value of 
 ### Force check element locator is unique
 By default SHAFT engine is checking that if the location of any element is uniquely existing. Otherwise, the test will fail informing us that the locator is not unique. 
 
-You can change this default browser from 2 locations:
+You can change this default feature from 2 locations:
 
 * #### Through configuration manager:
 
@@ -53,7 +51,7 @@ By openning the **_PlatformFlags.properties_** file you can change the value of 
 
 By default SHAFT engine is checking that if any written  text is correctly typed or not. This feature is applicable in all text types except for the hidden texts in CSS files. This feature is enabled by default. In the case of having hidden texts and we have this feature enabled, the test will fail due to this error _The expected is "xyz" but ended up with "empty string"_. So it is highly recommended to _disable_ this feature when having hidden texts to avoid having failures in the execution of your tests. 
 
-You can change this default browser from 2 locations:
+You can change this default feature from 2 locations:
 
 * #### Through configuration manager:
 
@@ -76,7 +74,7 @@ By openning the **_PlatformFlags.properties_** file you can change the value of 
 
 This feature is created mainly for the hidden texts. By default Shaft is clearing the text box before typing a new text. But in case of having hidden text, the normal clear function will not be able to clear the hidden text. So this feature is created to be able to deal with the hidden text trying to get the size of the all the hidden text characters and clear all of them. So it is highly recommended to _disbale_ this feature in case of dealing with normal text to avoid the slow execution. In case of having hidden text is highly recommended to _enable_ this feature and _disable_ the _Force check text was typed correctly_ feature. 
 
-You can change this default browser from 2 locations:
+You can change this default feature from 2 locations:
 
 * #### Through configuration manager:
 
@@ -97,7 +95,7 @@ By openning the **_PlatformFlags.properties_** file you can change the value of 
 
 Mainly, this feature is to check the navigation has been done successfully and correctly. In addition, is to consider the navigation timeout. So this feature enables us to wait untill the navigation is done correctly and to compare the current URL against the introduced URL. So this feature implicitly consider the other selenium waits so we can avoid get the failure of _failed to find the element_ while the real error is _failed to navigate_ due to navigation timeout.
 
-You can change this default browser from 2 locations:
+You can change this default feature from 2 locations:
 
 * #### Through configuration manager:
 
