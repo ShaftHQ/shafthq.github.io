@@ -113,3 +113,23 @@ By openning the **_PlatformFlags.properties_** file you can change the value of 
 ![ConfigurationMnagerElementVisibilty](imgs/ElementsFeatures/propNavigationIsCorrect.jpg)
 
 ### Click using JavaScript if WebDriver Click Fails
+
+### Implicit Wait
+
+### Implicit Wait Timeout
+
+### Wait for Lazy Loading
+
+### Lazy Loading Timeout
+
+### Navigation Timeout
+
+### Page Load Timeout
+
+### Script Execution Timeout
+
+### Element Identification Timeout
+
+### Force check for element visibility
+
+

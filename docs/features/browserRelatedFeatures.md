@@ -36,3 +36,6 @@ Likewise from the **_ Platform _** tab or configuration file you can choose weat
 [configuration manager]: https://mohabmohie.github.io/SHAFT_ENGINE/
 
 
+### Singleton Browser:
+
+
