@@ -1,9 +1,9 @@
 module.exports = {
   someSidebar: {
-    Setup: ["Features", "Prerequisites", "IDE_preparation", "Quick_Start"],
+    Setup: ["Features", "Prerequisites", "IDE_preparation", "Quick_Start",],
     "Web GUI": [
       "Actions/Browser_Actions",
-      "Actions/Element_Actions"
+      "Actions/Element_Actions",
       ],
     "Mobile GUI": ["Actions/Touch_Actions"],
     API: ["Request_Builder"],
@@ -15,7 +15,7 @@ module.exports = {
       "Validations/Objects",
       "Validations/Files",
       "Validations/Response",
-      "Validations/ForceFail"
+      "Validations/ForceFail",
     ],
     "SHAFT Features": [
       "features/retryFailedTests",
@@ -27,7 +27,7 @@ module.exports = {
       "features/APIRelatedFeatures",
       "features/DataBaseRelatedFeatures",
       "features/ShaftValidationRelatedFeatures",
-      "features/ShaftReportingRelatedFeatures"
+      "features/ShaftReportingRelatedFeatures",
     ],
   },
 };

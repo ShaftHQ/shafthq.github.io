@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
   url: 'https://shafthq.github.io',
   baseUrl: '/SHAFT_Engine_Docusaurus/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
   favicon: 'img/shaft.ico',
   organizationName: 'mohabmohie', // Usually your GitHub org/user name.
   projectName: 'SHAFT_Engine_Docusaurus', // Usually your repo name.
