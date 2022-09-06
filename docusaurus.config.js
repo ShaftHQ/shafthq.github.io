@@ -3,7 +3,7 @@ module.exports = {
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
   url: 'https://shafthq.github.io',
   baseUrl: '/SHAFT_Engine_Docusaurus/',
-  onBrokenLinks: 'ignore',
+  onBrokenLinks: 'throw',
   favicon: 'img/shaft.ico',
   organizationName: 'mohabmohie', // Usually your GitHub org/user name.
   projectName: 'SHAFT_Engine_Docusaurus', // Usually your repo name.
@@ -22,13 +22,13 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/Browser_Actions/',
+          to: 'docs/Actions/Browser_Actions/',
           activeBasePath: 'docs',
           label: 'Web GUI',
           position: 'left',
         },
         {
-          to: 'docs/Touch_Actions/',
+          to: 'docs/Actions/Touch_Actions/',
           activeBasePath: 'docs',
           label: 'Mobile GUI',
           position: 'left',
@@ -40,7 +40,7 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/Overview/',
+          to: 'docs/Validations/Overview/',
           activeBasePath: 'docs',
           label: 'Validations',
           position: 'left',
