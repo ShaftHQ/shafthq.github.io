@@ -23,7 +23,7 @@ module.exports = {
       "features/GUI_Elements_Features",
       "features/XrayIntegration",
       "features/MobileFeatures",
-      "features/StandAloneRelatedFeatures",
+      "features/StandaloneRelatedFeatures",
       "features/APIRelatedFeatures",
       "features/DataBaseRelatedFeatures",
       "features/ShaftValidationRelatedFeatures",
