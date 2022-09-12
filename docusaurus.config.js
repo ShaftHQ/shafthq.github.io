@@ -22,13 +22,13 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/Browser_Actions/',
+          to: 'docs/Actions/Browser_Actions/',
           activeBasePath: 'docs',
           label: 'Web GUI',
           position: 'left',
         },
         {
-          to: 'docs/Touch_Actions/',
+          to: 'docs/Actions/Touch_Actions/',
           activeBasePath: 'docs',
           label: 'Mobile GUI',
           position: 'left',
@@ -40,7 +40,7 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/Overview/',
+          to: 'docs/Validations/Overview/',
           activeBasePath: 'docs',
           label: 'Validations',
           position: 'left',

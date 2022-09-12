@@ -231,3 +231,6 @@ By opening the **_ XRay _** tab on the [Configuration Manager](https://shafthq.g
 By opening the **_JiraXRay.properties_** file you can type the pattern to be able to generate the autolink in the key of **_allure.link.tms.pattern_**.
 
 ![PropAllureLinkTMS](imgs/Xray/PropAllureLinkTMS.jpg)
+
+
+### Skip Tests With Linked Issues: 
