@@ -34,7 +34,7 @@ module.exports = {
           position: 'left',
         },
         {
-          to: 'docs/Request_Builder/',
+          to: 'docs/API/Request_Builder/',
           activeBasePath: 'docs',
           label: 'API',
           position: 'left',
