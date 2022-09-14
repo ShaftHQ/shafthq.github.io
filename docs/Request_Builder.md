@@ -33,22 +33,22 @@ api.get("/posts").perform();
 #### Post
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-Response response = api.post("/posts").perform();
+api.post("/posts").perform();
 ```
 #### Put
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-Response response = api.put("/posts/1").perform();
+api.put("/posts/1").perform();
 ```
 #### Patch
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-Response response = api.patch("/posts/1").perform();
+api.patch("/posts/1").perform();
 ```
 #### Delete
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-Response response = api.delete("/posts/1").perform();
+api.delete("/posts/1").perform();
 ```
 
 ### Set Authentication
