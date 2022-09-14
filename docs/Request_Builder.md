@@ -9,6 +9,8 @@ sidebar_label: Request Builder
 In order to interact with APIs, you need an instance of SHAFT.API class and give it the base serviceURI
 
 ```java
+import com.shaft.driver.SHAFT;
+
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 ```
 Now you have api object with the base serviceURI to start working with it with the Request Builder
@@ -16,7 +18,7 @@ Now you have api object with the base serviceURI to start working with it with t
 ## Request Builder
 
 Now you can start building your request with the request builder and add the methods you need from the below methods.
-Then you need to add the **perform()** method at the end to trigger the request and get back the response object.
+Finally, you need to add the **perform()** method at the end to trigger the request and get back [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) object to continue working with it when needed.
 
 **Note:** A request usually has only one of the following: urlArguments, parameters+type, or body
 
@@ -31,22 +33,22 @@ api.get("/posts").perform();
 #### Post
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.post("/posts").perform();
+Response response = api.post("/posts").perform();
 ```
 #### Put
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.put("/posts/1").perform();
+Response response = api.put("/posts/1").perform();
 ```
 #### Patch
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.patch("/posts/1").perform();
+Response response = api.patch("/posts/1").perform();
 ```
 #### Delete
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.delete("/posts/1").perform();
+Response response = api.delete("/posts/1").perform();
 ```
 
 ### Set Authentication
