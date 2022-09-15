@@ -110,7 +110,7 @@ Sets the body (if any) for the API request that you're currently building.
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").setRequestBody(body).perform();
 ```
-#### String Body
+#### String as a Body
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 String body = """
@@ -120,7 +120,7 @@ String body = """
         }""";
 api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
-#### String Hash Map
+#### Hash Map as a Body
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 HashMap body = new HashMap<>();
@@ -128,7 +128,7 @@ body.put("name", "adam");
 body.put("job", "engineer");
 api.setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
-#### String JSONObject
+#### JSONObject as a Body
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 JSONObject body = new JSONObject();
