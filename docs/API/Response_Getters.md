@@ -56,7 +56,7 @@ _* To extract the desired value, please refer to these urls for examples: <br />
 You can learn the JSONPath Syntax from [here](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
 And test your JSONPath [here](http://jsonpath.com/) *_
 ```java
-String value = api.getResponseJSONValue;
+String value = api.getResponseJSONValue("jsonPath");
 ```
 #### Usage
 ```java
@@ -69,7 +69,7 @@ SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains").perform(
 ### Get Response JSON Value As List
 Extracts the response as list by parsing the target **JSONPath.**
 ```java
-String value = api.getResponseJSONValueAsList();
+String value = api.getResponseJSONValueAsList("jsonPath");
 ```
 #### Usage
 ```java
