@@ -6,7 +6,10 @@ module.exports = {
       "Actions/Element_Actions",
       ],
     "Mobile GUI": ["Actions/Touch_Actions"],
-    API: ["Request_Builder"],
+    API: [
+    "API/Request_Builder",
+    "API/Response_Getters"
+    ],
     Validations: [
       "Validations/Overview",
       "Validations/Browser",
