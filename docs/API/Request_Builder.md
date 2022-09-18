@@ -95,13 +95,26 @@ api.get("/users").setContentType(ContentType.JSON).perform();
 ```
 
 ### Add Header
-Append a header to the current session to be used in the current and all the following requests.
-This feature is commonly used for authentication tokens
+Append a header to the current session **to be used in the current and all the following requests**.
+This feature is commonly used for authentication tokens and other global headers as you need
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 String token = "@1234z"
 api.post("serviceName").addHeader("Authorization", "Bearer " + token).perform();
-api.post("serviceName").addHeader("Accept-Charset", "utf-8").perform();
+```
+
+You can add more than one header in the same request
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+String token = "@1234z"
+api.post("serviceName").addHeader("Authorization", "Bearer " + token).addHeader("Accept-Charset", "utf-8").perform();
+```
+
+You can also use it directly to set the header for all the following requests
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").perform();
+api.addHeader("Accept-Languag", "en").perform();
 ```
 
 ### Set Request Body
