@@ -114,7 +114,7 @@ You can also use it directly to set the header for all the following requests
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").perform();
-api.addHeader("Accept-Languag", "en").perform();
+api.addHeader("Accept-Languag", "en");
 ```
 
 ### Set Request Body
