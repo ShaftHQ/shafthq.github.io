@@ -72,6 +72,12 @@ Append a cookie to the current session to be used in the current and all the fol
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").addCookie("session_id", "1234").perform();
 ```
+You can also use it directly without a request method to be used in all the following requests.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").perform();
+api.addCookie("session_id", "1234");
+```
 
 ### Set Target Status Code
 Sets the expected target status code for the API request that you're currently building. By default, this value is set to 200, but you can change it by calling the **setTargetStatusCode** method.
@@ -102,19 +108,17 @@ SHAFT.API api = new SHAFT.API("serviceURI");
 String token = "@1234z"
 api.post("serviceName").addHeader("Authorization", "Bearer " + token).perform();
 ```
-
-You can add more than one header in the same request
+You can add more than one header in the same request.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 String token = "@1234z"
 api.post("serviceName").addHeader("Authorization", "Bearer " + token).addHeader("Accept-Charset", "utf-8").perform();
 ```
-
-You can also use it directly to set the header for all the following requests
+You can also use it directly without a request method to set the header for all the following requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").perform();
-api.addHeader("Accept-Languag", "en");
+api.addHeader("Accept-Language", "en");
 ```
 
 ### Set Request Body
@@ -183,6 +187,13 @@ Append a config to the current session to be used in the current and all the fol
 SHAFT.API api = new SHAFT.API("serviceURI");
 RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
 api.post("serviceName").addConfig(RestAssured.config).perform();
+```
+You can also use it directly without a request method to be used for all the following requests.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName");
+RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
+api.addConfig(RestAssured.config).perform();
 ```
 
 ### Enable URL Encoding
