@@ -133,7 +133,7 @@ String windowHandle = driver.browser().getWindowHandle​(); //store the current
 some code that opens a new window
 */
 
-driver.switchTo().window(windowHandle); // switch back to the original window
+driver.browser().switchToWindow(windowHandle); // switch back to the original window
 ```
 
 The method getWindowHandle​() returns a String containing the window handle, which is a unique identifier to that window and is used to move between tabs and windows
