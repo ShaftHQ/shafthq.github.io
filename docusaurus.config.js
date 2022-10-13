@@ -52,9 +52,19 @@ module.exports = {
           position: 'left',
         },
 //        {to: 'blog', label: 'Blog', position: 'left'},
+         {
+          href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
+          label: 'JavaDocs',
+          position: 'right',
+        },
+        {
+          href: 'https://shafthq.github.io/SHAFT_ENGINE/',
+          label: 'Configuration Manager',
+          position: 'right',
+        },
         {
           href: 'https://github.com/shafthq/SHAFT_ENGINE',
-          label: 'GitHub',
+          label: 'ShaftHQ/SHAFT',
           position: 'right',
         },
       ],
