@@ -127,7 +127,7 @@ Sets the body (if any) for the API request that you're currently building.
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").setRequestBody(body).perform();
 ```
-#### String as a Body
+#### Body as String
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 String body = """
@@ -137,21 +137,38 @@ String body = """
         }""";
 api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
-#### Hash Map as a Body
+#### Body as Hash Map
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 HashMap body = new HashMap<>();
 body.put("name", "adam");
 body.put("job", "engineer");
-api.setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
 ```
-#### JSONObject as a Body
+#### Body as JSONObject
 ```java
 SHAFT.API api = new SHAFT.API("https://reqres.in/");
 JSONObject body = new JSONObject();
 body.put("name", "adam");
 body.put("job", "engineer");
-api.setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201).perform();
+```
+
+### Set Request Body From File
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").setRequestBodyFromFile("relativeFilePath").perform();
+```
+Having a request body as json file in this path "src/test/resources/testDataFiles/requestBody.json" like this:
+```json
+{
+  "name": "morpheus",
+  "job": "leader"
+}
+```
+```java
+SHAFT.API api = new SHAFT.API("https://reqres.in/");
+api.post("api/users").setRequestBodyFromFile("src/test/resources/testDataFiles/requestBody.json").setTargetStatusCode(201).setContentType(ContentType.JSON).perform();
 ```
 
 ### Set Parameters
