@@ -11,18 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
-      - name: Build Docs
-        run: |
-          #if [ -e yarn.lock ]; then
-          #yarn install --frozen-lockfile
-          #elif [ -e package-lock.json ]; then
-          #npm ci
-          #else
-          npm i
-          npm audit fix
-          yarn
-          yarn build
-          #fi
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Build
+        run: yarn workspace website build --locale en
