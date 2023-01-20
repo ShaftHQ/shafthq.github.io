@@ -26,6 +26,7 @@ jobs:
           npm i
           fi
           yarn add @docusaurus/mdx-loader
+          npx browserslist@latest --update-db
           yarn build
       - uses: webfactory/ssh-agent@v0.7.0
         with:
