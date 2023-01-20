@@ -25,6 +25,9 @@ jobs:
           npm ci
           else
           npm i
+          npm audit fix
+          yarn
+          yarn build
           fi
       - name: Release to GitHub Pages
         env:
@@ -39,5 +42,8 @@ jobs:
           npm ci
           else
           npm i
+          npm audit fix
+          yarn
+          yarn build
           fi
           npm run deploy
