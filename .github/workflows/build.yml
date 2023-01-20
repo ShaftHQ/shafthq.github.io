@@ -27,4 +27,5 @@ jobs:
           else
           npm i
           fi
+          yarn add @docusaurus/mdx-loader
           yarn build
