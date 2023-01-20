@@ -19,7 +19,14 @@ jobs:
       - name: Installation
         run: yarn
       - name: Build
-        run: docusaurus build
+        run: |
+          if [ -e yarn.lock ]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
+          npm ci
+          else
+          npm i
+          fi
       - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
