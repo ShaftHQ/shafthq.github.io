@@ -21,6 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
              yarn install
+             npm i --package-lock-only
              npm audit fix --force
       - name: Build website
         run: yarn build
