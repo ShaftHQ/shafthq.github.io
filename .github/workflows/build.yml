@@ -22,4 +22,6 @@ jobs:
           npm ci
           else
           npm i
+          yarn
+          yarn build
           fi
