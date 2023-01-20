@@ -28,4 +28,5 @@ jobs:
           npm i
           fi
           yarn add @docusaurus/mdx-loader
+          npx browserslist@latest --update-db
           yarn build
