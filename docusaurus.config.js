@@ -7,6 +7,7 @@ module.exports = {
   favicon: 'img/shaft.ico',
   organizationName: 'mohabmohie', // Usually your GitHub org/user name.
   projectName: 'SHAFT_Engine_Docusaurus', // Usually your repo name.
+  trailingSlash: false,
   themeConfig: {
     navbar: {
       title: 'User Guide',
