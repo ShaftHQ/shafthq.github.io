@@ -22,6 +22,7 @@ jobs:
           npm ci
           else
           npm i
+          npm audit fix
           yarn
           yarn build
           fi
