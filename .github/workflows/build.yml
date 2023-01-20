@@ -19,4 +19,4 @@ jobs:
       - name: Installation
         run: yarn
       - name: Build
-        run: yarn workspace website build --locale en
+        run: docusaurus build
