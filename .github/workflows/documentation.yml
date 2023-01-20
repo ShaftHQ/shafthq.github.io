@@ -11,39 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '16'
+          cache: yarn
+      - name: Installation
+        run: yarn
+      - name: Build
+        run: docusaurus build
       - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.GH_PAGES_DEPLOY }}
-      - name: Build
-        run: |
-          #if [ -e yarn.lock ]; then
-          #yarn install --frozen-lockfile
-          #elif [ -e package-lock.json ]; then
-          #npm ci
-          #else
-          npm ci
-          npm audit fix
-          yarn
-          yarn build
-          #fi
-      - name: Release to GitHub Pages
+      - name: Release
         env:
           USE_SSH: true
           GIT_USER: git
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "gh-actions"
-          #if [ -e yarn.lock ]; then
-          #yarn install --frozen-lockfile
-          #elif [ -e package-lock.json ]; then
-          #npm ci
-          #else
-          npm ci
-          npm audit fix
-          yarn
-          yarn build
-          #fi
           npm run deploy
