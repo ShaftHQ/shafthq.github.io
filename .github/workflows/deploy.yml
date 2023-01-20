@@ -19,7 +19,9 @@ jobs:
           cache: yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: |
+             yarn install
+             npm audit fix --force
       - name: Build website
         run: yarn build
 
