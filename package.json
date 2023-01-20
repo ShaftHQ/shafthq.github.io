@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "serve": "docusaurus serve"
+    "start": "docusaurus --openssl-legacy-provider start",
+    "build": "docusaurus --openssl-legacy-provider build",
+    "swizzle": "docusaurus --openssl-legacy-provider swizzle",
+    "deploy": "docusaurus --openssl-legacy-provider deploy",
+    "serve": "docusaurus --openssl-legacy-provider serve"
   },
   "dependencies": {
     "@docusaurus/core": "^2.2.0",
