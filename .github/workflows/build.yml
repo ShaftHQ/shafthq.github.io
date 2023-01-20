@@ -16,13 +16,13 @@ jobs:
           node-version: '18.x'
       - name: Build Docs
         run: |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
+          #if [ -e yarn.lock ]; then
+          #yarn install --frozen-lockfile
+          #elif [ -e package-lock.json ]; then
+          #npm ci
+          #else
           npm i
           npm audit fix
           yarn
           yarn build
-          fi
+          #fi
