@@ -18,7 +18,7 @@ jobs:
           cache: yarn
       - name: Installation
         run: yarn
-      name: Build
+      - name: Build
         run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
