@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://shafthq.github.io/blog</id>
+    <id>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog</id>
     <title>SHAFT User Guide Blog</title>
     <updated>2023-01-21T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://shafthq.github.io/blog"/>
+    <link rel="alternate" href="https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog"/>
     <subtitle>SHAFT User Guide Blog</subtitle>
-    <icon>https://shafthq.github.io/img/shaft.ico</icon>
+    <icon>https://shafthq.github.io/SHAFT_Engine_Docusaurus/img/shaft.ico</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>welcome</id>
-        <link href="https://shafthq.github.io/blog/welcome"/>
+        <link href="https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/welcome"/>
         <updated>2023-01-21T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[SHAFT Engine]]></summary>
         <content type="html"><![CDATA[<p><img loading="lazy" src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT Engine" class="img_ev3q"></p><h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-start-a-blog">Why start a blog?<a class="hash-link" href="#why-start-a-blog" title="Direct link to heading">​</a></h3><p>SHAFT_Engine has been long running for over 7 years with thousands of users across hundreds of projects.</p><p>Our intention is to start using Blog Posts like this one, to communicate for new releases, announcements and other important updates!</p><p>So <strong>Stay Tuned</strong> 😉</p>]]></content>
