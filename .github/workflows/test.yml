@@ -1,4 +1,4 @@
-name: Test deployment
+name: Test Build
 
 on:
   pull_request:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   test-deploy:
-    name: Test deployment
+    name: Test Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Install dependencies
+      - name: Install
         run: yarn install
-      - name: Test build website
+      - name: Build
         run: yarn build

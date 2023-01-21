@@ -18,17 +18,14 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Install dependencies
-        run: |
-             yarn install
-             npm i --package-lock-only
-             npm audit fix --force
-      - name: Build website
+      - name: Install
+        run: yarn install
+      - name: Build
         run: yarn build
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
-      - name: Deploy to GitHub Pages
+      - name: Release
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
