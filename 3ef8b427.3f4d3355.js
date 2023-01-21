@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{68:function(n){n.exports=JSON.parse('{"allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","slug":"shaft-engine","name":"shaft_engine","count":1,"permalink":"/SHAFT_Engine_Docusaurus/blog/tags/shaft-engine"}')}}]);

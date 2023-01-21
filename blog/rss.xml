@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>SHAFT User Guide Blog</title>
+        <link>https://shafthq.github.io/blog</link>
+        <description>SHAFT User Guide Blog</description>
+        <lastBuildDate>Sat, 21 Jan 2023 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[Welcome]]></title>
+            <link>https://shafthq.github.io/blog/welcome</link>
+            <guid>welcome</guid>
+            <pubDate>Sat, 21 Jan 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[SHAFT Engine]]></description>
+            <content:encoded><![CDATA[<p><img loading="lazy" src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT Engine" class="img_ev3q"></p><h3 class="anchor anchorWithStickyNavbar_LWe7" id="why-start-a-blog">Why start a blog?<a class="hash-link" href="#why-start-a-blog" title="Direct link to heading">​</a></h3><p>SHAFT_Engine has been long running for over 7 years with thousands of users across hundreds of projects.</p><p>Our intention is to start using Blog Posts like this one, to communicate for new releases, announcements and other important updates!</p><p>So <strong>Stay Tuned</strong> 😉</p>]]></content:encoded>
+            <category>welcome</category>
+            <category>hello</category>
+            <category>docusaurus</category>
+            <category>shaft_engine</category>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[8075],{762:e=>{e.exports=JSON.parse('{"label":"shaft_engine","permalink":"/blog/tags/shaft-engine","allTagsPath":"/blog/tags","count":1}')}}]);
