@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
     description: (
       <>
         Just write <code>SHAFT.</code> and watch the magic unfold. Our single entry point 
-        and wizard-like fluent syntax helps you locate hard to find elements, chain actions
+        and wizard&#8211;like fluent syntax helps you locate hard to find elements, chain actions
         , and build complex validations with ease.
       </>
     ),
@@ -44,10 +44,10 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/selenium.svg').default,
     description: (
       <>
-        If you want to create robust, browser-based regression automation suites
+        If you want to create robust, browser&#8211;based regression automation suites
         and tests, scale and distribute scripts across many environments,
         then you want to use Selenium WebDriver, a collection of language specific
-        bindings to drive a browser - the way it is meant to be driven. <a href="https://www.selenium.dev/documentation/webdriver/">Learn more.</a>
+        bindings to drive a browser &#8211; the way it is meant to be driven. <a href="https://www.selenium.dev/documentation/webdriver/">Learn more.</a>
       </>
     ),
   },
@@ -59,11 +59,12 @@ const MindMapList: MindMapItem[] = [
     Svg: require('@site/static/img/mindmap.svg').default,
     description: (
       <>
-        SHAFT is an open-source MIT licensed test automation engine. It provides easy to use syntax to eliminate the need to write boilerplate code
-        so that you can start authoring your automated tests immediately without waste. It also provides full unlimited access to all the best-in-class underlying
-        testing frameworks like Selenium WebDriver, Appium, RestAssured, SikuliX, and others. SHAFT supports all kinds of automation across different platforms.
-        Use SHAFT only if you want to maximize your ROI and create Scalable, Reliable, and Maintainable test automation without the waste of
-        recreating an automation framework from scratch.
+        SHAFT supports GUI (Web/Mobile/Desktop), API, CLI, and Database Test Automation. It provides built&#8211;in
+        test synchronization, logging, reporting, capturing execution evidences, and integrations with third&#8211;parties like
+        Jira, Xray, Browserstack and Applitools Eyes. It also provides full unlimited access to write native code using
+        all the best&#8211;in&#8211;class underlying frameworks such as <a href="https://www.selenium.dev/documentation/webdriver/">Selenium</a>
+        , <a href="https://appium.github.io/appium/docs/en/2.0/">Appium</a>, <a href="https://rest-assured.io/">RestAssured</a>
+        , <a href="http://sikulix.com/">SikuliX</a>, and others.
       </>
     ),
   },
@@ -73,6 +74,7 @@ function Feature({title, Svg, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
+        <Svg className={styles.featureSvg} role="img" />
       </div>
       <div className="text--center padding-horiz--md">
         <h3>{title}</h3>
@@ -82,11 +84,11 @@ function Feature({title, Svg, description}: FeatureItem) {
   );
 }
 
-function MainFeature({title, Svg, description}: FeatureItem) {
+function MainFeature({title, Svg, description}: MindMapItem) {
   return (
     <div>
       <div className={clsx('col')}>
-        <br/><br/>
+        <br/>
         <div className="text--center padding-horiz--md">
           <h3>{title}</h3>
           <p>{description}</p>
@@ -98,18 +100,17 @@ function MainFeature({title, Svg, description}: FeatureItem) {
         </div>
       </div>
       <center>
-      <br/><br/>
         <header className={clsx('text--center')}>
           <div className="container">
             <p className="hero__subtitle">Are you still here?</p>
             <div className={styles.buttons}>
               <Link
-                className="button button--secondary button--lg"
+                className="button button--primary button--lg button--outline"
                 to="/docs/Getting_Started/Prerequisites">
-                Upgrade Now - 15min ⏱️
+                Upgrade Now &#8211; 15min ⏱️
               </Link>
             </div>
-            <br/><br/><br/>
+            <br/><br/>
           </div>
         </header>
       </center>
@@ -129,11 +130,15 @@ export default function HomepageFeatures(): JSX.Element {
           </div>
         </div>
       </section>
-      <div>
-          {MindMapList.map((props, idx) => (
-            <MainFeature key={idx} {...props} />
-          ))}
-        </div>
+      <center>
+        <section className={styles.mainFeature}>
+          <div className="container">
+            {MindMapList.map((props, idx) => (
+              <MainFeature key={idx} {...props} />
+            ))}
+          </div>
+        </section>
+      </center>
     </div>
   );
 }

@@ -10,7 +10,14 @@
   width: 200px;
 }
 
+.mainFeature {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 50%;
+}
+
 .mainFeatureSvg {
-  height: 1200px;
-  width: 1200px;
+  height: 1000px;
+  width: 100%;
 }
