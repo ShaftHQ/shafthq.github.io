@@ -226,6 +226,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['powershell', 'yaml', 'yml', 'html', 'java', 'javadoc', 'javadoclike', 'javastacktrace', 'json', 'json5', 'webmanifest', 'gherkin', 'docker', 'dockerfile'],
       },
     }),
 };
