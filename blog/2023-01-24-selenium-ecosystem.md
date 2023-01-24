@@ -9,7 +9,7 @@ We're starting off 2023 with a huge announcement!
 
 # <b>SHAFT_Engine</b> is now a part of the <a href="https://www.selenium.dev/ecosystem/">Selenium Ecosystem!</a> 🎉🎉
 
-<a href="https://www.selenium.dev/" target="_blank"><img src="https://www.selenium.dev/images/selenium_4_logo.png" alt="Selenium WebDriver" height="50px"></a>    🤝   <a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px"></a>
+<a href="https://www.selenium.dev/" target="_blank"><img src="https://www.selenium.dev/images/selenium_4_logo.png" alt="Selenium WebDriver" height="50px" /></a>    🤝   <a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" /></a>
 
 ## What is the Selenium Ecosystem?
 
