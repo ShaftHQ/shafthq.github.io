@@ -146,6 +146,57 @@ String pageSource = driver.browser().getPageSource();
 
 Gets the current page source and returns it as a string
 
+## Cookies
+
+### Add Cookie
+Adds a cookie to the current browsing context.
+```java
+driver.browser().addCookie("cookieName", "cookieValue");
+```
+
+### Get Cookie
+Gets a cookie with a given name.
+```java
+Cookie cookie = driver.browser().getCookie("cookieName")("cookieName");
+```
+
+### Get All Cookies
+Gets all cookies for the current browsing context.
+```java
+Set cookies = driver.browser().getAllCookies();
+```
+
+### Get Cookie Domain
+Gets the cookie domain.
+```java
+String cookieDomain = driver.browser().getCookieDomain("cookieName");
+```
+
+### Get Cookie Value
+Gets the cookie value.
+```java
+String cookieValue = driver.browser().getCookieValue("cookieName");
+```
+
+### Get Cookie Path
+Gets the cookie path.
+```java
+String cookiePath = driver.browser().getCookiePath("cookieName");
+```
+
+### Delete Cookie
+Deletes the cookie data matching with the provided cookie name for the current browsing context.
+```java
+driver.browser().deleteCookie("cookieName");
+```
+
+### Delete All Cookies
+Deletes all the cookies of the current browsing context.
+```java
+driver.browser().deleteAllCookies();
+```
+
+
 As you skim through the console output you will notice the awesome reporting SHAFT provides for each performed action, and it gets even better, please see the [reporting] section for more on that.
 
 [webdriver]: https://www.selenium.dev/documentation/en/webdriver/
