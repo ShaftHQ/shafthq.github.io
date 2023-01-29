@@ -157,7 +157,7 @@ driver.browser().addCookie("cookieName", "cookieValue");
 ### Get Cookie
 Gets a cookie with a given name.
 ```java
-Cookie cookie = driver.browser().getCookie("cookieName")("cookieName");
+Cookie cookie = driver.browser().getCookie("cookieName");
 ```
 
 ### Get All Cookies
