@@ -77,6 +77,7 @@ const sidebars = {
           items: [
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
+            "Keywords/API/Response_Validations",
           ],
         },
       ],
