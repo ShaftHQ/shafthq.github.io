@@ -58,10 +58,16 @@ const sidebars = {
       items: [
         {
           type: 'category',
-          label: 'Web',
+          label: 'Browser',
           items: [
             "Keywords/GUI/Browser_Actions",
             "Keywords/GUI/Browser_Validations",
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Elements',
+          items: [
             "Keywords/GUI/Element_Actions",
             "Keywords/GUI/Elements_Validations",
           ],
