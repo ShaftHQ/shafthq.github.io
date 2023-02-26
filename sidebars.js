@@ -70,7 +70,7 @@ const sidebars = {
           type: 'category',
           label: 'Mobile',
           items: [
-            "Keywords/GUI/Touch_Actions",
+            "Keywords/Mobile/Touch_Actions",
           ],
         },
         {
