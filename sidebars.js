@@ -52,7 +52,7 @@ const sidebars = {
     },
     {
       type: 'category',
-      label: 'Actions',
+      label: 'Actions and Validations',
       collapsible: true,
       collapsed: false,
       items: [
