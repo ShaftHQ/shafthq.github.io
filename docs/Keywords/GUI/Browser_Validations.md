@@ -1,7 +1,7 @@
 ---
-id: Browser
-title: Browser 
-sidebar_labe: Browser
+id: Browser_Validations
+title: Browser Validations 
+sidebar_labe: Browser Validations
 ---
 
 #### We can make many assertions and verifications on web the browser itself by using the _Class WebDriverBrowserValidationsBuilder_ through using the following methods:

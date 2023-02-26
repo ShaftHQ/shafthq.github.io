@@ -1,7 +1,7 @@
 ---
-id: Elements
-title: Element 
-sidebar_labe: Element
+id: Elements_Validations
+title: Element Validations
+sidebar_labe: Element Validations
 ---
 
 #### We can make many assertions and verifications on web elements by using the _Class WebDriverElementValidationsBuilder_ through using the following methods:

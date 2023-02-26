@@ -61,7 +61,9 @@ const sidebars = {
           label: 'Web',
           items: [
             "Keywords/GUI/Browser_Actions",
+            "Keywords/GUI/Browser_Validations",
             "Keywords/GUI/Element_Actions",
+            "Keywords/GUI/Elements_Validations",
           ],
         },
         {
@@ -89,8 +91,6 @@ const sidebars = {
       collapsed: true,
       items: [
         "Keywords/Validations/Overview",
-        "Keywords/Validations/Browser",
-        "Keywords/Validations/Elements",
         "Keywords/Validations/Response",
         "Keywords/Validations/Files",
         "Keywords/Validations/Objects",
