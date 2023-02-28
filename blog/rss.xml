@@ -4,10 +4,23 @@
         <title>SHAFT User Guide Blog</title>
         <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog</link>
         <description>SHAFT User Guide Blog</description>
-        <lastBuildDate>Sun, 12 Feb 2023 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 28 Feb 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Dear SHAFT users, we need your support!]]></title>
+            <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/we-need-your-support</link>
+            <guid>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/we-need-your-support</guid>
+            <pubDate>Tue, 28 Feb 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[SHAFT is undergoing some major changes in its steering committee and we want to ensure that we align our strategies to what you guys really need!]]></description>
+            <content:encoded><![CDATA[<p>SHAFT is undergoing some major changes in its steering committee and we want to ensure that we align our strategies to what you guys really need!</p><b>SHAFT_Engine</b> has always been (and will continue to be) a community driven project, made by Testers for Testers, and our mission was always to add value, remove redundancy, and help Software Engineers in Test focus on the exciting and non-repetitive parts of their work. For that we need your support to pinpoint and prioritize the features that you're using, and the features that you'd like to see in the near future.<p>Join us, become an honorary member of the new SHAFT_Engine Technical Leadership Committee by filling out this short survey, and watch your name shine as an honorary member on the dedicated page that we'll create on our official user guide!</p><h2 class="anchor anchorWithStickyNavbar_LWe7" id="join-us-now"><a href="https://forms.gle/SWWg629oPY9oPApz8" target="_blank" rel="noopener noreferrer">Join us now!</a><a href="#join-us-now" class="hash-link" aria-label="Direct link to join-us-now" title="Direct link to join-us-now">​</a></h2>]]></content:encoded>
+            <category>shaft_engine</category>
+            <category>community</category>
+            <category>users</category>
+            <category>survey</category>
+            <category>ecosystem</category>
+        </item>
         <item>
             <title><![CDATA[New Feature Announcement - Self-managed Appium Execution]]></title>
             <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/self-managed-appium-execution</link>
