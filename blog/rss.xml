@@ -4,10 +4,22 @@
         <title>SHAFT User Guide Blog</title>
         <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog</link>
         <description>SHAFT User Guide Blog</description>
-        <lastBuildDate>Tue, 28 Feb 2023 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 10 Mar 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[New release announcement (7.1.20230309)]]></title>
+            <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/release_announcement_7.1.20230309</link>
+            <guid>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/release_announcement_7.1.20230309</guid>
+            <pubDate>Fri, 10 Mar 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Release highlights:]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="release-highlights">Release highlights:<a href="#release-highlights" class="hash-link" aria-label="Direct link to Release highlights:" title="Direct link to Release highlights:">​</a></h2><ul><li>Issue fix for <a href="https://github.com/SeleniumHQ/selenium/issues/11750" target="_blank" rel="noopener noreferrer">chrome 111+ netty handler issue</a>.</li><li>Major performance enhancement for the Type element action.</li></ul><h2 class="anchor anchorWithStickyNavbar_LWe7" id="technical-details">Technical Details:<a href="#technical-details" class="hash-link" aria-label="Direct link to Technical Details:" title="Direct link to Technical Details:">​</a></h2><ul><li>SHAFT has always boasted top-notch reliability, but this sometimes comes at the cost of performance. In this release we made a major change to the way we handle "Type" which is one of the most commonly used and also one of the slowest actions.</li><li>Previously SHAFT would perform the following Selenium WebDriver calls:<ul><li>Get Element Accessible Name (for reporting)</li><li>Get Current Element Text (to learn how this element stores its text and to learn the initial text if any)</li><li>Get Current Element textContent (to learn how this element stores its text and to learn the initial text if any)</li><li>Get Current Element Value (to learn how this element stores its text and to learn the initial text if any)</li><li>Clear (in case the element text wasn't empty)</li><li>Send Keys (to do the actual typing)</li><li>Get text using the successful text identification strategy (to validate that the text was typed correctly. if SHAFT ws able to find out which method out of the above three to use it will use it, else it will do all three calls again)</li></ul></li><li>And inside each call, SHAFT would go into a fluent wait where it calls:<ul><li>findElement</li><li>findElements</li></ul></li><li>This means that SHAFT did 21+ webdriver calls!</li><li>Starting this version SHAFT will cut that number down to just 3 webdriver calls while maintaining the full functionality.</li><li>Using <a href="https://mvnrepository.com/artifact/org.jsoup/jsoup" target="_blank" rel="noopener noreferrer">jsoup</a> SHAFT will capture the entire HTML of the target webelement, and will then be able to uery it for the text/textContent/Value as need to clear and validate successfully typing. </li><li>SHAFT will also grab all element information (including the WebElement object) once, and will use the WebElement object directly (which is much faster than finding the element again each time) but if the engine faces a WebDriverException (like StaleElementException) the engine will go into a fluent wait to find and update the element reference.</li><li>We tested this major change thoroughly by running around <a href="https://www.linkedin.com/feed/update/urn:li:activity:7039702182392172544/" target="_blank" rel="noopener noreferrer">1700 E2E Test scenarios</a> across different platforms, so we're confident it's stable.</li><li>In following releases we will rollout this approach to all our element actions, and next on the list we have "Click()" which is the second most used action per our analysis.</li></ul>]]></content:encoded>
+            <category>shaft_engine</category>
+            <category>chrome111</category>
+            <category>netty</category>
+            <category>typing</category>
+        </item>
         <item>
             <title><![CDATA[Dear SHAFT users, we need your support!]]></title>
             <link>https://shafthq.github.io/SHAFT_Engine_Docusaurus/blog/we-need-your-support</link>
