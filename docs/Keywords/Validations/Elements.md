@@ -234,6 +234,23 @@ _isTrue_ , _isFalse_, _isEqualTo_, _doseNotEqualTo_, _equals_, _contains_, _dose
     }
 }
 ```
+###  textTrimmed():
+* We Use this to check against the provided elements text attribute after it's trimmed (all leading and trailing space removed).
+* This method returns a NativeValidationsBuilder object to continue building your validation.
+* Note that we can make other validations upon the attribute like:
+_isTrue_ , _isFalse_, _isEqualTo_, _doseNotEqualTo_, _equals_, _contains_, _doseNotContain_, _isNull_, _isNotNull_, etc.
+```java
+    import com.shaft.validation.Validations;
+    public class Testing {
+        @Test
+            public void testValidations(){
+            //make assertion
+            Validations.assertThat().element(driver, locator).textTrimmed().perform();
+            //make verification
+            Validations.verifyThat().element(driver, locator).textTrimmed().perform();
+    }
+}
+```
 
     
 
