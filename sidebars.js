@@ -71,6 +71,8 @@ const sidebars = {
           items: [
             "Keywords/GUI/Browser_Actions",
             "Keywords/GUI/Element_Actions",
+            "Keywords/GUI/Did_You_Know",
+           
           ],
         },
         {
