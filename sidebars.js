@@ -52,6 +52,15 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'Properties',
+      collapsible: true,
+      collapsed: false,
+      items: [
+        "Properties/Properties",
+      ],
+    },
+    {
+      type: 'category',
       label: 'Actions',
       collapsible: true,
       collapsed: false,
@@ -101,11 +110,11 @@ const sidebars = {
       ],
     },
     {
-      type: 'category',
-      label: 'Configuration',
-      collapsible: true,
-      collapsed: true,
-      items: [
+        type: 'category',
+        label: 'Configuration',
+        collapsible: true,
+        collapsed: true,
+        items: [
         "Configuration/BrowserRelatedFeatures",
         "Configuration/GUI_Elements_Features",
         "Configuration/retryFailedTests",
@@ -116,7 +125,7 @@ const sidebars = {
         "Configuration/ShaftValidationRelatedFeatures",
         "Configuration/DataBaseRelatedFeatures",
         "Configuration/ShaftReportingRelatedFeatures",
-      ],
+        ],
     },
   ],
 };
