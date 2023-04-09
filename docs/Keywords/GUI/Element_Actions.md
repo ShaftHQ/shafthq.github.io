@@ -4,6 +4,17 @@ title: Element Actions
 sidebar_label: Element Actions
 ---
 
+### Type
+
+```java
+
+//a By object is used to store the locator to your element
+private By elementLocator = By.id("username_textbox");
+//click on target element
+driver.element().type(elementLocator, "query");
+```
+
+
 ### Click on an Element
 
 In order to interact with elements appearing on web page you'll first need to locate the element using one of WebDriver's locating strategies([By methods]) like ID, Class Name,
