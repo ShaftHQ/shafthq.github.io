@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[3544],{6235:s=>{s.exports=JSON.parse('{"label":"appium","permalink":"/SHAFT_Engine_Docusaurus/blog/tags/appium","allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","count":1}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[4578],{4246:s=>{s.exports=JSON.parse('{"label":"typing","permalink":"/SHAFT_Engine_Docusaurus/blog/tags/typing","allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","count":1}')}}]);

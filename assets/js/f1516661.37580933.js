@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[2212],{601:s=>{s.exports=JSON.parse('{"label":"survey","permalink":"/SHAFT_Engine_Docusaurus/blog/tags/survey","allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","count":1}')}}]);
