@@ -14,6 +14,16 @@ private By elementLocator = By.id("username_textbox");
 driver.element().type(elementLocator, "query");
 ```
 
+### TypeSecure
+
+```java
+
+//a By object is used to store the locator to your element
+private By elementLocator = By.id("username_textbox");
+//click on target element
+driver.element().typeSecure(elementLocator, "query");
+```
+
 
 ### Click on an Element
 
