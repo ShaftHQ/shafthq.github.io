@@ -47,6 +47,34 @@ appUrl = SHAFT.Properties.browserStack.appUrl();
 customID = SHAFT.Properties.browserStack.customID();
 appName = SHAFT.Properties.browserStack.appName();
 ```
+**Example** : 
+
+you want to set targetBrowserName to MicrosoftEdge insted of default value chrome
+in your before method or before you initiate your driver you should do like below 
+```java
+	  
+	@BeforeMethod
+	public void beforeMethod() {
+    	SHAFT.Properties.web.set().targetBrowserName("MicrosoftEdge");
+        driver = new SHAFT.GUI.WebDriver();
+	}
+```
+you can replace "MicrosoftEdge" with any property from table below .
+
+
+**OR**
+you can use Browser library from selenium as following
+```java
+	import com.shaft.driver.SHAFT;
+	import org.openqa.selenium.remote.Browser;
+	import org.testng.annotations.BeforeMethod;
+	
+	@BeforeMethod
+	public void beforeMethod() {
+        SHAFT.Properties.web.set().targetBrowserName(Browser.EDGE.browserName()); ;
+        driver = new SHAFT.GUI.WebDriver();
+	}
+```
 
 Note that it's recommended to set any static values that won't change during execution, or values that you wish to later override from your CLI execution (CI/CD server) in external property files using the first approach.
 
