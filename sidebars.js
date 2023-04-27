@@ -56,7 +56,7 @@ const sidebars = {
       collapsible: true,
       collapsed: false,
       items: [
-        "Properties/Properties",
+        "Properties/PropertyTypes",
       ],
     },
     {
