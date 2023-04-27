@@ -1,7 +1,7 @@
 ---
 id: Browser_Actions
 title: Browser Actions
-sidebar_label: Browser Actions
+sidebar_label: Browser
 ---
 
 ## Web Driver
