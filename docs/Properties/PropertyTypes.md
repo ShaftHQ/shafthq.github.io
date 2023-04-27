@@ -6,7 +6,7 @@ sidebar_label: Types
 
 Please note that the Configuration Manager will be deprecated, and you can now refer to this page to configure your execution properties.
 
-### 1. File-based properties
+### File-based
 
 This is the traditional way of configuring SHAFT properties, using this approach you can simply create your own properties file under `src/main/resources/properties/custom.properties`.
 Here's a sample of what a properties file can look like:
@@ -22,7 +22,7 @@ videoParams_recordVideo=true
 ```
 You can add all your custom properties in one or more files as you see fit. And you can refer to the below table for a full list of supported properties.
 
-### 2. Code-based properties
+### Code-based
 
 If you're on the latest SHAFT version you can now set any property programmatically as well to easily read/write properties during runtime.
 
@@ -78,7 +78,7 @@ you can use Browser library from selenium as following
 
 Note that it's recommended to set any static values that won't change during execution, or values that you wish to later override from your CLI execution (CI/CD server) in external property files using the first approach.
 
-### 3. CLI-based properties
+### CLI-based (for unattended execution)
 
 This is the third and final way to set/override SHAFT's existing default configuration. You will usually use this to execute your tests from a CI/CD pipeline.
 CLI properties override the engine's defaults, and any properties that you've already defined in your files.
