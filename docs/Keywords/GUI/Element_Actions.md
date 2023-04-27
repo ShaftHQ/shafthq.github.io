@@ -1,7 +1,7 @@
 ---
 id: Element_Actions
 title: Element Actions
-sidebar_label: Element Actions
+sidebar_label: Element
 ---
 
 ### Type
