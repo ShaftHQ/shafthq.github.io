@@ -9,7 +9,7 @@ const config = {
   title: 'SHAFT User Guide',
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
   url: 'https://shafthq.github.io',
-  baseUrl: '/SHAFT_Engine_Docusaurus/',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/shaft.ico',
