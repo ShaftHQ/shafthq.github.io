@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[5561],{9254:s=>{s.exports=JSON.parse('{"label":"ecosystem","permalink":"/blog/tags/ecosystem","allTagsPath":"/blog/tags","count":2}')}}]);

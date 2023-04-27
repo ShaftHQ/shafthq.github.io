@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[5239],{4618:s=>{s.exports=JSON.parse('{"label":"netty","permalink":"/SHAFT_Engine_Docusaurus/blog/tags/netty","allTagsPath":"/SHAFT_Engine_Docusaurus/blog/tags","count":1}')}}]);
