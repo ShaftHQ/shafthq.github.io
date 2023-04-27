@@ -68,7 +68,7 @@ const sidebars = {
       items: [
         {
           type: 'category',
-          label: 'GUI Actions',
+          label: 'GUI',
           items: [
             "Keywords/GUI/Browser_Actions",
             "Keywords/GUI/Element_Actions",
@@ -78,7 +78,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'API Actions',
+          label: 'API',
           items: [
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
