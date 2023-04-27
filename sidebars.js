@@ -57,6 +57,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "Properties/PropertyTypes",
+        "Properties/PropertiesList",
       ],
     },
     {
