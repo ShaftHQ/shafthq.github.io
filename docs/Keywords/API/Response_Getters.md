@@ -1,7 +1,7 @@
 ---
 id: Response_Getters
 title: Response Getters
-sidebar_label: Response Getters
+sidebar_label: Parsing
 ---
 
 ## SHAFT API Getters

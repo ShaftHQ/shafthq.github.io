@@ -1,7 +1,7 @@
 ---
 id: Request_Builder
 title: Request Builder
-sidebar_label: Request Builder
+sidebar_label: Builder
 ---
 
 ## SHAFT API

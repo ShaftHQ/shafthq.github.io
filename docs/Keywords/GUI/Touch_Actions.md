@@ -1,7 +1,7 @@
 ---
 id: Touch_Actions
 title: Touch Actions
-sidebar_label: Touch Actions
+sidebar_label: Touch
 ---
 
 #### We can interact with Touch Actions via the following methods: 

@@ -174,7 +174,7 @@ const config = {
               },
               {
                 label: 'Actions',
-                to: '/docs/Keywords/GUI/Browser_Actions',
+                to: '/docs/Keywords/GUI/Element_Actions',
               },
               {
                 label: 'Validations',
@@ -208,7 +208,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/shafthq/SHAFT_ENGINE',
+                href: 'https://github.com/ShaftHQ',
               },
               {
                 label: 'Configuration Manager',
