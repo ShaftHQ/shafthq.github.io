@@ -1,7 +1,7 @@
 ---
 id: Response_Validations
 title: Response Validations
-sidebar_label: Response Validations
+sidebar_label: Validations
 ---
 
 ## SHAFT API Response Validations
