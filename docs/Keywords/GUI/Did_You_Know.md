@@ -17,7 +17,7 @@ nativeDriver.findElement(By.id("lname"));
 
 ```
 
-## Custom Cababilities
+## Custom Capabilities
 - Did you know that you can use your own custom capabilities with SHAFT
 
 ```java
