@@ -128,7 +128,7 @@ public class HoverAndClickDemo {
 ### Scroll To Element 
 
 ```java
-By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']);
+By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
 
 driver.element().scrollToElement(elementLocator);
 ```
@@ -136,7 +136,7 @@ driver.element().scrollToElement(elementLocator);
 ### Capture Screenshot
 
 ```java
-By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']);
+By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
 
 driver.element().captureScreenshot(elementLocator);
 ```
