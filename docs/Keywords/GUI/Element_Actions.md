@@ -14,6 +14,18 @@ private By elementLocator = By.id("username_textbox");
 driver.element().type(elementLocator, "query");
 ```
 
+### TypeAppend
+this method used for typing without clearing the texbox first  
+```java
+
+//a By object is used to store the locator to your element
+private By textBoxLocator = By.id("username_textbox");
+// type to empty textbox
+driver.element().type(textBoxLocator, "Shaft");
+// continue typing without erasing what was typed in the same field 
+driver.element().typeAppend(textBoxLocator , " engine");
+```
+
 ### TypeSecure
 
 ```java
@@ -22,6 +34,18 @@ driver.element().type(elementLocator, "query");
 private By elementLocator = By.id("username_textbox");
 //click on target element
 driver.element().typeSecure(elementLocator, "query");
+```
+
+### TypeFileLocationForUpload
+
+```java
+//locator of browse button or choose file button  
+	 By chooseFileButtonLocator = By.xpath("//form//input[@type='file']");
+//typeFileLocationForUplaod method takes element locator and file path 	 
+	 driver.element().typeFileLocationForUpload(chooseFileButtonLocator, "src/test/resources/testDataFiles/testUpload.txt);
+	 
+ }
+
 ```
 
 
@@ -100,6 +124,22 @@ public class HoverAndClickDemo {
 ```
 
 ![hoverAndClick](https://live.staticflickr.com/65535/51627720576_1bd0cf9c6f_z.jpg) <br/>
+
+### Scroll To Element 
+
+```java
+By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
+
+driver.element().scrollToElement(elementLocator);
+```
+
+### Capture Screenshot
+
+```java
+By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
+
+driver.element().captureScreenshot(elementLocator);
+```
 
 ### Drag and drop
 
