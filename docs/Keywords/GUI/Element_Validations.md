@@ -4,7 +4,7 @@ title: Element Validations
 sidebar_label: Element Validations
 ---
 
-### Difference between Assertions and Verifications:
+## Difference between Assertions and Verifications:
 
 Assertions and Verification testing are important components in GUI automation testing. Each one them performs a specific role: 
 1. In **Assertions**, if the assert is not met, TC execution will be **aborted** and the rest of the of TCs will be skipped and the TC execution result will be **failed**. Assertions are used as checkpoints for testing or validating business-critical transactions. This type of assertiosn is called **Hard Assertion**
