@@ -36,8 +36,96 @@ driver.element().assertThat(elementLocator).textTrimmed().equalsIgnoringCaseSens
 driver.element().verifyThat(elementLocator).textTrimmed().equalsIgnoringCaseSensitivity("Expected Text").perform();
 ```
 
+### Element Existence
+#### exists()
+Use this to check that the target element exists
 
+```java
+driver.element().assertThat(elementLocator).exists().perform();
+driver.element().verifyThat(elementLocator).exists().perform();
+```
 
+#### doesNotExist()
+Use this to check that the target element does not exist
+
+```java
+driver.element().assertThat(elementLocator).doesNotExist().perform();
+driver.element().verifyThat(elementLocator).doesNotExist().perform();
+```
+### Element States
+
+#### isChecked()
+Use this to check against the provided elements checked attribute
+
+```java
+driver.element().assertThat(elementLocator).isChecked().perform();
+driver.element().verifyThat(elementLocator).isChecked().perform();
+```
+
+#### isNotChecked()
+Use this to check against the provided elements checked attribute
+
+```java
+driver.element().assertThat(elementLocator).isNotChecked().perform();
+driver.element().verifyThat(elementLocator).isNotChecked().perform();
+```
+
+#### isDisabled()
+Use this to check against the provided elements disabled attribute
+
+```java
+driver.element().assertThat(elementLocator).isDisabled().perform();
+driver.element().verifyThat(elementLocator).isDisabled().perform();
+```
+
+#### isEnabled()
+Use this to check against the provided elements disabled attribute
+
+```java
+driver.element().assertThat(elementLocator).isEnabled().perform();
+driver.element().verifyThat(elementLocator).isEnabled().perform();
+```
+
+#### isVisible()
+Use this to check against the provided elements hidden attribute
+
+```java
+driver.element().assertThat(elementLocator).isVisible().perform();
+driver.element().verifyThat(elementLocator).isVisible().perform();
+```
+#### isHidden()
+Use this to check against the provided elements hidden attribute
+
+```java
+driver.element().assertThat(elementLocator).isHidden().perform();
+driver.element().verifyThat(elementLocator).isHidden().perform();
+```
+
+#### isSelected()
+Use this to check against the provided elements selected attribute
+
+```java
+driver.element().assertThat(elementLocator).isSelected().perform();
+driver.element().verifyThat(elementLocator).isSelected().perform();
+```
+
+#### isNotSelected()
+Use this to check against the provided elements selected attribute
+
+```java
+driver.element().assertThat(elementLocator).isNotSelected().perform();
+driver.element().verifyThat(elementLocator).isNotSelected().perform();
+```
+
+### Attributes Validations
+
+#### attribute()
+Use this to check against a certain element attribute
+
+```java
+driver.element().assertThat(elementLocator).attribute("name").isEqualTo("expected value").perform();
+driver.element().verifyThat(elementLocator).attribute("name").isEqualTo("expected value").perform();
+```
 
 
 
