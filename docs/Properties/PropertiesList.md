@@ -62,72 +62,47 @@ Here's a list of all the supported properties *(Work In Progress)*
 | automaticallyAssertResponseStatusCode       | `true`         | `true`, `false`                          |
 | maximumPerformanceMode                      | `0`            | `0`, `1`, `2`                            | • `0` -> Disabled, `1` -> Without Headless Execution, `2` -> With Headless Execution <br/>• Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues                   | `false`        | `true`, `false`                          | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation.                                                                                                            |
-|                                             |                | ``                                       |                                                                                                                                                                                                                                                        |
 
+### Reporting
 
-[//]: # ()
-[//]: # (Reporting)
+| Property Name                              | Default Value | Possible Values  | Description |
+|--------------------------------------------|---------------|------------------|-------------|
+| captureElementName                         | `true`        | `true`, `false`  |
+| captureWebDriverLogs                       | `false`       | `true`, `false`  |
+| alwaysLogDiscreetly                        | `false`       | `true`, `false`  |
+| debugMode                                  | `false`       | `true`, `false`  |
+| cleanAllureResultsDirectoryBeforeExecution | `true`        | `true`, `false`  |
+| generateAllureReportArchive                | `false`       | `true`, `false`  |
+| openAllureReportAfterExecution             | `false`       | `true`, `false`  |
+| generateExtentReports                      | `true`        | `true`, `false`  |
+| cleanExtentReportsDirectoryBeforeExecution | `true`        | `true`, `false`  |
+| attachExtentReportsToAllureReport          | `false`       | `true`, `false`  |
+| openLighthouseReportWhileExecution         | `true`        | `true`, `false`  |
+| openExecutionSummaryReportAfterExecution   | `true`        | `true`, `false`  |             |
 
-[//]: # (captureElementName=true)
+### Timeouts
 
-[//]: # (captureWebDriverLogs=false)
+| Property Name                        | Default Value | Possible Values | Description |
+|--------------------------------------|---------------|-----------------|-------------|
+| waitForLazyLoading                   | `true`        | `true`, `false` |
+| lazyLoadingTimeout                   | `30`          | 
+| browserNavigationTimeout             | `60`          | 
+| pageLoadTimeout                      | `60`          | 
+| scriptExecutionTimeout               | `30`          | 
+| defaultElementIdentificationTimeout  | `60`          | 
+| apiSocketTimeout                     | `30`          | 
+| apiConnectionTimeout                 | `30`          | 
+| apiConnectionManagerTimeout          | `30`          | 
+| shellSessionTimeout                  | `30`          | 
+| dockerCommandTimeout                 | `30`          | 
+| databaseLoginTimeout                 | `30`          | 
+| databaseNetworkTimeout               | `30`          | 
+| databaseQueryTimeout                 | `30`          |  
+| waitForRemoteServerToBeUp            | `false`       | `true`, `false` |             |
+| timeoutForRemoteServerToBeUp         | `10`          |                 |             |
+| remoteServerInstanceCreationTimeout  | `10`          |                 |             |
+|                                      | ``            |                 |             |
 
-[//]: # (alwaysLogDiscreetly=false)
-
-[//]: # (debugMode=false)
-
-[//]: # (cleanAllureResultsDirectoryBeforeExecution=true)
-
-[//]: # (generateAllureReportArchive=false)
-
-[//]: # (openAllureReportAfterExecution=false)
-
-[//]: # (generateExtentReports=true)
-
-[//]: # (cleanExtentReportsDirectoryBeforeExecution=true)
-
-[//]: # (attachExtentReportsToAllureReport=false)
-
-[//]: # (openLighthouseReportWhileExecution=true)
-
-[//]: # (openExecutionSummaryReportAfterExecution=true)
-
-[//]: # ()
-[//]: # (Timeouts)
-
-[//]: # (waitForLazyLoading=true)
-
-[//]: # (lazyLoadingTimeout=30)
-
-[//]: # (browserNavigationTimeout=60)
-
-[//]: # (pageLoadTimeout=60)
-
-[//]: # (scriptExecutionTimeout=30)
-
-[//]: # (defaultElementIdentificationTimeout=60)
-
-[//]: # (apiSocketTimeout=30)
-
-[//]: # (apiConnectionTimeout=30)
-
-[//]: # (apiConnectionManagerTimeout=30)
-
-[//]: # (shellSessionTimeout=30)
-
-[//]: # (dockerCommandTimeout=30)
-
-[//]: # (databaseLoginTimeout=30)
-
-[//]: # (databaseNetworkTimeout=30)
-
-[//]: # (databaseQueryTimeout=30)
-
-[//]: # (waitForRemoteServerToBeUp=false)
-
-[//]: # (timeoutForRemoteServerToBeUp=10)
-
-[//]: # (remoteServerInstanceCreationTimeout=10)
 
 [//]: # ()
 [//]: # (VisualValidations)
