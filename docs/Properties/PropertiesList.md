@@ -101,76 +101,109 @@ Here's a list of all the supported properties *(Work In Progress)*
 | waitForRemoteServerToBeUp            | `false`       | `true`, `false` |             |
 | timeoutForRemoteServerToBeUp         | `10`          |                 |             |
 | remoteServerInstanceCreationTimeout  | `10`          |                 |             |
-|                                      | ``            |                 |             |
 
+### VisualValidations
 
-[//]: # ()
-[//]: # (VisualValidations)
+| Property Name                                  | Default Value          | Possible Values  | Description |
+|------------------------------------------------|------------------------|------------------|-------------|
+| screenshotParams_scalingFactor                 | `1`                    |                  |             |
+| screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` |                  |             |
+| screenshotParams_screenshotType                | `FullPage`             |                  |             |
+| screenshotParams_highlightElements             | `true`                 | `true`, `false`  |             |
+| screenshotParams_highlightMethod               | `AI`                   |                  |             |
+| screenshotParams_skippedElementsFromScreenshot | ``                     |                  |             |
+| screenshotParams_watermark                     | ``                     | `true`, `false`  |             |
+| screenshotParams_watermarkOpacity              | `0.2`                  |                  |             |
+| createAnimatedGif                              | `false`                | `true`, `false`  |             |
+| animatedGif_frameDelay                         | `500`                  |                  |             |
+| videoParams_recordVideo                        | `false`                | `true`, `false`  |             |
+| videoParams_scope                              | `DriverSession`        |                  |             |
+| whenToTakePageSourceSnapshot                   | `Never`                |                  |             |
 
-[//]: # (screenshotParams_scalingFactor=1)
+### JiraXRay
 
-[//]: # (screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly)
+| Property Name               | Default Value                                | Possible Values  | Description |
+|-----------------------------|----------------------------------------------|------------------|-------------|
+| jiraInteraction             | `false`                                      | `true`, `false`  |             |
+| jiraUrl                     | `https://`                                   |                  |             |
+| projectKey                  | ``                                           |                  |             |
+| authorization               | `:`                                          |                  |             |
+| reportTestCasesExecution    | `false`                                      | `true`, `false`  |             |
+| reportPath                  | `target/surefire-reports/testng-results.xml` |                  |             |
+| ExecutionName               | ``                                           |                  |             |
+| ExecutionDescription        | ``                                           |                  |             |
+| ReportBugs                  | `false`                                      | `true`, `false`  |             |
+| assignee                    | ``                                           |                  |             |
+| allure.link.tms.pattern     | `https:///{}`                                |                  |             |
+| allure.link.custom.pattern  | `{}`                                         |                  |             |
 
-[//]: # (screenshotParams_screenshotType=FullPage)
+### browserStack
 
-[//]: # (screenshotParams_highlightElements=true)
+| Property Name                    | Default Value  | Possible Values  | Description                                                                                           |
+|----------------------------------|----------------|------------------|-------------------------------------------------------------------------------------------------------|
+| browserStack.username            | ``             |                  |                                                                                                       |
+| browserStack.accessKey           | ``             |                  |                                                                                                       |
+| browserStack.platformVersion     | ``             |                  |                                                                                                       |
+| browserStack.deviceName          | ``             |                  |                                                                                                       |
+| browserStack.appUrl              | ``             |                  | Use appUrl to test a previously uploaded app file                                                     |
+| browserStack.customID            | ``             |                  | Use customID to test the latest uploaded version as the above url expires regularly                   |
+| browserStack.appName             | ``             |                  |                                                                                                       |
+| browserStack.appRelativeFilePath | ``             |                  |                                                                                                       |
+| browserStack.osVersion           | ``             |                  | In case of Desktop web testing you must also set the `targetOperatingSystem`, and `targetBrowserName` |
+| browserStack.browserVersion      | ``             |                  | optional, uses random by default                                                                      |
+| browserStack.local               | `false`        | `true`, `false`  |                                                                                                       |
 
-[//]: # (screenshotParams_highlightMethod=AI)
+### cucumber (⚠️ Work In Progress ⚠️)
 
-[//]: # (screenshotParams_skippedElementsFromScreenshot=)
+| Property Name | Default Value | Possible Values | Description |
+|---------------|---------------|-----------------|-------------|
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
 
-[//]: # (screenshotParams_watermark=true)
+### healenium (⚠️ Work In Progress ⚠️)
 
-[//]: # (screenshotParams_watermarkOpacity=0.2)
+| Property Name | Default Value | Possible Values | Description |
+|---------------|---------------|-----------------|-------------|
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
 
-[//]: # (createAnimatedGif=false)
+### path (⚠️ Work In Progress ⚠️)
 
-[//]: # (animatedGif_frameDelay=500)
+| Property Name | Default Value | Possible Values | Description |
+|---------------|---------------|-----------------|-------------|
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
 
-[//]: # (videoParams_recordVideo=false)
+### pattern (⚠️ Work In Progress ⚠️)
 
-[//]: # (videoParams_scope=DriverSession)
+| Property Name | Default Value | Possible Values | Description |
+|---------------|---------------|-----------------|-------------|
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
 
-[//]: # (whenToTakePageSourceSnapshot=Never)
+### tinkey (⚠️ Work In Progress ⚠️)
 
-[//]: # ()
-[//]: # (JiraXRay)
-
-[//]: # (jiraInteraction=false)
-
-[//]: # (jiraUrl=https://)
-
-[//]: # (projectKey=)
-
-[//]: # (authorization=:)
-
-[//]: # (reportTestCasesExecution=false)
-
-[//]: # (reportPath=target/surefire-reports/testng-results.xml)
-
-[//]: # (ExecutionName=)
-
-[//]: # (ExecutionDescription=)
-
-[//]: # (ReportBugs=false)
-
-[//]: # (assignee=)
-
-[//]: # (allure.link.tms.pattern=https:///{})
-
-[//]: # (allure.link.custom.pattern={})
-
-[//]: # ()
-[//]: # (browserStack)
-
-[//]: # (cucumber)
-
-[//]: # (customWebdriverCapabilities)
-
-[//]: # (healenium)
-
-[//]: # (path)
-
-[//]: # (pattern)
-
-[//]: # (tinkey)
+| Property Name | Default Value | Possible Values | Description |
+|---------------|---------------|-----------------|-------------|
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
+|               | ``            |                 |             |
