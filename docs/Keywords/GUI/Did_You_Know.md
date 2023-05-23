@@ -40,7 +40,8 @@ By locator = SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("attribute name" , "
 ```
 you can discover more options like containsText , containsId , containsClass 
 
-Example 
+#### Example 
+
 below element has **tag name** "Button" , and has **attribute** "data-test" and **attribute value** is "add-to-cart-sauce-labs-backpack"
 
 ![Screenshot 2023-05-22 231141](https://github.com/ShaftHQ/shafthq.github.io/assets/65794900/a73f1e68-2476-4367-abbf-637b303089ac)
