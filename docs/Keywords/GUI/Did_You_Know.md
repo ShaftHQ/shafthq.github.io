@@ -51,5 +51,27 @@ using SHAFT Locator Builder you can locate this element like below
 ```java
 By buttonLocator = SHAFT.GUI.Locator.hasTagName("button").hasAttribute("test-data" , "add-to-cart-sauce-labs-backpack").build();
 ```
-		
+## Shadow Dom Locator Builder
+an advanced application and advantage of  [SHAFT Locator Builder ](/docs/Keywords/GUI/Did_You_Know.md#shaft-locator-builder) is locating elements inside shadow dom.
+
+#### Example 
+
+![Screenshot 2023-05-23 235203](https://github.com/ShaftHQ/shafthq.github.io/assets/65794900/1d1fb006-0c35-4613-b0a6-b42a391b5bc4)
+
+to locate the element with tagName "a" inside the nested shadow root you can follow the below code : 
+
+```java
+ public void shadowDomLocatorTest() {
+ driver = new SHAFT.GUI.WebDriver();
+ By shadowHost = SHAFT.GUI.Locator.hasTagName("shop-app").build();
+ By shadowElement = SHAFT.GUI.Locator.hasTagName("a")
+                                     .hasAttribute("href", "/list/mens_outerwear")
+                                     .insideShadowDom(shadowHost)
+				     .build();    
+driver.browser().navigateToURL("https://shop.polymer-project.org/");        
+driver.element().click(shadowElement);
+}		    
+```
+
+
 		
