@@ -51,8 +51,10 @@ using SHAFT Locator Builder you can locate this element like below
 ```java
 By buttonLocator = SHAFT.GUI.Locator.hasTagName("button").hasAttribute("test-data" , "add-to-cart-sauce-labs-backpack").build();
 ```
+for more examples visit [LocatorBuilderTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java) on Github.
+
 ## Shadow Dom Locator Builder
-an advanced application and advantage of  [SHAFT Locator Builder ](/docs/Keywords/GUI/Did_You_Know.md#shaft-locator-builder) is locating elements inside shadow dom.
+an advanced application and advantage of [SHAFT Locator Builder ](/docs/Keywords/GUI/Did_You_Know.md#shaft-locator-builder) is locating elements inside shadow dom.
 
 #### Example 
 
@@ -72,6 +74,8 @@ driver.browser().navigateToURL("https://shop.polymer-project.org/");
 driver.element().click(shadowElement);
 }		    
 ```
+
+for more examples visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on Github.
 
 
 		
