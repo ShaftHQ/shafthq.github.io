@@ -74,7 +74,15 @@ const sidebars = {
             "Keywords/GUI/Element_Actions",
             "Keywords/GUI/Element_Validations",
             "Keywords/GUI/Touch_Actions",
-            "Keywords/GUI/Did_You_Know",
+            {
+			type: 'category',
+            label: 'Did YOu Know',
+            collapsible: true,
+            collapsed: false,
+            items: [
+			"Keywords/GUI/didYouKnow/Shaft Locator Builder.md",
+			]
+			}
           ],
         },
         {
