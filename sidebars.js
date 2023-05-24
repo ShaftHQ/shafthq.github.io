@@ -74,7 +74,18 @@ const sidebars = {
             "Keywords/GUI/Element_Actions",
             "Keywords/GUI/Element_Validations",
             "Keywords/GUI/Touch_Actions",
-            "Keywords/GUI/Did_You_Know",
+            {
+	    type: 'category',
+            label: 'Did You Know',
+            collapsible: true,
+            collapsed: false,
+            items: [
+		        "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
+		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
+			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
+		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
+			]
+			}
           ],
         },
         {
