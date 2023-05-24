@@ -82,7 +82,7 @@ const sidebars = {
             items: [
 		        "Keywords/GUI/didYouKnow/Native_Webdriver_and_Custom_Capabilities",
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
-		        "Keywords/GUI/didYouKnow/Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
+		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 			]
 			}
           ],
