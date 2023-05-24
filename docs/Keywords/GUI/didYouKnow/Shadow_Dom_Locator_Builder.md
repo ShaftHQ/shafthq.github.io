@@ -1,7 +1,7 @@
 ---
 id: Shadow_Dom_Locator_Builder
 title: Shadow Dom Locator Builder
-sidebar_label: Shadow_Dom_Locator_Builder 
+sidebar_label: Shadow Dom Locator Builder 
 ---
 
 
