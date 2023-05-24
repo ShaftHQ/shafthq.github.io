@@ -4,8 +4,6 @@ title: Shadow Dom Locator Builder
 sidebar_label: Shadow Dom Locator Builder 
 ---
 
-
-## Shadow Dom Locator Builder
 an advanced application and advantage of [SHAFT Locator Builder ](/docs/Keywords/GUI/didYouKnow/Shaft_Locator_Builder.md) is locating elements inside shadow dom.
 
 #### Example 
