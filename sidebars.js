@@ -75,12 +75,13 @@ const sidebars = {
             "Keywords/GUI/Element_Validations",
             "Keywords/GUI/Touch_Actions",
             {
-			type: 'category',
-            label: 'Did YOu Know',
+	    type: 'category',
+            label: 'Did You Know',
             collapsible: true,
             collapsed: false,
             items: [
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
+		        "Keywords/GUI/didYouKnow/Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 			]
 			}
           ],
