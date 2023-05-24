@@ -80,7 +80,7 @@ const sidebars = {
             collapsible: true,
             collapsed: false,
             items: [
-			"Keywords/GUI/didYouKnow/Shaft Locator Builder.md",
+			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 			]
 			}
           ],
