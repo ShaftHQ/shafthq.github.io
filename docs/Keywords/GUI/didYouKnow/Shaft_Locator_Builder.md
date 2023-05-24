@@ -4,7 +4,6 @@ title: Shaft Locator Builder
 sidebar_label: Shaft Locator Builder
 ---
 
-## SHAFT Locator Builder 
 - welcome to the new era of locating elements , with SHAFT Locator Builder you can locate element as if you were writing a story , you don't need to worry about xpath or css selector anymore
 you can use it in multiple ways as below , 
 ```java
