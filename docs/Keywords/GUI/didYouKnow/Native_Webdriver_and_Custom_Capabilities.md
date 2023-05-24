@@ -3,6 +3,7 @@ id: Native_Webdriver_and_Custom_Capabilities
 title: Native WebDriver and Custom capabilities
 sidebar_label: Native WebDriver and Custom capabilities
 ---
+
 ## Native selenium WebDriver
 - Did you know that you can use native selenium webdriver with SHAFT whenever you need it 
 ```java
