@@ -105,21 +105,22 @@ Here's a list of all the supported properties *(Work In Progress)*
 
 ### VisualValidations
 
-| Property Name                                  | Default Value          | Possible Values  | Description |
-|------------------------------------------------|------------------------|------------------|-------------|
-| screenshotParams_scalingFactor                 | `1`                    |                  |             |
-| screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` |                  |             |
-| screenshotParams_screenshotType                | `FullPage`             |                  |             |
-| screenshotParams_highlightElements             | `true`                 | `true`, `false`  |             |
-| screenshotParams_highlightMethod               | `AI`                   |                  |             |
-| screenshotParams_skippedElementsFromScreenshot | ``                     |                  |             |
-| screenshotParams_watermark                     | ``                     | `true`, `false`  |             |
-| screenshotParams_watermarkOpacity              | `0.2`                  |                  |             |
-| createAnimatedGif                              | `false`                | `true`, `false`  |             |
-| animatedGif_frameDelay                         | `500`                  |                  |             |
-| videoParams_recordVideo                        | `false`                | `true`, `false`  |             |
-| videoParams_scope                              | `DriverSession`        |                  |             |
-| whenToTakePageSourceSnapshot                   | `Never`                |                  |             |
+| Property Name                                  | Default Value          | Possible Values                             | Description |
+|------------------------------------------------|------------------------|---------------------------------------------|-------------|
+| visualMatchingThreshold                        | `0.80`                 | any decimal value between `0.00` and `1.00` |             |
+| screenshotParams_scalingFactor                 | `1`                    |                                             |             |
+| screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` |                                             |             |
+| screenshotParams_screenshotType                | `FullPage`             |                                             |             |
+| screenshotParams_highlightElements             | `true`                 | `true`, `false`                             |             |
+| screenshotParams_highlightMethod               | `AI`                   |                                             |             |
+| screenshotParams_skippedElementsFromScreenshot | ``                     |                                             |             |
+| screenshotParams_watermark                     | ``                     | `true`, `false`                             |             |
+| screenshotParams_watermarkOpacity              | `0.2`                  |                                             |             |
+| createAnimatedGif                              | `false`                | `true`, `false`                             |             |
+| animatedGif_frameDelay                         | `500`                  |                                             |             |
+| videoParams_recordVideo                        | `false`                | `true`, `false`                             |             |
+| videoParams_scope                              | `DriverSession`        |                                             |             |
+| whenToTakePageSourceSnapshot                   | `Never`                |                                             |             |
 
 ### JiraXRay
 
