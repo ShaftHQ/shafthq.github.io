@@ -107,7 +107,7 @@ Here's a list of all the supported properties *(Work In Progress)*
 
 | Property Name                                  | Default Value          | Possible Values                             | Description |
 |------------------------------------------------|------------------------|---------------------------------------------|-------------|
-| visualMatchingThreshold                        | `0.80`                 | any decimal value between `0.00` and `1.00` |             |
+| visualMatchingThreshold                        | `0.90`                 | any decimal value between `0.00` and `1.00` |             |
 | screenshotParams_scalingFactor                 | `1`                    |                                             |             |
 | screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` |                                             |             |
 | screenshotParams_screenshotType                | `FullPage`             |                                             |             |
