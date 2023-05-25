@@ -59,6 +59,7 @@ Here's a list of all the supported properties *(Work In Progress)*
 | forceCheckStatusOfRemoteServer              | `false`        | `true`, `false`                          |
 | respectBuiltInWaitsInNativeMode             | `true`         | `true`, `false`                          |
 | clickUsingJavascriptWhenWebDriverClickFails | `false`        | `true`, `false`                          |
+| autoCloseDriverInstance                     | `true`         | `true`, `false`                          |
 | automaticallyAssertResponseStatusCode       | `true`         | `true`, `false`                          |
 | maximumPerformanceMode                      | `0`            | `0`, `1`, `2`                            | • `0` -> Disabled, `1` -> Without Headless Execution, `2` -> With Headless Execution <br/>• Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues                   | `false`        | `true`, `false`                          | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation.                                                                                                            |
