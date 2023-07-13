@@ -131,6 +131,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+
+       styles: [
+      // ...
+      '/css/custom.css',
+    ],
       navbar: {
         title: '',
         logo: {
