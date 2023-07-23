@@ -147,11 +147,14 @@ attachExtentReportToAllureReport=true
 - Enabling this setting will open a lightweight summary report html file after every test execution with the most important info.
 - this feature is enabled by default
 - you can disable By setting the **openExecutionSummaryReportAfterExecution** property to false
+
 **Hard Coded**
 ```java
 SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(false);
 ```
+
 **Custom Property File**
+```java
 openExecutionSummaryReportAfterExecution=false
 ```
 
