@@ -76,10 +76,83 @@ SHAFT.Properties.reporting.set().cleanAllureResultsDirectoryBeforeExecution(fals
 cleanAllureResultsDirectoryBeforeExecution=false
 ```
 
-### Generate Allure Report Archive:
+## Generate Allure Report Archive:
+- Enabling this setting will create a stand-alone report archive that can be easily shared with others.
+- this feature is disabled by default
+- you can enable By setting the **generateAllureReportArchive** property to true
 
-### Automatically Open Allure Report:
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().generateAllureReportArchive(true);
+```
+**Custom Property File**
+```java
+generateAllureReportArchive=true
+```
 
-### Generate Emailable Report:
+## Automatically Open Allure Report:
+- Enabling this setting will serve and open the allure report automatically after every test run.
+- this feature is disabled by default
+- you can enable By setting the **openAllureReportAfterExecution** property to true
 
-### Reset Extent Reports:
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
+```
+**Custom Property File**
+```java
+openAllureReportAfterExecution=true
+```
+
+## Generate Emailable Report:
+- Enabling this setting will create an emailable extent report html file after every test execution.
+- this feature is enabled by default
+- you can disable By setting the **generateExtentReports** property to false
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().generateExtentReports(false);
+```
+**Custom Property File**
+```java
+generateExtentReports=false
+```
+
+## Reset Extent Reports:
+- Enabling this setting will reset the extent report before every test run, while disabling it will allow you to keep track of your old reports.
+- this feature is enabled by default
+- you can disable By setting the **cleanExtentReportsDirectoryBeforeExecution** property to false
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().cleanExtentReportsDirectoryBeforeExecution(false);
+```
+**Custom Property File**
+```java
+cleanExtentReportsDirectoryBeforeExecution=false
+```
+## Attach Extent Report To Allure Report
+- Enabling this setting will Attach extent report to allure report in the tear down "Attaching Reports" section.
+- this feature is disabled by default
+- you can enable By setting the **attachExtentReportToAllureReport** property to true
+
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().attachExtentReportToAllureReport(true);
+```
+**Custom Property File**
+```java
+attachExtentReportToAllureReport=true
+```
+
+## Open Execution Summary Report
+- Enabling this setting will open a lightweight summary report html file after every test execution with the most important info.
+- this feature is enabled by default
+- you can disable By setting the **openExecutionSummaryReportAfterExecution** property to false
+**Hard Coded**
+```java
+SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(false);
+```
+**Custom Property File**
+openExecutionSummaryReportAfterExecution=false
+```
+
+
