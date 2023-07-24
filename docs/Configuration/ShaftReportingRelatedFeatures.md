@@ -3,7 +3,6 @@ id: ShaftReportingRelatedFeatures
 title: Logging & Reporting
 sidebar_label: Logging & Reporting
 ---
-## Default Log Level:
 
 ## Report Clicked Element Text:
 - Automatically capture element name and create a more descriptive report message
