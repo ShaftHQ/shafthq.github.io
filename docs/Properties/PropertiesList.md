@@ -103,7 +103,6 @@ Here's a list of all the supported properties *(Work In Progress)*
 | forceCheckNavigationWasSuccessful           | `true`        | `true`, `false`                          |
 | respectBuiltInWaitsInNativeMode             | `true`        | `true`, `false`                          |
 | forceCheckStatusOfRemoteServer              | `false`       | `true`, `false`                          |
-| respectBuiltInWaitsInNativeMode             | `true`        | `true`, `false`                          |
 | clickUsingJavascriptWhenWebDriverClickFails | `false`       | `true`, `false`                          |
 | autoCloseDriverInstance                     | `true`        | `true`, `false`                          |
 | automaticallyAssertResponseStatusCode       | `true`        | `true`, `false`                          |
