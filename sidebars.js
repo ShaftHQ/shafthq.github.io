@@ -122,7 +122,8 @@ const sidebars = {
         collapsed: true,
         items: [
         "Configuration/BrowserRelatedFeatures",
-        "Configuration/GUI_Elements_Features",
+        "Configuration/PlatformFlags",
+	"Configuration/GUI_Elements_Features",
         "Configuration/retryFailedTests",
         "Configuration/XrayIntegration",
         "Configuration/BrowserStack",
