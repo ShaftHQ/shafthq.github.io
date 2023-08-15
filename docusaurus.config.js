@@ -151,7 +151,7 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://shafthq.github.io/apidocs/index.html',
+            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
             label: 'JavaDocs',
             position: 'right',
           },
