@@ -442,6 +442,40 @@ System.out.println(driver.element().isElementDisplayed(elementLocator));
 
 returns a boolean indicating whether the element is displayed
 
+### Getting Table Data
+-   Extracts the data of a table's rows into a List of Map Objects
+
+```java
+List<Map<String,String>> tableRowsData = driver.element().getTableRowsData(tableLocator);
+```
+
+-   the key of each Map objects represents the label of each column which is represented in the <b>th</b> tag in <b>thead</b> tag in a table
+-   <b>Note</b> that this will only work with standard html tables and may not get the correct result if the table does not follow the standard html table:
+
+```html
+<table>
+    <thead>
+    <tr>
+    <th>col1</th>
+    <th>col2</th>
+    <th>col3</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr><td>a</td><td>b</td><td>c</td></tr>
+    <tr><td>x</td><td>y</td><td>z</td></tr>
+    </tbody>
+</table>
+```
+-   Using getTableRowsData on the table above will return the following List:
+```json
+[
+  {"col1":"a", "col2":"b", "col3":"c"}, 
+  {"col1":"x", "col2":"y", "col3":"z"}
+]
+```
+
+    
 [webdriver]: https://www.selenium.dev/documentation/en/webdriver/
 [default configurations]: #
 [properties files]: #
