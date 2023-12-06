@@ -192,7 +192,7 @@ Here's a list of all the supported properties *(Work In Progress)*
 | visualMatchingThreshold                        | `0.90`                 | any decimal value between `0.00` and `1.00`  |             |
 | screenshotParams_scalingFactor                 | `1`                    |                                              |             |
 | screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` | `Always, ValidationPointsOnly, FailuresOnly` |             |
-| screenshotParams_screenshotType                | `FullPage`             |                                              |             |
+| screenshotParams_screenshotType                | `FullPage`             | `FullPage`, `Regular`, `Element`             |             |
 | screenshotParams_highlightElements             | `true`                 | `true`, `false`                              |             |
 | screenshotParams_highlightMethod               | `AI`                   |                                              |             |
 | screenshotParams_skippedElementsFromScreenshot | ``                     |                                              |             |
