@@ -19,9 +19,11 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().browser(driver).attribute(browserAttribute "url").perform();
+        driver.browser().assertThat().attribute(browserAttribute "url").perform();
+        driver.browser().assertThat().title().perform();
         //make verification
-        Validations.verifyThat().browser(driver).attribute(browserAttribute "url").perform();
+        driver.browser().verifyThat().attribute(browserAttribute "url").perform();
+        driver.browser().verifyThat().title().perform();
     }
 }
 ```
@@ -34,9 +36,12 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().browser(driver).attribute(browserAttribute "title").perform();
+        driver.browser().assertThat().attribute(browserAttribute "title").perform();
+        driver.browser().assertThat().url().perform();
         //make verification
-        Validations.verifyThat().browser(driver).attribute(browserAttribute "title").perform();
+        driver.browser().verifyThat().attribute(browserAttribute "title").perform();
+        driver.browser().assertThat().url().perform();
     }
+    
 }
 ```

@@ -16,9 +16,9 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().element(driver, locator).exists().perform();
+        driver.element().assertThat(locator).exists().perform();
         //make verification
-        Validations.verifyThat().element(driver, locator).exists().perform();
+        driver.element().verifyThat(locator).exists().perform();
     }
 }
 ```
@@ -32,9 +32,9 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().element(driver, locator).doesNotExist().perform();
+        driver.element().assertThat(locator).doesNotExist().perform();
         //make verification
-        Validations.verifyThat().element(driver, locator).doesNotExist().perform();
+        driver.element().verifyThat(locator).doesNotExist().perform();
     }
 }
 ```
@@ -48,9 +48,9 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().element(driver, locator).matchesReferenceImage().perform();
+        driver.element().assertThat(locator).matchesReferenceImage().perform();
         //make verification
-        Validations.verifyThat().element(driver, locator).matchesReferenceImage().perform();
+        driver.element().verifyThat(locator).matchesReferenceImage().perform();
     }
 }
 ```
@@ -64,9 +64,9 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().element(driver, locator).doesNotMatchReferenceImage().perform();
+        driver.element().assertThat(locator).doesNotMatchReferenceImage().perform();
         //make verification
-        Validations.verifyThat().element(driver, locator).doesNotMatchReferenceImage().perform();
+        driver.element().verifyThat(locator).doesNotMatchReferenceImage().perform();
     }
 }
 ```
@@ -83,9 +83,9 @@ public class Testing {
     @Test
     public void testValidations(){
         //make assertion
-        Validations.assertThat().element(driver, locator).attribute(attributeName).perform();
+        driver.element().assertThat(locator).attribute(attributeName).perform();
         //make verification
-        Validations.verifyThat().element(driver, locator).attribute(attributeName).perform();
+        driver.element().verifyThat(locator).attribute(attributeName).perform();
     }         
 }     
 ```
@@ -99,9 +99,9 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isSelected().perform();
+            driver.element().assertThat(locator).isSelected().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isSelected().perform();
+            driver.element().verifyThat(locator).isSelected().perform();
         }
 }
 ```
@@ -115,9 +115,9 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isChecked().perform();
+            driver.element().assertThat(locator).isChecked().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isChecked().perform();
+            driver.element().verifyThat(locator).isChecked().perform();
         }
 }
 ```
@@ -131,9 +131,9 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isVisible().perform();
+            driver.element().assertThat(locator).isVisible().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isVisible().perform();
+            driver.element().verifyThat(locator).isVisible().perform();
         }
 }
 ```
@@ -147,9 +147,9 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isEnabled().perform();
+            driver.element().assertThat(locator).isEnabled().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isEnabled().perform();
+            driver.element().verifyThat(locator).isEnabled().perform();
         }
 }
 ```
@@ -163,10 +163,10 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isNotSelected().perform();
+            driver.element().assertThat(locator).isNotSelected().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isNotSelected().perform();
-    }
+            driver.element().verifyThat(locator).isNotSelected().perform();
+        }
 }
 ```
 
@@ -179,10 +179,10 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isNotChecked().perform();
+            driver.element().assertThat(locator).isNotChecked().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isNotChecked().perform();
-    }
+            driver.element().verifyThat(locator).isNotChecked().perform();
+        }
 }
 ```
 
@@ -195,9 +195,9 @@ public class Testing {
         @Test
         public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isHidden().perform();
+            driver.element().assertThat(locator).isHidden().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isHidden().perform();
+            driver.element().verifyThat(locator).isHidden().perform();
     }
 }
 ```
@@ -211,9 +211,9 @@ public class Testing {
         @Test
             public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).isDisabled().perform();
+            driver.element().assertThat(locator).isDisabled().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).isDisabled().perform();
+            driver.element().verifyThat(locator).isDisabled().perform();
     }
 }
 ```
@@ -228,10 +228,10 @@ _isTrue_ , _isFalse_, _isEqualTo_, _doseNotEqualTo_, _equals_, _contains_, _dose
         @Test
             public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).text().perform();
+            driver.element().assertThat(locator).text().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).text().perform();
-    }
+            driver.element().verifyThat(locator).text().perform();
+        }
 }
 ```
 ###  textTrimmed():
@@ -245,10 +245,10 @@ _isTrue_ , _isFalse_, _isEqualTo_, _doseNotEqualTo_, _equals_, _contains_, _dose
         @Test
             public void testValidations(){
             //make assertion
-            Validations.assertThat().element(driver, locator).textTrimmed().perform();
+            driver.element().assertThat(locator).textTrimmed().perform();
             //make verification
-            Validations.verifyThat().element(driver, locator).textTrimmed().perform();
-    }
+            driver.element().verifyThat(locator).textTrimmed().perform();
+        }
 }
 ```
 
