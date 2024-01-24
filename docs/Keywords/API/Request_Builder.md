@@ -175,6 +175,7 @@ api.post("api/users").setRequestBodyFromFile("src/test/resources/testDataFiles/r
 Sets the parameters (if any) for the API request that you're currently building.
 
 #### Parameters Type FORM
+Note that: Form parameter works with multipart/form-data requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("username", "john"), Arrays.asList("password","1234"));
