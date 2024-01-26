@@ -9,7 +9,11 @@ We're starting off 2024 with a huge announcement!
 
 # <b>SHAFT_Engine</b> is introducing Virtual Threads for Everyday Tasks 🎉🎉
 
-<a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" /></a>    🤝   <a href="https://www.oracle.com/" target="_blank"><img src="https://miro.medium.com/v2/resize:fit:640/0*QGvD2k4DPfPMfpd5.png" alt="Oracle" height="50px" /></a>
+<a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" /></a>    
+🤝
+
+<a href="https://www.oracle.com/" target="_blank"><img src="https://miro.medium.com/v2/resize:fit:640/0*QGvD2k4DPfPMfpd5.png" alt="Oracle" height="50px" /></a>
+
 ### - the future of automation frameworks is here, and it's all about working smarter, not harder. 
 ### - SHAFT_ENGINE, your trusty automation solution, just got a major upgrade with virtual threads, a clever trick that makes it more efficient and helpful than ever.
 
