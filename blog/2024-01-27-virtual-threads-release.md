@@ -12,14 +12,15 @@ We're starting off 2024 with a huge announcement!
 <a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" /></a>    
 🤝
 
+
 <a href="https://www.oracle.com/" target="_blank"><img src="https://miro.medium.com/v2/resize:fit:640/0*QGvD2k4DPfPMfpd5.png" alt="Oracle" height="50px" /></a>
 
-### - the future of automation frameworks is here, and it's all about working smarter, not harder. 
+### - The future of automation frameworks is here, and it's all about working smarter, not harder. 
 ### - SHAFT_ENGINE, your trusty automation solution, just got a major upgrade with virtual threads, a clever trick that makes it more efficient and helpful than ever.
 
 ## - What is a Virtual Thread?
 
- - [Virtual-Threads](https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html), introduced with Java 21 Virtual threads are a new way to handle multiple tasks concurrently within a single program or application. They're the new java for asynchronous operations.
+ - [Virtual-Threads](https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html), introduced with Java 21 are a new way to handle multiple tasks concurrently within a single program or application. They're the new java way for asynchronous operations.
  - Think of it like hiring a whole crew of tiny helpers. While one tractor's plowing, another can check the soil, and another can keep an eye on the weather.
  - These lightweight assistants don't need fancy equipment or guzzle up resources, meaning SHAFT_ENGINE can now handle a ton more tasks without breaking a sweat.
 
