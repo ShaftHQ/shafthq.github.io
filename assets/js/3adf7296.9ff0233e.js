@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[6498],{4068:a=>{a.exports=JSON.parse('{"label":"virtual_threads","permalink":"/blog/tags/virtual-threads","allTagsPath":"/blog/tags","count":1}')}}]);
