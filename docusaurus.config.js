@@ -3,9 +3,7 @@
 
 const {themes} = require('prism-react-renderer');
 const lightTheme = themes.github;
-const lightCodeTheme = themes.github;
 const darkTheme = themes.dracula;
-const darkCodeTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -29,6 +27,16 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+    },
   },
 
   trailingSlash: false,
@@ -227,11 +235,11 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ['java', 'json', 'bash', 'diff', "yaml", "markdown", "html", "js-extras"],
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        additionalLanguages: ['java', 'json'],
       },
     }),
 };
 
-module.exports = config;
+export default config;
