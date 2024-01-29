@@ -97,7 +97,7 @@ This is the third and final way to configure SHAFT's properties.
 You should use this approach if you want to override some specifc properties for the current test run from CLI. This is usually relevant for unattended CI/CD pipeline execution. You would usually need to use the [File-based approach](#file-based) to set these properties first, and then override them via CLI.
 :::
 
-Here's a sample command that you can execute from your terminal windoe to parameterize your test command:
+Here's a sample command that you can execute from your terminal window to parameterize your test command:
 ```powershell
 mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-DgenerateAllureReportArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
 ```
