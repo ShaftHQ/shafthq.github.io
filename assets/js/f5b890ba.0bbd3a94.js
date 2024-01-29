@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([[6502],{1762:s=>{s.exports=JSON.parse('{"label":"survey","permalink":"/blog/tags/survey","allTagsPath":"/blog/tags","count":1}')}}]);
