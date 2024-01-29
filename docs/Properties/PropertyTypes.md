@@ -4,14 +4,26 @@ title: Property Types
 sidebar_label: Types
 ---
 
-Please note that the Configuration Manager will be deprecated, and you can now refer to this page to configure your execution properties.
+### Priority Heirarchy
+
+Since there are many ways to configure SHAFT properties you need to know how the priorities work.
+Simply put, the values to the left override the values to the right.
+
+[Code-based](#code-based) > [CLI-based](#cli-based) > [File-based](#file-based) > [Default Values](PropertiesList)
+
 
 ### File-based
 
-This is the traditional way of configuring SHAFT properties, using this approach you can simply create your own properties file under `src/main/resources/properties/custom.properties`.
-Here's a sample of what a properties file can look like:
+This is the traditional way of configuring SHAFT properties, using this approach you can simply create your own custom properties file.
 
-```properties
+:::tip
+You should use this approach if you have some properties that are global and not expected to change during execution, or properties that you wish to later override from your CLI execution (CI/CD server).
+:::
+
+Here's what it can look like:
+
+**Example**: Setting up properties for basic web browser automation
+```properties showLineNumbers title="src/main/resources/properties/custom.properties"
 baseURL=http://www.mytestdomain.com
 executionAddress=local
 targetOperatingSystem=WINDOWS
@@ -20,75 +32,76 @@ headlessExecution=true
 createAnimatedGif=true
 videoParams_recordVideo=true
 ```
-You can add all your custom properties in one or more files as you see fit. And you can refer to the below table for a full list of supported properties.
+You can add all your custom properties in one or more files as you see fit. For more info you can refer to our [full list of supported properties](PropertiesList).
+
 
 ### Code-based
 
-If you're on the latest SHAFT version you can now set any property programmatically as well to easily read/write properties during runtime.
+You can read/write any property programmatically to provide more flexibility and control during runtime.
 
-To write values:
-```java
-SHAFT.Properties.browserStack.set().username(username);
-SHAFT.Properties.browserStack.set().accessKey(accessKey);
-SHAFT.Properties.browserStack.set().platformVersion(platformVersion);
-SHAFT.Properties.browserStack.set().deviceName(deviceName);
-SHAFT.Properties.browserStack.set().appUrl(appUrl);
-SHAFT.Properties.browserStack.set().customID(customID);
-SHAFT.Properties.browserStack.set().appName(appName);
+:::tip
+You should use this approach if you have some properties that are specific for a certain test class/method or to a specific part of your test. For global properties it is recommended to use the [File-based approach](#file-based).
+:::
+
+**Example**: Setting up properties for basic mobile automation
+```java showLineNumbers title="src/test/java/testPackage/TestClass.java"
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.BeforeMethod;
+import org.openqa.selenium.Platform;
+import io.appium.java_client.remote.AutomationName;
+
+private SHAFT.GUI.WebDriver driver;
+
+@BeforeMethod
+public void setup(){
+	SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
+	SHAFT.Properties.mobile.set().automationName(AutomationName.ANDROID_UIAUTOMATOR2);
+	SHAFT.Properties.platform.set().executionAddress("localhost:4723");
+	SHAFT.Properties.mobile.set().app("src/test/resources/testDataFiles/apps/ApiDemos-debug.apk");
+	driver = new SHAFT.GUI.WebDriver();
+}
 ```
 
-To read values:
-```java
-username = SHAFT.Properties.browserStack.username();
-accessKey = SHAFT.Properties.browserStack.accessKey();
-platformVersion = SHAFT.Properties.browserStack.platformVersion();
-deviceName = SHAFT.Properties.browserStack.deviceName();
-appUrl = SHAFT.Properties.browserStack.appUrl();
-customID = SHAFT.Properties.browserStack.customID();
-appName = SHAFT.Properties.browserStack.appName();
-```
-**Example** : 
+**Example**: Reading values used for BrowserStack integration
+```java showLineNumbers title="src/test/java/testPackage/TestClass.java"
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.BeforeClass;
 
-you want to set targetBrowserName to MicrosoftEdge insted of default value chrome
-in your before method or before you initiate your driver you should do like below 
-```java
-	  
-	@BeforeMethod
-	public void beforeMethod() {
-    	SHAFT.Properties.web.set().targetBrowserName("MicrosoftEdge");
-        driver = new SHAFT.GUI.WebDriver();
-	}
-```
-you can replace "MicrosoftEdge" with any property from table below .
-
-
-**OR**
-you can use Browser library from selenium as following
-```java
-	import com.shaft.driver.SHAFT;
-	import org.openqa.selenium.remote.Browser;
-	import org.testng.annotations.BeforeMethod;
-	
-	@BeforeMethod
-	public void beforeMethod() {
-        SHAFT.Properties.web.set().targetBrowserName(Browser.EDGE.browserName()); ;
-        driver = new SHAFT.GUI.WebDriver();
-	}
+@BeforeClass
+public void beforeClass(){
+	var username = SHAFT.Properties.browserStack.username();
+	var accessKey = SHAFT.Properties.browserStack.accessKey();
+	var platformVersion = SHAFT.Properties.browserStack.platformVersion();
+	var deviceName = SHAFT.Properties.browserStack.deviceName();
+	var appUrl = SHAFT.Properties.browserStack.appUrl();
+	var customID = SHAFT.Properties.browserStack.customID();
+	var appName = SHAFT.Properties.browserStack.appName();
+}
 ```
 
-Note that it's recommended to set any static values that won't change during execution, or values that you wish to later override from your CLI execution (CI/CD server) in external property files using the first approach.
+:::note
+Note that per the above examples we prefer to use [AutomationName](https://appium.github.io/java-client/io/appium/java_client/remote/AutomationName.html) and [Platform](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/Platform.html) to ensure setting the relevant values correctly. You can also use [Browser](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/remote/Browser.html) to set the `targetBrowserName` property programattically.
+```java showLineNumbers title="src/test/java/testPackage/TestClass.java"
+import org.openqa.selenium.remote.Browser;
 
-### CLI-based (for unattended execution)
+SHAFT.Properties.web.set().targetBrowserName(Browser.FIREFOX.browserName());
+```
+:::
 
-This is the third and final way to set/override SHAFT's existing default configuration. You will usually use this to execute your tests from a CI/CD pipeline.
-CLI properties override the engine's defaults, and any properties that you've already defined in your files.
 
-Here's a sample to set values from your test command:
-```commandline
+### CLI-based
+
+This is the third and final way to configure SHAFT's properties.
+
+:::tip
+You should use this approach if you want to override some specifc properties for the current test run from CLI. This is usually relevant for unattended CI/CD pipeline execution. You would usually need to use the [File-based approach](#file-based) to set these properties first, and then override them via CLI.
+:::
+
+Here's a sample command that you can execute from your terminal windoe to parameterize your test command:
+```powershell
 mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-DgenerateAllureReportArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
 ```
 
-### Priorities
-
-Since there are many ways to set SHAFT properties you need to know how the priorities work. The value on the left overrides the value on the right.
-`Hard-coded > CLI > Files > Defaults`
+:::note
+Note that you can refer to [the official Maven Surefire guide](https://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html) to learn how to run certain test classes or packages.
+:::
