@@ -1,8 +1,9 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const {themes} = require('prism-react-renderer');
+const lightTheme = themes.github;
+const darkTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -26,6 +27,16 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
+    path: 'i18n',
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
+      },
+    },
   },
 
   trailingSlash: false,
@@ -156,11 +167,6 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://shafthq.github.io/SHAFT_ENGINE/',
-            label: 'Configuration Manager',
-            position: 'right',
-          },
-          {
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
             label: 'GitHub',
             position: 'right',
@@ -176,6 +182,10 @@ const config = {
               {
                 label: 'Getting Started',
                 to: '/docs/Getting_Started/Prerequisites',
+              },
+              {
+                label: 'Properties',
+                to: '/docs/Properties/PropertyTypes',
               },
               {
                 label: 'Actions',
@@ -216,10 +226,6 @@ const config = {
                 href: 'https://github.com/ShaftHQ',
               },
               {
-                label: 'Configuration Manager',
-                to: 'https://shafthq.github.io/SHAFT_ENGINE/',
-              },
-              {
                 label: 'JavaDocs',
                 to: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
               },
@@ -229,11 +235,11 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus.`,
       },
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
-        additionalLanguages: ['java', 'json'],
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        additionalLanguages: ['java', 'json', 'json5', 'gherkin', 'properties', 'powershell', 'regex', 'sql', 'xml-doc', 'yaml', 'javadoc', 'javastacktrace', 'javadoclike'],
       },
     }),
 };
 
-module.exports = config;
+export default config;
