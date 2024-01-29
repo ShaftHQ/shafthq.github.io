@@ -5,6 +5,7 @@ const {themes} = require('prism-react-renderer');
 const lightTheme = themes.github;
 const lightCodeTheme = themes.github;
 const darkTheme = themes.dracula;
+const darkCodeTheme = themes.dracula;
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
