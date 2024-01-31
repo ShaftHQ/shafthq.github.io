@@ -14,7 +14,7 @@ Simply put, the values to the left override the values to the right.
 
 ### File-based
 
-This is the traditional way of configuring SHAFT properties, using this approach you can simply create your own custom properties file.
+The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.
 
 :::tip
 You should use this approach if you have some properties that are global and not expected to change during execution, or properties that you wish to later override from your CLI execution (CI/CD server).
@@ -91,7 +91,7 @@ SHAFT.Properties.web.set().targetBrowserName(Browser.FIREFOX.browserName());
 
 ### CLI-based
 
-This is the third and final way to configure SHAFT's properties.
+You can set some properties via the CLI command that you use to execute your tests.
 
 :::tip
 You should use this approach if you want to override some specifc properties for the current test run from CLI. This is usually relevant for unattended CI/CD pipeline execution. You would usually need to use the [File-based approach](#file-based) to set these properties first, and then override them via CLI.

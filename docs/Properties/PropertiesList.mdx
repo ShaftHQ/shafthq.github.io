@@ -4,20 +4,70 @@ title: Properties List
 sidebar_label: List
 ---
 
-Here's a list of all the supported properties *(Work In Progress)*
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible.
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*You can read/write any property programmatically to provide more flexibility and control during runtime.*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*You can set some properties via the CLI command that you use to execute your tests.*</TabItem>
+  <TabItem value="file-based" label="File-based">*The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.*</TabItem>
+  <TabItem value="defaults" label="Default Values">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
+</Tabs>
 
 ### Platform
 
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var targetPlatform = SHAFT.Properties.platform.targetPlatform();
 
-    //set
-    import org.openqa.selenium.Platform;
-    SHAFT.Properties.platform.set().targetPlatform(Platform.WINDOWS.name());
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+  import org.openqa.selenium.Platform;
+
+  /** get **/
+  String crossBrowserMode = SHAFT.Properties.platform.crossBrowserMode();
+  String executionAddress = SHAFT.Properties.platform.executionAddress();
+  String targetPlatform = SHAFT.Properties.platform.targetPlatform();
+  String proxy = SHAFT.Properties.platform.proxy();
+  Boolean driverProxy = SHAFT.Properties.platform.driverProxySettings();
+  Boolean jvmProxy = SHAFT.Properties.platform.jvmProxySettings();
+  Boolean enableBiDi = SHAFT.Properties.platform.enableBiDi();
+
+  /** set **/
+  SHAFT.Properties.platform.set().crossBrowserMode("off");
+  SHAFT.Properties.platform.set().executionAddress("local");
+  SHAFT.Properties.platform.set().targetPlatform(Platform.LINUX.name());
+  SHAFT.Properties.platform.set().proxySettings("");
+  SHAFT.Properties.platform.set().driverProxySettings(true);
+  SHAFT.Properties.platform.set().jvmProxySettings(true);
+  SHAFT.Properties.platform.set().enableBiDi(true);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+  
+  ```powershell
+  mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  SHAFT.CrossBrowserMode=off
+  executionAddress=local
+  targetOperatingSystem=LINUX
+  com.SHAFT.proxySettings=
+  driverProxySettings=true
+  jvmProxySettings=true
+  enableBiDi=true
+  ```
+  
+  </TabItem>
+  <TabItem value="defaults" label="Default Values"> 
 
 | Property Name           | Default Value | Possible Values                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -25,28 +75,88 @@ Here's a list of all the supported properties *(Work In Progress)*
 | executionAddress        | `local`       | `local`, `dockerized`, `browserstack`, `host:port`, `http://host:port/wd/hub` | • For Appium, set the below settings and move to the Mobile tab to continue.<br/>• For BrowserStack, set the "Target Operating System" below, and the "Automation Name" in the Mobile tab, then configure the "browserStack.properties" file in your project directory.                                                                                                                                                                                                                              |
 | targetOperatingSystem   | `LINUX`       | `LINUX`, `WINDOWS`, `MAC`, `ANDROID`, `IOS`                                   |
 | com.SHAFT.proxySettings | ` `           | `host:port`                                                                   | • Used to configure testing behind a proxy. e.g. corporate proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| driverProxySettings | `true`           | `true`, `false`                                                                   | • To enable or disable the driver proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| jvmProxySettings | `true`           | `true`, `false`                                                                   | • To enable or disable the JVM proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| enableBiDi       | `true`           | `true`, `false`                                                                   | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/).                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| driverProxySettings     | `true`        | `true`, `false`                                                               | • To enable or disable the driver proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| jvmProxySettings        | `true`        | `true`, `false`                                                               | • To enable or disable the JVM proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| enableBiDi              | `true`        | `true`, `false`                                                               | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/).                                                                                                                                                                                                                                                                                                                                                                |
+
+  </TabItem>
+</Tabs>   
 
 ### Web
 
 - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var targetBrowserName = SHAFT.Properties.web.targetBrowserName();
 
-    //set
-    import org.openqa.selenium.remote.Browser;
-    SHAFT.Properties.web.set().targetBrowserName(Browser.CHROME.browserName());
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+  import org.openqa.selenium.remote.Browser;
+
+  /** get **/
+  var targetBrowserName = SHAFT.Properties.web.targetBrowserName();
+  String targetBrowserName = SHAFT.Properties.web.targetBrowserName();
+  boolean headlessExecution = SHAFT.Properties.web.headlessExecution();
+  boolean isMobileEmulation = SHAFT.Properties.web.isMobileEmulation();
+  boolean mobileEmulationIsCustomDevice = SHAFT.Properties.web.mobileEmulationIsCustomDevice();
+  String mobileEmulationDeviceName = SHAFT.Properties.web.mobileEmulationDeviceName();
+  int mobileEmulationWidth = SHAFT.Properties.web.mobileEmulationWidth();
+  int mobileEmulationHeight = SHAFT.Properties.web.mobileEmulationHeight();
+  double mobileEmulationPixelRatio = SHAFT.Properties.web.mobileEmulationPixelRatio();
+  String mobileEmulationUserAgent = SHAFT.Properties.web.mobileEmulationUserAgent();
+  String baseURL = SHAFT.Properties.web.baseURL();
+  int browserWindowWidth = SHAFT.Properties.web.browserWindowWidth();
+  int browserWindowHeight = SHAFT.Properties.web.browserWindowHeight();
+
+  /** set **/
+  SHAFT.Properties.web.set().targetBrowserName(Browser.CHROME.browserName())
+    .headlessExecution(false)
+    .isMobileEmulation(false)
+    .mobileEmulationIsCustomDevice(false)
+    .mobileEmulationDeviceName("")
+    .mobileEmulationWidth("")
+    .mobileEmulationHeight("")
+    .mobileEmulationPixelRatio("")
+    .mobileEmulationUserAgent("")
+    .baseURL("")
+    .browserWindowWidth(1920)
+    .browserWindowHeight(1080);
+
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+  
+  ```powershell
+  mvn -e test "-DtargetBrowserName=FIREFOX" "-DheadlessExecution=true"
+  ```
+  
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  targetBrowserName=CHROME
+  headlessExecution=false
+  isMobileEmulation=false
+  mobileEmulation.isCustomDevice=false
+  mobileEmulation.deviceName=
+  mobileEmulation.width=
+  mobileEmulation.height=
+  mobileEmulation.pixelRatio=
+  mobileEmulation.userAgent=
+  baseURL=
+  browserWindowWidth=1920
+  browserWindowHeight=1080
+  ```
+  
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                  | Default Value | Possible Values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                            |
 | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
-| targetBrowserName              | `chrome`      | `chrome`, `firefox`, `safari`, `MicrosoftEdge`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| targetBrowserName              | `CHROME`      | `CHROME`, `FIREFOX`, `SAFARI`, `MICROSOFTEDGE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | headlessExecution              | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| isMobileEmulation | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
+| isMobileEmulation              | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
 | mobileEmulation.isCustomDevice | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
 | mobileEmulation.deviceName     | ` `           | `blackberryZ30`, `BlackberryPlayBook`, `galaxyNote3`, `galaxyNoteII`, `galaxySIII`, `galaxyS5`, `galaxyS8`, `samsungGalaxyS8+`, `galaxyS9+`, `galaxyTabS4`, `galaxyFold`, `samsungGalaxyS20Ultra`, `samsungGalaxyA51/71`, `kindleFireHDX`, `lgOptimusL70`, `microsoftLumia550`, `microsoftLumia950`, `motoG4`, `nexus10`, `nexus4`, `nexus5`, `nexus5X`, `nexus6`, `nexus6P`, `nexus7`, `nokiaLumia520`, `nokiaN9`, `nestHub`, `nestHubMax`, `pixel2`, `pixel2XL`, `pixel3`, `pixel3XL`, `pixel4`, `pixel5`, `jioPhone2`, `iPhone4`, `iPhone5/SE`, `iPhone6/7/8`, `iPhone6/7/8Plus`, `iPhoneSE`, `iPhoneX`, `iPhoneXR`, `iPhone12Pro`, `iPad`, `iPadPro`, `iPadAir`, `iPadMini`, `surfacePro7`, `surfaceDuo` | • This only works for Chrome and Edge. |
 | mobileEmulation.width          | ` `           | example: `360`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • This only works for Chrome and Edge. |
@@ -54,20 +164,74 @@ Here's a list of all the supported properties *(Work In Progress)*
 | mobileEmulation.pixelRatio     | ` `           | example: `2.0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • This only works for Chrome and Edge. |
 | mobileEmulation.userAgent      | ` `           | example: `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | • This only works for Chrome and Edge. |
 | baseURL                        | ` `           | example: `https://github.com/ShaftHQ/SHAFT_ENGINE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| browserWindowWidth                        | `1920`           |                                               | • Won't work if autoMaximizeBrowserWindow is enabled
-| browserWindowHeight                        | `1080`           |                                               | • Won't work if autoMaximizeBrowserWindow is enabled
+| browserWindowWidth             | `1920`        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • Won't work if autoMaximizeBrowserWindow is enabled
+| browserWindowHeight            | `1080`        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • Won't work if autoMaximizeBrowserWindow is enabled
+
+  </TabItem>
+</Tabs>
 
 ### Mobile
 
 - These set of properties control web and/or native mobile GUI test automation settings, like target platform version, path to the app under test, and the activity name that you want to start testing.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var app = SHAFT.Properties.mobile.app();
 
-    //set
-    SHAFT.Properties.mobile.set().app(SHAFT.Properties.paths.testData() + "apps/BStackSampleApp.ipa");
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+  import org.openqa.selenium.Platform;
+  import io.appium.java_client.remote.AutomationName;
+
+  /** get **/
+  String platformName = SHAFT.Properties.mobile.platformName();
+  String platformVersion = SHAFT.Properties.mobile.platformVersion();
+  String deviceName = SHAFT.Properties.mobile.deviceName();
+  String automationName = SHAFT.Properties.mobile.automationName();
+  String udid = SHAFT.Properties.mobile.udid();
+  String browserName = SHAFT.Properties.mobile.browserName();
+  String browserVersion = SHAFT.Properties.mobile.browserVersion();
+  String app = SHAFT.Properties.mobile.app();
+  String appPackage = SHAFT.Properties.mobile.appPackage();
+  String appActivity = SHAFT.Properties.mobile.appActivity();
+
+  /** set **/
+  SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
+  SHAFT.Properties.mobile.set().platformVersion("13.0")
+    .deviceName("Google Pixel 7")
+    .automationName(AutomationName.ANDROID_UIAUTOMATOR2)
+    .udid("")
+    .browserName("")
+    .browserVersion("")
+    .app("src/test/resources/testDataFiles/apps/ApiDemos-debug.apk")
+    .appPackage("")
+    .appActivity("");
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+  
+  ```powershell
+  mvn -e test "-Dmobile_platformVersion=13.0" "-Dmobile_deviceName=Google Pixel 7"
+  ```
+  
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  targetOperatingSystem=ANDROID
+  mobile_platformVersion=13.0
+  mobile_deviceName=Google Pixel 7
+  mobile_automationName=UIAutomator2
+  mobile_udid=
+  mobile_browserName=
+  MobileBrowserVersion=
+  mobile_app=src/test/resources/testDataFiles/apps/ApiDemos-debug.apk
+  mobile_appPackage=
+  mobile_appActivity=
+  ```
+  
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                | Default Value  | Possible Values                                                                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ---------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -80,21 +244,31 @@ Here's a list of all the supported properties *(Work In Progress)*
 | mobile_app                   | ` `            | `relativePath/to/myApp.apk`, `absolutePath/to/myApp.apk`, `http://myapp.com/app.ipa` | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appPackage            | ` `            | example: `com.example.android.myApp`                                                 | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appActivity           | ` `            | example: `.MainActivity`                                                             | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
-| selfManaged                  | `false`        |                                                                                      |
-| selfManagedAndroidSDKVersion | `31`           |                                                                                      |
 
+  </TabItem>
+</Tabs>
 
 ### Flags
 
 - These set of properties control generic platform flags, like the number of test retry attemps, atomaximization of web browser window, and any other built-in checks or workarounds that aim to stabelize your test execution.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var clickUsingJavascriptWhenWebDriverClickFails = SHAFT.Properties.flags.clickUsingJavascriptWhenWebDriverClickFails();
 
-    //set
-    SHAFT.Properties.flags.set().clickUsingJavascriptWhenWebDriverClickFails(true);
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  var clickUsingJavascriptWhenWebDriverClickFails = SHAFT.Properties.flags.clickUsingJavascriptWhenWebDriverClickFails();
+
+  /** set **/
+  SHAFT.Properties.flags.set().clickUsingJavascriptWhenWebDriverClickFails(true);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                               | Default Value | Possible Values                          | Description                                                                                                                                                                                                                                            |
 | ------------------------------------------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -113,20 +287,33 @@ Here's a list of all the supported properties *(Work In Progress)*
 | automaticallyAssertResponseStatusCode       | `true`        | `true`, `false`                          |
 | maximumPerformanceMode                      | `0`           | `0`, `1`, `2`                            | • `0` -> Disabled, `1` -> Without Headless Execution, `2` -> With Headless Execution <br/>• Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues                   | `false`       | `true`, `false`                          | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation.                                                                                                            |
-| disableCache                   | `false`       | `true`, `false`                          | • To disable the cache in a browser session.                                                                                                            |
-| enableTrueNativeMode                   | `false`       | `true`, `false`                          | •                                      |
+| disableCache                                | `false`       | `true`, `false`                          | • To disable the cache in a browser session.                                                                                                                                                                                                           |
+| enableTrueNativeMode                        | `false`       | `true`, `false`                          |                                                                                                                                                                                                                                                        |
+
+  </TabItem>
+</Tabs>
 
 ### Reporting
 
 - These set of properties control the engine's built-in reporting capabilities, like whether or not to capture the element name in the report to make it more readible, capturing webdriver logs for more debugging, and the behavior of our different reports before and after test execution.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var openAllureReportAfterExecution = SHAFT.Properties.reporting.openAllureReportAfterExecution();
 
-    //set
-    SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  var openAllureReportAfterExecution = SHAFT.Properties.reporting.openAllureReportAfterExecution();
+
+  /** set **/
+  SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                              | Default Value | Possible Values | Description |
 | ------------------------------------------ | ------------- | --------------- | ----------- |
@@ -144,18 +331,31 @@ Here's a list of all the supported properties *(Work In Progress)*
 | openLighthouseReportWhileExecution         | `true`        | `true`, `false` |
 | openExecutionSummaryReportAfterExecution   | `true`        | `true`, `false` |             |
 
+  </TabItem>
+</Tabs>
+
 ### Timeouts
 
 - These set of properties control the engine's built-in synchronization capabilities, such as waiting for lazy loading, element identification timeout, API connection timeout, database query timeout, and shell session timeout.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var elementIdentificationTimeout = SHAFT.Properties.timeouts.defaultElementIdentificationTimeout();
 
-    //set
-    SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(5);
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+  
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
 
+  /** get **/
+  var elementIdentificationTimeout = SHAFT.Properties.timeouts.defaultElementIdentificationTimeout();
+
+  /** set **/
+  SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(5);
+  ```
+  
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
+  
 | Property Name                       | Default Value | Possible Values | Description                                                                        |
 | ----------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------- |
 | waitForLazyLoading                  | `true`        | `true`, `false` | Especially useful for modern/responsive web apps using React, Vue, Angular, ...etc |
@@ -176,17 +376,30 @@ Here's a list of all the supported properties *(Work In Progress)*
 | timeoutForRemoteServerToBeUp        | `10`          |                 |                                                                                    |
 | remoteServerInstanceCreationTimeout | `10`          |                 |                                                                                    |
 
+  </TabItem>
+</Tabs>
+
 ### Visuals
 
 - These set of properties control the engine's built-in visual validation and AI capabilities, such as the visual matching threshhold for AI powered element identification, when to take screenshots, screenshot types, videos, animated GIFs, and complete page snapshots.
-- You can configure these properties by adding them to your `custom.properties` file or programmatically like this:
-    ```java
-    //get
-    var visualMatchingThreshold = SHAFT.Properties.visuals.visualMatchingThreshold();
 
-    //set
-    SHAFT.Properties.visuals.set().visualMatchingThreshold(0.7);
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+  
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  var visualMatchingThreshold = SHAFT.Properties.visuals.visualMatchingThreshold();
+
+  /** set **/
+  SHAFT.Properties.visuals.set().visualMatchingThreshold(0.7);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                                  | Default Value          | Possible Values                              | Description |
 | ---------------------------------------------- | ---------------------- | -------------------------------------------- | ----------- |
@@ -205,18 +418,31 @@ Here's a list of all the supported properties *(Work In Progress)*
 | videoParams_scope                              | `DriverSession`        |                                              |             |
 | whenToTakePageSourceSnapshot                   | `Never`                |                                              |             |
 
+  </TabItem>
+</Tabs>
+
 ### Jira
 
 - These set of properties control the engine's built-in Jira and Xray integrations for test management and defect reporting.
-- You can configure these properties by adding them to your `custom.properties` file. Ideally you wouldn't need to configure these properties programatically, but if you ever need to, you can do it like this:
-    ```java
-    //get
-    var reportBugs = SHAFT.Properties.jira.reportBugs();
 
-    //set
-    SHAFT.Properties.jira.set().reportBugs(true);
-    ```
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">
+  
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
 
+  /** get **/
+  var reportBugs = SHAFT.Properties.jira.reportBugs();
+
+  /** set **/
+  SHAFT.Properties.jira.set().reportBugs(true);
+  ```
+  
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
+  
 | Property Name              | Default Value                                | Possible Values | Description |
 | -------------------------- | -------------------------------------------- | --------------- | ----------- |
 | jiraInteraction            | `false`                                      | `true`, `false` |             |
@@ -232,10 +458,19 @@ Here's a list of all the supported properties *(Work In Progress)*
 | allure.link.tms.pattern    | `https:///{}`                                |                 |             |
 | allure.link.custom.pattern | `{}`                                         |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### Cucumber
 
 - These set of properties control your cucumber settings, such as the path to your feature files, the package names for your step definition classes, and any plugins you want to enable.
-- You can configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
+- You can only configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name        | Default Value                                                                                                                        | Possible Values | Description |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------- |
@@ -245,7 +480,16 @@ Here's a list of all the supported properties *(Work In Progress)*
 | cucumber.glue        | `customCucumberSteps, com.shaft.cucumber`                                                                                            |                 |             |
 | cucumber.plugin      | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### Healenium
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name  | Default Value | Possible Values | Description |
 | -------------- | ------------- | --------------- | ----------- |
@@ -256,7 +500,16 @@ Here's a list of all the supported properties *(Work In Progress)*
 | serverPort     | `7878`        |                 |             |
 | imitatePort    | `8000`        |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### Paths
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                    | Default Value                                 | Possible Values | Description |
 | -------------------------------- | --------------------------------------------- | --------------- | ----------- |
@@ -272,15 +525,32 @@ Here's a list of all the supported properties *(Work In Progress)*
 | servicesFolderPath               | `src/test/resources/META-INF/services/`       |                 |             |
 | applitoolsApiKey                 | ``                                            |                 |             |
 
+  </TabItem>
+</Tabs>
 
 ### Pattern
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
 | testDataColumnNamePrefix  | `Data`        |                 |             |
 | allure.link.issue.pattern | ``            |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### Tinkey
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
@@ -289,7 +559,16 @@ Here's a list of all the supported properties *(Work In Progress)*
 | tinkey.kms.credentialPath | ``            |                 |             |
 | tinkey.kms.masterKeyUri   | ``            |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### BrowserStack
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                    | Default Value | Possible Values | Description                                                                                           |
 | -------------------------------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
@@ -305,7 +584,16 @@ Here's a list of all the supported properties *(Work In Progress)*
 | browserStack.browserVersion      | ``            |                 | optional, uses random by default                                                                      |
 | browserStack.local               | `false`       | `true`, `false` |                                                                                                       |
 
+  </TabItem>
+</Tabs>
+
 ### LambdaTest
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                   | Default Value  | Possible Values | Description                                                              |
 | ------------------------------- | -------------- | --------------- | ------------------------------------------------------------------------ |
@@ -340,17 +628,35 @@ Here's a list of all the supported properties *(Work In Progress)*
 | LambdaTest.console              | `false`        | `true`, `false` |                                                                          |
 | LambdaTest.customID             | ``             |                 |                                                                          |
 
+  </TabItem>
+</Tabs>
+
 ### Performance
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name            | Default Value | Possible Values | Description |
 | ------------------------ | ------------- | --------------- | ----------- |
 | lightHouseExecution      | `false`       |                 |             |
 | lightHouseExecution.port | `8888`        |                 |             |
 
+  </TabItem>
+</Tabs>
+
 ### TestNG
 
 - These set of properties control your TestNG parallelization settings.
-- You can configure these properties by editing your `src/main/resources/properties/testng.properties` file.
+- You can only configure these properties by editing your `src/main/resources/properties/testng.properties` file.
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name              | Default Value | Possible Values                      | Description |
 | -------------------------- | ------------- | ------------------------------------ | ----------- |
@@ -361,10 +667,19 @@ Here's a list of all the supported properties *(Work In Progress)*
 | setGroupByInstances        | `true`        | `true`, `false`                      |             |
 | setDataProviderThreadCount | `1`           |                                      |             |
 
+  </TabItem>
+</Tabs>
+
 ### Log4j
 
 - These set of properties control your Log4j2 logging settings.
-- You can configure these properties by editing your `src/main/resources/properties/Log4j2.properties` file.
+- You can only configure these properties by editing your `src/main/resources/properties/Log4j2.properties` file.
+
+<Tabs groupId="PropertyTypes">
+  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="defaults" label="Default Values">
 
 | Property Name                           | Default Value                                                                                                                                                                          | Possible Values                          | Description                                                                                                                      |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -373,3 +688,6 @@ Here's a list of all the supported properties *(Work In Progress)*
 | appender.file.fileName                  | `target/logs/log4j.log`                                                                                                                                                                |                                          |                                                                                                                                  |
 | appender.file.layout.pattern            | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n`                                                                                                                           |                                          |                                                                                                                                  |
 | appender.file.filter.threshold.level    | `debug`                                                                                                                                                                                | `fatal, error, warn, info, debug, trace` |                                                                                                                                  |
+
+  </TabItem>
+</Tabs>
