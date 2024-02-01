@@ -8,9 +8,177 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 <Tabs groupId="PropertiesList">
-  <TabItem value="defaults" label="Default Values">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
   <TabItem value="platform" label="Platform">*You can read/write any property programmatically to provide more flexibility and control during runtime.*</TabItem>
+  
+  <Tabs groupId = "Platform">
+      <TabItem value="platform" label="Platform">
+  <details open>
+    <summary>Platform Configuration</summary>
+  ### Platform
+
+  - These set of properties control the basic target execution platform settings, like execution location and target operating system.
+
+  <Tabs groupId="PlatformPropertyTypes">
+    <TabItem value="platform-code-based" label="Code-based">
+
+    ```java showLineNumbers
+    import com.shaft.driver.SHAFT;
+    import org.openqa.selenium.Platform;
+
+    /** get **/
+    String crossBrowserMode = SHAFT.Properties.platform.crossBrowserMode();
+    String executionAddress = SHAFT.Properties.platform.executionAddress();
+    String targetPlatform = SHAFT.Properties.platform.targetPlatform();
+    String proxy = SHAFT.Properties.platform.proxy();
+    Boolean driverProxy = SHAFT.Properties.platform.driverProxySettings();
+    Boolean jvmProxy = SHAFT.Properties.platform.jvmProxySettings();
+    Boolean enableBiDi = SHAFT.Properties.platform.enableBiDi();
+
+    /** set **/
+    SHAFT.Properties.platform.set().crossBrowserMode("off");
+    SHAFT.Properties.platform.set().executionAddress("local");
+    SHAFT.Properties.platform.set().targetPlatform(Platform.LINUX.name());
+    SHAFT.Properties.platform.set().proxySettings("");
+    SHAFT.Properties.platform.set().driverProxySettings(true);
+    SHAFT.Properties.platform.set().jvmProxySettings(true);
+    SHAFT.Properties.platform.set().enableBiDi(true);
+    ```
+
+    </TabItem>
+    <TabItem value="platform-cli-based" label="CLI-based">
+
+    ```powershell
+    mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
+    ```
+
+    </TabItem>
+    <TabItem value="platform-file-based" label="File-based">
+
+    ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+    SHAFT.CrossBrowserMode=off
+    executionAddress=local
+    targetOperatingSystem=LINUX
+    com.SHAFT.proxySettings=
+    driverProxySettings=true
+    jvmProxySettings=true
+    enableBiDi=true
+    ```
+
+    </TabItem>
+    <TabItem value="platform-defaults" label="Default Values">
+
+  | Property Name           | Default Value | Possible Values                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+  | ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | SHAFT.CrossBrowserMode  | `off`         | `off`, `sequential`, `parallelized`                                           | • Cross Browser Mode allows SHAFT to run your test class against Chrome, Firefox, and Safari!<br/>• You need to have 'Docker Desktop' installed on your machine, and configured to use Linux images.<br/>• Off → Your tests will run normally and respect your configuration.<br/>• Sequential → Your tests will run on Chrome, Firefox, and Safari in sequence.<br/>• Parallelized → Your tests will run on Chrome, Firefox and Safari in parallel. And for each browser they will run in sequence. |
+  | executionAddress        | `local`       | `local`, `dockerized`, `browserstack`, `host:port`, `http://host:port/wd/hub` | • For Appium, set the below settings and move to the Mobile tab to continue.<br/>• For BrowserStack, set the "Target Operating System" below, and the "Automation Name" in the Mobile tab, then configure the "browserStack.properties" file in your project directory.                                                                                                                                                                                                                              |
+  | targetOperatingSystem   | `LINUX`       | `LINUX`, `WINDOWS`, `MAC`, `ANDROID`, `IOS`                                   |
+  | com.SHAFT.proxySettings | ` `           | `host:port`                                                                   | • Used to configure testing behind a proxy. e.g. corporate proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+  | driverProxySettings     | `true`        | `true`, `false`                                                               | • To enable or disable the driver proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+  | jvmProxySettings        | `true`        | `true`, `false`                                                               | • To enable or disable the JVM proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+  | enableBiDi              | `true`        | `true`, `false`                                                               | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/).                                                                                                                                                                                                                                                                                                                                                                |
+
+    </TabItem>
+  </Tabs>
+  </details>
+  </TabItem>
+  </Tabs>
+
   <TabItem value="web" label="Web">*You can set some properties via the CLI command that you use to execute your tests.*</TabItem>
+  <Tabs groupId="Web">
+  <TabItem value="web" label="Web">
+  <details open>
+    <summary>Web Configuration</summary>
+  ### Web
+
+  - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
+
+  <Tabs groupId="WebPropertyTypes">
+    <TabItem value="web-code-based" label="Code-based">
+
+    ```java showLineNumbers
+    import com.shaft.driver.SHAFT;
+    import org.openqa.selenium.remote.Browser;
+
+    /** get **/
+    var targetBrowserName = SHAFT.Properties.web.targetBrowserName();
+    String targetBrowserName = SHAFT.Properties.web.targetBrowserName();
+    boolean headlessExecution = SHAFT.Properties.web.headlessExecution();
+    boolean isMobileEmulation = SHAFT.Properties.web.isMobileEmulation();
+    boolean mobileEmulationIsCustomDevice = SHAFT.Properties.web.mobileEmulationIsCustomDevice();
+    String mobileEmulationDeviceName = SHAFT.Properties.web.mobileEmulationDeviceName();
+    int mobileEmulationWidth = SHAFT.Properties.web.mobileEmulationWidth();
+    int mobileEmulationHeight = SHAFT.Properties.web.mobileEmulationHeight();
+    double mobileEmulationPixelRatio = SHAFT.Properties.web.mobileEmulationPixelRatio();
+    String mobileEmulationUserAgent = SHAFT.Properties.web.mobileEmulationUserAgent();
+    String baseURL = SHAFT.Properties.web.baseURL();
+    int browserWindowWidth = SHAFT.Properties.web.browserWindowWidth();
+    int browserWindowHeight = SHAFT.Properties.web.browserWindowHeight();
+
+    /** set **/
+    SHAFT.Properties.web.set().targetBrowserName(Browser.CHROME.browserName())
+      .headlessExecution(false)
+      .isMobileEmulation(false)
+      .mobileEmulationIsCustomDevice(false)
+      .mobileEmulationDeviceName("")
+      .mobileEmulationWidth("")
+      .mobileEmulationHeight("")
+      .mobileEmulationPixelRatio("")
+      .mobileEmulationUserAgent("")
+      .baseURL("")
+      .browserWindowWidth(1920)
+      .browserWindowHeight(1080);
+
+    ```
+
+    </TabItem>
+    <TabItem value="web-cli-based" label="CLI-based">
+
+    ```powershell
+    mvn -e test "-DtargetBrowserName=FIREFOX" "-DheadlessExecution=true"
+    ```
+
+    </TabItem>
+    <TabItem value="web-file-based" label="File-based">
+
+    ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+    targetBrowserName=CHROME
+    headlessExecution=false
+    isMobileEmulation=false
+    mobileEmulation.isCustomDevice=false
+    mobileEmulation.deviceName=
+    mobileEmulation.width=
+    mobileEmulation.height=
+    mobileEmulation.pixelRatio=
+    mobileEmulation.userAgent=
+    baseURL=
+    browserWindowWidth=1920
+    browserWindowHeight=1080
+    ```
+
+    </TabItem>
+    <TabItem value="web-defaults" label="Default Values">
+
+  | Property Name                  | Default Value | Possible Values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                            |
+  | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
+  | targetBrowserName              | `CHROME`      | `CHROME`, `FIREFOX`, `SAFARI`, `MICROSOFTEDGE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+  | headlessExecution              | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+  | isMobileEmulation              | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
+  | mobileEmulation.isCustomDevice | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
+  | mobileEmulation.deviceName     | ` `           | `blackberryZ30`, `BlackberryPlayBook`, `galaxyNote3`, `galaxyNoteII`, `galaxySIII`, `galaxyS5`, `galaxyS8`, `samsungGalaxyS8+`, `galaxyS9+`, `galaxyTabS4`, `galaxyFold`, `samsungGalaxyS20Ultra`, `samsungGalaxyA51/71`, `kindleFireHDX`, `lgOptimusL70`, `microsoftLumia550`, `microsoftLumia950`, `motoG4`, `nexus10`, `nexus4`, `nexus5`, `nexus5X`, `nexus6`, `nexus6P`, `nexus7`, `nokiaLumia520`, `nokiaN9`, `nestHub`, `nestHubMax`, `pixel2`, `pixel2XL`, `pixel3`, `pixel3XL`, `pixel4`, `pixel5`, `jioPhone2`, `iPhone4`, `iPhone5/SE`, `iPhone6/7/8`, `iPhone6/7/8Plus`, `iPhoneSE`, `iPhoneX`, `iPhoneXR`, `iPhone12Pro`, `iPad`, `iPadPro`, `iPadAir`, `iPadMini`, `surfacePro7`, `surfaceDuo` | • This only works for Chrome and Edge. |
+  | mobileEmulation.width          | ` `           | example: `360`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • This only works for Chrome and Edge. |
+  | mobileEmulation.height         | ` `           | example: `600`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • This only works for Chrome and Edge. |
+  | mobileEmulation.pixelRatio     | ` `           | example: `2.0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • This only works for Chrome and Edge. |
+  | mobileEmulation.userAgent      | ` `           | example: `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | • This only works for Chrome and Edge. |
+  | baseURL                        | ` `           | example: `https://github.com/ShaftHQ/SHAFT_ENGINE`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+  | browserWindowWidth             | `1920`        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • Won't work if autoMaximizeBrowserWindow is enabled
+  | browserWindowHeight            | `1080`        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • Won't work if autoMaximizeBrowserWindow is enabled
+
+    </TabItem>
+  </Tabs>
+  </details>
+  </TabItem>
+  </Tabs>
+
   <TabItem value="mobile" label="Mobile">*The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.*</TabItem>
   <TabItem value="flags" label="Flags">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
   <TabItem value="reporting" label="Reporting">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
