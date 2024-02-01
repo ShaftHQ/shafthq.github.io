@@ -4,10 +4,15 @@ title: Properties List
 sidebar_label: List
 ---
 
+import React from 'react';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+export default function PropertiesList() {
+return (
+<div style={{ display: 'flex' }}>
 <Tabs groupId = "Platform">
+<div style={{ flex: 1 }}>
     <TabItem value="platform" label="Platform">
 <details open>
   <summary>Platform Configuration</summary>
@@ -79,8 +84,10 @@ import TabItem from '@theme/TabItem';
 </details>
 </TabItem>
 </Tabs>
+</div>
 
 <Tabs groupId="Web">
+<div style={{ flex: 1 }}>
 <TabItem value="web" label="Web">
 <details open>
   <summary>Web Configuration</summary>
@@ -174,7 +181,8 @@ import TabItem from '@theme/TabItem';
 </details>
 </TabItem>
 </Tabs>
-
+</div>
+</div>
 <details open>
   <summary>Mobile Configuration</summary>
 ### Mobile
