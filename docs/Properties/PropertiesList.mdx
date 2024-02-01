@@ -174,7 +174,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control web and/or native mobile GUI test automation settings, like target platform version, path to the app under test, and the activity name that you want to start testing.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="mobile-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -207,7 +207,7 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
+  <TabItem value="mobile-cli-based" label="CLI-based">
 
   ```powershell
   mvn -e test "-Dmobile_platformVersion=13.0" "-Dmobile_deviceName=Google Pixel 7"
@@ -230,7 +230,7 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="mobile-defaults" label="Default Values">
 
 | Property Name                | Default Value  | Possible Values                                                                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ---------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -255,7 +255,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control generic platform flags, like the number of test retry attemps, atomaximization of web browser window, and any other built-in checks or workarounds that aim to stabelize your test execution.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="flags-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -268,9 +268,9 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="flags-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="flags-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="flags-defaults" label="Default Values">
 
 | Property Name                               | Default Value | Possible Values                          | Description                                                                                                                                                                                                                                            |
 | ------------------------------------------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -303,7 +303,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control the engine's built-in reporting capabilities, like whether or not to capture the element name in the report to make it more readible, capturing webdriver logs for more debugging, and the behavior of our different reports before and after test execution.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="reporting-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -316,9 +316,9 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="reporting-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="reporting-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="reporting-defaults" label="Default Values">
 
 | Property Name                              | Default Value | Possible Values | Description |
 | ------------------------------------------ | ------------- | --------------- | ----------- |
@@ -347,7 +347,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control the engine's built-in synchronization capabilities, such as waiting for lazy loading, element identification timeout, API connection timeout, database query timeout, and shell session timeout.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="timeouts-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -360,9 +360,9 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="timeouts-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="timeouts-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="timeouts-defaults" label="Default Values">
 
 | Property Name                       | Default Value | Possible Values | Description                                                                        |
 | ----------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------- |
@@ -395,7 +395,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control the engine's built-in visual validation and AI capabilities, such as the visual matching threshhold for AI powered element identification, when to take screenshots, screenshot types, videos, animated GIFs, and complete page snapshots.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="visuals-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -408,9 +408,9 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="visuals-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="visuals-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="visuals-defaults" label="Default Values">
 
 | Property Name                                  | Default Value          | Possible Values                              | Description |
 | ---------------------------------------------- | ---------------------- | -------------------------------------------- | ----------- |
@@ -440,7 +440,7 @@ import TabItem from '@theme/TabItem';
 - These set of properties control the engine's built-in Jira and Xray integrations for test management and defect reporting.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="jira-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -453,9 +453,9 @@ import TabItem from '@theme/TabItem';
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="jira-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="jira-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="jira-defaults" label="Default Values">
 
 | Property Name              | Default Value                                | Possible Values | Description |
 | -------------------------- | -------------------------------------------- | --------------- | ----------- |
@@ -484,10 +484,10 @@ import TabItem from '@theme/TabItem';
 - You can only configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="cucumber-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="cucumber-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cucumber-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cucumber-defaults" label="Default Values">
 
 | Property Name        | Default Value                                                                                                                        | Possible Values | Description |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------- |
@@ -506,10 +506,10 @@ import TabItem from '@theme/TabItem';
 ### Healenium
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="healenium-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-defaults" label="Default Values">
 
 | Property Name  | Default Value | Possible Values | Description |
 | -------------- | ------------- | --------------- | ----------- |
@@ -529,10 +529,10 @@ import TabItem from '@theme/TabItem';
 ### Paths
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="paths-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-defaults" label="Default Values">
 
 | Property Name                    | Default Value                                 | Possible Values | Description |
 | -------------------------------- | --------------------------------------------- | --------------- | ----------- |
@@ -557,10 +557,10 @@ import TabItem from '@theme/TabItem';
 ### Pattern
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="pattern-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
@@ -576,10 +576,10 @@ import TabItem from '@theme/TabItem';
 ### Tinkey
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="tinkey-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
@@ -597,10 +597,10 @@ import TabItem from '@theme/TabItem';
 ### BrowserStack
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="browserStack-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-defaults" label="Default Values">
 
 | Property Name                    | Default Value | Possible Values | Description                                                                                           |
 | -------------------------------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
@@ -625,10 +625,10 @@ import TabItem from '@theme/TabItem';
 ### LambdaTest
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="lambdaTest-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-defaults" label="Default Values">
 
 | Property Name                   | Default Value  | Possible Values | Description                                                              |
 | ------------------------------- | -------------- | --------------- | ------------------------------------------------------------------------ |
@@ -672,10 +672,10 @@ import TabItem from '@theme/TabItem';
 ### Performance
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="performance-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-defaults" label="Default Values">
 
 | Property Name            | Default Value | Possible Values | Description |
 | ------------------------ | ------------- | --------------- | ----------- |
@@ -694,10 +694,10 @@ import TabItem from '@theme/TabItem';
 - You can only configure these properties by editing your `src/main/resources/properties/testng.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="testng-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="testng-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="testng-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="testng-defaults" label="Default Values">
 
 | Property Name              | Default Value | Possible Values                      | Description |
 | -------------------------- | ------------- | ------------------------------------ | ----------- |
@@ -720,10 +720,10 @@ import TabItem from '@theme/TabItem';
 - You can only configure these properties by editing your `src/main/resources/properties/Log4j2.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="log4j-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="log4j-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="log4j-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="log4j-defaults" label="Default Values">
 
 | Property Name                           | Default Value                                                                                                                                                                          | Possible Values                          | Description                                                                                                                      |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
