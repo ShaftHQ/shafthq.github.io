@@ -30,12 +30,14 @@ You can use these tab groups to navigate and get information about how to manage
   <TabItem value="log4j" label="Log4j"></TabItem>
 </Tabs>
 
+<details open>
+  <summary>Platform Configuration</summary>
 ### Platform
 
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
 
-<Tabs groupId="PlatformPropertyTypes">
-  <TabItem value="platform-code-based" label="Code-based">
+    <Tabs groupId="PlatformPropertyTypes">
+      <TabItem value="platform-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -60,16 +62,16 @@ You can use these tab groups to navigate and get information about how to manage
   SHAFT.Properties.platform.set().enableBiDi(true);
   ```
 
-  </TabItem>
+      </TabItem>
   <TabItem value="platform-cli-based" label="CLI-based">
-  
+
   ```powershell
   mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
   ```
 
   </TabItem>
   <TabItem value="platform-file-based" label="File-based">
-  
+
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   SHAFT.CrossBrowserMode=off
   executionAddress=local
@@ -79,8 +81,8 @@ You can use these tab groups to navigate and get information about how to manage
   jvmProxySettings=true
   enableBiDi=true
   ```
-  
-  </TabItem>
+
+      </TabItem>
   <TabItem value="platform-defaults" label="Default Values">
 
 | Property Name           | Default Value | Possible Values                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
@@ -93,9 +95,9 @@ You can use these tab groups to navigate and get information about how to manage
 | jvmProxySettings        | `true`        | `true`, `false`                                                               | • To enable or disable the JVM proxy.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | enableBiDi              | `true`        | `true`, `false`                                                               | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/).                                                                                                                                                                                                                                                                                                                                                                |
 
-  </TabItem>
-</Tabs>   
-
+      </TabItem>
+    </Tabs>
+</details>
 ### Web
 
 - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
