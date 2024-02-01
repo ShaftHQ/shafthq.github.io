@@ -35,7 +35,7 @@ You can use these tab groups to navigate and get information about how to manage
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
 
 <Tabs groupId="PlatformPropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="platform-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -61,14 +61,14 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
+  <TabItem value="platform-cli-based" label="CLI-based">
   
   ```powershell
   mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
   ```
 
   </TabItem>
-  <TabItem value="file-based" label="File-based">
+  <TabItem value="platform-file-based" label="File-based">
   
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   SHAFT.CrossBrowserMode=off
@@ -81,7 +81,7 @@ You can use these tab groups to navigate and get information about how to manage
   ```
   
   </TabItem>
-  <TabItem value="defaults" label="Default Values"> 
+  <TabItem value="platform-defaults" label="Default Values">
 
 | Property Name           | Default Value | Possible Values                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,7 +101,7 @@ You can use these tab groups to navigate and get information about how to manage
 - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
 
 <Tabs groupId="WebPropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="web-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -139,14 +139,14 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
+  <TabItem value="web-cli-based" label="CLI-based">
   
   ```powershell
   mvn -e test "-DtargetBrowserName=FIREFOX" "-DheadlessExecution=true"
   ```
   
   </TabItem>
-  <TabItem value="file-based" label="File-based">
+  <TabItem value="web-file-based" label="File-based">
   
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   targetBrowserName=CHROME
@@ -164,7 +164,7 @@ You can use these tab groups to navigate and get information about how to manage
   ```
   
   </TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="web-defaults" label="Default Values">
 
 | Property Name                  | Default Value | Possible Values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                            |
 | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
