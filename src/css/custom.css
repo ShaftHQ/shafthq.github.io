@@ -39,13 +39,15 @@ table th {
 }
 
 .tabs {
-  flex-wrap: nowrap; /* Ensure tabs stay in one row */
-  overflow-x: auto; /* Enable horizontal scrolling */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .tab-item {
-  flex: 0 0 auto; /* Fix the width of each tab */
-  max-width: 150px; /* Set a maximum width for each tab */
+  flex: 0 0 auto;
+  max-width: 150px;
+  padding: 10px; /* Add padding to TabItems for better visibility */
 }
 
 /* Optionally, hide the scrollbar if you prefer */
