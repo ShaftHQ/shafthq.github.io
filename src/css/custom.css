@@ -37,21 +37,3 @@ table td,
 table th {
   word-wrap: break-word;
 }
-
-/* Override Docusaurus Tabs and TabItems styling *//*
-.tabs {
-  display: flex;
-  flex-wrap: wrap; *//* Allow multiple rows *//*
-}
-
-.tab-item {
-  flex: 0 0 calc(100% - 20px); *//* Adjust the width to divide into three columns *//*
-  box-sizing: border-box; *//* Include padding and border in the width calculation *//*
-  padding: 10px; *//* Add padding to TabItems for better visibility *//*
-  margin: 10px; *//* Add margin between TabItems *//*
-}
-
-*//* Optionally, hide the scrollbar if you prefer *//*
-.tabs::-webkit-scrollbar {
-  display: none;
-}*/
