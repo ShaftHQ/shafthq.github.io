@@ -37,3 +37,18 @@ table td,
 table th {
   word-wrap: break-word;
 }
+
+.tabs {
+  flex-wrap: nowrap; /* Ensure tabs stay in one row */
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.tab-item {
+  flex: 0 0 auto; /* Fix the width of each tab */
+  max-width: 150px; /* Set a maximum width for each tab */
+}
+
+/* Optionally, hide the scrollbar if you prefer */
+.tabs::-webkit-scrollbar {
+  display: none;
+}
