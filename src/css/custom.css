@@ -38,13 +38,18 @@ table th {
   word-wrap: break-word;
 }
 
-#scrollButton {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  /* Add more styling as needed */
+/* Override Docusaurus Tabs and TabItems styling */
+.tabs {
+  display: flex;
+  flex-wrap: wrap; /* Allow multiple rows */
+}
+
+.tab-item {
+  flex: 0 0 auto;
+  max-width: calc(50% - 20px); /* Adjust the width to divide into two columns */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  padding: 10px; /* Add padding to TabItems for better visibility */
+  margin: 10px; /* Add margin between TabItems */
 }
 
 /* Optionally, hide the scrollbar if you prefer */
