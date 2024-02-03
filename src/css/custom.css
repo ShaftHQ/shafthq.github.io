@@ -38,20 +38,11 @@ table th {
   word-wrap: break-word;
 }
 
-.tabs {
-  display: flex;
-  flex-wrap: wrap; /* Allow multiple rows */
-}
-
-.tab-item {
-  flex: 0 0 auto;
-  max-width: 150px;
-  padding: 10px; /* Add padding to TabItems for better visibility */
-  margin-right: 10px; /* Add some margin between TabItems */
-  margin-bottom: 10px; /* Add margin between rows */
-}
-
-/* Optionally, hide the scrollbar if you prefer */
-.tabs::-webkit-scrollbar {
-  display: none;
+#scrollButton {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  /* Add more styling as needed */
 }
