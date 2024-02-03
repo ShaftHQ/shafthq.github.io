@@ -45,8 +45,7 @@ table th {
 }
 
 .tab-item {
-  flex: 0 0 auto;
-  max-width: calc(50% - 20px); /* Adjust the width to divide into two columns */
+  flex: 0 0 calc(33.333% - 20px); /* Adjust the width to divide into three columns */
   box-sizing: border-box; /* Include padding and border in the width calculation */
   padding: 10px; /* Add padding to TabItems for better visibility */
   margin: 10px; /* Add margin between TabItems */
