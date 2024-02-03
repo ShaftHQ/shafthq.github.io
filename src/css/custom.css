@@ -40,14 +40,15 @@ table th {
 
 .tabs {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  flex-wrap: wrap; /* Allow multiple rows */
 }
 
 .tab-item {
   flex: 0 0 auto;
   max-width: 150px;
   padding: 10px; /* Add padding to TabItems for better visibility */
+  margin-right: 10px; /* Add some margin between TabItems */
+  margin-bottom: 10px; /* Add margin between rows */
 }
 
 /* Optionally, hide the scrollbar if you prefer */
