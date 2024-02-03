@@ -46,3 +46,8 @@ table th {
   cursor: pointer;
   /* Add more styling as needed */
 }
+
+/* Optionally, hide the scrollbar if you prefer */
+.tabs::-webkit-scrollbar {
+  display: none;
+}
