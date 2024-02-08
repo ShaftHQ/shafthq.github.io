@@ -41,7 +41,7 @@ const sidebars = {
         {
           type: 'link',
           label: 'Quick Start Guide', // The link label
-          href: 'https://github.com/MohabMohie/using_SHAFT_Engine#i-quick-start-guide-', // The external URL
+          href: 'https://github.com/shafthq/SHAFT_ENGINE?tab=readme-ov-file#-quick-start-guide', // The external URL
         },
         {
           type: 'link',
