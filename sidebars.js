@@ -35,9 +35,7 @@ const sidebars = {
       collapsible: true,
       collapsed: true,
       items: [
-        // "Getting_Started/Features",
-        "Getting_Started/Prerequisites",
-        // "Getting_Started/IDE_preparation",
+        "Getting_Started/first_steps",
         {
           type: 'link',
           label: 'Quick Start Guide', // The link label
@@ -114,25 +112,6 @@ const sidebars = {
         "Keywords/Validations/Nums",
         "Keywords/Validations/ForceFail",
       ],
-    },
-    {
-        type: 'category',
-        label: 'Configuration',
-        collapsible: true,
-        collapsed: true,
-        items: [
-        "Configuration/BrowserRelatedFeatures",
-        "Configuration/ShaftPlatformFlags",
-	"Configuration/GUI_Elements_Features",
-        "Configuration/retryFailedTests",
-        "Configuration/XrayIntegration",
-        "Configuration/BrowserStack",
-        "Configuration/MobileFeatures",
-        "Configuration/APIRelatedFeatures",
-        "Configuration/ShaftValidationRelatedFeatures",
-        "Configuration/DataBaseRelatedFeatures",
-        "Configuration/ShaftReportingRelatedFeatures",
-        ],
     },
   ],
 };

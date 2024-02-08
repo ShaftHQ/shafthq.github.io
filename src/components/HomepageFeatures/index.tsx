@@ -106,7 +106,7 @@ function MainFeature({title, Svg, description}: MindMapItem) {
             <div className={styles.buttons}>
               <Link
                 className="button button--primary button--lg button--outline"
-                to="/docs/Getting_Started/Prerequisites">
+                to="/docs/Getting_Started/first_steps">
                 Upgrade Now &#8211; 15min ⏱️
               </Link>
             </div>
