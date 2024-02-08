@@ -156,7 +156,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'Getting_Started/Prerequisites',
+            docId: 'Getting_Started/first_steps',
             position: 'left',
             label: 'User Guide',
           },
@@ -181,7 +181,7 @@ const config = {
             items: [
               {
                 label: 'Getting Started',
-                to: '/docs/Getting_Started/Prerequisites',
+                to: '/docs/Getting_Started/first_steps',
               },
               {
                 label: 'Properties',
@@ -194,10 +194,6 @@ const config = {
               {
                 label: 'Validations',
                 to: '/docs/Keywords/Validations/Overview',
-              },
-              {
-                label: 'Configuration',
-                to: '/docs/Configuration/BrowserRelatedFeatures',
               },
             ],
           },

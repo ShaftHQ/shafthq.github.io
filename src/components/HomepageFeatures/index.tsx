@@ -56,15 +56,15 @@ const FeatureList: FeatureItem[] = [
 const MindMapList: MindMapItem[] = [
   {
     title: 'A Unified Test Automation Engine',
-    Svg: require('@site/static/img/mindmap.svg').default,
+    Svg: require('@site/static/img/shaft.svg').default,
     description: (
       <>
-        SHAFT supports GUI (Web/Mobile/Desktop), API, CLI, and Database Test Automation. It provides built&#8211;in
-        test synchronization, logging, reporting, capturing execution evidences, and integrations with third&#8211;parties like
-        Jira, Xray, Browserstack and Applitools Eyes. It also provides full unlimited access to write native code using
-        all the best&#8211;in&#8211;class underlying frameworks such as <a href="https://www.selenium.dev/documentation/webdriver/">Selenium</a>
-        , <a href="https://appium.github.io/appium/docs/en/2.0/">Appium</a>, <a href="https://rest-assured.io/">RestAssured</a>
-        , <a href="http://sikulix.com/">SikuliX</a>, and others.
+        SHAFT supports GUI (Web/Mobile/Desktop), API, CLI, and Database Test Automation.
+        It provides built&#8211;in test synchronization, logging, reporting, capturing
+        execution evidences, and integrations with third&#8211;parties like
+        Jira, Xray, Browserstack and Applitools Eyes. It also provides full
+        unlimited access to write native code using all the best&#8211;in&#8211;class
+        underlying frameworks such as <a href="https://www.selenium.dev/documentation/webdriver/">Selenium</a>, <a href="https://appium.github.io/appium/docs/en/2.0/">Appium</a>, <a href="https://rest-assured.io/">RestAssured</a>, and others.
       </>
     ),
   },
@@ -72,7 +72,7 @@ const MindMapList: MindMapItem[] = [
 
 function Feature({title, Svg, description}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx('col')}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
@@ -88,26 +88,24 @@ function MainFeature({title, Svg, description}: MindMapItem) {
   return (
     <div>
       <div className={clsx('col')}>
-        <br/>
-        <div className="text--center padding-horiz--md">
-          <h3>{title}</h3>
-          <p>{description}</p>
-        </div>
-        <div className="text--center">
-          <Svg className={styles.mainFeatureSvg} role="img" />
-        </div>
-        <div className="text--center padding-horiz--md">
-        </div>
+      <div className="text--center">
+        <Svg className={styles.featureSvg} role="img" />
       </div>
+      <div className="text--center padding-horiz--md">
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+    </div>
       <center>
         <header className={clsx('text--center')}>
           <div className="container">
-            <p className="hero__subtitle">Are you still here?</p>
+            {/* <p className="hero__subtitle">Are you still here?</p> */}
+            <br/><br/>
             <div className={styles.buttons}>
               <Link
                 className="button button--primary button--lg button--outline"
-                to="/docs/Getting_Started/Prerequisites">
-                Upgrade Now &#8211; 15min ⏱️
+                to="/docs/Getting_Started/first_steps">
+                ⚡ Upgrade Now ⚡
               </Link>
             </div>
             <br/><br/>
