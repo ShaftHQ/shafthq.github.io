@@ -7,21 +7,14 @@ sidebar_label: List
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible.
-
-<Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*You can read/write any property programmatically to provide more flexibility and control during runtime.*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*You can set some properties via the CLI command that you use to execute your tests.*</TabItem>
-  <TabItem value="file-based" label="File-based">*The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.*</TabItem>
-  <TabItem value="defaults" label="Default Values">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
-</Tabs>
-
+<details open>
+  <summary>Platform Configuration</summary>
 ### Platform
 
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
 
-<Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+<Tabs groupId="PlatformPropertyTypes">
+  <TabItem value="platform-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -47,15 +40,15 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
-  
+  <TabItem value="platform-cli-based" label="CLI-based">
+
   ```powershell
   mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
   ```
 
   </TabItem>
-  <TabItem value="file-based" label="File-based">
-  
+  <TabItem value="platform-file-based" label="File-based">
+
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   SHAFT.CrossBrowserMode=off
   executionAddress=local
@@ -65,9 +58,9 @@ You can use these tab groups to navigate and get information about how to manage
   jvmProxySettings=true
   enableBiDi=true
   ```
-  
+
   </TabItem>
-  <TabItem value="defaults" label="Default Values"> 
+  <TabItem value="platform-defaults" label="Default Values">
 
 | Property Name           | Default Value | Possible Values                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -80,14 +73,17 @@ You can use these tab groups to navigate and get information about how to manage
 | enableBiDi              | `true`        | `true`, `false`                                                               | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/).                                                                                                                                                                                                                                                                                                                                                                |
 
   </TabItem>
-</Tabs>   
+</Tabs>
+</details>
 
+<details open>
+  <summary>Web Configuration</summary>
 ### Web
 
 - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
 
-<Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+<Tabs groupId="WebPropertyTypes">
+  <TabItem value="web-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -125,15 +121,15 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
-  
+  <TabItem value="web-cli-based" label="CLI-based">
+
   ```powershell
   mvn -e test "-DtargetBrowserName=FIREFOX" "-DheadlessExecution=true"
   ```
-  
+
   </TabItem>
-  <TabItem value="file-based" label="File-based">
-  
+  <TabItem value="web-file-based" label="File-based">
+
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   targetBrowserName=CHROME
   headlessExecution=false
@@ -148,9 +144,9 @@ You can use these tab groups to navigate and get information about how to manage
   browserWindowWidth=1920
   browserWindowHeight=1080
   ```
-  
+
   </TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="web-defaults" label="Default Values">
 
 | Property Name                  | Default Value | Possible Values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                            |
 | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
@@ -169,13 +165,16 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Mobile Configuration</summary>
 ### Mobile
 
 - These set of properties control web and/or native mobile GUI test automation settings, like target platform version, path to the app under test, and the activity name that you want to start testing.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="mobile-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -208,15 +207,15 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">
-  
+  <TabItem value="mobile-cli-based" label="CLI-based">
+
   ```powershell
   mvn -e test "-Dmobile_platformVersion=13.0" "-Dmobile_deviceName=Google Pixel 7"
   ```
-  
+
   </TabItem>
   <TabItem value="file-based" label="File-based">
-  
+
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   targetOperatingSystem=ANDROID
   mobile_platformVersion=13.0
@@ -229,9 +228,9 @@ You can use these tab groups to navigate and get information about how to manage
   mobile_appPackage=
   mobile_appActivity=
   ```
-  
+
   </TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="mobile-defaults" label="Default Values">
 
 | Property Name                | Default Value  | Possible Values                                                                      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ---------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -247,13 +246,16 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Flags Configuration</summary>
 ### Flags
 
 - These set of properties control generic platform flags, like the number of test retry attemps, atomaximization of web browser window, and any other built-in checks or workarounds that aim to stabelize your test execution.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="flags-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -266,9 +268,9 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="flags-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="flags-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="flags-defaults" label="Default Values">
 
 | Property Name                               | Default Value | Possible Values                          | Description                                                                                                                                                                                                                                            |
 | ------------------------------------------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -292,13 +294,16 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Reporting Configuration</summary>
 ### Reporting
 
 - These set of properties control the engine's built-in reporting capabilities, like whether or not to capture the element name in the report to make it more readible, capturing webdriver logs for more debugging, and the behavior of our different reports before and after test execution.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
+  <TabItem value="reporting-code-based" label="Code-based">
 
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
@@ -311,9 +316,9 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="reporting-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="reporting-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="reporting-defaults" label="Default Values">
 
 | Property Name                              | Default Value | Possible Values | Description |
 | ------------------------------------------ | ------------- | --------------- | ----------- |
@@ -333,14 +338,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Timeouts Configuration</summary>
 ### Timeouts
 
 - These set of properties control the engine's built-in synchronization capabilities, such as waiting for lazy loading, element identification timeout, API connection timeout, database query timeout, and shell session timeout.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
-  
+  <TabItem value="timeouts-code-based" label="Code-based">
+
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
 
@@ -350,12 +358,12 @@ You can use these tab groups to navigate and get information about how to manage
   /** set **/
   SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(5);
   ```
-  
+
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
-  
+  <TabItem value="timeouts-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="timeouts-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="timeouts-defaults" label="Default Values">
+
 | Property Name                       | Default Value | Possible Values | Description                                                                        |
 | ----------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------- |
 | waitForLazyLoading                  | `true`        | `true`, `false` | Especially useful for modern/responsive web apps using React, Vue, Angular, ...etc |
@@ -378,14 +386,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Visuals Configuration</summary>
 ### Visuals
 
 - These set of properties control the engine's built-in visual validation and AI capabilities, such as the visual matching threshhold for AI powered element identification, when to take screenshots, screenshot types, videos, animated GIFs, and complete page snapshots.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
-  
+  <TabItem value="visuals-code-based" label="Code-based">
+
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
 
@@ -397,9 +408,9 @@ You can use these tab groups to navigate and get information about how to manage
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="visuals-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="visuals-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="visuals-defaults" label="Default Values">
 
 | Property Name                                  | Default Value          | Possible Values                              | Description |
 | ---------------------------------------------- | ---------------------- | -------------------------------------------- | ----------- |
@@ -420,14 +431,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Jira Configuration</summary>
 ### Jira
 
 - These set of properties control the engine's built-in Jira and Xray integrations for test management and defect reporting.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">
-  
+  <TabItem value="jira-code-based" label="Code-based">
+
   ```java showLineNumbers
   import com.shaft.driver.SHAFT;
 
@@ -437,12 +451,12 @@ You can use these tab groups to navigate and get information about how to manage
   /** set **/
   SHAFT.Properties.jira.set().reportBugs(true);
   ```
-  
+
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
-  
+  <TabItem value="jira-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="jira-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="jira-defaults" label="Default Values">
+
 | Property Name              | Default Value                                | Possible Values | Description |
 | -------------------------- | -------------------------------------------- | --------------- | ----------- |
 | jiraInteraction            | `false`                                      | `true`, `false` |             |
@@ -460,17 +474,20 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Cucumber Configuration</summary>
 ### Cucumber
 
 - These set of properties control your cucumber settings, such as the path to your feature files, the package names for your step definition classes, and any plugins you want to enable.
 - You can only configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="cucumber-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="cucumber-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cucumber-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cucumber-defaults" label="Default Values">
 
 | Property Name        | Default Value                                                                                                                        | Possible Values | Description |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------- |
@@ -482,14 +499,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Healenium Configuration</summary>
 ### Healenium
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="healenium-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="healenium-defaults" label="Default Values">
 
 | Property Name  | Default Value | Possible Values | Description |
 | -------------- | ------------- | --------------- | ----------- |
@@ -502,14 +522,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Paths Configuration</summary>
 ### Paths
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="paths-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="paths-defaults" label="Default Values">
 
 | Property Name                    | Default Value                                 | Possible Values | Description |
 | -------------------------------- | --------------------------------------------- | --------------- | ----------- |
@@ -527,14 +550,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Pattern Configuration</summary>
 ### Pattern
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="pattern-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="pattern-defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
@@ -543,14 +569,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Tinkey Configuration</summary>
 ### Tinkey
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="tinkey-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="tinkey-defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
@@ -561,14 +590,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>BrowserStack Configuration</summary>
 ### BrowserStack
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="browserStack-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="browserStack-defaults" label="Default Values">
 
 | Property Name                    | Default Value | Possible Values | Description                                                                                           |
 | -------------------------------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
@@ -586,14 +618,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>LambdaTest Configuration</summary>
 ### LambdaTest
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="lambdaTest-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="lambdaTest-defaults" label="Default Values">
 
 | Property Name                   | Default Value  | Possible Values | Description                                                              |
 | ------------------------------- | -------------- | --------------- | ------------------------------------------------------------------------ |
@@ -630,14 +665,17 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Performance Configuration</summary>
 ### Performance
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="performance-code-based" label="Code-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="performance-defaults" label="Default Values">
 
 | Property Name            | Default Value | Possible Values | Description |
 | ------------------------ | ------------- | --------------- | ----------- |
@@ -646,17 +684,20 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>TestNG Configuration</summary>
 ### TestNG
 
 - These set of properties control your TestNG parallelization settings.
 - You can only configure these properties by editing your `src/main/resources/properties/testng.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="testng-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="testng-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="testng-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="testng-defaults" label="Default Values">
 
 | Property Name              | Default Value | Possible Values                      | Description |
 | -------------------------- | ------------- | ------------------------------------ | ----------- |
@@ -669,17 +710,20 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
 
+<details open>
+  <summary>Log4j Configuration</summary>
 ### Log4j
 
 - These set of properties control your Log4j2 logging settings.
 - You can only configure these properties by editing your `src/main/resources/properties/Log4j2.properties` file.
 
 <Tabs groupId="PropertyTypes">
-  <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
-  <TabItem value="defaults" label="Default Values">
+  <TabItem value="log4j-code-based" label="Code-based">*(N/A)*</TabItem>
+  <TabItem value="log4j-cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="log4j-file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="log4j-defaults" label="Default Values">
 
 | Property Name                           | Default Value                                                                                                                                                                          | Possible Values                          | Description                                                                                                                      |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
@@ -691,3 +735,4 @@ You can use these tab groups to navigate and get information about how to manage
 
   </TabItem>
 </Tabs>
+</details>
