@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" defaultValue="file-based" queryString="PropertyTypes">
   <TabItem value="code-based" label="Code-based">*You can read/write any property programmatically to provide more flexibility and control during runtime.*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*You can set some properties via the CLI command that you use to execute your tests.*</TabItem>
   <TabItem value="file-based" label="File-based">*The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.*</TabItem>
@@ -20,7 +20,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Platform">
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
@@ -86,7 +86,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Web">
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
@@ -174,7 +174,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control web and/or native mobile GUI test automation settings, like target platform version, path to the app under test, and the activity name that you want to start testing.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Mobile">
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
@@ -252,7 +252,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control generic platform flags, like the number of test retry attemps, atomaximization of web browser window, and any other built-in checks or workarounds that aim to stabelize your test execution.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Flags">
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
@@ -297,7 +297,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control the engine's built-in reporting capabilities, like whether or not to capture the element name in the report to make it more readible, capturing webdriver logs for more debugging, and the behavior of our different reports before and after test execution.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Reporting">
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
@@ -338,7 +338,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control the engine's built-in synchronization capabilities, such as waiting for lazy loading, element identification timeout, API connection timeout, database query timeout, and shell session timeout.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Timeouts">
   <TabItem value="code-based" label="Code-based">
   
   ```java showLineNumbers
@@ -383,7 +383,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control the engine's built-in visual validation and AI capabilities, such as the visual matching threshhold for AI powered element identification, when to take screenshots, screenshot types, videos, animated GIFs, and complete page snapshots.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Visuals">
   <TabItem value="code-based" label="Code-based">
   
   ```java showLineNumbers
@@ -425,7 +425,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 - These set of properties control the engine's built-in Jira and Xray integrations for test management and defect reporting.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Jira">
   <TabItem value="code-based" label="Code-based">
   
   ```java showLineNumbers
@@ -466,10 +466,45 @@ You can use these tab groups to navigate and get information about how to manage
 - These set of properties control your cucumber settings, such as the path to your feature files, the package names for your step definition classes, and any plugins you want to enable.
 - You can only configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Cucumber">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+```properties showLineNumbers title="src/main/resources/properties/cucumber.properties"
+  #############
+  # https://cucumber.io/docs/cucumber/api/#list-configuration-options
+  ##############
+  cucumber.ansi-colors.disabled=false
+  #true or false. default: false
+  cucumber.execution.dry-run=false
+  #true or false. default: false
+  cucumber.execution.limit=
+  #number of scenarios to execute (CLI only).
+  cucumber.execution.order=lexical
+  #lexical, reverse, random or random:[seed] (CLI only). default: lexical
+  cucumber.execution.strict=true
+  #true or false. default: true.
+  cucumber.execution.wip=false
+  #true or false. default: false.
+  cucumber.features=src/test/resources
+  #comma separated paths to feature files. example: path/to/example.feature, path/to/other.feature
+  cucumber.filter.name=
+  #regex. example: .*Hello.*
+  cucumber.filter.tags=
+  #tag expression. example: @smoke and not @slow
+  cucumber.glue=customCucumberSteps, com.shaft.cucumber
+  # comma separated package names. example: com.example.glue
+  cucumber.plugin=pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener
+  # comma separated plugin strings. example: pretty, json:path/to/report.json
+  cucumber.object-factory=
+  #object factory class name. example: com.example.MyObjectFactory
+  cucumber.snippet-type=underscore
+  #underscore or camelcase. default: underscore
+  cucumber.publish.quiet=true
+  CUCUMBER_PUBLISH_ENABLED=false
+  ```
+  </TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name        | Default Value                                                                                                                        | Possible Values | Description |
@@ -485,7 +520,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### Healenium
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Healenium">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -505,7 +540,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### Paths
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Paths">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -530,7 +565,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### Pattern
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Pattern">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -546,7 +581,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### Tinkey
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Tinkey">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -564,7 +599,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### BrowserStack
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Browserstack">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -589,7 +624,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### LambdaTest
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="LambdaTest">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -633,7 +668,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### Performance
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Performance">
   <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
@@ -652,10 +687,23 @@ You can use these tab groups to navigate and get information about how to manage
 - These set of properties control your TestNG parallelization settings.
 - You can only configure these properties by editing your `src/main/resources/properties/testng.properties` file.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="TestNG">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+  ```properties showLineNumbers title="src/main/resources/properties/testng.properties"
+  setParallel=NONE
+  setThreadCount=1
+  setVerbose=1
+  setPreserveOrder=true
+  setGroupByInstances=true
+  setDataProviderThreadCount=1
+  #Test Suite Timeout in minutes
+  testSuiteTimeout=1440
+  ```
+
+  </TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name              | Default Value | Possible Values                      | Description |
@@ -675,10 +723,33 @@ You can use these tab groups to navigate and get information about how to manage
 - These set of properties control your Log4j2 logging settings.
 - You can only configure these properties by editing your `src/main/resources/properties/Log4j2.properties` file.
 
-<Tabs groupId="PropertyTypes">
+<Tabs groupId="PropertyTypes" queryString="Log4j">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">
+  
+  ```properties showLineNumbers title="src/main/resources/properties/Log4j2.properties"
+  name=PropertiesConfig
+  appender.console.type=Console
+  appender.console.name=STDOUT
+  appender.console.layout.type=PatternLayout
+  appender.console.layout.disableAnsi=false
+  appender.console.layout.pattern=%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m }%style{| %-logger}{bright_black} %style{- %-thread}{bright_black} %style{- %d{hh:mm:ss a}}{bright_black} %n
+  appender.console.filter.threshold.type=ThresholdFilter
+  appender.console.filter.threshold.level=info
+  appender.file.type=File
+  appender.file.name=LOGFILE
+  appender.file.fileName=target/logs/log4j.log
+  appender.file.layout.type=PatternLayout
+  appender.file.layout.pattern=[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+  appender.file.filter.threshold.type=ThresholdFilter
+  appender.file.filter.threshold.level=debug
+  rootLogger=debug, STDOUT, LOGFILE
+  logger.app.name=org.apache.http.impl.client
+  logger.app.level=WARN
+  ```
+
+  </TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                           | Default Value                                                                                                                                                                          | Possible Values                          | Description                                                                                                                      |
