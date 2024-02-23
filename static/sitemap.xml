@@ -1,0 +1,2512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://shafthq.github.io/</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Getting_Started/first_steps</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Properties/PropertyTypes</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/Element_Actions</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Overview</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Properties/PropertiesList</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/Browser_Actions</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/API/Request_Builder</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/Element_Validations</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/virtual-threads</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/bingAI</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/release_announcement_7.1.20230309</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/we-need-your-support</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/self-managed-appium-execution</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/shaft-engine</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/java</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/virtual-threads</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/selenium</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/cypress</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/playwright</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/chrome-111</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/netty</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/typing</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/community</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/users</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/survey</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/ecosystem</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/appium</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/selenium-ecosystem</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/welcome</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/welcome</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/hello</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags/docusaurus</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/overview-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/deprecated-list.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/index-all.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/search.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/exceptions/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/video/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/performance/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/security/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/tms/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/package-summary.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/Touch_Actions</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/didYouKnow/Native_selenium_Webdriver</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/didYouKnow/Custom_Capabilities</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/didYouKnow/Shaft_Locator_Builder</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Browser</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Elements</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Response</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Files</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Objects</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/Nums</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/Validations/ForceFail</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/API/Response_Validations</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/docs/Keywords/API/Response_Getters</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/blog/tags</loc>
+  <lastmod>2024-02-13T13:31:50+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/exceptions/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/video/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/performance/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/security/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/tms/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/package-tree.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/AlertActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/AnimatedGifManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/AppiumSelfManagementHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/AssertionSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/BrowserActionsHelpers.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/BrowserStack.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/BrowserStack.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/EngineProperties.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/BrowserSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/CheckpointCounter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/ConfigurationHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/CucumberFeatureListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/CucumberHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/CucumberTestRunnerListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/DatabaseActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.DB.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/DriverFactory.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/DriverFactoryHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/Element.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/Image.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/Label.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/Button.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/RadioButton.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/CheckBox.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/Link.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/TextBox.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/ElementActionsHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/ElementInformation.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/ElementSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/ExcelFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.TestData.EXCEL.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ExecutionSummaryReport.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/FailureReporter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/FileActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/FileValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Flags.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/FluentBrowserActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/FluentElementActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/security/GoogleTink.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Healenium.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/ImageProcessingActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/IssueReporter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/JavaHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/JavaScriptWaitManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Jira.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/JiraHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/JSONFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.TestData.JSON.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/performance/internal/LightHouseGenerateReport.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/Locator.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.GUI.Locator.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/LocatorBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Mobile.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/NativeValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/JSONValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/NumberValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/LogRedirector.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Paths.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Pattern.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/PdfFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Performance.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Platform.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ProjectStructureManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Properties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.Properties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/PropertiesHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/PropertyFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/video/RecordManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ReportHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Reporting.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/ReportManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ReportManagerHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RequestBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RestActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/RestValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/RetryAnalyzer.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/ScreenshotHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/ScreenshotManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/ShadowLocatorBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/$.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.API.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.CLI.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.GUI.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.GUI.SikuliDriver.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.GUI.WebDriver.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.Report.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.TestData.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.Validations.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/SikuliActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/TerminalActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/TestNGListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/TestNGListenerHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/exceptions/MultipleElementsFoundException.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Timeouts.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Tinkey.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/TouchActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/Validations.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/ValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/ValidationsExecutor.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/ValidationsHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Visuals.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Web.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/WebDriverBrowserValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/WebDriverElementValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/WebDriverListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/WizardHelpers.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/WizardHelpers.StandaloneAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/WizardHelpers.StandaloneVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/WizardHelpers.WebDriverAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/WizardHelpers.WebDriverVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/tms/XrayIntegrationHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/YAMLFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/SHAFT.TestData.YAML.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/EngineProperties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/BrowserStack.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Cucumber.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Flags.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Healenium.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Internal.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Jira.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Log4j.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Mobile.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Paths.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Pattern.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Performance.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Platform.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Reporting.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/TestNG.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Timeouts.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Tinkey.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Visuals.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/Web.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/CheckpointStatus.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/CheckpointType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/ClipboardAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/DatabaseActions.DatabaseType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/DriverFactory.DriverType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/ElementAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/ElementActionsHelper.TextDetectionStrategy.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ExecutionSummaryReport.Status.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/ExecutionSummaryReport.StatusIcon.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/HTMLHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/ImageProcessingActions.VisualValidationEngine.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/JavaScriptHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/JSONFileManager.DataType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/Locators.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/NavigationAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/PdfFileManager.DeleteFileAfterValidationStatus.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RequestBuilder.AuthenticationType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RestActions.ComparisonType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RestActions.ParametersType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/RestActions.RequestType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/Screenshots.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/TouchActions.KeyboardKeys.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/TouchActions.SwipeDirection.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/TouchActions.SwipeTechnique.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/TouchActions.ZoomDirection.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.NumbersComparativeRelation.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.ValidationCategory.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.ValidationComparisonType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.ValidationState.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.ValidationType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.VisualValidationEngine.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/allclasses-index.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/allpackages-index.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/constant-values.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/serialized-form.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/exceptions/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/video/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/performance/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/security/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/tms/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/package-use.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/RestValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/NativeValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationsExecutor.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/NumberValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/AlertActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/class-use/AnimatedGifManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/AppiumSelfManagementHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/class-use/AssertionSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/class-use/BrowserActionsHelpers.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/BrowserStack.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/BrowserStack.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/EngineProperties.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/class-use/BrowserSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/CheckpointCounter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/ConfigurationHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/class-use/CucumberFeatureListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/CucumberHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/class-use/CucumberTestRunnerListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/class-use/DatabaseActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.DB.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/DriverFactory.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/DriverFactoryHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/Element.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/Image.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/Label.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/Button.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/RadioButton.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/CheckBox.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/Link.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/dsl/gui/class-use/TextBox.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/class-use/ElementActionsHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/class-use/ElementInformation.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cucumber/class-use/ElementSteps.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/ExcelFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.TestData.EXCEL.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ExecutionSummaryReport.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/FailureReporter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/class-use/FileActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/FileValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Flags.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/class-use/FluentBrowserActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/class-use/BrowserActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/class-use/FluentElementActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/ElementActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/security/class-use/GoogleTink.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Healenium.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/class-use/ImageProcessingActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/IssueReporter.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/class-use/JavaHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/internal/class-use/JavaScriptWaitManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Jira.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/JiraHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/JSONFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.TestData.JSON.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/performance/internal/class-use/LightHouseGenerateReport.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/class-use/Locator.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.GUI.Locator.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/class-use/LocatorBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Mobile.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/NativeValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/JSONValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/NumberValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/LogRedirector.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Paths.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Pattern.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/PdfFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Performance.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Platform.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ProjectStructureManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Properties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.Properties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/PropertiesHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/PropertyFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/video/class-use/RecordManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ReportHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Reporting.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/ReportManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ReportManagerHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RequestBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RestActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/RestValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/RetryAnalyzer.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/class-use/ScreenshotHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/class-use/ScreenshotManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/class-use/ShadowLocatorBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/$.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.API.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.CLI.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.GUI.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.GUI.SikuliDriver.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.GUI.WebDriver.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.Report.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.TestData.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.Validations.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/SikuliActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/cli/class-use/TerminalActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/class-use/TestNGListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/TestNGListenerHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/exceptions/class-use/MultipleElementsFoundException.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Timeouts.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Tinkey.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/TouchActions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/Validations.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/ValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/ValidationsExecutor.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/ValidationsHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Visuals.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Web.SetProperty.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/WebDriverBrowserValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/internal/class-use/WebDriverElementValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/listeners/internal/class-use/WebDriverListener.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/WizardHelpers.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/WizardHelpers.StandaloneAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/WizardHelpers.StandaloneVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/WizardHelpers.WebDriverAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/internal/class-use/WizardHelpers.WebDriverVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/tms/class-use/XrayIntegrationHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/YAMLFileManager.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/SHAFT.TestData.YAML.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/EngineProperties.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/BrowserStack.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Cucumber.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Flags.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Healenium.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Internal.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Jira.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Log4j.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Mobile.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Paths.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Pattern.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Performance.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Platform.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Reporting.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/TestNG.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Timeouts.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Tinkey.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Visuals.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/properties/internal/class-use/Web.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/CheckpointStatus.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/CheckpointType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/class-use/ClipboardAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/db/class-use/DatabaseActions.DatabaseType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/DriverFactory.DriverType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/class-use/ElementAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/internal/class-use/ElementActionsHelper.TextDetectionStrategy.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ExecutionSummaryReport.Status.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/internal/class-use/ExecutionSummaryReport.StatusIcon.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/class-use/HTMLHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/image/class-use/ImageProcessingActions.VisualValidationEngine.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/internal/support/class-use/JavaScriptHelper.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/JSONFileManager.DataType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/internal/locator/class-use/Locators.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/class-use/NavigationAction.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/tools/io/class-use/PdfFileManager.DeleteFileAfterValidationStatus.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RequestBuilder.AuthenticationType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RestActions.ComparisonType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RestActions.ParametersType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/api/class-use/RestActions.RequestType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/enums/internal/class-use/Screenshots.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/TouchActions.KeyboardKeys.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/TouchActions.SwipeDirection.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/TouchActions.SwipeTechnique.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/class-use/TouchActions.ZoomDirection.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.NumbersComparativeRelation.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.ValidationCategory.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.ValidationComparisonType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.ValidationState.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.ValidationType.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.VisualValidationEngine.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/JSONValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/NativeValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/FileValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/WebDriverBrowserValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/WebDriverElementValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationsExecutor.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/NumberValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/JSONValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/WizardHelpers.StandaloneAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/WizardHelpers.StandaloneVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.BrowserAttribute.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/ValidationEnums.ElementAttribute.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/FileValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/WebDriverBrowserValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/WebDriverElementValidationsBuilder.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/WizardHelpers.StandaloneAssertions.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/WizardHelpers.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/driver/class-use/WizardHelpers.StandaloneVerifications.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.BrowserAttribute.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/class-use/ValidationEnums.ElementAttribute.html</loc>
+  <lastmod>2023-05-03T12:16:05+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+
+
+</urlset>
