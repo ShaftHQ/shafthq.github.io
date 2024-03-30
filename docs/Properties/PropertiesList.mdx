@@ -713,10 +713,11 @@ You can use these tab groups to navigate and get information about how to manage
 | Property Name              | Default Value | Possible Values                      | Description |
 | -------------------------- | ------------- | ------------------------------------ | ----------- |
 | setParallel                | `NONE`        | `METHODS, CLASSES, TESTS, INSTANCES` |             |
-| setThreadCount             | `1`           |                                      |             |
+| setParallelMode            | `STATIC`      | `STATIC, DYNAMIC`                    |             |
+| setThreadCount             | `1`           |                                      | ThreadCount is used as-is in case of STATIC mode. Total ThreadCount is automatically calculated for DYNAMIC mode; (Total ThreadCount =  Number of available processor cores * setThreadCount)            |
 | setVerbose                 | `1`           |                                      |             |
-| setPreserveOrder           | `true`        | `true`, `false`                      |             |
-| setGroupByInstances        | `true`        | `true`, `false`                      |             |
+| setPreserveOrder           | `false`       | `true`, `false`                      |             |
+| setGroupByInstances        | `false`       | `true`, `false`                      |             |
 | setDataProviderThreadCount | `1`           |                                      |             |
 
   </TabItem>
