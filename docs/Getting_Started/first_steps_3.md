@@ -3,7 +3,7 @@ id: first_steps_3
 title: SHAFT vs. Native
 sidebar_label: SHAFT vs. Native
 ---
-We all know that ["Selenium Vs ... " blog posts are mainly click-bait] per this insightful article from the Selenium user guide.
+We all know that **["Selenium Vs ... " blog posts are mainly click-bait]** per this insightful article from the Selenium user guide.
 <br/>Our objective here is not to make claims or comparisons, it is rather to analyze the differences and commonalities between the two.
 <br/>To do that, let's examine some code sample and share our observations as we go along ...
 
