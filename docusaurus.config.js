@@ -39,6 +39,14 @@ const config = {
     },
   },
 
+  // scripts: [
+  //   {
+  //     async: true,
+  //     defer: true,
+  //     src: 'https://buttons.github.io/buttons.js',
+  //   },
+  // ],
+
   trailingSlash: false,
 
   presets: [
@@ -142,11 +150,9 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-
-       styles: [
-      // ...
+      styles: [
       '/css/custom.css',
-    ],
+      ],
       navbar: {
         title: '',
         logo: {
@@ -167,10 +173,16 @@ const config = {
             position: 'right',
           },
           {
+            'aria-label': 'GitHub Repository',
+            className: 'navbar--github-link',
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
-            label: 'GitHub',
             position: 'right',
           },
+          // {
+          //   type:'html',
+          //   position: 'right',
+          //   value: '<a class="github-button" href="https://github.com/ShaftHQ/SHAFT_ENGINE" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ShaftHQ/SHAFT_ENGINE on GitHub">Star</a>',
+          // },
         ],
       },
       footer: {
