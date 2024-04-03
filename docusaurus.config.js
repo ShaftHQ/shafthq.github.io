@@ -146,7 +146,9 @@ const config = {
       },
     ],
   ],
-
+  themes: [
+    '@saucelabs/theme-github-codeblock'
+  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -164,7 +166,7 @@ const config = {
             type: 'doc',
             docId: 'Getting_Started/first_steps',
             position: 'left',
-            label: 'User Guide',
+            label: 'Guide',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {

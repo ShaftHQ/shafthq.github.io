@@ -36,16 +36,15 @@ const sidebars = {
       collapsed: true,
       items: [
         "Getting_Started/first_steps",
+        "Getting_Started/first_steps_2",
+        "Getting_Started/first_steps_3",
+        "Getting_Started/first_steps_4",
+        "Getting_Started/first_steps_5",
         {
           type: 'link',
           label: 'Quick Start Guide', // The link label
           href: 'https://github.com/shafthq/SHAFT_ENGINE?tab=readme-ov-file#-quick-start-guide', // The external URL
         },
-        {
-          type: 'link',
-          label: 'Who is using SHAFT?', // The link label
-          href: 'https://github.com/ShaftHQ/SHAFT_ENGINE#-who-else-is-using-shaft-2', // The external URL
-        },        
       ],
     },
     {
