@@ -174,11 +174,12 @@ const config = {
             className: 'sponsorship-link',
           },
           {
-            to: 'https://github.com/shafthq/SHAFT_ENGINE',
+            'aria-label': 'GitHub Repository',
+            className: 'navbar--github-link github-link',
+            href: 'https://github.com/shafthq/SHAFT_ENGINE',
             label: 'GitHub',
             position: 'right',
             target: '_blank',
-            className: 'github-link',
           },
           {
             href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
