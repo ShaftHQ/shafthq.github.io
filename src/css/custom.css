@@ -39,10 +39,10 @@ table th {
 }
 
 .navbar--github-link {
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
   padding: 6px;
-  margin-right: 20px;
+  margin-right: 0px;
   margin-left: 6px;
   border-radius: 50%;
   transition: background var(--ifm-transition-fast);
@@ -51,6 +51,7 @@ table th {
   background: var(--ifm-color-emphasis-200);
 }
 .navbar--github-link:before {
+  align-self: center;
   content: '';
   height: 100%;
   display: block;

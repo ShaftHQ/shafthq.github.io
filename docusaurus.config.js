@@ -167,13 +167,6 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            to: 'https://github.com/sponsors/MohabMohie/',
-            label: 'Sponsor',
-            position: 'right',
-            target: '_blank',
-            className: 'sponsorship-link',
-          },
-          {
             'aria-label': 'GitHub Repository',
             className: 'navbar--github-link',
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
@@ -181,14 +174,32 @@ const config = {
             target: '_blank',
           },
           {
-            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
-            label: 'JavaDocs',
+            type:'html',
             position: 'right',
+            value: '<a class="navbar__link" href="https://github.com/shafthq/SHAFT_ENGINE" target="_blank"><b>GitHub</b></a>',
+          },
+          {
+            type:'html',
+            position: 'right',
+            value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html" target="_blank"><b>JavaDocs</b></a>',
           },
           // {
           //   type:'html',
           //   position: 'right',
           //   value: '<i class="fa-solid fa-book"></i>',
+          // },
+          // {
+          //   to: 'https://github.com/sponsors/MohabMohie/',
+          //   label: 'Sponsor',
+          //   position: 'right',
+          //   target: '_blank',
+          //   className: 'sponsorship-link',
+          // },
+          // {
+          //   href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
+          //   label: 'JavaDocs',
+          //   position: 'right',
+          //   target: '_blank',
           // },
         ],
       },
