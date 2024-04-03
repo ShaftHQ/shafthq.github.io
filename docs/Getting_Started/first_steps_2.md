@@ -4,8 +4,8 @@ title: SHAFT & Selenium
 sidebar_label: SHAFT & Selenium
 ---
 - SHAFT is built on top of Selenium WebDriver, which means:
-  - You can use everything you're already familiar with from the official [Selenium WebDriver user guide].
-  - It is fully compatible with [W3C Standards] and [WebDriver BiDi].
+  - You can use everything you're already familiar with from the official **[Selenium WebDriver user guide]**.
+  - It is fully compatible with **[W3C Standards]** and **[WebDriver BiDi]**.
   - It is empowered by the largest Test Automation Community in the world.
   - It is backed by the most mature Test Automation Infrastructure.
 - SHAFT is highly reliable with built-in test synchronization.

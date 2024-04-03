@@ -167,20 +167,28 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
-            label: 'JavaDocs',
+            to: 'https://github.com/sponsors/MohabMohie/',
+            label: 'Sponsor',
             position: 'right',
+            target: '_blank',
+            className: 'sponsorship-link',
           },
           {
-            'aria-label': 'GitHub Repository',
-            className: 'navbar--github-link',
-            href: 'https://github.com/shafthq/SHAFT_ENGINE',
+            to: 'https://github.com/shafthq/SHAFT_ENGINE',
+            label: 'GitHub',
+            position: 'right',
+            target: '_blank',
+            className: 'github-link',
+          },
+          {
+            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
+            label: 'JavaDocs',
             position: 'right',
           },
           // {
           //   type:'html',
           //   position: 'right',
-          //   value: '<a class="github-button" href="https://github.com/ShaftHQ/SHAFT_ENGINE" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ShaftHQ/SHAFT_ENGINE on GitHub">Star</a>',
+          //   value: '<i class="fa-solid fa-book"></i>',
           // },
         ],
       },
@@ -191,33 +199,21 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Getting Started',
+                label: 'Start here',
                 to: '/docs/Getting_Started/first_steps',
-              },
-              {
-                label: 'Properties',
-                to: '/docs/Properties/PropertyTypes',
-              },
-              {
-                label: 'Actions',
-                to: '/docs/Keywords/GUI/Element_Actions',
-              },
-              {
-                label: 'Validations',
-                to: '/docs/Keywords/Validations/Overview',
               },
             ],
           },
           {
-            title: 'Community',
+            title: 'Support',
             items: [
-              {
-                label: 'Facebook',
-                href: 'https://www.facebook.com/groups/Automatest',
-              },
               {
                 label: 'Slack',
                 href: 'https://join.slack.com/t/automatest-workspace/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
+              },
+              {
+                label: 'Facebook',
+                href: 'https://www.facebook.com/groups/Automatest',
               },
             ],
           },
@@ -227,14 +223,6 @@ const config = {
               {
                 label: 'Blog',
                 to: '/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/ShaftHQ',
-              },
-              {
-                label: 'JavaDocs',
-                to: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
               },
             ],
           },
