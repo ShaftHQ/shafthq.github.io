@@ -39,13 +39,13 @@ const config = {
     },
   },
 
-  scripts: [
-    {
-      async: true,
-      defer: true,
-      src: 'https://buttons.github.io/buttons.js',
-    },
-  ],
+  // scripts: [
+  //   {
+  //     async: true,
+  //     defer: true,
+  //     src: 'https://buttons.github.io/buttons.js',
+  //   },
+  // ],
 
   trailingSlash: false,
 
@@ -178,11 +178,11 @@ const config = {
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
             position: 'right',
           },
-          {
-            type:'html',
-            position: 'right',
-            value: '<a class="github-button" href="https://github.com/ShaftHQ/SHAFT_ENGINE" data-color-scheme="no-preference: light; light: light; dark: dark;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ShaftHQ/SHAFT_ENGINE on GitHub">Star</a>',
-      },
+          // {
+          //   type:'html',
+          //   position: 'right',
+          //   value: '<a class="github-button" href="https://github.com/ShaftHQ/SHAFT_ENGINE" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ShaftHQ/SHAFT_ENGINE on GitHub">Star</a>',
+          // },
         ],
       },
       footer: {
