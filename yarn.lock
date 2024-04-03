@@ -1849,11 +1849,6 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.24.tgz#58601079e11784d20f82d0585865bb42305c4df3"
   integrity sha512-2LuNTFBIO0m7kKIQvvPHN6UE63VjpmL9rnEEaOOaiSPbZK+zUOYIzBAWcED+3XYzhYsd/0mD57VdxAEqqV52CQ==
 
-"@saucelabs/theme-github-codeblock@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@saucelabs/theme-github-codeblock/-/theme-github-codeblock-0.2.3.tgz#706a43292f600532271979941b0155db667c2c21"
-  integrity sha512-GSl3Lr/jOWm4OP3BPX2vXxc8FMSOXj1mJnls6cUqMwlGOfKQ1Ia9pq1O9/ES+5TrZHIzAws/n5FFSn1OkGJw/Q==
-
 "@sideway/address@^4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.5.tgz#4bc149a0076623ced99ca8208ba780d65a99b9d5"

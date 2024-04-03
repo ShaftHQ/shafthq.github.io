@@ -40,18 +40,13 @@ const sidebars = {
         "Getting_Started/first_steps_3",
         "Getting_Started/first_steps_4",
         "Getting_Started/first_steps_5",
-        {
-          type: 'link',
-          label: 'Quick Start Guide', // The link label
-          href: 'https://github.com/shafthq/SHAFT_ENGINE?tab=readme-ov-file#-quick-start-guide', // The external URL
-        },
       ],
     },
     {
       type: 'category',
       label: 'Properties',
       collapsible: true,
-      collapsed: false,
+      collapsed: true,
       items: [
         "Properties/PropertyTypes",
         "Properties/PropertiesList",
@@ -61,7 +56,7 @@ const sidebars = {
       type: 'category',
       label: 'Actions',
       collapsible: true,
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: 'category',

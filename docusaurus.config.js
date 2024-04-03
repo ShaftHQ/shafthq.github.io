@@ -146,9 +146,6 @@ const config = {
       },
     ],
   ],
-  themes: [
-    '@saucelabs/theme-github-codeblock'
-  ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
