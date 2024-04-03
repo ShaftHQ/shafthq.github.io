@@ -175,9 +175,8 @@ const config = {
           },
           {
             'aria-label': 'GitHub Repository',
-            className: 'navbar--github-link github-link',
+            className: 'navbar--github-link',
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
-            label: 'GitHub',
             position: 'right',
             target: '_blank',
           },
