@@ -1,142 +1,141 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
-import Link from '@docusaurus/Link';
+import Link from "@docusaurus/Link";
+// global import for fontawesome icons
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { faTwitter, faFontAwesome } from '@fortawesome/free-brands-svg-icons'
+library.add(fas, faTwitter, faFontAwesome)
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type FeatureItem = {
-  title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
-  description: JSX.Element;
+    title: string;
+    svg: string; //https://fontawesome.com/search?o=r&m=free
+    description: JSX.Element;
 };
 
-type MindMapItem = {
-  title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
-  description: JSX.Element;
-};
-
-
-const FeatureList: FeatureItem[] = [
-  {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/code.svg').default,
-    description: (
-      <>
-        Focus on designing your tests, and we&apos;ll handle the wrapper classes, synchronization issues and <code>boilerplate code</code>. Go
-        ahead and upgrade your project, so that you can focus on implementing <a href="https://www.selenium.dev/documentation/test_practices/encouraged/">recommended 
-        test practices</a>.
-      </>
-    ),
-  },
-  {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/easy.svg').default,
-    description: (
-      <>
-        Just write <code>SHAFT.</code> and watch the magic unfold. Our single entry point 
-        and wizard&#8211;like fluent syntax helps you locate hard to find elements, chain actions
-        , and build complex validations with ease.
-      </>
-    ),
-  },
-  {
-    title: 'Powered by Selenium',
-    Svg: require('@site/static/img/selenium.svg').default,
-    description: (
-      <>
-        If you want to create robust, browser&#8211;based regression automation suites
-        and tests, scale and distribute scripts across many environments,
-        then you want to use Selenium WebDriver, a collection of language specific
-        bindings to drive a browser &#8211; the way it is meant to be driven. <a href="https://www.selenium.dev/documentation/webdriver/">Learn more.</a>
-      </>
-    ),
-  },
+const FeatureListRow1: FeatureItem[] = [
+    {
+        title: 'Maximize your efficiency',
+        svg: "fa-solid fa-money-bill-trend-up",
+        description: (
+            <>
+                You design your tests, and we&apos;ll handle synchronization, screenshots, logging & reporting
+                with <b>zero</b> <code>boilerplate code</code>
+            </>
+        ),
+    },
+    {
+        title: 'All-in-one solution',
+        svg: "fa-solid fa-list-check",
+        description: (
+            <>
+                Drives <b>GUI</b> (web, mobile & desktop), <b>API</b>, <b>CLI</b>, and <b>Database</b> test automation
+            </>
+        ),
+    },
+    {
+        title: 'Highly intuitive',
+        svg: "fa-solid fa-hat-wizard",
+        description: (
+            <>
+                Wizard-like syntax; just type <b><code>SHAFT.</code></b> and watch the magic unfold
+            </>
+        ),
+    },
 ];
 
-const MindMapList: MindMapItem[] = [
-  {
-    title: 'A Unified Test Automation Engine',
-    Svg: require('@site/static/img/shaft.svg').default,
-    description: (
-      <>
-        SHAFT supports GUI (Web/Mobile/Desktop), API, CLI, and Database Test Automation.
-        It provides built&#8211;in test synchronization, logging, reporting, capturing
-        execution evidences, and integrations with third&#8211;parties like
-        Jira, Xray, Browserstack and Applitools Eyes. It also provides full
-        unlimited access to write native code using all the best&#8211;in&#8211;class
-        underlying frameworks such as <a href="https://www.selenium.dev/documentation/webdriver/">Selenium</a>, <a href="https://appium.github.io/appium/docs/en/2.0/">Appium</a>, <a href="https://rest-assured.io/">RestAssured</a>, and others.
-      </>
-    ),
-  },
+const FeatureListRow2: FeatureItem[] = [
+    {
+        title: 'Award winning',
+        svg: "fa-solid fa-trophy",
+        description: (
+            <>
+                <a href={'https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html'}>
+                    <b>Google Open Source</b> Peer Bonus</a> award winner
+            </>
+        ),
+    },
+    {
+        title: 'Selenium Ecosystem',
+        svg: "fa-solid fa-globe",
+        description: (
+            <>
+                One of 17 proud members of the <a href={'https://www.selenium.dev/ecosystem/#frameworks'}> official <b>Selenium
+                ecosystem</b> frameworks</a>
+            </>
+        ),
+    },
+    {
+        title: 'Powered by WebDriver',
+        svg: "fa-solid fa-battery-full",
+        description: (
+            <>
+                Guaranteed robust <a href={'https://www.w3.org/standards'}><b>W3C</b> standard compliant</a>
+                , future proof <a href={'https://w3c.github.io/webdriver-bidi'}>WebDriver <b>BiDi</b> enabled</a>
+                , and <a href={'https://www.selenium.dev/documentation/webdriver'}>fully <b>supported</b></a> automated test suites
+            </>
+        ),
+    },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
-  return (
-    <div className={clsx('col')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </div>
-  );
-}
-
-function MainFeature({title, Svg, description}: MindMapItem) {
-  return (
-    <div>
-      <div className={clsx('col')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </div>
-      <center>
-        <header className={clsx('text--center')}>
-          <div className="container">
-            {/* <p className="hero__subtitle">Are you still here?</p> */}
-            <br/><br/>
-            <div className={styles.buttons}>
-              <Link
-                className="button button--primary button--lg button--outline"
-                to="/docs/Getting_Started/first_steps">
-                ⚡ Upgrade Now ⚡
-              </Link>
+function Feature({title, svg, description}: FeatureItem) {
+    return (
+        <div className={clsx('col')}>
+            <div className="text--center" style={{
+                margin: '1rem 0',
+                borderRadius: 30,
+                padding: '0rem',
+                height: '60px',
+            }}>
+                <FontAwesomeIcon className={styles.featureSvg} icon={svg} role="img"/>
             </div>
-            <br/><br/>
-          </div>
-        </header>
-      </center>
-    </div>
-  );
+            <div className="text--center padding-horiz--md"  style={{
+                borderRadius: 30,
+                padding: '0rem',
+            }}>
+                <h3>{title}</h3>
+                <p>{description}</p>
+            </div>
+            <br/>
+        </div>
+    );
 }
 
 export default function HomepageFeatures(): JSX.Element {
-  return (
-    <div>
-      <section className={styles.features}>
-        <div className="container">
-          <div className="row">
-            {FeatureList.map((props, idx) => (
-              <Feature key={idx} {...props} />
-            ))}
-          </div>
+    return (
+        <div>
+            <section className={styles.features}>
+                <div className="container">
+                    <div className="row">
+                        {FeatureListRow1.map((props, idx) => (
+                            <Feature key={idx} {...props} />
+                        ))}
+                    </div>
+                    <div className="row">
+                        {FeatureListRow2.map((props, idx) => (
+                            <Feature key={idx} {...props} />
+                        ))}
+                    </div>
+                </div>
+            </section>
+            <section>
+                <center>
+                    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+                        <div className="container">
+                        <p className="hero__subtitle">What are you waiting for?</p>
+                        <div className={styles.buttons}>
+                            <Link
+                                className="button button--secondary button--lg"
+                                to="/docs/Getting_Started/first_steps">
+                                ⚡ Upgrade Now ⚡
+                            </Link>
+                        </div>
+                    </div>
+                </header>
+                </center>
+            </section>
         </div>
-      </section>
-      <center>
-        <section className={styles.mainFeature}>
-          <div className="container">
-            {MindMapList.map((props, idx) => (
-              <MainFeature key={idx} {...props} />
-            ))}
-          </div>
-        </section>
-      </center>
-    </div>
-  );
+    );
 }
