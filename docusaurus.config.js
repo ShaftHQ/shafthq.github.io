@@ -166,41 +166,31 @@ const config = {
             label: 'Guide',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            'aria-label': 'GitHub Repository',
-            className: 'navbar--github-link',
-            href: 'https://github.com/shafthq/SHAFT_ENGINE',
-            position: 'right',
-            target: '_blank',
-          },
-          {
-            type:'html',
-            position: 'right',
-            value: '<a class="navbar__link" href="https://github.com/shafthq/SHAFT_ENGINE" target="_blank"><b>GitHub</b></a>',
-          },
-          {
-            type:'html',
-            position: 'right',
-            value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html" target="_blank"><b>JavaDocs</b></a>',
-          },
           // {
           //   type:'html',
           //   position: 'right',
-          //   value: '<i class="fa-solid fa-book"></i>',
+          //   value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html" target="_blank"><b>JavaDocs</b></a>',
           // },
-          // {
-          //   to: 'https://github.com/sponsors/MohabMohie/',
-          //   label: 'Sponsor',
-          //   position: 'right',
-          //   target: '_blank',
-          //   className: 'sponsorship-link',
-          // },
-          // {
-          //   href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
-          //   label: 'JavaDocs',
-          //   position: 'right',
-          //   target: '_blank',
-          // },
+          {
+            href: 'https://github.com/shafthq/SHAFT_ENGINE',
+            position: 'right',
+            className: 'header-github-link',
+            target: '_blank',
+            'aria-label': 'GitHub repository',
+          },
+          {
+            to: 'https://github.com/sponsors/MohabMohie/',
+            label: 'Sponsor',
+            position: 'right',
+            target: '_blank',
+            className: 'sponsorship-link',
+          },
+          {
+            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
+            label: 'JavaDocs',
+            position: 'right',
+            target: '_blank',
+          },
         ],
       },
       footer: {
@@ -235,9 +225,24 @@ const config = {
                 label: 'Blog',
                 to: '/blog',
               },
+              {
+                html: `
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
+                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
+                </a>
+              `,
+              },
             ],
           },
         ],
+        logo: {
+          style: {
+            height: '150px',
+          },
+          alt: 'ShaftHQ Logo',
+          src: '/img/shaft.svg',
+          href: 'https://github.com/ShaftHQ',
+        },
         copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus.`,
       },
       prism: {
