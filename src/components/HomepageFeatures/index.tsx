@@ -120,22 +120,6 @@ export default function HomepageFeatures(): JSX.Element {
                     </div>
                 </div>
             </section>
-            <section>
-                <center>
-                    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-                        <div className="container">
-                        <p className="hero__subtitle">What are you waiting for?</p>
-                        <div className={styles.buttons}>
-                            <Link
-                                className="button button--secondary button--lg"
-                                to="/docs/Getting_Started/first_steps">
-                                ⚡ Upgrade Now ⚡
-                            </Link>
-                        </div>
-                    </div>
-                </header>
-                </center>
-            </section>
         </div>
     );
 }

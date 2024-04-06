@@ -7,7 +7,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 import styles from './index.module.css';
 
-function HomepageHeader() {
+function Header() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
@@ -26,16 +26,40 @@ function HomepageHeader() {
   );
 }
 
+function Footer() {
+    return (
+        <div>
+            <section>
+                <center>
+                    <header className={clsx('hero hero--primary', styles.heroBanner)}>
+                        <div className="container">
+                            <p className="hero__subtitle">What are you waiting for?</p>
+                            <div className={styles.buttons}>
+                                <Link
+                                    className="button button--secondary button--lg"
+                                    to="/docs/Getting_Started/first_steps">
+                                    ⚡ Upgrade Now ⚡
+                                </Link>
+                            </div>
+                        </div>
+                    </header>
+                </center>
+            </section>
+        </div>
+    );
+}
+
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
       title={`${siteConfig.organizationName}`}
       description="Stop reinventing the wheel. Start using SHAFT. This is the official user guide for using SHAFT; The Unified Test Automation Engine.">
-      <HomepageHeader />
+      <Header />
       <main>
         <HomepageFeatures />
       </main>
+        <Footer />
     </Layout>
   );
 }
