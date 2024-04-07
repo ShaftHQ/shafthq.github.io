@@ -6,10 +6,10 @@ import styles from "../../pages/index.module.css";
 import Link from "@docusaurus/Link";
 
 const App = () => {
-    const [count, setCount] = useState("");
-    const [count2, setCount2] = useState("");
-    const [count3, setCount3] = useState("");
-    const [count4, setCount4] = useState("");
+    const [count, setCount] = useState("100");
+    const [count2, setCount2] = useState("5");
+    const [count3, setCount3] = useState("24");
+    const [count4, setCount4] = useState("3");
 
     const handleaddNumber = (e) => {
         //# Tests to be automated:

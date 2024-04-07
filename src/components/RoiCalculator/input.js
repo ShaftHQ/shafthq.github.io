@@ -30,8 +30,8 @@ const Input = (props) => {
         let totalMultipliers = targetPlatformMultiplier*parallelThreadCount;
 
         let roi = (totalSavings - totalCost) * totalMultipliers;
-        setValue(roi);
         console.log(roi);
+        setValue(Math.floor(roi));
         // props.resetVal();
         if (roi > 0) {
             document.getElementById("roi-results").style.display = 'block';
@@ -50,7 +50,7 @@ const Input = (props) => {
             </div>
             {/*<br/><code><label>ROI = (<sup>Savings</sup>/<sub>Investment</sub>) x 100</label></code>*/}
             <div id={"roi-results"}>
-                <br/><b><label>{value > 0 ? "Estimated ROI = " + value + "%" : ""} </label></b><br/><br/>
+                <br/><b><label>{value > 0 ? "Estimated ROI ≈ " + value.toLocaleString() + "%" : ""} </label></b><br/><br/>
                 <p align={"left"}>
                     <b>Assumptions:</b>
                     <br/>• Automated execution effort = 5% from the manual execution effort (if not 100% unattended).
