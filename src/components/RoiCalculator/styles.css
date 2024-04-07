@@ -1,0 +1,33 @@
+code{
+    color: #006ec0;
+    background-color: aliceblue;
+}
+html[data-theme='dark'] code {
+    color: aliceblue;
+    background-color: #006ec0;
+}
+input{
+    color: #006ec0;
+    background-color: aliceblue;
+    border: 0px;
+}
+html[data-theme='dark'] input {
+    color: #006ec0;
+    background-color: aliceblue;
+    border: 0px;
+}
+table{
+    border: 2px;
+    border-color: aliceblue;
+    border-style: solid;
+    background-color: #004e89;
+}
+html[data-theme='dark'] table{
+    border: 2px;
+    border-color: aliceblue;
+    border-style: solid;
+    background-color: #004e89;
+}
+#roi-results{
+    display: none;
+}
