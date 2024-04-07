@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "./Input";
+import Input from "./input";
 import "./styles.css";
 import clsx from "clsx";
 import styles from "../../pages/index.module.css";

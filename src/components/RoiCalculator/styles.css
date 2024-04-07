@@ -3,8 +3,8 @@ code{
     background-color: aliceblue;
 }
 html[data-theme='dark'] code {
-    color: aliceblue;
-    background-color: #006ec0;
+    /*color: aliceblue;*/
+    /*background-color: #006ec0;*/
 }
 input{
     color: #006ec0;
