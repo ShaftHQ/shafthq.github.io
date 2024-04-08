@@ -10,15 +10,3 @@
   width: 200px;
   color: #006ec0;
 }
-
-.mainFeature {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 50%;
-}
-
-.mainFeatureSvg {
-  height: 1000px;
-  width: 100%;
-}

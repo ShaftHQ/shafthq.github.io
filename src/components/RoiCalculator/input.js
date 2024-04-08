@@ -39,7 +39,7 @@ const Input = (props) => {
     };
 
     return (
-        <div className="Calculator Results" align={"center"}>
+        <div className="Calculator Results">
             <br/>
             <div className={styles.buttons}>
                 <Link
@@ -49,15 +49,15 @@ const Input = (props) => {
                 </Link>
             </div>
             {/*<br/><code><label>ROI = (<sup>Savings</sup>/<sub>Investment</sub>) x 100</label></code>*/}
-            <div id={"roi-results"}>
+            <div id={"roi-results"} align={"center"}>
                 <br/><b><label>{value > 0 ? "Estimated ROI ≈ " + value.toLocaleString() + "%" : ""} </label></b><br/><br/>
                 <p align={"left"}>
                     <b>Assumptions:</b>
-                    <br/>• Automated execution effort = 5% from the manual execution effort (if not 100% unattended).
-                    <br/>• Upskilling effort = 1 work week.
-                    <br/>• Framework dev effort = 1 work day.
-                    <br/>• Maintenance effort = 0.5 hours per test run.
-                    <br/>• Sequential execution (Multiply the above ROI * Number of parallel threads).
+                    <br/>&nbsp; • Automated execution effort = 5% from the manual execution effort (if not 100% unattended).
+                    <br/>&nbsp; • Upskilling effort = 1 work week.
+                    <br/>&nbsp; • Framework dev effort = 1 work day.
+                    <br/>&nbsp; • Maintenance effort = 0.5 hours per test run.
+                    <br/>&nbsp; • Sequential execution (Multiply the above ROI * Number of parallel threads).
                 </p>
             </div>
         </div>

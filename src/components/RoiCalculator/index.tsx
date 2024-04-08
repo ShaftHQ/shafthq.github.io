@@ -15,9 +15,9 @@ export default function RoiCalculator(){
                     <div className="container">
                         <label className="hero__subtitle">What's your <b>Return on Investment</b>?</label>
                         <br/>ROI = (<sup>Savings</sup>/<sub>Investment</sub>) * 100
-                        <StrictMode>
-                            <App/>
-                        </StrictMode>
+                        <br/><br/><StrictMode>
+                        <App/>
+                    </StrictMode>
                     </div>
                 </header>
             </center>
