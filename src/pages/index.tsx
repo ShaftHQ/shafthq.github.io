@@ -4,7 +4,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
-
+import RoiCalculator from '@site/src/components/RoiCalculator';
 import styles from './index.module.css';
 
 function Header() {
@@ -12,8 +12,8 @@ function Header() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <h1 className="hero__title">SHAFT: Unified Test Automation Engine</h1>
+        <p className="hero__subtitle"><b>Stop</b> reinventing the wheel,<br/> <b>Start</b> using SHAFT.</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
@@ -29,22 +29,22 @@ function Header() {
 function Footer() {
     return (
         <div>
-            <section>
-                <center>
-                    <header className={clsx('hero hero--primary', styles.heroBanner)}>
-                        <div className="container">
-                            <p className="hero__subtitle">What are you waiting for?</p>
-                            <div className={styles.buttons}>
-                                <Link
-                                    className="button button--secondary button--lg"
-                                    to="/docs/Getting_Started/first_steps">
-                                    ⚡ Upgrade Now ⚡
-                                </Link>
-                            </div>
+            <center>
+                <header>
+                    <div className="container">
+                        <br/>
+                        <p className="hero__subtitle"><b>What are you waiting for?</b></p>
+                        <div className={styles.buttons}>
+                            <Link
+                                className="button button--secondary button--lg"
+                                to="/docs/Getting_Started/first_steps">
+                                ⚡ Upgrade Now ⚡
+                            </Link>
                         </div>
-                    </header>
-                </center>
-            </section>
+                        <br/><br/>
+                    </div>
+                </header>
+            </center>
         </div>
     );
 }
@@ -58,6 +58,7 @@ export default function Home(): JSX.Element {
       <Header />
       <main>
         <HomepageFeatures />
+          <RoiCalculator/>
       </main>
         <Footer />
     </Layout>
