@@ -16,12 +16,12 @@ html[data-theme='dark'] input {
     background-color: aliceblue;
     border: 0;
 }
-table{
+table#roi-data{
     border: 2px solid aliceblue;
     background-color: #004e89;
     resize: inherit;
 }
-html[data-theme='dark'] table{
+html[data-theme='dark'] table#roi-data{
     border: 2px solid aliceblue;
     background-color: #004e89;
     resize: inherit;

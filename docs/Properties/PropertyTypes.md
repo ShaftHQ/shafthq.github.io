@@ -4,7 +4,7 @@ title: Property Types
 sidebar_label: Types
 ---
 
-### Priority Heirarchy
+### Priority Hierarchy
 
 Since there are many ways to configure SHAFT properties you need to know how the priorities work.
 Simply put, the values to the left override the values to the right.

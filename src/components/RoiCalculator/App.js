@@ -40,7 +40,7 @@ const App = () => {
 
     return (
                 <div className="calculator-inputs" align={"left"}>
-                    <table>
+                    <table className="roi-data">
                         <tbody>
                         <tr>
                             <th><label># Tests to be automated:</label></th>
