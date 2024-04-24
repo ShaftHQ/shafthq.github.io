@@ -40,16 +40,18 @@ const sidebars = {
         "Getting_Started/first_steps_3",
         "Getting_Started/first_steps_4",
         "Getting_Started/first_steps_5",
+        "Getting_Started/first_steps_6",
       ],
     },
     {
       type: 'category',
-      label: 'Properties',
+      label: 'Basic Configuration',
       collapsible: true,
       collapsed: true,
       items: [
-        "Properties/PropertyTypes",
-        "Properties/PropertiesList",
+        "Basic_Config/basicConfig",
+        "Basic_Config/basicConfig2",
+        "Basic_Config/basicConfig3",
       ],
     },
     {
@@ -105,6 +107,16 @@ const sidebars = {
         "Keywords/Validations/Objects",
         "Keywords/Validations/Nums",
         "Keywords/Validations/ForceFail",
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Properties',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        "Properties/PropertyTypes",
+        "Properties/PropertiesList",
       ],
     },
   ],

@@ -1,9 +1,8 @@
 ---
 id: first_steps_5
-title: Getting Started
-sidebar_label: Getting Started
+title: Setting up a new project
+sidebar_label: New Projects
 ---
-### Setting up a new project
 Now that you're hooked, the fastest way to set up a new sandbox and start experiencing SHAFT is using our TestNG Maven Archetype.
 - You can do that by following this lovely **[IntelliJ IDEA guide]**.
   - Before you press `Create` you'll need to add the archetype first by using this data
@@ -34,8 +33,4 @@ Now that you're hooked, the fastest way to set up a new sandbox and start experi
 `"-DgroupId=io.github.shafthq"` and `"-DartifactId=using_SHAFT_Engine"` with the groupId and artifactId that you want to use for the new project.
 :::
 
-### Upgrading an existing project
-- To upgrade your existing Selenium/Appium/RestAssured projects to use SHAFT you can check out our **[detailed guide]** and merge the pom.xml file content manually.
-
-[detailed guide]: <https://github.com/shafthq/SHAFT_ENGINE?tab=readme-ov-file#-quick-start-guide>
 [IntelliJ IDEA guide]: <https://www.jetbrains.com/help/idea/maven-support.html#maven_archetype>
