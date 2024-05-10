@@ -210,7 +210,7 @@ const config = {
             items: [
               {
                 label: 'Slack',
-                href: 'https://join.slack.com/t/automatest-workspace/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
+                href: 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
               },
               {
                 label: 'Facebook',
