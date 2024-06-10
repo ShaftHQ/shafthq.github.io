@@ -195,7 +195,6 @@ Deletes all the cookies of the current browsing context.
 ```java
 driver.browser().deleteAllCookies();
 ```
-
 ## Using Cookies in Your Tests
 
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
@@ -214,7 +213,7 @@ public class CookieExample {
         driver = new SHAFT.GUI.WebDriver();
         driver.browser().navigateToURL("https://demo.nopcommerce.com/");
         driver.element().click(By.xpath("//*[@class='ico-login']"));
-        driver.element().type(By.id("Email"), "SHAFT@test.com");
+        driver.element().type(By.id("Email"), "kn@test.com");
         driver.element().type(By.id("Password"), "123456");
         driver.element().click(By.xpath("//*[@class='button-1 login-button']"));
         cookieValue = driver.browser().getCookieValue(".Nop.Authentication");
@@ -235,7 +234,7 @@ public class CookieExample {
     }
 }
 
-
+```
 As you skim through the console output you will notice the awesome reporting SHAFT provides for each performed action, and it gets even better, please see the [reporting] section for more on that.
 
 [webdriver]: https://www.selenium.dev/documentation/en/webdriver/
