@@ -78,7 +78,6 @@ driver.element().click(shadowElement);
 for more examples visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on Github.
 
 ## Using Cookies in Your Tests
-
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
 
 #### Example
