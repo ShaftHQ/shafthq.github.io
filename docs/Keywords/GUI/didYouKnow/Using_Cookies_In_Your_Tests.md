@@ -27,7 +27,7 @@ public class CookieExample {
         driver.element().click(By.xpath("//*[@class='button-1 login-button']"));
        
         cookieValue = driver.browser().getCookieValue(".Nop.Authentication");
-        
+       
         driver.quit();
     }
 
