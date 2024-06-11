@@ -1,3 +1,9 @@
+---
+id: Using Cookies in Your Tests
+title: Using Cookies in Your Tests
+sidebar_label: Using Cookies in Your Tests
+---
+
 ## Using Cookies in Your Tests
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
 
