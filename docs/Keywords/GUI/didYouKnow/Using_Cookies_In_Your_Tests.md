@@ -1,5 +1,5 @@
 ---
-id: Using Cookies in Your Tests
+id: Using_Cookies_In_Your_Tests
 title: Using Cookies in Your Tests
 sidebar_label: Using Cookies in Your Tests
 ---
