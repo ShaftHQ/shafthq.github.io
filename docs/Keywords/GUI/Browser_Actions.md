@@ -195,8 +195,6 @@ Deletes all the cookies of the current browsing context.
 ```java
 driver.browser().deleteAllCookies();
 ```
-
-
 As you skim through the console output you will notice the awesome reporting SHAFT provides for each performed action, and it gets even better, please see the [reporting] section for more on that.
 
 [webdriver]: https://www.selenium.dev/documentation/en/webdriver/

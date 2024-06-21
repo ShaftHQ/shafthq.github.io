@@ -78,6 +78,7 @@ const sidebars = {
 		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
+		        "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
 			]
 			}
           ],
