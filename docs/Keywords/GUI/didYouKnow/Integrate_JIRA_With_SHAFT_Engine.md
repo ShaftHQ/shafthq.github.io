@@ -19,9 +19,9 @@ This guide provides the necessary steps to integrate JIRA with the SHAFT engine 
 
    ![Security Tab](/img/JIRA/Security_Tap.png)
 
-4. Click on "Create and manage API tokens".
+4. Click on **Create and manage API tokens**.
 
-5. Click on **Create and manage API token**.
+5. Click on **Create API token**.
 
    ![Create and Manage API Tokens](/img/JIRA/Create_API_Token.png)
 
