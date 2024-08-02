@@ -73,4 +73,4 @@ assignee=jira-user-id
 
 # Allure report link patterns
 allure.link.tms.pattern=https://your-tms-instance.com/tms/{}
-allure.link.custom.pattern=false
+
