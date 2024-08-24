@@ -331,16 +331,18 @@ You can use these tab groups to navigate and get information about how to manage
   </TabItem>
 </Tabs>
 
-***Since version 8.3.20240813 Allure Reporting Properties Have Changed to The Following*** 
+***Since version 8.3.20240813 Exisiting Allure Reporting Properties Have Changed to The Following And New Properties Added*** 
 
   <TabItem value="defaults" label="Default Values">
 
 | Old Property Name                              |new Property Name | Default Value | Possible Values | Description |
 | -----------------------------------------------| ---------------- | --------------| --------------- |-------------
-| cleanAllureResultsDirectoryBeforeExecution     | accumulateHistory| `false`       | `true`, `false` | delete old results before the new run 
-| generateAllureReportArchive                    | generateArchive  | `false`       | `true`, `false` | generate Archive File .Zip for generated Allure report
-| openAllureReportAfterExecution                 | automaticallyOpen|`true`        | `true`, `false` | open allure report after execution
-|                                                | accumulateReports|'true'        | `true`, `false` | by default keeps old html allure reports and if false it will keep only last run report
+| cleanAllureResultsDirectoryBeforeExecution     | allure.accumulateHistory| `false`       | `true`, `false` | delete old results before the new run 
+| generateAllureReportArchive                    | allure.generateArchive  | `false`       | `true`, `false` | generate Archive File .Zip for generated Allure report
+| openAllureReportAfterExecution                 | allure.automaticallyOpen|`true`        | `true`, `false` | open allure report after execution
+|        **NEW**                                        | allure.accumulateReports|'true'        | `true`, `false` | by default keeps old html allure reports and if false it will keep only last run report
+|   **NEW**                                             | allure.customLogo|path of SHAFT Logo      | path of your Customized logo on local machine or url if your logo is hosted online | for changing SHAFT logo To your customized logo on the report
+|    **NEW**                                            | allure.customTitle|"Test run report"     | any String value | for changing Report Title from default value to any report title you want 
 
   </TabItem>
 </Tabs>
