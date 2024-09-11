@@ -308,10 +308,10 @@ You can use these tab groups to navigate and get information about how to manage
   import com.shaft.driver.SHAFT;
 
   /** get **/
-  var openAllureReportAfterExecution = SHAFT.Properties.reporting.openAllureReportAfterExecution();
+  var captureElementName = SHAFT.Properties.reporting.captureElementName();
 
   /** set **/
-  SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
+  SHAFT.Properties.reporting.set().captureElementName(false);
   ```
 
   </TabItem>
@@ -325,18 +325,23 @@ You can use these tab groups to navigate and get information about how to manage
 | captureWebDriverLogs                       | `false`       | `true`, `false` |
 | alwaysLogDiscreetly                        | `false`       | `true`, `false` |
 | debugMode                                  | `false`       | `true`, `false` |
-| cleanAllureResultsDirectoryBeforeExecution | `true`        | `true`, `false` |
-| generateAllureReportArchive                | `false`       | `true`, `false` |
-| openAllureReportAfterExecution             | `false`       | `true`, `false` |
-| generateExtentReports                      | `true`        | `true`, `false` |
-| cleanExtentReportsDirectoryBeforeExecution | `true`        | `true`, `false` |
-| openExtentReportAfterExecution             | `false`       | `true`, `false` |             |
-| attachExtentReportsToAllureReport          | `false`       | `true`, `false` |
 | openLighthouseReportWhileExecution         | `true`        | `true`, `false` |
 | openExecutionSummaryReportAfterExecution   | `true`        | `true`, `false` |             |
 
   </TabItem>
 </Tabs>
+
+
+***Since version 8.3.20240827 Existing Allure Reporting Properties Have Changed to The Following And New Properties Added*** 
+  
+| Old Property Name                              |new Property Name | Default Value | Possible Values | Description |
+| -----------------------------------------------| ---------------- | --------------| --------------- |-------------
+| cleanAllureResultsDirectoryBeforeExecution     | allure.accumulateHistory| `false`       | `true`, `false` | when false old results are deleted before the new run 
+| generateAllureReportArchive                    | allure.generateArchive  | `false`       | `true`, `false` | generate Archive File .Zip for generated Allure report
+| openAllureReportAfterExecution                 | allure.automaticallyOpen|`true`        | `true`, `false` | open allure report after execution
+|        **NEW**                                        | allure.accumulateReports|'true'        | `true`, `false` | by default keeps old html allure reports and if false it will keep only last run report
+|   **NEW**                                             | allure.customLogo|path of SHAFT Logo      | path of your Customized logo on local machine or url if your logo is hosted online | for changing SHAFT logo To your customized logo on the report
+|    **NEW**                                            | allure.customTitle|"Test run report"     | any String value | for changing Report Title from default value to any report title you want 
 
 ### Timeouts
 
