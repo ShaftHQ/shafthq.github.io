@@ -241,7 +241,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 ```
 <br/><br/>
 
-#### _** \*Please check the [Response Validations](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Response) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_  
+#### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_  
 
 ## Sample Code Snippet
 ```java
