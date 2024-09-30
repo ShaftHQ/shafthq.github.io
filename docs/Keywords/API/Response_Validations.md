@@ -10,7 +10,7 @@ We need to use the SHAFT API Object then use the **assertThatResponse()** method
 
 ### Body
 Validate on the response body <br />
-_* Calls the [Object validation methods](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Keywords/Validations/Objects) to contiue building your validation. *_
+_* Calls the [Object validation methods](https://shafthq.github.io/docs/Keywords/Validations/Objects) to contiue building your validation. *_
 
 ```java
 api.assertThatResponse().body().contains("data").perform();
