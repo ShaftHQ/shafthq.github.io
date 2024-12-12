@@ -87,7 +87,7 @@ api.get("/users").setTargetStatusCode(200).perform();
 ```
 
 ### Set Content Type
-Sets the content type for the API request that you're currently building.
+Sets the content type for the API request that you're currently building. 
 By default, this value is set to **ContentType.ANY** but you can change it by calling the **setContentType** method and giving it the enum value you want.
 
 contentType Enumeration of common [IANA](http://www.iana.org/assignments/media-types/media-types.xhtml) content-types. This may be used to specify a request or response content-type more easily than specifying the full string each time. Example: **ContentType.JSON**
@@ -213,7 +213,6 @@ api.get("/posts/{PostID}/comments/{CommentID}")
    .perform();
 ```
 
-
 ### Set URL Arguments
 Sets the url arguments (if any) for the API request that you're currently building.
 ```java
@@ -267,7 +266,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 ```
 <br/><br/>
 
-#### _** \*Please check the [Response Validations](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Response) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_
+#### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_  
 
 ## Sample Code Snippet
 ```java
@@ -280,7 +279,7 @@ public class Test_Api {
         api.get("/users").perform();
         api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5").perform();
     }
-
+    
     @Test
     public void test_post() {
         api = new SHAFT.API("https://reqres.in/");
