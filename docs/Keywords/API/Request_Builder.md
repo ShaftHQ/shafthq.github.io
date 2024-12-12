@@ -87,7 +87,7 @@ api.get("/users").setTargetStatusCode(200).perform();
 ```
 
 ### Set Content Type
-Sets the content type for the API request that you're currently building. 
+Sets the content type for the API request that you're currently building.
 By default, this value is set to **ContentType.ANY** but you can change it by calling the **setContentType** method and giving it the enum value you want.
 
 contentType Enumeration of common [IANA](http://www.iana.org/assignments/media-types/media-types.xhtml) content-types. This may be used to specify a request or response content-type more easily than specifying the full string each time. Example: **ContentType.JSON**
@@ -187,6 +187,32 @@ SHAFT.API api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
 api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
+### Set Path Parameters
+
+Sets the path parameters dynamically by replacing placeholders in the `serviceName`.
+
+This method supports two modes:
+1. **Key-Value Replacement**: Use a `Map<String, Object>` to specify placeholders and their corresponding values.
+2. **Ordered Value Replacement**: Provide values in the exact order the placeholders appear in the `serviceName`.
+
+#### Key-Value Replacement
+Pass a `Map` of key-value pairs to replace placeholders by their names:
+```java
+Map<String, Object> pathParams = Map.of("PostID", 1, "CommentID", 1);
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+   .setPathParameters(pathParams)
+   .perform();
+```
+#### Ordered Value Replacement
+Pass value directly to replace placeholder in the `serviceName`:
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+   .setPathParameters("1", "1")
+   .perform();
+```
+
 
 ### Set URL Arguments
 Sets the url arguments (if any) for the API request that you're currently building.
@@ -241,7 +267,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 ```
 <br/><br/>
 
-#### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_  
+#### _** \*Please check the [Response Validations](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Response) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_
 
 ## Sample Code Snippet
 ```java
@@ -254,7 +280,7 @@ public class Test_Api {
         api.get("/users").perform();
         api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5").perform();
     }
-    
+
     @Test
     public void test_post() {
         api = new SHAFT.API("https://reqres.in/");
