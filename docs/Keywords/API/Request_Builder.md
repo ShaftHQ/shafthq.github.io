@@ -187,6 +187,32 @@ SHAFT.API api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
 api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
+### Set Path Parameters
+
+Sets the path parameters dynamically by replacing placeholders in the `serviceName`.
+
+This method supports two modes:
+1. **Key-Value Replacement**: Use a `Map<String, Object>` to specify placeholders and their corresponding values.
+2. **Ordered Value Replacement**: Provide values in the exact order the placeholders appear in the `serviceName`.
+
+#### Key-Value Replacement
+Pass a `Map` of key-value pairs to replace placeholders by their names:
+```java
+Map<String, Object> pathParams = Map.of("PostID", 1, "CommentID", 1);
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+   .setPathParameters(pathParams)
+   .perform();
+```
+#### Ordered Value Replacement
+Pass value directly to replace placeholder in the `serviceName`:
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+   .setPathParameters("1", "1")
+   .perform();
+```
+
 
 ### Set URL Arguments
 Sets the url arguments (if any) for the API request that you're currently building.
