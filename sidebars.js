@@ -128,6 +128,7 @@ const sidebars = {
       collapsed: true,
       items: [
         "Demos/web",
+        "Demos/mobile",
       ],
     },
   ],

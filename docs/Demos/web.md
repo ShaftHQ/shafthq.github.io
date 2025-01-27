@@ -1,6 +1,6 @@
 ---
 id: web
-title: Demo Projects For Web GUI Projects
+title: Demo Projects For Web GUI
 sidebar_label: Web
 ---
 ### Parallel Execution using ThreadLocal Driver
