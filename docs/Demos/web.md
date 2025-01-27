@@ -7,5 +7,5 @@ sidebar_label: Web
 
 :::info
 You can visit this Repository to for a Demo on how to set Parallel Execution in SHAFT_ENGINE
-<span style="font-size: 18px; font-weight: bold;">[ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)</span>
+### [ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)
 :::
