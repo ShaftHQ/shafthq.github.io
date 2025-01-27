@@ -6,6 +6,6 @@ sidebar_label: Web
 ### Parallel Execution using ThreadLocal Driver
 
 :::info
-**TIP**: You can visit this Repository to for a Demo on how to set Parallel Execution in SHAFT_ENGINE
-[ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)
+You can visit this Repository to for a Demo on how to set Parallel Execution in SHAFT_ENGINE
+<span style="font-size: 18px; font-weight: bold;">[ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)</span>
 :::
