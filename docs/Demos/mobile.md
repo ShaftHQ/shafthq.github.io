@@ -5,7 +5,7 @@ sidebar_label: Mobile
 ---
 ### Basic Mobile GUI Automation Project
 
-```java title="ParallelThreadLocalSampleTest"
+```java title="AppiumSampleTest"
 public class AppiumSampleTests {
     private SHAFT.GUI.WebDriver driver;
     private AppiumDriverLocalService service;
