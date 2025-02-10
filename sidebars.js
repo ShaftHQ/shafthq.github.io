@@ -121,6 +121,16 @@ const sidebars = {
         "Properties/PropertiesList",
       ],
     },
+    {
+      type: 'category',
+      label: 'Demos',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        "Demos/web",
+        "Demos/mobile",
+      ],
+    },
   ],
 };
 
