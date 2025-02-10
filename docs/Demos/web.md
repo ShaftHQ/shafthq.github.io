@@ -13,19 +13,33 @@ public class ParallelThreadLocalTest {
     @Test
     public void signOutTest() {
         new HomePage(driver.get())
-                .signOut();
+                .signOut()
+                .verifyUserIsSingedOut(testData.getTestData("signOutText"));
     }
 
     @Test
     public void buttonClickTest() {
         new HomePage(driver.get())
-                .clickMe();
+                .clickMe()
+                .verifyButtonIsClicked(testData.getTestData("buttonClickedText"));
+    }
+
+    @BeforeClass
+    public void beforeClassSetup() {
+        testData = new SHAFT.TestData.JSON("TestData.json");
     }
 
     @BeforeMethod
     public void beforeMethodSetUp() {
         driver.set(new SHAFT.GUI.WebDriver());
-        driver.get().browser().navigateToURL("url");
+        driver.get().browser().navigateToURL(SHAFT.Properties.paths.testData() + "loginPage.html");
+        new LoginPage(driver.get())
+                .login(testData.getTestData("email"),
+                        testData.getTestData("password"));
+        new HomePage(driver.get())
+                .verifyUserIsOnHomePage(testData.getTestData("welcomeMessageText"));
+
+
     }
 
     @AfterMethod
