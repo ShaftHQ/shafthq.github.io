@@ -173,7 +173,7 @@ const config = {
           // {
           //   type:'html',
           //   position: 'right',
-          //   value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html" target="_blank"><b>JavaDocs</b></a>',
+          //   value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/" target="_blank"><b>JavaDocs</b></a>',
           // },
           {
             href: 'https://github.com/shafthq/SHAFT_ENGINE',
@@ -190,7 +190,7 @@ const config = {
             className: 'sponsorship-link',
           },
           {
-            href: 'https://shafthq.github.io/SHAFT_ENGINE/apidocs/index.html',
+            href: 'https://shafthq.github.io/SHAFT_ENGINE/',
             label: 'JavaDocs',
             position: 'right',
             target: '_blank',
