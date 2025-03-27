@@ -21,6 +21,21 @@ apiSocketTimeout=30
 apiConnectionTimeout=30		
 apiConnectionManagerTimeout=30
 ```
+---
+
+## Swagger / OpenAPI Contract Validation
+
+You can enable automatic schema validation of API requests and responses using a Swagger/OpenAPI specification file.
+
+SHAFT uses the `OpenApiValidationFilter` to ensure that your API communication complies with the defined contract.
+
+```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+# Enables/disables Swagger schema validation feature
+swagger.validation.enabled=true
+
+# Path or URL to your Swagger/OpenAPI schema file
+swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+```
 
 :::tip[**Tip**]
     You can learn more about the different **[property types]** and the **[full list of supported properties]** by visiting the related pages.
