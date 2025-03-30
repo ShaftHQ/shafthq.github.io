@@ -252,6 +252,42 @@ You can use these tab groups to navigate and get information about how to manage
   </TabItem>
 </Tabs>
 
+### API
+
+This section lists all configurable properties related to Swagger/OpenAPI contract validation for SHAFT API testing.
+
+<Tabs groupId="PropertyTypes" queryString="API">
+
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  // Enable or disable Swagger schema validation
+  SHAFT.Properties.api.set().swaggerValidationEnabled(true);
+  SHAFT.Properties.api.set().swaggerValidationEnabled(false);
+  ```
+  </TabItem>
+
+<TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  swagger.validation.enabled=true
+  swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+  ```
+  </TabItem>
+
+  <TabItem value="defaults" label="Default Values">
+
+  | Property Name                 | Default Value | Description                                                                 |
+  |------------------------------|----------------|-----------------------------------------------------------------------------|
+  | `swagger.validation.enabled` | `false`        | Enables or disables Swagger/OpenAPI contract validation for API testing.   |
+  | `swagger.validation.url`     | *(empty)*      | URL or file path to the OpenAPI schema for validation.                     |
+
+  </TabItem>
+
+</Tabs>
+
 ### Flags
 
 - These set of properties control generic platform flags, like the number of test retry attemps, atomaximization of web browser window, and any other built-in checks or workarounds that aim to stabelize your test execution.
