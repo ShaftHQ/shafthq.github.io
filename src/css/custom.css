@@ -87,5 +87,5 @@ table th {
 }
 
 html[data-theme='dark'] .navbar .navbar__logo {
-content: url(src/static/img/shaft_white.svg)
+content: url(../static/img/shaft_white.svg)
 }
