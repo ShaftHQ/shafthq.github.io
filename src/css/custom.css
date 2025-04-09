@@ -85,3 +85,7 @@ table th {
     }
   }
 }
+
+html[data-theme='dark'] .navbar .navbar__logo {
+content: url(img/shaft_white.svg)
+}
