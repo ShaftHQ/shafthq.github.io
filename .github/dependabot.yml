@@ -2,10 +2,10 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: /
-    schedule: null
-    interval: daily
-    time: '00:00'
-    timezone: Africa/Cairo
+    schedule:
+      interval: daily
+      time: '00:00'
+      timezone: Africa/Cairo
     groups:
       dev-dependencies:
         applies-to: version-updates
