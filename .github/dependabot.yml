@@ -3,7 +3,14 @@ updates:
 - package-ecosystem: "npm"
   directory: "/"
   schedule:
-    interval: "daily"
+  interval: "daily"
+  time: "00:00"
+  timezone: "Africa/Cairo"
+groups:
+   dev-dependencies:
+      applies-to: version-updates
+      patterns:
+        - "@docusaurus*"
 
 - package-ecosystem: "github-actions"
   directory: "/"
