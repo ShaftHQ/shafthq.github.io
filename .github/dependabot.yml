@@ -11,6 +11,7 @@ updates:
         applies-to: version-updates
         patterns:
           - '@docusaurus*'
+          - '@fortawesome*'
   - package-ecosystem: github-actions
     directory: /
     schedule:
