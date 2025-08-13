@@ -87,7 +87,7 @@ api.get("/users").setTargetStatusCode(200).perform();
 ```
 
 ### Set Content Type
-Sets the content type for the API request that you're currently building. 
+Sets the content type for the API request that you're currently building.
 By default, this value is set to **ContentType.ANY** but you can change it by calling the **setContentType** method and giving it the enum value you want.
 
 contentType Enumeration of common [IANA](http://www.iana.org/assignments/media-types/media-types.xhtml) content-types. This may be used to specify a request or response content-type more easily than specifying the full string each time. Example: **ContentType.JSON**
@@ -187,6 +187,34 @@ SHAFT.API api = new SHAFT.API("serviceURI");
 List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
 api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
+#### Parameters Type MULTIPART
+Note that: Multipart parameters are used for file uploads and text fields.  
+All text parts are sent as **UTF-8**, and the correct boundary is set automatically (no need to set `Content-Type` manually).
+
+**Using `List<List<Object>>`**
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+List<List<Object>> parameters = Arrays.asList(
+        Arrays.asList("image", new java.io.File("src/test/resources/11_02.png")),
+        Arrays.asList("arabicText", "تست أوتوميشن")
+);
+api.post("serviceName")
+   .setParameters(parameters, RestActions.ParametersType.MULTIPART)
+   .perform();
+```
+**Using `Map<String,Object>` **
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map<String, Object> parametersMap = new HashMap<>();
+parametersMap.put("image", new java.io.File("src/test/resources/11_02.png"));
+        parametersMap.put("arabicText", "تست أوتوميشن");
+
+api.post("serviceName")
+   .setParameters(parametersMap, RestActions.ParametersType.MULTIPART)
+   .perform();
+```
+
+
 ### Set Path Parameters
 
 Sets the path parameters dynamically by replacing placeholders in the `serviceName`.
@@ -229,14 +257,14 @@ Append a config to the current session to be used in the current and all the fol
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
-api.post("serviceName").addConfig(RestAssured.config).perform();
+        api.post("serviceName").addConfig(RestAssured.config).perform();
 ```
 You can also use it directly without a request method to be used for all the following requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName");
 RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
-api.addConfig(RestAssured.config).perform();
+        api.addConfig(RestAssured.config).perform();
 ```
 
 ### Enable URL Encoding
@@ -266,7 +294,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 ```
 <br/><br/>
 
-#### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_  
+#### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_
 
 ## Sample Code Snippet
 ```java
@@ -279,7 +307,7 @@ public class Test_Api {
         api.get("/users").perform();
         api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5").perform();
     }
-    
+
     @Test
     public void test_post() {
         api = new SHAFT.API("https://reqres.in/");
