@@ -17,8 +17,8 @@ function Header() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/Getting_Started/first_steps">
-            ⚡ Upgrade Now ⚡
+            to="/docs/Getting_Started/welcome">
+            🚀 Get Started
           </Link>
         </div>
       </div>
@@ -37,8 +37,8 @@ function Footer() {
                         <div className={styles.buttons}>
                             <Link
                                 className="button button--secondary button--lg"
-                                to="/docs/Getting_Started/first_steps">
-                                ⚡ Upgrade Now ⚡
+                                to="/docs/Getting_Started/welcome">
+                                🚀 Get Started
                             </Link>
                         </div>
                         <br/><br/>
