@@ -204,8 +204,16 @@ const config = {
             title: 'Docs',
             items: [
               {
-                label: 'Start here',
-                to: '/docs/Getting_Started/first_steps',
+                label: 'Get Started',
+                to: '/docs/Getting_Started/welcome',
+              },
+              {
+                label: 'Support & Community',
+                to: '/docs/Getting_Started/support',
+              },
+              {
+                label: 'Integrations',
+                to: '/docs/Getting_Started/integrations',
               },
             ],
           },
