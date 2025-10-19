@@ -3,7 +3,28 @@ id: first_steps_5
 title: Setting up a new project
 sidebar_label: New Projects
 ---
-Now that you're hooked, the fastest way to set up a new sandbox and start experiencing SHAFT is using our TestNG Maven Archetype.
+
+Now that you're hooked, here are two ways to set up a new sandbox and start experiencing SHAFT:
+
+## Option 1: Interactive Project Generator (Recommended)
+
+The easiest and most interactive way to create a new SHAFT project is using our **Project Generator**. This tool guides you through the project setup with a user-friendly interface.
+
+**[Open SHAFT Project Generator →](https://shafthq.github.io/SHAFT_ENGINE/project-generator.html)**
+
+The generator will help you:
+- Choose your project type and testing framework
+- Select dependencies and features
+- Configure your project settings
+- Generate a ready-to-use project structure
+
+Simply click the link above to get started with the interactive generator!
+
+---
+
+## Option 2: Maven Archetype
+
+You can also set up a new SHAFT project using our TestNG Maven Archetype.
 - You can do that by following this lovely **[IntelliJ IDEA guide]**.
   - Before you press `Create` you'll need to add the archetype first by using this data
   ```text
