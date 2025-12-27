@@ -23,7 +23,7 @@ const AutoBot: React.FC = () => {
   // Initialize Gemini AI
   const initializeAI = () => {
     const apiKey = process.env.REACT_APP_GEMINI_API_KEY || '';
-    if (!apiKey) {
+    if (!apiKey.trim()) {
       console.warn('Gemini API key not found. Please set REACT_APP_GEMINI_API_KEY environment variable.');
       return null;
     }
@@ -82,9 +82,10 @@ Focus on helping users with:
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
+    const trimmedInput = input.trim();
     const userMessage: Message = {
       role: 'user',
-      content: input.trim(),
+      content: trimmedInput,
       timestamp: new Date(),
     };
 
@@ -104,8 +105,9 @@ Focus on helping users with:
         systemInstruction: systemInstruction,
       });
 
-      // Build conversation history
-      const chatHistory = messages.map((msg) => ({
+      // Build conversation history (limit to last 10 messages for performance)
+      const recentMessages = messages.slice(-10);
+      const chatHistory = recentMessages.map((msg) => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }],
       }));
@@ -114,7 +116,7 @@ Focus on helping users with:
         history: chatHistory,
       });
 
-      const result = await chat.sendMessage(input.trim());
+      const result = await chat.sendMessage(trimmedInput);
       const response = await result.response;
       const text = response.text();
 
