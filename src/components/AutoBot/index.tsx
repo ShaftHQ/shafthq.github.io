@@ -26,10 +26,15 @@ const AutoBot: React.FC = () => {
   const initializeAI = () => {
     // Access environment variable from Docusaurus customFields
     const apiKey = (siteConfig.customFields?.GEMINI_API_KEY as string) || '';
-    if (!apiKey.trim()) {
-      console.warn('Gemini API key not found. AutoBot will not function without an API key.');
+    
+    if (!apiKey || !apiKey.trim()) {
+      console.error('[AutoBot] Gemini API key not configured.');
+      console.error('[AutoBot] For local development: Set REACT_APP_GEMINI_API_KEY in .env file');
+      console.error('[AutoBot] For production: Add GEMINI_API_KEY to GitHub Secrets');
       return null;
     }
+    
+    console.log('[AutoBot] API key configured successfully');
     return new GoogleGenerativeAI(apiKey);
   };
 
@@ -100,7 +105,7 @@ Focus on helping users with:
       const genAI = initializeAI();
       
       if (!genAI) {
-        throw new Error('Gemini API is not configured. Please set up your API key.');
+        throw new Error('Gemini API key not configured. Please contact the site administrator to set up the API key in GitHub Secrets.');
       }
 
       const model = genAI.getGenerativeModel({

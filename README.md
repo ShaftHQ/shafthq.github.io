@@ -28,11 +28,16 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
 
 #### For Production/GitHub Pages Deployment
 
-The API key is automatically injected from GitHub Secrets during the build process:
+**Important:** The AutoBot chatbot requires a Gemini API key to function. The key must be added as a GitHub Secret:
 
-1. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
-2. Add a new repository secret named `GEMINI_API_KEY`
-3. Set the value to your Gemini API key
+1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
+2. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
+3. Click **New repository secret**
+4. Name: `GEMINI_API_KEY`
+5. Value: Paste your Gemini API key
+6. Click **Add secret**
+
+The deployment workflow (`.github/workflows/deploy.yml`) will automatically inject this secret as `REACT_APP_GEMINI_API_KEY` during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
 4. The deployment workflow will automatically use this secret when building the site
 
 ### Local Development
