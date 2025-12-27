@@ -12,6 +12,8 @@ yarn install
 
 AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. To enable AutoBot:
 
+#### For Local Development
+
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
 2. Copy `.env.example` to `.env`:
    ```shell
@@ -23,6 +25,15 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
    ```
 
 **Note:** The `.env` file is gitignored and should never be committed to the repository.
+
+#### For Production/GitHub Pages Deployment
+
+The API key is automatically injected from GitHub Secrets during the build process:
+
+1. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
+2. Add a new repository secret named `GEMINI_API_KEY`
+3. Set the value to your Gemini API key
+4. The deployment workflow will automatically use this secret when building the site
 
 ### Local Development
 
