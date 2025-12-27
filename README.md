@@ -8,6 +8,22 @@ This website is built using [Docusaurus 3](https://docusaurus.io/), a modern sta
 yarn install
 ```
 
+### AutoBot Configuration
+
+AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. To enable AutoBot:
+
+1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
+2. Copy `.env.example` to `.env`:
+   ```shell
+   cp .env.example .env
+   ```
+3. Add your API key to the `.env` file:
+   ```
+   REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
+   ```
+
+**Note:** The `.env` file is gitignored and should never be committed to the repository.
+
 ### Local Development
 
 - Start a local server by running this command:
