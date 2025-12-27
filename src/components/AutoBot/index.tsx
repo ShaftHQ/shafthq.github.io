@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+library.add(fas);
 
 interface Message {
   role: 'user' | 'assistant';
@@ -126,7 +129,7 @@ Focus on helping users with:
       console.error('Error calling Gemini API:', error);
       const errorMessage: Message = {
         role: 'assistant',
-        content: error.message || 'Sorry, I encountered an error. Please try again or check the documentation at https://shafthq.github.io',
+        content: (error as Error).message || 'Sorry, I encountered an error. Please try again or check the documentation at https://shafthq.github.io',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
