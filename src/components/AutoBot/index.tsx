@@ -4,6 +4,7 @@ import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 library.add(fas);
 
 interface Message {
@@ -13,6 +14,7 @@ interface Message {
 }
 
 const AutoBot: React.FC = () => {
+  const { siteConfig } = useDocusaurusContext();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -22,9 +24,10 @@ const AutoBot: React.FC = () => {
 
   // Initialize Gemini AI
   const initializeAI = () => {
-    const apiKey = process.env.REACT_APP_GEMINI_API_KEY || '';
+    // Access environment variable from Docusaurus customFields
+    const apiKey = (siteConfig.customFields?.GEMINI_API_KEY as string) || '';
     if (!apiKey.trim()) {
-      console.warn('Gemini API key not found. Please set REACT_APP_GEMINI_API_KEY environment variable.');
+      console.warn('Gemini API key not found. AutoBot will not function without an API key.');
       return null;
     }
     return new GoogleGenerativeAI(apiKey);

@@ -66,6 +66,7 @@
   flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--ifm-color-emphasis-200);
+  opacity: 1;
 }
 
 /* Chat Header */
@@ -153,6 +154,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  opacity: 1;
 }
 
 .chatMessages::-webkit-scrollbar {
@@ -387,8 +389,14 @@
 }
 
 /* Dark mode adjustments */
+[data-theme='dark'] .chatWindow {
+  background: var(--ifm-background-color);
+  opacity: 1;
+}
+
 [data-theme='dark'] .chatMessages {
   background: var(--ifm-background-color);
+  opacity: 1;
 }
 
 [data-theme='dark'] .messageBubble {
