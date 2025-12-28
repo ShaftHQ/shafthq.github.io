@@ -1,6 +1,24 @@
 // Test script to verify the chat history filtering logic
 // This ensures the first message in history is always from 'user', not 'model'
 
+// This function replicates the exact logic from AutoBot component
+function buildChatHistory(messages) {
+  // Build conversation history (limit to last 10 messages for performance)
+  const recentMessages = messages.slice(-10);
+  
+  // Filter history to ensure first message is from user (Gemini API requirement)
+  // Find the index of the first user message
+  const firstUserIndex = recentMessages.findIndex(msg => msg.role === 'user');
+  const validMessages = firstUserIndex >= 0 ? recentMessages.slice(firstUserIndex) : [];
+  
+  const chatHistory = validMessages.map((msg) => ({
+    role: msg.role === 'user' ? 'user' : 'model',
+    parts: [{ text: msg.content }],
+  }));
+  
+  return chatHistory;
+}
+
 function testChatHistoryFiltering() {
   console.log('Testing chat history filtering logic...\n');
   
@@ -11,13 +29,7 @@ function testChatHistoryFiltering() {
     { role: 'assistant', content: 'SHAFT is a test automation framework...' }
   ];
   
-  const recentMessages1 = messages1.slice(-10);
-  const firstUserIndex1 = recentMessages1.findIndex(msg => msg.role === 'user');
-  const validMessages1 = firstUserIndex1 >= 0 ? recentMessages1.slice(firstUserIndex1) : [];
-  const chatHistory1 = validMessages1.map((msg) => ({
-    role: msg.role === 'user' ? 'user' : 'model',
-    parts: [{ text: msg.content }],
-  }));
+  const chatHistory1 = buildChatHistory(messages1);
   
   console.log('Test Case 1: Normal conversation');
   console.log('Input messages:', messages1.length);
@@ -32,13 +44,7 @@ function testChatHistoryFiltering() {
     { role: 'assistant', content: "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?" }
   ];
   
-  const recentMessages2 = messages2.slice(-10);
-  const firstUserIndex2 = recentMessages2.findIndex(msg => msg.role === 'user');
-  const validMessages2 = firstUserIndex2 >= 0 ? recentMessages2.slice(firstUserIndex2) : [];
-  const chatHistory2 = validMessages2.map((msg) => ({
-    role: msg.role === 'user' ? 'user' : 'model',
-    parts: [{ text: msg.content }],
-  }));
+  const chatHistory2 = buildChatHistory(messages2);
   
   console.log('Test Case 2: Only welcome message (no user input yet)');
   console.log('Input messages:', messages2.length);
@@ -58,13 +64,7 @@ function testChatHistoryFiltering() {
     { role: 'assistant', content: 'Answer 3' },
   ];
   
-  const recentMessages3 = messages3.slice(-10);
-  const firstUserIndex3 = recentMessages3.findIndex(msg => msg.role === 'user');
-  const validMessages3 = firstUserIndex3 >= 0 ? recentMessages3.slice(firstUserIndex3) : [];
-  const chatHistory3 = validMessages3.map((msg) => ({
-    role: msg.role === 'user' ? 'user' : 'model',
-    parts: [{ text: msg.content }],
-  }));
+  const chatHistory3 = buildChatHistory(messages3);
   
   console.log('Test Case 3: Long conversation');
   console.log('Input messages:', messages3.length);
@@ -74,11 +74,40 @@ function testChatHistoryFiltering() {
   console.log('Result:', chatHistory3[0]?.role === 'user' ? '✅ PASS' : '❌ FAIL');
   console.log('');
   
-  // Test Case 4: Verify no model-first messages can slip through
+  // Test Case 4: Very long conversation (>10 messages, testing the slice limit)
+  const messages4 = [
+    { role: 'assistant', content: "Welcome!" },
+    { role: 'user', content: 'Q1' },
+    { role: 'assistant', content: 'A1' },
+    { role: 'user', content: 'Q2' },
+    { role: 'assistant', content: 'A2' },
+    { role: 'user', content: 'Q3' },
+    { role: 'assistant', content: 'A3' },
+    { role: 'user', content: 'Q4' },
+    { role: 'assistant', content: 'A4' },
+    { role: 'user', content: 'Q5' },
+    { role: 'assistant', content: 'A5' },
+    { role: 'user', content: 'Q6' },
+    { role: 'assistant', content: 'A6' },
+  ];
+  
+  const chatHistory4 = buildChatHistory(messages4);
+  
+  console.log('Test Case 4: Very long conversation (>10 messages)');
+  console.log('Input messages:', messages4.length);
+  console.log('Chat history entries:', chatHistory4.length);
+  console.log('Expected: ≤10 entries');
+  console.log('First role in history:', chatHistory4[0]?.role || 'empty');
+  console.log('Result:', (chatHistory4.length <= 10 && chatHistory4[0]?.role === 'user') ? '✅ PASS' : '❌ FAIL');
+  console.log('');
+  
+  // Test Case 5: Verify no model-first messages can slip through
   const allTestsPassed = 
     chatHistory1[0]?.role === 'user' &&
     chatHistory2.length === 0 &&
-    chatHistory3[0]?.role === 'user';
+    chatHistory3[0]?.role === 'user' &&
+    chatHistory4.length <= 10 &&
+    chatHistory4[0]?.role === 'user';
   
   console.log('='.repeat(50));
   console.log('Overall Result:', allTestsPassed ? '✅ ALL TESTS PASSED' : '❌ SOME TESTS FAILED');
