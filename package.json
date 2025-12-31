@@ -14,9 +14,10 @@
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "test": "node tests/chat-history.test.js && node tests/chatbot-api.test.js",
+    "test": "node tests/run-all-tests.js",
     "test:history": "node tests/chat-history.test.js",
     "test:api": "node tests/chatbot-api.test.js",
+    "test:e2e": "node tests/run-e2e-tests.js",
     "verify-models": "node scripts/verify-models.js"
   },
   "dependencies": {
