@@ -65,13 +65,16 @@ async function testModelAvailability(apiKey, modelName) {
     });
 
     // Simple test query
-    const result = await model.generateContent('What is SHAFT in one sentence?');
+    const testQuestion = 'What is SHAFT in one sentence?';
+    console.log(`   Query: "${testQuestion}"`);
+    
+    const result = await model.generateContent(testQuestion);
     const response = await result.response;
     const text = response.text();
 
     if (text && text.length > 0) {
       console.log(`✅ Model ${modelName} is available and working`);
-      console.log(`   Response preview: ${text.substring(0, 100)}...`);
+      console.log(`   Response: ${text.substring(0, 150)}${text.length > 150 ? '...' : ''}`);
       return { success: true, model: modelName, response: text };
     } else {
       console.log(`❌ Model ${modelName} returned empty response`);
@@ -79,14 +82,18 @@ async function testModelAvailability(apiKey, modelName) {
     }
   } catch (error) {
     console.log(`❌ Model ${modelName} failed: ${error.message}`);
-    return { success: false, model: modelName, error: error.message };
+    console.log(`   Error details: ${error.stack || 'No stack trace available'}`);
+    return { success: false, model: modelName, error: error.message, errorStack: error.stack };
   }
 }
 
 /**
- * Test chatbot response relevance
+ * Test chatbot response relevance with full conversation output
  */
 async function testResponseRelevance(apiKey, modelName, testQuery) {
+  console.log(`\n   Testing: "${testQuery.query}"`);
+  console.log(`   ${'─'.repeat(65)}`);
+  
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
@@ -94,30 +101,77 @@ async function testResponseRelevance(apiKey, modelName, testQuery) {
       systemInstruction: systemInstruction,
     });
 
+    // Generate response
     const result = await model.generateContent(testQuery.query);
     const response = await result.response;
-    const text = response.text().toLowerCase();
+    const text = response.text();
+    
+    // Print full conversation
+    console.log(`   👤 User: ${testQuery.query}`);
+    console.log(`   🤖 Bot:  ${text}`);
+    console.log(`   ${'─'.repeat(65)}`);
+
+    // Check if response is valid
+    if (!text || text.trim().length === 0) {
+      console.log(`   ❌ Empty response received`);
+      return { 
+        success: false, 
+        error: 'Empty response',
+        query: testQuery.query,
+        response: text
+      };
+    }
 
     // Check if response contains expected keywords
+    const textLower = text.toLowerCase();
     const foundKeywords = testQuery.expectedKeywords.filter(keyword => 
-      text.includes(keyword.toLowerCase())
+      textLower.includes(keyword.toLowerCase())
+    );
+    const missingKeywords = testQuery.expectedKeywords.filter(keyword => 
+      !textLower.includes(keyword.toLowerCase())
     );
 
     const relevanceScore = (foundKeywords.length / testQuery.expectedKeywords.length) * 100;
     
+    // Print keyword analysis
+    console.log(`   📊 Relevance Analysis:`);
+    console.log(`      Score: ${relevanceScore.toFixed(0)}%`);
+    console.log(`      Found keywords: ${foundKeywords.length > 0 ? foundKeywords.join(', ') : 'none'}`);
+    if (missingKeywords.length > 0) {
+      console.log(`      Missing keywords: ${missingKeywords.join(', ')}`);
+    }
+    
     if (relevanceScore >= 50) {
-      console.log(`   ✅ Query: "${testQuery.query}" - Relevance: ${relevanceScore.toFixed(0)}%`);
-      console.log(`      Found keywords: ${foundKeywords.join(', ')}`);
-      return { success: true, relevanceScore, foundKeywords };
+      console.log(`   ✅ PASS - Response is relevant to the query`);
+      return { 
+        success: true, 
+        relevanceScore, 
+        foundKeywords, 
+        missingKeywords,
+        query: testQuery.query,
+        response: text
+      };
     } else {
-      console.log(`   ❌ Query: "${testQuery.query}" - Relevance: ${relevanceScore.toFixed(0)}%`);
-      console.log(`      Found keywords: ${foundKeywords.join(', ')}`);
-      console.log(`      Missing: ${testQuery.expectedKeywords.filter(k => !foundKeywords.includes(k)).join(', ')}`);
-      return { success: false, relevanceScore, foundKeywords };
+      console.log(`   ❌ FAIL - Response relevance too low (${relevanceScore.toFixed(0)}% < 50%)`);
+      return { 
+        success: false, 
+        relevanceScore, 
+        foundKeywords, 
+        missingKeywords,
+        query: testQuery.query,
+        response: text,
+        error: `Relevance score ${relevanceScore.toFixed(0)}% is below threshold`
+      };
     }
   } catch (error) {
-    console.log(`   ❌ Query failed: ${error.message}`);
-    return { success: false, error: error.message };
+    console.log(`   ❌ ERROR: ${error.message}`);
+    console.log(`   Stack trace: ${error.stack}`);
+    return { 
+      success: false, 
+      error: error.message,
+      errorStack: error.stack,
+      query: testQuery.query
+    };
   }
 }
 
@@ -148,20 +202,50 @@ async function runTests() {
 
   const modelResults = [];
   for (const modelName of MODELS_TO_TEST) {
-    const result = await testModelAvailability(apiKey, modelName);
-    modelResults.push(result);
-    // Add delay to avoid rate limiting
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const result = await testModelAvailability(apiKey, modelName);
+      modelResults.push(result);
+      // Add delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch (error) {
+      console.error(`\n❌ Unexpected error testing model ${modelName}:`);
+      console.error(`   Error: ${error.message}`);
+      console.error(`   Stack: ${error.stack}`);
+      modelResults.push({ 
+        success: false, 
+        model: modelName, 
+        error: error.message,
+        errorStack: error.stack
+      });
+    }
   }
 
   const workingModels = modelResults.filter(r => r.success);
+  const failedModels = modelResults.filter(r => !r.success);
+  
+  console.log(`\n${'='.repeat(70)}`);
+  console.log(`Model Availability Summary:`);
+  console.log(`${'='.repeat(70)}`);
+  console.log(`  Working models: ${workingModels.length}/${MODELS_TO_TEST.length}`);
+  
+  if (failedModels.length > 0) {
+    console.log(`  Failed models: ${failedModels.length}`);
+    failedModels.forEach((result, index) => {
+      console.log(`    ${index + 1}. ${result.model}: ${result.error || 'Unknown error'}`);
+    });
+  }
   
   if (workingModels.length === 0) {
     console.log('\n❌ FAIL: No working models found');
+    console.log('\nPossible issues:');
+    console.log('  1. API key may be invalid or revoked');
+    console.log('  2. Models may not be available in your region');
+    console.log('  3. Rate limits may have been exceeded');
+    console.log('  4. Network connectivity issues');
     return false;
   }
 
-  console.log(`\n✅ PASS: ${workingModels.length}/${MODELS_TO_TEST.length} models are working`);
+  console.log(`\n✅ PASS: At least one model is working`);
   const primaryModel = workingModels[0].model;
   console.log(`Primary model to use: ${primaryModel}`);
 
@@ -180,18 +264,35 @@ async function runTests() {
   }
 
   const relevantResponses = relevanceResults.filter(r => r.success);
+  const failedResponses = relevanceResults.filter(r => !r.success);
   const avgRelevance = relevanceResults
     .filter(r => r.relevanceScore !== undefined)
     .reduce((sum, r) => sum + r.relevanceScore, 0) / TEST_QUERIES.length;
 
-  console.log(`\nRelevance Summary:`);
+  console.log(`\n${'='.repeat(70)}`);
+  console.log(`Relevance Test Summary:`);
+  console.log(`${'='.repeat(70)}`);
   console.log(`  Relevant responses: ${relevantResponses.length}/${TEST_QUERIES.length}`);
   console.log(`  Average relevance: ${avgRelevance.toFixed(0)}%`);
+  
+  // Show failed tests details
+  if (failedResponses.length > 0) {
+    console.log(`\n  Failed queries (${failedResponses.length}):`);
+    failedResponses.forEach((result, index) => {
+      console.log(`    ${index + 1}. "${result.query}"`);
+      if (result.error) {
+        console.log(`       Error: ${result.error}`);
+      } else if (result.relevanceScore !== undefined) {
+        console.log(`       Relevance: ${result.relevanceScore.toFixed(0)}% (threshold: 50%)`);
+      }
+    });
+  }
 
   if (relevantResponses.length >= TEST_QUERIES.length * 0.8) {
-    console.log(`  ✅ PASS: Responses are sufficiently relevant`);
+    console.log(`\n  ✅ PASS: Responses are sufficiently relevant (${(relevantResponses.length / TEST_QUERIES.length * 100).toFixed(0)}% success rate)`);
   } else {
-    console.log(`  ❌ FAIL: Responses are not sufficiently relevant`);
+    console.log(`\n  ❌ FAIL: Responses are not sufficiently relevant (${(relevantResponses.length / TEST_QUERIES.length * 100).toFixed(0)}% success rate < 80% required)`);
+    console.log(`\nDetailed failure information saved above.`);
     return false;
   }
 
@@ -201,6 +302,8 @@ async function runTests() {
   console.log('='.repeat(70));
   console.log(`✅ All tests passed!`);
   console.log(`   - Working models: ${workingModels.map(m => m.model).join(', ')}`);
+  console.log(`   - Test queries executed: ${TEST_QUERIES.length}`);
+  console.log(`   - Successful responses: ${relevantResponses.length}/${TEST_QUERIES.length}`);
   console.log(`   - Average response relevance: ${avgRelevance.toFixed(0)}%`);
   console.log('='.repeat(70));
 
@@ -209,12 +312,40 @@ async function runTests() {
 
 // Run tests if executed directly
 if (require.main === module) {
+  // Add process-level error handlers
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('\n❌ Unhandled Promise Rejection:');
+    console.error('Reason:', reason);
+    console.error('Promise:', promise);
+    process.exit(1);
+  });
+
+  process.on('uncaughtException', (error) => {
+    console.error('\n❌ Uncaught Exception:');
+    console.error('Error:', error);
+    console.error('Stack:', error.stack);
+    process.exit(1);
+  });
+
   runTests()
     .then(success => {
-      process.exit(success ? 0 : 1);
+      if (success) {
+        console.log('\n✅ Test suite completed successfully');
+        process.exit(0);
+      } else {
+        console.log('\n❌ Test suite failed - see errors above');
+        process.exit(1);
+      }
     })
     .catch(error => {
-      console.error('\n❌ Test execution failed:', error);
+      console.error('\n❌ Fatal error during test execution:');
+      console.error('Error:', error.message);
+      console.error('Stack:', error.stack);
+      console.error('\nPlease check:');
+      console.error('  1. GEMINI_API_KEY environment variable is set correctly');
+      console.error('  2. API key is valid and has not been revoked');
+      console.error('  3. Network connectivity is working');
+      console.error('  4. Rate limits have not been exceeded');
       process.exit(1);
     });
 }
