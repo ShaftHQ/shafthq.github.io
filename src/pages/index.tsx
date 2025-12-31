@@ -13,12 +13,12 @@ function Header() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">SHAFT: Unified Test Automation Engine</h1>
-        <p className="hero__subtitle"><b>Stop</b> reinventing the wheel,<br/> <b>Start</b> using SHAFT.</p>
+        <p className="hero__subtitle">Write once, test everywhere.<br/>Web • Mobile • API • CLI • Database</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/Getting_Started/first_steps">
-            ⚡ Upgrade Now ⚡
+            Get Started Free ⚡
           </Link>
         </div>
       </div>
@@ -33,12 +33,12 @@ function Footer() {
                 <header>
                     <div className="container">
                         <br/>
-                        <p className="hero__subtitle"><b>What are you waiting for?</b></p>
+                        <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
                         <div className={styles.buttons}>
                             <Link
                                 className="button button--secondary button--lg"
                                 to="/docs/Getting_Started/first_steps">
-                                ⚡ Upgrade Now ⚡
+                                Start Your Journey ⚡
                             </Link>
                         </div>
                         <br/><br/>
