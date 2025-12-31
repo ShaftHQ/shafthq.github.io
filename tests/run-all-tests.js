@@ -51,6 +51,18 @@ function addTestResult(name, description, status, evidence, errorDetails = null)
 }
 
 /**
+ * Check if error output indicates API key issues
+ */
+function isApiKeyError(text) {
+  const apiKeyErrorPatterns = [
+    'No working models found',
+    'API key not valid',
+    'API_KEY_INVALID'
+  ];
+  return apiKeyErrorPatterns.some(pattern => text.includes(pattern));
+}
+
+/**
  * Run chat history tests
  */
 function runChatHistoryTests() {
@@ -162,17 +174,8 @@ function runAPITests() {
   } catch (error) {
     const output = error.stdout || '';
     const errorOutput = error.stderr || error.message || '';
-    const fullOutput = output + '\n' + errorOutput;
-    
-    // Helper function to check if error is due to API key issues
-    const isApiKeyError = (text) => {
-      const apiKeyErrorPatterns = [
-        'No working models found',
-        'API key not valid',
-        'API_KEY_INVALID'
-      ];
-      return apiKeyErrorPatterns.some(pattern => text.includes(pattern));
-    };
+    // Combine outputs, avoiding extra newlines if one is empty
+    const fullOutput = [output, errorOutput].filter(s => s.trim()).join('\n');
     
     if (fullOutput.includes('ERROR: API key not configured')) {
       addTestResult(
