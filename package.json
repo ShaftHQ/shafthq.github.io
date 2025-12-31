@@ -16,7 +16,8 @@
     "typecheck": "tsc",
     "test": "node tests/chat-history.test.js && node tests/chatbot-api.test.js",
     "test:history": "node tests/chat-history.test.js",
-    "test:api": "node tests/chatbot-api.test.js"
+    "test:api": "node tests/chatbot-api.test.js",
+    "verify-models": "node scripts/verify-models.js"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",
