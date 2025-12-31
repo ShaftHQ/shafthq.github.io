@@ -416,3 +416,63 @@
 [data-theme='dark'] .userMessage .messageBubble {
   background: var(--ifm-color-primary-dark);
 }
+
+/* API Key Prompt */
+.apiKeyPrompt {
+  background: var(--ifm-color-emphasis-100);
+  border: 2px solid var(--ifm-color-primary-lighter);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.apiKeyPrompt h4 {
+  margin: 0 0 12px 0;
+  color: var(--ifm-color-primary);
+  font-size: 16px;
+}
+
+.apiKeyInput {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+.apiKeyInput:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+}
+
+.apiKeyButton {
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.apiKeyButton:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+[data-theme='dark'] .apiKeyPrompt {
+  background: #2a2a2e;
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .apiKeyInput {
+  background: #1b1b1d;
+  color: #ffffff;
+  border-color: #444;
+}

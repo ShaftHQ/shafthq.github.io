@@ -1,0 +1,54 @@
+# Gitleaks configuration for detecting secrets in the repository
+# See https://github.com/gitleaks/gitleaks for more information
+
+title = "Gitleaks Configuration for SHAFT User Guide"
+
+[extend]
+# useDefault will extend the base configuration with the default gitleaks config:
+# https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml
+useDefault = true
+
+[allowlist]
+description = "Allowlist for false positives"
+regexes = [
+  '''your_api_key_here''',  # Placeholder in documentation
+  '''your_actual_api_key_here''',  # Placeholder in documentation
+  '''GEMINI_API_KEY=\$\{\{.*\}\}''',  # GitHub Actions secret reference
+  '''process\.env\.GEMINI_API_KEY''',  # Environment variable reference
+  '''customFields\.GEMINI_API_KEY''',  # Docusaurus config reference
+  '''secrets\.GEMINI_API_KEY''',  # GitHub Actions secret syntax
+]
+
+paths = [
+  '''.env.example''',  # Example files with placeholders
+  '''README.md''',  # Documentation files
+  '''SECURITY.md''',  # Security documentation
+  '''CHATBOT_TESTING.md''',
+  '''CONFIGURATION_VERIFICATION.md''',
+  '''DEPLOYMENT_CHECKLIST.md''',
+  '''GITHUB_ACTIONS_TEST_SETUP.md''',
+  '''FINAL_SUMMARY.md''',
+  '''E2E_TEST_RESULTS.md''',
+  '''TEST_REPORT.md''',
+  '''build/.*''',  # Build artifacts should not be committed anyway
+]
+
+# Additional custom rules specific to this project
+[[rules]]
+description = "Google Gemini API Key"
+id = "gemini-api-key"
+regex = '''AIza[0-9A-Za-z_-]{35}'''
+tags = ["key", "API", "gemini"]
+
+[[rules]]
+description = "Generic API Key in .env files"
+id = "env-api-key"
+regex = '''(?i)(api[_-]?key|apikey|api[_-]?secret)\s*=\s*['"][a-zA-Z0-9_\-]{20,}['"]'''
+path = '''\.env$'''
+tags = ["key", "API", "env"]
+
+[[rules]]
+description = "Google API Key Pattern"
+id = "google-api-key"
+regex = '''(?i)google[_-]?api[_-]?key['"]?\s*[:=]\s*['"]?[a-zA-Z0-9_\-]{30,}'''
+tags = ["key", "API", "google"]

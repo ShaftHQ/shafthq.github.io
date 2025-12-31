@@ -49,9 +49,10 @@ const config = {
 
   trailingSlash: false,
 
-  // Custom fields to inject environment variables into client-side code
+  // SECURITY NOTE: Do NOT pass secrets through customFields as they get embedded in the client bundle
+  // The API key should be loaded at runtime or the chatbot should prompt users to enter their own key
   customFields: {
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
+    // Removed GEMINI_API_KEY from here to prevent it from being embedded in the build
   },
 
   presets: [
