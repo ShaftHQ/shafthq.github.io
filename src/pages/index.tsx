@@ -54,7 +54,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={`${siteConfig.organizationName}`}
-      description="Stop reinventing the wheel. Start using SHAFT. This is the official user guide for using SHAFT; The Unified Test Automation Engine.">
+      description="Transform your test automation with SHAFT - the award-winning, all-in-one automation engine for Web, Mobile, API, CLI, and Database testing. Zero boilerplate, maximum productivity.">
       <Header />
       <main>
         <HomepageFeatures />
