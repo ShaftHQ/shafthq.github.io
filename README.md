@@ -15,11 +15,12 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
 #### For Local Development
 
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. Copy `.env.example` to `.env`:
+2. **Recommended**: Add HTTP referrer restriction for `http://localhost:3000/*` in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) (see production instructions above for details)
+3. Copy `.env.example` to `.env`:
    ```shell
    cp .env.example .env
    ```
-3. Add your API key to the `.env` file:
+4. Add your API key to the `.env` file:
    ```
    REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
    ```
@@ -28,17 +29,32 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
 
 #### For Production/GitHub Pages Deployment
 
-**Important:** The AutoBot chatbot requires a Gemini API key to function. The key must be added as a GitHub Secret:
+**Important:** The AutoBot chatbot requires a Gemini API key to function. Follow these steps to configure it securely:
+
+##### Step 1: Create and Restrict the API Key
 
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
-3. Click **New repository secret**
-4. Name: `GEMINI_API_KEY`
-5. Value: Paste your Gemini API key
-6. Click **Add secret**
+2. **CRITICAL SECURITY STEP**: Add HTTP referrer restrictions to prevent API key abuse:
+   - Go to [Google Cloud Console - API Credentials](https://console.cloud.google.com/apis/credentials)
+   - Find your Gemini API key and click "Edit"
+   - Under "Application restrictions", select **"HTTP referrers (web sites)"**
+   - Click **"Add an item"** and add these referrers:
+     - `https://shafthq.github.io/*`
+     - `http://localhost:3000/*` (for local testing)
+   - Under "API restrictions", select **"Restrict key"** and enable only **"Generative Language API"**
+   - Click **"Save"**
+
+   **Why this matters:** Without referrer restrictions, anyone who views your website's JavaScript source code could steal and abuse your API key on their own websites.
+
+##### Step 2: Add API Key to GitHub Secrets
+
+3. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
+4. Click **New repository secret**
+5. Name: `GEMINI_API_KEY`
+6. Value: Paste your restricted Gemini API key
+7. Click **Add secret**
 
 The deployment workflow (`.github/workflows/deploy.yml`) will automatically inject this secret as `REACT_APP_GEMINI_API_KEY` during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
-4. The deployment workflow will automatically use this secret when building the site
 
 ### Local Development
 

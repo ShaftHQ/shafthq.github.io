@@ -115,7 +115,13 @@ Focus on helping users with:
 
       // Build conversation history (limit to last 10 messages for performance)
       const recentMessages = messages.slice(-10);
-      const chatHistory = recentMessages.map((msg) => ({
+      
+      // Filter history to ensure first message is from user (Gemini API requirement)
+      // Find the index of the first user message
+      const firstUserIndex = recentMessages.findIndex(msg => msg.role === 'user');
+      const validMessages = firstUserIndex >= 0 ? recentMessages.slice(firstUserIndex) : [];
+      
+      const chatHistory = validMessages.map((msg) => ({
         role: msg.role === 'user' ? 'user' : 'model',
         parts: [{ text: msg.content }],
       }));
