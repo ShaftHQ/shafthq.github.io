@@ -12,11 +12,12 @@ The chatbot was using `gemini-1.5-flash` which was returning a 404 error:
 ```
 
 ### Solution
-1. **Updated to latest model**: Changed primary model to `gemini-2.0-flash-exp` (the latest experimental free model from Google)
+1. **Updated to latest model**: Changed primary model to `gemini-3-flash` (the latest model from Google)
 2. **Added fallback mechanism**: Implemented automatic fallback to try multiple models in order:
-   - `gemini-2.0-flash-exp` (primary - newest experimental model)
-   - `gemini-1.5-flash` (fallback - stable model)
-   - `gemini-1.5-pro` (final fallback - larger stable model)
+   - `gemini-3-flash` (primary - latest model)
+   - `gemini-2.0-flash-exp` (fallback 1 - experimental model)
+   - `gemini-1.5-flash` (fallback 2 - stable model)
+   - `gemini-1.5-pro` (fallback 3 - larger stable model)
 3. **Added comprehensive tests**: Created test suite to verify model availability and response relevance
 
 ## Testing
@@ -137,7 +138,8 @@ If you hit these limits:
 
 | Model | Status | Context Window | Best For |
 |-------|--------|----------------|----------|
-| `gemini-2.0-flash-exp` | Experimental | 1M tokens | Latest features, fastest |
+| `gemini-3-flash` | Latest | 1M tokens | Latest features, best performance |
+| `gemini-2.0-flash-exp` | Experimental | 1M tokens | Agentic features, fast |
 | `gemini-1.5-flash` | Stable | 1M tokens | Production use |
 | `gemini-1.5-pro` | Stable | 2M tokens | Complex queries |
 
