@@ -21,8 +21,13 @@ const AutoBot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userApiKey, setUserApiKey] = useState<string>('');
   const [showApiKeyPrompt, setShowApiKeyPrompt] = useState(false);
+  const [apiKeyInput, setApiKeyInput] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Welcome messages
+  const WELCOME_MESSAGE_WITH_KEY = "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?";
+  const WELCOME_MESSAGE_NO_KEY = "👋 Hi! I'm AutoBot. To chat with me, you'll need to provide your own Google Gemini API key.\n\n🔒 **Why?** For security, we don't embed API keys in the website. Your key stays private in your browser.\n\n✨ **Get a free key:** Visit https://ai.google.dev/gemini-api/docs/api-key\n\n⚠️ **Important:** Add HTTP referrer restrictions to your key to prevent abuse:\n- Restrict to: https://shafthq.github.io/*\n- This ensures only this website can use your key";
 
   // Load API key from localStorage on component mount
   useEffect(() => {
@@ -105,37 +110,30 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
   useEffect(() => {
     // Add welcome message when chat is first opened
     if (isOpen && messages.length === 0) {
+      const welcomeMessage = userApiKey ? WELCOME_MESSAGE_WITH_KEY : WELCOME_MESSAGE_NO_KEY;
+      setMessages([
+        {
+          role: 'assistant',
+          content: welcomeMessage,
+          timestamp: new Date(),
+        },
+      ]);
       if (!userApiKey) {
-        setMessages([
-          {
-            role: 'assistant',
-            content: "👋 Hi! I'm AutoBot. To chat with me, you'll need to provide your own Google Gemini API key.\n\n🔒 **Why?** For security, we don't embed API keys in the website. Your key stays private in your browser.\n\n✨ **Get a free key:** Visit https://ai.google.dev/gemini-api/docs/api-key\n\n⚠️ **Important:** Add HTTP referrer restrictions to your key to prevent abuse:\n- Restrict to: https://shafthq.github.io/*\n- This ensures only this website can use your key",
-            timestamp: new Date(),
-          },
-        ]);
         setShowApiKeyPrompt(true);
-      } else {
-        setMessages([
-          {
-            role: 'assistant',
-            content: "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?",
-            timestamp: new Date(),
-          },
-        ]);
       }
     }
   }, [isOpen, userApiKey]);
 
   const handleApiKeySubmit = () => {
-    const apiKeyInput = (document.getElementById('apiKeyInput') as HTMLInputElement)?.value;
     if (apiKeyInput && apiKeyInput.trim()) {
       localStorage.setItem('autobot_gemini_api_key', apiKeyInput.trim());
       setUserApiKey(apiKeyInput.trim());
+      setApiKeyInput('');
       setShowApiKeyPrompt(false);
       setMessages([
         {
           role: 'assistant',
-          content: "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?",
+          content: WELCOME_MESSAGE_WITH_KEY,
           timestamp: new Date(),
         },
       ]);
@@ -145,11 +143,12 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
   const handleRemoveApiKey = () => {
     localStorage.removeItem('autobot_gemini_api_key');
     setUserApiKey('');
+    setApiKeyInput('');
     setShowApiKeyPrompt(true);
     setMessages([
       {
         role: 'assistant',
-        content: "👋 Hi! I'm AutoBot. To chat with me, you'll need to provide your own Google Gemini API key.\n\n🔒 **Why?** For security, we don't embed API keys in the website. Your key stays private in your browser.\n\n✨ **Get a free key:** Visit https://ai.google.dev/gemini-api/docs/api-key\n\n⚠️ **Important:** Add HTTP referrer restrictions to your key to prevent abuse:\n- Restrict to: https://shafthq.github.io/*\n- This ensures only this website can use your key",
+        content: WELCOME_MESSAGE_NO_KEY,
         timestamp: new Date(),
       },
     ]);
@@ -259,9 +258,7 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
   };
 
   const clearChat = () => {
-    const welcomeMessage = userApiKey 
-      ? "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?"
-      : "👋 Hi! I'm AutoBot. To chat with me, you'll need to provide your own Google Gemini API key.\n\n🔒 **Why?** For security, we don't embed API keys in the website. Your key stays private in your browser.\n\n✨ **Get a free key:** Visit https://ai.google.dev/gemini-api/docs/api-key\n\n⚠️ **Important:** Add HTTP referrer restrictions to your key to prevent abuse:\n- Restrict to: https://shafthq.github.io/*\n- This ensures only this website can use your key";
+    const welcomeMessage = userApiKey ? WELCOME_MESSAGE_WITH_KEY : WELCOME_MESSAGE_NO_KEY;
     
     setMessages([
       {
@@ -353,9 +350,10 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
                 </p>
                 <input
                   type="password"
-                  id="apiKeyInput"
                   placeholder="Paste your Gemini API key here..."
                   className={styles.apiKeyInput}
+                  value={apiKeyInput}
+                  onChange={(e) => setApiKeyInput(e.target.value)}
                   onKeyPress={(e) => {
                     if (e.key === 'Enter') {
                       handleApiKeySubmit();
