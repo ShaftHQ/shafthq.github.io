@@ -12,9 +12,7 @@ yarn install
 
 AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic fallback for reliability:
 - Primary: `gemini-3-flash` (latest model)
-- Fallback 1: `gemini-2.0-flash-exp` (experimental model)
-- Fallback 2: `gemini-1.5-flash` (stable model)
-- Fallback 3: `gemini-1.5-pro` (larger stable model)
+- Fallback: `gemini-2.5-flash` (if rate limit is hit on gemini-3-flash)
 
 To enable AutoBot:
 

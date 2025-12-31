@@ -13,11 +13,9 @@ The chatbot was using `gemini-1.5-flash` which was returning a 404 error:
 
 ### Solution
 1. **Updated to latest model**: Changed primary model to `gemini-3-flash` (the latest model from Google)
-2. **Added fallback mechanism**: Implemented automatic fallback to try multiple models in order:
+2. **Added fallback mechanism**: Implemented automatic fallback to handle rate limits:
    - `gemini-3-flash` (primary - latest model)
-   - `gemini-2.0-flash-exp` (fallback 1 - experimental model)
-   - `gemini-1.5-flash` (fallback 2 - stable model)
-   - `gemini-1.5-pro` (fallback 3 - larger stable model)
+   - `gemini-2.5-flash` (fallback - if rate limit is hit on primary)
 3. **Added comprehensive tests**: Created test suite to verify model availability and response relevance
 
 ## Testing
@@ -139,11 +137,9 @@ If you hit these limits:
 | Model | Status | Context Window | Best For |
 |-------|--------|----------------|----------|
 | `gemini-3-flash` | Latest | 1M tokens | Latest features, best performance |
-| `gemini-2.0-flash-exp` | Experimental | 1M tokens | Agentic features, fast |
-| `gemini-1.5-flash` | Stable | 1M tokens | Production use |
-| `gemini-1.5-pro` | Stable | 2M tokens | Complex queries |
+| `gemini-2.5-flash` | Fallback | 1M tokens | Rate limit fallback, production-ready |
 
-All models are available on the free tier with rate limits.
+Both models are available on the free tier with rate limits.
 
 ## Documentation References
 

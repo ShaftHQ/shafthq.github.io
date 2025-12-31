@@ -7,9 +7,7 @@
 
 const modelsToTry = [
   'gemini-3-flash',
-  'gemini-2.0-flash-exp',
-  'gemini-1.5-flash',
-  'gemini-1.5-pro'
+  'gemini-2.5-flash'
 ];
 
 console.log('='.repeat(70));
@@ -18,20 +16,18 @@ console.log('='.repeat(70));
 console.log('\nAutoBot is configured to use the following models in order:\n');
 
 modelsToTry.forEach((model, index) => {
-  const label = index === 0 ? 'Primary' : index === 1 ? 'Fallback 1' : index === 2 ? 'Fallback 2' : 'Fallback 3';
+  const label = index === 0 ? 'Primary' : 'Fallback';
   console.log(`  ${index + 1}. ${label.padEnd(12)} : ${model}`);
 });
 
 console.log('\nHow it works:');
-console.log('  - AutoBot will first try to use the primary model');
-console.log('  - If that fails, it will automatically try the fallback models in order');
-console.log('  - If all models fail, an error message is shown to the user');
+console.log('  - AutoBot will first try to use the primary model (gemini-3-flash)');
+console.log('  - If that fails or rate limit is hit, it will automatically use the fallback (gemini-2.5-flash)');
+console.log('  - If both models fail, an error message is shown to the user');
 
 console.log('\nModel Information:');
-console.log('  - gemini-3-flash       : Latest model (newest features, best performance)');
-console.log('  - gemini-2.0-flash-exp : Experimental model (fast, agentic features)');
-console.log('  - gemini-1.5-flash     : Stable production model (reliable, well-tested)');
-console.log('  - gemini-1.5-pro       : Larger stable model (more capable, slightly slower)');
+console.log('  - gemini-3-flash   : Latest model (newest features, best performance)');
+console.log('  - gemini-2.5-flash : Fallback model (reliable, production-ready)');
 
 console.log('\nAll models are available on the free tier with rate limits:');
 console.log('  - 15 requests per minute');
