@@ -101,17 +101,21 @@ Focus on helping users with:
     setInput('');
     setIsLoading(true);
 
+    // List of models to try in order of preference (newest to oldest)
+    const modelsToTry = [
+      'gemini-2.0-flash-exp',
+      'gemini-1.5-flash',
+      'gemini-1.5-pro'
+    ];
+
+    let lastError: Error | null = null;
+
     try {
       const genAI = initializeAI();
       
       if (!genAI) {
         throw new Error('Gemini API key not configured. Please contact the site administrator to set up the API key in GitHub Secrets.');
       }
-
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        systemInstruction: systemInstruction,
-      });
 
       // Build conversation history (limit to last 10 messages for performance)
       const recentMessages = messages.slice(-10);
@@ -126,21 +130,43 @@ Focus on helping users with:
         parts: [{ text: msg.content }],
       }));
 
-      const chat = model.startChat({
-        history: chatHistory,
-      });
+      // Try each model in order until one works
+      for (const modelName of modelsToTry) {
+        try {
+          console.log(`[AutoBot] Trying model: ${modelName}`);
+          
+          const model = genAI.getGenerativeModel({
+            model: modelName,
+            systemInstruction: systemInstruction,
+          });
 
-      const result = await chat.sendMessage(trimmedInput);
-      const response = await result.response;
-      const text = response.text();
+          const chat = model.startChat({
+            history: chatHistory,
+          });
 
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: text,
-        timestamp: new Date(),
-      };
+          const result = await chat.sendMessage(trimmedInput);
+          const response = await result.response;
+          const text = response.text();
 
-      setMessages((prev) => [...prev, assistantMessage]);
+          const assistantMessage: Message = {
+            role: 'assistant',
+            content: text,
+            timestamp: new Date(),
+          };
+
+          console.log(`[AutoBot] Successfully used model: ${modelName}`);
+          setMessages((prev) => [...prev, assistantMessage]);
+          return; // Success! Exit the function
+        } catch (modelError) {
+          console.warn(`[AutoBot] Model ${modelName} failed:`, modelError);
+          lastError = modelError as Error;
+          // Continue to the next model
+        }
+      }
+
+      // If we get here, all models failed
+      throw new Error(lastError?.message || 'All available models failed. Please try again later.');
+      
     } catch (error) {
       console.error('Error calling Gemini API:', error);
       const errorMessage: Message = {
