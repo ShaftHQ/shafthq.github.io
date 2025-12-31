@@ -164,24 +164,38 @@ function runAPITests() {
     const errorOutput = error.stderr || error.message || '';
     const fullOutput = output + '\n' + errorOutput;
     
+    // Helper function to check if error is due to API key issues
+    const isApiKeyError = (text) => {
+      const apiKeyErrorPatterns = [
+        'No working models found',
+        'API key not valid',
+        'API_KEY_INVALID'
+      ];
+      return apiKeyErrorPatterns.some(pattern => text.includes(pattern));
+    };
+    
     if (fullOutput.includes('ERROR: API key not configured')) {
       addTestResult(
-        'API Tests',
-        'Chatbot API functionality tests',
+        'Model Availability Test',
+        'Tests if gemini-3-flash and gemini-2.5-flash models are available',
+        'SKIPPED',
+        'API key not configured'
+      );
+      addTestResult(
+        'Response Relevance Test',
+        'Tests if chatbot responses contain relevant SHAFT information',
         'SKIPPED',
         'API key not configured'
       );
     } else if (fullOutput.includes('Cannot find module')) {
       addTestResult(
-        'API Tests',
-        'Chatbot API functionality tests',
+        'Module Dependency Test',
+        'Verifies required dependencies are installed',
         'FAILED',
         'Required module not found. This indicates a dependency installation issue.',
         errorOutput
       );
-    } else if (fullOutput.includes('No working models found') || 
-               fullOutput.includes('API key not valid') ||
-               fullOutput.includes('API_KEY_INVALID')) {
+    } else if (isApiKeyError(fullOutput)) {
       // API key issues or model availability issues should not fail the build
       // These are environment/runtime issues, not code issues
       addTestResult(
@@ -198,7 +212,7 @@ function runAPITests() {
       );
     } else {
       addTestResult(
-        'API Tests',
+        'Comprehensive API Test',
         'Chatbot API functionality tests',
         'FAILED',
         output || errorOutput,
