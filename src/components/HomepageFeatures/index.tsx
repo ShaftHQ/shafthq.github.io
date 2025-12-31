@@ -17,30 +17,30 @@ type FeatureItem = {
 
 const FeatureListRow1: FeatureItem[] = [
     {
-        title: 'Maximize your efficiency',
+        title: 'Maximize ROI & Efficiency',
         svg: "fa-solid fa-money-bill-trend-up",
         description: (
             <>
-                You design your tests, and we&apos;ll handle synchronization, screenshots, logging & reporting
+                Focus on designing your tests while SHAFT handles synchronization, screenshots, logging, and reporting
                 with <b>zero</b> <code>boilerplate code</code>
             </>
         ),
     },
     {
-        title: 'All-in-one solution',
+        title: 'All-in-One Solution',
         svg: "fa-solid fa-list-check",
         description: (
             <>
-                Drives <b>GUI</b> (web, mobile & desktop), <b>API</b>, <b>CLI</b>, and <b>Database</b> test automation
+                Unified engine for <b>Web</b>, <b>Mobile</b>, <b>API</b>, <b>CLI</b>, and <b>Database</b> test automation—no more juggling multiple tools
             </>
         ),
     },
     {
-        title: 'Highly intuitive',
+        title: 'Wizard-Like Syntax',
         svg: "fa-solid fa-hat-wizard",
         description: (
             <>
-                Wizard-like syntax; just type <b><code>SHAFT.</code></b> and watch the magic unfold
+                Intuitive fluent API: just type <b><code>SHAFT.</code></b> and discover all capabilities instantly
             </>
         ),
     },
@@ -48,33 +48,33 @@ const FeatureListRow1: FeatureItem[] = [
 
 const FeatureListRow2: FeatureItem[] = [
     {
-        title: 'Award winning',
+        title: 'Award-Winning Framework',
         svg: "fa-solid fa-trophy",
         description: (
             <>
                 <a href={'https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html'}>
-                    <b>Google Open Source</b> Peer Bonus</a> award winner
+                    <b>Google Open Source</b> Peer Bonus</a> award winner and trusted globally
             </>
         ),
     },
     {
-        title: 'Selenium Ecosystem',
+        title: 'Official Selenium Ecosystem',
         svg: "fa-solid fa-globe",
         description: (
             <>
-                One of 17 proud members of the <a href={'https://www.selenium.dev/ecosystem/#frameworks'}> official <b>Selenium
-                ecosystem</b> frameworks</a>
+                Proud member of the <a href={'https://www.selenium.dev/ecosystem/#frameworks'}> official <b>Selenium
+                ecosystem</b> frameworks</a> with 40,000+ active users worldwide
             </>
         ),
     },
     {
-        title: 'Powered by WebDriver',
+        title: 'Future-Proof & Standards-Compliant',
         svg: "fa-solid fa-battery-full",
         description: (
             <>
-                Guaranteed robust <a href={'https://www.w3.org/standards'}><b>W3C</b> standard compliant</a>
-                , future proof <a href={'https://w3c.github.io/webdriver-bidi'}>WebDriver <b>BiDi</b> enabled</a>
-                , and <a href={'https://www.selenium.dev/documentation/webdriver'}>fully <b>supported</b></a> automated test suites
+                <a href={'https://www.w3.org/standards'}><b>W3C</b> standard compliant</a>
+                , <a href={'https://w3c.github.io/webdriver-bidi'}>WebDriver <b>BiDi</b> enabled</a>
+                , and <a href={'https://www.selenium.dev/documentation/webdriver'}>fully <b>supported</b></a> by the Selenium project
             </>
         ),
     },
