@@ -10,7 +10,11 @@ yarn install
 
 ### AutoBot Configuration
 
-AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. To enable AutoBot:
+AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic fallback for reliability:
+- Primary: `gemini-3-flash` (latest model)
+- Fallback: `gemini-2.5-flash` (if rate limit is hit on gemini-3-flash)
+
+To enable AutoBot:
 
 #### For Local Development
 
@@ -22,7 +26,7 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
    ```
 4. Add your API key to the `.env` file:
    ```
-   REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
+   GEMINI_API_KEY=your_actual_api_key_here
    ```
 
 **Note:** The `.env` file is gitignored and should never be committed to the repository.
@@ -54,7 +58,23 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
 6. Value: Paste your restricted Gemini API key
 7. Click **Add secret**
 
-The deployment workflow (`.github/workflows/deploy.yml`) will automatically inject this secret as `REACT_APP_GEMINI_API_KEY` during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
+The deployment workflow (`.github/workflows/deploy.yml`) will automatically use this secret during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
+
+### Testing AutoBot
+
+For detailed testing instructions, see [CHATBOT_TESTING.md](CHATBOT_TESTING.md).
+
+To run tests:
+```shell
+# Run all tests
+npm test
+
+# Run only chat history tests
+npm run test:history
+
+# Run only API tests (requires GEMINI_API_KEY environment variable)
+npm run test:api
+```
 
 ### Local Development
 
