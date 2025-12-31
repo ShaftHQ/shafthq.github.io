@@ -40,12 +40,9 @@ driver.element().typeSecure(elementLocator, "query");
 
 ```java
 //locator of browse button or choose file button  
-	 By chooseFileButtonLocator = By.xpath("//form//input[@type='file']");
-//typeFileLocationForUplaod method takes element locator and file path 	 
-	 driver.element().typeFileLocationForUpload(chooseFileButtonLocator, "src/test/resources/testDataFiles/testUpload.txt);
-	 
- }
-
+By chooseFileButtonLocator = By.xpath("//form//input[@type='file']");
+//typeFileLocationForUpload method takes element locator and file path 	 
+driver.element().typeFileLocationForUpload(chooseFileButtonLocator, "src/test/resources/testDataFiles/testUpload.txt");
 ```
 
 
