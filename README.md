@@ -27,7 +27,7 @@ To enable AutoBot:
    ```
 4. Add your API key to the `.env` file:
    ```
-   REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
+   GEMINI_API_KEY=your_actual_api_key_here
    ```
 
 **Note:** The `.env` file is gitignored and should never be committed to the repository.
@@ -59,7 +59,7 @@ To enable AutoBot:
 6. Value: Paste your restricted Gemini API key
 7. Click **Add secret**
 
-The deployment workflow (`.github/workflows/deploy.yml`) will automatically inject this secret as `REACT_APP_GEMINI_API_KEY` during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
+The deployment workflow (`.github/workflows/deploy.yml`) will automatically use this secret during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
 
 ### Testing AutoBot
 

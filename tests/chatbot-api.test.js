@@ -131,11 +131,11 @@ async function runTests() {
   console.log('='.repeat(70));
 
   // Check if API key is available
-  const apiKey = process.env.REACT_APP_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   
   if (!apiKey || !apiKey.trim()) {
     console.log('\n❌ ERROR: API key not configured');
-    console.log('Please set REACT_APP_GEMINI_API_KEY or GEMINI_API_KEY environment variable');
+    console.log('Please set GEMINI_API_KEY environment variable');
     console.log('You can get an API key from: https://ai.google.dev/gemini-api/docs/api-key');
     return false;
   }

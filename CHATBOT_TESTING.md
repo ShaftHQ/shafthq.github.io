@@ -34,7 +34,7 @@ https://ai.google.dev/gemini-api/docs/api-key
    
    # Edit .env and add your API key
    # Replace 'your_api_key_here' with your actual API key
-   REACT_APP_GEMINI_API_KEY=your_actual_api_key_here
+   GEMINI_API_KEY=your_actual_api_key_here
    ```
 
 2. **Run the tests**:
@@ -72,7 +72,7 @@ For production deployment, the API key should be configured as a GitHub Secret:
    - Name: `GEMINI_API_KEY`
    - Value: Your Gemini API key
 
-The deployment workflow will automatically inject this as `REACT_APP_GEMINI_API_KEY` during the build.
+The deployment workflow will automatically use this secret during the build.
 
 ## Test Suite Details
 
@@ -107,13 +107,13 @@ The test checks:
 The test will skip API tests and show:
 ```
 ❌ ERROR: API key not configured
-Please set REACT_APP_GEMINI_API_KEY or GEMINI_API_KEY environment variable
+Please set GEMINI_API_KEY environment variable
 ```
 
 ## Troubleshooting
 
 ### "API key not configured" error
-- Check that your `.env` file exists and contains `REACT_APP_GEMINI_API_KEY`
+- Check that your `.env` file exists and contains `GEMINI_API_KEY`
 - Restart the development server after adding the API key
 - For production, verify the GitHub Secret is configured
 

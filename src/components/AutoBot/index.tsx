@@ -29,7 +29,7 @@ const AutoBot: React.FC = () => {
     
     if (!apiKey || !apiKey.trim()) {
       console.error('[AutoBot] Gemini API key not configured.');
-      console.error('[AutoBot] For local development: Set REACT_APP_GEMINI_API_KEY in .env file');
+      console.error('[AutoBot] For local development: Set GEMINI_API_KEY in .env file');
       console.error('[AutoBot] For production: Add GEMINI_API_KEY to GitHub Secrets');
       return null;
     }

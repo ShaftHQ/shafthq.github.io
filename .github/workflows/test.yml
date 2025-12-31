@@ -25,4 +25,4 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          REACT_APP_GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
