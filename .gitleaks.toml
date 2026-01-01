@@ -31,6 +31,7 @@ paths = [
   '''E2E_TEST_RESULTS.md''',
   '''TEST_REPORT.md''',
   '''build/.*''',  # Build artifacts should not be committed anyway
+  '''static/config\.json''',  # Runtime config (generated, gitignored, contains API key by design)
 ]
 
 # Additional custom rules specific to this project

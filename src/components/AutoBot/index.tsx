@@ -19,37 +19,46 @@ const AutoBot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [userApiKey, setUserApiKey] = useState<string>('');
-  const [showApiKeyPrompt, setShowApiKeyPrompt] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState<string>('');
+  const [runtimeApiKey, setRuntimeApiKey] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Welcome messages
-  const WELCOME_MESSAGE_WITH_KEY = "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?";
-  const WELCOME_MESSAGE_NO_KEY = "👋 Hi! I'm AutoBot. To chat with me, you'll need to provide your own Google Gemini API key.\n\n🔒 **Why?** For security, we don't embed API keys in the website. Your key stays private in your browser.\n\n✨ **Get a free key:** Visit https://ai.google.dev/gemini-api/docs/api-key\n\n⚠️ **Important:** Add HTTP referrer restrictions to your key to prevent abuse:\n- Restrict to: https://shafthq.github.io/*\n- This ensures only this website can use your key";
-
-  // Load API key from localStorage on component mount
+  // Fetch API key from runtime config on component mount
   useEffect(() => {
-    const savedKey = localStorage.getItem('autobot_gemini_api_key');
-    if (savedKey) {
-      setUserApiKey(savedKey);
-    }
+    const fetchRuntimeConfig = async () => {
+      try {
+        const response = await fetch('/config.json');
+        if (response.ok) {
+          const config = await response.json();
+          if (config.GEMINI_API_KEY) {
+            setRuntimeApiKey(config.GEMINI_API_KEY);
+            console.log('[AutoBot] API key loaded from runtime config');
+          } else {
+            console.error('[AutoBot] No API key found in runtime config');
+          }
+        } else {
+          console.error('[AutoBot] Failed to fetch runtime config');
+        }
+      } catch (error) {
+        console.error('[AutoBot] Error fetching runtime config:', error);
+      }
+    };
+    
+    fetchRuntimeConfig();
   }, []);
 
   // Initialize Gemini AI
   const initializeAI = () => {
-    // SECURITY: API keys are NO LONGER embedded in the build to prevent leakage
-    // Users must provide their own API key, which is stored in localStorage
-    const apiKey = userApiKey;
+    // Access API key from runtime config (fetched at runtime, not embedded at build time)
+    const apiKey = runtimeApiKey;
     
     if (!apiKey || !apiKey.trim()) {
       console.error('[AutoBot] Gemini API key not configured.');
-      console.error('[AutoBot] Users must provide their own API key for security reasons.');
+      console.error('[AutoBot] API key should be available in runtime config');
       return null;
     }
     
-    console.log('[AutoBot] Using user-provided API key');
+    console.log('[AutoBot] API key configured successfully');
     return new GoogleGenerativeAI(apiKey);
   };
 
@@ -110,49 +119,15 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
   useEffect(() => {
     // Add welcome message when chat is first opened
     if (isOpen && messages.length === 0) {
-      const welcomeMessage = userApiKey ? WELCOME_MESSAGE_WITH_KEY : WELCOME_MESSAGE_NO_KEY;
       setMessages([
         {
           role: 'assistant',
-          content: welcomeMessage,
-          timestamp: new Date(),
-        },
-      ]);
-      if (!userApiKey) {
-        setShowApiKeyPrompt(true);
-      }
-    }
-  }, [isOpen, userApiKey]);
-
-  const handleApiKeySubmit = () => {
-    if (apiKeyInput && apiKeyInput.trim()) {
-      localStorage.setItem('autobot_gemini_api_key', apiKeyInput.trim());
-      setUserApiKey(apiKeyInput.trim());
-      setApiKeyInput('');
-      setShowApiKeyPrompt(false);
-      setMessages([
-        {
-          role: 'assistant',
-          content: WELCOME_MESSAGE_WITH_KEY,
+          content: "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?",
           timestamp: new Date(),
         },
       ]);
     }
-  };
-
-  const handleRemoveApiKey = () => {
-    localStorage.removeItem('autobot_gemini_api_key');
-    setUserApiKey('');
-    setApiKeyInput('');
-    setShowApiKeyPrompt(true);
-    setMessages([
-      {
-        role: 'assistant',
-        content: WELCOME_MESSAGE_NO_KEY,
-        timestamp: new Date(),
-      },
-    ]);
-  };
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -180,7 +155,7 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
       const genAI = initializeAI();
       
       if (!genAI) {
-        throw new Error('Please provide your Gemini API key using the settings button above. Get a free key at: https://ai.google.dev/gemini-api/docs/api-key');
+        throw new Error('Gemini API key not configured. Please contact the site administrator to set up the API key in GitHub Secrets.');
       }
 
       // Build conversation history (limit to last 10 messages for performance)
@@ -258,12 +233,10 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
   };
 
   const clearChat = () => {
-    const welcomeMessage = userApiKey ? WELCOME_MESSAGE_WITH_KEY : WELCOME_MESSAGE_NO_KEY;
-    
     setMessages([
       {
         role: 'assistant',
-        content: welcomeMessage,
+        content: "👋 Hi! I'm AutoBot, your SHAFT assistant. How can I help you today?",
         timestamp: new Date(),
       },
     ]);
@@ -300,27 +273,6 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
               </div>
             </div>
             <div className={styles.headerActions}>
-              {userApiKey && (
-                <button
-                  className={styles.iconButton}
-                  onClick={handleRemoveApiKey}
-                  aria-label="Remove API key"
-                  title="Remove API key"
-                >
-                  <FontAwesomeIcon icon="fa-solid fa-key" />
-                </button>
-              )}
-              {!userApiKey && (
-                <button
-                  className={styles.iconButton}
-                  onClick={() => setShowApiKeyPrompt(!showApiKeyPrompt)}
-                  aria-label="Configure API key"
-                  title="Configure API key"
-                  style={{ color: showApiKeyPrompt ? '#4CAF50' : undefined }}
-                >
-                  <FontAwesomeIcon icon="fa-solid fa-gear" />
-                </button>
-              )}
               <button
                 className={styles.iconButton}
                 onClick={clearChat}
@@ -342,34 +294,6 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
 
           {/* Messages */}
           <div className={styles.chatMessages} ref={chatContainerRef}>
-            {showApiKeyPrompt && !userApiKey && (
-              <div className={styles.apiKeyPrompt}>
-                <h4>🔑 Enter Your Gemini API Key</h4>
-                <p style={{ fontSize: '0.9em', marginBottom: '10px' }}>
-                  Your API key is stored only in your browser and never sent to our servers.
-                </p>
-                <input
-                  type="password"
-                  placeholder="Paste your Gemini API key here..."
-                  className={styles.apiKeyInput}
-                  value={apiKeyInput}
-                  onChange={(e) => setApiKeyInput(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      handleApiKeySubmit();
-                    }
-                  }}
-                />
-                <button onClick={handleApiKeySubmit} className={styles.apiKeyButton}>
-                  Save API Key
-                </button>
-                <p style={{ fontSize: '0.8em', marginTop: '10px', color: '#666' }}>
-                  <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" rel="noopener noreferrer">
-                    Get a free API key →
-                  </a>
-                </p>
-              </div>
-            )}
             {messages.map((message, index) => (
               <div
                 key={index}

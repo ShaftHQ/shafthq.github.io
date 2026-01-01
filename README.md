@@ -14,39 +14,53 @@ AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. 
 - Primary: `gemini-3-flash` (latest model)
 - Fallback: `gemini-2.5-flash` (if rate limit is hit on gemini-3-flash)
 
-**🔒 Security Update:** AutoBot now requires users to provide their own API key for security reasons. API keys are no longer embedded in the website build to prevent leakage.
-
-#### For End Users (Website Visitors)
-
-When you open the AutoBot chatbot on the website, you'll be prompted to enter your own Google Gemini API key:
-
-1. **Get a free API key** from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. **IMPORTANT - Add Security Restrictions:**
-   - Go to [Google Cloud Console - API Credentials](https://console.cloud.google.com/apis/credentials)
-   - Find your API key and click "Edit"
-   - Under "Application restrictions", select **"HTTP referrers (web sites)"**
-   - Add: `https://shafthq.github.io/*`
-   - Under "API restrictions", select **"Restrict key"** and enable only **"Generative Language API"**
-   - Click **"Save"**
-3. **Enter the API key** in the AutoBot chat window
-4. Your key is stored only in your browser's localStorage (never sent to our servers)
-
-**Why this approach?**
-- ✅ Prevents API key leakage in the website source code
-- ✅ Each user controls their own API usage and costs
-- ✅ HTTP referrer restrictions prevent key theft and abuse
-- ✅ Your key never leaves your browser
+To enable AutoBot:
 
 #### For Local Development
 
-To test AutoBot functionality locally:
+1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
+2. **Recommended**: Add HTTP referrer restriction for `http://localhost:3000/*` in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) (see production instructions above for details)
+3. Copy `.env.example` to `.env`:
+   ```shell
+   cp .env.example .env
+   ```
+4. Add your API key to the `.env` file:
+   ```
+   GEMINI_API_KEY=your_actual_api_key_here
+   ```
+
+**Note:** The `.env` file is gitignored and should never be committed to the repository.
+
+#### For Production/GitHub Pages Deployment
+
+**Important:** The AutoBot chatbot requires a Gemini API key to function. Follow these steps to configure it securely:
+
+##### Step 1: Create and Restrict the API Key
 
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. **Optional but Recommended**: Add HTTP referrer restriction for `http://localhost:3000/*`
-3. When you open AutoBot in your local development server, enter your API key when prompted
-4. The key will be saved in your browser's localStorage for convenience
+2. **CRITICAL SECURITY STEP**: Add HTTP referrer restrictions to prevent API key abuse:
+   - Go to [Google Cloud Console - API Credentials](https://console.cloud.google.com/apis/credentials)
+   - Find your Gemini API key and click "Edit"
+   - Under "Application restrictions", select **"HTTP referrers (web sites)"**
+   - Click **"Add an item"** and add these referrers:
+     - `https://shafthq.github.io/*`
+     - `http://localhost:3000/*` (for local testing)
+   - Under "API restrictions", select **"Restrict key"** and enable only **"Generative Language API"**
+   - Click **"Save"**
 
-**Note:** The `.env` file is no longer used for the AutoBot API key. It remains gitignored for other potential secrets.
+   **Why this matters:** Without referrer restrictions, anyone who views your website's JavaScript source code could steal and abuse your API key on their own websites.
+
+##### Step 2: Add API Key to GitHub Secrets
+
+3. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
+4. Click **New repository secret**
+5. Name: `GEMINI_API_KEY`
+6. Value: Paste your restricted Gemini API key
+7. Click **Add secret**
+
+The deployment workflow (`.github/workflows/deploy.yml`) will automatically use this secret during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
+
+**Security Note:** The API key is loaded at runtime from a generated configuration file (`/config.json`) rather than being embedded in the JavaScript bundle. This prevents the key from being exposed in the git repository while still being protected by HTTP referrer restrictions.
 
 ### Testing AutoBot
 

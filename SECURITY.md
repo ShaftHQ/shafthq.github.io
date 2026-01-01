@@ -14,91 +14,82 @@ If you discover a security vulnerability, please report it by:
 
 ## API Key Management
 
-### Gemini API Key Security - Updated Architecture
+### Gemini API Key Security - Runtime Configuration Architecture
 
-**Important Security Change:** As of December 2025, the SHAFT User Guide website NO LONGER embeds the Gemini API key in the build output. This prevents API key leakage in the gh-pages branch.
+**Important Security Update:** As of January 2026, the SHAFT User Guide website uses a runtime configuration approach to manage the Gemini API key securely.
 
-#### New Architecture
+#### Current Architecture
 
-1. **No API Key in Build**: The API key is NOT passed through `docusaurus.config.js` customFields
-2. **User-Provided Keys**: Website visitors provide their own Gemini API key
-3. **Browser-Only Storage**: API keys are stored in the user's browser localStorage
-4. **Never Server-Side**: The key never touches our servers or build artifacts
+1. **API Key in GitHub Secrets**: The API key is stored securely in GitHub Secrets
+2. **Generated at Build Time**: A `config.json` file is generated during the build process
+3. **Served at Runtime**: The config file is served as a static asset and fetched by the browser
+4. **Protected by HTTP Referrer Restrictions**: The API key is restricted to specific domains
 
-#### For Website Visitors
+This approach prevents the API key from being:
+- Embedded in JavaScript bundles (avoiding git history exposure)
+- Exposed in source code
+- Detectable by GitHub's secret scanning in the repository
 
-When using AutoBot on https://shafthq.github.io:
-
-1. **Get Your Own API Key**
-   - Visit [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-   - Create a free Gemini API key
-
-2. **Secure Your API Key** (CRITICAL)
-   - Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-   - Add HTTP referrer restriction: `https://shafthq.github.io/*`
-   - Restrict to "Generative Language API" only
-   - **Why?** This prevents anyone else from using your key, even if they find it in your browser
-
-3. **Enter Key in AutoBot**
-   - Open the AutoBot chatbot
-   - Paste your API key when prompted
-   - It's saved in your browser's localStorage (never sent to servers)
+However, the key IS present in the deployed site's `/config.json` file, which is acceptable because:
+- ✅ It's protected by HTTP referrer restrictions (whitelist)
+- ✅ It's not in the git repository or commit history
+- ✅ It can be easily rotated without redeploying code
+- ✅ GitHub secret scanning won't flag it in the repository
 
 #### For Repository Maintainers
 
 **✅ Current Best Practices:**
-- API keys are NOT embedded in the source code
-- API keys are NOT in the build output
-- API keys are NOT in GitHub Secrets (no longer needed for this purpose)
-- Each user manages their own API key and quota
+- API key is stored in GitHub Secrets
+- Runtime config file (`config.json`) is generated during build
+- API key has HTTP referrer restrictions configured
+- Config file is gitignored to prevent accidental commits
+- AutoBot fetches the key at runtime via `/config.json`
 
-**❌ Old Approach (Deprecated):**
-- ~~Embedding API key in `customFields`~~ (causes leakage in build)
-- ~~Storing in GitHub Secrets for build~~ (still gets embedded in bundle)
-- ~~Relying only on referrer restrictions~~ (key still visible in source)
+**How It Works:**
+1. GitHub Actions workflow sets `GEMINI_API_KEY` environment variable from Secrets
+2. Build script (`scripts/generate-config.js`) creates `/static/config.json`
+3. Docusaurus copies it to `/build/config.json`
+4. Deployed site serves it at `https://shafthq.github.io/config.json`
+5. AutoBot component fetches it at runtime
+6. HTTP referrer restrictions prevent unauthorized use
 
 #### ✅ Best Practices (Updated)
 
-1. **Never Commit API Keys**
-   - API keys should NEVER be committed to the repository
-   - The `.env` file is gitignored - keep it that way
-   - **NEW:** Don't even pass API keys through build-time environment variables if they'll be embedded in client bundles
+1. **API Key Storage**
+   - Store API key in GitHub Secrets for CI/CD access
+   - Generate runtime configuration file during build
+   - Never commit the config file to git (use .gitignore)
+   - Rely on HTTP referrer restrictions for security
 
-2. **User-Provided Keys for Client-Side Applications**
-   - For static websites, let users provide their own API keys
-   - Store keys in browser localStorage (client-side only)
-   - Provide clear instructions for users to secure their keys
-
-3. **Use HTTP Referrer Restrictions (Critical for User Keys)**
-   - All users MUST configure referrer restrictions on their API keys
-   - Add these referrers to API key settings:
+2. **HTTP Referrer Restrictions (CRITICAL)**
+   - Configure referrer restrictions in [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+   - Add these referrers to your API key:
      - `https://shafthq.github.io/*` (production)
      - `http://localhost:3000/*` (local development, optional)
-   - This prevents stolen keys from being used elsewhere
+   - This prevents the key from being used on other domains
 
-4. **Use API Restrictions**
+3. **Use API Restrictions**
    - Restrict the API key to only "Generative Language API"
-   - This limits potential damage if the key is compromised
+   - This limits potential damage if the key is discovered
 
-5. **No Secrets in Build Artifacts**
-   - **CRITICAL:** Build output (in gh-pages branch) must NOT contain secrets
-   - Never use `customFields` or similar mechanisms to pass secrets to client bundles
-   - Verify build output doesn't contain secrets: `grep -r "AIza" build/`
+4. **Monitor and Rotate**
+   - Monitor API usage in Google Cloud Console
+   - Rotate keys periodically or if abuse is detected
+   - Rotating is as simple as updating the GitHub Secret
 
-6. **Rotate Keys Regularly** (For Shared/Org Keys)
-   - If using a shared organizational key (not recommended for this use case)
-   - Rotate API keys periodically (recommended: every 90 days)
-   - Immediately rotate if a key is suspected to be compromised
+5. **No Secrets in Git Repository**
+   - The `/static/config.json` file is gitignored
+   - It's generated during build and deployed to gh-pages
+   - It's NOT in the repository commit history
 
 #### ❌ What NOT to Do
 
-- ❌ Do not hardcode API keys in source code
-- ❌ Do not commit `.env` files
+- ❌ Do not commit `.env` files or `config.json` to git
 - ❌ Do not share API keys in public channels (Slack, email, etc.)
-- ❌ Do not log or print API key values
-- ❌ Do not commit API keys even temporarily with the intention to remove them later
-- ❌ **NEW:** Do not pass API keys through build-time environment variables that get embedded in client bundles (e.g., `customFields` in Docusaurus)
-- ❌ **NEW:** Do not store shared organizational keys in GitHub Secrets if they'll be embedded in public build artifacts
+- ❌ Do not log or print API key values in console
+- ❌ Do not embed API keys directly in JavaScript source code
+- ❌ Do not use API keys without HTTP referrer restrictions
+- ❌ Do not commit API keys even temporarily
 
 ## Incident Response
 
