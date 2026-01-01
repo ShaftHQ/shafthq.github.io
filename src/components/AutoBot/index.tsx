@@ -32,15 +32,19 @@ const AutoBot: React.FC = () => {
           const config = await response.json();
           if (config.GEMINI_API_KEY) {
             setRuntimeApiKey(config.GEMINI_API_KEY);
-            console.log('[AutoBot] API key loaded from runtime config');
+            // Only log in development mode
+            if (process.env.NODE_ENV === 'development') {
+              console.log('[AutoBot] API key loaded from runtime config');
+            }
           } else {
             console.error('[AutoBot] No API key found in runtime config');
           }
         } else {
-          console.error('[AutoBot] Failed to fetch runtime config');
+          console.error('[AutoBot] Failed to fetch runtime config:', response.status);
         }
       } catch (error) {
         console.error('[AutoBot] Error fetching runtime config:', error);
+        console.error('[AutoBot] Chatbot will not function without API key');
       }
     };
     

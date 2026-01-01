@@ -13,6 +13,13 @@ const config = {
   generated_at: new Date().toISOString()
 };
 
+// Validate that API key is present
+if (!config.GEMINI_API_KEY) {
+  console.error('❌ ERROR: GEMINI_API_KEY environment variable is not set');
+  console.error('   Build will fail to prevent deploying non-functional chatbot');
+  process.exit(1);
+}
+
 // Create static directory if it doesn't exist
 const staticDir = path.join(__dirname, '..', 'static');
 if (!fs.existsSync(staticDir)) {
@@ -25,4 +32,4 @@ fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 
 console.log('✅ Runtime configuration generated successfully');
 console.log(`📝 Config written to: ${configPath}`);
-console.log(`🔑 API Key present: ${config.GEMINI_API_KEY ? 'Yes' : 'No'}`);
+console.log(`🔑 API Key configured: ${config.GEMINI_API_KEY ? 'Yes' : 'No'}`);
