@@ -367,14 +367,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .chatWindow {
-    width: 100vw;
-    height: 100vh;
-    border-radius: 0;
-    bottom: 0;
-    right: 0;
-  }
-
   .autoBotContainer {
     bottom: 16px;
     right: 16px;
@@ -383,6 +375,113 @@
   .chatButton {
     width: 56px;
     height: 56px;
+  }
+
+  .chatWindow {
+    position: fixed;
+    width: 100vw;
+    border-radius: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+  }
+
+  .chatHeader {
+    padding: 12px 16px;
+  }
+
+  .headerText h3 {
+    font-size: 16px;
+  }
+
+  .statusIndicator {
+    font-size: 11px;
+  }
+
+  .chatMessages {
+    padding: 12px;
+    /* Ensure proper scrolling on mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .messageContent {
+    max-width: 90%;
+  }
+
+  .messageBubble {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .messageBubble p {
+    font-size: 14px;
+  }
+
+  .chatInput {
+    padding: 10px 12px;
+  }
+
+  .inputField {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 8px 10px;
+  }
+
+  .sendButton {
+    width: 36px;
+    height: 36px;
+  }
+
+  .chatFooter {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+
+  /* Improve touch targets */
+  .iconButton {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+}
+
+/* Additional mobile optimization for smaller screens */
+@media (max-width: 480px) {
+  .chatButton {
+    width: 50px;
+    height: 50px;
+  }
+
+  .badge {
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+
+  .headerIcon {
+    font-size: 20px;
+  }
+
+  .headerText h3 {
+    font-size: 15px;
+  }
+
+  .messageAvatar {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  .messageBubble {
+    padding: 7px 10px;
+  }
+
+  .messageBubble p {
+    font-size: 13px;
+  }
+
+  .messageTime {
+    font-size: 9px;
   }
 }
 
