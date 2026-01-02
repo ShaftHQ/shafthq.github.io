@@ -11,6 +11,8 @@ jobs:
   test-deploy:
     name: Test Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Only needs to read repository content
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6

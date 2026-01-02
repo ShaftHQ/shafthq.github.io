@@ -1,5 +1,7 @@
 # Migration Guide: GitHub Pages to Netlify
 
+> **Note:** This migration has been completed! The site is now fully deployed to Netlify at https://shaftengine.netlify.app/, and GitHub Pages (https://shafthq.github.io/) automatically redirects all visitors to the Netlify deployment.
+
 ## Overview
 
 This guide explains the migration from GitHub Pages to Netlify to address the security vulnerability where the Gemini API key was being embedded in client-side JavaScript files.
@@ -168,6 +170,17 @@ If you encounter issues:
 - Verify `GEMINI_API_KEY` environment variable is set
 - Check browser console for errors
 - Review Network tab for failed requests
+
+## GitHub Pages Redirect
+
+To ensure users visiting the old GitHub Pages URL are automatically redirected to Netlify:
+
+1. A simple redirect page is maintained in the `redirect-page/` directory
+2. The GitHub Actions workflow (`.github/workflows/deploy.yml`) deploys only this redirect page to GitHub Pages
+3. When users visit https://shafthq.github.io/, they are automatically redirected to https://shaftengine.netlify.app/
+4. The redirect uses both meta refresh and JavaScript for maximum compatibility
+
+This ensures a seamless transition for users who have bookmarked or linked to the old URL.
 
 ## Additional Resources
 

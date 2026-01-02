@@ -1,6 +1,24 @@
 # Deployment Checklist ✅
 
-## Pre-Deployment Verification
+> **Note:** This checklist is from a previous deployment. The site is now deployed to Netlify at https://shaftengine.netlify.app/, and GitHub Pages (https://shafthq.github.io/) serves only as a redirect.
+
+## Current Deployment Status (Netlify Migration)
+
+### Migration Completed
+- [x] Site migrated to Netlify (https://shaftengine.netlify.app/)
+- [x] GitHub Pages configured to redirect to Netlify
+- [x] All URLs updated to point to Netlify
+- [x] Workflows updated to deploy redirect page to GitHub Pages
+- [x] Documentation updated to reflect new deployment
+
+### Deployment Architecture
+- **Primary:** Netlify (https://shaftengine.netlify.app/)
+- **Redirect:** GitHub Pages (https://shafthq.github.io/ → Netlify)
+- **CI/CD:** GitHub Actions for testing + redirect deployment, Netlify for production builds
+
+---
+
+## Pre-Deployment Verification (Historical)
 
 All items below have been completed and verified:
 
