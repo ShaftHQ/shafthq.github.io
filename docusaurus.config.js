@@ -49,11 +49,6 @@ const config = {
 
   trailingSlash: false,
 
-  // Custom fields to inject environment variables into client-side code
-  customFields: {
-    GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
-  },
-
   presets: [
     [
       'classic',
