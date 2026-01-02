@@ -9,15 +9,15 @@ const darkTheme = themes.dracula;
 const config = {
   title: 'SHAFT User Guide',
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
-  url: 'https://shafthq.github.io',
+  url: 'https://shaftengine.netlify.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/shaft.ico',
   deploymentBranch: 'gh-pages',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
+  // GitHub pages deployment config (GitHub Pages now redirects to Netlify).
+  // Primary deployment is now on Netlify.
   organizationName: 'ShaftHQ', // Usually your GitHub org/user name.
   projectName: 'shafthq.github.io', // Usually your repo name.
 
