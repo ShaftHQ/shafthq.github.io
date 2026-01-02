@@ -6,7 +6,13 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 // Test configuration
 const MODELS_TO_TEST = [
   'gemini-3-flash',
-  'gemini-2.5-flash'
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemma-3-27b',
+  'gemma-3-12b',
+  'gemma-3-4b',
+  'gemma-3-2b',
+  'gemma-3-1b'
 ];
 
 const TEST_QUERIES = [

@@ -10,9 +10,19 @@ yarn install
 
 ### AutoBot Configuration
 
-AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic fallback for reliability:
-- Primary: `gemini-3-flash` (latest model)
-- Fallback: `gemini-2.5-flash` (if rate limit is hit on gemini-3-flash)
+AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic failsafe fallback for maximum reliability:
+
+**Model Failsafe Sequence** (tries in order):
+1. `gemini-3-flash` (latest, fastest model)
+2. `gemini-2.5-flash` (reliable flagship model)
+3. `gemini-2.5-flash-lite` (lightweight fallback)
+4. `gemma-3-27b` (larger open model)
+5. `gemma-3-12b` (balanced open model)
+6. `gemma-3-4b` (efficient open model)
+7. `gemma-3-2b` (compact open model)
+8. `gemma-3-1b` (minimal fallback)
+
+The chatbot automatically tries each model in sequence until one successfully responds, ensuring high availability even during rate limits or service disruptions.
 
 To enable AutoBot:
 
