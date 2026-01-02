@@ -15,7 +15,42 @@ export default async (req, context) => {
     // Validate required fields
     if (!message || !systemInstruction) {
       return new Response(
-        JSON.stringify({ error: 'Missing required fields: message and systemInstruction' }),
+        JSON.stringify({ error: 'Invalid request' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    // Input validation and sanitization
+    if (typeof message !== 'string' || message.length === 0 || message.length > 10000) {
+      console.warn('[Gemini Proxy] Invalid message length:', message?.length);
+      return new Response(
+        JSON.stringify({ error: 'Invalid message content' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > 50000) {
+      console.warn('[Gemini Proxy] Invalid systemInstruction length:', systemInstruction?.length);
+      return new Response(
+        JSON.stringify({ error: 'Invalid request' }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+
+    // Validate history format if provided
+    if (history && !Array.isArray(history)) {
+      console.warn('[Gemini Proxy] Invalid history format');
+      return new Response(
+        JSON.stringify({ error: 'Invalid request' }),
         {
           status: 400,
           headers: { 'Content-Type': 'application/json' }
@@ -27,7 +62,8 @@ export default async (req, context) => {
     const apiKey = process.env.GEMINI_API_KEY;
     
     if (!apiKey) {
-      console.error('[Gemini Proxy] API key not configured');
+      console.error('[Gemini Proxy] CRITICAL: API key not configured in environment variables');
+      console.error('[Gemini Proxy] Please set GEMINI_API_KEY in Netlify environment settings');
       return new Response(
         JSON.stringify({ error: 'Service temporarily unavailable. Please try again later.' }),
         {
@@ -88,7 +124,13 @@ export default async (req, context) => {
     throw new Error(lastError?.message || 'All available models failed');
     
   } catch (error) {
-    console.error('[Gemini Proxy] Error:', error);
+    // Log detailed error information server-side for debugging
+    console.error('[Gemini Proxy] Error occurred:');
+    console.error('[Gemini Proxy] Error type:', error.constructor.name);
+    console.error('[Gemini Proxy] Error message:', error.message);
+    console.error('[Gemini Proxy] Stack trace:', error.stack);
+    
+    // Return generic error to client to avoid leaking internal details
     return new Response(
       JSON.stringify({ 
         error: 'An error occurred while processing your request. Please try again later.'

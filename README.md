@@ -19,17 +19,28 @@ To enable AutoBot:
 #### For Local Development
 
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. **Recommended**: Add HTTP referrer restriction for `http://localhost:3000/*` in [Google Cloud Console](https://console.cloud.google.com/apis/credentials) (see production instructions above for details)
-3. Copy `.env.example` to `.env`:
+2. Copy `.env.example` to `.env`:
    ```shell
    cp .env.example .env
    ```
-4. Add your API key to the `.env` file:
+3. Add your API key to the `.env` file:
    ```
    GEMINI_API_KEY=your_actual_api_key_here
    ```
+4. Install Netlify CLI (if not already installed):
+   ```shell
+   npm install -g netlify-cli
+   ```
+5. Run the development server with Netlify Functions:
+   ```shell
+   netlify dev
+   ```
+   This will start both the Docusaurus dev server and Netlify Functions locally.
 
-**Note:** The `.env` file is gitignored and should never be committed to the repository.
+**Note:** 
+- The `.env` file is gitignored and should never be committed to the repository.
+- Regular `yarn start` won't work for the chatbot since Netlify Functions won't be available.
+- Use `netlify dev` instead to test the full functionality locally.
 
 #### For Production Deployment (Netlify)
 

@@ -114,6 +114,9 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
       }));
 
       // Call the Netlify Function proxy endpoint
+      // Note: For local development, you need to run Netlify CLI with:
+      // netlify dev (or) npx netlify-cli dev
+      // This will make Netlify Functions available at /.netlify/functions/*
       const response = await fetch('/api/gemini-proxy', {
         method: 'POST',
         headers: {
@@ -128,7 +131,7 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `Server error: ${response.status}`);
+        throw new Error(errorData.error || 'Unable to connect to the chatbot service. Please try again.');
       }
 
       const data = await response.json();
