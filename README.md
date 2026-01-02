@@ -31,34 +31,46 @@ To enable AutoBot:
 
 **Note:** The `.env` file is gitignored and should never be committed to the repository.
 
-#### For Production/GitHub Pages Deployment
+#### For Production Deployment (Netlify)
 
-**Important:** The AutoBot chatbot requires a Gemini API key to function. Follow these steps to configure it securely:
+**Important:** The AutoBot chatbot requires a Gemini API key to function securely. The key is now stored server-side and never exposed to the client.
 
-##### Step 1: Create and Restrict the API Key
+##### Architecture
+
+To ensure security, the website uses a serverless proxy architecture:
+- The AutoBot frontend sends chat requests to a Netlify Function (`/api/gemini-proxy`)
+- The Netlify Function securely accesses the Gemini API using a server-side API key
+- The API key is **never** embedded in the client-side JavaScript bundle
+
+##### Step 1: Create the API Key
 
 1. Get a Gemini API key from [Google AI Studio](https://ai.google.dev/gemini-api/docs/api-key)
-2. **CRITICAL SECURITY STEP**: Add HTTP referrer restrictions to prevent API key abuse:
-   - Go to [Google Cloud Console - API Credentials](https://console.cloud.google.com/apis/credentials)
-   - Find your Gemini API key and click "Edit"
-   - Under "Application restrictions", select **"HTTP referrers (web sites)"**
-   - Click **"Add an item"** and add these referrers:
-     - `https://shafthq.github.io/*`
-     - `http://localhost:3000/*` (for local testing)
+2. **Optional but Recommended**: Add API restrictions in [Google Cloud Console](https://console.cloud.google.com/apis/credentials):
    - Under "API restrictions", select **"Restrict key"** and enable only **"Generative Language API"**
-   - Click **"Save"**
+   - Note: HTTP referrer restrictions are not necessary since the key is server-side only
 
-   **Why this matters:** Without referrer restrictions, anyone who views your website's JavaScript source code could steal and abuse your API key on their own websites.
+##### Step 2: Deploy to Netlify
 
-##### Step 2: Add API Key to GitHub Secrets
+1. Sign up for a free [Netlify account](https://www.netlify.com/)
+2. Connect your GitHub repository to Netlify
+3. Configure build settings:
+   - **Build command**: `yarn build`
+   - **Publish directory**: `build`
+4. Add environment variable:
+   - Go to **Site settings** → **Environment variables**
+   - Add `GEMINI_API_KEY` with your API key value
+5. Deploy the site
 
-3. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
-4. Click **New repository secret**
-5. Name: `GEMINI_API_KEY`
-6. Value: Paste your restricted Gemini API key
-7. Click **Add secret**
+The Netlify Function will automatically handle Gemini API requests securely without exposing the key.
 
-The deployment workflow (`.github/workflows/deploy.yml`) will automatically use this secret during the build process. Without this secret, the chatbot will display an error message when users try to send messages.
+##### For Testing (GitHub Actions)
+
+The test workflow (`.github/workflows/test.yml`) requires the GEMINI_API_KEY secret:
+1. In the repository settings, go to **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Name: `GEMINI_API_KEY`
+4. Value: Paste your Gemini API key
+5. Click **Add secret**
 
 ### Testing AutoBot
 
@@ -90,9 +102,13 @@ yarn start
 
 ### Deployment
 
-- Just open a PR with your changes, a temp deployment will be created so that you can view your changes live.
-- Once you're happy with the output, submit your PR for review.
-- Once it is merged, the changes will be automatically deployed to https://shafthq.github.io/
+The site is deployed to Netlify for integrated serverless function support:
+
+- When you push to the `master` branch, Netlify automatically builds and deploys the site
+- Pull requests get preview deployments for review
+- The AutoBot chatbot works securely through Netlify Functions (no API keys in client code)
+
+**Note:** The GitHub Actions workflow in `.github/workflows/deploy.yml` is kept for compatibility but can be disabled in favor of Netlify's native GitHub integration.
 
 ### Support
 If you need support to contribute, kindly join our slack channel to align and discuss.
