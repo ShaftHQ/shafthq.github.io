@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-export default async (req, context) => {
+export default async (req) => {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
@@ -25,7 +25,7 @@ export default async (req, context) => {
 
     // Input validation and sanitization
     if (typeof message !== 'string' || message.length === 0 || message.length > 10000) {
-      console.warn('[Gemini Proxy] Invalid message length:', message?.length);
+      console.warn('[Gemini Proxy] Invalid message: length validation failed');
       return new Response(
         JSON.stringify({ error: 'Invalid message content' }),
         {
@@ -36,7 +36,7 @@ export default async (req, context) => {
     }
 
     if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > 50000) {
-      console.warn('[Gemini Proxy] Invalid systemInstruction length:', systemInstruction?.length);
+      console.warn('[Gemini Proxy] Invalid systemInstruction: length validation failed');
       return new Response(
         JSON.stringify({ error: 'Invalid request' }),
         {
