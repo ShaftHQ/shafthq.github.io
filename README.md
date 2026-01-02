@@ -113,13 +113,13 @@ yarn start
 
 ### Deployment
 
-The site is deployed to Netlify for integrated serverless function support:
+The site is primarily deployed to **Netlify** at https://shaftengine.netlify.app/ for integrated serverless function support:
 
 - When you push to the `master` branch, Netlify automatically builds and deploys the site
 - Pull requests get preview deployments for review
 - The AutoBot chatbot works securely through Netlify Functions (no API keys in client code)
 
-**Note:** The GitHub Actions workflow in `.github/workflows/deploy.yml` is kept for compatibility but can be disabled in favor of Netlify's native GitHub integration.
+**GitHub Pages Redirect:** The GitHub Pages site (https://shafthq.github.io/) automatically redirects all visitors to the Netlify deployment. The GitHub Actions workflow in `.github/workflows/deploy.yml` maintains this redirect page.
 
 ### Support
 If you need support to contribute, kindly join our slack channel to align and discuss.
