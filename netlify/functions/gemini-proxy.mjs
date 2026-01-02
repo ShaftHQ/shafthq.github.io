@@ -29,9 +29,9 @@ export default async (req, context) => {
     if (!apiKey) {
       console.error('[Gemini Proxy] API key not configured');
       return new Response(
-        JSON.stringify({ error: 'API key not configured' }),
+        JSON.stringify({ error: 'Service temporarily unavailable. Please try again later.' }),
         {
-          status: 500,
+          status: 503,
           headers: { 'Content-Type': 'application/json' }
         }
       );
@@ -91,7 +91,7 @@ export default async (req, context) => {
     console.error('[Gemini Proxy] Error:', error);
     return new Response(
       JSON.stringify({ 
-        error: error.message || 'Internal server error'
+        error: 'An error occurred while processing your request. Please try again later.'
       }),
       {
         status: 500,
