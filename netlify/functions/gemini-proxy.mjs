@@ -77,8 +77,18 @@ export default async (req) => {
     const genAI = new GoogleGenerativeAI(apiKey);
 
     // List of models to try in order of preference
-    const modelsToTry = ['gemini-3-flash', 'gemini-2.5-flash'];
+    const modelsToTry = [
+      'gemini-3-flash',
+      'gemini-2.5-flash',
+      'gemini-2.5-flash-lite',
+      'gemma-3-27b',
+      'gemma-3-12b',
+      'gemma-3-4b',
+      'gemma-3-2b',
+      'gemma-3-1b'
+    ];
     let lastError = null;
+    const failedModels = [];
 
     // Try each model until one works
     for (const modelName of modelsToTry) {
@@ -118,13 +128,35 @@ export default async (req) => {
         console.warn(`[Gemini Proxy] Model ${modelName} failed: ${modelError.constructor.name}`);
         console.debug(`[Gemini Proxy] Error details:`, modelError.message);
         lastError = modelError;
+        failedModels.push(modelName);
         // Continue to the next model
       }
     }
 
-    // If we get here, all models failed
+    // If we get here, all models failed - provide descriptive error message
     console.error('[Gemini Proxy] All models failed');
-    throw new Error('Service temporarily unavailable');
+    console.error(`[Gemini Proxy] Failed models: ${failedModels.join(', ')}`);
+    
+    // Determine appropriate error message based on the last error
+    let userErrorMessage = 'All AI models are currently unavailable. Please try again later.';
+    if (lastError) {
+      const errorMsg = lastError.message || '';
+      const errorType = lastError.constructor.name;
+      
+      if (errorMsg.includes('rate limit') || errorMsg.includes('quota') || errorMsg.includes('RESOURCE_EXHAUSTED')) {
+        userErrorMessage = 'The AI service is experiencing high demand. Please try again in a few moments.';
+      } else if (errorMsg.includes('API key') || errorMsg.includes('permission') || errorMsg.includes('PERMISSION_DENIED')) {
+        userErrorMessage = 'There is a configuration issue with the AI service. Please contact support.';
+      } else if (errorMsg.includes('network') || errorMsg.includes('timeout') || errorMsg.includes('UNAVAILABLE')) {
+        userErrorMessage = 'Unable to connect to the AI service. Please check your connection and try again.';
+      } else if (errorMsg.includes('safety') || errorMsg.includes('blocked')) {
+        userErrorMessage = 'Your message could not be processed due to content policy. Please rephrase your question.';
+      } else if (errorType === 'GoogleGenerativeAIError' || errorMsg.includes('model')) {
+        userErrorMessage = 'The AI models are temporarily unavailable. Please try again later.';
+      }
+    }
+    
+    throw new Error(userErrorMessage);
     
   } catch (error) {
     // Log detailed error information server-side for debugging
@@ -133,10 +165,13 @@ export default async (req) => {
     console.error('[Gemini Proxy] Error message:', error.message);
     console.error('[Gemini Proxy] Stack trace:', error.stack);
     
-    // Return generic error to client to avoid leaking internal details
+    // Return user-friendly error message (already sanitized in the throw statement above)
+    // or a generic error for unexpected cases
+    const errorMessage = error.message || 'An error occurred while processing your request. Please try again later.';
+    
     return new Response(
       JSON.stringify({ 
-        error: 'An error occurred while processing your request. Please try again later.'
+        error: errorMessage
       }),
       {
         status: 500,

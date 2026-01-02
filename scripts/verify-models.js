@@ -7,7 +7,13 @@
 
 const modelsToTry = [
   'gemini-3-flash',
-  'gemini-2.5-flash'
+  'gemini-2.5-flash',
+  'gemini-2.5-flash-lite',
+  'gemma-3-27b',
+  'gemma-3-12b',
+  'gemma-3-4b',
+  'gemma-3-2b',
+  'gemma-3-1b'
 ];
 
 console.log('='.repeat(70));
@@ -16,18 +22,33 @@ console.log('='.repeat(70));
 console.log('\nAutoBot is configured to use the following models in order:\n');
 
 modelsToTry.forEach((model, index) => {
-  const label = index === 0 ? 'Primary' : 'Fallback';
+  let label;
+  if (index === 0) {
+    label = 'Primary';
+  } else if (index === 1) {
+    label = 'Secondary';
+  } else {
+    label = `Fallback ${index - 1}`;
+  }
   console.log(`  ${index + 1}. ${label.padEnd(12)} : ${model}`);
 });
 
 console.log('\nHow it works:');
-console.log('  - AutoBot will first try to use the primary model (gemini-3-flash)');
-console.log('  - If that fails or rate limit is hit, it will automatically use the fallback (gemini-2.5-flash)');
-console.log('  - If both models fail, an error message is shown to the user');
+console.log('  - AutoBot tries each model in sequence until one successfully responds');
+console.log('  - This ensures high availability even during rate limits or service disruptions');
+console.log('  - If all models fail, a descriptive error message is shown to the user');
 
 console.log('\nModel Information:');
-console.log('  - gemini-3-flash   : Latest model (newest features, best performance)');
-console.log('  - gemini-2.5-flash : Fallback model (reliable, production-ready)');
+console.log('  Gemini Models (Google AI flagship):');
+console.log('    - gemini-3-flash         : Latest model (newest features, best performance)');
+console.log('    - gemini-2.5-flash       : Flagship model (reliable, production-ready)');
+console.log('    - gemini-2.5-flash-lite  : Lightweight version (faster, efficient)');
+console.log('  Gemma Models (Open source by Google):');
+console.log('    - gemma-3-27b            : Largest open model (highest capability)');
+console.log('    - gemma-3-12b            : Balanced open model (good performance)');
+console.log('    - gemma-3-4b             : Efficient open model (fast responses)');
+console.log('    - gemma-3-2b             : Compact open model (lightweight)');
+console.log('    - gemma-3-1b             : Minimal fallback (basic capability)');
 
 console.log('\nAll models are available on the free tier with rate limits:');
 console.log('  - 15 requests per minute');
