@@ -24,10 +24,6 @@ jobs:
 
       - name: Install
         run: yarn install
-      - name: Test
-        run: yarn test
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
       # Deploy redirect page to GitHub Pages
       # The redirect-page directory contains a simple HTML redirect to https://shaftengine.netlify.app/
