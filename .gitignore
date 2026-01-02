@@ -7,6 +7,8 @@
 # Generated files
 .docusaurus
 .cache-loader
+TEST_REPORT.md
+test-screenshots/
 
 # Misc
 .DS_Store
