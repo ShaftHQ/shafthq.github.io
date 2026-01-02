@@ -105,6 +105,9 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
       const recentMessages = messages.slice(-10);
       
       // Filter history to ensure first message is from user (Gemini API requirement)
+      // The Gemini API requires conversation history to start with a user message,
+      // so we filter out any assistant messages that appear before the first user message
+      // (e.g., welcome messages that are shown when the chat first opens)
       const firstUserIndex = recentMessages.findIndex(msg => msg.role === 'user');
       const validMessages = firstUserIndex >= 0 ? recentMessages.slice(firstUserIndex) : [];
       

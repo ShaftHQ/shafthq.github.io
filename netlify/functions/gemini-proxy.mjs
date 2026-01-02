@@ -25,7 +25,7 @@ export default async (req) => {
 
     // Input validation and sanitization
     if (typeof message !== 'string' || message.length === 0 || message.length > 10000) {
-      console.warn('[Gemini Proxy] Invalid message: length validation failed');
+      console.debug('[Gemini Proxy] Request rejected: invalid message format');
       return new Response(
         JSON.stringify({ error: 'Invalid message content' }),
         {
@@ -36,7 +36,7 @@ export default async (req) => {
     }
 
     if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > 50000) {
-      console.warn('[Gemini Proxy] Invalid systemInstruction: length validation failed');
+      console.debug('[Gemini Proxy] Request rejected: invalid system instruction format');
       return new Response(
         JSON.stringify({ error: 'Invalid request' }),
         {
@@ -48,7 +48,7 @@ export default async (req) => {
 
     // Validate history format if provided
     if (history && !Array.isArray(history)) {
-      console.warn('[Gemini Proxy] Invalid history format');
+      console.debug('[Gemini Proxy] Request rejected: invalid history format');
       return new Response(
         JSON.stringify({ error: 'Invalid request' }),
         {
@@ -114,14 +114,17 @@ export default async (req) => {
           }
         );
       } catch (modelError) {
-        console.warn(`[Gemini Proxy] Model ${modelName} failed:`, modelError.message);
+        // Log error type without exposing sensitive details
+        console.warn(`[Gemini Proxy] Model ${modelName} failed: ${modelError.constructor.name}`);
+        console.debug(`[Gemini Proxy] Error details:`, modelError.message);
         lastError = modelError;
         // Continue to the next model
       }
     }
 
     // If we get here, all models failed
-    throw new Error(lastError?.message || 'All available models failed');
+    console.error('[Gemini Proxy] All models failed');
+    throw new Error('Service temporarily unavailable');
     
   } catch (error) {
     // Log detailed error information server-side for debugging
