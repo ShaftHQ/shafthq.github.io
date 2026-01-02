@@ -14,10 +14,21 @@ const config = {
 };
 
 // Validate that API key is present
+// Only fail for production builds (when CONTEXT=production or on master branch)
+const isProductionBuild = process.env.CONTEXT === 'production' || 
+                          process.env.BRANCH === 'master' ||
+                          process.env.GITHUB_REF === 'refs/heads/master';
+
 if (!config.GEMINI_API_KEY) {
-  console.error('❌ ERROR: GEMINI_API_KEY environment variable is not set');
-  console.error('   Build will fail to prevent deploying non-functional chatbot');
-  process.exit(1);
+  if (isProductionBuild) {
+    console.error('❌ ERROR: GEMINI_API_KEY environment variable is not set');
+    console.error('   Build will fail to prevent deploying non-functional chatbot to production');
+    process.exit(1);
+  } else {
+    console.warn('⚠️  WARNING: GEMINI_API_KEY environment variable is not set');
+    console.warn('   This is a preview/test build, so continuing without API key');
+    console.warn('   AutoBot will not function in this deployment');
+  }
 }
 
 // Create static directory if it doesn't exist
