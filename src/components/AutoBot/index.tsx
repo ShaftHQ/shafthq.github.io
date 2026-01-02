@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 library.add(fas);
 
 interface Message {
@@ -14,29 +12,12 @@ interface Message {
 }
 
 const AutoBot: React.FC = () => {
-  const { siteConfig } = useDocusaurusContext();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-
-  // Initialize Gemini AI
-  const initializeAI = () => {
-    // Access environment variable from Docusaurus customFields
-    const apiKey = (siteConfig.customFields?.GEMINI_API_KEY as string) || '';
-    
-    if (!apiKey || !apiKey.trim()) {
-      console.error('[AutoBot] Gemini API key not configured.');
-      console.error('[AutoBot] For local development: Set GEMINI_API_KEY in .env file');
-      console.error('[AutoBot] For production: Add GEMINI_API_KEY to GitHub Secrets');
-      return null;
-    }
-    
-    console.log('[AutoBot] API key configured successfully');
-    return new GoogleGenerativeAI(apiKey);
-  };
 
   // System instruction for the chatbot
   const systemInstruction = `You are AutoBot, an intelligent assistant for SHAFT - the Unified Test Automation Engine. 
@@ -119,26 +100,14 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
     setInput('');
     setIsLoading(true);
 
-    // List of models to try in order of preference (newest to oldest)
-    const modelsToTry = [
-      'gemini-3-flash',
-      'gemini-2.5-flash'
-    ];
-
-    let lastError: Error | null = null;
-
     try {
-      const genAI = initializeAI();
-      
-      if (!genAI) {
-        throw new Error('Gemini API key not configured. Please contact the site administrator to set up the API key in GitHub Secrets.');
-      }
-
       // Build conversation history (limit to last 10 messages for performance)
       const recentMessages = messages.slice(-10);
       
       // Filter history to ensure first message is from user (Gemini API requirement)
-      // Find the index of the first user message
+      // The Gemini API requires conversation history to start with a user message,
+      // so we filter out any assistant messages that appear before the first user message
+      // (e.g., welcome messages that are shown when the chat first opens)
       const firstUserIndex = recentMessages.findIndex(msg => msg.role === 'user');
       const validMessages = firstUserIndex >= 0 ? recentMessages.slice(firstUserIndex) : [];
       
@@ -147,45 +116,40 @@ Remember: Accuracy is more important than appearing knowledgeable. When in doubt
         parts: [{ text: msg.content }],
       }));
 
-      // Try each model in order until one works
-      for (const modelName of modelsToTry) {
-        try {
-          console.log(`[AutoBot] Trying model: ${modelName}`);
-          
-          const model = genAI.getGenerativeModel({
-            model: modelName,
-            systemInstruction: systemInstruction,
-          });
+      // Call the Netlify Function proxy endpoint
+      // Note: For local development, you need to run Netlify CLI with:
+      // netlify dev (or) npx netlify-cli dev
+      // This will make Netlify Functions available at /.netlify/functions/*
+      const response = await fetch('/api/gemini-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: trimmedInput,
+          history: chatHistory,
+          systemInstruction: systemInstruction,
+        }),
+      });
 
-          const chat = model.startChat({
-            history: chatHistory,
-          });
-
-          const result = await chat.sendMessage(trimmedInput);
-          const response = await result.response;
-          const text = response.text();
-
-          const assistantMessage: Message = {
-            role: 'assistant',
-            content: text,
-            timestamp: new Date(),
-          };
-
-          console.log(`[AutoBot] Successfully used model: ${modelName}`);
-          setMessages((prev) => [...prev, assistantMessage]);
-          return; // Success! Exit the function
-        } catch (modelError) {
-          console.warn(`[AutoBot] Model ${modelName} failed:`, modelError);
-          lastError = modelError as Error;
-          // Continue to the next model
-        }
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Unable to connect to the chatbot service. Please try again.');
       }
 
-      // If we get here, all models failed
-      throw new Error(lastError?.message || 'All available models failed. Please try again later.');
+      const data = await response.json();
+      
+      const assistantMessage: Message = {
+        role: 'assistant',
+        content: data.text,
+        timestamp: new Date(),
+      };
+
+      console.log(`[AutoBot] Successfully used model: ${data.model || 'unknown'}`);
+      setMessages((prev) => [...prev, assistantMessage]);
       
     } catch (error) {
-      console.error('Error calling Gemini API:', error);
+      console.error('[AutoBot] Error calling Gemini API:', error);
       const errorMessage: Message = {
         role: 'assistant',
         content: (error as Error).message || 'Sorry, I encountered an error. Please try again or check the documentation at https://shafthq.github.io',
