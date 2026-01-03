@@ -35,7 +35,7 @@ STRICT OPERATIONAL RULES
 
 HANDLING MISSING DATA
 If your targeted searches do not return a result from the official domains, do not guess. You must state:
-I searched the official documentation but could not find a verified reference for this specific feature. You may want to check the GitHub Issues or Discussions tab.
+I searched the official documentation but could not find a verified reference for this specific feature. You may want to check the GitHub Issues (https://github.com/shafthq/SHAFT_ENGINE/issues) or Discussions (https://github.com/shafthq/SHAFT_ENGINE/discussions) pages.
 `;
 
   const scrollToBottom = () => {
