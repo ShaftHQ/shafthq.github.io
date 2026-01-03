@@ -98,6 +98,11 @@ export default async (req) => {
         const model = genAI.getGenerativeModel({
           model: modelName,
           systemInstruction: systemInstruction,
+          tools: [
+      {
+        googleSearch: {}, // This one line enables Grounding
+      },
+    ],
         });
 
         const chat = model.startChat({
