@@ -23,7 +23,7 @@
 All items below have been completed and verified:
 
 ### Code Changes
-- [x] Updated to gemini-3-flash (latest model)
+- [x] Updated to gemini-2.0-flash-exp (latest model)
 - [x] Added gemini-2.0-flash fallback
 - [x] Implemented automatic model fallback logic
 - [x] Standardized to GEMINI_API_KEY (removed REACT_APP_GEMINI_API_KEY)
@@ -177,7 +177,7 @@ Success Rate: 100%
 
 **Solutions:**
 1. Check Gemini API status: https://status.ai.google.dev
-2. Verify API key has access to gemini-3-flash and gemini-2.0-flash
+2. Verify API key has access to gemini-2.0-flash-exp and gemini-2.0-flash
 3. Check rate limits haven't been exceeded
 4. Review fallback logic in src/components/AutoBot/index.tsx
 
