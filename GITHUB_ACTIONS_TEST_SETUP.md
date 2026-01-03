@@ -59,7 +59,7 @@ This document explains how the `GEMINI_API_KEY` secret is configured to be acces
 ### Test Types That Require API Key
 
 1. **API Tests** (`npm run test:api`)
-   - Tests model availability (gemini-3-flash, gemini-2.5-flash)
+   - Tests model availability (gemini-3-flash, gemini-2.0-flash)
    - Tests response relevance with actual Gemini API calls
    - Validates chatbot responses contain SHAFT-related keywords
 
@@ -182,7 +182,7 @@ Success Rate: 100.0%
 
 All tests passed:
 ✅ Chat History Filtering
-✅ Model Availability (gemini-3-flash: working, gemini-2.5-flash: working)
+✅ Model Availability (gemini-3-flash: working, gemini-2.0-flash: working)
 ✅ Response Relevance (average: 85%, all queries relevant)
 ✅ E2E - Chatbot Opens
 ✅ E2E - Visual Verification  

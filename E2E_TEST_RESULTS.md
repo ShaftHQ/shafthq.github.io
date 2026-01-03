@@ -66,7 +66,7 @@ Verify that the chatbot handles missing API key gracefully and provides clear er
 
 1. User types: "what is SHAFT?"
 2. Chatbot processes the query using gemini-3-flash model
-3. If gemini-3-flash fails/rate limited → automatically tries gemini-2.5-flash
+3. If gemini-3-flash fails/rate limited → automatically tries gemini-2.0-flash
 4. Bot responds with relevant information about SHAFT
 
 ### Expected Response Characteristics
@@ -116,7 +116,7 @@ To enable full chatbot functionality in production:
 - [x] Error messages are user-friendly
 
 ### ⏭️ API Integration Tests (Requires API Key)
-- [ ] Model availability (gemini-3-flash, gemini-2.5-flash)
+- [ ] Model availability (gemini-3-flash, gemini-2.0-flash)
 - [ ] Response relevance for "what is SHAFT?"
 - [ ] Response contains expected keywords
 - [ ] Response length validation
@@ -166,7 +166,7 @@ All UI/UX tests passed successfully. The chatbot:
 **Requirements for full functionality:**
 1. Add `GEMINI_API_KEY` to GitHub Secrets
 2. Deploy to production
-3. Chatbot will automatically provide intelligent responses using gemini-3-flash (with gemini-2.5-flash fallback)
+3. Chatbot will automatically provide intelligent responses using gemini-3-flash (with gemini-2.0-flash fallback)
 
 **Code Quality:**
 - ✅ All code reviewed (no issues)

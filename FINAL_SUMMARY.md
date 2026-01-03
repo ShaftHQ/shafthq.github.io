@@ -9,8 +9,8 @@
 ## Solution Implemented
 
 ### 1. Updated to Latest Gemini Models
-- **Primary Model:** `gemini-3-flash` (latest available model)
-- **Fallback Model:** `gemini-2.5-flash` (automatic fallback for rate limits)
+- **Primary Model:** `gemini-3-flash` (Gemini 2.0 experimental model)
+- **Fallback Model:** `gemini-2.0-flash` (automatic fallback for rate limits)
 - **Fallback Logic:** Automatically tries fallback if primary model fails or hits rate limit
 
 ### 2. Standardized Environment Variables
@@ -43,7 +43,7 @@
 | # | Test Name | Description | Status | Evidence |
 |---|-----------|-------------|--------|----------|
 | 1 | **Chat History Filtering** | Verifies chat history filtering (user-first message, 10-message limit) | ✅ **PASSED** | All 4 test cases passed: Normal conversation, Welcome message only, Long conversation, Very long conversation |
-| 2 | **Model Availability** | Tests if gemini-3-flash and gemini-2.5-flash models are available | ⏭️ **SKIPPED** | Requires GEMINI_API_KEY environment variable |
+| 2 | **Model Availability** | Tests if gemini-3-flash and gemini-2.0-flash models are available | ⏭️ **SKIPPED** | Requires GEMINI_API_KEY environment variable |
 | 3 | **Response Relevance** | Tests if chatbot responses contain relevant SHAFT keywords | ⏭️ **SKIPPED** | Requires GEMINI_API_KEY environment variable |
 | 4 | **E2E - Chatbot Opens** | Verifies chatbot button click and window opening | ✅ **PASSED** | Screenshots captured, welcome message displayed |
 | 5 | **E2E - Visual Verification** | Visual verification of chatbot UI components | ✅ **PASSED** | All UI elements present and styled correctly |

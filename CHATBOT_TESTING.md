@@ -12,10 +12,13 @@ The chatbot was using `gemini-1.5-flash` which was returning a 404 error:
 ```
 
 ### Solution
-1. **Updated to latest model**: Changed primary model to `gemini-3-flash` (the latest model from Google)
+1. **Updated to Gemini 2.0**: Changed primary model to `gemini-2.0-flash-exp` (the latest experimental model from Google)
 2. **Added fallback mechanism**: Implemented automatic fallback to handle rate limits:
-   - `gemini-3-flash` (primary - latest model)
-   - `gemini-2.5-flash` (fallback - if rate limit is hit on primary)
+   - `gemini-2.0-flash-exp` (primary - experimental with latest features)
+   - `gemini-2.0-flash` (stable production model)
+   - `gemini-1.5-flash` (reliable fallback)
+   - `gemini-1.5-flash-8b` (efficient fallback)
+   - `gemini-1.5-pro` (highest capability fallback)
 3. **Added comprehensive tests**: Created test suite to verify model availability and response relevance
 
 ## Testing
@@ -132,14 +135,17 @@ If you hit these limits:
 
 ## Model Information
 
-### Current Models (December 2024)
+### Current Models (January 2026)
 
 | Model | Status | Context Window | Best For |
 |-------|--------|----------------|----------|
-| `gemini-3-flash` | Latest | 1M tokens | Latest features, best performance |
-| `gemini-2.5-flash` | Fallback | 1M tokens | Rate limit fallback, production-ready |
+| `gemini-2.0-flash-exp` | Experimental | 1M tokens | Latest features, experimental capabilities |
+| `gemini-2.0-flash` | Stable | 1M tokens | Production-ready, reliable performance |
+| `gemini-1.5-flash` | Fallback | 1M tokens | Proven reliability, fallback option |
+| `gemini-1.5-flash-8b` | Fallback | 1M tokens | High-volume, cost-efficient |
+| `gemini-1.5-pro` | Fallback | 2M tokens | Highest reasoning, complex tasks |
 
-Both models are available on the free tier with rate limits.
+All models are available on the free tier with rate limits.
 
 ## Documentation References
 
