@@ -77,15 +77,13 @@ export default async (req) => {
     const genAI = new GoogleGenerativeAI(apiKey);
 
     // List of models to try in order of preference
+    // Using Gemini 2.0 models as primary with 1.5 models as fallback
     const modelsToTry = [
-      'gemini-3-flash',
-      'gemini-2.5-flash',
-      'gemini-2.5-flash-lite',
-      'gemma-3-27b',
-      'gemma-3-12b',
-      'gemma-3-4b',
-      'gemma-3-2b',
-      'gemma-3-1b'
+      'gemini-2.0-flash-exp',      // Gemini 2.0 experimental - latest features
+      'gemini-2.0-flash',          // Gemini 2.0 stable - production ready
+      'gemini-1.5-flash',          // Gemini 1.5 Flash - reliable fallback
+      'gemini-1.5-flash-8b',       // Gemini 1.5 Flash 8B - efficient fallback
+      'gemini-1.5-pro'             // Gemini 1.5 Pro - highest capability fallback
     ];
     let lastError = null;
     const failedModels = [];

@@ -120,7 +120,7 @@ function runAPITests() {
     console.log('⚠️  Skipping API tests - GEMINI_API_KEY not set');
     addTestResult(
       'Model Availability Test',
-      'Tests if gemini-3-flash and gemini-2.5-flash models are available',
+      'Tests if Gemini 2.0 and 1.5 models are available',
       'SKIPPED',
       'GEMINI_API_KEY environment variable not configured'
     );
@@ -148,7 +148,7 @@ function runAPITests() {
       // Model availability test
       addTestResult(
         'Model Availability Test',
-        'Tests if gemini-3-flash and gemini-2.5-flash models are available and responding',
+        'Tests if Gemini 2.0 and 1.5 models are available and responding',
         'PASSED',
         'At least one model responded successfully with valid content'
       );
@@ -180,7 +180,7 @@ function runAPITests() {
     if (fullOutput.includes('ERROR: API key not configured')) {
       addTestResult(
         'Model Availability Test',
-        'Tests if gemini-3-flash and gemini-2.5-flash models are available',
+        'Tests if Gemini 2.0 and 1.5 models are available',
         'SKIPPED',
         'API key not configured'
       );
@@ -203,7 +203,7 @@ function runAPITests() {
       // These are environment/runtime issues, not code issues
       addTestResult(
         'Model Availability Test',
-        'Tests if gemini-3-flash and gemini-2.5-flash models are available',
+        'Tests if Gemini 2.0 and 1.5 models are available',
         'SKIPPED',
         'Models not available or API key invalid. This is an environment issue, not a code issue.'
       );
@@ -355,7 +355,7 @@ ${test.errorDetails}
     markdown += `✅ **All tests passed successfully!**
 
 The chatbot implementation is working correctly:
-- Model fallback mechanism is in place (gemini-3-flash → gemini-2.5-flash)
+- Model fallback mechanism is in place (gemini-2.0-flash-exp → gemini-2.0-flash → gemini-1.5-flash → gemini-1.5-flash-8b → gemini-1.5-pro)
 - Chat history filtering works as expected
 - UI components render properly
 - Environment variable configuration is correct

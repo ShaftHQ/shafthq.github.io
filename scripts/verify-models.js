@@ -6,14 +6,11 @@
  */
 
 const modelsToTry = [
-  'gemini-3-flash',
-  'gemini-2.5-flash',
-  'gemini-2.5-flash-lite',
-  'gemma-3-27b',
-  'gemma-3-12b',
-  'gemma-3-4b',
-  'gemma-3-2b',
-  'gemma-3-1b'
+  'gemini-2.0-flash-exp',
+  'gemini-2.0-flash',
+  'gemini-1.5-flash',
+  'gemini-1.5-flash-8b',
+  'gemini-1.5-pro'
 ];
 
 console.log('='.repeat(70));
@@ -39,16 +36,13 @@ console.log('  - This ensures high availability even during rate limits or servi
 console.log('  - If all models fail, a descriptive error message is shown to the user');
 
 console.log('\nModel Information:');
-console.log('  Gemini Models (Google AI flagship):');
-console.log('    - gemini-3-flash         : Latest model (newest features, best performance)');
-console.log('    - gemini-2.5-flash       : Flagship model (reliable, production-ready)');
-console.log('    - gemini-2.5-flash-lite  : Lightweight version (faster, efficient)');
-console.log('  Gemma Models (Open source by Google):');
-console.log('    - gemma-3-27b            : Largest open model (highest capability)');
-console.log('    - gemma-3-12b            : Balanced open model (good performance)');
-console.log('    - gemma-3-4b             : Efficient open model (fast responses)');
-console.log('    - gemma-3-2b             : Compact open model (lightweight)');
-console.log('    - gemma-3-1b             : Minimal fallback (basic capability)');
+console.log('  Gemini 2.0 Models (Latest generation):');
+console.log('    - gemini-2.0-flash-exp   : Experimental version with latest features');
+console.log('    - gemini-2.0-flash       : Stable production-ready model');
+console.log('  Gemini 1.5 Models (Reliable fallback):');
+console.log('    - gemini-1.5-flash       : Fast, multimodal, 1M token context');
+console.log('    - gemini-1.5-flash-8b    : High-volume, cost-efficient variant');
+console.log('    - gemini-1.5-pro         : Highest reasoning, 2M token context');
 
 console.log('\nAll models are available on the free tier with rate limits:');
 console.log('  - 15 requests per minute');
