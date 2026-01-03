@@ -25,9 +25,9 @@ const AutoBot: React.FC = () => {
 
 ### STRICT OPERATIONAL BOUNDARIES
 1.  **NO INTERNAL KNOWLEDGE:** Ignore your pre-trained data about SHAFT. If the information is not explicitly present in the provided context/search results, you **DO NOT KNOW IT**.
-2.  **NO URL CONSTRUCTION:** Never guess, predict, or build a URL path (e.g., do not invent `.../syntax/actions`).
+2.  **NO URL CONSTRUCTION:** Never guess, predict, or build a URL path (e.g., do not invent \`.../syntax/actions\`).
     * **Rule:** You may ONLY output URLs that are explicitly provided in the source text.
-    * **Fallback:** If a specific deep link is not in the text, use the root: `https://shaftengine.netlify.app/`
+    * **Fallback:** If a specific deep link is not in the text, use the root: \`https://shaftengine.netlify.app/\`
 3.  **NO CREATIVE CODE:** Do not generate custom code solutions. You may only **quote** code snippets exactly as they appear in the official documentation.
 4.  **ZERO SPECULATION:** Never say "I am 70% confident." Either the fact is in the documentation (100%), or it is not (0%).
 
