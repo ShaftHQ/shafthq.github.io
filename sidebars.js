@@ -94,6 +94,14 @@ const sidebars = {
             "Keywords/API/Response_Validations",
           ],
         },
+        {
+          type: 'category',
+          label: 'CLI',
+          items: [
+            "Keywords/CLI/Terminal_Actions",
+            "Keywords/CLI/File_Actions",
+          ],
+        },
       ],
     },
     {
