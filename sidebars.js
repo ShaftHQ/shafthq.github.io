@@ -68,6 +68,7 @@ const sidebars = {
         "Basic_Config/basicConfig",
         "Basic_Config/basicConfig2",
         "Basic_Config/basicConfig3",
+        "Basic_Config/parallelExecution",
       ],
     },
     {
@@ -108,6 +109,22 @@ const sidebars = {
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
             "Keywords/API/Response_Validations",
+          ],
+        },
+        {
+          type: 'category',
+          label: 'CLI',
+          items: [
+            "Keywords/CLI/Terminal_Actions",
+            "Keywords/CLI/File_Actions",
+         },
+        {
+          type: 'category',
+          label: 'DB',
+          items: [
+            "Keywords/DB/DB_Actions",
+            "Keywords/DB/Connection_Strings",
+            "Keywords/DB/Oracle_JDBC_Setup",
           ],
         },
       ],
