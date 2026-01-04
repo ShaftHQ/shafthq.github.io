@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { loadDocumentation, getGitHubRepositoryContext } from './docs-loader.mjs';
+import { MAX_MESSAGE_LENGTH, MAX_SYSTEM_INSTRUCTION_LENGTH } from './constants.mjs';
 
 // Load documentation once when the function is initialized (cold start)
 // This will be reused across warm invocations for better performance
@@ -39,7 +40,7 @@ export default async (req) => {
     }
 
     // Input validation and sanitization
-    if (typeof message !== 'string' || message.length === 0 || message.length > 10000) {
+    if (typeof message !== 'string' || message.length === 0 || message.length > MAX_MESSAGE_LENGTH) {
       console.debug('[Gemini Proxy] Request rejected: invalid message format');
       return new Response(
         JSON.stringify({ error: 'Invalid message content' }),
@@ -51,7 +52,7 @@ export default async (req) => {
     }
 
     // Note: Increased limit to accommodate enhanced system instruction with full documentation
-    if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > 500000) {
+    if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > MAX_SYSTEM_INSTRUCTION_LENGTH) {
       console.debug('[Gemini Proxy] Request rejected: invalid system instruction format');
       return new Response(
         JSON.stringify({ error: 'Invalid request' }),

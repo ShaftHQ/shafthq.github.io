@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, statSync } from 'fs';
 import { join, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { SHAFT_GITHUB_ORG, SHAFT_GITHUB_REPO, SHAFT_GITHUB_ISSUES, SHAFT_GITHUB_DISCUSSIONS } from './constants.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -69,14 +70,14 @@ export function getGitHubRepositoryContext() {
   return `
 # SHAFT Engine Official GitHub Repository
 
-Repository: https://github.com/ShaftHQ/SHAFT_ENGINE
-Organization: https://github.com/ShaftHQ
+Repository: ${SHAFT_GITHUB_REPO}
+Organization: ${SHAFT_GITHUB_ORG}
 
 For source code references, API documentation, or implementation details not covered in the user guide,
 users should refer to:
-- GitHub Repository: https://github.com/ShaftHQ/SHAFT_ENGINE
-- GitHub Issues: https://github.com/ShaftHQ/SHAFT_ENGINE/issues
-- GitHub Discussions: https://github.com/ShaftHQ/SHAFT_ENGINE/discussions
+- GitHub Repository: ${SHAFT_GITHUB_REPO}
+- GitHub Issues: ${SHAFT_GITHUB_ISSUES}
+- GitHub Discussions: ${SHAFT_GITHUB_DISCUSSIONS}
 - API JavaDocs: Available in the repository
 
 When users ask about specific implementation details or source code:

@@ -3,6 +3,7 @@
  * This simulates how the Netlify function enhances the system instruction with documentation
  */
 import { loadDocumentation, getGitHubRepositoryContext } from '../netlify/functions/docs-loader.mjs';
+import { MAX_SYSTEM_INSTRUCTION_LENGTH } from '../netlify/functions/constants.mjs';
 
 console.log('=== Testing Enhanced System Instruction Generation ===\n');
 
@@ -31,14 +32,13 @@ console.log(`   Original instruction included: ${enhancedSystemInstruction.inclu
 // Test 3: Verify size is within reasonable limits
 console.log('\nTest 3: Verifying size is within Gemini API limits...');
 // Gemini models typically support around 1-2M tokens
-// With ~4 chars per token, 500K chars is approximately 125K tokens, which is well within limits
-const maxReasonableSize = 500000; // 500KB
+// With ~4 chars per token, MAX_SYSTEM_INSTRUCTION_LENGTH chars is approximately 125K tokens, which is well within limits
 
-if (enhancedSystemInstruction.length > maxReasonableSize) {
-  console.warn(`⚠️  WARNING: Enhanced instruction is ${enhancedSystemInstruction.length} chars (limit: ${maxReasonableSize})`);
+if (enhancedSystemInstruction.length > MAX_SYSTEM_INSTRUCTION_LENGTH) {
+  console.warn(`⚠️  WARNING: Enhanced instruction is ${enhancedSystemInstruction.length} chars (limit: ${MAX_SYSTEM_INSTRUCTION_LENGTH})`);
   console.warn('   This might be too large for some models');
 } else {
-  console.log(`✅ PASSED: Size is reasonable (${enhancedSystemInstruction.length} < ${maxReasonableSize})`);
+  console.log(`✅ PASSED: Size is reasonable (${enhancedSystemInstruction.length} < ${MAX_SYSTEM_INSTRUCTION_LENGTH})`);
 }
 
 // Test 4: Verify caching would work
