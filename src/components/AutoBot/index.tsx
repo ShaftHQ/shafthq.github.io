@@ -152,15 +152,33 @@ I searched the official documentation but could not find a verified reference fo
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Check if user is on mobile device
+    const isMobile = window.innerWidth <= 768;
+    
     if (e.key === 'Enter') {
-      if (e.shiftKey) {
-        // Shift+Enter allows new line - do nothing, let default behavior happen
+      if (isMobile) {
+        // On mobile, Enter always creates new line - do nothing, let default behavior happen
         return;
       } else {
-        // Enter sends the message
-        e.preventDefault();
-        handleSend();
+        // On desktop, Shift+Enter creates new line, Enter sends
+        if (e.shiftKey) {
+          return;
+        } else {
+          e.preventDefault();
+          handleSend();
+        }
       }
+    }
+  };
+
+  const handleInputFocus = () => {
+    // On mobile, scroll to ensure input is visible above keyboard
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && textareaRef.current) {
+      // Small delay to let keyboard appear
+      setTimeout(() => {
+        textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
     }
   };
 
@@ -294,7 +312,8 @@ I searched the official documentation but could not find a verified reference fo
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask me anything about SHAFT... (Shift+Enter for new line)"
+              onFocus={handleInputFocus}
+              placeholder="Ask me anything about SHAFT..."
               className={styles.inputField}
               rows={1}
               disabled={isLoading}
