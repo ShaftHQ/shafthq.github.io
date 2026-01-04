@@ -151,7 +151,7 @@ I searched the official documentation but could not find a verified reference fo
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       if (e.shiftKey) {
         // Shift+Enter allows new line - do nothing, let default behavior happen
@@ -293,7 +293,7 @@ I searched the official documentation but could not find a verified reference fo
               ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Ask me anything about SHAFT... (Shift+Enter for new line)"
               className={styles.inputField}
               rows={1}

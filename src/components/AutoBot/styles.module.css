@@ -260,7 +260,7 @@
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 13px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--ifm-font-family-monospace, 'Courier New', Consolas, Monaco, monospace);
 }
 
 .markdownContent pre {
@@ -313,6 +313,7 @@
   display: block;
   margin-top: 4px;
   text-align: right;
+  color: inherit;
 }
 
 /* Typing Indicator */
