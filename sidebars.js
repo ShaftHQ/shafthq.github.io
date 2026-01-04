@@ -33,7 +33,7 @@ const sidebars = {
       type: 'category',
       label: 'Getting Started',
       collapsible: true,
-      collapsed: true,
+      collapsed: false,
       items: [
         "Getting_Started/first_steps",
         "Getting_Started/first_steps_2",
@@ -41,6 +41,22 @@ const sidebars = {
         "Getting_Started/first_steps_4",
         "Getting_Started/first_steps_5",
         "Getting_Started/first_steps_6",
+        {
+          type: 'category',
+          label: 'Setup by Project Type',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            "Getting_Started/setup_web",
+            "Getting_Started/setup_web_testng",
+            "Getting_Started/setup_web_junit5",
+            "Getting_Started/setup_web_cucumber",
+            "Getting_Started/setup_mobile",
+            "Getting_Started/setup_api",
+          ],
+        },
+        "Getting_Started/integrations",
+        "Getting_Started/support",
       ],
     },
     {
