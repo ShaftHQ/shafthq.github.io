@@ -117,7 +117,8 @@ const sidebars = {
           items: [
             "Keywords/CLI/Terminal_Actions",
             "Keywords/CLI/File_Actions",
-         },
+          ],
+        },
         {
           type: 'category',
           label: 'DB',
