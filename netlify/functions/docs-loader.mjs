@@ -4,8 +4,9 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { SHAFT_GITHUB_ORG, SHAFT_GITHUB_REPO, SHAFT_GITHUB_ISSUES, SHAFT_GITHUB_DISCUSSIONS } from './constants.mjs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Get current file's directory for path resolution
+const currentFileUrl = fileURLToPath(import.meta.url);
+const currentDir = dirname(currentFileUrl);
 
 /**
  * Recursively read all markdown files from a directory
@@ -38,7 +39,7 @@ function readMarkdownFiles(dirPath, baseDir, files = []) {
 export function loadDocumentation() {
   try {
     // Path to docs directory (two levels up from functions directory, then into docs)
-    const docsPath = join(__dirname, '..', '..', 'docs');
+    const docsPath = join(currentDir, '..', '..', 'docs');
     
     const docFiles = readMarkdownFiles(docsPath, docsPath);
     
