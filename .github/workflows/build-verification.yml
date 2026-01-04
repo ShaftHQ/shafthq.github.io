@@ -75,15 +75,28 @@ jobs:
               console.log(`Commented on existing issue #${existingIssue.number}`);
             } else {
               // Create new issue
-              const issue = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issueTitle,
-                body: issueBody,
-                labels: ['build-failure'],
-                assignees: ['copilot']
-              });
-              console.log(`Created issue #${issue.data.number}`);
+              try {
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issueTitle,
+                  body: issueBody,
+                  labels: ['build-failure'],
+                  assignees: ['copilot']
+                });
+                console.log(`Created issue #${issue.data.number}`);
+              } catch (error) {
+                // If assigning to 'copilot' fails, create issue without assignee
+                console.log(`Failed to assign to copilot: ${error.message}`);
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: issueTitle,
+                  body: issueBody,
+                  labels: ['build-failure']
+                });
+                console.log(`Created issue #${issue.data.number} without assignee`);
+              }
             }
 
       - name: Fail the workflow if build failed
