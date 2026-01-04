@@ -421,7 +421,7 @@ public class DropDownDemo {
 	@Test
 	public void method() {
 		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL(driver, "https://the-internet.herokuapp.com/dropdown");
+		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dropdown");
 		driver.element().getSelectedText( dropDown);
 		driver.element().select(dropDown, "Option 1");
 		driver.element().getSelectedText(dropDown);
@@ -476,7 +476,7 @@ public class DynamicControlsDemo {
 	@Test
 	public void alternate() {
 		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL(driver, "https://the-internet.herokuapp.com/dynamic_controls");
+		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dynamic_controls");
 		//--1-- check that initially the text box is not clickable
 		System.out.println(driver.element().isElementClickable(textField));
 		//--2-- press the button to enable the text box
