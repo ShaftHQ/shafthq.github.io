@@ -13,11 +13,16 @@ interface Message {
   timestamp: Date;
 }
 
+// Constants
+const MOBILE_BREAKPOINT = 768;
+const MOBILE_KEYBOARD_DELAY = 300;
+
 const AutoBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -53,6 +58,20 @@ I searched the official documentation but could not find a verified reference fo
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Check on resize
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Auto-resize textarea based on content
   useEffect(() => {
@@ -152,9 +171,6 @@ I searched the official documentation but could not find a verified reference fo
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    // Check if user is on mobile device
-    const isMobile = window.innerWidth <= 768;
-    
     if (e.key === 'Enter') {
       if (isMobile) {
         // On mobile, Enter always creates new line - do nothing, let default behavior happen
@@ -173,12 +189,11 @@ I searched the official documentation but could not find a verified reference fo
 
   const handleInputFocus = () => {
     // On mobile, scroll to ensure input is visible above keyboard
-    const isMobile = window.innerWidth <= 768;
     if (isMobile && textareaRef.current) {
       // Small delay to let keyboard appear
       setTimeout(() => {
         textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 300);
+      }, MOBILE_KEYBOARD_DELAY);
     }
   };
 
