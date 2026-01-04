@@ -241,6 +241,72 @@
   white-space: pre-wrap;
 }
 
+/* Markdown content styling for assistant messages */
+.markdownContent {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.markdownContent p {
+  margin: 0 0 0.5em 0;
+}
+
+.markdownContent p:last-child {
+  margin-bottom: 0;
+}
+
+.markdownContent code {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+}
+
+.markdownContent pre {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+
+.markdownContent pre code {
+  background: none;
+  padding: 0;
+}
+
+.markdownContent ul,
+.markdownContent ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.markdownContent li {
+  margin: 0.25em 0;
+}
+
+.markdownContent strong {
+  font-weight: 600;
+}
+
+.markdownContent em {
+  font-style: italic;
+}
+
+.markdownContent a {
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
+}
+
+.markdownContent blockquote {
+  border-left: 3px solid var(--ifm-color-primary);
+  padding-left: 12px;
+  margin: 0.5em 0;
+  font-style: italic;
+  opacity: 0.9;
+}
+
 .messageTime {
   font-size: 10px;
   opacity: 0.6;
@@ -380,8 +446,9 @@
   .chatWindow {
     position: fixed;
     width: 100vw;
+    /* Use dynamic viewport height that shrinks when keyboard opens */
     height: 100vh;
-    height: 100dvh; /* Use dynamic viewport height for better mobile browser support */
+    height: 100dvh;
     border-radius: 0;
     bottom: 0;
     right: 0;
@@ -430,13 +497,16 @@
     padding: 10px 12px;
     flex-shrink: 0; /* Prevent input from shrinking */
     /* Prevent zoom when focusing input on iOS */
-    min-height: 60px;
+    background: #ffffff;
   }
 
   .inputField {
     font-size: 16px; /* Prevents zoom on iOS */
     padding: 8px 10px;
     min-height: 40px; /* Ensure adequate touch target */
+    /* Allow textarea to grow */
+    overflow-y: auto;
+    line-height: 1.4;
   }
 
   .sendButton {
@@ -529,4 +599,17 @@
 
 [data-theme='dark'] .userMessage .messageBubble {
   background: var(--ifm-color-primary-dark);
+}
+
+/* Dark mode markdown content */
+[data-theme='dark'] .markdownContent code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .markdownContent pre {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .markdownContent a {
+  color: var(--ifm-color-primary-lighter);
 }

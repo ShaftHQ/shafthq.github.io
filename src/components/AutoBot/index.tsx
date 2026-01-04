@@ -3,6 +3,8 @@ import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 library.add(fas);
 
 interface Message {
@@ -18,6 +20,7 @@ const AutoBot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // System instruction for the chatbot
   const systemInstruction = `You are AutoBot, the intelligent technical assistant for SHAFT, the Unified Test Automation Engine. Your objective is to help users by retrieving accurate information from the official SHAFT documentation ecosystem.
@@ -50,6 +53,15 @@ I searched the official documentation but could not find a verified reference fo
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Auto-resize textarea based on content
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    }
+  }, [input]);
 
   useEffect(() => {
     // Add welcome message when chat is first opened
@@ -140,9 +152,15 @@ I searched the official documentation but could not find a verified reference fo
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        // Shift+Enter allows new line - do nothing, let default behavior happen
+        return;
+      } else {
+        // Enter sends the message
+        e.preventDefault();
+        handleSend();
+      }
     }
   };
 
@@ -226,7 +244,15 @@ I searched the official documentation but could not find a verified reference fo
                     </div>
                   )}
                   <div className={styles.messageBubble}>
-                    <p>{message.content}</p>
+                    {message.role === 'assistant' ? (
+                      <div className={styles.markdownContent}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p>{message.content}</p>
+                    )}
                     <span className={styles.messageTime}>
                       {message.timestamp.toLocaleTimeString([], {
                         hour: '2-digit',
@@ -264,10 +290,11 @@ I searched the official documentation but could not find a verified reference fo
           {/* Input Area */}
           <div className={styles.chatInput}>
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask me anything about SHAFT..."
+              onKeyDown={handleKeyPress}
+              placeholder="Ask me anything about SHAFT... (Shift+Enter for new line)"
               className={styles.inputField}
               rows={1}
               disabled={isLoading}
