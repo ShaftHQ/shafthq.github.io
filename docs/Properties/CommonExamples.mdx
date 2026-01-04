@@ -1,0 +1,495 @@
+---
+id: CommonExamples
+title: Common Examples
+sidebar_label: Examples
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Here are common scenarios and how to configure SHAFT properties for them. Each example shows three ways to configure properties: **File-based**, **CLI-based**, and **Code-based**.
+
+## Example 1: Run tests in headless mode on Firefox browser
+
+To run tests in headless mode on Firefox, you need to set both `targetBrowserName` and `headlessExecution` properties:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+targetBrowserName=firefox
+headlessExecution=true
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DtargetBrowserName=firefox -DheadlessExecution=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.remote.Browser;
+
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.FIREFOX.browserName())
+    .headlessExecution(true);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 2: Run tests on Chrome with mobile emulation
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+targetBrowserName=chrome
+isMobileEmulation=true
+mobileEmulation.deviceName=iPhone12Pro
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DtargetBrowserName=chrome -DisMobileEmulation=true -DmobileEmulation.deviceName=iPhone12Pro
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.remote.Browser;
+
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.CHROME.browserName())
+    .isMobileEmulation(true)
+    .mobileEmulationDeviceName("iPhone12Pro");
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 3: Remote execution on Selenium Grid
+
+For remote execution on a Selenium Grid, you need to configure the execution address, target OS, and optionally enable headless mode:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=192.168.1.100:4444
+targetOperatingSystem=Linux
+headlessExecution=true
+targetBrowserName=chrome
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DexecutionAddress=192.168.1.100:4444 -DtargetOperatingSystem=Linux -DheadlessExecution=true -DtargetBrowserName=chrome
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.Browser;
+
+SHAFT.Properties.platform.set()
+    .executionAddress("192.168.1.100:4444")
+    .targetPlatform(Platform.LINUX.name());
+    
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.CHROME.browserName())
+    .headlessExecution(true);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 4: BrowserStack execution
+
+For running tests on BrowserStack cloud platform:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=browserstack
+targetOperatingSystem=Windows
+targetBrowserName=chrome
+browserStack.userName=your_username
+browserStack.accessKey=your_access_key
+browserStack.osVersion=11
+browserStack.browserVersion=latest
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DexecutionAddress=browserstack -DtargetOperatingSystem=Windows -DtargetBrowserName=chrome
+```
+
+Note: For CLI execution, configure `browserStack.userName` and `browserStack.accessKey` in your properties file for security.
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.Browser;
+
+SHAFT.Properties.platform.set()
+    .executionAddress("browserstack")
+    .targetPlatform(Platform.WINDOWS.name());
+    
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.CHROME.browserName());
+    
+SHAFT.Properties.browserStack.set()
+    .userName("your_username")
+    .accessKey("your_access_key")
+    .osVersion("11")
+    .browserVersion("latest");
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 5: Native mobile app testing (Android)
+
+For testing native Android applications using Appium:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+targetOperatingSystem=ANDROID
+executionAddress=localhost:4723
+mobile_platformVersion=13.0
+mobile_deviceName=emulator-5554
+mobile_automationName=UIAutomator2
+mobile_app=src/test/resources/apps/ApiDemos-debug.apk
+mobile_appPackage=io.appium.android.apis
+mobile_appActivity=.view.Controls1
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DtargetOperatingSystem=ANDROID -DexecutionAddress=localhost:4723 -Dmobile_platformVersion=13.0 -Dmobile_deviceName=emulator-5554 -Dmobile_automationName=UIAutomator2 -Dmobile_app=src/test/resources/apps/ApiDemos-debug.apk
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import io.appium.java_client.remote.AutomationName;
+import org.openqa.selenium.Platform;
+
+@BeforeClass
+public void beforeClass() {
+    SHAFT.Properties.platform.set()
+        .targetPlatform(Platform.ANDROID.name())
+        .executionAddress("localhost:4723");
+        
+    SHAFT.Properties.mobile.set()
+        .platformVersion("13.0")
+        .deviceName("emulator-5554")
+        .automationName(AutomationName.ANDROID_UIAUTOMATOR2)
+        .app("src/test/resources/apps/ApiDemos-debug.apk")
+        .appPackage("io.appium.android.apis")
+        .appActivity(".view.Controls1");
+}
+
+@Test
+public void testNativeAndroidApp() {
+    driver = new SHAFT.GUI.WebDriver();
+    driver.element().type(AppiumBy.accessibilityId("Views"), "Test Input");
+    // Your test code here
+}
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 6: Mobile web testing
+
+For testing web applications on mobile browsers using Appium:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Android Mobile Web
+targetOperatingSystem=ANDROID
+executionAddress=localhost:4723
+mobile_platformVersion=13.0
+mobile_deviceName=emulator-5554
+mobile_automationName=UIAutomator2
+browserName=chrome
+
+# iOS Mobile Web (uncomment for iOS)
+# targetOperatingSystem=IOS
+# mobile_platformVersion=16.0
+# mobile_deviceName=iPhone 14
+# mobile_automationName=XCUITest
+# browserName=safari
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+# Android
+mvn test -DtargetOperatingSystem=ANDROID -DexecutionAddress=localhost:4723 -Dmobile_platformVersion=13.0 -Dmobile_deviceName=emulator-5554 -DbrowserName=chrome
+
+# iOS
+mvn test -DtargetOperatingSystem=IOS -DexecutionAddress=localhost:4723 -Dmobile_platformVersion=16.0 -Dmobile_deviceName="iPhone 14" -DbrowserName=safari
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+import io.appium.java_client.remote.AutomationName;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
+
+@BeforeClass
+public void beforeClass() {
+    // Android Mobile Web
+    SHAFT.Properties.platform.set()
+        .targetPlatform(Platform.ANDROID.name())
+        .executionAddress("localhost:4723");
+        
+    SHAFT.Properties.mobile.set()
+        .platformVersion("13.0")
+        .deviceName("emulator-5554")
+        .automationName(AutomationName.ANDROID_UIAUTOMATOR2)
+        .browserName("chrome");
+    
+    // For iOS Mobile Web, uncomment below:
+    // SHAFT.Properties.platform.set()
+    //     .targetPlatform(Platform.IOS.name())
+    //     .executionAddress("localhost:4723");
+    //     
+    // SHAFT.Properties.mobile.set()
+    //     .platformVersion("16.0")
+    //     .deviceName("iPhone 14")
+    //     .automationName(AutomationName.IOS_XCUI_TEST)
+    //     .browserName("safari");
+}
+
+@Test
+public void testMobileWeb() {
+    driver = new SHAFT.GUI.WebDriver();
+    driver.browser().navigateToURL("https://example.com");
+    driver.element().type(By.id("username"), "testuser");
+    // Your test code here
+}
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 7: Enable maximum performance mode
+
+Maximum performance mode disables complementary features to achieve faster execution with up to 400% performance boost:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+maximumPerformanceMode=2
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DmaximumPerformanceMode=2
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.flags.set().maximumPerformanceMode(2);
+```
+
+  </TabItem>
+</Tabs>
+
+**Performance Mode Values:**
+- `0` = Disabled (default)
+- `1` = Enabled without headless execution
+- `2` = Enabled with headless execution (fastest, ~400% performance boost)
+
+---
+
+## Example 8: Cross-browser testing
+
+Run the same test across multiple browsers sequentially or in parallel:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Sequential execution across Chrome, Firefox, and Safari
+SHAFT.CrossBrowserMode=sequential
+
+# Parallel execution (requires Docker Desktop)
+# SHAFT.CrossBrowserMode=parallelized
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DSHAFT.CrossBrowserMode=sequential
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.platform.set().crossBrowserMode("sequential");
+// or for parallel: .crossBrowserMode("parallelized");
+```
+
+  </TabItem>
+</Tabs>
+
+**Cross-Browser Mode Values:**
+- `off` = Normal execution with configured browser (default)
+- `sequential` = Tests run on Chrome, Firefox, and Safari in sequence
+- `parallelized` = Tests run on all three browsers in parallel
+
+:::note
+Cross-browser mode requires Docker Desktop to be installed and configured to use Linux images.
+:::
+
+---
+
+## Example 9: API testing with Swagger validation
+
+Enable Swagger/OpenAPI contract validation for API tests:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+swagger.validation.enabled=true
+swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -Dswagger.validation.enabled=true -Dswagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.api.set()
+    .swaggerValidationEnabled(true)
+    .swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json");
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Example 10: Screenshot and video recording configuration
+
+Configure when and how to capture screenshots and videos:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Screenshot configuration
+screenshotParams_whenToTakeAScreenshot=Always
+screenshotParams_screenshotType=FullPage
+screenshotParams_highlightElements=true
+screenshotParams_watermark=true
+
+# Video recording
+videoParams_recordVideo=true
+videoParams_scope=DriverSession
+
+# Animated GIF creation
+createAnimatedGif=true
+animatedGif_frameDelay=500
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DscreenshotParams_whenToTakeAScreenshot=Always -DvideoParams_recordVideo=true -DcreateAnimatedGif=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.visuals.set()
+    .screenshotParamsWhenToTakeAScreenshot("Always")
+    .screenshotParamsScreenshotType("FullPage")
+    .screenshotParamsHighlightElements(true)
+    .videoParamsRecordVideo(true)
+    .createAnimatedGif(true);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## More Resources
+
+For a complete list of all available properties, their default values, and descriptions, visit:
+- [Properties Types](PropertyTypes.md) - Learn about the three ways to configure properties
+- [Properties List](PropertiesList.mdx) - Complete reference of all SHAFT properties
