@@ -68,9 +68,19 @@ I searched the official documentation but could not find a verified reference fo
     // Check on mount
     checkMobile();
     
+    // Debounced resize handler
+    let resizeTimer: NodeJS.Timeout;
+    const debouncedCheckMobile = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkMobile, 150);
+    };
+    
     // Check on resize
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener('resize', debouncedCheckMobile);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', debouncedCheckMobile);
+    };
   }, []);
 
   // Auto-resize textarea based on content
@@ -190,10 +200,17 @@ I searched the official documentation but could not find a verified reference fo
   const handleInputFocus = () => {
     // On mobile, scroll to ensure input is visible above keyboard
     if (isMobile && textareaRef.current) {
+      const currentRef = textareaRef.current;
       // Small delay to let keyboard appear
-      setTimeout(() => {
-        textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const scrollTimeout = setTimeout(() => {
+        // Check if ref is still valid before scrolling
+        if (currentRef && currentRef.isConnected) {
+          currentRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }, MOBILE_KEYBOARD_DELAY);
+      
+      // Cleanup function would be handled by component unmount
+      return () => clearTimeout(scrollTimeout);
     }
   };
 
