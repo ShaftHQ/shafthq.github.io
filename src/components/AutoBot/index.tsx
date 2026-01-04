@@ -3,6 +3,8 @@ import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 library.add(fas);
 
 interface Message {
@@ -11,13 +13,19 @@ interface Message {
   timestamp: Date;
 }
 
+// Constants
+const MOBILE_BREAKPOINT = 768;
+const MOBILE_KEYBOARD_DELAY = 300;
+
 const AutoBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // System instruction for the chatbot
   const systemInstruction = `You are AutoBot, the intelligent technical assistant for SHAFT, the Unified Test Automation Engine. Your objective is to help users by retrieving accurate information from the official SHAFT documentation ecosystem.
@@ -50,6 +58,39 @@ I searched the official documentation but could not find a verified reference fo
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    };
+    
+    // Check on mount
+    checkMobile();
+    
+    // Debounced resize handler
+    let resizeTimer: NodeJS.Timeout;
+    const debouncedCheckMobile = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(checkMobile, 150);
+    };
+    
+    // Check on resize
+    window.addEventListener('resize', debouncedCheckMobile);
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', debouncedCheckMobile);
+    };
+  }, []);
+
+  // Auto-resize textarea based on content
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 100) + 'px';
+    }
+  }, [input]);
 
   useEffect(() => {
     // Add welcome message when chat is first opened
@@ -139,10 +180,37 @@ I searched the official documentation but could not find a verified reference fo
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      if (isMobile) {
+        // On mobile, Enter always creates new line - do nothing, let default behavior happen
+        return;
+      } else {
+        // On desktop, Shift+Enter creates new line, Enter sends
+        if (e.shiftKey) {
+          return;
+        } else {
+          e.preventDefault();
+          handleSend();
+        }
+      }
+    }
+  };
+
+  const handleInputFocus = () => {
+    // On mobile, scroll to ensure input is visible above keyboard
+    if (isMobile && textareaRef.current) {
+      const currentRef = textareaRef.current;
+      // Small delay to let keyboard appear
+      const scrollTimeout = setTimeout(() => {
+        // Check if ref is still valid before scrolling
+        if (currentRef && currentRef.isConnected) {
+          currentRef.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, MOBILE_KEYBOARD_DELAY);
+      
+      // Cleanup function would be handled by component unmount
+      return () => clearTimeout(scrollTimeout);
     }
   };
 
@@ -226,7 +294,15 @@ I searched the official documentation but could not find a verified reference fo
                     </div>
                   )}
                   <div className={styles.messageBubble}>
-                    <p>{message.content}</p>
+                    {message.role === 'assistant' ? (
+                      <div className={styles.markdownContent}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p>{message.content}</p>
+                    )}
                     <span className={styles.messageTime}>
                       {message.timestamp.toLocaleTimeString([], {
                         hour: '2-digit',
@@ -264,9 +340,11 @@ I searched the official documentation but could not find a verified reference fo
           {/* Input Area */}
           <div className={styles.chatInput}>
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
+              onFocus={handleInputFocus}
               placeholder="Ask me anything about SHAFT..."
               className={styles.inputField}
               rows={1}
