@@ -494,7 +494,7 @@ public class DynamicControlsDemo {
 
 ![clickable](https://live.staticflickr.com/65535/51628756225_c75d0b22c3_z.jpg) <br/>
 
-The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clicable as shown in the previous image captured from the Allure report.
+The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clickable as shown in the previous image captured from the Allure report.
 
 -   Check if an element is displayed
 
