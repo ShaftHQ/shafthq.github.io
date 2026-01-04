@@ -52,6 +52,7 @@ const sidebars = {
         "Basic_Config/basicConfig",
         "Basic_Config/basicConfig2",
         "Basic_Config/basicConfig3",
+        "Basic_Config/parallelExecution",
       ],
     },
     {
