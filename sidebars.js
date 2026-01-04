@@ -65,6 +65,7 @@ const sidebars = {
           label: 'GUI',
           items: [
             "Keywords/GUI/Browser_Actions",
+            "Keywords/GUI/Element_Identification",
             "Keywords/GUI/Element_Actions",
             "Keywords/GUI/Element_Validations",
             "Keywords/GUI/Touch_Actions",
