@@ -97,6 +97,13 @@ const sidebars = {
         },
         {
           type: 'category',
+          label: 'CLI',
+          items: [
+            "Keywords/CLI/Terminal_Actions",
+            "Keywords/CLI/File_Actions",
+         },
+        {
+          type: 'category',
           label: 'DB',
           items: [
             "Keywords/DB/DB_Actions",
