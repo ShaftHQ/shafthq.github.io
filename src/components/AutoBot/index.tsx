@@ -239,7 +239,7 @@ I searched the official documentation but could not find a verified reference fo
           title="Chat with AutoBot"
         >
           <FontAwesomeIcon icon="fa-solid fa-robot" size="2x" />
-          <span className={styles.badge}>AI</span>
+          <span className={styles.badge}>AutoBot</span>
         </button>
       )}
 
@@ -270,10 +270,10 @@ I searched the official documentation but could not find a verified reference fo
               <button
                 className={styles.iconButton}
                 onClick={toggleChat}
-                aria-label="Close chat"
-                title="Close chat"
+                aria-label="Minimize chat"
+                title="Minimize chat"
               >
-                <FontAwesomeIcon icon="fa-solid fa-times" />
+                <FontAwesomeIcon icon="fa-solid fa-window-minimize" />
               </button>
             </div>
           </div>
