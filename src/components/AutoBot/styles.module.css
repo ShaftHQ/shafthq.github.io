@@ -223,9 +223,7 @@
   padding: 10px 14px;
   border-radius: 12px;
   position: relative;
-  word-wrap: break-word;
   overflow-wrap: break-word;
-  word-break: break-word;
   max-width: 100%;
 }
 
@@ -254,7 +252,6 @@
   line-height: 1.5;
   max-width: 100%;
   overflow-wrap: break-word;
-  word-wrap: break-word;
 }
 
 .markdownContent p {
