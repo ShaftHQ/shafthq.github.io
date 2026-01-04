@@ -34,6 +34,7 @@ This guide walks you through creating a SHAFT web automation project using **Cuc
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Get latest version from https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE -->
         <shaft.version><!-- Check latest version --></shaft.version>
         <cucumber.version>7.15.0</cucumber.version>
     </properties>

@@ -221,6 +221,8 @@ slack.channel=#test-results
 3. Use in your tests:
 ```java
 // Send notification to Slack
+// Note: The exact API may vary. Check SHAFT documentation for the current method.
+// Example usage (verify with SHAFT API docs):
 SHAFT.Report.notifySlack("Test execution completed", "All tests passed!");
 ```
 
@@ -256,6 +258,8 @@ teams.channel=Test Automation Results
 3. Use in your tests:
 ```java
 // Send notification to Microsoft Teams
+// Note: The exact API may vary. Check SHAFT documentation for the current method.
+// Example usage (verify with SHAFT API docs):
 SHAFT.Report.notifyTeams("Test Suite Completed", "Execution Summary: 45/50 Passed");
 ```
 

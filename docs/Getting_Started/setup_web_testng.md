@@ -22,10 +22,10 @@ This guide walks you through creating a SHAFT web automation project using **Tes
    ```text
    GroupId: io.github.shafthq
    ArtifactId: testng-archetype
-   Version: (check latest version below)
+   Version: (see step 4 for latest version)
    ```
 
-4. Get the latest version from [SHAFT TestNG Archetype Releases](https://github.com/ShaftHQ/testng-archetype/releases/latest)
+4. Get the latest version from [SHAFT TestNG Archetype Releases](https://github.com/ShaftHQ/testng-archetype/releases/latest) and use it in the Version field above
 
 5. Fill in your project details:
    - **Name**: Your project name (e.g., `MyWebTests`)

@@ -48,11 +48,22 @@ Familiarity with:
 
 1. **Install Android Studio** (includes Android SDK)
 2. **Set Environment Variables:**
+   
+   **macOS/Linux:**
    ```bash
-   export ANDROID_HOME=$HOME/Library/Android/sdk
+   export ANDROID_HOME=$HOME/Library/Android/sdk  # macOS
+   # or export ANDROID_HOME=$HOME/Android/Sdk      # Linux
    export PATH=$PATH:$ANDROID_HOME/emulator
    export PATH=$PATH:$ANDROID_HOME/tools
    export PATH=$PATH:$ANDROID_HOME/platform-tools
+   ```
+   
+   **Windows:**
+   ```cmd
+   set ANDROID_HOME=C:\Users\YourUsername\AppData\Local\Android\Sdk
+   set PATH=%PATH%;%ANDROID_HOME%\emulator
+   set PATH=%PATH%;%ANDROID_HOME%\tools
+   set PATH=%PATH%;%ANDROID_HOME%\platform-tools
    ```
 
 3. **Install Appium UIAutomator2 Driver:**
@@ -108,6 +119,7 @@ Create a new Maven project with the following `pom.xml`:
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Get latest version from https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE -->
         <shaft.version><!-- Check latest version --></shaft.version>
     </properties>
 

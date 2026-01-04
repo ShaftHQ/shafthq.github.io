@@ -63,6 +63,7 @@ Create a new Maven project with the following `pom.xml`:
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Get latest version from https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE -->
         <shaft.version><!-- Check latest version --></shaft.version>
     </properties>
 
