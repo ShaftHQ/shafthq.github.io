@@ -538,7 +538,7 @@ mvn test -Denv=prod
 ## Comparison of Test Data Formats
 
 | Feature | JSON | CSV | Excel | Properties |
-|---------|------|-----|-------|------------|
+|:--------|:-----|:----|:------|:-----------|
 | **Structure** | Hierarchical | Tabular | Tabular | Key-Value |
 | **Complexity** | High | Low | Medium | Low |
 | **Best For** | APIs, Complex data | Bulk data | Test scenarios | Configuration |
@@ -839,8 +839,8 @@ By following these guidelines and examples, you can build a robust and maintaina
 
 ## Related Documentation
 
-- [File Actions](CLI/File_Actions.md) - Reading and writing files programmatically
-- [File Validations](Validations/Files.md) - Validating file content and existence
-- [API Request Builder](API/Request_Builder.md) - Building API requests with test data
+- [File Actions](../Keywords/CLI/File_Actions.md) - Reading and writing files programmatically
+- [File Validations](../Keywords/Validations/Files.md) - Validating file content and existence
+- [API Request Builder](../Keywords/API/Request_Builder.md) - Building API requests with test data
 - [Parallel Execution](../Basic_Config/parallelExecution.md) - Using test data in parallel tests
 - [Properties List](../Properties/PropertiesList.mdx) - SHAFT configuration properties
