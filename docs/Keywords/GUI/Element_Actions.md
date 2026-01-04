@@ -45,6 +45,16 @@ By chooseFileButtonLocator = By.xpath("//form//input[@type='file']");
 driver.element().typeFileLocationForUpload(chooseFileButtonLocator, "src/test/resources/testDataFiles/testUpload.txt");
 ```
 
+### Clear
+
+Clears the text from a text field or text area.
+
+```java
+//a By object is used to store the locator to your element
+private By textBoxLocator = By.id("username_textbox");
+//clear the text field
+driver.element().clear(textBoxLocator);
+```
 
 ### Click on an Element
 
@@ -69,6 +79,14 @@ driver.element().clickAndHold(elementLocator);
 ```
 
 Waits for the element to be clickable, and then clicks and holds it.
+
+### Click Using JavaScript
+
+```java
+driver.element().clickUsingJavascript(elementLocator);
+```
+
+Clicks an element using JavaScript. This is useful when the standard click method doesn't work due to element positioning or visibility issues.
 
 ### Double Click​
 
@@ -159,6 +177,16 @@ int yPos= 500;
 driver.element().dragAndDrop(sourceElement,xPos,yPos);
 ```
 
+-   Drag an element by a specific offset
+
+```java
+By sourceElement = By.id("draggable");    // Locator to the element you want to drag
+int xOffset = 100;  // Horizontal offset
+int yOffset = 50;   // Vertical offset
+
+driver.element().dragAndDropByOffset(sourceElement, xOffset, yOffset);
+```
+
 ### Get Tag name
 
 ```java
@@ -246,6 +274,14 @@ In order to interact with elements within IFrames you neeed to first change driv
 By iFrameLocator = By.id("ifr_id");
 driver.element().switchToIframe(iFrameLocator );
 ```
+
+-   Get the current frame reference
+
+```java
+String currentFrame = driver.element().getCurrentFrame();
+```
+
+Returns the current frame reference as a string.
 
 -   switching back to default content
 
@@ -355,6 +391,24 @@ By dropDown = By.id("dropdown");
 driver.element().select(dropDown, "Option 1");
 ```
 
+### Set Value Using JavaScript
+
+Sets the value of an element using JavaScript. This is useful when the standard type method doesn't work or when you need to set a value without triggering events.
+
+```java
+By inputField = By.id("username");
+driver.element().setValueUsingJavaScript(inputField, "myUsername");
+```
+
+### Submit Form Using JavaScript
+
+Submits a form using JavaScript. This can be used to submit a form programmatically without clicking the submit button.
+
+```java
+By formElement = By.id("loginForm");
+driver.element().submitFormUsingJavaScript(formElement);
+```
+
 ## Sample Code Snippet
 
 ```java
@@ -367,7 +421,7 @@ public class DropDownDemo {
 	@Test
 	public void method() {
 		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL(driver, "https://the-internet.herokuapp.com/dropdown");
+		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dropdown");
 		driver.element().getSelectedText( dropDown);
 		driver.element().select(dropDown, "Option 1");
 		driver.element().getSelectedText(dropDown);
@@ -404,6 +458,17 @@ String text = driver.element().getText(textBox);
 -   Check if an element is clickable
 
 ```java
+//The locator to your element
+By elementLocator = By.id("submit_btn");
+//Check if element is clickable
+boolean isClickable = driver.element().isElementClickable(elementLocator);
+```
+
+Returns a boolean indicating whether the element is clickable (visible and enabled).
+
+**Advanced Example:**
+
+```java
 public class DynamicControlsDemo {
 	By textField=By.xpath("//form[@id='input-example']/input");
 	By changeState=By.xpath("//form[@id='input-example']/button");
@@ -411,17 +476,17 @@ public class DynamicControlsDemo {
 	@Test
 	public void alternate() {
 		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL(driver, "https://the-internet.herokuapp.com/dynamic_controls");
+		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dynamic_controls");
 		//--1-- check that initially the text box is not clickable
-		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		System.out.println(driver.element().isElementClickable(textField));
 		//--2-- press the button to enable the text box
 		driver.element().click(changeState);
 		//--3-- check again whether the text box is clickable
-		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		System.out.println(driver.element().isElementClickable(textField));
 		//--4-- attempt to click on the text box
 		driver.element().click(textField);
 		//--5-- finally verify the state of the check box
-		ReportManager.log(String.valueOf(ElementActions.isElementClickable(driver, textField)));
+		System.out.println(driver.element().isElementClickable(textField));
 		driver.element().type( textField, "SHAFT is awesome !");
 	}
 }
@@ -429,7 +494,7 @@ public class DynamicControlsDemo {
 
 ![clickable](https://live.staticflickr.com/65535/51628756225_c75d0b22c3_z.jpg) <br/>
 
-The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clicable as shown in the previous image captured from the Allure report.
+The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clickable as shown in the previous image captured from the Allure report.
 
 -   Check if an element is displayed
 
@@ -438,6 +503,73 @@ System.out.println(driver.element().isElementDisplayed(elementLocator));
 ```
 
 returns a boolean indicating whether the element is displayed
+
+### Wait Methods
+
+SHAFT provides several wait methods to handle synchronization and ensure elements are in the expected state before performing actions.
+
+#### Wait Until Element Text Matches
+
+Waits until the text of an element matches the expected value.
+
+```java
+By elementLocator = By.id("status_message");
+driver.element().waitUntilElementTextToBe(elementLocator, "Success");
+```
+
+#### Wait Until Attribute Contains Value
+
+Waits until a specific attribute of an element contains the expected value.
+
+```java
+By elementLocator = By.id("progress_bar");
+driver.element().waitUntilAttributeContains(elementLocator, "class", "complete");
+```
+
+#### Wait Until Element is Selected
+
+Waits until an element (like a checkbox or radio button) is selected.
+
+```java
+By checkboxLocator = By.id("terms_checkbox");
+driver.element().waitUntilElementToBeSelected(checkboxLocator);
+```
+
+#### Wait Until Number of Elements Equals
+
+Waits until the number of elements matching a locator equals a specific count.
+
+```java
+By listItemsLocator = By.className("list-item");
+driver.element().waitUntilNumberOfElementsToBe(listItemsLocator, 5);
+```
+
+#### Wait Until Number of Elements is Less Than
+
+Waits until the number of elements matching a locator is less than a specific count.
+
+```java
+By listItemsLocator = By.className("list-item");
+driver.element().waitUntilNumberOfElementsToBeLessThan(listItemsLocator, 10);
+```
+
+#### Wait Until Number of Elements is More Than
+
+Waits until the number of elements matching a locator is more than a specific count.
+
+```java
+By listItemsLocator = By.className("list-item");
+driver.element().waitUntilNumberOfElementsToBeMoreThan(listItemsLocator, 0);
+```
+
+#### Wait Until Presence of All Elements
+
+Waits until all elements matching the locator are present in the DOM (not necessarily visible).
+
+```java
+By elementsLocator = By.className("data-row");
+driver.element().waitUntilPresenceOfAllElementsLocatedBy(elementsLocator);
+```
 
 ### Getting Table Data
 -   Extracts the data of a table's rows into a List of Map Objects
