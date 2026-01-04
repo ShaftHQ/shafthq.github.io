@@ -78,6 +78,7 @@ const sidebars = {
             items: [
 		        "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
 		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
+		        "Keywords/GUI/didYouKnow/Local_Selenium_Grid_Execution",
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
@@ -112,6 +113,7 @@ const sidebars = {
             "Keywords/DB/Oracle_JDBC_Setup",
           ],
         },
+        "Keywords/TestData_Management",
       ],
     },
     {
