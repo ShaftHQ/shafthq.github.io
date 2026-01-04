@@ -16,6 +16,97 @@ You can use these tab groups to navigate and get information about how to manage
   <TabItem value="defaults" label="Default Values">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
 </Tabs>
 
+## Common Examples
+
+Here are some common scenarios and how to configure SHAFT properties for them:
+
+### Example 1: Run tests in headless mode on Firefox browser
+
+To run tests in headless mode on Firefox, you need to set both `targetBrowserName` and `headlessExecution` properties:
+
+**File-based (custom.properties):**
+```properties
+targetBrowserName=firefox
+headlessExecution=true
+```
+
+**CLI-based:**
+```bash
+mvn test -DtargetBrowserName=firefox -DheadlessExecution=true
+```
+
+**Code-based:**
+```java
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.remote.Browser;
+
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.FIREFOX.browserName())
+    .headlessExecution(true);
+```
+
+### Example 2: Run tests on Chrome with mobile emulation
+
+**File-based (custom.properties):**
+```properties
+targetBrowserName=chrome
+isMobileEmulation=true
+mobileEmulation.deviceName=iPhone12Pro
+```
+
+**Code-based:**
+```java
+SHAFT.Properties.web.set()
+    .targetBrowserName(Browser.CHROME.browserName())
+    .isMobileEmulation(true)
+    .mobileEmulationDeviceName("iPhone12Pro");
+```
+
+### Example 3: Run mobile app tests on Android emulator
+
+**File-based (custom.properties):**
+```properties
+targetOperatingSystem=ANDROID
+executionAddress=localhost:4723
+mobile_platformVersion=13.0
+mobile_deviceName=emulator-5554
+mobile_automationName=UIAutomator2
+mobile_app=src/test/resources/apps/myApp.apk
+```
+
+**Code-based:**
+```java
+import io.appium.java_client.remote.AutomationName;
+import org.openqa.selenium.Platform;
+
+SHAFT.Properties.platform.set()
+    .targetPlatform(Platform.ANDROID.name())
+    .executionAddress("localhost:4723");
+    
+SHAFT.Properties.mobile.set()
+    .platformVersion("13.0")
+    .deviceName("emulator-5554")
+    .automationName(AutomationName.ANDROID_UIAUTOMATOR2)
+    .app("src/test/resources/apps/myApp.apk");
+```
+
+### Example 4: Enable maximum performance mode
+
+**File-based (custom.properties):**
+```properties
+maximumPerformanceMode=2
+```
+
+**Code-based:**
+```java
+SHAFT.Properties.flags.set().maximumPerformanceMode(2);
+```
+
+**Note:** `maximumPerformanceMode` values:
+- `0` = Disabled (default)
+- `1` = Enabled without headless execution
+- `2` = Enabled with headless execution (fastest, ~400% performance boost)
+
 ### Platform
 
 - These set of properties control the basic target execution platform settings, like execution location and target operating system.
