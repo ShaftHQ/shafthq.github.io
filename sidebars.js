@@ -94,6 +94,15 @@ const sidebars = {
             "Keywords/API/Response_Validations",
           ],
         },
+        {
+          type: 'category',
+          label: 'DB',
+          items: [
+            "Keywords/DB/DB_Actions",
+            "Keywords/DB/Connection_Strings",
+            "Keywords/DB/Oracle_JDBC_Setup",
+          ],
+        },
       ],
     },
     {
