@@ -556,22 +556,22 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
   <TabItem value="defaults" label="Default Values">
 
-| Property Name                                  | Default Value          | Possible Values                              | Description |
-| ---------------------------------------------- | ---------------------- | -------------------------------------------- | ----------- |
-| visualMatchingThreshold                        | `0.90`                 | any decimal value between `0.00` and `1.00`  |             |
-| screenshotParams_scalingFactor                 | `1`                    |                                              |             |
-| screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` | `Always, ValidationPointsOnly, FailuresOnly` |             |
-| screenshotParams_screenshotType                | `FullPage`             | `FullPage`, `Regular`, `Element`             |             |
-| screenshotParams_highlightElements             | `true`                 | `true`, `false`                              |             |
-| screenshotParams_highlightMethod               | `AI`                   |                                              |             |
-| screenshotParams_skippedElementsFromScreenshot | ``                     |                                              |             |
-| screenshotParams_watermark                     | `true`                 | `true`, `false`                              |             |
-| screenshotParams_watermarkOpacity              | `0.2`                  |                                              |             |
-| createAnimatedGif                              | `false`                | `true`, `false`                              |             |
-| animatedGif_frameDelay                         | `500`                  |                                              |             |
-| videoParams_recordVideo                        | `false`                | `true`, `false`                              |             |
-| videoParams_scope                              | `DriverSession`        |                                              |             |
-| whenToTakePageSourceSnapshot                   | `Never`                |                                              |             |
+| Property Name                                  | Default Value          | Possible Values                              | Description                                                            |
+| ---------------------------------------------- | ---------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| visualMatchingThreshold                        | `0.90`                 | any decimal value between `0.00` and `1.00`  | Visual matching threshold for AI powered element identification.       |
+| screenshotParams_scalingFactor                 | `1.0`                  | example: `1.0`, `0.5`, `2.0`                 | Scaling factor for screenshots.                                        |
+| screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, `FailuresOnly` | When to automatically capture screenshots during test execution.   |
+| screenshotParams_screenshotType                | `FullPage`             | `FullPage`, `Regular`, `Element`             | Type of screenshot to capture.                                         |
+| screenshotParams_highlightElements             | `true`                 | `true`, `false`                              | Highlight elements in screenshots.                                     |
+| screenshotParams_highlightMethod               | `AI`                   | `AI`, `NATIVE`                               | Method for highlighting elements in screenshots.                       |
+| screenshotParams_skippedElementsFromScreenshot | ` `                    | CSS selectors separated by commas            | Elements to skip/hide when taking screenshots.                         |
+| screenshotParams_watermark                     | `true`                 | `true`, `false`                              | Add watermark to screenshots.                                          |
+| screenshotParams_watermarkOpacity              | `0.2`                  | `0.0` to `1.0`                               | Opacity level for screenshot watermark.                                |
+| createAnimatedGif                              | `false`                | `true`, `false`                              | Create animated GIF from screenshots.                                  |
+| animatedGif_frameDelay                         | `500`                  | milliseconds                                 | Delay between frames in animated GIF.                                  |
+| videoParams_recordVideo                        | `false`                | `true`, `false`                              | Record video during test execution.                                    |
+| videoParams_scope                              | `DriverSession`        | `DriverSession`, `TestMethod`                | Scope for video recording.                                             |
+| whenToTakePageSourceSnapshot                   | `Never`                | `Never`, `Always`, `FailuresOnly`            | When to capture page source snapshots.                                 |
 
   </TabItem>
 </Tabs>
@@ -598,20 +598,21 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
   <TabItem value="defaults" label="Default Values">
   
-| Property Name              | Default Value                                | Possible Values | Description |
-| -------------------------- | -------------------------------------------- | --------------- | ----------- |
-| jiraInteraction            | `false`                                      | `true`, `false` |             |
-| jiraUrl                    | `https://`                                   |                 |             |
-| projectKey                 | ``                                           |                 |             |
-| authorization              | `:`                                          |                 |             |
-| reportTestCasesExecution   | `false`                                      | `true`, `false` |             |
-| reportPath                 | `target/surefire-reports/testng-results.xml` |                 |             |
-| ExecutionName              | ``                                           |                 |             |
-| ExecutionDescription       | ``                                           |                 |             |
-| ReportBugs                 | `false`                                      | `true`, `false` |             |
-| assignee                   | ``                                           |                 |             |
-| allure.link.tms.pattern    | `https:///{}`                                |                 |             |
-| allure.link.custom.pattern | `{}`                                         |                 |             |
+| Property Name              | Default Value                                | Possible Values | Description                                                     |
+| -------------------------- | -------------------------------------------- | --------------- | --------------------------------------------------------------- |
+| jiraInteraction            | `false`                                      | `true`, `false` | Enable Jira integration for test management.                    |
+| jiraUrl                    | `https://`                                   | URL             | Jira instance URL.                                              |
+| projectKey                 | ` `                                          | String          | Jira project key.                                               |
+| authorization              | `:`                                          | username:token  | Jira authorization credentials (username:token or username:password). |
+| authType                   | `basic`                                      | `basic`, `bearer` | Authorization type for Jira API.                              |
+| reportTestCasesExecution   | `false`                                      | `true`, `false` | Report test case execution results to Jira/Xray.               |
+| reportPath                 | `target/surefire-reports/testng-results.xml` | File path       | Path to test results file for Jira/Xray reporting.             |
+| ExecutionName              | ` `                                          | String          | Name for test execution in Jira/Xray.                           |
+| ExecutionDescription       | ` `                                          | String          | Description for test execution in Jira/Xray.                    |
+| ReportBugs                 | `false`                                      | `true`, `false` | Automatically report bugs to Jira on test failures.            |
+| assignee                   | ` `                                          | String          | Default assignee for reported bugs.                             |
+| allure.link.tms.pattern    | `https:///{}`                                | URL pattern     | Pattern for TMS (Test Management System) links in Allure.      |
+| allure.link.custom.pattern | `{}`                                         | URL pattern     | Pattern for custom links in Allure reports.                     |
 
   </TabItem>
 </Tabs>
