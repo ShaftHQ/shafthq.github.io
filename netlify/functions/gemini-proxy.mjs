@@ -1,4 +1,20 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { loadDocumentation, getGitHubRepositoryContext } from './docs-loader.mjs';
+import { MAX_MESSAGE_LENGTH, MAX_SYSTEM_INSTRUCTION_LENGTH } from './constants.mjs';
+
+// Load documentation once when the function is initialized (cold start)
+// This will be reused across warm invocations for better performance
+let cachedDocumentation = null;
+let cachedGitHubContext = null;
+
+function getDocumentationContext() {
+  if (!cachedDocumentation) {
+    console.log('[Gemini Proxy] Loading documentation for the first time...');
+    cachedDocumentation = loadDocumentation();
+    cachedGitHubContext = getGitHubRepositoryContext();
+  }
+  return { documentation: cachedDocumentation, githubContext: cachedGitHubContext };
+}
 
 export default async (req) => {
   // Only allow POST requests
@@ -24,7 +40,7 @@ export default async (req) => {
     }
 
     // Input validation and sanitization
-    if (typeof message !== 'string' || message.length === 0 || message.length > 10000) {
+    if (typeof message !== 'string' || message.length === 0 || message.length > MAX_MESSAGE_LENGTH) {
       console.debug('[Gemini Proxy] Request rejected: invalid message format');
       return new Response(
         JSON.stringify({ error: 'Invalid message content' }),
@@ -35,7 +51,8 @@ export default async (req) => {
       );
     }
 
-    if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > 50000) {
+    // Note: Increased limit to accommodate enhanced system instruction with full documentation
+    if (typeof systemInstruction !== 'string' || systemInstruction.length === 0 || systemInstruction.length > MAX_SYSTEM_INSTRUCTION_LENGTH) {
       console.debug('[Gemini Proxy] Request rejected: invalid system instruction format');
       return new Response(
         JSON.stringify({ error: 'Invalid request' }),
@@ -76,6 +93,19 @@ export default async (req) => {
     // Initialize Gemini AI
     const genAI = new GoogleGenerativeAI(apiKey);
 
+    // Load documentation context
+    const { documentation, githubContext } = getDocumentationContext();
+    
+    // Enhance system instruction with full documentation
+    let enhancedSystemInstruction = systemInstruction;
+    
+    if (documentation) {
+      // Prepend the full documentation to the system instruction
+      enhancedSystemInstruction = `${documentation}\n\n${githubContext}\n\n---\n\n${systemInstruction}\n\nIMPORTANT: Use ONLY the documentation provided above to answer questions. Do not use any external sources, internet searches, or your pre-training knowledge. If the answer is not in the documentation above, clearly state that the information is not available in the official documentation.`;
+    } else {
+      console.warn('[Gemini Proxy] Documentation could not be loaded, using original system instruction');
+    }
+
     // List of models to try in order of preference
     const modelsToTry = [
       'gemini-3-flash',
@@ -97,12 +127,8 @@ export default async (req) => {
         
         const model = genAI.getGenerativeModel({
           model: modelName,
-          systemInstruction: systemInstruction,
-          tools: [
-      {
-        googleSearch: {}, // This one line enables Grounding
-      },
-    ],
+          systemInstruction: enhancedSystemInstruction,
+          // REMOVED: Google Search grounding - now using local documentation only
         });
 
         const chat = model.startChat({
