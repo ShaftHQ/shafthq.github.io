@@ -1,7 +1,7 @@
 ---
 id: first_steps_3
-title: SHAFT vs. Native
-sidebar_label: SHAFT vs. Native
+title: SHAFT vs. Native Selenium
+sidebar_label: 3. SHAFT vs Native
 ---
 We all know that **["Selenium Vs ... " blog posts are mainly click-bait]** per this insightful article from the Selenium user guide.
 <br/>Our objective here is not to make claims or comparisons, it is rather to analyze the differences and commonalities between the two.
@@ -101,3 +101,6 @@ In most cases, just typing `driver.` will be enough for anyone to find the actio
 :::
 
 ["Selenium Vs ... " blog posts are mainly click-bait]: <https://www.selenium.dev/blog/2024/selenium-vs-blog-posts/>
+---
+
+[← Previous: SHAFT & Selenium](./first_steps_2) | [Next: Prerequisites →](./first_steps_4)
