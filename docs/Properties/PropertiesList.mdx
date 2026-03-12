@@ -118,9 +118,9 @@ You can use these tab groups to navigate and get information about how to manage
     .isMobileEmulation(false)
     .mobileEmulationIsCustomDevice(false)
     .mobileEmulationDeviceName("")
-    .mobileEmulationWidth("")
-    .mobileEmulationHeight("")
-    .mobileEmulationPixelRatio("")
+    .mobileEmulationWidth(360)
+    .mobileEmulationHeight(640)
+    .mobileEmulationPixelRatio(1.0)
     .mobileEmulationUserAgent("")
     .baseURL("")
     .browserWindowWidth(1920)
@@ -269,9 +269,16 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="code-based" label="Code-based">
 
   ```java showLineNumbers
-  // Enable or disable Swagger schema validation
-  SHAFT.Properties.api.set().swaggerValidationEnabled(true);
-  SHAFT.Properties.api.set().swaggerValidationEnabled(false);
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  boolean swaggerValidationEnabled = SHAFT.Properties.api.swaggerValidationEnabled();
+  String swaggerValidationUrl = SHAFT.Properties.api.swaggerValidationUrl();
+
+  /** set **/
+  SHAFT.Properties.api.set()
+    .swaggerValidationEnabled(true)
+    .swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json");
   ```
   </TabItem>
 
@@ -381,22 +388,71 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | cleanSummaryReportsDirectoryBeforeExecution   | `true`        | `true`, `false` | • Clean summary reports directory before execution.      |
 | openExecutionSummaryReportAfterExecution      | `false`       | `true`, `false` | • Open execution summary report after test execution.    |
 | disableLogging                                | `true`        | `true`, `false` | • Disable all logging output.                            |
+| attachFullLog                                 | `false`       | `true`, `false` | • Attach the full log file to the Allure report after test execution. |
 
   </TabItem>
 </Tabs>
 
+### Allure
 
-***Since version 8.3.20240827 Existing Allure Reporting Properties Have Changed to The Following And New Properties Added*** 
-  
-| Old Property Name                              |new Property Name | Default Value | Possible Values | Description |
-| -----------------------------------------------| ---------------- | --------------| --------------- |-------------
-| cleanAllureResultsDirectoryBeforeExecution     | allure.accumulateHistory| `true`       | `true`, `false` | when true, accumulates history from previous test runs. When false, old results are deleted before the new run 
-| N/A                                            | allure.cleanResultsDirectory| `true`       | `true`, `false` | clean allure results directory before execution
-| generateAllureReportArchive                    | allure.generateArchive  | `false`       | `true`, `false` | generate Archive File .Zip for generated Allure report
-| openAllureReportAfterExecution                 | allure.automaticallyOpen|`true`        | `true`, `false` | open allure report after execution
-| **NEW**                                        | allure.accumulateReports|`true`        | `true`, `false` | by default keeps old html allure reports and if false it will keep only last run report
-| **NEW**                                        | allure.customLogo|SHAFT Logo URL      | path of your Customized logo on local machine or url if your logo is hosted online | for changing SHAFT logo To your customized logo on the report
-| **NEW**                                        | allure.customTitle|"Test run report"     | any String value | for changing Report Title from default value to any report title you want 
+- These set of properties control the engine's built-in Allure reporting capabilities, such as when to open the report, whether to accumulate history and reports, and how to customize the report appearance.
+- *Since version 8.3.20240827, the Allure properties have been renamed and extended. The old property names are listed in the table below for reference.*
+
+<Tabs groupId="PropertyTypes" queryString="Allure">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  boolean automaticallyOpen = SHAFT.Properties.allure.automaticallyOpen();
+  boolean accumulateHistory = SHAFT.Properties.allure.accumulateHistory();
+  boolean accumulateReports = SHAFT.Properties.allure.accumulateReports();
+  boolean cleanResultsDirectory = SHAFT.Properties.allure.cleanResultsDirectory();
+  boolean generateArchive = SHAFT.Properties.allure.generateArchive();
+  String customLogo = SHAFT.Properties.allure.customLogo();
+  String customTitle = SHAFT.Properties.allure.customTitle();
+
+  /** set **/
+  SHAFT.Properties.allure.set()
+    .automaticallyOpen(true)
+    .accumulateHistory(true)
+    .accumulateReports(true)
+    .cleanResultsDirectory(true)
+    .generateArchive(false)
+    .customLogo("https://example.com/logo.png")
+    .customTitle("My Test Suite Report");
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  allure.automaticallyOpen=true
+  allure.accumulateHistory=true
+  allure.accumulateReports=true
+  allure.cleanResultsDirectory=true
+  allure.generateArchive=false
+  allure.customLogo=https://example.com/logo.png
+  allure.customTitle=My Test Suite Report
+  ```
+
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name                 | Default Value                                                                                                                                    | Possible Values                                              | Description                                                                                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| allure.automaticallyOpen      | `true`                                                                                                                                           | `true`, `false`                                              | • Open the Allure report in the default browser automatically after test execution. *(previously: `openAllureReportAfterExecution`)*                                 |
+| allure.accumulateHistory      | `true`                                                                                                                                           | `true`, `false`                                              | • When `true`, accumulates Allure history across runs to enable trend graphs and historical comparison. When `false`, old results are deleted before the new run. *(previously: `cleanAllureResultsDirectoryBeforeExecution`)* |
+| allure.accumulateReports      | `true`                                                                                                                                           | `true`, `false`                                              | • When `true`, keeps previous Allure HTML report files in the report directory. When `false`, only the latest run report is retained.                               |
+| allure.cleanResultsDirectory  | `true`                                                                                                                                           | `true`, `false`                                              | • Clean the Allure results directory before each test run. Disable when merging results from multiple partial runs.                                                 |
+| allure.generateArchive        | `false`                                                                                                                                          | `true`, `false`                                              | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: `generateAllureReportArchive`)* |
+| allure.customLogo             | *(SHAFT default logo URL)*                                                                                                                       | URL or local file path                                       | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report.                                                                  |
+| allure.customTitle            | `Test run report`                                                                                                                                | Any string                                                   | • Custom title displayed in the header of the generated Allure report.                                                                                              |
+
+  </TabItem>
+</Tabs>
 
 ### Timeouts
 
@@ -437,7 +493,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | databaseQueryTimeout                | `30`          | (seconds)       | Timeout in seconds for database queries.                                           |
 | waitForRemoteServerToBeUp           | `false`       | `true`, `false` | Wait for remote server to be up before execution.                                  |
 | timeoutForRemoteServerToBeUp        | `1`           | (seconds)       | Timeout in seconds for remote server to be up.                                     |
-| remoteServerInstanceCreationTimeout | `1`           | (seconds)       | Timeout in seconds for remote server instance creation.                            |
+| remoteServerInstanceCreationTimeout | `5`           | (seconds)       | Timeout in seconds for remote server instance creation.                            |
 | waitUntilTimeout                    | `60`          | (seconds)       | Timeout in seconds for wait.until operations.                                      |
 
   </TabItem>
@@ -470,7 +526,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | visualMatchingThreshold                        | `0.90`                 | any decimal value between `0.00` and `1.00`  | Visual matching threshold for AI powered element identification.       |
 | screenshotParams_scalingFactor                 | `1.0`                  | example: `1.0`, `0.5`, `2.0`                 | Scaling factor for screenshots.                                        |
 | screenshotParams_whenToTakeAScreenshot         | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, `FailuresOnly` | When to automatically capture screenshots during test execution.   |
-| screenshotParams_screenshotType                | `FullPage`             | `FullPage`, `Regular`, `Element`             | Type of screenshot to capture.                                         |
+| screenshotParams_screenshotType                | `fullPage`             | `fullPage`, `regular`, `element`             | Type of screenshot to capture.                                         |
 | screenshotParams_highlightElements             | `true`                 | `true`, `false`                              | Highlight elements in screenshots.                                     |
 | screenshotParams_highlightMethod               | `AI`                   | `AI`, `NATIVE`                               | Method for highlighting elements in screenshots.                       |
 | screenshotParams_skippedElementsFromScreenshot | ` `                    | CSS selectors separated by commas            | Elements to skip/hide when taking screenshots.                         |
@@ -613,17 +669,18 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                    | Default Value                                 | Possible Values | Description |
 | -------------------------------- | --------------------------------------------- | --------------- | ----------- |
-| propertiesFolderPath             | `src/main/resources/properties/`              |                 |             |
-| defaultPropertiesFolderPath      | `src/main/resources/properties/default`       |                 |             |
-| dynamicObjectRepositoryPath      | `src/main/resources/dynamicObjectRepository/` |                 |             |
-| testDataFolderPath               | `src/test/resources/testDataFiles/`           |                 |             |
-| downloadsFolderPath              | `target/downloadedFiles/`                     |                 |             |
-| allureResultsFolderPath          | `allure-results/`                             |                 |             |
-| extentReportsFolderPath          | `extent-reports/`                             |                 |             |
-| executionSummaryReportFolderPath | `execution-summary/`                          |                 |             |
-| video.folder                     | `allure-results/videos`                       |                 |             |
-| servicesFolderPath               | `src/test/resources/META-INF/services/`       |                 |             |
-| applitoolsApiKey                 | ``                                            |                 |             |
+| propertiesFolderPath             | `src/main/resources/properties/`              |                 | Path to the custom properties files folder.                              |
+| defaultPropertiesFolderPath      | `src/main/resources/properties/default`       |                 | Path to the default properties files folder.                             |
+| dynamicObjectRepositoryPath      | `src/main/resources/dynamicObjectRepository/` |                 | Path to the dynamic object repository folder.                            |
+| testDataFolderPath               | `src/test/resources/testDataFiles/`           |                 | Path to the test data files folder.                                      |
+| downloadsFolderPath              | `target/downloadedFiles`                      |                 | Path to the folder for downloaded files.                                 |
+| allureResultsFolderPath          | `allure-results/`                             |                 | Path to the Allure results output folder.                                |
+| extentReportsFolderPath          | `extent-reports/`                             |                 | Path to the Extent reports output folder.                                |
+| executionSummaryReportFolderPath | `execution-summary/`                          |                 | Path to the execution summary report folder.                             |
+| PerformanceReportFolderPath      | `performanceReport/`                          |                 | Path to the performance (Lighthouse) report output folder.               |
+| video.folder                     | `allure-results/videos`                       |                 | Path to the folder where recorded videos are saved.                      |
+| servicesFolderPath               | `src/test/resources/META-INF/services/`       |                 | Path to the META-INF services folder for custom service implementations. |
+| applitoolsApiKey                 | ``                                            |                 | Applitools API key for visual AI testing integration.                    |
 
   </TabItem>
 </Tabs>
@@ -676,23 +733,29 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                    | Default Value | Possible Values | Description                                                                                           |
 | -------------------------------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
-| browserStack.userName            | ``            |                 | BrowserStack username for authentication.                                                             |
-| browserStack.accessKey           | ``            |                 | BrowserStack access key for authentication.                                                           |
-| browserStack.platformVersion     | ``            |                 | Mobile platform version for BrowserStack execution.                                                   |
-| browserStack.deviceName          | ``            |                 | Mobile device name for BrowserStack execution.                                                        |
-| browserStack.appUrl              | ``            |                 | Use appUrl to test a previously uploaded app file.                                                    |
-| browserStack.customID            | ``            |                 | Use customID to test the latest uploaded version as the above url expires regularly.                  |
-| browserStack.appName             | ``            |                 | App name for uploading to BrowserStack.                                                               |
-| browserStack.appRelativeFilePath | ``            |                 | Relative file path to the app for uploading to BrowserStack.                                          |
-| browserStack.osVersion           | ``            |                 | In case of Desktop web testing you must also set the `targetOperatingSystem`, and `targetBrowserName`.|
-| browserStack.browserVersion      | ``            |                 | Browser version, optional, uses random by default.                                                    |
-| browserStack.local               | `false`       | `true`, `false` | Enable BrowserStack local testing.                                                                    |
-| browserStack.seleniumVersion     | `4.38.0`      |                 | Selenium version to use on BrowserStack.                                                              |
-| browserStack.acceptInsecureCerts | `true`        | `true`, `false` | Accept insecure SSL certificates.                                                                     |
-| browserStack.debug               | `false`       | `true`, `false` | Enable debug mode for BrowserStack.                                                                   |
-| browserStack.networkLogs         | `false`       | `true`, `false` | Enable network logs capture on BrowserStack.                                                          |
-| browserStack.geoLocation         | ``            |                 | Set geolocation for BrowserStack tests.                                                               |
-| browserStack.appiumVersion       | `2.19.0`      |                 | Appium version to use on BrowserStack for mobile testing.                                             |
+| browserStack.userName                | ``            |                 | BrowserStack username for authentication.                                                             |
+| browserStack.accessKey               | ``            |                 | BrowserStack access key for authentication.                                                           |
+| browserStack.platformVersion         | ``            |                 | Mobile platform version for BrowserStack execution.                                                   |
+| browserStack.deviceName              | ``            |                 | Mobile device name for BrowserStack execution.                                                        |
+| browserStack.appUrl                  | ``            |                 | Use appUrl to test a previously uploaded app file.                                                    |
+| browserStack.customID                | ``            |                 | Use customID to test the latest uploaded version as the above url expires regularly.                  |
+| browserStack.appName                 | ``            |                 | App name for uploading to BrowserStack.                                                               |
+| browserStack.appRelativeFilePath     | ``            |                 | Relative file path to the app for uploading to BrowserStack.                                          |
+| browserStack.osVersion               | ``            |                 | In case of Desktop web testing you must also set the `targetOperatingSystem`, and `targetBrowserName`.|
+| browserStack.browserVersion          | ``            |                 | Browser version, optional, uses random by default.                                                    |
+| browserStack.local                   | `false`       | `true`, `false` | Enable BrowserStack local testing.                                                                    |
+| browserStack.seleniumVersion         | `4.40.0`      |                 | Selenium version to use on BrowserStack.                                                              |
+| browserStack.acceptInsecureCerts     | `true`        | `true`, `false` | Accept insecure SSL certificates.                                                                     |
+| browserStack.debug                   | `false`       | `true`, `false` | Enable debug mode for BrowserStack.                                                                   |
+| browserStack.networkLogs             | `false`       | `true`, `false` | Enable network logs capture on BrowserStack.                                                          |
+| browserStack.geoLocation             | ``            |                 | Set geolocation for BrowserStack tests.                                                               |
+| browserStack.appiumVersion           | `3.1.0`       |                 | Appium version to use on BrowserStack for mobile testing.                                             |
+| browserStack.buildName               | ``            |                 | Build name to group test runs in the BrowserStack dashboard.                                          |
+| browserStack.projectName             | ``            |                 | Project name to group builds in the BrowserStack dashboard.                                           |
+| browserStack.parallelsPerPlatform    | `1`           |                 | Number of parallel sessions to run per platform when using the BrowserStack SDK.                      |
+| browserStack.browserstackAutomation  | `true`        | `true`, `false` | Enable BrowserStack Automation (SDK mode). Set to `false` to use legacy WebDriver URL mode.           |
+| browserStack.platformsList           | ``            |                 | Comma-separated list of platforms for cross-browser/cross-device parallel runs (SDK mode).            |
+| browserStack.customBrowserStackYmlPath | ``          |                 | Path to a custom `browserstack.yml` configuration file. Overrides individual BrowserStack properties. |
 
   </TabItem>
 </Tabs>
@@ -707,36 +770,39 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                   | Default Value  | Possible Values | Description                                                              |
 | ------------------------------- | -------------- | --------------- | ------------------------------------------------------------------------ |
-| LambdaTest.username             | ``             |                 |                                                                          |
-| LambdaTest.accessKey            | ``             |                 |                                                                          |
-| LambdaTest.platformVersion      | ``             |                 |                                                                          |
-| LambdaTest.deviceName           | ``             |                 |                                                                          |
-| LambdaTest.appUrl               | ``             |                 |                                                                          |
-| LambdaTest.appProfiling         | `false`        | `true`, `false` |                                                                          |
-| LambdaTest.osVersion            | ``             |                 |                                                                          |
-| LambdaTest.visual               | `false`        | `true`, `false` |                                                                          |
-| LambdaTest.video                | `false`        | `true`, `false` |                                                                          |
+| LambdaTest.username             | ``             |                 | LambdaTest username for authentication.                                  |
+| LambdaTest.accessKey            | ``             |                 | LambdaTest access key for authentication.                                |
+| LambdaTest.platformVersion      | ``             |                 | Mobile platform version for LambdaTest execution.                        |
+| LambdaTest.deviceName           | ``             |                 | Mobile device name for LambdaTest execution.                             |
+| LambdaTest.appUrl               | ``             |                 | Use appUrl to test a previously uploaded app file.                       |
+| LambdaTest.appProfiling         | `false`        | `true`, `false` | Enable app profiling during mobile testing.                              |
+| LambdaTest.osVersion            | ``             |                 | OS version for desktop browser testing on LambdaTest.                    |
+| LambdaTest.visual               | `false`        | `true`, `false` | Enable visual logs (screenshots) on LambdaTest.                          |
+| LambdaTest.video                | `false`        | `true`, `false` | Enable video recording on LambdaTest.                                    |
 | LambdaTest.appName              | ``             |                 | Use appName and appRelativeFilePath to upload a new app file and test it |
 | LambdaTest.appRelativeFilePath  | ``             |                 | Use appName and appRelativeFilePath to upload a new app file and test it |
-| LambdaTest.resolution           | ``             |                 |                                                                          |
-| LambdaTest.headless             | `false`        | `true`, `false` |                                                                          |
-| LambdaTest.timezone             | ``             |                 |                                                                          |
-| LambdaTest.project              | `SHAFT_Engine` |                 |                                                                          |
-| LambdaTest.build                | `Build Name`   |                 |                                                                          |
-| LambdaTest.selenium_version     | ``             |                 |                                                                          |
-| LambdaTest.driver_version       | ``             |                 |                                                                          |
-| LambdaTest.w3c                  | `true`         | `true`, `false` |                                                                          |
-| LambdaTest.browserVersion       | ``             |                 | optional, uses random by default                                         |
-| LambdaTest.geoLocation          | `EG`           |                 | Optional extra settings                                                  |
-| LambdaTest.debug                | `false`        | `true`, `false` | Optional extra settings                                                  |
-| LambdaTest.acceptInsecureCerts  | `true`         | `true`, `false` | Optional extra settings                                                  |
-| LambdaTest.networkLogs          | `false`        | `true`, `false` | Optional extra settings                                                  |
-| LambdaTest.appiumVersion        | `2.0.0`        |                 | Optional extra settings                                                  |
-| LambdaTest.autoGrantPermissions | `true`         | `true`, `false` |                                                                          |
-| LambdaTest.autoAcceptAlerts     | `true`         | `true`, `false` |                                                                          |
-| LambdaTest.isRealMobile         | `true`         | `true`, `false` |                                                                          |
-| LambdaTest.console              | `false`        | `true`, `false` |                                                                          |
-| LambdaTest.customID             | ``             |                 |                                                                          |
+| LambdaTest.resolution           | ``             |                 | Screen resolution for desktop browser testing (e.g. `1920x1080`).       |
+| LambdaTest.headless             | `false`        | `true`, `false` | Enable headless browser execution on LambdaTest.                         |
+| LambdaTest.timezone             | ``             |                 | Timezone for test execution on LambdaTest (e.g. `UTC+5:30`).            |
+| LambdaTest.project              | `SHAFT_Engine` |                 | Project name to group builds in the LambdaTest dashboard.               |
+| LambdaTest.build                | `Build Name`   |                 | Build name to group test runs in the LambdaTest dashboard.              |
+| LambdaTest.tunnel               | `false`        | `true`, `false` | Enable LambdaTest tunnel for testing locally hosted applications.        |
+| LambdaTest.tunnelName           | ``             |                 | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
+| LambdaTest.buildName            | ``             |                 | Build name used in the LambdaTest SDK configuration. Use this instead of `LambdaTest.build` when using the LambdaTest SDK (automate-config.yml). |
+| LambdaTest.selenium_version     | ``             |                 | Selenium version to use on LambdaTest.                                   |
+| LambdaTest.driver_version       | ``             |                 | Browser driver version to use on LambdaTest.                             |
+| LambdaTest.w3c                  | `true`         | `true`, `false` | Enable W3C WebDriver protocol on LambdaTest.                             |
+| LambdaTest.browserVersion       | ``             |                 | Browser version, optional, uses random by default.                       |
+| LambdaTest.geoLocation          | ``             |                 | Geolocation for test execution (e.g. `US`, `IN`).                        |
+| LambdaTest.debug                | `false`        | `true`, `false` | Enable debug mode (command logs) on LambdaTest.                          |
+| LambdaTest.acceptInsecureCerts  | `true`         | `true`, `false` | Accept insecure SSL certificates on LambdaTest.                          |
+| LambdaTest.networkLogs          | `false`        | `true`, `false` | Enable network logs capture on LambdaTest.                               |
+| LambdaTest.appiumVersion        | `3.0.2`        |                 | Appium version to use on LambdaTest for mobile testing.                  |
+| LambdaTest.autoGrantPermissions | `true`         | `true`, `false` | Automatically grant app permissions on mobile devices.                   |
+| LambdaTest.autoAcceptAlerts     | `true`         | `true`, `false` | Automatically accept alerts on mobile devices.                           |
+| LambdaTest.isRealMobile         | `true`         | `true`, `false` | Run tests on real mobile devices (as opposed to emulators/simulators).   |
+| LambdaTest.console              | `false`        | `true`, `false` | Enable console log capture on LambdaTest.                                |
+| LambdaTest.customID             | ``             |                 | Custom app ID for testing a previously uploaded app by its custom identifier. |
 
   </TabItem>
 </Tabs>
@@ -751,8 +817,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name            | Default Value | Possible Values | Description |
 | ------------------------ | ------------- | --------------- | ----------- |
-| lightHouseExecution      | `false`       |                 |             |
-| lightHouseExecution.port | `8888`        |                 |             |
+| lightHouseExecution        | `false`       | `true`, `false` | Enable Lighthouse performance testing execution.     |
+| lightHouseExecution.port   | `8888`        |                 | Port to use for Lighthouse performance testing.      |
+| generatePerformanceReport  | `true`        | `true`, `false` | Generate a performance report after Lighthouse execution. |
 
   </TabItem>
 </Tabs>
