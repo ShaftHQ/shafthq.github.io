@@ -21,6 +21,70 @@ const config = {
   organizationName: 'ShaftHQ', // Usually your GitHub org/user name.
   projectName: 'shafthq.github.io', // Usually your repo name.
 
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'keywords',
+        content: 'test automation framework, selenium alternative, java test automation, web testing, mobile testing, api testing, appium, rest assured, testng, junit5, cucumber, page object model, SHAFT engine, open source testing',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:type',
+        content: 'website',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:site_name',
+        content: 'SHAFT User Guide',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image',
+        content: 'https://shaftengine.netlify.app/img/shaft.svg',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+    },
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'SHAFT Engine',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Windows, macOS, Linux',
+        description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
+        url: 'https://shaftengine.netlify.app',
+        license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/master/LICENSE',
+        author: {
+          '@type': 'Organization',
+          name: 'ShaftHQ',
+          url: 'https://github.com/ShaftHQ',
+        },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      }),
+    },
+  ],
+
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -60,6 +124,7 @@ const config = {
         },
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          showLastUpdateTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -153,6 +218,10 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {name: 'description', content: 'SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured with zero boilerplate.'},
+        {name: 'robots', content: 'index, follow'},
+      ],
       styles: [
       '/css/custom.css',
       ],

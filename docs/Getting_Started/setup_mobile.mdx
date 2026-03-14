@@ -1,0 +1,156 @@
+---
+id: setup_mobile
+title: "Mobile App Test Automation: Android & iOS with Appium"
+sidebar_label: Mobile Testing
+description: "Automate Android and iOS mobile apps using SHAFT and Appium. Covers native, hybrid, and Flutter app testing with emulators, real devices, and cloud execution."
+keywords: [mobile test automation, appium java, android automation, ios automation, mobile testing framework, appium selenium, flutter testing, mobile app testing]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Mobile App Test Automation with SHAFT
+
+SHAFT wraps **Appium** to provide the same fluent API for mobile testing that you use for web. Native apps, hybrid apps, and Flutter apps are all supported.
+
+## Prerequisites
+
+In addition to the [standard prerequisites](./first_steps_4), mobile testing requires:
+
+| Requirement | Android | iOS (macOS only) |
+|-------------|---------|-------------------|
+| **SDK** | [Android Studio](https://developer.android.com/studio) | [Xcode](https://apps.apple.com/app/xcode/id497799835) |
+| **Appium** | `npm install -g appium` | `npm install -g appium` |
+| **Driver** | `appium driver install uiautomator2` | `appium driver install xcuitest` |
+| **Device** | Emulator or physical device | Simulator or physical device |
+
+## Essential Properties
+
+Configure your mobile target in `src/main/resources/properties/custom.properties`:
+
+<Tabs>
+  <TabItem value="android" label="Android" default>
+
+```properties
+# Platform
+targetPlatform=ANDROID
+
+# Appium server
+executionAddress=127.0.0.1:4723
+
+# Automation driver
+mobile_automationName=UIAUTOMATOR2
+
+# Application under test (path or URL)
+mobile_app=src/test/resources/apps/MyApp.apk
+
+# Device
+mobile_deviceName=Pixel_7_API_34
+
+# Permissions
+mobile_autoGrantPermissions=true
+```
+
+  </TabItem>
+  <TabItem value="ios" label="iOS">
+
+```properties
+# Platform
+targetPlatform=IOS
+
+# Appium server
+executionAddress=127.0.0.1:4723
+
+# Automation driver
+mobile_automationName=XCUITEST
+
+# Application under test
+mobile_app=src/test/resources/apps/MyApp.app
+
+# Device
+mobile_deviceName=iPhone 15
+mobile_platformVersion=17.0
+
+# Permissions
+mobile_autoAcceptAlerts=true
+```
+
+  </TabItem>
+</Tabs>
+
+## Example: Login Test
+
+```java
+public class LoginTest {
+    private SHAFT.GUI.WebDriver driver;
+
+    @Test
+    public void userCanLogIn() {
+        driver.element()
+              .type(By.accessibilityId("username"), "testuser@example.com")
+              .and().element()
+              .type(By.accessibilityId("password"), "s3cure!")
+              .and().element()
+              .click(By.accessibilityId("login_button"))
+              .and().assertThat(By.accessibilityId("home_screen"))
+              .exists().perform();
+    }
+
+    @BeforeMethod
+    public void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+:::tip[Cross-platform locators]
+Use `By.accessibilityId()` for locators that work on both Android and iOS.
+:::
+
+## Finding Mobile Elements
+
+Use **[Appium Inspector](https://github.com/appium/appium-inspector)** to identify elements:
+
+| Strategy | Android Example | iOS Example |
+|----------|----------------|-------------|
+| `accessibilityId` | `By.accessibilityId("login")` | `By.accessibilityId("login")` |
+| `id` | `By.id("com.app:id/login")` | `By.id("login_button")` |
+| `xpath` | `By.xpath("//android.widget.Button[@text='Login']")` | `By.xpath("//XCUIElementTypeButton[@name='Login']")` |
+
+## Cloud Execution
+
+Run on real devices in the cloud:
+
+```properties
+# BrowserStack
+executionAddress=https://hub.browserstack.com/wd/hub
+browserStack.user=YOUR_USERNAME
+browserStack.key=YOUR_ACCESS_KEY
+mobile_app=bs://your_app_hash
+
+# LambdaTest
+executionAddress=https://mobile-hub.lambdatest.com/wd/hub
+lambdaTest.user=YOUR_USERNAME
+lambdaTest.accessKey=YOUR_ACCESS_KEY
+mobile_app=lt://your_app_id
+```
+
+See the full [Integrations guide →](./integrations) for cloud testing configuration.
+
+## Touch Actions
+
+SHAFT provides touch gesture support for mobile:
+
+```java
+// Swipe, scroll, tap, and long press
+driver.element().tap(locator);
+driver.element().swipe(fromLocator, toLocator);
+driver.element().longPress(locator);
+```
+
+See [Touch Actions reference →](../Keywords/GUI/Touch_Actions) for all available gestures.

@@ -1,0 +1,319 @@
+---
+id: setup_web
+title: "Web Test Automation Setup: TestNG, JUnit 5, and Cucumber"
+sidebar_label: Web Testing
+description: "Set up SHAFT for web browser testing with Selenium WebDriver. Complete guides for TestNG, JUnit 5, and Cucumber with code examples, project structure, and configuration."
+keywords: [selenium web testing, browser automation java, testng selenium, junit5 selenium, cucumber selenium, web test automation setup, cross browser testing, page object model]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Web Test Automation with SHAFT
+
+This guide covers everything you need to start automating web browser tests using SHAFT and Selenium WebDriver.
+
+## What You Get Out of the Box
+
+- **Auto driver management** — Chrome, Firefox, Edge, and Safari. No manual driver downloads.
+- **Smart waits** — Automatic element synchronization. No `Thread.sleep()` or `WebDriverWait`.
+- **Fluent API** — Chain browser, element, and validation actions in a single statement.
+- **Allure reports** — Screenshots on failure, execution video, and detailed step logs.
+- **Parallel execution** — Run tests concurrently with thread-safe drivers.
+
+## Choose Your Test Runner
+
+<Tabs>
+  <TabItem value="testng" label="TestNG" default>
+
+### TestNG Setup
+
+**Best for:** Teams needing flexible test configuration, built-in parallel execution, and data providers.
+
+#### Project Structure
+
+```
+src/
+├── main/resources/properties/
+│   └── custom.properties          # SHAFT configuration
+└── test/java/com/example/
+    ├── pages/                     # Page Object classes
+    │   └── SearchPage.java
+    └── tests/                     # TestNG test classes
+        └── SearchTest.java
+```
+
+#### Example: Search Test with Page Object Model
+
+**Page Object — `SearchPage.java`:**
+
+```java
+public class SearchPage {
+    private final SHAFT.GUI.WebDriver driver;
+
+    // Locators
+    private final By searchBox = By.name("q");
+    private final By searchButton = By.cssSelector("button[type='submit']");
+
+    public SearchPage(SHAFT.GUI.WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public SearchPage open() {
+        driver.browser().navigateToURL("https://duckduckgo.com/");
+        return this;
+    }
+
+    public SearchPage search(String query) {
+        driver.element().type(searchBox, query)
+              .and().element().click(searchButton);
+        return this;
+    }
+
+    public SearchPage verifyResultsContain(String expected) {
+        driver.assertThat().browser().title().contains(expected).perform();
+        return this;
+    }
+}
+```
+
+**Test Class — `SearchTest.java`:**
+
+```java
+import org.testng.annotations.*;
+
+public class SearchTest {
+    private SHAFT.GUI.WebDriver driver;
+
+    @Test(description = "Verify search returns relevant results")
+    public void searchReturnsResults() {
+        new SearchPage(driver)
+            .open()
+            .search("SHAFT Engine test automation")
+            .verifyResultsContain("SHAFT");
+    }
+
+    @BeforeMethod
+    public void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+#### Run Tests
+
+```bash
+# Run via Maven
+mvn test
+
+# Generate and open the Allure report
+mvn allure:serve
+```
+
+  </TabItem>
+  <TabItem value="junit5" label="JUnit 5">
+
+### JUnit 5 Setup
+
+**Best for:** Teams that prefer modern Java testing conventions, `@DisplayName`, and `@ParameterizedTest`.
+
+#### pom.xml Dependency
+
+```xml
+<dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>SHAFT_ENGINE</artifactId>
+    <version>RELEASE</version>
+</dependency>
+```
+
+#### Example: Search Test
+
+```java
+import org.junit.jupiter.api.*;
+
+public class SearchTest {
+    private SHAFT.GUI.WebDriver driver;
+
+    @Test
+    @DisplayName("Verify search returns relevant results")
+    void searchReturnsResults() {
+        driver.browser().navigateToURL("https://duckduckgo.com/")
+              .and().element().type(By.name("q"), "SHAFT Engine")
+              .and().element().click(By.cssSelector("button[type='submit']"))
+              .and().assertThat().browser().title().contains("SHAFT").perform();
+    }
+
+    @BeforeEach
+    void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
+    @AfterEach
+    void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+#### JUnit 5 Annotation Mapping
+
+| JUnit 5 | TestNG Equivalent | Purpose |
+|---------|-------------------|---------|
+| `@BeforeEach` | `@BeforeMethod` | Run before each test |
+| `@AfterEach` | `@AfterMethod` | Run after each test |
+| `@BeforeAll` | `@BeforeClass` | Run once before all tests |
+| `@AfterAll` | `@AfterClass` | Run once after all tests |
+| `@DisplayName` | `description` param | Human-readable test name |
+| `@ParameterizedTest` | `@DataProvider` | Data-driven testing |
+
+  </TabItem>
+  <TabItem value="cucumber" label="Cucumber (BDD)">
+
+### Cucumber BDD Setup
+
+**Best for:** Teams practicing Behavior-Driven Development where non-technical stakeholders write test scenarios.
+
+#### Additional Dependencies
+
+```xml
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-java</artifactId>
+    <version>7.15.0</version>
+</dependency>
+<dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-testng</artifactId>
+    <version>7.15.0</version>
+</dependency>
+```
+
+#### Feature File — `search.feature`
+
+```gherkin
+Feature: Web search
+  As a user I want to search the web to find relevant results.
+
+  Scenario: Search returns relevant results
+    Given I am on the DuckDuckGo homepage
+    When I search for "SHAFT Engine test automation"
+    Then the page title should contain "SHAFT"
+
+  Scenario Outline: Search with multiple queries
+    Given I am on the DuckDuckGo homepage
+    When I search for "<query>"
+    Then the page title should contain "<expected>"
+
+    Examples:
+      | query                     | expected  |
+      | SHAFT Engine              | SHAFT     |
+      | Selenium WebDriver Java   | Selenium  |
+```
+
+#### Step Definitions — `SearchSteps.java`
+
+```java
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.en.*;
+
+public class SearchSteps {
+    private SHAFT.GUI.WebDriver driver;
+
+    @Before
+    public void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
+    @Given("I am on the DuckDuckGo homepage")
+    public void navigateToHome() {
+        driver.browser().navigateToURL("https://duckduckgo.com/");
+    }
+
+    @When("I search for {string}")
+    public void search(String query) {
+        driver.element().type(By.name("q"), query)
+              .and().element().click(By.cssSelector("button[type='submit']"));
+    }
+
+    @Then("the page title should contain {string}")
+    public void verifyTitle(String expected) {
+        driver.assertThat().browser().title().contains(expected).perform();
+    }
+
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
+
+#### Test Runner — `TestRunner.java`
+
+```java
+import io.cucumber.testng.AbstractTestNGCucumberTests;
+import io.cucumber.testng.CucumberOptions;
+
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "com.example.steps",
+    plugin = {"pretty", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}
+)
+public class TestRunner extends AbstractTestNGCucumberTests {}
+```
+
+  </TabItem>
+</Tabs>
+
+## Essential Properties for Web Testing
+
+Configure browser behavior in `src/main/resources/properties/custom.properties`:
+
+```properties
+# Browser — chrome | firefox | microsoftedge | safari
+targetBrowserName=chrome
+
+# Run headless (no visible browser window)
+headlessExecution=false
+
+# Timeouts (seconds)
+browserNavigationTimeout=60
+elementIdentificationTimeout=5
+
+# Screenshots & reporting
+screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
+createAnimatedGif=true
+```
+
+See the [full properties reference →](../Properties/PropertiesList)
+
+## Cross-Browser Testing
+
+Run the same tests on different browsers without changing code:
+
+```bash
+# Run on Firefox
+mvn test -DtargetBrowserName=firefox
+
+# Run on Edge
+mvn test -DtargetBrowserName=microsoftedge
+
+# Run headless
+mvn test -DheadlessExecution=true
+```
+
+## Cloud Execution
+
+Execute tests on **[BrowserStack](./integrations#browserstack)** or **[LambdaTest](./integrations#lambdatest)** by setting the execution address:
+
+```properties
+executionAddress=https://hub.browserstack.com/wd/hub
+```
+
+See the [Integrations page →](./integrations) for full cloud setup instructions.
