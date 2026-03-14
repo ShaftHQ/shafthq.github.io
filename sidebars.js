@@ -156,6 +156,11 @@ const sidebars = {
       ],
     },
     {
+      type: 'doc',
+      id: 'Reporting/reporting',
+      label: 'Reporting',
+    },
+    {
       type: 'category',
       label: 'Properties',
       collapsible: true,

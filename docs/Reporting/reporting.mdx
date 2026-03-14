@@ -1,0 +1,375 @@
+---
+id: reporting
+title: Reporting
+sidebar_label: Reporting
+description: "Learn about SHAFT Engine's built-in reports — Allure and Execution Summary — and how to configure video recording and report behavior via properties."
+keywords: [shaft reporting, allure report, execution summary, video recording, test report, ci cd report]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+SHAFT Engine ships with two complementary report formats, each suited to a different audience and workflow. You can enable or disable them independently using [properties](../Properties/PropertyTypes.md).
+
+---
+
+## Report Types at a Glance
+
+| Report | Best For | Default State |
+|---|---|---|
+| **Allure Report** | Deep debugging — step-by-step logs, screenshots, videos | ✅ Opens automatically after execution |
+| **Execution Summary** | Quick supplemental feedback — fast, portable, no setup | ⚙️ Opt-in via property |
+
+---
+
+## Allure Report
+
+The **Allure Report** is the primary report in SHAFT. It opens automatically in your default browser at the end of every test run and provides a rich, single-file HTML report with:
+
+- Step-by-step action logs with screenshots attached
+- Video recordings (when enabled)
+- Animated GIFs of browser sessions
+- Test history and trend graphs across multiple runs
+- Environment information and categories
+
+### Open Allure Report Manually
+
+SHAFT writes convenience scripts to your project root during the first run. Use them to regenerate and serve the Allure report at any time:
+
+```bash title="Windows"
+generate_allure_report.bat
+```
+
+```bash title="macOS / Linux"
+./generate_allure_report.sh
+```
+
+### Disable Auto-Opening the Allure Report
+
+The Allure report opens automatically by default (`allure.automaticallyOpen=true`). To disable this:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.automaticallyOpen=false
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -Dallure.automaticallyOpen=false
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set().automaticallyOpen(false);
+```
+
+  </TabItem>
+</Tabs>
+
+### Generate an Allure Report Archive (for CI/CD)
+
+To generate a portable ZIP archive of the Allure report that you can publish as a CI/CD artifact:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.generateArchive=true
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -Dallure.generateArchive=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set().generateArchive(true);
+```
+
+  </TabItem>
+</Tabs>
+
+### Customize the Allure Report
+
+You can customize the report title and logo displayed in the generated HTML:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.customTitle=My Regression Suite
+allure.customLogo=https://example.com/my-logo.png
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set()
+    .customTitle("My Regression Suite")
+    .customLogo("https://example.com/my-logo.png");
+```
+
+  </TabItem>
+</Tabs>
+
+### Accumulate History and Reports Across Runs
+
+By default, SHAFT keeps Allure history to enable trend graphs across runs. You can control this behavior:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Accumulate history to show trends across runs (default: true)
+allure.accumulateHistory=true
+
+# Keep previous HTML report files in the report directory (default: true)
+allure.accumulateReports=true
+
+# Clean the results directory before each run (default: true)
+allure.cleanResultsDirectory=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set()
+    .accumulateHistory(true)
+    .accumulateReports(true)
+    .cleanResultsDirectory(true);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Execution Summary Report
+
+The **Execution Summary** report is a lightweight supplement to the Allure report. It is disabled by default and is most useful when you want a quick, portable HTML summary without opening the full Allure report.
+
+- **No extra setup required** — just enable the property.
+- **Portable** — a fast self-contained HTML file you can share or archive.
+
+### Enable the Execution Summary Report
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+openExecutionSummaryReportAfterExecution=true
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DopenExecutionSummaryReportAfterExecution=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(true);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Video Recording
+
+SHAFT can record a video of every test session and automatically attach it to the Allure report. There is no code change required — it is purely a property:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+videoParams_recordVideo=true
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DvideoParams_recordVideo=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.visuals.set().videoParamsRecordVideo(true);
+```
+
+  </TabItem>
+</Tabs>
+
+### Where to Put Your Properties File
+
+Create a `custom.properties` file under `src/main/resources/properties/` in your project. SHAFT automatically creates a `properties/` directory with some core files on first run — just add your file there:
+
+```
+your-project/
+└── src/
+    └── main/
+        └── resources/
+            └── properties/
+                ├── default/               ← auto-generated by SHAFT
+                └── custom.properties      ← your file
+```
+
+### Control Video Recording Scope
+
+You can control which part of the session is recorded:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+videoParams_recordVideo=true
+# Scope options: DriverSession | TestMethod
+videoParams_scope=DriverSession
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DvideoParams_recordVideo=true -DvideoParams_scope=DriverSession
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.visuals.set()
+    .videoParamsRecordVideo(true)
+    .videoParamsScope("DriverSession");
+```
+
+  </TabItem>
+</Tabs>
+
+| Scope | Description |
+|---|---|
+| `DriverSession` | Records the entire browser/driver session (default) |
+| `TestMethod` | Records each test method as a separate video |
+
+---
+
+## Animated GIFs
+
+In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This lightweight alternative is also attached to the Allure report:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+createAnimatedGif=true
+# Delay between frames in milliseconds (default: 500)
+animatedGif_frameDelay=500
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DcreateAnimatedGif=true -DanimatedGif_frameDelay=500
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.visuals.set()
+    .createAnimatedGif(true)
+    .animatedGifFrameDelay(500);
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Recommended Configurations by Use Case
+
+### CI/CD Pipeline (archive report as artifact)
+
+```properties title="src/main/resources/properties/custom.properties"
+# Do not open the browser during CI
+allure.automaticallyOpen=false
+# Generate a ZIP artifact to publish from the pipeline
+allure.generateArchive=true
+```
+
+### Active Debugging (rich visuals)
+
+```properties title="src/main/resources/properties/custom.properties"
+# Allure opens automatically by default — add visual evidence
+videoParams_recordVideo=true
+createAnimatedGif=true
+screenshotParams_whenToTakeAScreenshot=Always
+```
+
+### Quick Pass/Fail Summary
+
+```properties title="src/main/resources/properties/custom.properties"
+# Enable fast portable summary alongside the Allure report
+openExecutionSummaryReportAfterExecution=true
+```
+
+---
+
+## All Reporting Properties
+
+For the full list of reporting-related properties and their default values, see the [Properties List](../Properties/PropertiesList.mdx) page.
+
+Key properties quick reference:
+
+| Property | Default | Description |
+|---|---|---|
+| `allure.automaticallyOpen` | `true` | Open the Allure report in the browser automatically after the run |
+| `allure.generateArchive` | `false` | Generate a portable ZIP archive of the Allure report |
+| `allure.accumulateHistory` | `true` | Accumulate history across runs for trend graphs |
+| `allure.accumulateReports` | `true` | Keep previous Allure HTML report files |
+| `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
+| `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
+| `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
+| `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
+| `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
+| `videoParams_scope` | `DriverSession` | Scope of video recording |
+| `createAnimatedGif` | `false` | Create an animated GIF from screenshots |
+| `animatedGif_frameDelay` | `500` | Delay between GIF frames (milliseconds) |
+| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | When to capture screenshots |
