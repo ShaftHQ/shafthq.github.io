@@ -1,9 +1,9 @@
 ---
 id: integrations
-title: "SHAFT Integrations: Jira, BrowserStack, Slack, and More"
+title: "SHAFT Integrations: Jira, BrowserStack, OpenCV, and More"
 sidebar_label: Integrations
-description: "Connect SHAFT with Jira, Xray, BrowserStack, LambdaTest, OpenCV, Healenium, Slack, and Microsoft Teams. Configuration examples for every supported integration."
-keywords: [shaft integrations, browserstack selenium, lambdatest selenium, jira test automation, slack test notifications, healenium self healing, opencv visual testing, xray test management, microsoft teams ci notifications]
+description: "Connect SHAFT with Jira, Xray, BrowserStack, LambdaTest, OpenCV, ShutterBug, and Healenium. Configuration examples for every supported integration."
+keywords: [shaft integrations, browserstack selenium, lambdatest selenium, jira test automation, healenium self healing, opencv visual testing, xray test management]
 ---
 
 import Tabs from '@theme/Tabs';
@@ -197,39 +197,6 @@ When a locator breaks, Healenium:
 4. Reports the healing in the Healenium dashboard
 
 📚 [Healenium documentation](https://healenium.io/)
-
----
-
-## Notifications
-
-### Slack {#slack}
-
-Send test execution summaries to Slack channels via incoming webhooks.
-
-**Setup:**
-
-1. [Create an incoming webhook](https://api.slack.com/messaging/webhooks) in your Slack workspace
-2. Configure the webhook:
-   ```properties title="custom.properties"
-   slack_webhookUrl=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
-   ```
-
-SHAFT sends execution summaries — pass/fail counts, duration, and failure details — after each test run.
-
-### Microsoft Teams {#microsoft-teams}
-
-Send test results to Microsoft Teams channels.
-
-**Setup:**
-
-1. In your Teams channel → **Manage channel** → **Connectors** → add **Incoming Webhook**
-2. Copy the webhook URL
-3. Configure:
-   ```properties title="custom.properties"
-   teams_webhookUrl=https://outlook.office.com/webhook/YOUR_WEBHOOK_URL
-   ```
-
-Messages include execution status, pass/fail statistics, and links to the full report.
 
 ---
 

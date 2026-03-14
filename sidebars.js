@@ -73,6 +73,7 @@ const sidebars = {
         "Basic_Config/basicConfig",
         "Basic_Config/basicConfig2",
         "Basic_Config/basicConfig3",
+        "Basic_Config/parallelExecution",
       ],
     },
     {
@@ -98,6 +99,7 @@ const sidebars = {
             items: [
 		        "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
 		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
+		        "Keywords/GUI/didYouKnow/Local_Selenium_Grid_Execution",
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
@@ -115,6 +117,24 @@ const sidebars = {
             "Keywords/API/Response_Validations",
           ],
         },
+        {
+          type: 'category',
+          label: 'CLI',
+          items: [
+            "Keywords/CLI/Terminal_Actions",
+            "Keywords/CLI/File_Actions",
+          ],
+        },
+        {
+          type: 'category',
+          label: 'DB',
+          items: [
+            "Keywords/DB/DB_Actions",
+            "Keywords/DB/Connection_Strings",
+            "Keywords/DB/Oracle_JDBC_Setup",
+          ],
+        },
+        "Keywords/TestData_Management",
       ],
     },
     {

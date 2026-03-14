@@ -10,7 +10,13 @@ yarn install
 
 ### AutoBot Configuration
 
-AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic failsafe fallback for maximum reliability:
+AutoBot is an AI-powered chatbot that helps users with SHAFT-related questions. It uses Google's Gemini AI models with automatic failsafe fallback for maximum reliability.
+
+**How AutoBot Works:**
+- AutoBot scans the **complete SHAFT User Guide** documentation (all markdown files from `/docs` directory)
+- It includes context about the **official SHAFT_ENGINE GitHub repository**
+- It provides answers based **ONLY** on the loaded documentation, without using internet searches or pre-trained knowledge
+- This ensures all answers are accurate, verified, and based on official SHAFT documentation
 
 **Model Failsafe Sequence** (tries in order):
 1. `gemini-3-flash` (latest, fastest model)

@@ -12,6 +12,11 @@ updates:
         patterns:
           - '@docusaurus*'
           - '@fortawesome*'
+      react:
+        applies-to: version-updates
+        patterns:
+          - 'react'
+          - 'react-*'
   - package-ecosystem: github-actions
     directory: /
     schedule:
