@@ -1,0 +1,207 @@
+---
+id: integrations
+title: "SHAFT Integrations: Jira, BrowserStack, OpenCV, and More"
+sidebar_label: Integrations
+description: "Connect SHAFT with Jira, Xray, BrowserStack, LambdaTest, OpenCV, ShutterBug, and Healenium. Configuration examples for every supported integration."
+keywords: [shaft integrations, browserstack selenium, lambdatest selenium, jira test automation, healenium self healing, opencv visual testing, xray test management]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Integrations
+
+SHAFT connects with tools across the testing ecosystem. Below is every supported integration with its configuration.
+
+---
+
+## Test Management
+
+### Jira {#jira}
+
+Report test execution results and automatically create bugs for failed tests.
+
+```properties title="src/main/resources/properties/JIRA.properties"
+jiraInteraction=true
+jiraUrl=https://your-instance.atlassian.net
+projectKey=PROJ
+authorization=your-api-token
+reportTestCasesExecution=true
+ReportBugs=true
+assignee=jira-user-id
+```
+
+📖 [Step-by-step Jira setup guide →](../Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine)
+
+### Xray {#xray}
+
+Xray extends Jira with structured test management — test plans, test sets, and coverage reports.
+
+**How it works:** SHAFT's Jira integration automatically feeds execution data into Xray. Annotate tests with Jira issue keys and Xray links them to test cases.
+
+```java
+@Test(description = "PROJ-123: Verify login flow")
+public void loginTest() { /* ... */ }
+```
+
+Xray picks up the issue key from the test description and maps the result.
+
+---
+
+## Cloud Testing Platforms
+
+### BrowserStack {#browserstack}
+
+Execute tests on 3,000+ real device and browser combinations.
+
+<Tabs>
+  <TabItem value="bs-web" label="Web Testing" default>
+
+```properties title="custom.properties"
+executionAddress=https://hub-cloud.browserstack.com/wd/hub
+targetBrowserName=chrome
+
+# Credentials (use environment variables in CI)
+browserStack.user=${BROWSERSTACK_USERNAME}
+browserStack.key=${BROWSERSTACK_ACCESS_KEY}
+
+# Capabilities
+browserStack.os=Windows
+browserStack.osVersion=11
+browserStack.browserVersion=latest
+browserStack.projectName=My Project
+browserStack.buildName=Build 1
+```
+
+  </TabItem>
+  <TabItem value="bs-mobile" label="Mobile Testing">
+
+```properties title="custom.properties"
+executionAddress=https://hub-cloud.browserstack.com/wd/hub
+targetPlatform=ANDROID
+
+browserStack.user=${BROWSERSTACK_USERNAME}
+browserStack.key=${BROWSERSTACK_ACCESS_KEY}
+
+mobile_app=bs://your_uploaded_app_hash
+mobile_deviceName=Google Pixel 7
+mobile_platformVersion=13.0
+```
+
+  </TabItem>
+</Tabs>
+
+Upload your app first:
+```bash
+curl -u "USERNAME:ACCESS_KEY" \
+  -X POST "https://api-cloud.browserstack.com/app-automate/upload" \
+  -F "file=@/path/to/app.apk"
+```
+
+📚 [BrowserStack documentation](https://www.browserstack.com/docs/automate/selenium/getting-started/java)
+
+### LambdaTest {#lambdatest}
+
+Run tests on 3,000+ browser and OS combinations with video recording, screenshots, and network logs.
+
+<Tabs>
+  <TabItem value="lt-web" label="Web Testing" default>
+
+```properties title="custom.properties"
+executionAddress=https://hub.lambdatest.com/wd/hub
+targetBrowserName=chrome
+
+lambdaTest.user=${LAMBDATEST_USERNAME}
+lambdaTest.accessKey=${LAMBDATEST_ACCESS_KEY}
+
+lambdaTest.platformName=Windows 11
+lambdaTest.browserVersion=latest
+lambdaTest.project=My Project
+lambdaTest.build=Build 1
+```
+
+  </TabItem>
+  <TabItem value="lt-mobile" label="Mobile Testing">
+
+```properties title="custom.properties"
+executionAddress=https://mobile-hub.lambdatest.com/wd/hub
+targetPlatform=ANDROID
+
+lambdaTest.user=${LAMBDATEST_USERNAME}
+lambdaTest.accessKey=${LAMBDATEST_ACCESS_KEY}
+
+mobile_app=lt://your_uploaded_app_id
+mobile_deviceName=Galaxy S23
+mobile_platformVersion=13
+```
+
+  </TabItem>
+</Tabs>
+
+📚 [LambdaTest documentation](https://www.lambdatest.com/support/docs/getting-started-with-lambdatest-automation/)
+
+---
+
+## Visual Testing & AI
+
+### OpenCV {#opencv}
+
+SHAFT uses OpenCV for **image-based element detection** and **visual validation**. It ships with SHAFT — no separate installation required.
+
+```java
+// Visual element identification (find element by image)
+driver.element().click(
+    SHAFT.GUI.Locator.hasImage("expected-button.png")
+);
+
+// Visual validation — compare a screenshot to a baseline
+driver.assertThat(locator)
+      .matchesReferenceImage()
+      .perform();
+```
+
+:::tip
+Store reference images in `src/test/resources/dynamicObjectRepository/` for visual locators.
+:::
+
+### ShutterBug {#shutterbug}
+
+Built-in screenshot engine for full-page captures, element-level screenshots, and image comparison. All screenshots are automatically attached to Allure reports.
+
+```java
+// Screenshots happen automatically on validation points.
+// To force a screenshot at any point:
+driver.browser().captureScreenshot();
+```
+
+### Healenium {#healenium}
+
+**Self-healing locators** that automatically adapt when the UI changes. Healenium uses machine learning to find the most probable replacement when a locator fails.
+
+**Setup:**
+
+1. Start the Healenium backend (Docker):
+   ```bash
+   docker-compose -f healenium-docker-compose.yml up -d
+   ```
+
+2. Configure SHAFT:
+   ```properties title="custom.properties"
+   healenium_serverUrl=http://localhost:7878
+   ```
+
+When a locator breaks, Healenium:
+1. Catches the `NoSuchElementException`
+2. Finds the best-matching element using its ML model
+3. Heals the locator and continues the test
+4. Reports the healing in the Healenium dashboard
+
+📚 [Healenium documentation](https://healenium.io/)
+
+---
+
+## What's Next?
+
+- [Configure all SHAFT properties →](../Properties/PropertiesList)
+- [View common property examples →](../Properties/CommonExamples)
+- [Get help from the community →](./support)

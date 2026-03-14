@@ -33,7 +33,7 @@ const sidebars = {
       type: 'category',
       label: 'Getting Started',
       collapsible: true,
-      collapsed: true,
+      collapsed: false,
       items: [
         "Getting_Started/first_steps",
         "Getting_Started/first_steps_2",
@@ -42,6 +42,27 @@ const sidebars = {
         "Getting_Started/first_steps_5",
         "Getting_Started/first_steps_6",
       ],
+    },
+    {
+      type: 'category',
+      label: 'Project Setup Guides',
+      collapsible: true,
+      collapsed: false,
+      items: [
+        "Getting_Started/setup_web",
+        "Getting_Started/setup_mobile",
+        "Getting_Started/setup_api",
+      ],
+    },
+    {
+      type: 'doc',
+      id: 'Getting_Started/integrations',
+      label: 'Integrations',
+    },
+    {
+      type: 'doc',
+      id: 'Getting_Started/support',
+      label: 'Support & Community',
     },
     {
       type: 'category',
