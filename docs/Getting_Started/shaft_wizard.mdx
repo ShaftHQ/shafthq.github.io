@@ -1,0 +1,345 @@
+---
+id: shaft_wizard
+title: "The SHAFT Single Entry Point"
+sidebar_label: SHAFT Entry Point
+description: "Discover how the SHAFT class serves as a single entry point for all test automation. Access Web, Mobile, API, CLI, and Database drivers through one unified namespace with IDE autocomplete."
+keywords: [shaft single entry point, shaft wizard, shaft api, shaft class, shaft autocomplete, test automation drivers, shaft gui webdriver, shaft api driver, shaft db driver]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# The SHAFT Single Entry Point
+
+One of SHAFT's most powerful design principles is the **single entry point**: the `SHAFT` class acts as a unified namespace that gives you access to every driver, tool, and utility your tests need.
+
+Simply type `SHAFT.` in your IDE and autocomplete guides you to the right driver.
+
+```java
+// Everything starts here ↓
+SHAFT.
+//     ├── GUI.WebDriver   → Web & Mobile automation (Selenium / Appium, platform set via properties)
+//     ├── API             → REST API testing (REST Assured)
+//     ├── DB              → Database automation (JDBC)
+//     ├── TestData.JSON   → JSON test data
+//     ├── TestData.EXCEL  → Excel test data
+//     ├── TestData.CSV    → CSV test data
+//     └── Validations     → Standalone assertion engine
+```
+
+No imports to hunt down, no factory methods to remember — just `SHAFT.` and let your IDE do the rest.
+
+---
+
+## Driver Types
+
+### `SHAFT.GUI.WebDriver` — Web Browser Automation
+
+The most commonly used driver. Wraps Selenium WebDriver with auto-waits, fluent chaining, and built-in reporting.
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+driver.browser().navigateToURL("https://example.com")
+      .and().element().type(By.name("q"), "SHAFT Engine")
+      .and().element().click(By.cssSelector("button[type='submit']"))
+      .and().assertThat().browser().title().contains("SHAFT").perform();
+
+driver.quit();
+```
+
+**Autocomplete from `driver.`:**
+
+```java
+driver.
+//     ├── browser()       → navigate, refresh, resize, switch tabs/frames/windows
+//     ├── element()       → type, click, select, hover, drag-and-drop, upload
+//     ├── assertThat()    → browser, element, and response validations
+//     ├── verifyThat()    → soft assertions (non-terminating)
+//     └── getDriver()     → escape hatch to native Selenium WebDriver
+```
+
+**Target browsers** — controlled via properties, no code changes required:
+
+```properties
+# chrome | firefox | microsoftedge | safari
+targetBrowserName=chrome
+headlessExecution=false
+```
+
+```bash
+# Or override on the command line
+mvn test -DtargetBrowserName=firefox
+mvn test -DtargetBrowserName=microsoftedge -DheadlessExecution=true
+```
+
+➡️ **[Full Web Testing Guide →](./setup_web)**
+
+---
+
+### `SHAFT.GUI.WebDriver` — Mobile App Automation
+
+The **same driver class** handles mobile. Switch from web to mobile by changing two properties — your test code stays identical.
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+driver.element()
+      .type(By.accessibilityId("username"), "testuser@example.com")
+      .and().element().type(By.accessibilityId("password"), "s3cure!")
+      .and().element().click(By.accessibilityId("login_button"))
+      .and().assertThat(By.accessibilityId("home_screen")).exists().perform();
+
+driver.quit();
+```
+
+**Switch to Android with two properties:**
+
+```properties
+targetPlatform=ANDROID
+mobile_automationName=UIAUTOMATOR2
+executionAddress=127.0.0.1:4723
+mobile_app=src/test/resources/apps/MyApp.apk
+mobile_deviceName=Pixel_7_API_34
+```
+
+**Switch to iOS:**
+
+```properties
+targetPlatform=IOS
+mobile_automationName=XCUITEST
+executionAddress=127.0.0.1:4723
+mobile_app=src/test/resources/apps/MyApp.app
+mobile_deviceName=iPhone 15
+```
+
+:::tip[Same API, every platform]
+`driver.element().click()`, `driver.assertThat()`, and all other SHAFT actions work identically on Web, Android, and iOS — only the locator strategy changes.
+:::
+
+➡️ **[Full Mobile Testing Guide →](./setup_mobile)**
+
+---
+
+### `SHAFT.API` — REST API Testing
+
+Wraps REST Assured with a fluent builder for constructing HTTP requests and validating responses.
+
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+
+api.get("/users/1").perform();
+
+api.assertThatResponse()
+   .extractedJsonValue("name").isEqualTo("Leanne Graham")
+   .perform();
+```
+
+**Autocomplete from `api.`:**
+
+```java
+api.
+//  ├── get(path)          → HTTP GET request
+//  ├── post(path)         → HTTP POST request
+//  ├── put(path)          → HTTP PUT request
+//  ├── patch(path)        → HTTP PATCH request
+//  ├── delete(path)       → HTTP DELETE request
+//  ├── verifyThatResponse()  → soft response assertions
+//  ├── assertThatResponse()  → hard response assertions
+//  └── getResponse()      → escape hatch to native REST Assured Response
+```
+
+**Example — full request/response cycle:**
+
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+
+// POST a new resource
+api.post("/posts")
+   .setContentType("application/json")
+   .setRequestBody("""
+       {"title": "SHAFT is great", "body": "Single entry point FTW", "userId": 1}
+   """)
+   .perform();
+
+// Validate status and body
+api.verifyThatResponse().statusCode().isEqualTo(201).perform();
+api.assertThatResponse().extractedJsonValue("title").isEqualTo("SHAFT is great").perform();
+```
+
+➡️ **[Full API Testing Guide →](./setup_api)**
+
+---
+
+### `SHAFT.DB` — Database Automation
+
+Connects directly to any JDBC-compatible database and exposes query execution with built-in validation.
+
+```java
+SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
+
+// Execute a SELECT query
+String userName = db.getResult("SELECT name FROM users WHERE id = 1");
+SHAFT.Validations.assertThat().object(userName).isEqualTo("Alice").perform();
+
+// Execute an UPDATE and verify rows affected
+int rowsAffected = db.executeUpdateQuery("UPDATE users SET active = 1 WHERE id = 1");
+SHAFT.Validations.assertThat().number(rowsAffected).isEqualTo(1).perform();
+
+db.closeConnection();
+```
+
+**Supported databases** (via JDBC connection strings):
+
+| Database | Connection String Format |
+|----------|--------------------------|
+| MySQL | `jdbc:mysql://host:3306/dbname` |
+| PostgreSQL | `jdbc:postgresql://host:5432/dbname` |
+| SQL Server | `jdbc:sqlserver://host:1433;databaseName=dbname` |
+| Oracle | `jdbc:oracle:thin:@host:1521:sid` |
+
+➡️ **[Database Actions reference →](../Keywords/DB/DB_Actions)**  
+➡️ **[Connection Strings reference →](../Keywords/DB/Connection_Strings)**
+
+---
+
+### `TerminalActions` & `FileActions` — Terminal & File Automation
+
+Execute shell commands and manage files as part of your test workflows.
+
+<Tabs>
+  <TabItem value="terminal" label="Terminal Commands" default>
+
+```java
+import com.shaft.cli.TerminalActions;
+
+TerminalActions terminal = new TerminalActions();
+
+// Execute a single command and capture output
+String output = terminal.executeCommand("echo Hello SHAFT");
+
+// Execute multiple commands in sequence
+terminal.performTerminalCommands(List.of(
+    "mkdir -p test_output",
+    "echo results > test_output/summary.txt"
+));
+```
+
+  </TabItem>
+  <TabItem value="file" label="File Operations">
+
+```java
+import com.shaft.cli.FileActions;
+
+FileActions files = FileActions.getInstance();
+
+// Read, write, copy, delete
+String content = files.readFromFile("src/test/resources/testData.txt");
+files.writeToFile("target/reports/output.txt", content);
+files.copyFile("config/settings.json", "config/settings.backup.json");
+files.deleteFile("temp/temp_data.txt");
+```
+
+  </TabItem>
+</Tabs>
+
+➡️ **[Terminal Actions reference →](../Keywords/CLI/Terminal_Actions)**  
+➡️ **[File Actions reference →](../Keywords/CLI/File_Actions)**
+
+---
+
+### `SHAFT.TestData` — Test Data Management
+
+Load test data from JSON, Excel, or CSV files directly into your tests.
+
+```java
+// JSON
+SHAFT.TestData.JSON userData = new SHAFT.TestData.JSON("testData/users.json");
+
+// Excel (specify sheet name)
+SHAFT.TestData.EXCEL loginData = new SHAFT.TestData.EXCEL("testData/TestData.xlsx", "LoginData");
+
+// CSV
+SHAFT.TestData.CSV ordersData = new SHAFT.TestData.CSV("testData/orders.csv");
+```
+
+➡️ **[Test Data Management reference →](../Keywords/TestData_Management)**
+
+---
+
+### `SHAFT.Validations` — Standalone Assertions
+
+Run assertions outside of a driver context — for objects, numbers, files, and more.
+
+```java
+// Assert on any Java object
+SHAFT.Validations.assertThat().object(response.getStatus()).isEqualTo("OK").perform();
+
+// Assert on a number
+SHAFT.Validations.assertThat().number(responseTime).isLessThan(2000).perform();
+
+// Soft assertion (test continues even if it fails)
+SHAFT.Validations.verifyThat().object(actualValue).contains("expected").perform();
+```
+
+➡️ **[Validations Overview →](../Keywords/Validations/Overview)**
+
+---
+
+## Putting It All Together
+
+SHAFT's single entry point really shines in **end-to-end tests** that combine multiple driver types:
+
+```java
+public class EndToEndTest {
+    private SHAFT.GUI.WebDriver driver;
+    private SHAFT.API api;
+    private SHAFT.DB db;
+
+    @Test
+    public void fullOrderFlowTest() {
+        // 1. Verify product exists via API
+        api.get("/products/42").perform();
+        api.assertThatResponse().statusCode().isEqualTo(200).perform();
+
+        // 2. Place the order through the web UI
+        driver.browser().navigateToURL("https://shop.example.com/products/42")
+              .and().element().click(By.id("add-to-cart"))
+              .and().element().click(By.id("checkout"))
+              .and().assertThat(By.cssSelector(".order-confirmation")).exists().perform();
+
+        // 3. Confirm order was saved in the database
+        long orderId = Long.parseLong(driver.element().getText(By.cssSelector(".order-id")));
+        String dbStatus = db.getResult("SELECT status FROM orders WHERE id = " + orderId);
+        SHAFT.Validations.assertThat().object(dbStatus).isEqualTo("CONFIRMED").perform();
+    }
+
+    @BeforeMethod
+    public void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+        api    = new SHAFT.API("https://api.example.com");
+        db     = new SHAFT.DB("jdbc:mysql://localhost:3306/shop", "user", "pass");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+        db.closeConnection();
+    }
+}
+```
+
+---
+
+## Driver Quick Reference
+
+| Driver | Class | Use Case | Guide |
+|--------|-------|----------|-------|
+| **Web** | `SHAFT.GUI.WebDriver` | Browser automation | [Web Testing →](./setup_web) |
+| **Mobile** | `SHAFT.GUI.WebDriver` | Android & iOS apps | [Mobile Testing →](./setup_mobile) |
+| **API** | `SHAFT.API` | REST API requests | [API Testing →](./setup_api) |
+| **Database** | `SHAFT.DB` | SQL query execution | [DB Actions →](../Keywords/DB/DB_Actions) |
+| **Terminal** | `TerminalActions` | Shell command execution | [Terminal Actions →](../Keywords/CLI/Terminal_Actions) |
+| **File** | `FileActions` | File system operations | [File Actions →](../Keywords/CLI/File_Actions) |
+| **Test Data** | `SHAFT.TestData.*` | JSON / Excel / CSV data | [Test Data →](../Keywords/TestData_Management) |
+| **Validations** | `SHAFT.Validations` | Standalone assertions | [Validations →](../Keywords/Validations/Overview) |

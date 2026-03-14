@@ -36,6 +36,7 @@ const sidebars = {
       collapsed: false,
       items: [
         "Getting_Started/first_steps",
+        "Getting_Started/shaft_wizard",
         "Getting_Started/first_steps_2",
         "Getting_Started/first_steps_3",
         "Getting_Started/first_steps_4",
