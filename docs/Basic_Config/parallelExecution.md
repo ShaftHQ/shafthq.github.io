@@ -94,6 +94,140 @@ setParallel=NONE
 setThreadCount=1
 ```
 
+### Using a testng.xml File
+
+In addition to the properties-based configuration, you can use a `testng.xml` file to define your test suite, choose exactly which classes and methods to run, and control parallel execution with fine-grained options.
+
+#### Why Use testng.xml?
+
+- **Explicit test selection** — Choose exactly which classes and methods to run
+- **Multiple test groups** — Define separate `<test>` blocks with different configurations
+- **Suite-level configuration** — Set parameters, listeners, and groups at the suite level
+- **Better CI integration** — Reference a single file to run your entire suite from one place
+
+#### Where to Place testng.xml
+
+Place the file in your project root or under `src/test/resources`:
+
+```
+project-root/
+├── src/
+│   ├── main/resources/properties/
+│   │   ├── custom.properties
+│   │   └── testng.properties
+│   └── test/
+│       ├── java/com/example/tests/
+│       │   └── SearchTest.java
+│       └── resources/
+│           └── testng.xml        ← recommended location
+└── testng.xml                    ← or project root
+```
+
+#### Basic testng.xml Structure
+
+```xml title="src/test/resources/testng.xml"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SHAFT Test Suite" parallel="methods" thread-count="3">
+    <test name="Web Tests">
+        <classes>
+            <class name="com.example.tests.SearchTest"/>
+            <class name="com.example.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+#### Parallel Execution Attributes
+
+| Attribute | Values | Description |
+|-----------|--------|-------------|
+| `parallel` | `methods` | Run test methods in parallel (most common) |
+| `parallel` | `classes` | Run test classes in parallel |
+| `parallel` | `tests` | Run `<test>` blocks in parallel |
+| `parallel` | `instances` | Run test instances in parallel |
+| `parallel` | `none` | No parallelization (default) |
+| `thread-count` | integer | Number of parallel threads |
+
+#### Example: Run Methods in Parallel (4 Threads)
+
+```xml title="src/test/resources/testng.xml"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SHAFT Test Suite" parallel="methods" thread-count="4">
+    <test name="All Tests">
+        <classes>
+            <class name="com.example.tests.SearchTest"/>
+            <class name="com.example.tests.LoginTest"/>
+            <class name="com.example.tests.CheckoutTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+#### Example: Run Test Blocks in Parallel
+
+Each `<test>` block runs in its own thread — useful for isolating smoke tests from regression tests:
+
+```xml title="src/test/resources/testng.xml"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SHAFT Test Suite" parallel="tests" thread-count="2">
+    <test name="Smoke Tests">
+        <classes>
+            <class name="com.example.tests.SmokeTest"/>
+        </classes>
+    </test>
+    <test name="Regression Tests">
+        <classes>
+            <class name="com.example.tests.RegressionTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+#### Configure Maven to Use testng.xml
+
+Update the Maven Surefire Plugin in your `pom.xml` to point to your `testng.xml`:
+
+```xml title="pom.xml"
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.5</version>
+            <configuration>
+                <suiteXmlFiles>
+                    <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                </suiteXmlFiles>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+#### Running Tests
+
+Once Maven is configured, run as normal:
+
+```bash
+mvn test
+```
+
+To override the XML file path from the command line without changing `pom.xml`:
+
+```bash
+mvn test -DsuiteXmlFile=src/test/resources/smoke-testng.xml
+```
+
+:::note testng.xml vs testng.properties
+- **`testng.xml`** controls _which_ tests to run and _how_ to run them (suite structure, parallel mode, thread count per suite).
+- **`testng.properties`** applies the same settings globally across all runs.
+
+When both are present, the `testng.xml` suite-level settings (parallel mode and thread count) take precedence.
+:::
+
 ---
 
 ## 2. Cross-Browser Parallel Execution
