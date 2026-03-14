@@ -33,7 +33,7 @@ const sidebars = {
       type: 'category',
       label: 'Getting Started',
       collapsible: true,
-      collapsed: false,
+      collapsed: true,
       items: [
         "Getting_Started/first_steps",
         "Getting_Started/first_steps_2",
@@ -41,22 +41,6 @@ const sidebars = {
         "Getting_Started/first_steps_4",
         "Getting_Started/first_steps_5",
         "Getting_Started/first_steps_6",
-        {
-          type: 'category',
-          label: 'Setup by Project Type',
-          collapsible: true,
-          collapsed: true,
-          items: [
-            "Getting_Started/setup_web",
-            "Getting_Started/setup_web_testng",
-            "Getting_Started/setup_web_junit5",
-            "Getting_Started/setup_web_cucumber",
-            "Getting_Started/setup_mobile",
-            "Getting_Started/setup_api",
-          ],
-        },
-        "Getting_Started/integrations",
-        "Getting_Started/support",
       ],
     },
     {
@@ -68,7 +52,6 @@ const sidebars = {
         "Basic_Config/basicConfig",
         "Basic_Config/basicConfig2",
         "Basic_Config/basicConfig3",
-        "Basic_Config/parallelExecution",
       ],
     },
     {
@@ -109,23 +92,6 @@ const sidebars = {
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
             "Keywords/API/Response_Validations",
-          ],
-        },
-        {
-          type: 'category',
-          label: 'CLI',
-          items: [
-            "Keywords/CLI/Terminal_Actions",
-            "Keywords/CLI/File_Actions",
-          ],
-        },
-        {
-          type: 'category',
-          label: 'DB',
-          items: [
-            "Keywords/DB/DB_Actions",
-            "Keywords/DB/Connection_Strings",
-            "Keywords/DB/Oracle_JDBC_Setup",
           ],
         },
       ],
