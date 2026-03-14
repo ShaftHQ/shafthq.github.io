@@ -90,6 +90,7 @@ const sidebars = {
             "Keywords/GUI/Element_Identification",
             "Keywords/GUI/Element_Actions",
             "Keywords/GUI/Element_Validations",
+            "Keywords/GUI/Alert_Actions",
             "Keywords/GUI/Touch_Actions",
             {
 	    type: 'category',
