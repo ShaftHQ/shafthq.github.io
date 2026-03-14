@@ -2,14 +2,14 @@
 id: reporting
 title: Reporting
 sidebar_label: Reporting
-description: "Learn about SHAFT Engine's built-in reports — Execution Summary, Allure, and Extent — and how to configure video recording and report behavior via properties."
-keywords: [shaft reporting, allure report, extent report, execution summary, video recording, test report, ci cd report]
+description: "Learn about SHAFT Engine's built-in reports — Allure and Execution Summary — and how to configure video recording and report behavior via properties."
+keywords: [shaft reporting, allure report, execution summary, video recording, test report, ci cd report]
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-SHAFT Engine ships with three complementary report formats, each suited to a different audience and workflow. You can enable or disable them independently using [properties](../Properties/PropertyTypes.md).
+SHAFT Engine ships with two complementary report formats, each suited to a different audience and workflow. You can enable or disable them independently using [properties](../Properties/PropertyTypes.md).
 
 ---
 
@@ -17,59 +17,14 @@ SHAFT Engine ships with three complementary report formats, each suited to a dif
 
 | Report | Best For | Default State |
 |---|---|---|
-| **Execution Summary** | Quick CI/CD feedback — fast, portable, no setup | ✅ Opens automatically after execution |
-| **Allure Report** | Deep debugging — step-by-step logs, screenshots, videos | ⚙️ Available on demand |
-| **Extent Report** | Teams already familiar with Extent HTML reports | ⚙️ Opt-in via property |
-
----
-
-## Execution Summary Report
-
-The **Execution Summary** report is SHAFT's lightweight built-in report. It opens automatically in your default browser at the end of every test run.
-
-- **No extra setup required** — works out of the box.
-- **Portable** — a single self-contained HTML file you can share or archive.
-- **Fast** — ideal for CI/CD pipelines where you just need pass/fail counts quickly.
-
-### Disable the Summary Report
-
-If you prefer a different report and do not want the summary to open, you can disable it:
-
-<Tabs groupId="configMethod">
-  <TabItem value="file" label="File-based">
-
-```properties title="src/main/resources/properties/custom.properties"
-openExecutionSummaryReportAfterExecution=false
-```
-
-  </TabItem>
-  <TabItem value="cli" label="CLI-based">
-
-```bash
-mvn test -DopenExecutionSummaryReportAfterExecution=false
-```
-
-  </TabItem>
-  <TabItem value="code" label="Code-based">
-
-```java
-import com.shaft.driver.SHAFT;
-
-SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(false);
-```
-
-  </TabItem>
-</Tabs>
-
-:::tip
-The Execution Summary report is the most portable option and is recommended for CI/CD environments. Consider keeping it enabled alongside any other report you configure.
-:::
+| **Allure Report** | Deep debugging — step-by-step logs, screenshots, videos | ✅ Opens automatically after execution |
+| **Execution Summary** | Quick supplemental feedback — fast, portable, no setup | ⚙️ Opt-in via property |
 
 ---
 
 ## Allure Report
 
-The **Allure Report** is ideal when you need to investigate a test failure in detail. It provides a rich, interactive UI with:
+The **Allure Report** is the primary report in SHAFT. It opens automatically in your default browser at the end of every test run and provides a rich, single-file HTML report with:
 
 - Step-by-step action logs with screenshots attached
 - Video recordings (when enabled)
@@ -79,7 +34,7 @@ The **Allure Report** is ideal when you need to investigate a test failure in de
 
 ### Open Allure Report Manually
 
-After a test run, you can generate and open the Allure report by running the script that SHAFT places in your project directory:
+SHAFT writes convenience scripts to your project root during the first run. Use them to regenerate and serve the Allure report at any time:
 
 ```bash title="Windows"
 generate_allure_report.bat
@@ -89,22 +44,22 @@ generate_allure_report.bat
 ./generate_allure_report.sh
 ```
 
-### Open Allure Report Automatically After Execution
+### Disable Auto-Opening the Allure Report
 
-To have SHAFT open the Allure report automatically at the end of every run:
+The Allure report opens automatically by default (`allure.automaticallyOpen=true`). To disable this:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
-openAllureReportAfterExecution=true
+allure.automaticallyOpen=false
 ```
 
   </TabItem>
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DopenAllureReportAfterExecution=true
+mvn test -Dallure.automaticallyOpen=false
 ```
 
   </TabItem>
@@ -113,7 +68,7 @@ mvn test -DopenAllureReportAfterExecution=true
 ```java
 import com.shaft.driver.SHAFT;
 
-SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
+SHAFT.Properties.allure.set().automaticallyOpen(false);
 ```
 
   </TabItem>
@@ -121,20 +76,20 @@ SHAFT.Properties.reporting.set().openAllureReportAfterExecution(true);
 
 ### Generate an Allure Report Archive (for CI/CD)
 
-To generate a portable Allure report archive that you can publish as a CI/CD artifact:
+To generate a portable ZIP archive of the Allure report that you can publish as a CI/CD artifact:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
-generateAllureReportArchive=true
+allure.generateArchive=true
 ```
 
   </TabItem>
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DgenerateAllureReportArchive=true
+mvn test -Dallure.generateArchive=true
 ```
 
   </TabItem>
@@ -143,7 +98,66 @@ mvn test -DgenerateAllureReportArchive=true
 ```java
 import com.shaft.driver.SHAFT;
 
-SHAFT.Properties.reporting.set().generateAllureReportArchive(true);
+SHAFT.Properties.allure.set().generateArchive(true);
+```
+
+  </TabItem>
+</Tabs>
+
+### Customize the Allure Report
+
+You can customize the report title and logo displayed in the generated HTML:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.customTitle=My Regression Suite
+allure.customLogo=https://example.com/my-logo.png
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set()
+    .customTitle("My Regression Suite")
+    .customLogo("https://example.com/my-logo.png");
+```
+
+  </TabItem>
+</Tabs>
+
+### Accumulate History and Reports Across Runs
+
+By default, SHAFT keeps Allure history to enable trend graphs across runs. You can control this behavior:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Accumulate history to show trends across runs (default: true)
+allure.accumulateHistory=true
+
+# Keep previous HTML report files in the report directory (default: true)
+allure.accumulateReports=true
+
+# Clean the results directory before each run (default: true)
+allure.cleanResultsDirectory=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set()
+    .accumulateHistory(true)
+    .accumulateReports(true)
+    .cleanResultsDirectory(true);
 ```
 
   </TabItem>
@@ -151,22 +165,27 @@ SHAFT.Properties.reporting.set().generateAllureReportArchive(true);
 
 ---
 
-## Extent Report
+## Execution Summary Report
 
-If your team is already familiar with **Extent Reports**, you can attach an Extent HTML report to the Allure report output:
+The **Execution Summary** report is a lightweight supplement to the Allure report. It is disabled by default and is most useful when you want a quick, portable HTML summary without opening the full Allure report.
+
+- **No extra setup required** — just enable the property.
+- **Portable** — a fast self-contained HTML file you can share or archive.
+
+### Enable the Execution Summary Report
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
-attachExtentReportsToAllureReport=true
+openExecutionSummaryReportAfterExecution=true
 ```
 
   </TabItem>
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DattachExtentReportsToAllureReport=true
+mvn test -DopenExecutionSummaryReportAfterExecution=true
 ```
 
   </TabItem>
@@ -175,15 +194,11 @@ mvn test -DattachExtentReportsToAllureReport=true
 ```java
 import com.shaft.driver.SHAFT;
 
-SHAFT.Properties.reporting.set().attachExtentReportsToAllureReport(true);
+SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(true);
 ```
 
   </TabItem>
 </Tabs>
-
-:::note
-The Extent Report is generated as an attachment inside the Allure report. Make sure you have the Allure report enabled (or at least its results generated) when using this option.
-:::
 
 ---
 
@@ -227,7 +242,7 @@ your-project/
     └── main/
         └── resources/
             └── properties/
-                ├── default.properties     ← auto-generated by SHAFT
+                ├── default/               ← auto-generated by SHAFT
                 └── custom.properties      ← your file
 ```
 
@@ -274,7 +289,7 @@ SHAFT.Properties.visuals.set()
 
 ## Animated GIFs
 
-In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This is a lightweight alternative that is also attached to the Allure report:
+In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This lightweight alternative is also attached to the Allure report:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
@@ -310,31 +325,29 @@ SHAFT.Properties.visuals.set()
 
 ## Recommended Configurations by Use Case
 
-### CI/CD Pipeline (fast feedback)
+### CI/CD Pipeline (archive report as artifact)
 
 ```properties title="src/main/resources/properties/custom.properties"
-# Keep the fast summary report, skip opening Allure automatically
-openExecutionSummaryReportAfterExecution=true
-openAllureReportAfterExecution=false
-# Archive the Allure results so CI can publish them as an artifact
-generateAllureReportArchive=true
+# Do not open the browser during CI
+allure.automaticallyOpen=false
+# Generate a ZIP artifact to publish from the pipeline
+allure.generateArchive=true
 ```
 
 ### Active Debugging (rich visuals)
 
 ```properties title="src/main/resources/properties/custom.properties"
-# Open Allure automatically with full visual evidence
-openAllureReportAfterExecution=true
+# Allure opens automatically by default — add visual evidence
 videoParams_recordVideo=true
 createAnimatedGif=true
 screenshotParams_whenToTakeAScreenshot=Always
 ```
 
-### Team Using Extent Reports
+### Quick Pass/Fail Summary
 
 ```properties title="src/main/resources/properties/custom.properties"
-attachExtentReportsToAllureReport=true
-openAllureReportAfterExecution=true
+# Enable fast portable summary alongside the Allure report
+openExecutionSummaryReportAfterExecution=true
 ```
 
 ---
@@ -347,10 +360,14 @@ Key properties quick reference:
 
 | Property | Default | Description |
 |---|---|---|
-| `openExecutionSummaryReportAfterExecution` | `true` | Open the Execution Summary report after the run |
-| `openAllureReportAfterExecution` | `false` | Open the Allure report after the run |
-| `generateAllureReportArchive` | `false` | Generate a portable Allure report archive |
-| `attachExtentReportsToAllureReport` | `false` | Attach an Extent HTML report to the Allure output |
+| `allure.automaticallyOpen` | `true` | Open the Allure report in the browser automatically after the run |
+| `allure.generateArchive` | `false` | Generate a portable ZIP archive of the Allure report |
+| `allure.accumulateHistory` | `true` | Accumulate history across runs for trend graphs |
+| `allure.accumulateReports` | `true` | Keep previous Allure HTML report files |
+| `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
+| `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
+| `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
+| `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
 | `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
 | `videoParams_scope` | `DriverSession` | Scope of video recording |
 | `createAnimatedGif` | `false` | Create an animated GIF from screenshots |
