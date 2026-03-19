@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 import { loadDocumentation, getGitHubRepositoryContext } from './docs-loader.mjs';
 import { MAX_MESSAGE_LENGTH, MAX_SYSTEM_INSTRUCTION_LENGTH } from './constants.mjs';
 
@@ -91,7 +91,7 @@ export default async (req) => {
     }
 
     // Initialize Gemini AI
-    const genAI = new GoogleGenerativeAI(apiKey);
+    const genAI = new GoogleGenAI({ apiKey });
 
     // Load documentation context
     const { documentation, githubContext } = getDocumentationContext();
@@ -125,19 +125,15 @@ export default async (req) => {
       try {
         console.log(`[Gemini Proxy] Trying model: ${modelName}`);
         
-        const model = genAI.getGenerativeModel({
+        const chat = genAI.chats.create({
           model: modelName,
-          systemInstruction: enhancedSystemInstruction,
-          // REMOVED: Google Search grounding - now using local documentation only
-        });
-
-        const chat = model.startChat({
+          config: {
+            systemInstruction: enhancedSystemInstruction,
+          },
           history: history || [],
         });
-
-        const result = await chat.sendMessage(message);
-        const response = await result.response;
-        const text = response.text();
+        const response = await chat.sendMessage({ message });
+        const text = response.text;
 
         console.log(`[Gemini Proxy] Successfully used model: ${modelName}`);
         
@@ -182,7 +178,7 @@ export default async (req) => {
         userErrorMessage = 'Unable to connect to the AI service. Please check your connection and try again.';
       } else if (errorMsg.includes('safety') || errorMsg.includes('blocked')) {
         userErrorMessage = 'Your message could not be processed due to content policy. Please rephrase your question.';
-      } else if (errorType === 'GoogleGenerativeAIError' || errorMsg.includes('model')) {
+      } else if (errorType === 'APIError' || errorMsg.includes('model')) {
         userErrorMessage = 'The AI models are temporarily unavailable. Please try again later.';
       }
     }

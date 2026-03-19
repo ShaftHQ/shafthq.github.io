@@ -1,7 +1,7 @@
 // Test script to verify the chatbot API functionality and model availability
 // This ensures that the Gemini API is properly configured and responds correctly
 
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { GoogleGenAI } = require('@google/genai');
 
 // Test configuration
 const MODELS_TO_TEST = [
@@ -80,19 +80,19 @@ Focus on helping users with:
 async function testModelAvailability(apiKey, modelName) {
   try {
     console.log(`\nTesting model: ${modelName}`);
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: modelName,
-      systemInstruction: systemInstruction,
-    });
-
     // Simple test query
     const testQuestion = 'What is SHAFT in one sentence?';
     console.log(`   Query: "${testQuestion}"`);
-    
-    const result = await model.generateContent(testQuestion);
-    const response = await result.response;
-    const text = response.text();
+
+    const genAI = new GoogleGenAI({ apiKey });
+    const response = await genAI.models.generateContent({
+      model: modelName,
+      contents: testQuestion,
+      config: {
+        systemInstruction: systemInstruction,
+      },
+    });
+    const text = response.text;
 
     if (text && text.length > 0) {
       console.log(`✅ Model ${modelName} is available and working`);
@@ -117,16 +117,15 @@ async function testResponseRelevance(apiKey, modelName, testQuery) {
   console.log(`   ${'─'.repeat(65)}`);
   
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
+    const genAI = new GoogleGenAI({ apiKey });
+    const response = await genAI.models.generateContent({
       model: modelName,
-      systemInstruction: systemInstruction,
+      contents: testQuery.query,
+      config: {
+        systemInstruction: systemInstruction,
+      },
     });
-
-    // Generate response
-    const result = await model.generateContent(testQuery.query);
-    const response = await result.response;
-    const text = response.text();
+    const text = response.text;
     
     // Print full conversation
     console.log(`   👤 User: ${testQuery.query}`);
