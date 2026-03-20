@@ -35,27 +35,61 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const releaseAuthor = release.author?.login || 'unknown';
-            const publishedAt = release.published_at || new Date().toISOString();
             const tagName = release.tag_name || 'untagged-release';
             const releaseBody = release.body || '';
+            const releaseId = release.id;
+            const releasePublishedAt = release.published_at || new Date().toISOString();
 
-            const contributorsResp = await github.rest.repos.listContributors({
+            const contributorsData = await github.paginate(github.rest.repos.listContributors, {
               owner,
               repo,
               per_page: 100
             });
 
-            const contributors = contributorsResp.data
+            const releasesData = await github.paginate(github.rest.repos.listReleases, {
+              owner,
+              repo,
+              per_page: 100
+            });
+
+            const sortedReleases = releasesData
+              .filter((item) => item?.tag_name && !item.draft)
+              .sort((a, b) => new Date(b.published_at || 0) - new Date(a.published_at || 0));
+
+            const currentReleaseIndex = sortedReleases.findIndex((item) => item.id === releaseId);
+            const previousRelease = currentReleaseIndex >= 0 ? sortedReleases[currentReleaseIndex + 1] : null;
+
+            const releaseCommitCounts = {};
+            if (previousRelease?.tag_name) {
+              const compareResp = await github.rest.repos.compareCommits({
+                owner,
+                repo,
+                basehead: `${previousRelease.tag_name}...${tagName}`
+              });
+
+              for (const commit of compareResp.data.commits || []) {
+                const login = commit.author?.login;
+                if (!login) {
+                  continue;
+                }
+                releaseCommitCounts[login] = (releaseCommitCounts[login] || 0) + 1;
+              }
+            }
+
+            const contributors = contributorsData
               .filter((contributor) => contributor?.type === 'User' && contributor?.login)
               .map((contributor) => ({
                 login: contributor.login,
                 avatarUrl: `https://github.com/${contributor.login}.png`,
                 contributions: contributor.contributions || 0,
-                isFirstTimer: (contributor.contributions || 0) === 1
+                commitsInThisRelease: releaseCommitCounts[contributor.login] || 0,
+                isFirstTimer:
+                  Boolean(releaseCommitCounts[contributor.login]) &&
+                  (contributor.contributions || 0) === (releaseCommitCounts[contributor.login] || 0)
               }));
 
             core.setOutput('tag', tagName);
-            core.setOutput('published_at', publishedAt);
+            core.setOutput('published_at', releasePublishedAt);
             core.setOutput('author', releaseAuthor);
             core.setOutput('release_body', releaseBody);
             core.setOutput('contributors_json', JSON.stringify(contributors));
@@ -82,7 +116,11 @@ jobs:
           const yyyy = date.getUTCFullYear();
           const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
           const dd = String(date.getUTCDate()).padStart(2, '0');
-          const safeTag = tag.replace(/^v/i, '').replace(/[^a-zA-Z0-9._-]/g, '-');
+          const safeTag = tag
+            .replace(/^v/i, '')
+            .replace(/[^a-zA-Z0-9._-]/g, '-')
+            .replace(/-+/g, '-')
+            .toLowerCase();
           const fileName = `${yyyy}-${mm}-${dd}-release-${safeTag}.md`;
           const filePath = path.join(process.cwd(), 'blog', fileName);
 
@@ -101,8 +139,85 @@ jobs:
             ? `\n🎉 Special shoutout to our first-time contributors: ${firstTimers.map((c) => `@${c.login}`).join(', ')}.`
             : '\nNo first-time contributors were detected in this release snapshot.';
 
+          const extractScopeSummary = (markdownText) => {
+            const candidateLines = markdownText
+              .split('\n')
+              .map((line) => line.trim())
+              .filter((line) => line && !line.startsWith('#'))
+              .map((line) => line.replace(/^[-*+]\s*/, '').replace(/[*_>#]/g, '').trim())
+              .filter(Boolean);
+
+            if (!candidateLines.length) {
+              return 'This version focuses on improving developer productivity, strengthening runtime reliability, and making test design more expressive across common automation scenarios.';
+            }
+
+            return candidateLines.slice(0, 3).join(' ');
+          };
+
+          const scopeSummary = extractScopeSummary(releaseBody);
+
+          const hasSwaggerSignal = /\b(swagger|openapi|contract validation)\b/i.test(releaseBody);
+          const hasVirtualThreadSignal = /\b(virtual[\s-]*thread|loom)\b/i.test(releaseBody);
+
+          let javaSampleFileTitle = 'ReleaseFeatureSample.java';
+          let javaSample = `import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class ReleaseFeatureSample {
+    @Test
+    public void validateReleaseWorkflow() {
+        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+        try {
+            driver.browser().navigateToURL("https://example.test");
+            driver.element().type("#username", "shaft-user");
+            driver.assertThat().element("#status").text().contains("Ready").perform();
+        } finally {
+            driver.quit();
+        }
+    }
+}`;
+
+          if (hasSwaggerSignal) {
+            javaSampleFileTitle = 'SwaggerValidationSample.java';
+            javaSample = `import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class SwaggerValidationSample {
+    @Test
+    public void validateSwaggerContract() {
+        SHAFT.Properties.api.set().swaggerValidationEnabled(true);
+        SHAFT.Properties.api.set().swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json");
+
+        SHAFT.API api = new SHAFT.API("https://petstore.swagger.io/v2");
+        api.get("/pet/1").perform();
+        api.assertThatResponse().statusCode().isEqualTo(200).perform();
+    }
+}`;
+          } else if (hasVirtualThreadSignal) {
+            javaSampleFileTitle = 'VirtualThreadsSample.java';
+            javaSample = `import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class VirtualThreadsSample {
+    @Test
+    public void useVirtualThreadFriendlyFlow() {
+        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+        try {
+            driver.browser().navigateToURL("https://example.test");
+            driver.element().type("#username", "parallel-user");
+            driver.element().type("#email", "parallel@example.test");
+            driver.element().type("#password", "SecretPassword123");
+            driver.element().click("#submit");
+            driver.assertThat().element("#status").text().contains("Success").perform();
+        } finally {
+            driver.quit();
+        }
+    }
+}`;
+          }
+
           const blogPost = `---
-slug: release-${safeTag.toLowerCase()}
+slug: release-${safeTag}
 title: SHAFT Release ${tag} Is Here
 authors:
   - name: ${author}
@@ -120,26 +235,14 @@ We are excited to announce **SHAFT_ENGINE ${tag}**! This release brings meaningf
 
 ## Scope Summary
 
-This version focuses on improving developer productivity, strengthening runtime reliability, and making test design more expressive across common automation scenarios.
+${scopeSummary}
 
 ## Feature Deep-Dive & Code Sample
 
-Below is a sample Java snippet that demonstrates a modern SHAFT-style flow you can adapt after upgrading:
+Below is a release-aware Java snippet selected from changelog signals that you can adapt after upgrading:
 
-\`\`\`java title="ReleaseFeatureSample.java"
-import com.shaft.driver.SHAFT;
-import org.testng.annotations.Test;
-
-public class ReleaseFeatureSample {
-    @Test
-    public void validateReleaseWorkflow() {
-        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
-        driver.browser().navigateToURL("https://example.test");
-        driver.element().type("#username", "shaft-user");
-        driver.assertThat().element("#status").text().contains("Ready").perform();
-        driver.quit();
-    }
-}
+\`\`\`java title="${javaSampleFileTitle}"
+${javaSample}
 \`\`\`
 
 ## Additional Insights
