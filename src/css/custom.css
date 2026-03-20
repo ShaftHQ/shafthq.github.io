@@ -4,6 +4,17 @@
  * work well for content-centric websites.
  */
 
+/* Smooth scrolling for the entire site */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #2e8555;

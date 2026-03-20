@@ -5,21 +5,40 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import RoiCalculator from '@site/src/components/RoiCalculator';
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import ShaftRobot from '@site/src/components/ShaftRobot';
 import styles from './index.module.css';
 
+function ParticleCanvas() {
+  return (
+    <BrowserOnly fallback={<div />}>
+      {() => {
+        const ParticleBackground =
+          require('@site/src/components/ParticleBackground').default;
+        return <ParticleBackground particleCount={35} connectionDistance={110} />;
+      }}
+    </BrowserOnly>
+  );
+}
+
 function Header() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <h1 className="hero__title">SHAFT: Unified Test Automation Engine</h1>
-        <p className="hero__subtitle">Write once, test everywhere.<br/>Web • Mobile • API • CLI • Database</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/Getting_Started/first_steps">
-            Get Started Free ⚡
-          </Link>
+      <ParticleCanvas />
+      <div className={clsx('container', styles.heroContent)}>
+        <div className={styles.heroText}>
+          <h1 className="hero__title">SHAFT: Unified Test Automation Engine</h1>
+          <p className="hero__subtitle">Write once, test everywhere.<br/>Web • Mobile • API • CLI • Database</p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/Getting_Started/first_steps">
+              Get Started Free ⚡
+            </Link>
+          </div>
+        </div>
+        <div className={styles.heroRobot} aria-hidden="true">
+          <ShaftRobot size={140} animated />
         </div>
       </div>
     </header>
@@ -28,24 +47,18 @@ function Header() {
 
 function Footer() {
     return (
-        <div>
-            <center>
-                <header>
-                    <div className="container">
-                        <br/>
-                        <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
-                        <div className={styles.buttons}>
-                            <Link
-                                className="button button--secondary button--lg"
-                                to="/docs/Getting_Started/first_steps">
-                                Start Your Journey ⚡
-                            </Link>
-                        </div>
-                        <br/><br/>
-                    </div>
-                </header>
-            </center>
-        </div>
+        <section className={styles.ctaSection}>
+            <div className="container">
+                <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
+                <div className={styles.buttons}>
+                    <Link
+                        className="button button--secondary button--lg"
+                        to="/docs/Getting_Started/first_steps">
+                        Start Your Journey ⚡
+                    </Link>
+                </div>
+            </div>
+        </section>
     );
 }
 
@@ -58,9 +71,9 @@ export default function Home(): JSX.Element {
       <Header />
       <main>
         <HomepageFeatures />
-          <RoiCalculator/>
+        <RoiCalculator />
       </main>
-        <Footer />
+      <Footer />
     </Layout>
   );
 }

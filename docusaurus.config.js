@@ -83,6 +83,24 @@ const config = {
         },
       }),
     },
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'ShaftHQ',
+        url: 'https://shaftengine.netlify.app',
+        logo: 'https://shaftengine.netlify.app/img/shaft.svg',
+        sameAs: [
+          'https://github.com/ShaftHQ',
+          'https://www.facebook.com/groups/Automatest',
+        ],
+        description: 'Open-source test automation organization behind SHAFT Engine — a unified testing framework for Web, Mobile, API, CLI, and Database testing.',
+      }),
+    },
   ],
 
   // Even if you don't use internalization, you can use this field to set useful
