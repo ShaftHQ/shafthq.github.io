@@ -1,0 +1,50 @@
+name: Update sitemap.xml
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-sitemap:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build site (generates sitemap)
+        run: yarn build
+
+      - name: Update static sitemap file
+        run: cp build/sitemap.xml static/sitemap.xml
+
+      - name: Validate sitemap XML
+        run: python -c "import xml.etree.ElementTree as ET; ET.parse('static/sitemap.xml')"
+
+      - name: Commit and push sitemap update
+        run: |
+          if git diff --quiet -- static/sitemap.xml; then
+            echo "No sitemap changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add static/sitemap.xml
+          git commit -m "chore: update sitemap.xml [skip ci]"
+          git push
