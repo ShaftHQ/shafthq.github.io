@@ -48,7 +48,7 @@
   transform: translate(-50%, -50%);
   width: 180px;
   height: 180px;
-  opacity: 1;
+  opacity: 0.8;
   pointer-events: none;
   z-index: 0;
   color: var(--ifm-color-primary);

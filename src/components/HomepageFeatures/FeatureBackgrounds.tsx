@@ -5,6 +5,7 @@ import React from 'react';
  * These render as subtle, large watermark-style visuals behind feature cards.
  */
 
+/** Renders an upward-trending chart visualization for the ROI feature card. */
 export function RoiBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -30,6 +31,7 @@ export function RoiBackground(): JSX.Element {
   );
 }
 
+/** Renders a hub-and-spoke network diagram for the All-in-One feature card. */
 export function AllInOneBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -53,6 +55,7 @@ export function AllInOneBackground(): JSX.Element {
   );
 }
 
+/** Renders code brackets with sparkles for the Wizard-Like Syntax feature card. */
 export function WizardBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -72,6 +75,7 @@ export function WizardBackground(): JSX.Element {
   );
 }
 
+/** Renders a star constellation pattern for the Award-Winning feature card. */
 export function TrophyBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -95,6 +99,7 @@ export function TrophyBackground(): JSX.Element {
   );
 }
 
+/** Renders a globe with grid lines for the Selenium Ecosystem feature card. */
 export function GlobeBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -114,6 +119,7 @@ export function GlobeBackground(): JSX.Element {
   );
 }
 
+/** Renders a shield with circuit pattern for the Future-Proof feature card. */
 export function FutureProofBackground(): JSX.Element {
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
