@@ -1,0 +1,170 @@
+name: Automated Release Blog Post
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  generate-release-blog-post:
+    name: Generate Release Blog Post
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Fetch release metadata and contributors
+        id: release_data
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const release = context.payload.release;
+            if (!release) {
+              core.setFailed('No release payload found.');
+              return;
+            }
+
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const releaseAuthor = release.author?.login || 'unknown';
+            const publishedAt = release.published_at || new Date().toISOString();
+            const tagName = release.tag_name || 'untagged-release';
+            const releaseBody = release.body || '';
+
+            const contributorsResp = await github.rest.repos.listContributors({
+              owner,
+              repo,
+              per_page: 100
+            });
+
+            const contributors = contributorsResp.data
+              .filter((contributor) => contributor?.type === 'User' && contributor?.login)
+              .map((contributor) => ({
+                login: contributor.login,
+                avatarUrl: `https://github.com/${contributor.login}.png`,
+                contributions: contributor.contributions || 0,
+                isFirstTimer: (contributor.contributions || 0) === 1
+              }));
+
+            core.setOutput('tag', tagName);
+            core.setOutput('published_at', publishedAt);
+            core.setOutput('author', releaseAuthor);
+            core.setOutput('release_body', releaseBody);
+            core.setOutput('contributors_json', JSON.stringify(contributors));
+
+      - name: Generate release blog post markdown
+        env:
+          RELEASE_TAG: ${{ steps.release_data.outputs.tag }}
+          RELEASE_PUBLISHED_AT: ${{ steps.release_data.outputs.published_at }}
+          RELEASE_AUTHOR: ${{ steps.release_data.outputs.author }}
+          RELEASE_BODY: ${{ steps.release_data.outputs.release_body }}
+          CONTRIBUTORS_JSON: ${{ steps.release_data.outputs.contributors_json }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const tag = process.env.RELEASE_TAG || 'untagged-release';
+          const publishedAt = process.env.RELEASE_PUBLISHED_AT || new Date().toISOString();
+          const author = process.env.RELEASE_AUTHOR || 'unknown';
+          const releaseBody = process.env.RELEASE_BODY || '_No changelog provided._';
+          const contributors = JSON.parse(process.env.CONTRIBUTORS_JSON || '[]');
+
+          const date = new Date(publishedAt);
+          const yyyy = date.getUTCFullYear();
+          const mm = String(date.getUTCMonth() + 1).padStart(2, '0');
+          const dd = String(date.getUTCDate()).padStart(2, '0');
+          const safeTag = tag.replace(/^v/i, '').replace(/[^a-zA-Z0-9._-]/g, '-');
+          const fileName = `${yyyy}-${mm}-${dd}-release-${safeTag}.md`;
+          const filePath = path.join(process.cwd(), 'blog', fileName);
+
+          const firstTimers = contributors.filter((contributor) => contributor.isFirstTimer);
+
+          const contributorGrid = contributors.length
+            ? contributors
+                .map((contributor) => {
+                  const firstTimerBadge = contributor.isFirstTimer ? ' 🌟 **First-time contributor!**' : '';
+                  return `- ![@${contributor.login}](${contributor.avatarUrl}) [@${contributor.login}](https://github.com/${contributor.login})${firstTimerBadge}`;
+                })
+                .join('\n')
+            : '- No contributor data was available for this release.';
+
+          const firstTimerHighlight = firstTimers.length
+            ? `\n🎉 Special shoutout to our first-time contributors: ${firstTimers.map((c) => `@${c.login}`).join(', ')}.`
+            : '\nNo first-time contributors were detected in this release snapshot.';
+
+          const blogPost = `---
+slug: release-${safeTag.toLowerCase()}
+title: SHAFT Release ${tag} Is Here
+authors:
+  - name: ${author}
+    title: Release Author
+    url: https://github.com/${author}
+    image_url: https://github.com/${author}.png
+tags: [shaft_engine, release, changelog]
+---
+
+# 🚀 SHAFT_ENGINE ${tag} Released
+
+## Introduction
+
+We are excited to announce **SHAFT_ENGINE ${tag}**! This release brings meaningful improvements to help your automation suites become faster, more reliable, and easier to maintain.
+
+## Scope Summary
+
+This version focuses on improving developer productivity, strengthening runtime reliability, and making test design more expressive across common automation scenarios.
+
+## Feature Deep-Dive & Code Sample
+
+Below is a sample Java snippet that demonstrates a modern SHAFT-style flow you can adapt after upgrading:
+
+\`\`\`java title="ReleaseFeatureSample.java"
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class ReleaseFeatureSample {
+    @Test
+    public void validateReleaseWorkflow() {
+        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+        driver.browser().navigateToURL("https://example.test");
+        driver.element().type("#username", "shaft-user");
+        driver.assertThat().element("#status").text().contains("Ready").perform();
+        driver.quit();
+    }
+}
+\`\`\`
+
+## Additional Insights
+
+- Review deprecations and migration notes in the changelog section below.
+- Validate your CI pipeline against this release tag before promoting to production.
+- Keep an eye on the upcoming roadmap items shared by the maintainers.
+
+## Official Changelog
+
+${releaseBody}
+
+## Hall of Fame (Contributors)
+
+${contributorGrid}
+${firstTimerHighlight}
+`;
+
+          fs.mkdirSync(path.dirname(filePath), { recursive: true });
+          fs.writeFileSync(filePath, blogPost, 'utf8');
+          console.log(`Created blog post at ${filePath}`);
+          NODE
+
+      - name: Commit generated release blog post
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
+          file_pattern: blog/*.md
