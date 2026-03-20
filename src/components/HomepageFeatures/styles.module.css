@@ -1,7 +1,7 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 2rem 0;
+  padding: 3rem 0;
   width: 100%;
 }
 
@@ -9,4 +9,93 @@
   height: 100%;
   width: 200px;
   color: #006ec0;
+}
+
+/* Feature card with background illustration */
+.featureCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  padding: 1.5rem 0.5rem;
+  margin: 0.75rem 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Glassmorphism effect */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0, 110, 192, 0.08);
+}
+
+:global([data-theme='dark']) .featureCard {
+  background: rgba(30, 30, 40, 0.5);
+  border: 1px solid rgba(37, 194, 160, 0.1);
+}
+
+.featureCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 110, 192, 0.1);
+}
+
+:global([data-theme='dark']) .featureCard:hover {
+  box-shadow: 0 8px 30px rgba(37, 194, 160, 0.1);
+}
+
+/* Background SVG illustration */
+.featureBackground {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: 180px;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  color: var(--ifm-color-primary);
+}
+
+/* Scroll-reveal animation */
+.featureCard {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.featureVisible .featureCard {
+  animation: featureReveal 0.6s ease-out forwards;
+}
+
+@keyframes featureReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stagger animation for row items */
+.featureVisible:nth-child(1) .featureCard {
+  animation-delay: 0s;
+}
+
+.featureVisible:nth-child(2) .featureCard {
+  animation-delay: 0.15s;
+}
+
+.featureVisible:nth-child(3) .featureCard {
+  animation-delay: 0.3s;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .featureCard {
+    opacity: 1;
+    transform: none;
+  }
+
+  .featureVisible .featureCard {
+    animation: none;
+  }
+
+  .featureCard:hover {
+    transform: none;
+  }
 }

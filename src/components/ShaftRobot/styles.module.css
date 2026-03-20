@@ -1,0 +1,82 @@
+.robotContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Antenna pulse */
+.antennaPulse {
+  animation: antennaPulseAnim 2s ease-in-out infinite;
+}
+
+@keyframes antennaPulseAnim {
+  0%, 100% { opacity: 0.6; r: 5; }
+  50% { opacity: 1; r: 7; }
+}
+
+/* Eye blink */
+.eyeBlink {
+  animation: eyeBlinkAnim 4s ease-in-out infinite;
+}
+
+@keyframes eyeBlinkAnim {
+  0%, 90%, 100% { transform-origin: center; ry: 10; }
+  95% { transform-origin: center; ry: 1; }
+}
+
+/* Chest glow */
+.chestGlow {
+  animation: chestGlowAnim 2.5s ease-in-out infinite;
+}
+
+@keyframes chestGlowAnim {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Arm wave */
+.armWave {
+  transform-origin: 36px 112px;
+  animation: armWaveAnim 3s ease-in-out infinite;
+}
+
+@keyframes armWaveAnim {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-10deg); }
+}
+
+/* Animated hover effect */
+.animated:hover .armWave {
+  animation: armWaveHoverAnim 0.6s ease-in-out 3;
+}
+
+@keyframes armWaveHoverAnim {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-20deg); }
+}
+
+/* Dark theme support */
+:global([data-theme='dark']) .robotContainer {
+  --robot-head: #1a3a4a;
+  --robot-body: #1a3a4a;
+  --robot-accent: #25c2a0;
+  --robot-glow: #25c2a0;
+}
+
+:global(:root) .robotContainer {
+  --robot-head: #e8f4fd;
+  --robot-body: #d1e8f8;
+  --robot-accent: #0060a8;
+  --robot-glow: #25c2a0;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .antennaPulse,
+  .eyeBlink,
+  .chestGlow,
+  .armWave {
+    animation: none;
+  }
+}
