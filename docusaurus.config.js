@@ -173,7 +173,7 @@ const config = {
         appId: 'H1G3XMKFWX',
         apiKey: '0f34dc0ddecd1cb24d227a64b213d3dd',
         indexName: 'shaftengine',
-        contextualSearch: true,
+        contextualSearch: false,
       },
       styles: [
       '/css/custom.css',
