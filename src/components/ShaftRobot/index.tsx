@@ -19,7 +19,7 @@ export default function ShaftRobot({
       className={`${styles.robotContainer} ${animated ? styles.animated : ''} ${className}`}
       style={{ width: size, height: size }}
       role="img"
-      aria-label="SHAFT Robot mascot"
+      aria-label="SHAFT Robot mascot with SHAFT logo"
     >
       <div className={styles.botShell}>
         <FontAwesomeIcon icon={faRobot} className={styles.botIcon} />

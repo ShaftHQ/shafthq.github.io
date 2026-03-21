@@ -49,6 +49,7 @@ export default function ParticleBackground({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
   const workerRef = useRef<Worker | null>(null);
+  const useWorkerRef = useRef<boolean>(false);
   const particlesRef = useRef<Particle[]>([]);
 
   const initParticles = useCallback(
@@ -110,13 +111,14 @@ export default function ParticleBackground({
     ).matches;
 
     const supportsWorker = typeof Worker !== 'undefined';
+    useWorkerRef.current = supportsWorker;
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
       canvas.width = parent.clientWidth;
       canvas.height = parent.clientHeight;
-      if (supportsWorker && workerRef.current) {
+      if (useWorkerRef.current && workerRef.current) {
         const resizeMessage: ParticleWorkerCommand = {
           type: 'resize',
           width: canvas.width,
@@ -132,34 +134,58 @@ export default function ParticleBackground({
     window.addEventListener('resize', resize);
 
     if (supportsWorker) {
-      workerRef.current = new Worker(new URL('./particleWorker.ts', import.meta.url), {
-        type: 'module',
-      });
+      try {
+        workerRef.current = new Worker(new URL('./particleWorker.ts', import.meta.url), {
+          type: 'module',
+        });
 
-      workerRef.current.onmessage = (event: MessageEvent<ParticleWorkerFrame>) => {
-        if (event.data.type !== 'frame') return;
-        drawFrame(ctx, canvas, event.data.particles, event.data.connections);
-        if (!prefersReducedMotion && workerRef.current) {
-          animationRef.current = requestAnimationFrame(() => {
-            workerRef.current?.postMessage({ type: 'tick' } as ParticleWorkerCommand);
-          });
-        }
-      };
+        workerRef.current.onmessage = (event: MessageEvent<ParticleWorkerFrame>) => {
+          if (event.data.type !== 'frame') return;
+          drawFrame(ctx, canvas, event.data.particles, event.data.connections);
+          if (!prefersReducedMotion && workerRef.current) {
+            animationRef.current = requestAnimationFrame(() => {
+              workerRef.current?.postMessage({ type: 'tick' } as ParticleWorkerCommand);
+            });
+          }
+        };
 
-      const initMessage: ParticleWorkerCommand = {
-        type: 'init',
-        width: canvas.width,
-        height: canvas.height,
-        particleCount,
-        connectionDistance,
-        reducedMotion: prefersReducedMotion,
-      };
-      workerRef.current.postMessage(initMessage);
-    } else {
+      } catch (error) {
+        console.warn(
+          'Failed to initialize particle worker, falling back to main-thread rendering.',
+          error,
+        );
+        useWorkerRef.current = false;
+      }
+    }
+
+    if (!useWorkerRef.current) {
+      if (particlesRef.current.length === 0) {
+        initParticles(canvas.width, canvas.height);
+      }
+
+      const velocityMap = new Map<Particle, { vx: number; vy: number }>();
+      for (const particle of particlesRef.current) {
+        velocityMap.set(particle, {
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+        });
+      }
+
       const animate = () => {
         if (!ctx || !canvas) return;
         const particles = particlesRef.current;
         const connections: ConnectionLine[] = [];
+
+        if (!prefersReducedMotion) {
+          for (const particle of particles) {
+            const velocity = velocityMap.get(particle);
+            if (!velocity) continue;
+            particle.x += velocity.vx;
+            particle.y += velocity.vy;
+            if (particle.x < 0 || particle.x > canvas.width) velocity.vx *= -1;
+            if (particle.y < 0 || particle.y > canvas.height) velocity.vy *= -1;
+          }
+        }
 
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
@@ -185,6 +211,16 @@ export default function ParticleBackground({
       };
 
       animationRef.current = requestAnimationFrame(animate);
+    } else {
+      const reinitMessage: ParticleWorkerCommand = {
+        type: 'init',
+        width: canvas.width,
+        height: canvas.height,
+        particleCount,
+        connectionDistance,
+        reducedMotion: prefersReducedMotion,
+      };
+      workerRef.current?.postMessage(reinitMessage);
     }
 
     return () => {
