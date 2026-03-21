@@ -64,6 +64,39 @@
   position: relative;
 }
 
+.staticSection {
+  padding: 3rem 0;
+}
+
+.staticGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.staticCard,
+.staticCardWide {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  padding: 1.25rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.staticCardWide {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.staticCard h3,
+.staticCardWide h3 {
+  margin-bottom: 0.5rem;
+}
+
+.staticCard p,
+.staticCardWide p {
+  margin-bottom: 0;
+}
+
 :root {
   --ifm-color-primary: #0060a8;
   --ifm-font-color-base-inverse: #ffffff !important;
@@ -111,5 +144,11 @@
 @media (prefers-reduced-motion: reduce) {
   .heroRobot {
     animation: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .staticGrid {
+    grid-template-columns: 1fr;
   }
 }

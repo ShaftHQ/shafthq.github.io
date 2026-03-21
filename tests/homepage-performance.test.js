@@ -28,11 +28,13 @@ const mascotPath = path.join(
   'ShaftRobot',
   'index.tsx',
 );
+const rootPath = path.join(__dirname, '..', 'src', 'theme', 'Root.tsx');
 
 const indexPage = fs.readFileSync(indexPagePath, 'utf8');
 const particleBackground = fs.readFileSync(particleBackgroundPath, 'utf8');
 const workerFile = fs.readFileSync(workerPath, 'utf8');
 const mascot = fs.readFileSync(mascotPath, 'utf8');
+const rootFile = fs.readFileSync(rootPath, 'utf8');
 
 function assert(condition, message) {
   if (!condition) {
@@ -42,6 +44,8 @@ function assert(condition, message) {
 
 try {
   const lazyImportPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/ParticleBackground'\)/;
+  const lazyFeaturesPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/HomepageFeatures'\)/;
+  const lazyRoiPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/RoiCalculator'\)/;
   const workerInitPattern = /new Worker\(\s*new URL\('\.\/particleWorker\.ts',\s*import\.meta\.url\),[\s\S]*type:\s*'module'/;
   const chestTextPattern = />\s*SHAFT\s*</;
 
@@ -53,6 +57,18 @@ try {
   assert(
     workerInitPattern.test(particleBackground),
     'ParticleBackground should initialize a dedicated module worker for particle updates.',
+  );
+
+  assert(
+    lazyFeaturesPattern.test(indexPage) && lazyRoiPattern.test(indexPage),
+    'Landing page should lazy load HomepageFeatures and RoiCalculator to reduce initial blocking work.',
+  );
+
+  assert(
+    indexPage.includes('DeferredSection') &&
+      indexPage.includes('requestIdleCallback') &&
+      indexPage.includes('IntersectionObserver'),
+    'Landing page should defer dynamic section hydration until intersection/idle to reduce time-to-interact.',
   );
 
   assert(
@@ -68,6 +84,13 @@ try {
       mascot.includes('src="/img/shaft_white.svg"') &&
       !chestTextPattern.test(mascot),
     'Mascot should use AutoBot robot visual style with SHAFT logo image on chest and no text label.',
+  );
+
+  assert(
+    rootFile.includes('requestIdleCallback') &&
+      rootFile.includes('<DeferredAutoBot />') &&
+      rootFile.includes('setShouldRender(true)'),
+    'AutoBot widget should be deferred to idle time to reduce main-thread blocking on initial load.',
   );
 
   console.log('✅ Homepage performance and mascot checks passed.');
