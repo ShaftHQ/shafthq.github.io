@@ -101,22 +101,52 @@ function postFrame() {
   self.postMessage(frame);
 }
 
-self.onmessage = (event: MessageEvent<ParticleWorkerCommand>) => {
-  const { type } = event.data;
+self.onmessage = (event: MessageEvent<unknown>) => {
+  const data = event.data as Partial<ParticleWorkerCommand> | null | undefined;
+
+  if (
+    !data ||
+    typeof data !== 'object' ||
+    (data as { type?: unknown }).type === undefined
+  ) {
+    // Ignore messages that do not conform to the expected command shape
+    return;
+  }
+
+  const type = (data as { type: unknown }).type;
+  if (type !== 'init' && type !== 'resize' && type !== 'tick') {
+    // Ignore unknown command types
+    return;
+  }
+
   if (type === 'init') {
-    width = event.data.width ?? width;
-    height = event.data.height ?? height;
-    particleCount = event.data.particleCount ?? particleCount;
-    connectionDistance = event.data.connectionDistance ?? connectionDistance;
-    reducedMotion = event.data.reducedMotion ?? reducedMotion;
+    if (typeof data.width === 'number') {
+      width = data.width;
+    }
+    if (typeof data.height === 'number') {
+      height = data.height;
+    }
+    if (typeof data.particleCount === 'number') {
+      particleCount = data.particleCount;
+    }
+    if (typeof data.connectionDistance === 'number') {
+      connectionDistance = data.connectionDistance;
+    }
+    if (typeof data.reducedMotion === 'boolean') {
+      reducedMotion = data.reducedMotion;
+    }
     initParticles();
     postFrame();
     return;
   }
 
   if (type === 'resize') {
-    width = event.data.width ?? width;
-    height = event.data.height ?? height;
+    if (typeof data.width === 'number') {
+      width = data.width;
+    }
+    if (typeof data.height === 'number') {
+      height = data.height;
+    }
     return;
   }
 
