@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
@@ -9,14 +9,18 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import ShaftRobot from '@site/src/components/ShaftRobot';
 import styles from './index.module.css';
 
+const LazyParticleBackground = React.lazy(
+  () => import('@site/src/components/ParticleBackground'),
+);
+
 function ParticleCanvas() {
   return (
     <BrowserOnly fallback={<div />}>
-      {() => {
-        const ParticleBackground =
-          require('@site/src/components/ParticleBackground').default;
-        return <ParticleBackground particleCount={35} connectionDistance={110} />;
-      }}
+      {() => (
+        <Suspense fallback={<div />}>
+          <LazyParticleBackground particleCount={35} connectionDistance={110} />
+        </Suspense>
+      )}
     </BrowserOnly>
   );
 }

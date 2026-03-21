@@ -5,78 +5,73 @@
   flex-shrink: 0;
 }
 
-/* Antenna pulse */
-.antennaPulse {
-  animation: antennaPulseAnim 2s ease-in-out infinite;
+.botShell {
+  width: 100%;
+  height: 100%;
+  border-radius: 24%;
+  background: linear-gradient(160deg, var(--ifm-color-primary-lighter), var(--ifm-color-primary-dark));
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary-darkest) 45%, transparent);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.18),
+    0 0 0 2px color-mix(in srgb, var(--ifm-color-primary-lightest) 24%, transparent) inset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes antennaPulseAnim {
-  0%, 100% { opacity: 0.6; r: 5; }
-  50% { opacity: 1; r: 7; }
+.botIcon {
+  font-size: min(64%, 8rem);
+  color: #ffffff;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s ease;
 }
 
-/* Eye blink */
-.eyeBlink {
-  animation: eyeBlinkAnim 4s ease-in-out infinite;
+.chestLogo {
+  position: absolute;
+  width: 22%;
+  height: auto;
+  bottom: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
 }
 
-@keyframes eyeBlinkAnim {
-  0%, 90%, 100% { transform-origin: center; ry: 10; }
-  95% { transform-origin: center; ry: 1; }
+.animated .botShell {
+  animation: botPulse 2.8s ease-in-out infinite;
 }
 
-/* Chest glow */
-.chestGlow {
-  animation: chestGlowAnim 2.5s ease-in-out infinite;
+.animated .botIcon {
+  animation: botNod 3.4s ease-in-out infinite;
 }
 
-@keyframes chestGlowAnim {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+.animated:hover .botIcon {
+  transform: translateY(-3px) scale(1.03);
 }
 
-/* Arm wave */
-.armWave {
-  transform-origin: 36px 112px;
-  animation: armWaveAnim 3s ease-in-out infinite;
+@keyframes botPulse {
+  0%, 100% { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 0 0 2px color-mix(in srgb, var(--ifm-color-primary-lightest) 24%, transparent) inset; }
+  50% { box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24), 0 0 0 2px color-mix(in srgb, #ffffff 45%, transparent) inset; }
 }
 
-@keyframes armWaveAnim {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-10deg); }
+@keyframes botNod {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-2px) rotate(-2deg); }
 }
 
-/* Animated hover effect */
-.animated:hover .armWave {
-  animation: armWaveHoverAnim 0.6s ease-in-out 3;
-}
-
-@keyframes armWaveHoverAnim {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-20deg); }
-}
-
-/* Dark theme support */
 :global([data-theme='dark']) .robotContainer {
-  --robot-head: #1a3a4a;
-  --robot-body: #1a3a4a;
-  --robot-accent: #25c2a0;
-  --robot-glow: #25c2a0;
+  filter: saturate(1.05);
 }
 
-:global(:root) .robotContainer {
-  --robot-head: #e8f4fd;
-  --robot-body: #d1e8f8;
-  --robot-accent: #0060a8;
-  --robot-glow: #25c2a0;
-}
-
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .antennaPulse,
-  .eyeBlink,
-  .chestGlow,
-  .armWave {
+  .animated .botShell,
+  .animated .botIcon {
     animation: none;
+  }
+
+  .animated:hover .botIcon {
+    transform: none;
   }
 }
