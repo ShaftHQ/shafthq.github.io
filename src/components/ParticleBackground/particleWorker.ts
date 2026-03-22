@@ -35,6 +35,9 @@ interface ParticleWorkerCommand {
   particleCount?: number;
   connectionDistance?: number;
   reducedMotion?: boolean;
+  pointerX?: number;
+  pointerY?: number;
+  pointerActive?: boolean;
 }
 
 let width = 0;
@@ -44,6 +47,9 @@ let connectionDistance = 120;
 let reducedMotion = false;
 let workerId = 0;
 let particles: WorkerParticle[] = [];
+let pointerX = 0;
+let pointerY = 0;
+let pointerActive = false;
 
 function initParticles() {
   particles = [];
@@ -62,6 +68,22 @@ function initParticles() {
 function stepParticles() {
   if (reducedMotion) return;
   for (const p of particles) {
+    if (pointerActive) {
+      const dx = pointerX - p.x;
+      const dy = pointerY - p.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < connectionDistance * 0.9 && distance > 0) {
+        const force = (1 - distance / (connectionDistance * 0.9)) * 0.012;
+        p.vx += (dx / distance) * force;
+        p.vy += (dy / distance) * force;
+      }
+    }
+
+    p.vx += (Math.random() - 0.5) * 0.008;
+    p.vy += (Math.random() - 0.5) * 0.008;
+    p.vx = Math.max(-0.65, Math.min(0.65, p.vx * 0.995));
+    p.vy = Math.max(-0.65, Math.min(0.65, p.vy * 0.995));
+
     p.x += p.vx;
     p.y += p.vy;
     if (p.x < 0 || p.x > width) p.vx *= -1;
@@ -94,12 +116,21 @@ function postFrame() {
   const frame: ParticleWorkerFrame = {
     type: 'frame',
     workerId,
-    particles: particles.map(({ x, y, radius, opacity }) => ({
-      x,
-      y,
-      radius,
-      opacity,
-    })),
+    particles: particles.map(({ x, y, radius, opacity }) => {
+      const dx = pointerX - x;
+      const dy = pointerY - y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const reactiveBoost =
+        pointerActive && distance < connectionDistance
+          ? (1 - distance / connectionDistance) * 0.35
+          : 0;
+      return {
+        x,
+        y,
+        radius: radius + reactiveBoost,
+        opacity: Math.min(0.75, opacity + reactiveBoost * 0.45),
+      };
+    }),
     connections: buildConnections(),
   };
   self.postMessage(frame);
@@ -158,6 +189,15 @@ self.onmessage = (event: MessageEvent<unknown>) => {
   }
 
   if (type === 'tick') {
+    if (typeof data.pointerX === 'number') {
+      pointerX = data.pointerX;
+    }
+    if (typeof data.pointerY === 'number') {
+      pointerY = data.pointerY;
+    }
+    if (typeof data.pointerActive === 'boolean') {
+      pointerActive = data.pointerActive;
+    }
     stepParticles();
     postFrame();
   }

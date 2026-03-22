@@ -30,6 +30,9 @@ interface ParticleWorkerCommand {
   particleCount?: number;
   connectionDistance?: number;
   reducedMotion?: boolean;
+  pointerX?: number;
+  pointerY?: number;
+  pointerActive?: boolean;
 }
 
 interface ParticleBackgroundProps {
@@ -55,6 +58,11 @@ export default function ParticleBackground({
   const workerFramesRef = useRef<Array<ParticleWorkerFrame | null>>([]);
   const expectedWorkersRef = useRef<number>(1);
   const particlesRef = useRef<Particle[]>([]);
+  const pointerRef = useRef<{ x: number; y: number; active: boolean }>({
+    x: 0,
+    y: 0,
+    active: false,
+  });
 
   const initParticles = useCallback(
     (width: number, height: number) => {
@@ -140,8 +148,24 @@ export default function ParticleBackground({
       }
     };
 
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      pointerRef.current = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+        active: true,
+      };
+    };
+
+    const handlePointerLeave = (event: PointerEvent) => {
+      if (event.relatedTarget !== null) return;
+      pointerRef.current.active = false;
+    };
+
     resize();
     window.addEventListener('resize', resize);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('pointerout', handlePointerLeave, { passive: true });
 
     if (supportsWorker) {
       try {
@@ -173,13 +197,18 @@ export default function ParticleBackground({
 
             drawFrame(ctx, canvas, mergedParticles, mergedConnections);
             if (!prefersReducedMotion) {
-              animationRef.current = requestAnimationFrame(() => {
-                for (const workerEntry of workersRef.current) {
-                  workerEntry.postMessage({ type: 'tick' } as ParticleWorkerCommand);
-                }
-              });
-            }
-          };
+                animationRef.current = requestAnimationFrame(() => {
+                  for (const workerEntry of workersRef.current) {
+                    workerEntry.postMessage({
+                      type: 'tick',
+                      pointerX: pointerRef.current.x,
+                      pointerY: pointerRef.current.y,
+                      pointerActive: pointerRef.current.active,
+                    } as ParticleWorkerCommand);
+                  }
+                });
+              }
+            };
 
           const partitionCount = baseCount + (workerId < remainder ? 1 : 0);
           const reinitMessage: ParticleWorkerCommand = {
@@ -229,6 +258,20 @@ export default function ParticleBackground({
           for (const particle of particles) {
             const velocity = velocityMap.get(particle);
             if (!velocity) continue;
+            if (pointerRef.current.active) {
+              const dx = pointerRef.current.x - particle.x;
+              const dy = pointerRef.current.y - particle.y;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              if (distance < connectionDistance * 0.9 && distance > 0) {
+                const force = (1 - distance / (connectionDistance * 0.9)) * 0.012;
+                velocity.vx += (dx / distance) * force;
+                velocity.vy += (dy / distance) * force;
+              }
+            }
+            velocity.vx += (Math.random() - 0.5) * 0.008;
+            velocity.vy += (Math.random() - 0.5) * 0.008;
+            velocity.vx = Math.max(-0.65, Math.min(0.65, velocity.vx * 0.995));
+            velocity.vy = Math.max(-0.65, Math.min(0.65, velocity.vy * 0.995));
             particle.x += velocity.vx;
             particle.y += velocity.vy;
             if (particle.x < 0 || particle.x > canvas.width) velocity.vx *= -1;
@@ -264,6 +307,8 @@ export default function ParticleBackground({
 
     return () => {
       window.removeEventListener('resize', resize);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerout', handlePointerLeave);
       cancelAnimationFrame(animationRef.current);
       for (const worker of workersRef.current) {
         worker.terminate();

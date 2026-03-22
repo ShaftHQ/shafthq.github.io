@@ -1,10 +1,8 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
-import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import ShaftRobot from '@site/src/components/ShaftRobot';
 import styles from './index.module.css';
 
 const LazyParticleBackground = React.lazy(
@@ -82,11 +80,39 @@ function DeferredSection({
 }
 
 function ParticleCanvas() {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const mountCanvas = () => setShouldRender(true);
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      const requestIdle = (
+        window as Window & {
+          requestIdleCallback: (
+            callback: IdleRequestCallback,
+            options?: IdleRequestOptions,
+          ) => number;
+          cancelIdleCallback?: (handle: number) => void;
+        }
+      );
+      const idleId = requestIdle.requestIdleCallback(
+        mountCanvas,
+        { timeout: 1200 },
+      );
+      return () => requestIdle.cancelIdleCallback?.(idleId);
+    }
+
+    const timeoutId = window.setTimeout(mountCanvas, 700);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
+  if (!shouldRender) return <div />;
+
   return (
     <BrowserOnly fallback={<div />}>
       {() => (
         <Suspense fallback={<div />}>
-          <LazyParticleBackground particleCount={35} connectionDistance={110} />
+          <LazyParticleBackground particleCount={20} connectionDistance={90} />
         </Suspense>
       )}
     </BrowserOnly>
@@ -102,15 +128,12 @@ function Header() {
           <h1 className="hero__title">SHAFT: Unified Test Automation Engine</h1>
           <p className="hero__subtitle">Write once, test everywhere.<br/>Web • Mobile • API • CLI • Database</p>
           <div className={styles.buttons}>
-            <Link
+            <a
               className="button button--secondary button--lg"
-              to="/docs/Getting_Started/first_steps">
+              href="/docs/Getting_Started/first_steps">
               Get Started Free ⚡
-            </Link>
+            </a>
           </div>
-        </div>
-        <div className={styles.heroRobot} aria-hidden="true">
-          <ShaftRobot size={140} animated />
         </div>
       </div>
     </header>
@@ -123,11 +146,11 @@ function Footer() {
             <div className="container">
                 <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
                 <div className={styles.buttons}>
-                    <Link
+                    <a
                         className="button button--secondary button--lg"
-                        to="/docs/Getting_Started/first_steps">
+                        href="/docs/Getting_Started/first_steps">
                         Start Your Journey ⚡
-                    </Link>
+                    </a>
                 </div>
             </div>
         </section>

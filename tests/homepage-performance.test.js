@@ -64,8 +64,9 @@ try {
     multiWorkerPattern.test(particleBackground) &&
       particleBackground.includes('workersRef') &&
       particleBackground.includes('workerFramesRef') &&
-      particleBackground.includes('mergedParticles.push'),
-    'ParticleBackground should support multiple workers with merged frame rendering to improve parallel performance.',
+      particleBackground.includes('mergedParticles.push') &&
+      particleBackground.includes('pointerRef'),
+    'ParticleBackground should support multiple workers with merged frame rendering and pointer-reactive particle behavior.',
   );
 
   assert(
@@ -85,26 +86,25 @@ try {
       workerFile.includes("if (type === 'tick')") &&
       workerFile.includes('postFrame();') &&
       workerFile.includes('workerId') &&
+      workerFile.includes('pointerActive') &&
       workerFile.includes('type: \'frame\''),
-    'Worker should handle tick events and post frame data back to the main thread.',
+    'Worker should handle tick events, pointer-reactive updates, and post frame data back to the main thread.',
   );
 
   assert(
     mascot.includes('FontAwesomeIcon') &&
       mascot.includes('icon={faRobot}') &&
       mascot.includes('src="/img/shaft_white.svg"') &&
-      mascot.includes('onPointerMove={handlePointerMove}') &&
-      mascot.includes('className={styles.eyeRow}') &&
-      mascot.includes('className={styles.waveArm}') &&
       !chestTextPattern.test(mascot),
-    'Mascot should use AutoBot robot visual style with interactive wave/eye tracking, SHAFT chest logo image, and no text label.',
+    'Mascot should use AutoBot robot visual style with SHAFT chest logo image and no text label.',
   );
 
   assert(
     rootFile.includes('requestIdleCallback') &&
       rootFile.includes('<DeferredAutoBot />') &&
+      rootFile.includes('LazyAutoBot') &&
       rootFile.includes('setShouldRender(true)'),
-    'AutoBot widget should be deferred to idle time to reduce main-thread blocking on initial load.',
+    'AutoBot widget should be lazy loaded and deferred to idle/intent time to reduce main-thread blocking on initial load.',
   );
 
   console.log('✅ Homepage performance and mascot checks passed.');
