@@ -93,8 +93,11 @@ try {
     mascot.includes('FontAwesomeIcon') &&
       mascot.includes('icon={faRobot}') &&
       mascot.includes('src="/img/shaft_white.svg"') &&
+      mascot.includes('onPointerMove={handlePointerMove}') &&
+      mascot.includes('className={styles.eyeRow}') &&
+      mascot.includes('className={styles.waveArm}') &&
       !chestTextPattern.test(mascot),
-    'Mascot should use AutoBot robot visual style with SHAFT logo image on chest and no text label.',
+    'Mascot should use AutoBot robot visual style with interactive wave/eye tracking, SHAFT chest logo image, and no text label.',
   );
 
   assert(

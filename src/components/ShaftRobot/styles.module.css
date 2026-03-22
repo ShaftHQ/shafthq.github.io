@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  --eye-offset-x: 0px;
+  --eye-offset-y: 0px;
 }
 
 .botShell {
@@ -25,7 +27,52 @@
   font-size: min(64%, 8rem);
   color: #ffffff;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.eyeRow {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 12%;
+  width: 30%;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.eye {
+  width: clamp(8px, 12%, 14px);
+  height: clamp(8px, 12%, 14px);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.pupil {
+  width: clamp(3px, 40%, 5px);
+  height: clamp(3px, 40%, 5px);
+  border-radius: 50%;
+  background: #0f172a;
+  transform: translate(var(--eye-offset-x), var(--eye-offset-y));
+  transition: transform 0.12s linear;
+}
+
+.waveArm {
+  position: absolute;
+  right: 16%;
+  top: 24%;
+  width: 11%;
+  height: 34%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #9cc8e8, #2f6ea0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  transform-origin: bottom center;
 }
 
 .chestLogo {
@@ -47,8 +94,13 @@
   animation: botNod 3.4s ease-in-out infinite;
 }
 
+.animated .waveArm {
+  animation: botWave 2.2s ease-in-out infinite;
+}
+
 .animated:hover .botIcon {
   transform: translateY(-3px) scale(1.03);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
 }
 
 @keyframes botPulse {
@@ -61,17 +113,31 @@
   50% { transform: translateY(-2px) rotate(-2deg); }
 }
 
+@keyframes botWave {
+  0%, 100% { transform: rotate(18deg); }
+  20% { transform: rotate(40deg); }
+  40% { transform: rotate(16deg); }
+  60% { transform: rotate(38deg); }
+  80% { transform: rotate(20deg); }
+}
+
 :global([data-theme='dark']) .robotContainer {
   filter: saturate(1.05);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animated .botShell,
-  .animated .botIcon {
+  .animated .botIcon,
+  .animated .waveArm {
     animation: none;
   }
 
   .animated:hover .botIcon {
+    transform: none;
+  }
+
+  .pupil {
+    transition: none;
     transform: none;
   }
 }
