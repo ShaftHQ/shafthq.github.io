@@ -17,6 +17,7 @@ interface ConnectionLine {
 
 interface ParticleWorkerFrame {
   type: 'frame';
+  workerId: number;
   particles: Array<{
     x: number;
     y: number;
@@ -28,6 +29,7 @@ interface ParticleWorkerFrame {
 
 interface ParticleWorkerCommand {
   type: 'init' | 'resize' | 'tick';
+  workerId?: number;
   width?: number;
   height?: number;
   particleCount?: number;
@@ -40,6 +42,7 @@ let height = 0;
 let particleCount = 40;
 let connectionDistance = 120;
 let reducedMotion = false;
+let workerId = 0;
 let particles: WorkerParticle[] = [];
 
 function initParticles() {
@@ -90,6 +93,7 @@ function buildConnections(): ConnectionLine[] {
 function postFrame() {
   const frame: ParticleWorkerFrame = {
     type: 'frame',
+    workerId,
     particles: particles.map(({ x, y, radius, opacity }) => ({
       x,
       y,
@@ -134,6 +138,9 @@ self.onmessage = (event: MessageEvent<unknown>) => {
     }
     if (typeof data.reducedMotion === 'boolean') {
       reducedMotion = data.reducedMotion;
+    }
+    if (typeof data.workerId === 'number') {
+      workerId = data.workerId;
     }
     initParticles();
     postFrame();

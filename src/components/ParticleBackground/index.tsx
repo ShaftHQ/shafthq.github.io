@@ -17,12 +17,14 @@ interface ConnectionLine {
 
 interface ParticleWorkerFrame {
   type: 'frame';
+  workerId: number;
   particles: Particle[];
   connections: ConnectionLine[];
 }
 
 interface ParticleWorkerCommand {
   type: 'init' | 'resize' | 'tick';
+  workerId?: number;
   width?: number;
   height?: number;
   particleCount?: number;
@@ -48,8 +50,10 @@ export default function ParticleBackground({
 }: ParticleBackgroundProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
-  const workerRef = useRef<Worker | null>(null);
+  const workersRef = useRef<Worker[]>([]);
   const useWorkerRef = useRef<boolean>(false);
+  const workerFramesRef = useRef<Array<ParticleWorkerFrame | null>>([]);
+  const expectedWorkersRef = useRef<number>(1);
   const particlesRef = useRef<Particle[]>([]);
 
   const initParticles = useCallback(
@@ -111,20 +115,26 @@ export default function ParticleBackground({
     ).matches;
 
     const supportsWorker = typeof Worker !== 'undefined';
+    const hardwareConcurrency = navigator.hardwareConcurrency || 1;
+    const workerCount = !prefersReducedMotion && hardwareConcurrency >= 4 ? 2 : 1;
     useWorkerRef.current = supportsWorker;
+    expectedWorkersRef.current = workerCount;
+    workerFramesRef.current = Array.from({ length: workerCount }, () => null);
 
     const resize = () => {
       const parent = canvas.parentElement;
       if (!parent) return;
       canvas.width = parent.clientWidth;
       canvas.height = parent.clientHeight;
-      if (useWorkerRef.current && workerRef.current) {
-        const resizeMessage: ParticleWorkerCommand = {
-          type: 'resize',
-          width: canvas.width,
-          height: canvas.height,
-        };
-        workerRef.current.postMessage(resizeMessage);
+      if (useWorkerRef.current && workersRef.current.length > 0) {
+        for (const worker of workersRef.current) {
+          const resizeMessage: ParticleWorkerCommand = {
+            type: 'resize',
+            width: canvas.width,
+            height: canvas.height,
+          };
+          worker.postMessage(resizeMessage);
+        }
       } else if (particlesRef.current.length === 0) {
         initParticles(canvas.width, canvas.height);
       }
@@ -135,26 +145,65 @@ export default function ParticleBackground({
 
     if (supportsWorker) {
       try {
-        workerRef.current = new Worker(new URL('./particleWorker.ts', import.meta.url), {
-          type: 'module',
-        });
+        const baseCount = Math.floor(particleCount / workerCount);
+        const remainder = particleCount % workerCount;
 
-        workerRef.current.onmessage = (event: MessageEvent<ParticleWorkerFrame>) => {
-          if (event.data.type !== 'frame') return;
-          drawFrame(ctx, canvas, event.data.particles, event.data.connections);
-          if (!prefersReducedMotion && workerRef.current) {
-            animationRef.current = requestAnimationFrame(() => {
-              workerRef.current?.postMessage({ type: 'tick' } as ParticleWorkerCommand);
-            });
-          }
-        };
+        for (let workerId = 0; workerId < workerCount; workerId++) {
+          const worker = new Worker(new URL('./particleWorker.ts', import.meta.url), {
+            type: 'module',
+          });
 
+          worker.onmessage = (event: MessageEvent<ParticleWorkerFrame>) => {
+            if (event.data.type !== 'frame') return;
+            workerFramesRef.current[event.data.workerId] = event.data;
+
+            if (workerFramesRef.current.some((frame) => frame === null)) {
+              return;
+            }
+
+            const mergedParticles: Particle[] = [];
+            const mergedConnections: ConnectionLine[] = [];
+            for (let i = 0; i < expectedWorkersRef.current; i++) {
+              const frame = workerFramesRef.current[i];
+              if (!frame) return;
+              mergedParticles.push(...frame.particles);
+              mergedConnections.push(...frame.connections);
+              workerFramesRef.current[i] = null;
+            }
+
+            drawFrame(ctx, canvas, mergedParticles, mergedConnections);
+            if (!prefersReducedMotion) {
+              animationRef.current = requestAnimationFrame(() => {
+                for (const workerEntry of workersRef.current) {
+                  workerEntry.postMessage({ type: 'tick' } as ParticleWorkerCommand);
+                }
+              });
+            }
+          };
+
+          const partitionCount = baseCount + (workerId < remainder ? 1 : 0);
+          const reinitMessage: ParticleWorkerCommand = {
+            type: 'init',
+            workerId,
+            width: canvas.width,
+            height: canvas.height,
+            particleCount: partitionCount,
+            connectionDistance,
+            reducedMotion: prefersReducedMotion,
+          };
+          worker.postMessage(reinitMessage);
+          workersRef.current.push(worker);
+        }
       } catch (error) {
         console.warn(
-          'Failed to initialize particle worker, falling back to main-thread rendering.',
+          'Failed to initialize particle workers, falling back to main-thread rendering.',
           error,
         );
         useWorkerRef.current = false;
+        for (const worker of workersRef.current) {
+          worker.terminate();
+        }
+        workersRef.current = [];
       }
     }
 
@@ -211,25 +260,16 @@ export default function ParticleBackground({
       };
 
       animationRef.current = requestAnimationFrame(animate);
-    } else {
-      const reinitMessage: ParticleWorkerCommand = {
-        type: 'init',
-        width: canvas.width,
-        height: canvas.height,
-        particleCount,
-        connectionDistance,
-        reducedMotion: prefersReducedMotion,
-      };
-      workerRef.current?.postMessage(reinitMessage);
     }
 
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationRef.current);
-      if (workerRef.current) {
-        workerRef.current.terminate();
-        workerRef.current = null;
+      for (const worker of workersRef.current) {
+        worker.terminate();
       }
+      workersRef.current = [];
+      workerFramesRef.current = [];
     };
   }, [initParticles, connectionDistance, drawFrame, particleCount]);
 

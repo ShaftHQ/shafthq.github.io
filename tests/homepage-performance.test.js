@@ -47,6 +47,7 @@ try {
   const lazyFeaturesPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/HomepageFeatures'\)/;
   const lazyRoiPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/RoiCalculator'\)/;
   const workerInitPattern = /new Worker\(\s*new URL\('\.\/particleWorker\.ts',\s*import\.meta\.url\),[\s\S]*type:\s*'module'/;
+  const multiWorkerPattern = /workerCount\s*=\s*!prefersReducedMotion\s*&&\s*hardwareConcurrency\s*>=\s*4\s*\?\s*2\s*:\s*1/;
   const chestTextPattern = />\s*SHAFT\s*</;
 
   assert(
@@ -57,6 +58,14 @@ try {
   assert(
     workerInitPattern.test(particleBackground),
     'ParticleBackground should initialize a dedicated module worker for particle updates.',
+  );
+
+  assert(
+    multiWorkerPattern.test(particleBackground) &&
+      particleBackground.includes('workersRef') &&
+      particleBackground.includes('workerFramesRef') &&
+      particleBackground.includes('mergedParticles.push'),
+    'ParticleBackground should support multiple workers with merged frame rendering to improve parallel performance.',
   );
 
   assert(
@@ -74,7 +83,9 @@ try {
   assert(
     workerFile.includes('self.onmessage') &&
       workerFile.includes("if (type === 'tick')") &&
-      workerFile.includes('postFrame();'),
+      workerFile.includes('postFrame();') &&
+      workerFile.includes('workerId') &&
+      workerFile.includes('type: \'frame\''),
     'Worker should handle tick events and post frame data back to the main thread.',
   );
 
