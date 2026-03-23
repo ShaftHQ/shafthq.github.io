@@ -107,6 +107,40 @@ function runChatHistoryTests() {
 }
 
 /**
+ * Run homepage performance and mascot tests
+ */
+function runHomepageTests() {
+  console.log('\n' + '='.repeat(80));
+  console.log('RUNNING: Homepage Performance & Mascot Tests');
+  console.log('='.repeat(80));
+
+  try {
+    const output = execSync('npm run test:homepage', {
+      cwd: path.join(__dirname, '..'),
+      encoding: 'utf-8',
+      stdio: 'pipe'
+    });
+
+    console.log(output);
+
+    addTestResult(
+      'Homepage Performance & Mascot',
+      'Verifies lazy-loading, worker-based particle updates, and mascot chest logo requirements',
+      'PASSED',
+      'Landing page lazy-load uses React.lazy, particle updates run in module worker, mascot uses robot visual with SHAFT chest logo and no text.'
+    );
+  } catch (error) {
+    addTestResult(
+      'Homepage Performance & Mascot',
+      'Verifies lazy-loading, worker-based particle updates, and mascot chest logo requirements',
+      'FAILED',
+      `Exit code: ${error.status}`,
+      error.stdout || error.message
+    );
+  }
+}
+
+/**
  * Run API tests (requires API key)
  */
 function runAPITests() {
@@ -386,6 +420,7 @@ async function main() {
   
   // Run tests
   runChatHistoryTests();
+  runHomepageTests();
   runAPITests();
   documentE2ETests();
   

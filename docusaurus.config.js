@@ -136,10 +136,14 @@ const config = {
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
-        gtag: {
-          trackingID: 'G-FQC2XHQTVE',
-          anonymizeIP: false,
-        },
+        ...(process.env.GTAG_TRACKING_ID
+          ? {
+              gtag: {
+                trackingID: process.env.GTAG_TRACKING_ID,
+                anonymizeIP: false,
+              },
+            }
+          : {}),
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           showLastUpdateTime: true,
@@ -339,7 +343,7 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme: darkTheme,
-        additionalLanguages: ['java', 'json', 'json5', 'gherkin', 'properties', 'powershell', 'regex', 'sql', 'xml-doc', 'yaml', 'javadoc', 'javastacktrace', 'javadoclike'],
+        additionalLanguages: ['java', 'json', 'properties', 'yaml', 'xml-doc'],
       },
     }),
 };
