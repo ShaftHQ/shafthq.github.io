@@ -38,6 +38,7 @@ interface ParticleWorkerCommand {
   pointerX?: number;
   pointerY?: number;
   pointerActive?: boolean;
+  motionScale?: number;
 }
 
 let width = 0;
@@ -50,6 +51,11 @@ let particles: WorkerParticle[] = [];
 let pointerX = 0;
 let pointerY = 0;
 let pointerActive = false;
+let motionScale = 1;
+const MIN_VELOCITY = 0.12;
+const BASE_MAX_VELOCITY = 0.65;
+const MIN_MOTION_SCALE = 0.25;
+const MAX_MOTION_SCALE = 1;
 
 function initParticles() {
   particles = [];
@@ -79,10 +85,13 @@ function stepParticles() {
       }
     }
 
-    p.vx += (Math.random() - 0.5) * 0.008;
-    p.vy += (Math.random() - 0.5) * 0.008;
-    p.vx = Math.max(-0.65, Math.min(0.65, p.vx * 0.995));
-    p.vy = Math.max(-0.65, Math.min(0.65, p.vy * 0.995));
+    const jitterStrength = 0.008 * motionScale;
+    const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * motionScale);
+
+    p.vx += (Math.random() - 0.5) * jitterStrength;
+    p.vy += (Math.random() - 0.5) * jitterStrength;
+    p.vx = Math.max(-maxVelocity, Math.min(maxVelocity, p.vx * 0.995));
+    p.vy = Math.max(-maxVelocity, Math.min(maxVelocity, p.vy * 0.995));
 
     p.x += p.vx;
     p.y += p.vy;
@@ -169,6 +178,9 @@ self.onmessage = (event: MessageEvent<unknown>) => {
     }
     if (typeof data.reducedMotion === 'boolean') {
       reducedMotion = data.reducedMotion;
+    }
+    if (typeof data.motionScale === 'number') {
+      motionScale = Math.max(MIN_MOTION_SCALE, Math.min(MAX_MOTION_SCALE, data.motionScale));
     }
     if (typeof data.workerId === 'number') {
       workerId = data.workerId;

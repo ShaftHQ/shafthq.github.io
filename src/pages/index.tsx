@@ -140,9 +140,43 @@ function Header() {
   );
 }
 
+function SectionParticles({
+  className,
+  particleCount,
+  connectionDistance,
+  motionScale,
+}: {
+  className: string;
+  particleCount: number;
+  connectionDistance: number;
+  motionScale: number;
+}): JSX.Element {
+  return (
+    <div className={className} aria-hidden="true">
+      <BrowserOnly fallback={<div />}>
+        {() => (
+          <Suspense fallback={<div />}>
+            <LazyParticleBackground
+              particleCount={particleCount}
+              connectionDistance={connectionDistance}
+              motionScale={motionScale}
+            />
+          </Suspense>
+        )}
+      </BrowserOnly>
+    </div>
+  );
+}
+
 function Footer() {
     return (
         <section className={styles.ctaSection}>
+            <SectionParticles
+              className={styles.ctaParticles}
+              particleCount={10}
+              connectionDistance={75}
+              motionScale={0.45}
+            />
             <div className="container">
                 <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
                 <div className={styles.buttons}>
@@ -160,6 +194,12 @@ function Footer() {
 function StaticFeaturesFallback() {
   return (
     <section className={styles.staticSection}>
+      <SectionParticles
+        className={styles.staticParticles}
+        particleCount={12}
+        connectionDistance={78}
+        motionScale={0.4}
+      />
       <div className="container">
         <div className={styles.staticGrid}>
           <article className={styles.staticCard}>
@@ -183,6 +223,12 @@ function StaticFeaturesFallback() {
 function StaticRoiFallback() {
   return (
     <section className={styles.staticSection}>
+      <SectionParticles
+        className={styles.staticParticles}
+        particleCount={12}
+        connectionDistance={78}
+        motionScale={0.4}
+      />
       <div className="container">
         <article className={styles.staticCardWide}>
           <h3>Estimate Your Automation ROI</h3>

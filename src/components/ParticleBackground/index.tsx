@@ -33,13 +33,18 @@ interface ParticleWorkerCommand {
   pointerX?: number;
   pointerY?: number;
   pointerActive?: boolean;
+  motionScale?: number;
 }
 
 interface ParticleBackgroundProps {
   particleCount?: number;
   connectionDistance?: number;
   className?: string;
+  motionScale?: number;
 }
+
+const MIN_VELOCITY = 0.12;
+const BASE_MAX_VELOCITY = 0.65;
 
 /**
  * Lightweight canvas-based particle network animation.
@@ -50,6 +55,7 @@ export default function ParticleBackground({
   particleCount = 40,
   connectionDistance = 120,
   className = '',
+  motionScale = 1,
 }: ParticleBackgroundProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
@@ -219,6 +225,7 @@ export default function ParticleBackground({
             particleCount: partitionCount,
             connectionDistance,
             reducedMotion: prefersReducedMotion,
+            motionScale,
           };
           worker.postMessage(reinitMessage);
           workersRef.current.push(worker);
@@ -268,10 +275,13 @@ export default function ParticleBackground({
                 velocity.vy += (dy / distance) * force;
               }
             }
-            velocity.vx += (Math.random() - 0.5) * 0.008;
-            velocity.vy += (Math.random() - 0.5) * 0.008;
-            velocity.vx = Math.max(-0.65, Math.min(0.65, velocity.vx * 0.995));
-            velocity.vy = Math.max(-0.65, Math.min(0.65, velocity.vy * 0.995));
+            const jitterStrength = 0.008 * motionScale;
+            const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * motionScale);
+
+            velocity.vx += (Math.random() - 0.5) * jitterStrength;
+            velocity.vy += (Math.random() - 0.5) * jitterStrength;
+            velocity.vx = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vx * 0.995));
+            velocity.vy = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vy * 0.995));
             particle.x += velocity.vx;
             particle.y += velocity.vy;
             if (particle.x < 0 || particle.x > canvas.width) velocity.vx *= -1;
@@ -316,7 +326,7 @@ export default function ParticleBackground({
       workersRef.current = [];
       workerFramesRef.current = [];
     };
-  }, [initParticles, connectionDistance, drawFrame, particleCount]);
+  }, [initParticles, connectionDistance, drawFrame, motionScale, particleCount]);
 
   return (
     <canvas

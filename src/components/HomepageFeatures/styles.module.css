@@ -64,6 +64,11 @@
   animation: featureReveal 0.6s ease-out forwards;
 }
 
+.sectionForeground {
+  position: relative;
+  z-index: 1;
+}
+
 @keyframes featureReveal {
   to {
     opacity: 1;

@@ -29,12 +29,21 @@ const mascotPath = path.join(
   'index.tsx',
 );
 const rootPath = path.join(__dirname, '..', 'src', 'theme', 'Root.tsx');
+const roiCalculatorPath = path.join(
+  __dirname,
+  '..',
+  'src',
+  'components',
+  'RoiCalculator',
+  'index.tsx',
+);
 
 const indexPage = fs.readFileSync(indexPagePath, 'utf8');
 const particleBackground = fs.readFileSync(particleBackgroundPath, 'utf8');
 const workerFile = fs.readFileSync(workerPath, 'utf8');
 const mascot = fs.readFileSync(mascotPath, 'utf8');
 const rootFile = fs.readFileSync(rootPath, 'utf8');
+const roiCalculator = fs.readFileSync(roiCalculatorPath, 'utf8');
 
 function assert(condition, message) {
   if (!condition) {
@@ -56,6 +65,23 @@ try {
   );
 
   assert(
+    indexPage.includes('function SectionParticles') &&
+      indexPage.includes('className={styles.ctaParticles}') &&
+      indexPage.includes('className={styles.staticParticles}') &&
+      indexPage.includes('motionScale={0.45}') &&
+      indexPage.includes('motionScale={0.4}'),
+    'Landing page should render subtle particle backgrounds in CTA and static (grey) sections with low-motion settings.',
+  );
+
+  assert(
+    roiCalculator.includes('ParticleBackground') &&
+      roiCalculator.includes('particleCount={14}') &&
+      roiCalculator.includes('connectionDistance={85}') &&
+      roiCalculator.includes('motionScale={0.45}'),
+    'ROI hero section should include a subtle particle background for the secondary blue block.',
+  );
+
+  assert(
     workerInitPattern.test(particleBackground),
     'ParticleBackground should initialize a dedicated module worker for particle updates.',
   );
@@ -65,7 +91,8 @@ try {
       particleBackground.includes('workersRef') &&
       particleBackground.includes('workerFramesRef') &&
       particleBackground.includes('mergedParticles.push') &&
-      particleBackground.includes('pointerRef'),
+      particleBackground.includes('pointerRef') &&
+      particleBackground.includes('motionScale'),
     'ParticleBackground should support multiple workers with merged frame rendering and pointer-reactive particle behavior.',
   );
 
