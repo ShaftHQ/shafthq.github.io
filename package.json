@@ -42,6 +42,14 @@
     "@docusaurus/module-type-aliases": "^3.9.2",
     "@docusaurus/types": "^3.8.1"
   },
+  "resolutions": {
+    "serialize-javascript": "^7.0.3",
+    "minimatch": "^3.1.4"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.3",
+    "minimatch": "^3.1.4"
+  },
   "browserslist": {
     "production": [
       ">0.5%",
