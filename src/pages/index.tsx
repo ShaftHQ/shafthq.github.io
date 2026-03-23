@@ -123,7 +123,7 @@ function ParticleCanvas() {
     <BrowserOnly fallback={<div />}>
       {() => (
         <Suspense fallback={<div />}>
-          <LazyParticleBackground particleCount={20} connectionDistance={90} />
+          <LazyParticleBackground particleCount={20} connectionDistance={90} heroMode />
         </Suspense>
       )}
     </BrowserOnly>

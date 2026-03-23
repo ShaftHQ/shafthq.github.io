@@ -65,8 +65,8 @@ function initParticles() {
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * 0.4,
       vy: (Math.random() - 0.5) * 0.4,
-      radius: Math.random() * 2 + 1,
-      opacity: Math.random() * 0.4 + 0.1,
+      radius: Math.random() * 2.5 + 1.2,
+      opacity: Math.random() * 0.45 + 0.25,
     });
   }
 }
@@ -113,7 +113,7 @@ function buildConnections(): ConnectionLine[] {
           y1: particles[i].y,
           x2: particles[j].x,
           y2: particles[j].y,
-          opacity: (1 - dist / connectionDistance) * 0.15,
+          opacity: (1 - dist / connectionDistance) * 0.3,
         });
       }
     }

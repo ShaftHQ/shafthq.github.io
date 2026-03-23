@@ -63,7 +63,6 @@
 .staticParticles {
   position: absolute;
   inset: 0;
-  opacity: 0.42;
   z-index: 0;
 }
 

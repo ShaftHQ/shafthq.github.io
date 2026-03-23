@@ -84,8 +84,9 @@ try {
     roiCalculator.includes('ParticleBackground') &&
       roiCalculator.includes('particleCount={14}') &&
       roiCalculator.includes('connectionDistance={85}') &&
-      roiCalculator.includes('motionScale={0.45}'),
-    'ROI hero section should include a subtle particle background for the secondary blue block.',
+      roiCalculator.includes('motionScale={0.45}') &&
+      roiCalculator.includes('heroMode'),
+    'ROI hero section should include a subtle particle background with heroMode for the secondary blue block.',
   );
 
   assert(
@@ -100,9 +101,10 @@ try {
       particleBackground.includes('mergedParticles.push') &&
       particleBackground.includes('pointerRef') &&
       particleBackground.includes('motionScale') &&
+      particleBackground.includes('heroMode') &&
       particleBackground.includes('MOBILE_MAX_WIDTH_MEDIA_QUERY') &&
       particleBackground.includes('MOBILE_PARTICLE_MULTIPLIER'),
-    'ParticleBackground should support multiple workers with merged frame rendering and pointer-reactive particle behavior.',
+    'ParticleBackground should support heroMode, multiple workers with merged frame rendering and pointer-reactive particle behavior.',
   );
 
   assert(

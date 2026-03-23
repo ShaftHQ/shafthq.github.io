@@ -20,6 +20,7 @@ export default function RoiCalculator(){
                                 particleCount={14}
                                 connectionDistance={85}
                                 motionScale={0.45}
+                                heroMode
                             />
                         )}
                     </BrowserOnly>

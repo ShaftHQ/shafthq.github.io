@@ -41,6 +41,8 @@ interface ParticleBackgroundProps {
   connectionDistance?: number;
   className?: string;
   motionScale?: number;
+  /** Use light/white particles for visibility on dark or colored backgrounds (hero banners). */
+  heroMode?: boolean;
 }
 
 const MIN_VELOCITY = 0.12;
@@ -48,7 +50,6 @@ const BASE_MAX_VELOCITY = 0.65;
 const MOBILE_MAX_WIDTH_MEDIA_QUERY = '(max-width: 768px)';
 const MOBILE_PARTICLE_MULTIPLIER = 1.4;
 const MOBILE_MIN_MOTION_SCALE = 0.5;
-const MOBILE_OPACITY_BOOST = 1.25;
 
 /**
  * Lightweight canvas-based particle network animation.
@@ -60,6 +61,7 @@ export default function ParticleBackground({
   connectionDistance = 120,
   className = '',
   motionScale = 1,
+  heroMode = false,
 }: ParticleBackgroundProps): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
@@ -81,8 +83,8 @@ export default function ParticleBackground({
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.4 + 0.1,
+          radius: Math.random() * 2.5 + 1.2,
+          opacity: Math.random() * 0.45 + 0.25,
         });
       }
       particlesRef.current = particles;
@@ -96,17 +98,24 @@ export default function ParticleBackground({
       canvas: HTMLCanvasElement,
       particles: Particle[],
       connections: ConnectionLine[],
-      opacityScale = 1,
     ) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      const nodeColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';
-      const lineColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';
+
+      let nodeColor: string;
+      let lineColor: string;
+      if (heroMode) {
+        nodeColor = 'rgba(255, 255, 255';
+        lineColor = 'rgba(255, 255, 255';
+      } else {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        nodeColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';
+        lineColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';
+      }
 
       for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${nodeColor}, ${Math.min(0.82, p.opacity * opacityScale)})`;
+        ctx.fillStyle = `${nodeColor}, ${p.opacity})`;
         ctx.fill();
       }
 
@@ -114,12 +123,12 @@ export default function ParticleBackground({
         ctx.beginPath();
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
-        ctx.strokeStyle = `${lineColor}, ${Math.min(0.28, line.opacity * opacityScale)})`;
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = `${lineColor}, ${line.opacity})`;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
     },
-    [],
+    [heroMode],
   );
 
   useEffect(() => {
@@ -140,7 +149,6 @@ export default function ParticleBackground({
     const tunedMotionScale = isMobileViewport
       ? Math.max(motionScale, MOBILE_MIN_MOTION_SCALE)
       : motionScale;
-    const opacityScale = isMobileViewport ? MOBILE_OPACITY_BOOST : 1;
 
     const supportsWorker = typeof Worker !== 'undefined';
     const hardwareConcurrency = navigator.hardwareConcurrency || 1;
@@ -216,7 +224,7 @@ export default function ParticleBackground({
               workerFramesRef.current[i] = null;
             }
 
-            drawFrame(ctx, canvas, mergedParticles, mergedConnections, opacityScale);
+            drawFrame(ctx, canvas, mergedParticles, mergedConnections);
             if (!prefersReducedMotion) {
                 animationRef.current = requestAnimationFrame(() => {
                   for (const workerEntry of workersRef.current) {
@@ -315,13 +323,13 @@ export default function ParticleBackground({
                 y1: particles[i].y,
                 x2: particles[j].x,
                 y2: particles[j].y,
-                opacity: (1 - dist / connectionDistance) * 0.15,
+                opacity: (1 - dist / connectionDistance) * 0.3,
               });
             }
           }
         }
 
-        drawFrame(ctx, canvas, particles, connections, opacityScale);
+        drawFrame(ctx, canvas, particles, connections);
         if (!prefersReducedMotion) {
           animationRef.current = requestAnimationFrame(animate);
         }
