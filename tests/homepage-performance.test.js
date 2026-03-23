@@ -56,7 +56,7 @@ try {
   const lazyFeaturesPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/HomepageFeatures'\)/;
   const lazyRoiPattern = /React\.lazy\([\s\S]*import\('@site\/src\/components\/RoiCalculator'\)/;
   const workerInitPattern = /new Worker\(\s*new URL\('\.\/particleWorker\.ts',\s*import\.meta\.url\),[\s\S]*type:\s*'module'/;
-  const multiWorkerPattern = /workerCount\s*=\s*!prefersReducedMotion\s*&&\s*hardwareConcurrency\s*>=\s*4\s*\?\s*2\s*:\s*1/;
+  const multiWorkerPattern = /workerCount[\s\S]*!prefersReducedMotion[\s\S]*hardwareConcurrency\s*>=\s*4[\s\S]*\?\s*2\s*:\s*1/;
   const chestTextPattern = />\s*SHAFT\s*</;
 
   assert(
@@ -71,6 +71,13 @@ try {
       indexPage.includes('motionScale={0.45}') &&
       indexPage.includes('motionScale={0.4}'),
     'Landing page should render subtle particle backgrounds in CTA and static (grey) sections with low-motion settings.',
+  );
+
+  assert(
+    indexPage.includes('MOBILE_VIEWPORT_MEDIA_QUERY') &&
+      indexPage.includes('MOBILE_CANVAS_FALLBACK_TIMEOUT_MS') &&
+      indexPage.includes('window.matchMedia(MOBILE_VIEWPORT_MEDIA_QUERY).matches'),
+    'Landing page hero particles should mount earlier on mobile viewports so animation remains visible as expected.',
   );
 
   assert(
@@ -92,7 +99,9 @@ try {
       particleBackground.includes('workerFramesRef') &&
       particleBackground.includes('mergedParticles.push') &&
       particleBackground.includes('pointerRef') &&
-      particleBackground.includes('motionScale'),
+      particleBackground.includes('motionScale') &&
+      particleBackground.includes('MOBILE_MAX_WIDTH_MEDIA_QUERY') &&
+      particleBackground.includes('MOBILE_PARTICLE_MULTIPLIER'),
     'ParticleBackground should support multiple workers with merged frame rendering and pointer-reactive particle behavior.',
   );
 

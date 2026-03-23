@@ -5,6 +5,11 @@ import Layout from '@theme/Layout';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import styles from './index.module.css';
 
+const MOBILE_VIEWPORT_MEDIA_QUERY = '(max-width: 768px)';
+const DESKTOP_CANVAS_IDLE_TIMEOUT_MS = 1200;
+const DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS = 700;
+const MOBILE_CANVAS_FALLBACK_TIMEOUT_MS = 180;
+
 const LazyParticleBackground = React.lazy(
   () => import('@site/src/components/ParticleBackground'),
 );
@@ -83,7 +88,13 @@ function ParticleCanvas() {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    const isMobileViewport = window.matchMedia(MOBILE_VIEWPORT_MEDIA_QUERY).matches;
     const mountCanvas = () => setShouldRender(true);
+
+    if (isMobileViewport) {
+      const timeoutId = window.setTimeout(mountCanvas, MOBILE_CANVAS_FALLBACK_TIMEOUT_MS);
+      return () => window.clearTimeout(timeoutId);
+    }
 
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       const requestIdle = (
@@ -97,12 +108,12 @@ function ParticleCanvas() {
       );
       const idleId = requestIdle.requestIdleCallback(
         mountCanvas,
-        { timeout: 1200 },
+        { timeout: DESKTOP_CANVAS_IDLE_TIMEOUT_MS },
       );
       return () => requestIdle.cancelIdleCallback?.(idleId);
     }
 
-    const timeoutId = window.setTimeout(mountCanvas, 700);
+    const timeoutId = window.setTimeout(mountCanvas, DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS);
     return () => window.clearTimeout(timeoutId);
   }, []);
 

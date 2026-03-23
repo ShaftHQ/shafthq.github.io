@@ -45,6 +45,10 @@ interface ParticleBackgroundProps {
 
 const MIN_VELOCITY = 0.12;
 const BASE_MAX_VELOCITY = 0.65;
+const MOBILE_MAX_WIDTH_MEDIA_QUERY = '(max-width: 768px)';
+const MOBILE_PARTICLE_MULTIPLIER = 1.4;
+const MOBILE_MIN_MOTION_SCALE = 0.5;
+const MOBILE_OPACITY_BOOST = 1.25;
 
 /**
  * Lightweight canvas-based particle network animation.
@@ -71,9 +75,9 @@ export default function ParticleBackground({
   });
 
   const initParticles = useCallback(
-    (width: number, height: number) => {
+    (width: number, height: number, count: number = particleCount) => {
       const particles: Particle[] = [];
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < count; i++) {
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -92,6 +96,7 @@ export default function ParticleBackground({
       canvas: HTMLCanvasElement,
       particles: Particle[],
       connections: ConnectionLine[],
+      opacityScale = 1,
     ) => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -101,7 +106,7 @@ export default function ParticleBackground({
       for (const p of particles) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${nodeColor}, ${p.opacity})`;
+        ctx.fillStyle = `${nodeColor}, ${Math.min(0.82, p.opacity * opacityScale)})`;
         ctx.fill();
       }
 
@@ -109,7 +114,7 @@ export default function ParticleBackground({
         ctx.beginPath();
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
-        ctx.strokeStyle = `${lineColor}, ${line.opacity})`;
+        ctx.strokeStyle = `${lineColor}, ${Math.min(0.28, line.opacity * opacityScale)})`;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
@@ -127,10 +132,20 @@ export default function ParticleBackground({
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;
+    const isMobileViewport = window.matchMedia(MOBILE_MAX_WIDTH_MEDIA_QUERY).matches;
+    const tunedParticleCount = isMobileViewport
+      ? Math.ceil(particleCount * MOBILE_PARTICLE_MULTIPLIER)
+      : particleCount;
+    // Ensure section-level low motionScale values remain visible on smaller mobile canvases.
+    const tunedMotionScale = isMobileViewport
+      ? Math.max(motionScale, MOBILE_MIN_MOTION_SCALE)
+      : motionScale;
+    const opacityScale = isMobileViewport ? MOBILE_OPACITY_BOOST : 1;
 
     const supportsWorker = typeof Worker !== 'undefined';
     const hardwareConcurrency = navigator.hardwareConcurrency || 1;
-    const workerCount = !prefersReducedMotion && hardwareConcurrency >= 4 ? 2 : 1;
+    const workerCount =
+      !prefersReducedMotion && !isMobileViewport && hardwareConcurrency >= 4 ? 2 : 1;
     useWorkerRef.current = supportsWorker;
     expectedWorkersRef.current = workerCount;
     workerFramesRef.current = Array.from({ length: workerCount }, () => null);
@@ -150,7 +165,7 @@ export default function ParticleBackground({
           worker.postMessage(resizeMessage);
         }
       } else if (particlesRef.current.length === 0) {
-        initParticles(canvas.width, canvas.height);
+        initParticles(canvas.width, canvas.height, tunedParticleCount);
       }
     };
 
@@ -175,8 +190,8 @@ export default function ParticleBackground({
 
     if (supportsWorker) {
       try {
-        const baseCount = Math.floor(particleCount / workerCount);
-        const remainder = particleCount % workerCount;
+        const baseCount = Math.floor(tunedParticleCount / workerCount);
+        const remainder = tunedParticleCount % workerCount;
 
         for (let workerId = 0; workerId < workerCount; workerId++) {
           const worker = new Worker(new URL('./particleWorker.ts', import.meta.url), {
@@ -201,7 +216,7 @@ export default function ParticleBackground({
               workerFramesRef.current[i] = null;
             }
 
-            drawFrame(ctx, canvas, mergedParticles, mergedConnections);
+            drawFrame(ctx, canvas, mergedParticles, mergedConnections, opacityScale);
             if (!prefersReducedMotion) {
                 animationRef.current = requestAnimationFrame(() => {
                   for (const workerEntry of workersRef.current) {
@@ -225,7 +240,7 @@ export default function ParticleBackground({
             particleCount: partitionCount,
             connectionDistance,
             reducedMotion: prefersReducedMotion,
-            motionScale,
+            motionScale: tunedMotionScale,
           };
           worker.postMessage(reinitMessage);
           workersRef.current.push(worker);
@@ -245,7 +260,7 @@ export default function ParticleBackground({
 
     if (!useWorkerRef.current) {
       if (particlesRef.current.length === 0) {
-        initParticles(canvas.width, canvas.height);
+        initParticles(canvas.width, canvas.height, tunedParticleCount);
       }
 
       const velocityMap = new Map<Particle, { vx: number; vy: number }>();
@@ -275,8 +290,8 @@ export default function ParticleBackground({
                 velocity.vy += (dy / distance) * force;
               }
             }
-            const jitterStrength = 0.008 * motionScale;
-            const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * motionScale);
+            const jitterStrength = 0.008 * tunedMotionScale;
+            const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * tunedMotionScale);
 
             velocity.vx += (Math.random() - 0.5) * jitterStrength;
             velocity.vy += (Math.random() - 0.5) * jitterStrength;
@@ -306,7 +321,7 @@ export default function ParticleBackground({
           }
         }
 
-        drawFrame(ctx, canvas, particles, connections);
+        drawFrame(ctx, canvas, particles, connections, opacityScale);
         if (!prefersReducedMotion) {
           animationRef.current = requestAnimationFrame(animate);
         }
