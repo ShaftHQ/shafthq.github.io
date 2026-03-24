@@ -52,6 +52,6 @@ public class ParallelThreadLocalTest {
 ```
 
 :::info
-You can visit this Repository to for a Demo on how to set Parallel Execution in SHAFT_ENGINE
+Visit this repository for a complete demo on parallel execution with SHAFT Engine:
 ### [ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)
 :::

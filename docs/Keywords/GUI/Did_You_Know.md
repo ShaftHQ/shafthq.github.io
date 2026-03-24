@@ -5,85 +5,75 @@ sidebar_label: Tips & Tricks
 description: "Discover advanced SHAFT Engine features — native Selenium access, custom capabilities, Locator Builder, Shadow DOM, and cookie management."
 keywords: [SHAFT, tips, tricks, native Selenium, custom capabilities, locator builder, Shadow DOM, cookies]
 ---
-## Native selenium WebDriver
-- Did you know that you can use native selenium webdriver with SHAFT whenever you need it 
-```java
-driver = new SHAFT.GUI.WebDriver();  
-nativeDriver = driver.getDriver() ; 
-```
-Example
-```java
-driver = new SHAFT.GUI.WebDriver();  
-nativeDriver = driver.getDriver() ;
-nativeDriver.findElement(By.id("lname"));
 
+## Native Selenium WebDriver
+
+You can access the native Selenium WebDriver instance from SHAFT whenever you need it:
+
+```java title="NativeDriverAccess.java"
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+WebDriver nativeDriver = driver.getDriver();
+nativeDriver.findElement(By.id("lname"));
 ```
 
 ## Custom Capabilities
-- Did you know that you can use your own custom capabilities with SHAFT
 
-```java
-driver = new SHAFT.GUI.WebDriver(BrowserType, customOptions);
-```
-Example
-```java
+You can pass your own custom capabilities when creating a SHAFT WebDriver:
+
+```java title="CustomCapabilities.java"
 ChromeOptions options = new ChromeOptions();
-		options.addArguments("--remote-allow-origins=*");
-		driver = new SHAFT.GUI.WebDriver(DriverType.CHROME , options);
+options.addArguments("--remote-allow-origins=*");
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver(DriverFactory.DriverType.CHROME, options);
 ```
 
-## SHAFT Locator Builder 
-- welcome to the new era of locating elements , with SHAFT Locator Builder you can locate element as if you were writing a story , you don't need to worry about xpath or css selector anymore
-you can use it in multiple ways as below , 
-```java
-By locator = SHAFT.GUI.Locator.hasTagName("String value of desired Tag name").build();
-By locator = SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("attribute name").build();
-By locator = SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("attribute name" , "string value of the attribute").build();
+## SHAFT Locator Builder
+
+The SHAFT Locator Builder lets you locate elements using a fluent, readable API — no need to worry about XPath or CSS selectors:
+
+```java title="LocatorBuilderBasics.java"
+By locator = SHAFT.GUI.Locator.hasTagName("button").build();
+By locator = SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("data-test").build();
+By locator = SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("data-test", "add-to-cart").build();
 ```
-you can discover more options like containsText , containsId , containsClass 
 
-#### Example 
+You can also use `containsText()`, `containsId()`, and `containsClass()` for partial matching.
 
-below element has **tag name** "Button" , and has **attribute** "data-test" and **attribute value** is "add-to-cart-sauce-labs-backpack"
+### Example
 
-![Screenshot 2023-05-22 231141](https://github.com/ShaftHQ/shafthq.github.io/assets/65794900/a73f1e68-2476-4367-abbf-637b303089ac)
+For an element with tag name `button`, attribute `data-test`, and value `add-to-cart-sauce-labs-backpack`:
 
-using SHAFT Locator Builder you can locate this element like below
-
-```java
-By buttonLocator = SHAFT.GUI.Locator.hasTagName("button").hasAttribute("test-data" , "add-to-cart-sauce-labs-backpack").build();
+```java title="LocatorBuilderExample.java"
+By buttonLocator = SHAFT.GUI.Locator.hasTagName("button")
+    .hasAttribute("data-test", "add-to-cart-sauce-labs-backpack")
+    .build();
 ```
-for more examples visit [LocatorBuilderTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java) on Github.
 
-## Shadow Dom Locator Builder
-an advanced application and advantage of [SHAFT Locator Builder ](/docs/Keywords/GUI/Did_You_Know.md#shaft-locator-builder) is locating elements inside shadow dom.
+For more examples, visit [LocatorBuilderTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java) on GitHub.
 
-#### Example 
+## Shadow DOM Locator Builder
 
-![Screenshot 2023-05-23 235203](https://github.com/ShaftHQ/shafthq.github.io/assets/65794900/1d1fb006-0c35-4613-b0a6-b42a391b5bc4)
+An advanced use of the SHAFT Locator Builder is locating elements inside Shadow DOM:
 
-to locate the element with tagName "a" inside the nested shadow root you can follow the below code : 
+```java title="ShadowDomExample.java"
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+By shadowHost = SHAFT.GUI.Locator.hasTagName("shop-app").build();
+By shadowElement = SHAFT.GUI.Locator.hasTagName("a")
+    .hasAttribute("href", "/list/mens_outerwear")
+    .insideShadowDom(shadowHost)
+    .build();
 
-```java
- public void shadowDomLocatorTest() {
- driver = new SHAFT.GUI.WebDriver();
- By shadowHost = SHAFT.GUI.Locator.hasTagName("shop-app").build();
- By shadowElement = SHAFT.GUI.Locator.hasTagName("a")
-                                     .hasAttribute("href", "/list/mens_outerwear")
-                                     .insideShadowDom(shadowHost)
-				     .build();    
-driver.browser().navigateToURL("https://shop.polymer-project.org/");        
+driver.browser().navigateToURL("https://shop.polymer-project.org/");
 driver.element().click(shadowElement);
-}		    
 ```
 
-for more examples visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on Github.
+For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
 
 ## Using Cookies in Your Tests
-You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
 
-#### Example
-```java
+You can manage cookies in your tests to maintain session state. Here is an example that demonstrates how to get a cookie value after login and reuse it in another session:
+
+```java title="CookieExample.java"
+import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -100,9 +90,8 @@ public class CookieExample {
         driver.element().type(By.id("Email"), "kn@test.com");
         driver.element().type(By.id("Password"), "123456");
         driver.element().click(By.xpath("//*[@class='button-1 login-button']"));
-       
+
         cookieValue = driver.browser().getCookieValue(".Nop.Authentication");
-        
         driver.quit();
     }
 
@@ -110,8 +99,8 @@ public class CookieExample {
     public void testCookies() {
         driver = new SHAFT.GUI.WebDriver();
         driver.browser().navigateToURL("https://demo.nopcommerce.com/");
-       
         driver.browser().addCookie(".Nop.Authentication", cookieValue);
         driver.browser().refreshCurrentPage();
     }
 }
+```

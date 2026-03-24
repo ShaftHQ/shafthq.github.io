@@ -82,7 +82,7 @@ public void beforeClass(){
 ```
 
 :::note
-Note that per the above examples we prefer to use [AutomationName](https://appium.github.io/java-client/io/appium/java_client/remote/AutomationName.html) and [Platform](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/Platform.html) to ensure setting the relevant values correctly. You can also use [Browser](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/remote/Browser.html) to set the `targetBrowserName` property programattically.
+Note that per the above examples we prefer to use [AutomationName](https://appium.github.io/java-client/io/appium/java_client/remote/AutomationName.html) and [Platform](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/Platform.html) to ensure setting the relevant values correctly. You can also use [Browser](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/remote/Browser.html) to set the `targetBrowserName` property programmatically.
 ```java showLineNumbers title="src/test/java/testPackage/TestClass.java"
 import org.openqa.selenium.remote.Browser;
 
@@ -96,7 +96,7 @@ SHAFT.Properties.web.set().targetBrowserName(Browser.FIREFOX.browserName());
 You can set some properties via the CLI command that you use to execute your tests.
 
 :::tip
-You should use this approach if you want to override some specifc properties for the current test run from CLI. This is usually relevant for unattended CI/CD pipeline execution. You would usually need to use the [File-based approach](#file-based) to set these properties first, and then override them via CLI.
+You should use this approach if you want to override some specific properties for the current test run from CLI. This is usually relevant for unattended CI/CD pipeline execution. You would usually need to use the [File-based approach](#file-based) to set these properties first, and then override them via CLI.
 :::
 
 Here's a sample command that you can execute from your terminal window to parameterize your test command:

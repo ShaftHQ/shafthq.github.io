@@ -77,7 +77,7 @@ String value = api.getResponseJSONValueAsList("jsonPath");
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/todos").perform();
-List<Object> value = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
+List<Object> completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
 for (Object completed : completedList) {
     SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true").perform();
 }

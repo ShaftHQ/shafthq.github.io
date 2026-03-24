@@ -13,7 +13,7 @@ keywords: [SHAFT, mobile configuration, Appium settings, Android, iOS, mobile au
     - You can also consider using cloud device farms like **[BrowserStack]** or **[LambdaTest]** to execute your tests remotely.
 :::
 
-- Here are some basic properties you need to including in your `custom.properties` file to run against an Appium Server for any kind of mobile execution:
+- Here are some basic properties you need to include in your `custom.properties` file to run against an Appium Server for any kind of mobile execution:
 ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
 # you can set the value here to point to your appium server instance
 # this is the default value for local appium servers

@@ -73,6 +73,6 @@ public class AppiumSampleTests {
 ```
 
 :::info
-You can visit this Repository to for a Demo on how to set Mobile GUI in SHAFT_ENGINE
+Visit this repository for a complete demo on mobile GUI automation with SHAFT Engine:
 ### [BasicMobile_Demo](https://github.com/ShaftHQ/ShaftEngine-Appium.git)
 :::
