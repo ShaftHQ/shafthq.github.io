@@ -1,1 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /assets/
+
 Sitemap: https://shaftengine.netlify.app/sitemap.xml

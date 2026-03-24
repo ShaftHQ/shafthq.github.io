@@ -4,6 +4,7 @@ title: Element Actions
 sidebar_label: Element
 description: "Interact with web elements using SHAFT Engine — click, type, drag and drop, select from dropdowns, handle iframes, and more."
 keywords: [SHAFT, element actions, click, type, drag and drop, select, iframe, web automation, Selenium]
+tags: [web, element, actions, selenium]
 ---
 
 To interact with web elements, use `driver.element()` followed by the desired action. All element actions require a `By` locator to identify the target element.

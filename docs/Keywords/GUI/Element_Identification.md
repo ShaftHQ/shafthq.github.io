@@ -4,6 +4,7 @@ title: Element Identification
 sidebar_label: Element Identification
 description: "Locate web elements using ID, CSS selectors, XPath, SHAFT Locator Builder, relative locators, shadow DOM, and iframes."
 keywords: [SHAFT, element identification, locator, CSS selector, XPath, shadow DOM, iframe, relative locator, Selenium]
+tags: [web, element, locators, xpath, css]
 ---
 
 ## Overview

@@ -4,6 +4,7 @@ title: Element Validations
 sidebar_label: Element
 description: "Validate web element properties such as existence, visibility, text, attributes, and visual appearance using SHAFT Engine."
 keywords: [SHAFT, element validations, web element, assertions, verifications, visual testing, OpenCV]
+tags: [validations, element, web]
 ---
 
 You can perform assertions and verifications on web elements using the `WebDriverElementValidationsBuilder`. Access it through the driver instance or the standalone `Validations` class.

@@ -4,6 +4,7 @@ title: Database Connection Strings
 sidebar_label: Connection Strings
 description: "JDBC connection string examples for MySQL, PostgreSQL, SQL Server, Oracle, and other databases with SHAFT Engine."
 keywords: [SHAFT, database, connection string, JDBC, MySQL, PostgreSQL, SQL Server, Oracle]
+tags: [database, jdbc, connection]
 ---
 
 ## JDBC Connection Strings

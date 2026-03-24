@@ -4,6 +4,7 @@ title: "SHAFT vs. Native Selenium: Code Comparison"
 sidebar_label: SHAFT vs. Native
 description: "Side-by-side code comparison of SHAFT Engine vs native Selenium WebDriver. See how SHAFT eliminates boilerplate, adds auto-waits, and provides a fluent API."
 keywords: [selenium vs shaft, selenium alternative java, selenium boilerplate, selenium auto wait, fluent selenium api, selenium wrapper framework, test automation comparison]
+tags: [getting-started, selenium, comparison]
 ---
 We all know that **["Selenium Vs ... " blog posts are mainly click-bait]** per this insightful article from the Selenium user guide.
 <br/>Our objective here is not to make claims or comparisons, it is rather to analyze the differences and commonalities between the two.
