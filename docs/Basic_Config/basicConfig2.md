@@ -1,7 +1,9 @@
 ---
 id: basicConfig2
-title: Basic configuration for Mobile GUI
+title: Basic Configuration for Mobile GUI
 sidebar_label: Mobile GUI
+description: "Configure SHAFT Engine properties for mobile app automation with Appium — Android, iOS, native and web execution settings."
+keywords: [SHAFT, mobile configuration, Appium settings, Android, iOS, mobile automation, UiAutomator2, XCUITest]
 ---
 
 - Given that you already have an Appium server up and running, and some real or virtual mobile devices connected and configured, you can start configuring SHAFT to execute your tests against these devices.

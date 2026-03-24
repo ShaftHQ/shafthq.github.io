@@ -2,6 +2,8 @@
 id: File_Actions
 title: File Actions
 sidebar_label: File
+description: "Manage files and directories programmatically — read, write, copy, move, and delete files using SHAFT Engine."
+keywords: [SHAFT, file actions, file management, read file, write file, copy file, automation]
 ---
 
 ## File Actions Driver

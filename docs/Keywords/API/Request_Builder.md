@@ -2,6 +2,8 @@
 id: Request_Builder
 title: Request Builder
 sidebar_label: Builder
+description: "Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, and body configuration."
+keywords: [SHAFT, API testing, request builder, REST API, GET, POST, PUT, PATCH, DELETE, authentication, REST Assured]
 ---
 
 ## SHAFT API
@@ -52,7 +54,7 @@ api.delete("/posts/1").perform();
 ```
 
 ### Set Authentication
-Set the authentication method that will be used by the API request that you're currently building. By default, this value is set to AuthenticationType.NONE but you can change it by calling this method. If you use thie method the authentication token will be saved automatically for all the following requests using the same session.
+Set the authentication method that will be used by the API request that you're currently building. By default, this value is set to `AuthenticationType.NONE` but you can change it by calling this method. If you use this method, the authentication token will be saved automatically for all following requests using the same session.
 
 #### Authentication Type BASIC
 ```java

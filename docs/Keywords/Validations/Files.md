@@ -1,76 +1,59 @@
 ---
 id: Files
-title: File
-sidebar_labe: File
+title: File Validations
+sidebar_label: File
+description: "Validate file existence, checksum, and content using SHAFT Engine's FileValidationsBuilder."
+keywords: [SHAFT, file validations, file exists, checksum, PDF validation, text file validation]
 ---
 
-#### We can make many assertions and verifications on files by using the _Class FileValidationsBuilder_ through using the following methods:
+You can perform assertions and verifications on files using the `FileValidationsBuilder`.
 
-###  exists():
-* We use this method to check if a certain file exists.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## exists()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().file(folderRelativePath, file name).exists().perform();
-        //make verification
-        Validations.verifyThat().file(folderRelativePath, file name).exists().perform();
-    }
-}
+Checks that a file exists at the specified path.
+
+```java title="FileExistsValidation.java"
+Validations.assertThat().file("src/test/resources", "testData.json").exists().perform();
+Validations.verifyThat().file("src/test/resources", "testData.json").exists().perform();
 ```
 
-###  doesNotExist():
-* We use this method to check if a certain file does not exist.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## doesNotExist()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().file(folderRelativePath, file name).doesNotExist().perform();
-        //make verification
-        Validations.verifyThat().file(folderRelativePath, file name).doesNotExist().perform();
-    }
-}
+Checks that a file does not exist at the specified path.
+
+```java title="FileDoesNotExistValidation.java"
+Validations.assertThat().file("src/test/resources", "deleted.json").doesNotExist().perform();
+Validations.verifyThat().file("src/test/resources", "deleted.json").doesNotExist().perform();
 ```
 
-###  checksum():
-* We use this method to calculate and check a certain file checksum to confirm if it has the exact same content or not.
-* This method returns a NativeValidationsBuilder object to continue building your validation.
+## checksum()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().file(folderRelativePath, file name).checksum().perform();
-        //make verification
-        Validations.verifyThat().file(folderRelativePath, file name).checksum().perform();
-    }
-}
+Calculates and validates the file checksum to confirm whether it has the exact same content. Chain a comparison method such as `.isEqualTo()` after calling `.checksum()`.
+
+```java title="FileChecksumValidation.java"
+Validations.assertThat().file("src/test/resources", "testData.json")
+    .checksum()
+    .isEqualTo("expectedChecksumValue")
+    .perform();
 ```
 
-###  content():
-* We use this method to attempt to read and validate a certain file content (works for PDF and TEXT files).
-* This method returns a NativeValidationsBuilder object to continue building your validation.
+## content()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().file(folderRelativePath, file name).content().perform();
-        //make verification
-        Validations.verifyThat().file(folderRelativePath, file name).content().perform();
-    }
-}
+Reads and validates the file content. Works for PDF and text files. Chain a comparison method such as `.isEqualTo()`, `.contains()`, or `.matchesRegex()` after calling `.content()`.
+
+```java title="FileContentValidation.java"
+Validations.assertThat().file("src/test/resources", "report.txt")
+    .content()
+    .contains("Test Passed")
+    .perform();
 ```
 
+:::tip
+You can add a custom report message to any file validation:
+```java
+Validations.assertThat().file("src/test/resources", "config.json")
+    .exists()
+    .withCustomReportMessage("Verify config file is present")
+    .perform();
+```
+:::

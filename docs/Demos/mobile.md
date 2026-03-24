@@ -1,7 +1,9 @@
 ---
 id: mobile
-title: Demo Projects For Mobile GUI
+title: Mobile GUI Demo Projects
 sidebar_label: Mobile
+description: "Working demo projects for mobile app test automation with SHAFT Engine and Appium — Android emulator setup and Page Object Model examples."
+keywords: [SHAFT, mobile demo, Appium demo, Android automation, mobile testing example, Appium sample]
 ---
 ### Basic Mobile GUI Automation Project
 

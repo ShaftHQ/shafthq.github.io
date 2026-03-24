@@ -2,6 +2,8 @@
 id: DB_Actions
 title: Database Actions
 sidebar_label: Actions
+description: "Execute SQL queries and interact with databases using SHAFT Engine's database automation support."
+keywords: [SHAFT, database, SQL, database testing, JDBC, query execution, automation]
 ---
 
 ## SHAFT Database

@@ -1,42 +1,41 @@
 ---
 id: Browser
-title: Browser 
-sidebar_labe: Browser
+title: Browser Validations
+sidebar_label: Browser
+description: "Validate browser attributes such as URL and title using SHAFT Engine's WebDriverBrowserValidationsBuilder."
+keywords: [SHAFT, browser validations, URL validation, title validation, web driver, assertions, verifications]
 ---
 
-#### We can make many assertions and verifications on web the browser itself by using the _Class WebDriverBrowserValidationsBuilder_ through using the following methods:
+You can perform assertions and verifications on the browser itself using the `WebDriverBrowserValidationsBuilder`. Access it through the driver instance or the standalone `Validations` class.
 
-## attribute():
-* We use this method to check check against a certain browser attribute.
-* This method returns a NativeValidationsBuilder object to continue building your validation.
+## attribute()
 
-###  attribute (url):
-* We can use this method to validate the browser URL.
+Use this method to validate a specific browser attribute. It returns a `NativeValidationsBuilder` to continue building your validation chain.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().browser(driver).attribute(browserAttribute "url").perform();
-        //make verification
-        Validations.verifyThat().browser(driver).attribute(browserAttribute "url").perform();
-    }
-}
+### Validate Browser URL
+
+```java title="BrowserUrlValidation.java"
+// Using driver-based validation (recommended)
+driver.assertThat().browser().attribute("url").isEqualTo("https://example.com").perform();
+driver.verifyThat().browser().attribute("url").contains("example").perform();
+
+// Using standalone validation
+Validations.assertThat().browser(driver.getDriver()).attribute("url").isEqualTo("https://example.com").perform();
+Validations.verifyThat().browser(driver.getDriver()).attribute("url").contains("example").perform();
 ```
-###  attribute (title):
-* We can use this method to validate the tab tilte.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().browser(driver).attribute(browserAttribute "title").perform();
-        //make verification
-        Validations.verifyThat().browser(driver).attribute(browserAttribute "title").perform();
-    }
-}
+### Validate Browser Title
+
+```java title="BrowserTitleValidation.java"
+// Using driver-based validation (recommended)
+driver.assertThat().browser().attribute("title").isEqualTo("My Page Title").perform();
+driver.verifyThat().browser().attribute("title").contains("Page").perform();
+
+// Using standalone validation
+Validations.assertThat().browser(driver.getDriver()).attribute("title").isEqualTo("My Page Title").perform();
+Validations.verifyThat().browser(driver.getDriver()).attribute("title").contains("Page").perform();
 ```
+
+:::tip
+After calling `.attribute()`, you can chain any of the following comparison methods: `.isEqualTo()`, `.contains()`, `.doesNotContain()`, `.matchesRegex()`, `.isNull()`, `.isNotNull()`, and more.
+:::

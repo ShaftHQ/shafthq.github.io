@@ -2,6 +2,8 @@
 id: Local_Selenium_Grid_Execution
 title: Local Selenium Grid Execution
 sidebar_label: Local Selenium Grid
+description: "Run SHAFT tests on a local Selenium Grid for distributed test execution across multiple browsers and machines."
+keywords: [SHAFT, Selenium Grid, distributed testing, local grid, remote execution, parallel browsers]
 ---
 
 This guide explains how to set up and run a local Selenium Grid for distributed test execution with SHAFT. Running a local Grid is useful for:

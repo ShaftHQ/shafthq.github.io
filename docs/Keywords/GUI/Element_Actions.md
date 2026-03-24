@@ -2,619 +2,351 @@
 id: Element_Actions
 title: Element Actions
 sidebar_label: Element
+description: "Interact with web elements using SHAFT Engine — click, type, drag and drop, select from dropdowns, handle iframes, and more."
+keywords: [SHAFT, element actions, click, type, drag and drop, select, iframe, web automation, Selenium]
 ---
 
-### Type
+To interact with web elements, use `driver.element()` followed by the desired action. All element actions require a `By` locator to identify the target element.
 
-```java
+## Typing
 
-//a By object is used to store the locator to your element
-private By elementLocator = By.id("username_textbox");
-//click on target element
-driver.element().type(elementLocator, "query");
+### type()
+
+Clears the text field and types the specified text.
+
+```java title="TypeExample.java"
+By usernameField = By.id("username_textbox");
+driver.element().type(usernameField, "john.doe");
 ```
 
-### TypeAppend
-this method used for typing without clearing the texbox first  
-```java
+### typeAppend()
 
-//a By object is used to store the locator to your element
-private By textBoxLocator = By.id("username_textbox");
-// type to empty textbox
-driver.element().type(textBoxLocator, "Shaft");
-// continue typing without erasing what was typed in the same field 
-driver.element().typeAppend(textBoxLocator , " engine");
+Types text without clearing the field first — appends to existing content.
+
+```java title="TypeAppendExample.java"
+By textBox = By.id("username_textbox");
+driver.element().type(textBox, "SHAFT");
+driver.element().typeAppend(textBox, " Engine"); // field now contains "SHAFT Engine"
 ```
 
-### TypeSecure
+### typeSecure()
 
-```java
+Types text in a secure manner — the value is masked in reports for sensitive data like passwords.
 
-//a By object is used to store the locator to your element
-private By elementLocator = By.id("username_textbox");
-//click on target element
-driver.element().typeSecure(elementLocator, "query");
+```java title="TypeSecureExample.java"
+By passwordField = By.id("password_field");
+driver.element().typeSecure(passwordField, "mySecretPassword");
 ```
 
-### TypeFileLocationForUpload
+### typeFileLocationForUpload()
 
-```java
-//locator of browse button or choose file button  
-By chooseFileButtonLocator = By.xpath("//form//input[@type='file']");
-//typeFileLocationForUpload method takes element locator and file path 	 
-driver.element().typeFileLocationForUpload(chooseFileButtonLocator, "src/test/resources/testDataFiles/testUpload.txt");
+Sets a file path for file upload input elements.
+
+```java title="FileUploadExample.java"
+By fileInput = By.xpath("//form//input[@type='file']");
+driver.element().typeFileLocationForUpload(fileInput, "src/test/resources/testDataFiles/testUpload.txt");
 ```
 
-### Clear
+### clear()
 
-Clears the text from a text field or text area.
+Clears text from a text field or text area.
 
-```java
-//a By object is used to store the locator to your element
-private By textBoxLocator = By.id("username_textbox");
-//clear the text field
-driver.element().clear(textBoxLocator);
+```java title="ClearExample.java"
+By textBox = By.id("username_textbox");
+driver.element().clear(textBox);
 ```
 
-### Click on an Element
+## Clicking
 
-In order to interact with elements appearing on web page you'll first need to locate the element using one of WebDriver's locating strategies([By methods]) like ID, Class Name,
-XPath, CSS Selectors, link Text, Partial link text, Name, or Tag name.
+### click()
 
-```java
+Waits for the target element to be interactable, then clicks on it. Falls back to JavaScript click if the standard Selenium click fails.
 
-//a By object is used to store the locator to your element
-private By elementLocator = By.id("sign_in_btn");
-//click on target element
-driver.element().click(elementLocator);
+```java title="ClickExample.java"
+By signInButton = By.id("sign_in_btn");
+driver.element().click(signInButton);
 ```
 
-The method click will wait for your target element to be interactable and then attempts to click on it using Selenium WebDriver, if that didn't work it will
-attempt to click using JavaScript
+### clickAndHold()
 
-### Click And Hold
+Waits for the element to be clickable, then clicks and holds it.
 
-```java
+```java title="ClickAndHoldExample.java"
 driver.element().clickAndHold(elementLocator);
 ```
 
-Waits for the element to be clickable, and then clicks and holds it.
+### clickUsingJavascript()
 
-### Click Using JavaScript
+Clicks an element using JavaScript. Useful when the standard click fails due to element positioning or overlay issues.
 
-```java
+```java title="ClickJsExample.java"
 driver.element().clickUsingJavascript(elementLocator);
 ```
 
-Clicks an element using JavaScript. This is useful when the standard click method doesn't work due to element positioning or visibility issues.
+### doubleClick()
 
-### Double Click​
+Performs a double click on the target element.
 
-```java
-
-//store the locator to your element
-By elementLocator = By.className("double_click_btn");
-//Double click target element
-driver.element().doubleClick(elementLocator);
+```java title="DoubleClickExample.java"
+By doubleClickButton = By.className("double_click_btn");
+driver.element().doubleClick(doubleClickButton);
 ```
 
-### Hover
+## Hovering
 
-```java
-import org.openqa.selenium.By;
-//The locator to your element
-By elementLocator = By.tagName("span");
-//Hover over target element
-driver.element().hover(elementLocator);
+### hover()
+
+Hovers over the target element.
+
+```java title="HoverExample.java"
+By menuItem = By.tagName("span");
+driver.element().hover(menuItem);
 ```
 
-### Hover and click
+### hoverAndClick()
 
--   Hover over an element to show hover menue then click on one of the displayed options
+Hovers over an element to reveal a dropdown or menu, then clicks on a visible option.
 
-```java
-By clickable = By.xpath("//a[contains(text(),'Video Games ') ] ");
+```java title="HoverAndClickExample.java"
 By hoverItem = By.linkText("Popular Toys");
-
+By clickable = By.xpath("//a[contains(text(),'Video Games')]");
 driver.element().hoverAndClick(hoverItem, clickable);
 ```
 
--   for multi-level hover menus You need to hover on the category, then hover on a subcategory, and so on until you finally click on the clickable item.
+For multi-level hover menus, pass a list of locators to hover through before clicking:
 
-```java
-public class HoverAndClickDemo {
-	List<By> hoverLocators =new ArrayList<By>();
-	By clickable = By.linkText("Car");
+```java title="MultiLevelHoverExample.java"
+List<By> hoverLocators = new ArrayList<>();
+hoverLocators.add(By.linkText("Popular Toys"));
+hoverLocators.add(By.xpath("//a[contains(text(),'Video Games')]"));
 
-	@Test
-	public void demo() {
-		hoverLocators.add(By.linkText("Popular Toys"));
-		hoverLocators.add(By.xpath("//a[contains(text(),'Video Games ') ] "));
-
-  		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL("https://phppot.com/demo/multilevel-dropdown-menu-with-pure-css/");
-		driver.element().hoverAndClick(hoverLocators, clickable);
-	}
-}
+By clickable = By.linkText("Car");
+driver.element().hoverAndClick(hoverLocators, clickable);
 ```
 
-![hoverAndClick](https://live.staticflickr.com/65535/51627720576_1bd0cf9c6f_z.jpg) <br/>
+## Scrolling
 
-### Scroll To Element 
+### scrollToElement()
 
-```java
-By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
+Scrolls the page to bring the target element into view.
 
-driver.element().scrollToElement(elementLocator);
+```java title="ScrollExample.java"
+By footer = By.xpath("//a[@href='https://twitter.com/saucelabs']");
+driver.element().scrollToElement(footer);
 ```
 
-### Capture Screenshot
+## Screenshots
 
-```java
-By elementLocator = By.xpath("//a[@href='https://twitter.com/saucelabs']");
+### captureScreenshot()
 
-driver.element().captureScreenshot(elementLocator);
+Captures a screenshot of a specific element and attaches it to the report.
+
+```java title="ElementScreenshotExample.java"
+By element = By.id("chart");
+driver.element().captureScreenshot(element);
 ```
 
-### Drag and drop
+## Drag and Drop
 
--   Drag an element into a target element
+### Drag to Another Element
 
-```java
-By sourceElement = By.id("draggable");    // Locator to the element you want to drag
-By targetElement = By.id("destination");  // Locator to the destination element
-
-driver.element().dragAndDrop(sourceElement,targetElement);
+```java title="DragToElementExample.java"
+By source = By.id("draggable");
+By target = By.id("destination");
+driver.element().dragAndDrop(source, target);
 ```
 
--   Drag an element to a specified position
+### Drag to a Position
 
-```java
-By sourceElement = By.id("draggable");    // Locator to the element you want to drag
-int xPos= 500;
-int yPos= 500;
-
-driver.element().dragAndDrop(sourceElement,xPos,yPos);
+```java title="DragToPositionExample.java"
+By source = By.id("draggable");
+driver.element().dragAndDrop(source, 500, 500);
 ```
 
--   Drag an element by a specific offset
+### Drag by Offset
 
-```java
-By sourceElement = By.id("draggable");    // Locator to the element you want to drag
-int xOffset = 100;  // Horizontal offset
-int yOffset = 50;   // Vertical offset
-
-driver.element().dragAndDropByOffset(sourceElement, xOffset, yOffset);
+```java title="DragByOffsetExample.java"
+By source = By.id("draggable");
+driver.element().dragAndDropByOffset(source, 100, 50);
 ```
 
-### Get Tag name
+## Element Information
 
-```java
-String TagName = driver.element().getTagName(ElementLocator);
+### getTagName()
+
+Returns the HTML tag name of the target element.
+
+```java title="GetTagNameExample.java"
+String tagName = driver.element().getTagName(elementLocator);
 ```
 
-Retrieves tag name from the target element and returns it as a string value.
+### getAttribute()
 
-### Get the value of an element attribute
+Returns the value of a specific attribute.
 
-```java
-//The locator to your element
-By googleSearchBox = By.cssSelector(".gLFyf.gsfi");
-//get the value of the 'name' attribute
-String attributeValue = driver.element().getAttribute(googleSearchBox, "name");
+```java title="GetAttributeExample.java"
+By searchBox = By.cssSelector(".gLFyf.gsfi");
+String nameAttr = driver.element().getAttribute(searchBox, "name");
 ```
 
-Returns the value of the given attribute as a String,you will allso be able to see something like this
-![report](https://live.staticflickr.com/65535/51492494310_076bca3fdc.jpg) <br/>
-in the automatically generated Allure report, for more on that see [Reporting].
+### getCSSProperty()
 
-### Get the value of a CSS property
+Returns the value of a CSS property.
 
-```java
-String propertyValue = driver.element().getCSSProperty​(elementLocator, "width");
+```java title="GetCssPropertyExample.java"
+String width = driver.element().getCSSProperty(elementLocator, "width");
 ```
 
-### Get context handle\s
+### getText()
 
-<!---
-Needs further auditing
--->
+Returns the visible text content of the target element.
 
-you need to get the context handle in order to be able to switch back to it
-
--   Return the handle for currently active context.
-
-```java
-String currentContext = driver.element().getContext();
+```java title="GetTextExample.java"
+String text = driver.element().getText(textElement);
 ```
 
--   Return a list of unique handles for all the currently open contexts.
+### getSize()
 
-```java
-driver.element().getContextHandles();
+Returns the size of the target element as a string.
+
+```java title="GetSizeExample.java"
+String elementSize = driver.element().getSize(elementLocator);
 ```
 
-### Switching focus to a different context
+### getElementsCount()
 
-```java
-driver.element().setContext(currentContext);
+Returns the number of elements matching a locator.
+
+```java title="GetElementsCountExample.java"
+int resultCount = driver.element().getElementsCount(By.cssSelector("h3.LC20lb"));
 ```
 
-### Get window handle\s
+### isElementDisplayed()
 
-you need to get the window handle in order to be able to switch back to it
+Returns whether the element is currently displayed.
 
--   Return the handle for currently active window.
-
-```java
-String currentWindow = driver.element().getWindowHandle();
+```java title="IsDisplayedExample.java"
+boolean isVisible = driver.element().isElementDisplayed(elementLocator);
 ```
 
--   Return a list of unique handles for all the currently open windows.
+### isElementClickable()
 
-```java
-driver.element().getWindowHandles();
+Returns whether the element is clickable (visible and enabled).
+
+```java title="IsClickableExample.java"
+boolean isClickable = driver.element().isElementClickable(elementLocator);
 ```
 
-### Switching focus to a different window
+## Dropdowns
 
-switch driver's focus to a different window using its name or handle
+### select()
 
-```java
-driver.element().switchToWindow();
+Selects an option from a dropdown list by visible text.
+
+```java title="SelectExample.java"
+By dropdown = By.id("dropdown");
+driver.element().select(dropdown, "Option 1");
 ```
 
-### Handling IFrames
+### getSelectedText()
 
-In order to interact with elements within IFrames you neeed to first change driver's focus to the IFrame, once done you will need to switch back to the original content
+Returns the currently selected option text from a dropdown.
 
--   Switching focus to an IFrame
-
-```java
-By iFrameLocator = By.id("ifr_id");
-driver.element().switchToIframe(iFrameLocator );
+```java title="GetSelectedTextExample.java"
+By dropdown = By.id("dropdown");
+String selected = driver.element().getSelectedText(dropdown);
 ```
 
--   Get the current frame reference
+## IFrames
 
-```java
-String currentFrame = driver.element().getCurrentFrame();
+### switchToIframe()
+
+Switches driver focus to an iframe.
+
+```java title="SwitchToIframeExample.java"
+By iframeLocator = By.id("ifr_id");
+driver.element().switchToIframe(iframeLocator);
 ```
 
-Returns the current frame reference as a string.
+### switchToDefaultContent()
 
--   switching back to default content
+Switches driver focus back to the main page content.
 
-```java
+```java title="SwitchToDefaultExample.java"
 driver.element().switchToDefaultContent();
 ```
 
-### Insert text into a text field
+## Clipboard Actions
 
--   clear text inside a text field (if any), and insert new text value
+Performs clipboard operations on a text field. Supported actions: `"copy"`, `"paste"`, `"cut"`, `"select all"`, `"unselect"`.
 
-```java
-driver.element().type(textFieldLocator, "any text you would like to type");
-```
-
--   Append to existing text
-
-```java
-driver.element().typeAppend(textFieldLocator, "text added to the end");
-```
-
-### Perform Clipboard action
-
-copy,cut or paste text
-
-```java
+```java title="ClipboardExample.java"
+driver.element().clipboardActions(textFieldLocator, "select all");
 driver.element().clipboardActions(textFieldLocator, "copy");
 ```
 
-supports the following actions "copy", "paste", "cut", "select all", "unselect"
+## JavaScript Actions
 
-## Sample Code Snippet
+### setValueUsingJavaScript()
 
-```java
+Sets the value of an element using JavaScript — useful when the standard `type()` method does not work.
 
-public class TypingDemo {
-	By textField = By.id("tinymce");
-	By textIFrame = By.id("mce_0_ifr");
-
-	@Test
-	void type() {
-  		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL("https://the-internet.herokuapp.com/tinymce");
-		// switch focus to IFrame containing the text field
-		driver.element().switchToIframe(textIFrame );
-		//append text to the end
-		driver.element().typeAppend(textField, "this is added text");
-		// copy the whole paragraph
-		driver.element().clipboardActions(textField,"select all");
-		driver.element().clipboardActions(textField, "copy");
-		//replace original text using type
-		driver.element().type(textField, "new text that overrides old content , ");
-		//paste previously copied paragraph
-		driver.element().clipboardActions(textField, "paste");
-
-	}
-}
-
-```
-
-### Get elements count
-
-to find the number of elements matching a specific locator
-
-```java
-int numOfElements = driver.element().getElementsCount(locatorToMultipleElements);
-```
-
-## Sample Code Snippet
-
-```java
-
-public class Demo {
-	private By searchBox = By.name("q");
-	private By results = By.cssSelector("h3.LC20lb");
-
-	@Test
-	public void method() {
-		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL("https://www.google.com");
-		driver.element().type(searchBox, "SHAFT_ENGINE");
-		driver.element().keyPress(searchBox, "ENTER");
-		int num = driver.element().getElementsCount(results);
-		System.out.println(num);
-
-	}
-}
-```
-
-### Get selected option from a drop down
-
-```java
-//Locator to the Drop Down element
-By dropDown = By.id("dropdown");
-//Retrieve selected text and store it in a string variable
-String SelectedItem = driver.element().getAttribute(googleSearchBox, "name");
-```
-
-Retrieves the selected text from the target drop-down list element and returns it as a string value.
-
-### Select an option from a drop down list
-
-```java
-//Locator to the Drop Down element
-By dropDown = By.id("dropdown");
-//Retrieve selected text and store it in a string variable
-driver.element().select(dropDown, "Option 1");
-```
-
-### Set Value Using JavaScript
-
-Sets the value of an element using JavaScript. This is useful when the standard type method doesn't work or when you need to set a value without triggering events.
-
-```java
+```java title="SetValueJsExample.java"
 By inputField = By.id("username");
 driver.element().setValueUsingJavaScript(inputField, "myUsername");
 ```
 
-### Submit Form Using JavaScript
+### submitFormUsingJavaScript()
 
-Submits a form using JavaScript. This can be used to submit a form programmatically without clicking the submit button.
+Submits a form programmatically using JavaScript.
 
-```java
+```java title="SubmitFormJsExample.java"
 By formElement = By.id("loginForm");
 driver.element().submitFormUsingJavaScript(formElement);
 ```
 
-## Sample Code Snippet
+## Wait Methods
 
-```java
+SHAFT provides several wait methods to handle synchronization:
 
+```java title="WaitMethodExamples.java"
+// Wait until element text matches
+driver.element().waitUntilElementTextToBe(locator, "Success");
 
-public class DropDownDemo {
+// Wait until attribute contains value
+driver.element().waitUntilAttributeContains(locator, "class", "complete");
 
-	private By dropDown = By.id("dropdown");
+// Wait until element is selected
+driver.element().waitUntilElementToBeSelected(locator);
 
-	@Test
-	public void method() {
-		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dropdown");
-		driver.element().getSelectedText( dropDown);
-		driver.element().select(dropDown, "Option 1");
-		driver.element().getSelectedText(dropDown);
+// Wait for specific number of elements
+driver.element().waitUntilNumberOfElementsToBe(locator, 5);
+driver.element().waitUntilNumberOfElementsToBeLessThan(locator, 10);
+driver.element().waitUntilNumberOfElementsToBeMoreThan(locator, 0);
 
-	}
-
-}
+// Wait until all elements are present
+driver.element().waitUntilPresenceOfAllElementsLocatedBy(locator);
 ```
 
--   To verify the results you can use traditional String variables, check SHAFT results in the Allure report (as shown in the image below), or
-    you can use other [verification] techniques.
-    ![report_2](https://live.staticflickr.com/65535/51492098708_dd5f557495_z.jpg) <br/>
+## Table Data Extraction
 
-### Get size of an element
+Extracts table row data into a list of maps, where each map key is the column header.
 
-```java
-String elementSize = driver.element().getSize(TargetElementLocator);
+```java title="TableDataExample.java"
+List<Map<String, String>> tableData = driver.element().getTableRowsData(tableLocator);
 ```
 
-Retrieves element size from the target element and returns it as a string value.
+:::note
+This works with standard HTML tables that use `<thead>` with `<th>` elements for column headers and `<tbody>` with `<td>` elements for row data.
+:::
 
--   An alternative to using [getCSSProperty​] to get width and height values separately
+## Fluent Chaining
 
-### Get elements text
+All element actions support fluent chaining with `.and()`:
 
-Retrieves text from the target text field and returns it as a string value.
-
-```java
-String text = driver.element().getText(textBox);
+```java title="FluentChainingExample.java"
+driver.element()
+    .type(usernameField, "admin")
+    .and().type(passwordField, "password")
+    .and().click(loginButton);
 ```
-
-### Get state of an element
-
--   Check if an element is clickable
-
-```java
-//The locator to your element
-By elementLocator = By.id("submit_btn");
-//Check if element is clickable
-boolean isClickable = driver.element().isElementClickable(elementLocator);
-```
-
-Returns a boolean indicating whether the element is clickable (visible and enabled).
-
-**Advanced Example:**
-
-```java
-public class DynamicControlsDemo {
-	By textField=By.xpath("//form[@id='input-example']/input");
-	By changeState=By.xpath("//form[@id='input-example']/button");
-
-	@Test
-	public void alternate() {
-		driver = new SHAFT.GUI.WebDriver();
-		driver.browser().navigateToURL("https://the-internet.herokuapp.com/dynamic_controls");
-		//--1-- check that initially the text box is not clickable
-		System.out.println(driver.element().isElementClickable(textField));
-		//--2-- press the button to enable the text box
-		driver.element().click(changeState);
-		//--3-- check again whether the text box is clickable
-		System.out.println(driver.element().isElementClickable(textField));
-		//--4-- attempt to click on the text box
-		driver.element().click(textField);
-		//--5-- finally verify the state of the check box
-		System.out.println(driver.element().isElementClickable(textField));
-		driver.element().type( textField, "SHAFT is awesome !");
-	}
-}
-```
-
-![clickable](https://live.staticflickr.com/65535/51628756225_c75d0b22c3_z.jpg) <br/>
-
-The text field is disabled by default,directly after clicking the enable button the isElementClickable method still returns false because the switching takes some time, <b>the click method waits for target element to be clickable</b> and places the cursor inside the text field, by then the text field is naturally clickable as shown in the previous image captured from the Allure report.
-
--   Check if an element is displayed
-
-```java
-System.out.println(driver.element().isElementDisplayed(elementLocator));
-```
-
-returns a boolean indicating whether the element is displayed
-
-### Wait Methods
-
-SHAFT provides several wait methods to handle synchronization and ensure elements are in the expected state before performing actions.
-
-#### Wait Until Element Text Matches
-
-Waits until the text of an element matches the expected value.
-
-```java
-By elementLocator = By.id("status_message");
-driver.element().waitUntilElementTextToBe(elementLocator, "Success");
-```
-
-#### Wait Until Attribute Contains Value
-
-Waits until a specific attribute of an element contains the expected value.
-
-```java
-By elementLocator = By.id("progress_bar");
-driver.element().waitUntilAttributeContains(elementLocator, "class", "complete");
-```
-
-#### Wait Until Element is Selected
-
-Waits until an element (like a checkbox or radio button) is selected.
-
-```java
-By checkboxLocator = By.id("terms_checkbox");
-driver.element().waitUntilElementToBeSelected(checkboxLocator);
-```
-
-#### Wait Until Number of Elements Equals
-
-Waits until the number of elements matching a locator equals a specific count.
-
-```java
-By listItemsLocator = By.className("list-item");
-driver.element().waitUntilNumberOfElementsToBe(listItemsLocator, 5);
-```
-
-#### Wait Until Number of Elements is Less Than
-
-Waits until the number of elements matching a locator is less than a specific count.
-
-```java
-By listItemsLocator = By.className("list-item");
-driver.element().waitUntilNumberOfElementsToBeLessThan(listItemsLocator, 10);
-```
-
-#### Wait Until Number of Elements is More Than
-
-Waits until the number of elements matching a locator is more than a specific count.
-
-```java
-By listItemsLocator = By.className("list-item");
-driver.element().waitUntilNumberOfElementsToBeMoreThan(listItemsLocator, 0);
-```
-
-#### Wait Until Presence of All Elements
-
-Waits until all elements matching the locator are present in the DOM (not necessarily visible).
-
-```java
-By elementsLocator = By.className("data-row");
-driver.element().waitUntilPresenceOfAllElementsLocatedBy(elementsLocator);
-```
-
-### Getting Table Data
--   Extracts the data of a table's rows into a List of Map Objects
-
-```java
-List<Map<String,String>> tableRowsData = driver.element().getTableRowsData(tableLocator);
-```
-
--   the key of each Map objects represents the label of each column which is represented in the <b>th</b> tag in <b>thead</b> tag in a table
--   <b>Note</b> that this will only work with standard html tables and may not get the correct result if the table does not follow the standard html table:
-
-```html
-<table>
-    <thead>
-    <tr>
-    <th>col1</th>
-    <th>col2</th>
-    <th>col3</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr><td>a</td><td>b</td><td>c</td></tr>
-    <tr><td>x</td><td>y</td><td>z</td></tr>
-    </tbody>
-</table>
-```
--   Using getTableRowsData on the table above will return the following List:
-```json
-[
-  {"col1":"a", "col2":"b", "col3":"c"}, 
-  {"col1":"x", "col2":"y", "col3":"z"}
-]
-```
-
-    
-[webdriver]: https://www.selenium.dev/documentation/en/webdriver/
-[default configurations]: #
-[properties files]: #
-[edit configurations]: #
-[driverfactory]: #
-[reporting]: #
-[webdrivermanager]: https://github.com/bonigarcia/webdrivermanager
-[browseractions]: https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html
-[elementactions]: https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html
-[by methods]: https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html
-[reporting]: #
-[verification]: #
-[getcssproperty​]: #get-the-value-of-a-css-property

@@ -1,7 +1,9 @@
 ---
 id: Using_Cookies_In_Your_Tests
 title: Using Cookies in Your Tests
-sidebar_label: Using Cookies in Your Tests
+sidebar_label: Using Cookies
+description: "Manage browser cookies in SHAFT tests — add, read, delete cookies and use them for authentication and session management."
+keywords: [SHAFT, cookies, browser cookies, session management, authentication cookies, cookie manipulation]
 ---
 
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.

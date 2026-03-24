@@ -2,11 +2,12 @@
 id: Response_Validations
 title: Response Validations
 sidebar_label: Validations
+description: "Validate API responses — status codes, JSON values, response body, schema matching, and response time using SHAFT Engine."
+keywords: [SHAFT, API validation, response validation, JSON validation, schema validation, REST API testing]
 ---
 
 ## SHAFT API Response Validations
-Using the SHAFT API object to directly validate on the latest response directly is very convenient, let's see! <br/>
-We need to use the SHAFT API Object then use the **assertThatResponse()** method (for hard assertion) or **verifyThatResponse()** method (for soft assertion) to access all the response validation methods, and ofcourse we need to add the **perform();** in the end to perform the validation correctly. <br/><br/>
+Using the SHAFT API object to directly validate the latest response is very convenient. Use `assertThatResponse()` for hard assertions or `verifyThatResponse()` for soft assertions, and always call `.perform()` at the end to execute the validation.
 
 ### Body
 Validate on the response body <br />

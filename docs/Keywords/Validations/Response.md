@@ -1,138 +1,89 @@
 ---
 id: Response
-title: API
-sidebar_labe: API
+title: API Response Validations
+sidebar_label: API Response
+description: "Validate API responses including JSON values, file content comparison, and schema matching using SHAFT Engine."
+keywords: [SHAFT, API validations, response validation, JSON, schema validation, REST API testing]
 ---
 
-#### We can make many assertions and verifications on API response by using the _Class RestValidationsBuilder_ through using the following methods:
+You can perform assertions and verifications on API responses using the `RestValidationsBuilder`. Access it through the `SHAFT.API` instance or the standalone `Validations` class.
 
-###  isEqualToFileContent():
-* We use this method to check if the content of the provided actual response object is equal to the expected file content.
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isEqualToFileContent()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).isEqualToFileContent(String fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).isEqualToFileContent(String fileRelativePath).perform();
-    }
-}
+Checks that the response body is equal to the content of an expected file.
+
+```java title="ResponseFileEqualValidation.java"
+// Using SHAFT.API instance (recommended)
+api.assertThatResponse().isEqualToFileContent("src/test/resources/expected-response.json").perform();
+api.verifyThatResponse().isEqualToFileContent("src/test/resources/expected-response.json").perform();
+
+// Using standalone validation
+Validations.assertThat().response(response).isEqualToFileContent("src/test/resources/expected-response.json").perform();
 ```
 
-###  doesNotEqualFileContent():
-* We use this method to check if the content of the provided actual response object is not equal to the expected file content. 
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## doesNotEqualFileContent()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).doesNotEqualFileContent(String fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).doesNotEqualFileContent(String fileRelativePath).perform();
-    }
-}
+Checks that the response body is not equal to the content of an expected file.
+
+```java title="ResponseFileNotEqualValidation.java"
+api.assertThatResponse().doesNotEqualFileContent("src/test/resources/old-response.json").perform();
 ```
 
-###  containsFileContent():
-* We use this method to check if the content of the provided actual response object contains the expected file content. 
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## containsFileContent()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).containsFileContent(String fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).containsFileContent(String fileRelativePath).perform();
-    }
-}
+Checks that the response body contains the content of an expected file.
+
+```java title="ResponseContainsFileValidation.java"
+api.assertThatResponse().containsFileContent("src/test/resources/partial-response.json").perform();
 ```
 
+## doesNotContainFileContent()
 
-###  doesNotContainFileContent():
-* We use this method to check if the content of the provided actual response object does not contain the expected file content. 
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+Checks that the response body does not contain the content of an expected file.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).doesNotContainFileContent(String fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).doesNotContainFileContent(String fileRelativePath).perform();
-    }
-}
+```java title="ResponseNotContainsFileValidation.java"
+api.assertThatResponse().doesNotContainFileContent("src/test/resources/excluded-content.json").perform();
 ```
 
+## extractedJsonValue()
 
-###  extractedJsonValue():
-* We use this method to to extract a certain value from the provided actual response object and check against it. 
-* Needed parameters: jsonPath - JSONPath of the target value; the JSONPath expression that will be evaluated in order to extract the desired value [without the trailing $.] , please refer to these urls for examples: https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html http://jsonpath.com/.
-* This method returns a NativeValidationsBuilder object to continue building your validation.
+Extracts a value from the JSON response using a JSONPath expression and validates it. Chain a comparison method such as `.isEqualTo()`, `.contains()`, or `.matchesRegex()`.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).extractedJsonValue(String jsonPath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).extractedJsonValue(String jsonPath).perform();
-    }
-}
+```java title="ResponseJsonExtractValidation.java"
+// Validate extracted JSON value
+api.assertThatResponse().extractedJsonValue("data.name").isEqualTo("John").perform();
+api.verifyThatResponse().extractedJsonValue("data.items[0].id").isEqualTo("123").perform();
 ```
 
+:::info
+JSONPath expressions should be provided **without** the leading `$.` prefix. For example, use `"data.name"` instead of `"$.data.name"`. Refer to the [JSONPath documentation](https://github.com/json-path/JsonPath) for syntax details.
+:::
 
-###  matchesSchema():
-* We use this method to check if the content of the provided actual response object matches the schema for the expected file content. 
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## extractedJsonValueAsList()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat(.response(Object response).matchesSchema(String  fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).matchesSchema(String fileRelativePath).perform();
-    }
-}
+Extracts a list of values from the JSON response using a JSONPath expression and validates it.
+
+```java title="ResponseJsonListExtractValidation.java"
+api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull().perform();
 ```
 
+## matchesSchema()
 
-###  doesNotMatchSchema():
-* We use this method to check if the content of the provided actual response object matches the schema for the expected file content. 
-* Needed parameters: fileRelativePath - relative path to the target expected response file.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+Checks that the response body matches a JSON schema defined in an expected file.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().response(Object response).doesNotMatchSchema(String fileRelativePath).perform();
-        //make verification
-        Validations.verifyThat().response(Object response).doesNotMatchSchema(String fileRelativePath).perform();
-    }
-}
+```java title="ResponseSchemaValidation.java"
+api.assertThatResponse().matchesSchema("src/test/resources/response-schema.json").perform();
+api.verifyThatResponse().matchesSchema("src/test/resources/response-schema.json").perform();
 ```
 
+## doesNotMatchSchema()
+
+Checks that the response body does not match a JSON schema defined in an expected file.
+
+```java title="ResponseSchemaNotMatchValidation.java"
+api.assertThatResponse().doesNotMatchSchema("src/test/resources/wrong-schema.json").perform();
+```
+
+:::tip
+When using `SHAFT.API`, the response from the last request is automatically passed to the validation builder. You don't need to pass it explicitly.
+:::

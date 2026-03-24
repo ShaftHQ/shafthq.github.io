@@ -2,6 +2,8 @@
 id: PropertyTypes
 title: Property Types
 sidebar_label: Types
+description: "Understand SHAFT Engine property configuration — file-based, code-based, and CLI-based approaches with priority hierarchy."
+keywords: [SHAFT, properties, configuration, custom properties, Maven CLI, code configuration, property hierarchy]
 ---
 
 ### Priority Hierarchy

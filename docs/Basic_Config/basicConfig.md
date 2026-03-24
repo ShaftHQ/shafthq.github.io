@@ -1,7 +1,9 @@
 ---
 id: basicConfig
-title: Basic configuration for Web GUI
+title: Basic Configuration for Web GUI
 sidebar_label: Web GUI
+description: "Configure SHAFT Engine properties for web browser automation — browser type, headless mode, timeouts, proxy, and visual reporting."
+keywords: [SHAFT, web configuration, browser settings, headless mode, proxy settings, Chrome, Firefox, Selenium configuration]
 ---
 
 - To get you started, SHAFT will auto-generate some default properties for your first test run.
@@ -29,7 +31,7 @@ com.SHAFT.proxySettings=host:port
 # you can configure SHAFT to automatically retry failed tests by setting this property
 retryMaximumNumberOfAttempts=3
 
-# you can disable any of the buil-in forced checks that SHAFT uses to ensure a more reliable
+# you can disable any of the built-in forced checks that SHAFT uses to ensure a more reliable
 # execution by setting the following properties
 forceCheckForElementVisibility=false
 forceCheckElementLocatorIsUnique=false
