@@ -4,6 +4,7 @@ title: Integrate Jira with SHAFT Engine
 sidebar_label: Jira Integration
 description: "Automatically create Jira bugs and link test results to Jira issues using SHAFT Engine's built-in Jira integration."
 keywords: [SHAFT, Jira integration, bug reporting, test management, Jira automation, test execution reporting]
+tags: [integrations, jira, reporting]
 ---
 
 # Integrate JIRA With SHAFT Engine

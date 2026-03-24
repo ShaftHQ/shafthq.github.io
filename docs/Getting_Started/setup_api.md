@@ -4,6 +4,7 @@ title: "REST API Test Automation with SHAFT and REST Assured"
 sidebar_label: API Testing
 description: "Automate REST API testing using SHAFT Engine. Build requests, validate responses, extract JSON values, and integrate with CI/CD — all with a fluent Java API."
 keywords: [api test automation, rest assured java, api testing framework, rest api testing, json validation, api automation tutorial, http request testing]
+tags: [api, setup, rest-assured]
 ---
 
 # REST API Test Automation with SHAFT

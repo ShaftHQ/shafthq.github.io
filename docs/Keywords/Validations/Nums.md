@@ -4,6 +4,7 @@ title: Number Validations
 sidebar_label: Number
 description: "Validate numbers for equality and comparison using SHAFT Engine's NumberValidationsBuilder."
 keywords: [SHAFT, number validations, numeric assertions, comparison, greater than, less than]
+tags: [validations, numbers, comparison]
 ---
 
 You can perform assertions and verifications on numbers using the `NumberValidationsBuilder`.

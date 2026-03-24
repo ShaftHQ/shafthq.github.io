@@ -4,6 +4,7 @@ title: SHAFT Locator Builder
 sidebar_label: SHAFT Locator Builder
 description: "Build element locators fluently with SHAFT's Locator Builder — combine tag, attribute, text, and class conditions for readable, maintainable locators."
 keywords: [SHAFT, locator builder, fluent locator, element identification, CSS selector alternative, XPath alternative]
+tags: [web, locator, fluent-api]
 ---
 
 - welcome to the new era of locating elements , with SHAFT Locator Builder you can locate element as if you were writing a story , you don't need to worry about xpath or css selector anymore

@@ -4,6 +4,7 @@ title: "SHAFT Engine: Unified Test Automation Framework for Java"
 sidebar_label: About SHAFT
 description: "SHAFT is an open-source Java test automation framework built on Selenium, Appium, and REST Assured. Automate Web, Mobile, API, CLI, and Database tests with zero boilerplate."
 keywords: [test automation framework, selenium java, appium java, rest assured, open source testing, java test automation, SHAFT engine]
+tags: [getting-started, overview, shaft]
 ---
 
 # What Is SHAFT?

@@ -4,6 +4,7 @@ title: Oracle JDBC Setup
 sidebar_label: Oracle JDBC Setup
 description: "Step-by-step guide to configure Oracle JDBC driver for database testing with SHAFT Engine."
 keywords: [SHAFT, Oracle, JDBC, database setup, Oracle driver, Maven, database testing]
+tags: [database, oracle, jdbc, setup]
 ---
 
 ## Oracle JDBC Driver Setup

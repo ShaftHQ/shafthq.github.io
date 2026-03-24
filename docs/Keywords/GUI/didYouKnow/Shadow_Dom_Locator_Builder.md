@@ -4,6 +4,7 @@ title: Shadow DOM Locator Builder
 sidebar_label: Shadow DOM Locator Builder
 description: "Locate and interact with elements inside Shadow DOM using SHAFT Engine's Locator Builder — no JavaScript execution needed."
 keywords: [SHAFT, Shadow DOM, locator builder, web components, shadow root, encapsulated DOM]
+tags: [web, shadow-dom, locator]
 ---
 
 an advanced application and advantage of [SHAFT Locator Builder ](/docs/Keywords/GUI/didYouKnow/Shaft_Locator_Builder.md) is locating elements inside shadow dom.
