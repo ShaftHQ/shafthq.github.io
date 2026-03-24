@@ -49,7 +49,7 @@ Sometimes a locator depends on runtime data — a product name, a row index, or 
 
 ```java title="DynamicLocators.java"
 public By getProductAddToCartButton(String productName) {
-    return By.xpath("//div[contains(text(),'" + productName + "')]//button[@class='add-to-cart']");
+    return By.cssSelector("div[data-product='" + productName + "'] button.add-to-cart");
 }
 
 public By getTableCell(int row, int col) {

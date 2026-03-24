@@ -89,6 +89,8 @@ public class ApiTest {
             .setContentType("application/json")
             .perform();
         api.assertThatResponse().extractedJsonValue("name").isEqualTo("John").perform();
+        api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com").perform();
+        api.verifyThatResponse().statusCode().isEqualTo(201).perform();
     }
 }
 ```
