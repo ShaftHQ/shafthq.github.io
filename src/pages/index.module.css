@@ -48,10 +48,28 @@
   text-align: center;
   padding: 3rem 0;
   position: relative;
+  overflow: hidden;
+  background: var(--ifm-color-emphasis-100);
 }
 
 .staticSection {
   padding: 3rem 0;
+  position: relative;
+  overflow: hidden;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.ctaParticles,
+.staticParticles {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.ctaSection :global(.container),
+.staticSection :global(.container) {
+  position: relative;
+  z-index: 1;
 }
 
 .staticGrid {
@@ -124,6 +142,11 @@
 
   --ifm-navbar-background-color:#222222 !important; /* 34,34,34 */
   --ifm-footer-background-color:#303030 !important; /* 48,48,48 */
+}
+
+[data-theme='dark'] .ctaSection,
+[data-theme='dark'] .staticSection {
+  background: var(--ifm-color-emphasis-200);
 }
 
 @media screen and (max-width: 996px) {

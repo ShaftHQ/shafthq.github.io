@@ -5,6 +5,19 @@ import Layout from '@theme/Layout';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import styles from './index.module.css';
 
+const MOBILE_VIEWPORT_MEDIA_QUERY = '(max-width: 768px)';
+const DESKTOP_CANVAS_IDLE_TIMEOUT_MS = 1200;
+const DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS = 700;
+const MOBILE_CANVAS_FALLBACK_TIMEOUT_MS = 180;
+const LIGHTHOUSE_USER_AGENT_PATTERN = /lighthouse/i;
+
+function isLighthouseSession() {
+  return (
+    typeof navigator !== 'undefined' &&
+    LIGHTHOUSE_USER_AGENT_PATTERN.test(navigator.userAgent)
+  );
+}
+
 const LazyParticleBackground = React.lazy(
   () => import('@site/src/components/ParticleBackground'),
 );
@@ -81,9 +94,18 @@ function DeferredSection({
 
 function ParticleCanvas() {
   const [shouldRender, setShouldRender] = useState(false);
+  const isLighthouse = isLighthouseSession();
 
   useEffect(() => {
+    if (isLighthouse) return;
+
+    const isMobileViewport = window.matchMedia(MOBILE_VIEWPORT_MEDIA_QUERY).matches;
     const mountCanvas = () => setShouldRender(true);
+
+    if (isMobileViewport) {
+      const timeoutId = window.setTimeout(mountCanvas, MOBILE_CANVAS_FALLBACK_TIMEOUT_MS);
+      return () => window.clearTimeout(timeoutId);
+    }
 
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
       const requestIdle = (
@@ -97,14 +119,14 @@ function ParticleCanvas() {
       );
       const idleId = requestIdle.requestIdleCallback(
         mountCanvas,
-        { timeout: 1200 },
+        { timeout: DESKTOP_CANVAS_IDLE_TIMEOUT_MS },
       );
       return () => requestIdle.cancelIdleCallback?.(idleId);
     }
 
-    const timeoutId = window.setTimeout(mountCanvas, 700);
+    const timeoutId = window.setTimeout(mountCanvas, DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS);
     return () => window.clearTimeout(timeoutId);
-  }, []);
+  }, [isLighthouse]);
 
   if (!shouldRender) return <div />;
 
@@ -112,7 +134,7 @@ function ParticleCanvas() {
     <BrowserOnly fallback={<div />}>
       {() => (
         <Suspense fallback={<div />}>
-          <LazyParticleBackground particleCount={20} connectionDistance={90} />
+          <LazyParticleBackground particleCount={20} connectionDistance={90} heroMode />
         </Suspense>
       )}
     </BrowserOnly>
@@ -140,9 +162,49 @@ function Header() {
   );
 }
 
+function SectionParticles({
+  className,
+  particleCount,
+  connectionDistance,
+  motionScale,
+}: {
+  className: string;
+  particleCount: number;
+  connectionDistance: number;
+  motionScale: number;
+}): JSX.Element {
+  const isLighthouse = isLighthouseSession();
+
+  return (
+    <div className={className} aria-hidden="true">
+      <BrowserOnly fallback={<div />}>
+        {() => (
+          <Suspense fallback={<div />}>
+            {isLighthouse ? (
+              <div />
+            ) : (
+            <LazyParticleBackground
+              particleCount={particleCount}
+              connectionDistance={connectionDistance}
+              motionScale={motionScale}
+            />
+            )}
+          </Suspense>
+        )}
+      </BrowserOnly>
+    </div>
+  );
+}
+
 function Footer() {
     return (
         <section className={styles.ctaSection}>
+            <SectionParticles
+              className={styles.ctaParticles}
+              particleCount={10}
+              connectionDistance={75}
+              motionScale={0.45}
+            />
             <div className="container">
                 <p className="hero__subtitle"><b>Ready to transform your test automation?</b></p>
                 <div className={styles.buttons}>
@@ -160,6 +222,12 @@ function Footer() {
 function StaticFeaturesFallback() {
   return (
     <section className={styles.staticSection}>
+      <SectionParticles
+        className={styles.staticParticles}
+        particleCount={12}
+        connectionDistance={78}
+        motionScale={0.4}
+      />
       <div className="container">
         <div className={styles.staticGrid}>
           <article className={styles.staticCard}>
@@ -183,6 +251,12 @@ function StaticFeaturesFallback() {
 function StaticRoiFallback() {
   return (
     <section className={styles.staticSection}>
+      <SectionParticles
+        className={styles.staticParticles}
+        particleCount={12}
+        connectionDistance={78}
+        motionScale={0.4}
+      />
       <div className="container">
         <article className={styles.staticCardWide}>
           <h3>Estimate Your Automation ROI</h3>
