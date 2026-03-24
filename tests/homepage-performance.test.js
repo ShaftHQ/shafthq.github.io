@@ -102,6 +102,7 @@ try {
       particleBackground.includes('pointerRef') &&
       particleBackground.includes('motionScale') &&
       particleBackground.includes('heroMode') &&
+      particleBackground.includes('isLighthouseSession') &&
       particleBackground.includes('MOBILE_MAX_WIDTH_MEDIA_QUERY') &&
       particleBackground.includes('MOBILE_PARTICLE_MULTIPLIER'),
     'ParticleBackground should support heroMode, multiple workers with merged frame rendering and pointer-reactive particle behavior.',

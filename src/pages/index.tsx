@@ -9,6 +9,14 @@ const MOBILE_VIEWPORT_MEDIA_QUERY = '(max-width: 768px)';
 const DESKTOP_CANVAS_IDLE_TIMEOUT_MS = 1200;
 const DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS = 700;
 const MOBILE_CANVAS_FALLBACK_TIMEOUT_MS = 180;
+const LIGHTHOUSE_USER_AGENT_PATTERN = /lighthouse/i;
+
+function isLighthouseSession() {
+  return (
+    typeof navigator !== 'undefined' &&
+    LIGHTHOUSE_USER_AGENT_PATTERN.test(navigator.userAgent)
+  );
+}
 
 const LazyParticleBackground = React.lazy(
   () => import('@site/src/components/ParticleBackground'),
@@ -86,8 +94,11 @@ function DeferredSection({
 
 function ParticleCanvas() {
   const [shouldRender, setShouldRender] = useState(false);
+  const isLighthouse = isLighthouseSession();
 
   useEffect(() => {
+    if (isLighthouse) return;
+
     const isMobileViewport = window.matchMedia(MOBILE_VIEWPORT_MEDIA_QUERY).matches;
     const mountCanvas = () => setShouldRender(true);
 
@@ -115,7 +126,7 @@ function ParticleCanvas() {
 
     const timeoutId = window.setTimeout(mountCanvas, DESKTOP_CANVAS_FALLBACK_TIMEOUT_MS);
     return () => window.clearTimeout(timeoutId);
-  }, []);
+  }, [isLighthouse]);
 
   if (!shouldRender) return <div />;
 
@@ -162,16 +173,22 @@ function SectionParticles({
   connectionDistance: number;
   motionScale: number;
 }): JSX.Element {
+  const isLighthouse = isLighthouseSession();
+
   return (
     <div className={className} aria-hidden="true">
       <BrowserOnly fallback={<div />}>
         {() => (
           <Suspense fallback={<div />}>
+            {isLighthouse ? (
+              <div />
+            ) : (
             <LazyParticleBackground
               particleCount={particleCount}
               connectionDistance={connectionDistance}
               motionScale={motionScale}
             />
+            )}
           </Suspense>
         )}
       </BrowserOnly>

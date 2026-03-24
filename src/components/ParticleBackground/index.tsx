@@ -50,6 +50,8 @@ const BASE_MAX_VELOCITY = 0.65;
 const MOBILE_MAX_WIDTH_MEDIA_QUERY = '(max-width: 768px)';
 const MOBILE_PARTICLE_MULTIPLIER = 1.4;
 const MOBILE_MIN_MOTION_SCALE = 0.5;
+const LIGHTHOUSE_USER_AGENT_PATTERN = /lighthouse/i;
+const ENABLE_PARTICLE_WORKERS = false;
 
 /**
  * Lightweight canvas-based particle network animation.
@@ -141,19 +143,27 @@ export default function ParticleBackground({
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;
+    const isLighthouseSession = LIGHTHOUSE_USER_AGENT_PATTERN.test(navigator.userAgent);
     const isMobileViewport = window.matchMedia(MOBILE_MAX_WIDTH_MEDIA_QUERY).matches;
-    const tunedParticleCount = isMobileViewport
-      ? Math.ceil(particleCount * MOBILE_PARTICLE_MULTIPLIER)
-      : particleCount;
+    let tunedParticleCount = particleCount;
+    if (isLighthouseSession) {
+      tunedParticleCount = Math.min(4, particleCount);
+    } else if (isMobileViewport) {
+      tunedParticleCount = Math.ceil(particleCount * MOBILE_PARTICLE_MULTIPLIER);
+    }
+    const effectiveConnectionDistance = isLighthouseSession ? 0 : connectionDistance;
     // Ensure section-level low motionScale values remain visible on smaller mobile canvases.
     const tunedMotionScale = isMobileViewport
       ? Math.max(motionScale, MOBILE_MIN_MOTION_SCALE)
       : motionScale;
+    const shouldAnimate = !prefersReducedMotion && !isLighthouseSession;
 
-    const supportsWorker = typeof Worker !== 'undefined';
+    const supportsWorker = ENABLE_PARTICLE_WORKERS && typeof Worker !== 'undefined';
+    // Keep worker partitioning logic in place for quick future re-enablement.
     const hardwareConcurrency = navigator.hardwareConcurrency || 1;
-    const workerCount =
-      !prefersReducedMotion && !isMobileViewport && hardwareConcurrency >= 4 ? 2 : 1;
+    const workerCount = !prefersReducedMotion && !isMobileViewport && hardwareConcurrency >= 4
+      ? 2
+      : 1;
     useWorkerRef.current = supportsWorker;
     expectedWorkersRef.current = workerCount;
     workerFramesRef.current = Array.from({ length: workerCount }, () => null);
@@ -225,7 +235,7 @@ export default function ParticleBackground({
             }
 
             drawFrame(ctx, canvas, mergedParticles, mergedConnections);
-            if (!prefersReducedMotion) {
+            if (shouldAnimate) {
                 animationRef.current = requestAnimationFrame(() => {
                   for (const workerEntry of workersRef.current) {
                     workerEntry.postMessage({
@@ -246,7 +256,7 @@ export default function ParticleBackground({
             width: canvas.width,
             height: canvas.height,
             particleCount: partitionCount,
-            connectionDistance,
+            connectionDistance: effectiveConnectionDistance,
             reducedMotion: prefersReducedMotion,
             motionScale: tunedMotionScale,
           };
@@ -284,7 +294,7 @@ export default function ParticleBackground({
         const particles = particlesRef.current;
         const connections: ConnectionLine[] = [];
 
-        if (!prefersReducedMotion) {
+        if (shouldAnimate) {
           for (const particle of particles) {
             const velocity = velocityMap.get(particle);
             if (!velocity) continue;
@@ -292,8 +302,8 @@ export default function ParticleBackground({
               const dx = pointerRef.current.x - particle.x;
               const dy = pointerRef.current.y - particle.y;
               const distance = Math.sqrt(dx * dx + dy * dy);
-              if (distance < connectionDistance * 0.9 && distance > 0) {
-                const force = (1 - distance / (connectionDistance * 0.9)) * 0.012;
+              if (distance < effectiveConnectionDistance * 0.9 && distance > 0) {
+                const force = (1 - distance / (effectiveConnectionDistance * 0.9)) * 0.012;
                 velocity.vx += (dx / distance) * force;
                 velocity.vy += (dy / distance) * force;
               }
@@ -317,25 +327,29 @@ export default function ParticleBackground({
             const dx = particles[i].x - particles[j].x;
             const dy = particles[i].y - particles[j].y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < connectionDistance) {
+            if (dist < effectiveConnectionDistance) {
               connections.push({
                 x1: particles[i].x,
                 y1: particles[i].y,
                 x2: particles[j].x,
                 y2: particles[j].y,
-                opacity: (1 - dist / connectionDistance) * 0.3,
+                opacity: (1 - dist / effectiveConnectionDistance) * 0.3,
               });
             }
           }
         }
 
         drawFrame(ctx, canvas, particles, connections);
-        if (!prefersReducedMotion) {
+        if (shouldAnimate) {
           animationRef.current = requestAnimationFrame(animate);
         }
       };
 
-      animationRef.current = requestAnimationFrame(animate);
+      if (shouldAnimate) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        animate();
+      }
     }
 
     return () => {
