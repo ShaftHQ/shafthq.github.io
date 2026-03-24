@@ -4,6 +4,7 @@ title: Validations Overview
 sidebar_label: Overview
 description: "Learn how to use SHAFT Engine's built-in assertions and verifications for browser, element, object, number, file, and API response validation."
 keywords: [SHAFT, validations, assertions, verifications, test automation, hard assertion, soft assertion]
+tags: [validations, assertions, overview]
 ---
 
 SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API.

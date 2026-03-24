@@ -4,6 +4,7 @@ title: Touch Actions
 sidebar_label: Touch
 description: "Automate mobile touch interactions — tap, swipe, pinch to zoom, long press, and app background management using SHAFT Engine."
 keywords: [SHAFT, touch actions, mobile automation, tap, swipe, pinch zoom, Appium, mobile testing]
+tags: [mobile, touch, actions, appium]
 ---
 
 SHAFT provides touch action methods for mobile app automation. Access them through `driver.touch()`.

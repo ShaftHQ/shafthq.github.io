@@ -4,6 +4,7 @@ title: Alert Actions
 sidebar_label: Alert
 description: "Handle browser alert dialogs — accept, dismiss, read text, and type into prompt alerts using SHAFT Engine."
 keywords: [SHAFT, alert actions, JavaScript alert, confirm dialog, prompt dialog, browser alerts, web automation]
+tags: [web, alerts, actions, javascript]
 ---
 
 Alerts are dialog boxes that appear in the browser to notify or prompt the user. SHAFT provides the `AlertActions` class to interact with these dialogs.

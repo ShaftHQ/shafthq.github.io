@@ -4,6 +4,7 @@ title: Test Data Management
 sidebar_label: Test Data
 description: "Manage test data from JSON, Excel, CSV, and YAML files using SHAFT Engine's test data management API."
 keywords: [SHAFT, test data, JSON, Excel, CSV, YAML, data-driven testing, test data management]
+tags: [test-data, json, excel, csv]
 ---
 
 ## Overview

@@ -4,6 +4,7 @@ title: Web GUI Demo Projects
 sidebar_label: Web
 description: "Working demo projects for web GUI test automation with SHAFT Engine — parallel execution, ThreadLocal driver, and Page Object Model examples."
 keywords: [SHAFT, web demo, parallel execution, ThreadLocal, Page Object Model, web automation example]
+tags: [web, demo, selenium, parallel]
 ---
 ### Parallel Execution using ThreadLocal Driver
 

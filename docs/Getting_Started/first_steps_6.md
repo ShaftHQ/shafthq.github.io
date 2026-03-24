@@ -4,6 +4,7 @@ title: "Migrate Existing Selenium Projects to SHAFT"
 sidebar_label: Existing Projects
 description: "Upgrade your existing Selenium, Appium, or REST Assured project to use SHAFT Engine. Step-by-step migration guide with pom.xml changes."
 keywords: [migrate selenium to shaft, upgrade selenium project, selenium migration guide, convert selenium tests, shaft engine migration]
+tags: [getting-started, migration, selenium]
 ---
 
 # Upgrading an Existing Project to SHAFT

@@ -4,6 +4,7 @@ title: "How SHAFT Extends Selenium WebDriver"
 sidebar_label: SHAFT & Selenium
 description: "Learn how SHAFT builds on Selenium WebDriver to add auto-synchronization, fluent APIs, built-in reporting, and support for TestNG, JUnit 5, and Cucumber."
 keywords: [selenium webdriver wrapper, selenium java framework, selenium auto wait, selenium fluent api, selenium page object model, W3C WebDriver, WebDriver BiDi]
+tags: [getting-started, selenium, webdriver]
 ---
 
 # How SHAFT Extends Selenium WebDriver

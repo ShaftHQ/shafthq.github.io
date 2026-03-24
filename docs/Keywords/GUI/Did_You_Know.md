@@ -4,6 +4,7 @@ title: Tips and Tricks
 sidebar_label: Tips & Tricks
 description: "Discover advanced SHAFT Engine features — native Selenium access, custom capabilities, Locator Builder, Shadow DOM, and cookie management."
 keywords: [SHAFT, tips, tricks, native Selenium, custom capabilities, locator builder, Shadow DOM, cookies]
+tags: [web, tips, advanced]
 ---
 
 ## Native Selenium WebDriver

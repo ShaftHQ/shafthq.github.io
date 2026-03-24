@@ -4,6 +4,7 @@ title: Object Validations
 sidebar_label: Object
 description: "Validate objects for equality, containment, regex matching, null checks, and boolean values using SHAFT Engine."
 keywords: [SHAFT, object validations, assertions, equality, regex, null check, boolean validation]
+tags: [validations, objects, equality]
 ---
 
 You can perform assertions and verifications on objects using the `NativeValidationsBuilder`.

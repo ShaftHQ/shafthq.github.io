@@ -100,3 +100,48 @@ table th {
 html[data-theme='dark'] .navbar .navbar__logo {
 content: url(../../static/img/shaft_white.svg)
 }
+
+/* ----- Search UI enhancements ----- */
+
+/* Wider search input for more comfortable typing */
+.dsla-search-wrapper {
+  min-width: 220px !important;
+}
+
+/* Improve search result title readability */
+.aa-ItemContentTitle {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+}
+
+/* Better description legibility */
+.aa-ItemContentDescription {
+  font-size: 0.85rem !important;
+  line-height: 1.45 !important;
+  opacity: 0.85 !important;
+}
+
+/* Highlight matching text in search results */
+.aa-ItemContentTitle mark,
+.aa-ItemContentDescription mark {
+  background-color: rgba(46, 133, 85, 0.18) !important;
+  color: inherit !important;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+[data-theme='dark'] .aa-ItemContentTitle mark,
+[data-theme='dark'] .aa-ItemContentDescription mark {
+  background-color: rgba(37, 194, 160, 0.22) !important;
+}
+
+/* Focus ring on the search input for accessibility */
+.dsla-search-field:focus-visible {
+  outline: 2px solid var(--ifm-color-primary) !important;
+  outline-offset: 1px;
+}
+
+/* Subtle hover lift on result items */
+.aa-ItemLink:hover {
+  background-color: var(--ifm-hover-overlay) !important;
+}

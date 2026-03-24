@@ -4,6 +4,7 @@ title: Browser Actions
 sidebar_label: Browser
 description: "Navigate pages, manage windows, handle cookies, capture screenshots, and control the browser using SHAFT Engine's BrowserActions API."
 keywords: [SHAFT, browser actions, navigation, window management, cookies, screenshots, Selenium, web automation]
+tags: [web, browser, actions, navigation]
 ---
 
 ## Getting Started

@@ -4,6 +4,7 @@ title: "SHAFT Community, Support Channels, and Contributing"
 sidebar_label: Support & Community
 description: "Get help with SHAFT Engine. Join the Slack community, report issues on GitHub, and learn how to contribute to the project."
 keywords: [shaft support, shaft community, test automation help, shaft slack, shaft github, open source contributing, test automation community]
+tags: [community, support, contributing]
 ---
 
 # Support & Community

@@ -4,6 +4,7 @@ title: Basic Configuration for Web GUI
 sidebar_label: Web GUI
 description: "Configure SHAFT Engine properties for web browser automation — browser type, headless mode, timeouts, proxy, and visual reporting."
 keywords: [SHAFT, web configuration, browser settings, headless mode, proxy settings, Chrome, Firefox, Selenium configuration]
+tags: [web, configuration, selenium, browser]
 ---
 
 - To get you started, SHAFT will auto-generate some default properties for your first test run.

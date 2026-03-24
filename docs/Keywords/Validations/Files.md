@@ -4,6 +4,7 @@ title: File Validations
 sidebar_label: File
 description: "Validate file existence, checksum, and content using SHAFT Engine's FileValidationsBuilder."
 keywords: [SHAFT, file validations, file exists, checksum, PDF validation, text file validation]
+tags: [validations, file, checksum]
 ---
 
 You can perform assertions and verifications on files using the `FileValidationsBuilder`.

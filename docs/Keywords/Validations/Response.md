@@ -4,6 +4,7 @@ title: API Response Validations
 sidebar_label: API Response
 description: "Validate API responses including JSON values, file content comparison, and schema matching using SHAFT Engine."
 keywords: [SHAFT, API validations, response validation, JSON, schema validation, REST API testing]
+tags: [validations, api, response]
 ---
 
 You can perform assertions and verifications on API responses using the `RestValidationsBuilder`. Access it through the `SHAFT.API` instance or the standalone `Validations` class.

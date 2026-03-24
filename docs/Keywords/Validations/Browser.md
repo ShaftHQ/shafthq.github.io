@@ -4,6 +4,7 @@ title: Browser Validations
 sidebar_label: Browser
 description: "Validate browser attributes such as URL and title using SHAFT Engine's WebDriverBrowserValidationsBuilder."
 keywords: [SHAFT, browser validations, URL validation, title validation, web driver, assertions, verifications]
+tags: [validations, browser, url, title]
 ---
 
 You can perform assertions and verifications on the browser itself using the `WebDriverBrowserValidationsBuilder`. Access it through the driver instance or the standalone `Validations` class.

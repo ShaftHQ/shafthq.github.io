@@ -4,6 +4,7 @@ title: Force Fail
 sidebar_label: Force Fail
 description: "Intentionally fail a test with a custom message using SHAFT Engine's forceFail validation."
 keywords: [SHAFT, force fail, custom assertion, test failure, custom report message]
+tags: [validations, force-fail]
 ---
 
 Use `forceFail()` to intentionally fail a test with a custom message. This is useful for marking incomplete tests, flagging known issues, or creating conditional failures.
