@@ -68,7 +68,7 @@ api.assertThatResponse().time().isEqualTo(expectedNumberValue).perform();
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210").perform();
-api.verifyThatResponse().time().isGreaterThanOrEquals(1).perform();
+api.verifyThatResponse().time().isGreaterThanOrEquals(100).perform();
 api.verifyThatResponse().time().isLessThanOrEquals(100000).perform();
 ```
 

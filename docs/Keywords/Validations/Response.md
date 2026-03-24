@@ -56,7 +56,7 @@ api.verifyThatResponse().extractedJsonValue("data.items[0].id").isEqualTo("123")
 ```
 
 :::info
-JSONPath expressions should be provided **without** the leading `$.` prefix. For example, use `"data.name"` instead of `"$.data.name"`. Refer to the [JSONPath documentation](https://github.com/json-path/JsonPath) for syntax details.
+JSONPath expressions should be provided **without** the leading `$.` prefix. For example, use `"data.name"` instead of `"$.data.name"`. SHAFT uses the [Jayway JsonPath](https://github.com/json-path/JsonPath) library (the standard Java JSONPath implementation) for expression evaluation.
 :::
 
 ## extractedJsonValueAsList()

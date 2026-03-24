@@ -251,6 +251,7 @@ driver.browser().waitUntilNumberOfWindowsToBe(2);
 ### Mock HTTP Requests
 
 ```java title="MockRequest.java"
+import java.io.ByteArrayInputStream;
 import org.openqa.selenium.remote.http.HttpRequest;
 import org.openqa.selenium.remote.http.HttpResponse;
 
@@ -265,6 +266,8 @@ Intercepts HTTP requests matching the predicate and returns the mocked response.
 ### Intercept HTTP Requests
 
 ```java title="InterceptRequest.java"
+import java.io.ByteArrayInputStream;
+
 driver.browser().intercept(
     request -> request.getUri().contains("/api/data"),
     new HttpResponse().setStatus(200).setContent(() -> new ByteArrayInputStream("{}".getBytes()))
