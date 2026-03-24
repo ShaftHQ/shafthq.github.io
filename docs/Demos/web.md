@@ -1,7 +1,9 @@
 ---
 id: web
-title: Demo Projects For Web GUI
+title: Web GUI Demo Projects
 sidebar_label: Web
+description: "Working demo projects for web GUI test automation with SHAFT Engine — parallel execution, ThreadLocal driver, and Page Object Model examples."
+keywords: [SHAFT, web demo, parallel execution, ThreadLocal, Page Object Model, web automation example]
 ---
 ### Parallel Execution using ThreadLocal Driver
 
@@ -50,6 +52,6 @@ public class ParallelThreadLocalTest {
 ```
 
 :::info
-You can visit this Repository to for a Demo on how to set Parallel Execution in SHAFT_ENGINE
+Visit this repository for a complete demo on parallel execution with SHAFT Engine:
 ### [ParallelExecution_Demo](https://github.com/MustafaAgamy/ShaftEngine-ParellelWithThreadLocal.git)
 :::

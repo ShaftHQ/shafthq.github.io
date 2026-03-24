@@ -1,239 +1,118 @@
 ---
 id: Objects
-title: Object 
-sidebar_labe: Object
+title: Object Validations
+sidebar_label: Object
+description: "Validate objects for equality, containment, regex matching, null checks, and boolean values using SHAFT Engine."
+keywords: [SHAFT, object validations, assertions, equality, regex, null check, boolean validation]
 ---
 
-#### We can make many assertions and verifications on objects by using the _Class NativeValidationsBuilder_ through using the following methods:
+You can perform assertions and verifications on objects using the `NativeValidationsBuilder`.
 
-###  isEqualTo():
-* We use this method to check that the actual object is equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isEqualTo()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).isEqualTo((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).isEqualTo((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object is equal to the expected value.
+
+```java title="ObjectEqualValidation.java"
+Validations.assertThat().object(actualValue).isEqualTo(expectedValue).perform();
+Validations.verifyThat().object(actualValue).isEqualTo(expectedValue).perform();
 ```
 
-###  equals():
-* This method overrides the default object method equals and is the same as calling isEqualTo(expectedValue).perform();
-* So we use this method to check that the actual object is equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a boolean value true if passed and throws AssertionError if failed (return value can be safely ignored).
+## doesNotEqual()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).equals((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).equals((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object is not equal to the expected value.
+
+```java title="ObjectNotEqualValidation.java"
+Validations.assertThat().object(actualValue).doesNotEqual(expectedValue).perform();
+Validations.verifyThat().object(actualValue).doesNotEqual(expectedValue).perform();
 ```
 
-###  doesNotEqual():
-* We use this method to check that the actual object is not equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## contains()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).doesNotEqual((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).doesNotEqual((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object contains the expected value.
+
+```java title="ObjectContainsValidation.java"
+Validations.assertThat().object(actualText).contains("expected substring").perform();
+Validations.verifyThat().object(actualText).contains("expected substring").perform();
 ```
 
-###  contains():
-* We use this method to check that the actual object contains the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## doesNotContain()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).contains((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).contains((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object does not contain the expected value.
+
+```java title="ObjectNotContainsValidation.java"
+Validations.assertThat().object(actualText).doesNotContain("unwanted text").perform();
 ```
 
-###  doesNotContain():
-* We use this method to check that the actual object does not contain the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## matchesRegex()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).doesNotContain((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).doesNotContain((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object matches the expected regular expression.
+
+```java title="ObjectRegexValidation.java"
+Validations.assertThat().object(actualValue).matchesRegex("\\d{3}-\\d{4}").perform();
 ```
 
-###  matchesRegex():
-* We use this method to check that the actual object matches the expected regular expression.
-* Needed parameters: expectedValue - the test data / expected regular expression for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## doesNotMatchRegex()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).matchesRegex((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).matchesRegex((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object does not match the expected regular expression.
+
+```java title="ObjectNotRegexValidation.java"
+Validations.assertThat().object(actualValue).doesNotMatchRegex("\\d+").perform();
 ```
 
-###  doesNotMatchRegex():
-* We use this method to check that the actual object does not match the expected regular expression.
-* Needed parameters: expectedValue - the test data / expected regular expression for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## equalsIgnoringCaseSensitivity()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).doesNotMatchRegex((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).doesNotMatchRegex((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object equals the expected value, ignoring case sensitivity.
+
+```java title="ObjectCaseInsensitiveValidation.java"
+Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("hello world").perform();
 ```
 
-###  equalsIgnoringCaseSensitivity():
-* We use this method to check that the actual object is equal to the expected value (ignoring case sensitivity).
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## doesNotEqualIgnoringCaseSensitivity()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).equalsIgnoringCaseSensitivity((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).equalsIgnoringCaseSensitivity((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object does not equal the expected value, ignoring case sensitivity.
+
+```java title="ObjectCaseInsensitiveNotEqualValidation.java"
+Validations.assertThat().object("Hello").doesNotEqualIgnoringCaseSensitivity("world").perform();
 ```
 
-###  doesNotEqualIgnoringCaseSensitivity():
-* We use this method to check that the actual object is not equal to the expected value (ignoring case sensitivity).
-* Needed parameters: expectedValue - the test data / expected value for the object under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isNull()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).doesNotEqualIgnoringCaseSensitivity((Object) expectedValue)).perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).doesNotEqualIgnoringCaseSensitivity((Object) expectedValue)).perform();
-    }
-}
+Checks that the actual object is null.
+
+```java title="ObjectNullValidation.java"
+Validations.assertThat().object(actualValue).isNull().perform();
 ```
 
-###  isNull():
-* We use this method to check that the actual object is null.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isNotNull()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).isNull().perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).isNull().perform();
-    }
-}
+Checks that the actual object is not null.
+
+```java title="ObjectNotNullValidation.java"
+Validations.assertThat().object(actualValue).isNotNull().perform();
 ```
 
-###  isNotNull():
-* We use this method to check that the actual object is not null.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isTrue()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).isNotNull().perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).isNotNull().perform();
-    }
-}
+Checks that the actual object evaluates to true.
+
+```java title="ObjectTrueValidation.java"
+Validations.assertThat().object(actualValue).isTrue().perform();
 ```
 
-###  isTrue():
-* We use this method to check that the actual object is true.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isFalse()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).isTrue().perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).isTrue().perform();
-    }
-}
+Checks that the actual object evaluates to false.
+
+```java title="ObjectFalseValidation.java"
+Validations.assertThat().object(actualValue).isFalse().perform();
 ```
 
-
-###### 13. isFalse():
-* We use this method to check that the actual object is false.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
-
+:::tip
+You can add a custom report message to any object validation:
 ```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().object((Object) actualObject).isFalse().perform();
-        //make verification
-        Validations.verifyThat().object((Object) actualObject).isFalse().perform();
-    }
-}
+Validations.assertThat().object(username)
+    .isEqualTo("admin")
+    .withCustomReportMessage("Verify username is 'admin'")
+    .perform();
 ```
+:::

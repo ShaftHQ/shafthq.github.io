@@ -1,134 +1,69 @@
 ---
 id: Nums
-title: Number 
-sidebar_labe: Number
+title: Number Validations
+sidebar_label: Number
+description: "Validate numbers for equality and comparison using SHAFT Engine's NumberValidationsBuilder."
+keywords: [SHAFT, number validations, numeric assertions, comparison, greater than, less than]
 ---
 
-#### We can make many assertions and verifications on numbers by using the _Class NumberValidationsBuilder_ through using the following methods:
+You can perform assertions and verifications on numbers using the `NumberValidationsBuilder`.
 
-###  isEqualTo():
-* We use this method to check that the actual number is equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isEqualTo()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).isEqualTo((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).isEqualTo((Number) expectedValue).perform();
-    }
-}
+Checks that the actual number is equal to the expected value.
+
+```java title="NumberEqualValidation.java"
+Validations.assertThat().number(actualNumber).isEqualTo(expectedNumber).perform();
+Validations.verifyThat().number(actualNumber).isEqualTo(expectedNumber).perform();
 ```
 
-###  equals():
-* This method overrides the default object method equals and is the same as calling isEqualTo((Number) expectedValue).perform();* * So we use this method to check that the actual number is equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a boolean value true if passed and throws AssertionError if failed (return value can be safely ignored).
+## doesNotEqual()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).equals((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).equals((Number) expectedValue).perform();
-    }
-}
+Checks that the actual number is not equal to the expected value.
+
+```java title="NumberNotEqualValidation.java"
+Validations.assertThat().number(actualNumber).doesNotEqual(expectedNumber).perform();
 ```
 
-###  doesNotEqual():
-* We use this method to check that the actual number does not equal the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isGreaterThan()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).doesNotEqual((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).doesNotEqual((Number) expectedValue).perform();
-    }
-}
+Checks that the actual number is strictly greater than the expected value.
+
+```java title="NumberGreaterThanValidation.java"
+Validations.assertThat().number(actualNumber).isGreaterThan(expectedNumber).perform();
 ```
 
-###  isGreaterThanOrEquals():
-* We use this method to check that the actual number is greater than or equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isGreaterThanOrEquals()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).isGreaterThanOrEquals((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).isGreaterThanOrEquals((Number) expectedValue).perform();
-    }
-}
+Checks that the actual number is greater than or equal to the expected value.
+
+```java title="NumberGreaterThanOrEqualsValidation.java"
+Validations.assertThat().number(actualNumber).isGreaterThanOrEquals(expectedNumber).perform();
 ```
 
+## isLessThan()
 
-###  isGreaterThan():
-* We use this method to check that the actual number is greater than the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+Checks that the actual number is strictly less than the expected value.
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).isGreaterThan((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).isGreaterThan((Number) expectedValue).perform();
-    }
-}
+```java title="NumberLessThanValidation.java"
+Validations.assertThat().number(actualNumber).isLessThan(expectedNumber).perform();
 ```
 
-###  isLessThanOrEquals():
-* We use this method to check that the actual number is less than or equal to the expected value.
-* Needed parameters: expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
+## isLessThanOrEquals()
 
-```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).isLessThanOrEquals((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).isLessThanOrEquals((Number) expectedValue).perform();
-    }
-}
+Checks that the actual number is less than or equal to the expected value.
+
+```java title="NumberLessThanOrEqualsValidation.java"
+Validations.assertThat().number(actualNumber).isLessThanOrEquals(expectedNumber).perform();
 ```
 
-###  isLessThan():
-* We use this method to check that the actual number is less than the expected value.
-* expectedValue - the test data / expected value for the number under test.
-* This method returns a ValidationsExecutor object to set your custom validation message (if needed) and then perform() your validation.
-
+:::tip
+Number validations are useful for checking response times, element counts, and other numeric test data:
 ```java
-import com.shaft.validation.Validations;
-public class Testing {
-    @Test
-    public void testValidations(){
-        //make assertion
-        Validations.assertThat().number((Number) actualNumber).isLessThan((Number) expectedValue).perform();
-        //make verification
-        Validations.verifyThat().number((Number) actualNumber).isLessThan((Number) expectedValue).perform();
-    }
-}
+// Validate API response time is under 2 seconds
+Validations.assertThat().number(api.getResponseTime()).isLessThan(2000).perform();
+
+// Validate the number of search results
+Validations.assertThat().number(resultCount).isGreaterThan(0).perform();
 ```
+:::

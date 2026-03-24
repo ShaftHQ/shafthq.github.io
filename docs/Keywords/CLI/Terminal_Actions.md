@@ -2,6 +2,8 @@
 id: Terminal_Actions
 title: Terminal Actions
 sidebar_label: Terminal
+description: "Execute terminal commands and shell scripts programmatically using SHAFT Engine's CLI terminal actions."
+keywords: [SHAFT, terminal actions, CLI, command line, shell commands, automation]
 ---
 
 ## Terminal / CLI Driver
