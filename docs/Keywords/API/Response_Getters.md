@@ -2,6 +2,8 @@
 id: Response_Getters
 title: Response Getters
 sidebar_label: Parsing
+description: "Extract and parse API response data — body, status code, response time, JSON values, and XML values using SHAFT Engine."
+keywords: [SHAFT, API response, response parsing, JSONPath, XML, status code, response time, REST API]
 ---
 
 ## SHAFT API Getters
@@ -75,7 +77,7 @@ String value = api.getResponseJSONValueAsList("jsonPath");
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/todos").perform();
-List<Object> value = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
+List<Object> completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
 for (Object completed : completedList) {
     SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true").perform();
 }

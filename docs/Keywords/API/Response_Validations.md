@@ -2,15 +2,16 @@
 id: Response_Validations
 title: Response Validations
 sidebar_label: Validations
+description: "Validate API responses — status codes, JSON values, response body, schema matching, and response time using SHAFT Engine."
+keywords: [SHAFT, API validation, response validation, JSON validation, schema validation, REST API testing]
 ---
 
 ## SHAFT API Response Validations
-Using the SHAFT API object to directly validate on the latest response directly is very convenient, let's see! <br/>
-We need to use the SHAFT API Object then use the **assertThatResponse()** method (for hard assertion) or **verifyThatResponse()** method (for soft assertion) to access all the response validation methods, and ofcourse we need to add the **perform();** in the end to perform the validation correctly. <br/><br/>
+Using the SHAFT API object to directly validate the latest response is very convenient. Use `assertThatResponse()` for hard assertions or `verifyThatResponse()` for soft assertions, and always call `.perform()` at the end to execute the validation.
 
 ### Body
-Validate on the response body <br />
-_* Calls the [Object validation methods](https://shafthq.github.io/docs/Keywords/Validations/Objects) to contiue building your validation. *_
+Validate on the response body.
+Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
 
 ```java
 api.assertThatResponse().body().contains("data").perform();
@@ -23,11 +24,13 @@ api.assertThatResponse().body().contains("Beverly Hills").perform();
 ```
 
 ### Extracted Json Value
-Validate on an extracted value from the response body by parsing the target **JSONPath.** <br />
-_* To extract the desired value, please refer to these urls for examples: <br /> 
-You can learn the JSONPath Syntax from [here](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
-And test your JSONPath [here](http://jsonpath.com/) *_  <br />
-_* Calls the [Object validation methods](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Keywords/Validations/Objects) to contiue building your validation. *_
+Validate an extracted value from the response body by parsing the target **JSONPath**.
+
+:::info
+You can learn the JSONPath syntax from the [JSONPath documentation](https://github.com/json-path/JsonPath) and test your expressions at [jsonpath.com](http://jsonpath.com/).
+:::
+
+Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
 
 ```java
 api.assertThatResponse().extractedJsonValue("jsonPath").isEqualTo("data").perform();
@@ -40,11 +43,9 @@ api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id
 ```
 
 ### Extracted Json Value As List
-Validate on an extracted value from the response body by parsing the target **JSONPath** as list and check every item against it <br />
-_* To extract the desired value, please refer to these urls for examples: <br /> 
-You can learn the JSONPath Syntax from [here](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
-And test your JSONPath [here](http://jsonpath.com/) *_  <br />
-_* Calls the [Object validation methods](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Keywords/Validations/Objects) to contiue building your validation. *_
+Validate an extracted value from the response body by parsing the target **JSONPath** as a list and check every item against it.
+
+Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
 
 ```java
 api.assertThatResponse().extractedJsonValueAsList("jsonPath").isEqualTo("data").perform();
@@ -57,8 +58,8 @@ api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].compl
 ```
 
 ### Time
-Validate on the response time. <br />
-_* Calls the [Number validation methods](https://shafthq.github.io/SHAFT_Engine_Docusaurus/docs/Keywords/Validations/Nums) to contiue building your validation. *_
+Validate on the response time.
+Chains to [Number validation methods](../Validations/Nums) to continue building your validation.
 
 ```java
 api.assertThatResponse().time().isEqualTo(expectedNumberValue).perform();
@@ -67,8 +68,8 @@ api.assertThatResponse().time().isEqualTo(expectedNumberValue).perform();
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210").perform();
-api.verifyThatResponse().isGreaterThanOrEquals(1.1).perform();
-api.verifyThatResponse().isLessThanOrEquals(100000).perform();
+api.verifyThatResponse().time().isGreaterThanOrEquals(100).perform();
+api.verifyThatResponse().time().isLessThanOrEquals(100000).perform();
 ```
 
 ### Is Equal To File Content
@@ -101,8 +102,8 @@ Validate if the content of the provided actual response object contains the expe
 api.assertThatResponse().containsFileContent("fileRelativePath").perform();
 ```
 
-### Does not Contain File Content
-Validate if the content of the provided actual response object does not contains the expected file content.
+### Does Not Contain File Content
+Validate if the content of the provided actual response object does not contain the expected file content.
 ```java
 api.assertThatResponse().doesNotContainFileContent("fileRelativePath").perform();
 ```

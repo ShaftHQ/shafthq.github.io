@@ -1,7 +1,9 @@
 ---
 id: basicConfig2
-title: Basic configuration for Mobile GUI
+title: Basic Configuration for Mobile GUI
 sidebar_label: Mobile GUI
+description: "Configure SHAFT Engine properties for mobile app automation with Appium — Android, iOS, native and web execution settings."
+keywords: [SHAFT, mobile configuration, Appium settings, Android, iOS, mobile automation, UiAutomator2, XCUITest]
 ---
 
 - Given that you already have an Appium server up and running, and some real or virtual mobile devices connected and configured, you can start configuring SHAFT to execute your tests against these devices.
@@ -11,7 +13,7 @@ sidebar_label: Mobile GUI
     - You can also consider using cloud device farms like **[BrowserStack]** or **[LambdaTest]** to execute your tests remotely.
 :::
 
-- Here are some basic properties you need to including in your `custom.properties` file to run against an Appium Server for any kind of mobile execution:
+- Here are some basic properties you need to include in your `custom.properties` file to run against an Appium Server for any kind of mobile execution:
 ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
 # you can set the value here to point to your appium server instance
 # this is the default value for local appium servers

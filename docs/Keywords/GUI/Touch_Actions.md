@@ -2,292 +2,173 @@
 id: Touch_Actions
 title: Touch Actions
 sidebar_label: Touch
+description: "Automate mobile touch interactions — tap, swipe, pinch to zoom, long press, and app background management using SHAFT Engine."
+keywords: [SHAFT, touch actions, mobile automation, tap, swipe, pinch zoom, Appium, mobile testing]
 ---
 
-#### We can interact with Touch Actions via the following methods: 
+SHAFT provides touch action methods for mobile app automation. Access them through `driver.touch()`.
 
-### performElementAction():
-* We use this method to call the Element Actions within the current Touch Actions instance. For example, in case of trying to tap a text box to type something. In that case we have to perform type(), an element action, within the tap(), the touch action. 
-* This method returns a WebDriverElementActions object.
+## Tap Actions
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).touchMethod(element locator).performElementAction().touchMethod(element, String "");
-    }
+### tap()
 
-    @Test2
-    public void touchActions(){
-        driver.element().performTouchAction()
-                .tap(locator)
-                .performElementAction()
-                .type(locator, String "")
-    }
-}
-```
-### nativeKeyboardKeyPress():
-* We use this method to send a keypress via the device soft keyboard. 
-* Needed parameters: key - the key that should be pressed.
-* This method returns a self-reference to be used to chain actions.
+Taps an element once on a touch-enabled screen.
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).touchMethod(element locator).nativeKeyboardKeyPress(KeyboardKeys key);
-    }
-}
+```java title="TapExample.java"
+By loginButton = By.id("login_btn");
+driver.touch().tap(loginButton);
 ```
 
-### hideNativeKeyboard():
-* We use this method to hide the device native soft keyboard. 
-* This method returns a self-reference to be used to chain actions.
+### doubleTap()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).hideNativeKeyboard();
-    }
-}
-```
-### waitUntilElementIsVisible():
-* We use this method to wait until a specific element is now visible on the current screen.
-* Needed parameters: elementReferenceScreenshot - relative path to the reference image from the local object repository.
-* This method returns a  self-reference to be used to chain actions.
+Double-taps an element on a touch-enabled screen.
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).waitUntilElementIsVisible(String elementReferenceScreenshot);
-    }
-}
-```
-### pinchToZoom():
-* We use this method to  to zoom the current screen IN/ OUT in case of zoom enabled screen.
-* Needed parameters: zoomDirection - ZoomDirection.IN or OUT.
-* This method returns a  self-reference to be used to chain actions.
-
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).pinchToZoom(ZoomDirection zoomDirection);
-    }
-}
-```
-### activateAppFromBackground():
-* We use this method to activate an app that has been previously deactivated or sent to the background.
-* Needed parameters: appPackageName - the full name for the app package that you want to activate. for example [com.apple.Preferences] or [io.appium.android.apis]
-* This method returns a  self-reference to be used to chain actions.
-
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).activateAppFromBackground(String appPackageName);
-    }
-}
+```java title="DoubleTapExample.java"
+By imageElement = By.id("photo");
+driver.touch().doubleTap(imageElement);
 ```
 
-## tap methods:
-### tap():
-* We use this method to tap an element once on a touch-enabled screen. 
-* Needed parameters: elementLocator - the locator of the webElement under test (By xpath, id, selector, name ...etc).
-* This method returns a  self-reference to be used to chain actions.
+### longTap()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).tap(element locator);
-    }
-}
+Performs a long press on an element to trigger the context menu.
+
+```java title="LongTapExample.java"
+By listItem = By.id("item_1");
+driver.touch().longTap(listItem);
 ```
 
-### tap():
-* We use this method to tap an element once on a touch-enabled screen. 
-* Needed parameters: elementReferenceScreenshot - relative path to the reference image from the local object repository.
-* This method returns a  self-reference to be used to chain actions.
+## Swipe Actions
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).tap(String elementReferenceScreenshot);
-    }
-}
+### swipeToElement()
+
+Swipes from a source element to a destination element.
+
+```java title="SwipeToElementExample.java"
+By sourceElement = By.id("card_1");
+By destinationElement = By.id("drop_zone");
+driver.touch().swipeToElement(sourceElement, destinationElement);
 ```
 
-### doubleTap():
-* We use this method to double-taps an element on a touch-enabled screen. 
-* Needed parameters: elementLocator - the locator of the webElement under test (By xpath, id, selector, name ...etc).
-* This method returns a  self-reference to be used to chain actions.
+### swipeByOffset()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).doubleTap(element locator);
-    }
-}
+Swipes an element by a specified horizontal and vertical offset. Positive x-offset swipes right, negative swipes left. Positive y-offset swipes down, negative swipes up.
+
+```java title="SwipeByOffsetExample.java"
+By element = By.id("slider");
+driver.touch().swipeByOffset(element, 200, 0); // swipe right by 200px
 ```
 
-### longTap():
-* We use this method to perform a long-tap on an element to trigger the context menu on a touch-enabled screen. 
-* Needed parameters: elementLocator - the locator of the webElement under test (By xpath, id, selector, name ...etc).
-* This method returns a  self-reference to be used to chain actions.
+### swipeElementIntoView()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).longTap(element locator);
-    }
-}
+Scrolls until the target element is visible. Useful for finding elements in long scrollable lists.
+
+```java title="SwipeIntoViewExample.java"
+By targetElement = By.id("item_at_bottom");
+driver.touch().swipeElementIntoView(targetElement, TouchActions.SwipeDirection.DOWN);
 ```
 
-## swipe methods: 
-### 1. swipeToElement():
-* We use this method to swipe the sourceElement onto the destinationElement on a touch-enabled screen.
-* Needed parameters: 
-    1. sourceElementLocator - the locator of the webElement that needs to be swiped (By xpath, id, selector, name ...etc).
-    2. destinationElementLocator - the locator of the webElement that you'll drop the sourceElement on (By xpath, id, selector, name ...etc).
-* This method returns a  self-reference to be used to chain actions.
+You can also specify a scrollable container:
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeToElement(element sourceElementLocator, element destinationElementLocator);
-    }
-}
+```java title="SwipeIntoViewContainerExample.java"
+By scrollableContainer = By.id("list_view");
+By targetElement = By.id("item_50");
+driver.touch().swipeElementIntoView(scrollableContainer, targetElement, TouchActions.SwipeDirection.DOWN);
 ```
 
-### 2. swipeByOffset():
-* We use this method to swipe an element with the desired x and y offset. Swiping direction is determined by the positive/negative nature of the offset. Swiping destination is determined by the value of the offset.
-* Needed parameters: elementLocator - the locator of the webElement under test (By xpath, id, selector, name ...etc).
-    1. xOffset - the horizontal offset by which the element should be swiped. positive value is "right" and negative value is "left".
-    2. yOffset - the vertical offset by which the element should be swiped. positive value is "down" and negative value is "up".
-* This method returns a  self-reference to be used to chain actions.
+## Keyboard Actions
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeByOffset(element locator, int xoffset, element destinationElementLocatorint yoffset);
-    }
-}
+### nativeKeyboardKeyPress()
+
+Sends a key press via the device soft keyboard.
+
+```java title="KeyPressExample.java"
+driver.touch().nativeKeyboardKeyPress(TouchActions.KeyboardKeys.ENTER);
 ```
 
-### 3. swipeElementIntoView():
-* We use this method to scroll the element into the view in case of native mobile elements.
-* Needed parameters: 
-    1. targetElementLocator - the locator of the webElement under test (By xpath, id, selector, name ...etc) .
-    2. swipeDirection - SwipeDirection.DOWN, UP, RIGHT, or LEFT.
-* This method returns a  self-reference to be used to chain actions.
+### hideNativeKeyboard()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeElementIntoView(element locator targetElementLocator, SwipeDirection swipeDirection);
-    }
-}
-```
-### 4. swipeElementIntoView():
-* We use this method to scroll element into the view using the new W3C compliant actions for android and ios and AI for image identification.
-* Needed parameters: 
-    1. elementReferenceScreenshot - relative path to the reference image from the local object repository. 
-    2. swipeDirection - SwipeDirection.DOWN, UP, RIGHT, or LEFT.
-* This method returns a  self-reference to be used to chain actions.
+Hides the device native soft keyboard.
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeElementIntoView(String elementReferenceScreenshot, SwipeDirection swipeDirection);
-    }
-}
-```
-### 5. swipeElementIntoView():
-* We use this method to scroll element into the view using the new W3C compliant actions for android and ios and AI for image identification.
-* Needed parameters: 
-    1. scrollableElementLocator - the locator of the container/view/scrollable webElement that the scroll action will be performed inside.
-    2. elementReferenceScreenshot - relative path to the reference image from the local object repository. 
-    3. swipeDirection - SwipeDirection.DOWN, UP, RIGHT, or LEFT.
-* This method returns a  self-reference to be used to chain actions.
-
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeElementIntoView(element scrollableElementLocator, String elementReferenceScreenshot, SwipeDirection swipeDirection);
-    }
-}
+```java title="HideKeyboardExample.java"
+driver.touch().hideNativeKeyboard();
 ```
 
-### 6. swipeElementIntoView():
-* We use this method to scroll element into view using the new W3C compliant actions for android and ios.
-* Needed parameters: 
-    1. scrollableElementLocator - the locator of the container/view/scrollable webElement that the scroll action will be performed inside.
-    2. targetElementLocator - the locator of the webElement that you want to scroll to under test (By xpath, id, selector, name ...etc). 
-    3. swipeDirection - SwipeDirection.DOWN, UP, RIGHT, or LEFT.
-* This method returns a  self-reference to be used to chain actions.
+## Zoom Actions
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-         new TouchActions(driver).swipeElementIntoView(element scrollableElementLocator, element targetElementLocator, SwipeDirection swipeDirection);
-    }
-}
+### pinchToZoom()
+
+Zooms the current screen in or out.
+
+```java title="PinchToZoomExample.java"
+driver.touch().pinchToZoom(TouchActions.ZoomDirection.IN);
+driver.touch().pinchToZoom(TouchActions.ZoomDirection.OUT);
 ```
 
-## sendAppToBackground methods:
-### 1. sendAppToBackground():
-* We use this method to send the currently active app to the background, and return after a certain number of seconds. 
-* Needed parameters: secondsToSpendInTheBackground - number of seconds before returning to the app.
-* This method returns a  self-reference to be used to chain actions.
+## App Management
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
-    @Test
-    public void touchActions(){
-        new TouchActions(driver).sendAppToBackground(int secondsToSpendInTheBackground);
-    }
-}
+### sendAppToBackground()
+
+Sends the currently active app to the background.
+
+```java title="BackgroundAppExample.java"
+// Send to background and return after 5 seconds
+driver.touch().sendAppToBackground(5);
+
+// Send to background and leave deactivated
+driver.touch().sendAppToBackground();
 ```
 
-### 2. sendAppToBackground():
-* We use this method to send the currently active app to the background and leave the app deactivated. 
-* This method returns a  self-reference to be used to chain actions.
+### activateAppFromBackground()
 
-```java
-import com.shaft.gui.element.TouchActions;
-public class Testing {
+Activates an app that has been previously deactivated or sent to the background.
+
+```java title="ActivateAppExample.java"
+driver.touch().activateAppFromBackground("com.example.myapp");
+```
+
+## Visual Element Detection
+
+### waitUntilElementIsVisible()
+
+Waits until a specific element is visible on the screen using image-based detection.
+
+```java title="WaitForVisualElement.java"
+driver.touch().waitUntilElementIsVisible("path/to/reference-screenshot.png");
+```
+
+## Complete Example
+
+```java title="MobileTouchActionsDemo.java"
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.By;
+import org.testng.annotations.*;
+
+public class MobileTouchActionsDemo {
+    private SHAFT.GUI.WebDriver driver;
+
+    @BeforeMethod
+    public void setup() {
+        SHAFT.Properties.platform.set().targetPlatform("ANDROID");
+        SHAFT.Properties.mobile.set().automationName("UiAutomator2");
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
     @Test
-    public void touchActions(){
-        new TouchActions(driver).sendAppToBackground();
+    public void testTouchActions() {
+        By usernameField = By.accessibilityId("username");
+        By passwordField = By.accessibilityId("password");
+        By loginButton = By.accessibilityId("login");
+
+        driver.touch().tap(usernameField);
+        driver.element().type(usernameField, "admin");
+        driver.touch().tap(passwordField);
+        driver.element().type(passwordField, "password");
+        driver.touch().tap(loginButton);
+    }
+
+    @AfterMethod
+    public void teardown() {
+        driver.quit();
     }
 }
 ```

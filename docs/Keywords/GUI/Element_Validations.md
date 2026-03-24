@@ -2,6 +2,8 @@
 id: Element_Validations
 title: Element Validations
 sidebar_label: Element Validations
+description: "Validate element text, attributes, existence, and state using SHAFT Engine's fluent driver-based validation API."
+keywords: [SHAFT, element validations, text validation, attribute validation, visibility, checkbox, web testing]
 ---
 
 ## Difference between assertThat() and verifyThat():

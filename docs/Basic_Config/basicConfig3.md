@@ -1,7 +1,9 @@
 ---
 id: basicConfig3
-title: Basic configuration for API
+title: Basic Configuration for API
 sidebar_label: API
+description: "Configure SHAFT Engine properties for REST API testing — proxy, timeouts, retry settings, and Swagger/OpenAPI schema validation."
+keywords: [SHAFT, API configuration, REST API settings, Swagger validation, OpenAPI, API timeout, proxy configuration]
 ---
 
 - Here are some basic properties you should think about including in your `custom.properties` file:
