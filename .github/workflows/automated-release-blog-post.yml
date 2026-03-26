@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: automated-release-blog-post-${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.release_tag || github.run_id) || github.event.release.tag_name || github.event.client_payload.tag_name || 'latest' }}
+  group: automated-release-blog-post-${{ github.event.release.tag_name || github.event.client_payload.tag_name || github.event.inputs.release_tag || format('manual-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
