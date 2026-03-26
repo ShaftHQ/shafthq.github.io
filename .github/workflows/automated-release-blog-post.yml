@@ -230,7 +230,7 @@ jobs:
           NODE
 
       - name: Commit generated release blog post
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
           file_pattern: blog/*.md
