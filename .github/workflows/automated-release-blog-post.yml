@@ -3,6 +3,7 @@ name: Automated Release Blog Post
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -26,19 +27,45 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const release = context.payload.release;
+            const SOURCE_OWNER = 'ShaftHQ';
+            const SOURCE_REPO = 'SHAFT_Engine';
+
+            let release;
+
+            // 1) Release event path (automatic)
+            if (context.eventName === 'release') {
+              const releaseRepo = context.payload.repository?.full_name;
+              if (releaseRepo !== `${SOURCE_OWNER}/${SOURCE_REPO}`) {
+                core.setFailed(
+                  `Ignoring release from ${releaseRepo || 'unknown repo'}. Expected ${SOURCE_OWNER}/${SOURCE_REPO}.`
+                );
+                return;
+              }
+              release = context.payload.release;
+            }
+
+            // 2) Manual path (workflow_dispatch): fetch latest official SHAFT_ENGINE release
+            if (context.eventName === 'workflow_dispatch') {
+              const latest = await github.rest.repos.getLatestRelease({
+                owner: SOURCE_OWNER,
+                repo: SOURCE_REPO
+              });
+              release = latest.data;
+            }
+
             if (!release) {
               core.setFailed('No release payload found.');
               return;
             }
 
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
+            const owner = SOURCE_OWNER;
+            const repo = SOURCE_REPO;
             const releaseAuthor = release.author?.login || 'unknown';
             const tagName = release.tag_name || 'untagged-release';
             const releaseBody = release.body || '';
             const releaseId = release.id;
             const releasePublishedAt = release.published_at || new Date().toISOString();
+            const releaseUrl = release.html_url || `https://github.com/${owner}/${repo}/releases/tag/${tagName}`;
 
             const contributorsData = await github.paginate(github.rest.repos.listContributors, {
               owner,
@@ -69,9 +96,7 @@ jobs:
 
               for (const commit of compareResp.data.commits || []) {
                 const login = commit.author?.login;
-                if (!login) {
-                  continue;
-                }
+                if (!login) continue;
                 releaseCommitCounts[login] = (releaseCommitCounts[login] || 0) + 1;
               }
             }
@@ -92,6 +117,7 @@ jobs:
             core.setOutput('published_at', releasePublishedAt);
             core.setOutput('author', releaseAuthor);
             core.setOutput('release_body', releaseBody);
+            core.setOutput('release_url', releaseUrl);
             core.setOutput('contributors_json', JSON.stringify(contributors));
 
       - name: Generate release blog post markdown
@@ -100,6 +126,7 @@ jobs:
           RELEASE_PUBLISHED_AT: ${{ steps.release_data.outputs.published_at }}
           RELEASE_AUTHOR: ${{ steps.release_data.outputs.author }}
           RELEASE_BODY: ${{ steps.release_data.outputs.release_body }}
+          RELEASE_URL: ${{ steps.release_data.outputs.release_url }}
           CONTRIBUTORS_JSON: ${{ steps.release_data.outputs.contributors_json }}
         run: |
           node <<'NODE'
@@ -110,6 +137,7 @@ jobs:
           const publishedAt = process.env.RELEASE_PUBLISHED_AT || new Date().toISOString();
           const author = process.env.RELEASE_AUTHOR || 'unknown';
           const releaseBody = process.env.RELEASE_BODY || '_No changelog provided._';
+          const releaseUrl = process.env.RELEASE_URL || '';
           const contributors = JSON.parse(process.env.CONTRIBUTORS_JSON || '[]');
 
           const date = new Date(publishedAt);
@@ -121,8 +149,15 @@ jobs:
             .replace(/[^a-zA-Z0-9._-]/g, '-')
             .replace(/-+/g, '-')
             .toLowerCase();
+
           const fileName = `${yyyy}-${mm}-${dd}-release-${safeTag}.md`;
           const filePath = path.join(process.cwd(), 'blog', fileName);
+
+          // duplicate guard
+          if (fs.existsSync(filePath)) {
+            console.log(`Blog post already exists for ${tag}: ${filePath}`);
+            process.exit(0);
+          }
 
           const firstTimers = contributors.filter((contributor) => contributor.isFirstTimer);
 
@@ -156,110 +191,38 @@ jobs:
 
           const scopeSummary = extractScopeSummary(releaseBody);
 
-          const hasSwaggerSignal = /\b(swagger|openapi|contract validation)\b/i.test(releaseBody);
-          const hasVirtualThreadSignal = /\b(virtual[\s-]*thread|loom)\b/i.test(releaseBody);
-
-          let javaSampleFileTitle = 'ReleaseFeatureSample.java';
-          let javaSample = `import com.shaft.driver.SHAFT;
-import org.testng.annotations.Test;
-
-public class ReleaseFeatureSample {
-    @Test
-    public void validateReleaseWorkflow() {
-        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
-        try {
-            driver.browser().navigateToURL("https://example.test");
-            driver.element().type("#username", "shaft-user");
-            driver.assertThat().element("#status").text().contains("Ready").perform();
-        } finally {
-            driver.quit();
-        }
-    }
-}`;
-
-          if (hasSwaggerSignal) {
-            javaSampleFileTitle = 'SwaggerValidationSample.java';
-            javaSample = `import com.shaft.driver.SHAFT;
-import org.testng.annotations.Test;
-
-public class SwaggerValidationSample {
-    @Test
-    public void validateSwaggerContract() {
-        SHAFT.Properties.api.set().swaggerValidationEnabled(true);
-        SHAFT.Properties.api.set().swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json");
-
-        SHAFT.API api = new SHAFT.API("https://petstore.swagger.io/v2");
-        api.get("/pet/1").perform();
-        api.assertThatResponse().statusCode().isEqualTo(200).perform();
-    }
-}`;
-          } else if (hasVirtualThreadSignal) {
-            javaSampleFileTitle = 'VirtualThreadsSample.java';
-            javaSample = `import com.shaft.driver.SHAFT;
-import org.testng.annotations.Test;
-
-public class VirtualThreadsSample {
-    @Test
-    public void useVirtualThreadFriendlyFlow() {
-        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
-        try {
-            driver.browser().navigateToURL("https://example.test");
-            driver.element().type("#username", "parallel-user");
-            driver.element().type("#email", "parallel@example.test");
-            driver.element().type("#password", "SecretPassword123");
-            driver.element().click("#submit");
-            driver.assertThat().element("#status").text().contains("Success").perform();
-        } finally {
-            driver.quit();
-        }
-    }
-}`;
-          }
-
           const blogPost = `---
-slug: release-${safeTag}
-title: SHAFT Release ${tag} Is Here
-authors:
-  - name: ${author}
-    title: Release Author
-    url: https://github.com/${author}
-    image_url: https://github.com/${author}.png
-tags: [shaft_engine, release, changelog]
----
+          slug: release-${safeTag}
+          title: SHAFT Release ${tag} Is Here
+          authors:
+            - name: ${author}
+              title: Release Author
+              url: https://github.com/${author}
+              image_url: https://github.com/${author}.png
+          tags: [shaft_engine, release, changelog]
+          ---
 
-# 🚀 SHAFT_ENGINE ${tag} Released
+          # 🚀 SHAFT_ENGINE ${tag} Released
 
-## Introduction
+          ## Introduction
 
-We are excited to announce **SHAFT_ENGINE ${tag}**! This release brings meaningful improvements to help your automation suites become faster, more reliable, and easier to maintain.
+          We are excited to announce **SHAFT_ENGINE ${tag}**.
 
-## Scope Summary
+          ${releaseUrl ? `Official release: ${releaseUrl}` : ''}
 
-${scopeSummary}
+          ## Scope Summary
 
-## Feature Deep-Dive & Code Sample
+          ${scopeSummary}
 
-Below is a release-aware Java snippet selected from changelog signals that you can adapt after upgrading:
+          ## Official Changelog
 
-\`\`\`java title="${javaSampleFileTitle}"
-${javaSample}
-\`\`\`
+          ${releaseBody}
 
-## Additional Insights
+          ## Hall of Fame (Contributors)
 
-- Review deprecations and migration notes in the changelog section below.
-- Validate your CI pipeline against this release tag before promoting to production.
-- Keep an eye on the upcoming roadmap items shared by the maintainers.
-
-## Official Changelog
-
-${releaseBody}
-
-## Hall of Fame (Contributors)
-
-${contributorGrid}
-${firstTimerHighlight}
-`;
+          ${contributorGrid}
+          ${firstTimerHighlight}
+          `;
 
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
           fs.writeFileSync(filePath, blogPost, 'utf8');
