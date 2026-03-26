@@ -44,11 +44,13 @@
   },
   "resolutions": {
     "serialize-javascript": "^7.0.3",
-    "minimatch": "^3.1.4"
+    "minimatch": "^3.1.4",
+    "node-forge": ">=1.4.0"
   },
   "overrides": {
     "serialize-javascript": "^7.0.3",
-    "minimatch": "^3.1.4"
+    "minimatch": "^3.1.4",
+    "node-forge": ">=1.4.0"
   },
   "browserslist": {
     "production": [
