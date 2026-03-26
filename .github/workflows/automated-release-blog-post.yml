@@ -141,16 +141,23 @@ jobs:
 
             const releaseCommitCounts = {};
             if (previousRelease?.tag_name) {
-              const compareResp = await github.rest.repos.compareCommits({
-                owner,
-                repo,
-                basehead: `${previousRelease.tag_name}...${tagName}`
-              });
+              try {
+                const compareResp = await github.rest.repos.compareCommits({
+                  owner,
+                  repo,
+                  base: previousRelease.tag_name,
+                  head: tagName
+                });
 
-              for (const commit of compareResp.data.commits || []) {
-                const login = commit.author?.login;
-                if (!login) continue;
-                releaseCommitCounts[login] = (releaseCommitCounts[login] || 0) + 1;
+                for (const commit of compareResp.data.commits || []) {
+                  const login = commit.author?.login;
+                  if (!login) continue;
+                  releaseCommitCounts[login] = (releaseCommitCounts[login] || 0) + 1;
+                }
+              } catch (error) {
+                core.warning(
+                  `Could not compare ${previousRelease.tag_name}...${tagName}: ${error.message}. Contributor commit counts will be unavailable.`
+                );
               }
             }
 
