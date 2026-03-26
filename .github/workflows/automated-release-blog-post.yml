@@ -206,12 +206,6 @@ jobs:
           const fileName = `${yyyy}-${mm}-${dd}-release-${safeTag}.md`;
           const filePath = path.join(process.cwd(), 'blog', fileName);
 
-          // duplicate guard
-          if (fs.existsSync(filePath)) {
-            console.log(`Blog post already exists for ${tag}: ${filePath}`);
-            process.exit(0);
-          }
-
           const firstTimers = contributors.filter((contributor) => contributor.isFirstTimer);
 
           const contributorGrid = contributors.length
@@ -278,6 +272,18 @@ jobs:
           `;
 
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
+          if (fs.existsSync(filePath)) {
+            const existingPost = fs.readFileSync(filePath, 'utf8');
+            if (existingPost === blogPost) {
+              console.log(`Blog post already up to date for ${tag}: ${filePath}`);
+              process.exit(0);
+            }
+
+            fs.writeFileSync(filePath, blogPost, 'utf8');
+            console.log(`Updated existing blog post at ${filePath}`);
+            process.exit(0);
+          }
+
           fs.writeFileSync(filePath, blogPost, 'utf8');
           console.log(`Created blog post at ${filePath}`);
           NODE
