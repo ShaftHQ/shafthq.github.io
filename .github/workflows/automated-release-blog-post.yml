@@ -3,15 +3,27 @@ name: Automated Release Blog Post
 on:
   release:
     types: [published]
+  repository_dispatch:
+    types: [shaft_release_published]
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Optional SHAFT_ENGINE tag to generate a post for (example: v8.8.1)'
+        required: false
+        type: string
 
 permissions:
   contents: write
+
+concurrency:
+  group: automated-release-blog-post-${{ github.event.release.tag_name || github.event.client_payload.tag_name || github.event.inputs.release_tag || format('manual-{0}', github.run_id) }}
+  cancel-in-progress: false
 
 jobs:
   generate-release-blog-post:
     name: Generate Release Blog Post
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -25,27 +37,68 @@ jobs:
       - name: Fetch release metadata and contributors
         id: release_data
         uses: actions/github-script@v8
+        env:
+          RELEASE_TAG_INPUT: ${{ github.event.inputs.release_tag }}
         with:
           script: |
+            // Resolve SHAFT_ENGINE release metadata and contributor details.
             const SOURCE_OWNER = 'ShaftHQ';
-            const SOURCE_REPO = 'SHAFT_Engine';
+            const SOURCE_REPO = 'SHAFT_ENGINE';
+            const sourceRepoFullName = `${SOURCE_OWNER}/${SOURCE_REPO}`;
+            const releaseTagInput = process.env.RELEASE_TAG_INPUT;
 
             let release;
 
-            // 1) Release event path (automatic)
+            const fetchReleaseByTag = async (tagName) => {
+              const { data } = await github.rest.repos.getReleaseByTag({
+                owner: SOURCE_OWNER,
+                repo: SOURCE_REPO,
+                tag: tagName
+              });
+              return data;
+            };
+
+            // 1) Release event path: resolve the published tag from SHAFT_ENGINE.
             if (context.eventName === 'release') {
-              const releaseRepo = context.payload.repository?.full_name;
-              if (releaseRepo !== `${SOURCE_OWNER}/${SOURCE_REPO}`) {
-                core.setFailed(
-                  `Ignoring release from ${releaseRepo || 'unknown repo'}. Expected ${SOURCE_OWNER}/${SOURCE_REPO}.`
-                );
-                return;
+              const publishedTag = context.payload.release?.tag_name;
+              if (publishedTag) {
+                try {
+                  release = await fetchReleaseByTag(publishedTag);
+                } catch (error) {
+                  core.warning(
+                    `Could not resolve tag "${publishedTag}" from ${sourceRepoFullName}. Falling back to latest release.`
+                  );
+                }
               }
-              release = context.payload.release;
             }
 
-            // 2) Manual path (workflow_dispatch): fetch latest official SHAFT_ENGINE release
-            if (context.eventName === 'workflow_dispatch') {
+            // 2) repository_dispatch path: prefer tag from client_payload.
+            if (!release && context.eventName === 'repository_dispatch') {
+              const dispatchedTag = context.payload.client_payload?.tag_name;
+              if (dispatchedTag) {
+                try {
+                  release = await fetchReleaseByTag(dispatchedTag);
+                } catch (error) {
+                  core.warning(
+                    `Could not resolve dispatched tag "${dispatchedTag}" from ${sourceRepoFullName}. Falling back to latest release.`
+                  );
+                }
+              }
+            }
+
+            // 3) Manual path (workflow_dispatch): optional tag input.
+            if (!release && context.eventName === 'workflow_dispatch' && releaseTagInput) {
+              try {
+                release = await fetchReleaseByTag(releaseTagInput);
+              } catch (error) {
+                core.warning(
+                  `Could not resolve requested tag "${releaseTagInput}" from ${sourceRepoFullName}. Falling back to latest release.`
+                );
+              }
+            }
+
+            // 4) Fallback path: latest official SHAFT_ENGINE release.
+            if (!release) {
               const latest = await github.rest.repos.getLatestRelease({
                 owner: SOURCE_OWNER,
                 repo: SOURCE_REPO
@@ -153,12 +206,6 @@ jobs:
           const fileName = `${yyyy}-${mm}-${dd}-release-${safeTag}.md`;
           const filePath = path.join(process.cwd(), 'blog', fileName);
 
-          // duplicate guard
-          if (fs.existsSync(filePath)) {
-            console.log(`Blog post already exists for ${tag}: ${filePath}`);
-            process.exit(0);
-          }
-
           const firstTimers = contributors.filter((contributor) => contributor.isFirstTimer);
 
           const contributorGrid = contributors.length
@@ -225,6 +272,18 @@ jobs:
           `;
 
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
+          if (fs.existsSync(filePath)) {
+            const existingPost = fs.readFileSync(filePath, 'utf8');
+            if (existingPost === blogPost) {
+              console.log(`Blog post already up to date for ${tag}: ${filePath}`);
+              process.exit(0);
+            }
+
+            fs.writeFileSync(filePath, blogPost, 'utf8');
+            console.log(`Updated existing blog post at ${filePath}`);
+            process.exit(0);
+          }
+
           fs.writeFileSync(filePath, blogPost, 'utf8');
           console.log(`Created blog post at ${filePath}`);
           NODE
