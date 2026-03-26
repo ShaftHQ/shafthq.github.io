@@ -3,15 +3,27 @@ name: Automated Release Blog Post
 on:
   release:
     types: [published]
+  repository_dispatch:
+    types: [shaft_release_published]
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Optional SHAFT_ENGINE tag to generate a post for (example: v8.8.1)'
+        required: false
+        type: string
 
 permissions:
   contents: write
+
+concurrency:
+  group: automated-release-blog-post-${{ github.event.release.tag_name || github.event.client_payload.tag_name || github.event.inputs.release_tag || github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   generate-release-blog-post:
     name: Generate Release Blog Post
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -27,25 +39,52 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
+            // Resolve SHAFT_ENGINE release metadata and contributor details.
             const SOURCE_OWNER = 'ShaftHQ';
-            const SOURCE_REPO = 'SHAFT_Engine';
+            const SOURCE_REPO = 'SHAFT_ENGINE';
+            const sourceRepoFullName = `${SOURCE_OWNER}/${SOURCE_REPO}`;
+            const releaseTagInput = context.payload.inputs?.release_tag;
 
             let release;
 
-            // 1) Release event path (automatic)
+            const fetchReleaseByTag = async (tagName) => {
+              const releaseByTag = await github.rest.repos.getReleaseByTag({
+                owner: SOURCE_OWNER,
+                repo: SOURCE_REPO,
+                tag: tagName
+              });
+              return releaseByTag.data;
+            };
+
+            // 1) Release event path: resolve the published tag from SHAFT_ENGINE.
             if (context.eventName === 'release') {
-              const releaseRepo = context.payload.repository?.full_name;
-              if (releaseRepo !== `${SOURCE_OWNER}/${SOURCE_REPO}`) {
-                core.setFailed(
-                  `Ignoring release from ${releaseRepo || 'unknown repo'}. Expected ${SOURCE_OWNER}/${SOURCE_REPO}.`
-                );
-                return;
+              const publishedTag = context.payload.release?.tag_name;
+              if (publishedTag) {
+                try {
+                  release = await fetchReleaseByTag(publishedTag);
+                } catch (error) {
+                  core.warning(
+                    `Could not resolve tag "${publishedTag}" from ${sourceRepoFullName}. Falling back to latest release.`
+                  );
+                }
               }
-              release = context.payload.release;
             }
 
-            // 2) Manual path (workflow_dispatch): fetch latest official SHAFT_ENGINE release
-            if (context.eventName === 'workflow_dispatch') {
+            // 2) repository_dispatch path: prefer tag from client_payload.
+            if (!release && context.eventName === 'repository_dispatch') {
+              const dispatchedTag = context.payload.client_payload?.tag_name;
+              if (dispatchedTag) {
+                release = await fetchReleaseByTag(dispatchedTag);
+              }
+            }
+
+            // 3) Manual path (workflow_dispatch): optional tag input.
+            if (!release && context.eventName === 'workflow_dispatch' && releaseTagInput) {
+              release = await fetchReleaseByTag(releaseTagInput);
+            }
+
+            // 4) Fallback path: latest official SHAFT_ENGINE release.
+            if (!release) {
               const latest = await github.rest.repos.getLatestRelease({
                 owner: SOURCE_OWNER,
                 repo: SOURCE_REPO
