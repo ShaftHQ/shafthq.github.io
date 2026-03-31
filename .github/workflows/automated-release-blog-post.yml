@@ -242,7 +242,7 @@ jobs:
               return 'This version focuses on improving developer productivity, strengthening runtime reliability, and making test design more expressive across common automation scenarios.';
             }
 
-            return candidateLines.slice(0, 3).join(' ');
+            return candidateLines.slice(0, 5).map((line) => `- ${line}`).join('\n');
           };
 
           const scopeSummary = extractScopeSummary(releaseBody);
