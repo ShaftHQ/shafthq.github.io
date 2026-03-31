@@ -23,6 +23,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   animation: pulse 2s infinite;
+  padding: 0;
+  overflow: hidden;
 }
 
 .chatButton:hover {
@@ -54,6 +56,22 @@
   font-size: 9px;
   font-weight: bold;
   white-space: nowrap;
+}
+
+/* AutoBot SVG image in chat button */
+.chatButtonIcon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* AutoBot SVG image in message avatars */
+.avatarIcon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 /* Chat Window */
@@ -89,7 +107,10 @@
 }
 
 .headerIcon {
-  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .headerText h3 {
@@ -213,6 +234,7 @@
   color: white;
   flex-shrink: 0;
   font-size: 16px;
+  overflow: hidden;
 }
 
 .userMessage .messageAvatar {
@@ -556,7 +578,8 @@
   }
 
   .headerIcon {
-    font-size: 20px;
+    width: 28px;
+    height: 28px;
   }
 
   .headerText h3 {

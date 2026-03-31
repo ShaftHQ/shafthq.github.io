@@ -258,7 +258,7 @@ Focus on helping users with:
           aria-label="Open AutoBot Chat"
           title="Chat with AutoBot"
         >
-          <FontAwesomeIcon icon="fa-solid fa-robot" size="2x" />
+          <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.chatButtonIcon} />
           <span className={styles.badge}>AutoBot</span>
         </button>
       )}
@@ -269,7 +269,7 @@ Focus on helping users with:
           {/* Header */}
           <div className={styles.chatHeader}>
             <div className={styles.headerLeft}>
-              <FontAwesomeIcon icon="fa-solid fa-robot" className={styles.headerIcon} />
+              <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.headerIcon} />
               <div className={styles.headerText}>
                 <h3>AutoBot</h3>
                 <span className={styles.statusIndicator}>
@@ -310,7 +310,7 @@ Focus on helping users with:
                 <div className={styles.messageContent}>
                   {message.role === 'assistant' && (
                     <div className={styles.messageAvatar}>
-                      <FontAwesomeIcon icon="fa-solid fa-robot" />
+                      <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} />
                     </div>
                   )}
                   <div className={styles.messageBubble}>
@@ -342,7 +342,7 @@ Focus on helping users with:
               <div className={`${styles.message} ${styles.assistantMessage}`}>
                 <div className={styles.messageContent}>
                   <div className={styles.messageAvatar}>
-                    <FontAwesomeIcon icon="fa-solid fa-robot" />
+                    <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} />
                   </div>
                   <div className={styles.messageBubble}>
                     <div className={styles.typingIndicator}>
