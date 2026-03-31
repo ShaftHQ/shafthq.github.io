@@ -37,6 +37,14 @@ const roiCalculatorPath = path.join(
   'RoiCalculator',
   'index.tsx',
 );
+const homepageFeaturesStylesPath = path.join(
+  __dirname,
+  '..',
+  'src',
+  'components',
+  'HomepageFeatures',
+  'styles.module.css',
+);
 
 const indexPage = fs.readFileSync(indexPagePath, 'utf8');
 const particleBackground = fs.readFileSync(particleBackgroundPath, 'utf8');
@@ -44,6 +52,7 @@ const workerFile = fs.readFileSync(workerPath, 'utf8');
 const mascot = fs.readFileSync(mascotPath, 'utf8');
 const rootFile = fs.readFileSync(rootPath, 'utf8');
 const roiCalculator = fs.readFileSync(roiCalculatorPath, 'utf8');
+const homepageFeaturesStyles = fs.readFileSync(homepageFeaturesStylesPath, 'utf8');
 
 function assert(condition, message) {
   if (!condition) {
@@ -111,6 +120,20 @@ try {
   assert(
     lazyFeaturesPattern.test(indexPage) && lazyRoiPattern.test(indexPage),
     'Landing page should lazy load HomepageFeatures and RoiCalculator to reduce initial blocking work.',
+  );
+
+  assert(
+    homepageFeaturesStyles.includes('.featureCard::after') &&
+      homepageFeaturesStyles.includes('.featureCard:hover::after') &&
+      homepageFeaturesStyles.includes('border-color: var(--ifm-color-primary)') &&
+      homepageFeaturesStyles.includes('position: absolute') &&
+      homepageFeaturesStyles.includes('inset: 0') &&
+      homepageFeaturesStyles.includes('border-radius: inherit') &&
+      homepageFeaturesStyles.includes('opacity: 0') &&
+      homepageFeaturesStyles.includes('opacity: 1') &&
+      homepageFeaturesStyles.includes('prefers-reduced-motion: no-preference') &&
+      homepageFeaturesStyles.includes('pointer-events: none'),
+    'Homepage feature cards should render a non-interactive solid-color hover border overlay using theme primary color.',
   );
 
   assert(
