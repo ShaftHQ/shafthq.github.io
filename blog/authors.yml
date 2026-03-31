@@ -33,3 +33,9 @@ kyrillos:
   title: SHAFT_Engine maintainer
   url: https://github.com/KyrillosNageh
   image_url: https://github.com/KyrillosNageh.png
+
+autobot:
+  name: AutoBot
+  title: SHAFT's AI-Powered Release Assistant
+  url: https://github.com/ShaftHQ/SHAFT_ENGINE
+  image_url: /img/autobot-avatar.svg

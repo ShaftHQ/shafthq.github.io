@@ -214,8 +214,10 @@ jobs:
           const filePath = path.join(process.cwd(), 'blog', fileName);
 
           const firstTimers = contributors.filter((contributor) => contributor.isFirstTimer);
+          const contributorCount = contributors.length;
+          const firstTimerCount = firstTimers.length;
 
-          const contributorGrid = contributors.length
+          const contributorGrid = contributorCount
             ? contributors
                 .map((contributor) => {
                   const firstTimerBadge = contributor.isFirstTimer ? ' 🌟 **First-time contributor!**' : '';
@@ -224,9 +226,9 @@ jobs:
                 .join('\n')
             : '- No contributor data was available for this release.';
 
-          const firstTimerHighlight = firstTimers.length
-            ? `\n🎉 Special shoutout to our first-time contributors: ${firstTimers.map((c) => `@${c.login}`).join(', ')}.`
-            : '\nNo first-time contributors were detected in this release snapshot.';
+          const firstTimerHighlight = firstTimerCount
+            ? `\n🎉 **A warm welcome to our first-time contributors!** ${firstTimers.map((c) => `[@${c.login}](https://github.com/${c.login})`).join(', ')} — your first contribution is now part of SHAFT's story. We're thrilled to have you on board!`
+            : '';
 
           const extractScopeSummary = (markdownText) => {
             const candidateLines = markdownText
@@ -245,38 +247,65 @@ jobs:
 
           const scopeSummary = extractScopeSummary(releaseBody);
 
+          const communityStats = contributorCount
+            ? `This release was made possible by **${contributorCount} amazing contributors** who have poured their time and expertise into making SHAFT better for everyone.${firstTimerCount ? ` Among them, **${firstTimerCount}** contributed for the very first time!` : ''}`
+            : 'This release was crafted with care by the SHAFT community.';
+
           const blogPost = `---
-          slug: release-${safeTag}
-          title: SHAFT Release ${tag} Is Here
-          authors:
-            - name: ${author}
-              title: Release Author
-              url: https://github.com/${author}
-              image_url: https://github.com/${author}.png
-          tags: [shaft_engine, release, changelog]
-          ---
+slug: release-${safeTag}
+title: "🚀 SHAFT ${tag}: What's New and Why You Should Upgrade Today"
+authors: [autobot]
+tags: [shaft_engine, release, changelog, test-automation, open-source]
+---
 
-          # 🚀 SHAFT_ENGINE ${tag} Released
+Hey there, SHAFT community! 👋
 
-          ## Introduction
+A fresh release just dropped and it's packed with improvements you don't want to miss. **SHAFT_ENGINE ${tag}** is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.
 
-          We are excited to announce **SHAFT_ENGINE ${tag}**.
+<!-- truncate -->
 
-          ${releaseUrl ? `Official release: ${releaseUrl}` : ''}
+## ⚡ What Changed?
 
-          ## Scope Summary
+${scopeSummary}
 
-          ${scopeSummary}
+${releaseUrl ? `👉 [View the full release on GitHub](${releaseUrl})` : ''}
 
-          ## Official Changelog
+## 📋 Changelog
 
-          ${releaseBody}
+${releaseBody}
 
-          ## Hall of Fame (Contributors)
+## 🏆 Community Spotlight
 
-          ${contributorGrid}
-          ${firstTimerHighlight}
-          `;
+${communityStats}
+
+Open source thrives because of people like these. Every bug fix, every feature, every review — it all counts.
+
+${contributorGrid}
+${firstTimerHighlight}
+
+## 🚀 Get Started in Seconds
+
+Upgrading is simple — just update your dependency version:
+
+\`\`\`xml
+<dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>SHAFT_ENGINE</artifactId>
+    <version>${tag.replace(/^v/i, '')}</version>
+</dependency>
+\`\`\`
+
+## 💬 Join the Conversation
+
+We'd love to hear what you think! Found a bug? Have an idea? Just want to say hi?
+
+- ⭐ [Star SHAFT on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE) — it helps more than you think
+- 💡 [Start a Discussion](https://github.com/ShaftHQ/SHAFT_ENGINE/discussions) — share feedback or ideas
+- 🐛 [Report an Issue](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new) — help us squash bugs faster
+- 📖 [Read the Docs](https://shafthq.github.io/) — dive deeper into SHAFT
+
+Thanks for being part of the SHAFT journey. Until the next release — happy testing! 🎯
+`;
 
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
           if (fs.existsSync(filePath)) {
