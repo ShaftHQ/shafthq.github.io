@@ -259,7 +259,7 @@ Focus on helping users with:
           title="Chat with AutoBot"
         >
           <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.chatButtonIcon} loading="lazy" decoding="async" />
-          <span className={styles.badge}>AutoBot</span>
+          <span className={styles.badge}>AI</span>
         </button>
       )}
 
