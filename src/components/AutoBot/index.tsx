@@ -258,7 +258,7 @@ Focus on helping users with:
           aria-label="Open AutoBot Chat"
           title="Chat with AutoBot"
         >
-          <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.chatButtonIcon} />
+          <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.chatButtonIcon} loading="lazy" decoding="async" />
           <span className={styles.badge}>AutoBot</span>
         </button>
       )}
@@ -269,7 +269,7 @@ Focus on helping users with:
           {/* Header */}
           <div className={styles.chatHeader}>
             <div className={styles.headerLeft}>
-              <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.headerIcon} />
+              <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.headerIcon} loading="lazy" decoding="async" />
               <div className={styles.headerText}>
                 <h3>AutoBot</h3>
                 <span className={styles.statusIndicator}>
@@ -310,7 +310,7 @@ Focus on helping users with:
                 <div className={styles.messageContent}>
                   {message.role === 'assistant' && (
                     <div className={styles.messageAvatar}>
-                      <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} />
+                      <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} loading="lazy" decoding="async" />
                     </div>
                   )}
                   <div className={styles.messageBubble}>
@@ -342,7 +342,7 @@ Focus on helping users with:
               <div className={`${styles.message} ${styles.assistantMessage}`}>
                 <div className={styles.messageContent}>
                   <div className={styles.messageAvatar}>
-                    <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} />
+                    <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.avatarIcon} loading="lazy" decoding="async" />
                   </div>
                   <div className={styles.messageBubble}>
                     <div className={styles.typingIndicator}>
