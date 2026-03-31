@@ -251,61 +251,64 @@ jobs:
             ? `This release was made possible by **${contributorCount} amazing contributors** who have poured their time and expertise into making SHAFT better for everyone.${firstTimerCount ? ` Among them, **${firstTimerCount}** contributed for the very first time!` : ''}`
             : 'This release was crafted with care by the SHAFT community.';
 
-          const blogPost = `---
-slug: release-${safeTag}
-title: "🚀 SHAFT ${tag}: What's New and Why You Should Upgrade Today"
-authors: [autobot]
-tags: [shaft_engine, release, changelog, test-automation, open-source]
----
+          const blogPost = `
+          ---
+          slug: release-${safeTag}
+          title: "🚀 SHAFT ${tag}: What's New and Why You Should Upgrade Today"
+          authors: [autobot]
+          tags: [shaft_engine, release, changelog, test-automation, open-source]
+          ---
 
-Hey there, SHAFT community! 👋
+          Hey there, SHAFT community! 👋
 
-A fresh release just dropped and it's packed with improvements you don't want to miss. **SHAFT_ENGINE ${tag}** is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.
+          A fresh release just dropped and it's packed with improvements you don't want to miss. **SHAFT_ENGINE ${tag}** is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.
 
-<!-- truncate -->
+          <!-- truncate -->
 
-## ⚡ What Changed?
+          ## ⚡ What Changed?
 
-${scopeSummary}
+          ${scopeSummary}
 
-${releaseUrl ? `👉 [View the full release on GitHub](${releaseUrl})` : ''}
+          ${releaseUrl ? `👉 [View the full release on GitHub](${releaseUrl})` : ''}
 
-## 📋 Changelog
+          ## 📋 Changelog
 
-${releaseBody}
+          ${releaseBody}
 
-## 🏆 Community Spotlight
+          ## 🏆 Community Spotlight
 
-${communityStats}
+          ${communityStats}
 
-Open source thrives because of people like these. Every bug fix, every feature, every review — it all counts.
+          Open source thrives because of people like these. Every bug fix, every feature, every review — it all counts.
 
-${contributorGrid}
-${firstTimerHighlight}
+          ${contributorGrid}
+          ${firstTimerHighlight}
 
-## 🚀 Get Started in Seconds
+          ## 🚀 Get Started in Seconds
 
-Upgrading is simple — just update your dependency version:
+          Upgrading is simple — just update your dependency version:
 
-\`\`\`xml
-<dependency>
-    <groupId>io.github.shafthq</groupId>
-    <artifactId>SHAFT_ENGINE</artifactId>
-    <version>${tag.replace(/^v/i, '')}</version>
-</dependency>
-\`\`\`
+          \`\`\`xml
+          <dependency>
+              <groupId>io.github.shafthq</groupId>
+              <artifactId>SHAFT_ENGINE</artifactId>
+              <version>${tag.replace(/^v/i, '')}</version>
+          </dependency>
+          \`\`\`
 
-## 💬 Join the Conversation
+          ## 💬 Join the Conversation
 
-We'd love to hear what you think! Found a bug? Have an idea? Just want to say hi?
+          We'd love to hear what you think! Found a bug? Have an idea? Just want to say hi?
 
-- ⭐ [Star SHAFT on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE) — it helps more than you think
-- 💡 [Start a Discussion](https://github.com/ShaftHQ/SHAFT_ENGINE/discussions) — share feedback or ideas
-- 🐛 [Report an Issue](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new) — help us squash bugs faster
-- 📖 [Read the Docs](https://shafthq.github.io/) — dive deeper into SHAFT
+          - ⭐ [Star SHAFT on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE) — it helps more than you think
+          - 💡 [Start a Discussion](https://github.com/ShaftHQ/SHAFT_ENGINE/discussions) — share feedback or ideas
+          - 🐛 [Report an Issue](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new) — help us squash bugs faster
+          - 📖 [Read the Docs](https://shafthq.github.io/) — dive deeper into SHAFT
 
-Thanks for being part of the SHAFT journey. Until the next release — happy testing! 🎯
-`;
+          Thanks for being part of the SHAFT journey. Until the next release — happy testing! 🎯
+          `
+            .replace(/^ {10}/gm, '')
+            .trimStart();
 
           fs.mkdirSync(path.dirname(filePath), { recursive: true });
           if (fs.existsSync(filePath)) {
