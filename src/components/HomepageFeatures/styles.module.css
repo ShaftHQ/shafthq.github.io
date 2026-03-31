@@ -26,6 +26,22 @@
   border: 1px solid rgba(0, 110, 192, 0.08);
 }
 
+.featureCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .featureCard::after {
+    transition: border-color 0.3s ease, opacity 0.3s ease;
+  }
+}
+
 :global([data-theme='dark']) .featureCard {
   background: rgba(30, 30, 40, 0.5);
   border: 1px solid rgba(37, 194, 160, 0.1);
@@ -34,6 +50,11 @@
 .featureCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 110, 192, 0.1);
+}
+
+.featureCard:hover::after {
+  border-color: var(--ifm-color-primary);
+  opacity: 1;
 }
 
 :global([data-theme='dark']) .featureCard:hover {
