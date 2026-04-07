@@ -33,7 +33,6 @@ Use `mock()` to intercept requests matching a condition and return a **custom HT
 
 ```java title="NetworkMocking.java"
 import com.shaft.driver.SHAFT;
-import org.openqa.selenium.devtools.v85.fetch.model.RequestPattern;
 import org.openqa.selenium.remote.http.Contents;
 import org.openqa.selenium.remote.http.HttpResponse;
 
