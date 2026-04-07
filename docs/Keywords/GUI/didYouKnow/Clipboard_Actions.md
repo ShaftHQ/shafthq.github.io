@@ -11,16 +11,6 @@ SHAFT provides first-class clipboard support through the `driver.element().clipb
 
 ---
 
-## Import
-
-```java title="ClipboardImport.java"
-import com.shaft.driver.SHAFT;
-import com.shaft.enums.internal.ClipboardAction;
-import org.openqa.selenium.By;
-```
-
----
-
 ## Available Actions
 
 | `ClipboardAction` | Equivalent Shortcut | Description |
@@ -29,6 +19,16 @@ import org.openqa.selenium.By;
 | `CUT` | Ctrl/Cmd + X | Cuts the selected content to the clipboard |
 | `PASTE` | Ctrl/Cmd + V | Pastes clipboard content into the element |
 | `SELECT_ALL` | Ctrl/Cmd + A | Selects all content inside the element |
+
+---
+
+## Import
+
+```java title="ClipboardImport.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.enums.internal.ClipboardAction;
+import org.openqa.selenium.By;
+```
 
 ---
 

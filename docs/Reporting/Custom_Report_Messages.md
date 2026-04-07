@@ -118,15 +118,17 @@ Attachments appear as expandable entries in the Allure report and can hold any c
 
 ```java title="ReportAttach.java"
 import com.shaft.driver.SHAFT;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 // Attach plain text (e.g., an API response body)
 String responseBody = api.getResponse().body().asString();
 SHAFT.Report.attach("text/plain", "API Response Body", responseBody);
 
-// Attach a screenshot as a PNG image
-InputStream screenshot = /* your input stream */ null;
-SHAFT.Report.attach("image/png", "Checkout Page Screenshot", screenshot);
+// Attach a screenshot captured as bytes
+byte[] screenshotBytes = driver.browser().captureScreenshotAsBytes();
+InputStream screenshotStream = new ByteArrayInputStream(screenshotBytes);
+SHAFT.Report.attach("image/png", "Checkout Page Screenshot", screenshotStream);
 
 // Attach an HTML page snapshot
 String htmlContent = driver.browser().getCurrentPageSource();
