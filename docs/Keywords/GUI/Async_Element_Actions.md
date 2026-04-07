@@ -9,7 +9,7 @@ tags: [web, element, async, performance, java21]
 
 ## Overview
 
-SHAFT supports non-blocking element actions via Java 21 virtual threads through `driver.async().element()`. Actions queued on the async executor run in parallel and return immediately, letting you kick off multiple interactions concurrently and synchronise at a chosen point.
+SHAFT supports non-blocking element actions via Java 21 virtual threads through `driver.async().element()`. Actions queued on the async executor run in parallel and return immediately, letting you kick off multiple interactions concurrently and synchronize at a chosen point.
 
 This is useful when:
 - Filling a long form where fields are independent and can be typed into simultaneously
@@ -29,7 +29,7 @@ driver.async().element()
       .type(By.id("lastName"),  "Smith")
       .type(By.id("email"),     "alice@example.com")
       .select(By.id("country"), "United States")
-      .synchronize(); // wait for all queued actions to finish
+      .synchronize(); // blocks the current thread until all virtual threads complete; propagates any action failures as exceptions
 ```
 
 ### Parallel Click and Screenshot

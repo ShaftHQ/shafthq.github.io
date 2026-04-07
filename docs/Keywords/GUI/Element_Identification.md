@@ -674,6 +674,7 @@ Role.TABLE        // <table>, role="table"
 ### Example: Locate by Role
 
 ```java title="ARIARoleLocator.java"
+import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Role;
 
 // Locate a submit button by role and visible text
