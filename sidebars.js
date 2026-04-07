@@ -90,6 +90,7 @@ const sidebars = {
             "Keywords/GUI/Browser_Actions",
             "Keywords/GUI/Element_Identification",
             "Keywords/GUI/Element_Actions",
+            "Keywords/GUI/Async_Element_Actions",
             "Keywords/GUI/Element_Validations",
             "Keywords/GUI/Alert_Actions",
             "Keywords/GUI/Touch_Actions",
@@ -106,6 +107,7 @@ const sidebars = {
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
 		        "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
+		        "Keywords/GUI/didYouKnow/Mobile_Emulation",
 			]
 			}
           ],

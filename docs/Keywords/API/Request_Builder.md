@@ -299,6 +299,79 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 
 #### _** \*Please check the [Response Validations](https://shafthq.github.io/docs/Keywords/API/Response_Validations) as we can make many assertions and verifications on API response by using the Class [RestValidationsBuilder](https://shafthq.github.io/SHAFT_ENGINE/apidocs/com/shaft/validation/RestValidationsBuilder.html)\* **_
 
+## GraphQL API Testing
+
+SHAFT supports GraphQL requests out of the box through `sendGraphQlRequest()`. You can send queries, mutations, and fragments without any additional dependencies.
+
+### Simple GraphQL Query
+
+```java title="GraphQLSimpleQuery.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+Response response = api.sendGraphQlRequest(
+    "/graphql",
+    "{ users { id name email } }"
+).perform();
+
+api.assertThatResponse()
+   .extractedJsonValue("$.data.users[0].name")
+   .isEqualTo("Alice")
+   .perform();
+```
+
+### GraphQL Query with Variables
+
+```java title="GraphQLWithVariables.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+String query     = "query GetUser($id: ID!) { user(id: $id) { name email role } }";
+String variables = "{\"id\": \"123\"}";
+
+api.sendGraphQlRequest("/graphql", query, variables).perform();
+
+api.assertThatResponse()
+   .extractedJsonValue("$.data.user.email")
+   .contains("@example.com")
+   .perform();
+```
+
+### GraphQL with Authentication Header
+
+```java title="GraphQLWithAuth.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest("/graphql", "{ me { name } }")
+   .addHeader("Authorization", "Bearer mytoken123")
+   .perform();
+
+api.assertThatResponse().body().contains("\"name\"").perform();
+```
+
+### GraphQL Mutation
+
+```java title="GraphQLMutation.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+String mutation   = "mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }";
+String variables  = "{\"input\": {\"name\": \"Bob\", \"email\": \"bob@example.com\"}}";
+
+api.sendGraphQlRequest("/graphql", mutation, variables)
+   .addHeader("Authorization", "Bearer admintoken")
+   .setTargetStatusCode(200)
+   .perform();
+
+api.assertThatResponse()
+   .extractedJsonValue("$.data.createUser.name")
+   .isEqualTo("Bob")
+   .perform();
+```
+
+:::tip
+GraphQL always uses HTTP `POST` under the hood. SHAFT automatically sets the `Content-Type: application/json` header and wraps your query and variables in the correct payload format.
+:::
+
+---
+
 ## Sample Code Snippet
 ```java
 public class Test_Api {
