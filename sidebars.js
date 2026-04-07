@@ -102,10 +102,12 @@ const sidebars = {
 		        "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
 		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
 		        "Keywords/GUI/didYouKnow/Local_Selenium_Grid_Execution",
+		        "Keywords/GUI/didYouKnow/Kubernetes_Selenium_Grid",
 			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
 		        "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
+		        "Keywords/GUI/didYouKnow/Clipboard_Actions",
 			]
 			}
           ],
@@ -124,6 +126,8 @@ const sidebars = {
           label: 'CLI',
           items: [
             "Keywords/CLI/Terminal_Actions",
+            "Keywords/CLI/Docker_Terminal",
+            "Keywords/CLI/SSH_Terminal",
             "Keywords/CLI/File_Actions",
           ],
         },
@@ -156,9 +160,14 @@ const sidebars = {
       ],
     },
     {
-      type: 'doc',
-      id: 'Reporting/reporting',
+      type: 'category',
       label: 'Reporting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        "Reporting/reporting",
+        "Reporting/Custom_Report_Messages",
+      ],
     },
     {
       type: 'category',
