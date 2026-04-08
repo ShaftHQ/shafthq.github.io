@@ -4,6 +4,7 @@ title: "Test Automation Architecture"
 sidebar_label: Architecture
 description: "Understand common test automation architectures and where SHAFT Engine fits in the technology stack."
 keywords: [SHAFT, test automation architecture, framework layers, Selenium, Appium, REST Assured, architecture diagram]
+tags: [best-practices, architecture, framework-design]
 ---
 
 A well-designed test automation architecture separates concerns into layers, making tests easier to write, maintain, and scale. This page explains the common layers and where SHAFT Engine fits.

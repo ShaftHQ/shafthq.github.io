@@ -4,6 +4,7 @@ title: "Fluent Design: Chaining Actions and Validations"
 sidebar_label: Fluent Design
 description: "Learn how to use SHAFT Engine's fluent API to chain actions and validations for readable, maintainable test code."
 keywords: [SHAFT, fluent design, method chaining, fluent API, readable tests, test design, chaining actions]
+tags: [best-practices, fluent-api, chaining, test-design]
 ---
 
 SHAFT Engine provides a **fluent API** that lets you chain actions and validations in a single, readable statement. Instead of writing one action per line, you can express an entire test step as a flowing sentence.

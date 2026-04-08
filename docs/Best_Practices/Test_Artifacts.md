@@ -4,6 +4,7 @@ title: "Test Artifacts and Report Paths"
 sidebar_label: Test Artifacts
 description: "Where to find SHAFT Engine test artifacts — Allure reports, execution summaries, and how to publish them from CI/CD pipelines."
 keywords: [SHAFT, test artifacts, allure report, execution summary, CI/CD artifacts, report paths, archive]
+tags: [best-practices, reporting, artifacts, cicd]
 ---
 
 After a test run, SHAFT generates several artifacts that you can use for debugging, reporting, and auditing. This page explains where to find them and how to publish them from your CI/CD pipeline.

@@ -4,6 +4,7 @@ title: "The Testing Pyramid and Automation Strategy"
 sidebar_label: Testing Pyramid
 description: "Understand the testing pyramid, the role of each testing level, and how to build an effective test automation strategy with SHAFT Engine."
 keywords: [SHAFT, testing pyramid, automation strategy, unit tests, integration tests, E2E tests, API tests, UI tests]
+tags: [best-practices, strategy, testing-pyramid, automation]
 ---
 
 The **testing pyramid** is a foundational concept in test automation strategy. It guides how many tests you should have at each level and where your automation investment delivers the most value.

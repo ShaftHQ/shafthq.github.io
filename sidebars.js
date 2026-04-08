@@ -29,6 +29,7 @@ const sidebars = {
   ],
    */
   docs: [
+    // ─── 1. Getting Started ───────────────────────────────────────────────────
     {
       type: 'category',
       label: 'Getting Started',
@@ -45,9 +46,11 @@ const sidebars = {
         "Getting_Started/JUnit5_Integration",
       ],
     },
+
+    // ─── 2. Project Setup ─────────────────────────────────────────────────────
     {
       type: 'category',
-      label: 'Project Setup Guides',
+      label: 'Project Setup',
       collapsible: true,
       collapsed: false,
       items: [
@@ -56,6 +59,8 @@ const sidebars = {
         "Getting_Started/setup_api",
       ],
     },
+
+    // ─── 3. Integrations & Community ─────────────────────────────────────────
     {
       type: 'doc',
       id: 'Getting_Started/integrations',
@@ -66,27 +71,35 @@ const sidebars = {
       id: 'Getting_Started/support',
       label: 'Support & Community',
     },
+
+    // ─── 4. Configuration (Basic Config + Properties merged) ─────────────────
     {
       type: 'category',
-      label: 'Basic Configuration',
+      label: 'Configuration',
       collapsible: true,
       collapsed: true,
       items: [
-        "Basic_Config/basicConfig",
-        "Basic_Config/basicConfig2",
-        "Basic_Config/basicConfig3",
-        "Basic_Config/parallelExecution",
+        { type: 'doc', id: 'Properties/PropertyTypes',      label: 'Property Types' },
+        { type: 'doc', id: 'Basic_Config/basicConfig',      label: 'Web Browser' },
+        { type: 'doc', id: 'Basic_Config/basicConfig2',     label: 'Mobile / Appium' },
+        { type: 'doc', id: 'Basic_Config/basicConfig3',     label: 'REST API' },
+        { type: 'doc', id: 'Basic_Config/parallelExecution',label: 'Parallel Execution' },
+        { type: 'doc', id: 'Properties/CommonExamples',     label: 'Common Examples' },
+        { type: 'doc', id: 'Properties/PropertiesList',     label: 'Properties Reference' },
+        { type: 'doc', id: 'Properties/Programmatic_Config',label: 'Programmatic Config' },
       ],
     },
+
+    // ─── 5. Keywords & Actions ────────────────────────────────────────────────
     {
       type: 'category',
-      label: 'Actions',
+      label: 'Keywords & Actions',
       collapsible: true,
       collapsed: true,
       items: [
         {
           type: 'category',
-          label: 'GUI',
+          label: 'Web / GUI',
           items: [
             "Keywords/GUI/Browser_Actions",
             "Keywords/GUI/Element_Identification",
@@ -96,37 +109,42 @@ const sidebars = {
             "Keywords/GUI/Alert_Actions",
             "Keywords/GUI/Touch_Actions",
             {
-	    type: 'category',
-            label: 'Did You Know',
-            collapsible: true,
-            collapsed: false,
-            items: [
-		        "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
-		        "Keywords/GUI/didYouKnow/Custom_Capabilities",
-		        "Keywords/GUI/didYouKnow/Local_Selenium_Grid_Execution",
-		        "Keywords/GUI/didYouKnow/Kubernetes_Selenium_Grid",
-			"Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
-		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
-		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
-		        "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
-		        "Keywords/GUI/didYouKnow/Clipboard_Actions",
-		        "Keywords/GUI/didYouKnow/Mobile_Emulation",
-		        "Keywords/GUI/didYouKnow/Accessibility_Testing",
-		        "Keywords/GUI/didYouKnow/Async_Element_Actions",
-		        "Keywords/GUI/didYouKnow/Network_Mocking",
-		        "Keywords/GUI/didYouKnow/Visual_Testing",
-		        "Keywords/GUI/didYouKnow/Self_Healing_Locators",
-		        "Keywords/GUI/didYouKnow/ARIA_Locators",
-		        "Keywords/GUI/didYouKnow/Smart_Locators",
-		        "Keywords/GUI/didYouKnow/Explicit_Waits",
-		        "Keywords/GUI/didYouKnow/iFrame_Handling",
-			]
-			}
+              type: 'category',
+              label: 'Advanced Topics',
+              collapsible: true,
+              collapsed: true,
+              items: [
+                // Locator strategies
+                "Keywords/GUI/didYouKnow/Shaft_Locator_Builder",
+                "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
+                "Keywords/GUI/didYouKnow/Smart_Locators",
+                "Keywords/GUI/didYouKnow/ARIA_Locators",
+                "Keywords/GUI/didYouKnow/Self_Healing_Locators",
+                // Browser & element control
+                "Keywords/GUI/didYouKnow/Native_selenium_Webdriver",
+                "Keywords/GUI/didYouKnow/Custom_Capabilities",
+                "Keywords/GUI/didYouKnow/Explicit_Waits",
+                "Keywords/GUI/didYouKnow/Async_Element_Actions",
+                "Keywords/GUI/didYouKnow/Clipboard_Actions",
+                "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
+                "Keywords/GUI/didYouKnow/iFrame_Handling",
+                "Keywords/GUI/didYouKnow/Network_Mocking",
+                "Keywords/GUI/didYouKnow/Mobile_Emulation",
+                // Grid & cloud execution
+                "Keywords/GUI/didYouKnow/Local_Selenium_Grid_Execution",
+                "Keywords/GUI/didYouKnow/Kubernetes_Selenium_Grid",
+                // Testing capabilities
+                "Keywords/GUI/didYouKnow/Accessibility_Testing",
+                "Keywords/GUI/didYouKnow/Visual_Testing",
+                // Integrations
+                "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
+              ],
+            },
           ],
         },
         {
           type: 'category',
-          label: 'API',
+          label: 'REST API',
           items: [
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
@@ -137,7 +155,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'CLI',
+          label: 'CLI / Terminal',
           items: [
             "Keywords/CLI/Terminal_Actions",
             "Keywords/CLI/Docker_Terminal",
@@ -147,7 +165,7 @@ const sidebars = {
         },
         {
           type: 'category',
-          label: 'DB',
+          label: 'Database',
           items: [
             "Keywords/DB/DB_Actions",
             "Keywords/DB/Connection_Strings",
@@ -157,6 +175,8 @@ const sidebars = {
         "Keywords/TestData_Management",
       ],
     },
+
+    // ─── 6. Validations ───────────────────────────────────────────────────────
     {
       type: 'category',
       label: 'Validations',
@@ -164,17 +184,19 @@ const sidebars = {
       collapsed: true,
       items: [
         "Keywords/Validations/Overview",
+        "Keywords/Validations/Soft_vs_Hard_Assertions",
         "Keywords/Validations/Browser",
         "Keywords/Validations/Elements",
         "Keywords/Validations/Response",
         "Keywords/Validations/Files",
         "Keywords/Validations/Objects",
         "Keywords/Validations/Nums",
-        "Keywords/Validations/ForceFail",
         "Keywords/Validations/JSON_Schema_Validation",
-        "Keywords/Validations/Soft_vs_Hard_Assertions",
+        "Keywords/Validations/ForceFail",
       ],
     },
+
+    // ─── 7. Reporting ─────────────────────────────────────────────────────────
     {
       type: 'category',
       label: 'Reporting',
@@ -185,38 +207,30 @@ const sidebars = {
         "Reporting/Custom_Report_Messages",
       ],
     },
+
+    // ─── 8. Best Practices (logical learning progression) ────────────────────
     {
       type: 'category',
       label: 'Best Practices',
       collapsible: true,
       collapsed: true,
       items: [
+        "Best_Practices/Architecture",
+        "Best_Practices/Testing_Pyramid",
+        "Best_Practices/Tool_Selection",
+        "Best_Practices/Solution_Design",
+        "Best_Practices/Test_Structure",
         "Best_Practices/Fluent_Design",
         "Best_Practices/Element_Identification",
         "Best_Practices/Cross_Platform_Strategy",
         "Best_Practices/BDD_Style_Reports",
-        "Best_Practices/Test_Structure",
+        "Best_Practices/Cucumber_BDD_Steps",
         "Best_Practices/CI_CD_Integration",
         "Best_Practices/Test_Artifacts",
-        "Best_Practices/Testing_Pyramid",
-        "Best_Practices/Tool_Selection",
-        "Best_Practices/Architecture",
-        "Best_Practices/Solution_Design",
-        "Best_Practices/Cucumber_BDD_Steps",
       ],
     },
-    {
-      type: 'category',
-      label: 'Properties',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        "Properties/PropertyTypes",
-        "Properties/CommonExamples",
-        "Properties/PropertiesList",
-        "Properties/Programmatic_Config",
-      ],
-    },
+
+    // ─── 9. Demos ─────────────────────────────────────────────────────────────
     {
       type: 'category',
       label: 'Demos',
