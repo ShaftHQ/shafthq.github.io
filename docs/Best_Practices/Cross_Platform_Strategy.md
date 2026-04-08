@@ -4,6 +4,7 @@ title: "Cross-Platform Strategy: Android and iOS"
 sidebar_label: Cross-Platform Strategy
 description: "When to combine Android and iOS tests in one project vs. separate projects, and how to handle platform-specific locators with SHAFT Engine."
 keywords: [SHAFT, cross-platform, Android, iOS, mobile testing, platform strategy, locator strategy, Appium]
+tags: [best-practices, mobile, cross-platform, android, ios, appium]
 ---
 
 One of the most common questions in mobile test automation is: **should Android and iOS tests live in the same project or in separate projects?** The answer depends on how similar the apps are.

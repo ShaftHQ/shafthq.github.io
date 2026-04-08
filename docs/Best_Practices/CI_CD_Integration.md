@@ -4,6 +4,7 @@ title: "Running Tests in CI/CD Pipelines"
 sidebar_label: CI/CD Integration
 description: "How to run SHAFT Engine tests in CI/CD pipelines — configuring properties, headless execution, and pipeline integration tips."
 keywords: [SHAFT, CI/CD, continuous integration, pipeline, Jenkins, GitHub Actions, headless, Maven, properties]
+tags: [best-practices, cicd, pipeline, jenkins, github-actions]
 ---
 
 Running your SHAFT tests in a CI/CD pipeline is straightforward. SHAFT's [property system](../Properties/PropertyTypes) lets you override any configuration from the command line, making it easy to adapt tests for unattended pipeline execution.

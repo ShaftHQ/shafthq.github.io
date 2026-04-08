@@ -4,6 +4,7 @@ title: "BDD-Style Reports with Allure Annotations"
 sidebar_label: BDD-Style Reports
 description: "Use Allure annotations to generate business-readable BDD-style reports without Cucumber — simpler setup, better maintainability."
 keywords: [SHAFT, Allure annotations, BDD reports, business-readable, Epic, Feature, Story, Description, Cucumber alternative]
+tags: [best-practices, bdd, allure, reporting]
 ---
 
 Many teams adopt Cucumber or similar BDD frameworks to produce **business-readable reports**. However, you can achieve the same report output using **Allure annotations** directly in your Java tests — without the overhead of maintaining `.feature` files, step definitions, and glue code.

@@ -4,6 +4,7 @@ title: "Element Identification Best Practices"
 sidebar_label: Element Identification
 description: "Best practices for element identification in SHAFT Engine — By objects, dynamic locators, cross-platform locators, and why to avoid @FindBy."
 keywords: [SHAFT, element identification, By locator, dynamic locator, cross-platform, Android, iOS, FindBy]
+tags: [best-practices, locators, elements, selenium, xpath, css]
 ---
 
 Choosing the right element identification strategy is critical to building stable, maintainable tests. SHAFT Engine encourages the use of standard Selenium `By` objects and its own [Locator Builder](../Keywords/GUI/didYouKnow/Shaft_Locator_Builder) over alternatives like `@FindBy`.

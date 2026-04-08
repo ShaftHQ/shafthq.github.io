@@ -4,6 +4,7 @@ title: "Test Automation Solution Design Patterns"
 sidebar_label: Solution Design
 description: "Compare test automation design patterns — Page Object Model, fluent design, anonymous classes, inheritance, and base classes — with SHAFT Engine examples."
 keywords: [SHAFT, design patterns, Page Object Model, POM, fluent design, base class, inheritance, test architecture]
+tags: [best-practices, design-patterns, page-object-model, architecture]
 ---
 
 How you design your test automation solution determines its readability, maintainability, and scalability. This page compares the most common patterns and shows how each works with SHAFT Engine.

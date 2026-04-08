@@ -1,7 +1,7 @@
 ---
 id: Response_Validations
 title: Response Validations
-sidebar_label: Validations
+sidebar_label: Response Validations
 description: "Validate API responses — status codes, JSON values, response body, schema matching, and response time using SHAFT Engine."
 keywords: [SHAFT, API validation, response validation, JSON validation, schema validation, REST API testing]
 tags: [api, validation, response, json]

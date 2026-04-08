@@ -1,7 +1,7 @@
 ---
 id: Request_Builder
 title: Request Builder
-sidebar_label: Builder
+sidebar_label: Request Builder
 description: "Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, and body configuration."
 keywords: [SHAFT, API testing, request builder, REST API, GET, POST, PUT, PATCH, DELETE, authentication, REST Assured]
 tags: [api, request, rest-assured, http]

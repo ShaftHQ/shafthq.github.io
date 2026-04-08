@@ -4,6 +4,7 @@ title: "Test Automation Tool Selection Criteria"
 sidebar_label: Tool Selection
 description: "Key criteria for selecting a test automation tool or framework, and how SHAFT Engine addresses each one."
 keywords: [SHAFT, tool selection, framework comparison, test automation criteria, Selenium, Appium, REST Assured]
+tags: [best-practices, strategy, framework-selection, comparison]
 ---
 
 Choosing the right test automation tool is a strategic decision that affects your team's productivity, test reliability, and long-term maintenance costs. This page outlines the key criteria to evaluate and how SHAFT Engine addresses each one.
