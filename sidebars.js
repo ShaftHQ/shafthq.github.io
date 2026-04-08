@@ -42,6 +42,7 @@ const sidebars = {
         "Getting_Started/first_steps_4",
         "Getting_Started/first_steps_5",
         "Getting_Started/first_steps_6",
+        "Getting_Started/JUnit5_Integration",
       ],
     },
     {
@@ -106,6 +107,15 @@ const sidebars = {
 		        "Keywords/GUI/didYouKnow/Shadow_Dom_Locator_Builder",
 		        "Keywords/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine",
 		        "Keywords/GUI/didYouKnow/Using_Cookies_In_Your_Tests",
+		        "Keywords/GUI/didYouKnow/Accessibility_Testing",
+		        "Keywords/GUI/didYouKnow/Async_Element_Actions",
+		        "Keywords/GUI/didYouKnow/Network_Mocking",
+		        "Keywords/GUI/didYouKnow/Visual_Testing",
+		        "Keywords/GUI/didYouKnow/Self_Healing_Locators",
+		        "Keywords/GUI/didYouKnow/ARIA_Locators",
+		        "Keywords/GUI/didYouKnow/Smart_Locators",
+		        "Keywords/GUI/didYouKnow/Explicit_Waits",
+		        "Keywords/GUI/didYouKnow/iFrame_Handling",
 			]
 			}
           ],
@@ -117,6 +127,8 @@ const sidebars = {
             "Keywords/API/Request_Builder",
             "Keywords/API/Response_Getters",
             "Keywords/API/Response_Validations",
+            "Keywords/API/GraphQL_Testing",
+            "Keywords/API/API_Authentication",
           ],
         },
         {
@@ -153,6 +165,8 @@ const sidebars = {
         "Keywords/Validations/Objects",
         "Keywords/Validations/Nums",
         "Keywords/Validations/ForceFail",
+        "Keywords/Validations/JSON_Schema_Validation",
+        "Keywords/Validations/Soft_vs_Hard_Assertions",
       ],
     },
     {
@@ -177,6 +191,7 @@ const sidebars = {
         "Best_Practices/Tool_Selection",
         "Best_Practices/Architecture",
         "Best_Practices/Solution_Design",
+        "Best_Practices/Cucumber_BDD_Steps",
       ],
     },
     {
@@ -188,6 +203,7 @@ const sidebars = {
         "Properties/PropertyTypes",
         "Properties/CommonExamples",
         "Properties/PropertiesList",
+        "Properties/Programmatic_Config",
       ],
     },
     {
