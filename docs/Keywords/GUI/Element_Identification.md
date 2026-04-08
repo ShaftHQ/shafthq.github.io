@@ -575,6 +575,200 @@ By targetElement = with(By.tagName("input")).below(referenceElement);
 driver.element().type(targetElement, "value");
 ```
 
+## XPath Axis Navigation
+
+The SHAFT Locator Builder exposes a fluent XPath axis API that lets you navigate DOM relationships — parent, sibling, child, ancestor, and more — without writing raw XPath strings.
+
+### Available Axes
+
+| Axis | Description |
+|:-----|:------------|
+| `parent()` | The direct parent element |
+| `ancestor(tag)` | The nearest ancestor with the given tag |
+| `child(tag)` | A direct child element with the given tag |
+| `followingSibling(tag)` | The next sibling element with the given tag |
+| `precedingSibling(tag)` | The previous sibling element with the given tag |
+| `following(tag)` | Any element that follows in document order |
+| `preceding(tag)` | Any element that precedes in document order |
+| `descendant(tag)` | Any descendant element with the given tag |
+
+### Example: Locate Input via Associated Label
+
+```java title="XPathAxisLabelToInput.java"
+// Find the input field that follows the "Email" label
+By emailInput = SHAFT.GUI.Locator.hasTagName("label")
+    .hasText("Email")
+    .byAxis().followingSibling("input")
+    .build();
+
+driver.element().type(emailInput, "user@example.com");
+```
+
+### Example: Navigate to an Ancestor
+
+```java title="XPathAxisAncestor.java"
+// Find the wrapping <div> that contains an error <span>
+By errorWrapper = SHAFT.GUI.Locator.hasTagName("span")
+    .containsText("Required field")
+    .byAxis().ancestor("div")
+    .build();
+
+driver.assertThat().element(errorWrapper).attribute("class").contains("error").perform();
+```
+
+### Example: Navigate to a Child Element
+
+```java title="XPathAxisChild.java"
+// First <li> inside the navigation <ul>
+By firstNavItem = SHAFT.GUI.Locator.hasTagName("ul")
+    .containsClass("nav-menu")
+    .byAxis().child("li")
+    .build();
+
+driver.element().click(firstNavItem);
+```
+
+### Example: Preceding Sibling
+
+```java title="XPathAxisPreceding.java"
+// The <h2> heading that appears before a specific section
+By sectionHeading = SHAFT.GUI.Locator.hasTagName("section")
+    .hasId("pricing")
+    .byAxis().precedingSibling("h2")
+    .build();
+
+String title = driver.element().getText(sectionHeading);
+```
+
+:::tip
+Axis navigation generates optimised XPath expressions internally. You still benefit from SHAFT's smart waits and retry logic when interacting with axis-resolved elements.
+:::
+
+---
+
+## ARIA Role-Based Locators
+
+ARIA roles give you resilient, accessibility-driven locators that survive DOM refactors. Use `Locator.hasRole()` with the `Role` enum to target elements by their semantic purpose rather than fragile CSS classes or XPath.
+
+### Available Roles
+
+```java
+// Some commonly used ARIA roles
+Role.BUTTON       // <button>, role="button"
+Role.LINK         // <a>, role="link"
+Role.TEXTBOX      // <input type="text">, role="textbox"
+Role.SEARCHBOX    // <input type="search">, role="searchbox"
+Role.CHECKBOX     // <input type="checkbox">, role="checkbox"
+Role.RADIO        // <input type="radio">, role="radio"
+Role.COMBOBOX     // <select>, role="combobox"
+Role.NAVIGATION   // <nav>, role="navigation"
+Role.MAIN         // <main>, role="main"
+Role.DIALOG       // role="dialog"
+Role.ALERT        // role="alert"
+Role.HEADING      // <h1>–<h6>, role="heading"
+Role.LIST         // <ul>/<ol>, role="list"
+Role.LISTITEM     // <li>, role="listitem"
+Role.TABLE        // <table>, role="table"
+```
+
+### Example: Locate by Role
+
+```java title="ARIARoleLocator.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.enums.internal.Role;
+
+// Locate a submit button by role and visible text
+By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Submit").build();
+
+// Locate a search input by role
+By searchInput = SHAFT.GUI.Locator.hasRole(Role.SEARCHBOX).build();
+
+// Locate the navigation landmark
+By mainNav = SHAFT.GUI.Locator.hasRole(Role.NAVIGATION).build();
+
+driver.element().click(submitButton);
+driver.element().type(searchInput, "SHAFT Engine");
+```
+
+### Example: Role + Additional Conditions
+
+```java title="ARIARoleWithConditions.java"
+// Dialog with a specific title
+By confirmDialog = SHAFT.GUI.Locator.hasRole(Role.DIALOG)
+    .containsText("Confirm deletion")
+    .build();
+
+// Alert message containing error text
+By errorAlert = SHAFT.GUI.Locator.hasRole(Role.ALERT)
+    .containsText("Invalid credentials")
+    .build();
+
+driver.assertThat().element(confirmDialog).exists().perform();
+driver.assertThat().element(errorAlert).attribute("class").contains("error").perform();
+```
+
+:::note
+Role-based locators improve accessibility coverage in your tests and make your test suite act as a living accessibility audit.
+:::
+
+---
+
+## Smart Locators
+
+SHAFT provides two high-level smart locators — `inputField()` and `clickableField()` — that automatically resolve to the most relevant element based on visible labels, placeholders, and ARIA attributes.
+
+### inputField()
+
+Locates an editable field (text input, textarea, etc.) by its associated label text, `placeholder`, or `aria-label`:
+
+```java title="SmartInputLocator.java"
+// Resolves to the input associated with the "Email" label
+By emailField = SHAFT.GUI.Locator.inputField("Email");
+
+// Resolves to the input with placeholder "Search..."
+By searchField = SHAFT.GUI.Locator.inputField("Search...");
+
+// Resolves to the input with aria-label "Password"
+By passwordField = SHAFT.GUI.Locator.inputField("Password");
+
+driver.element()
+      .type(emailField, "user@example.com")
+      .and().type(passwordField, "secret");
+```
+
+### clickableField()
+
+Locates a clickable element (button, link, etc.) by its visible text, `value` attribute, or `aria-label`:
+
+```java title="SmartClickableLocator.java"
+// Resolves to a button or link with visible text "Log In"
+By loginButton = SHAFT.GUI.Locator.clickableField("Log In");
+
+// Resolves to a button with value="Sign Up"
+By signUpButton = SHAFT.GUI.Locator.clickableField("Sign Up");
+
+driver.element().click(loginButton);
+```
+
+### Complete Example
+
+```java title="SmartLocatorsExample.java"
+driver.browser().navigateToURL("https://example.com/register");
+
+driver.element()
+      .type(SHAFT.GUI.Locator.inputField("First Name"), "Alice")
+      .and().type(SHAFT.GUI.Locator.inputField("Last Name"), "Smith")
+      .and().type(SHAFT.GUI.Locator.inputField("Email"), "alice@example.com")
+      .and().type(SHAFT.GUI.Locator.inputField("Password"), "Secure@123")
+      .and().click(SHAFT.GUI.Locator.clickableField("Create Account"));
+```
+
+:::tip
+Smart locators are the most resilient option for forms: they target semantic meaning rather than brittle selectors. When the DOM changes, the label or button text usually stays the same.
+:::
+
+---
+
 ## Best Practices
 
 1. **Prefer ID locators** when available - they're the fastest and most reliable

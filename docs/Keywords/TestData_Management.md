@@ -538,19 +538,120 @@ mvn test -Denv=prod
 
 ---
 
+## YAML Test Data
+
+YAML (YAML Ain't Markup Language) is a human-friendly data format ideal for structured test data with hierarchical relationships. It is more readable than JSON and supports multi-line strings, comments, and complex nested structures.
+
+### Creating a YAML Test Data File
+
+Create a YAML file in your test resources directory (e.g., `src/test/resources/testData/`):
+
+```yaml title="config.yaml"
+user:
+  name: "John Doe"
+  age: 30
+  premium: true
+  startDate: "2024-01-15"
+  address:
+    city: "New York"
+    country: "US"
+
+credentials:
+  username: "testuser"
+  password: "SecurePass123!"
+
+items:
+  - "Item A"
+  - "Item B"
+  - "Item C"
+```
+
+### Using YAML Test Data
+
+```java title="YAMLTestDataExample.java"
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.*;
+
+public class YAMLTestDataExample {
+    private SHAFT.TestData.YAML testData;
+
+    @BeforeClass
+    public void setupTestData() {
+        // Load the YAML file
+        testData = new SHAFT.TestData.YAML("testData/config.yaml");
+    }
+
+    @Test
+    public void loginTest() {
+        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+        // Type-safe getters using dot notation for nested keys
+        String username = testData.getString("credentials.username");
+        String password = testData.getString("credentials.password");
+        String city     = testData.getString("user.address.city");
+        int    age      = testData.getInteger("user.age");
+        boolean premium = testData.getBoolean("user.premium");
+
+        driver.browser().navigateToURL("https://example.com/login")
+              .and().element().type(By.id("username"), username)
+              .and().element().type(By.id("password"), password)
+              .and().element().click(By.id("loginButton"));
+
+        driver.quit();
+    }
+}
+```
+
+### Type-Safe Getters
+
+`SHAFT.TestData.YAML` provides typed accessors so your code is safe and readable:
+
+```java title="YAMLTypedGetters.java"
+SHAFT.TestData.YAML testData = new SHAFT.TestData.YAML("testData/config.yaml");
+
+// Primitive types
+String name     = testData.getString("user.name");       // "John Doe"
+int    age      = testData.getInteger("user.age");        // 30
+boolean premium = testData.getBoolean("user.premium");    // true
+
+// Deserialise a nested object into a custom class
+User user = testData.getAs("user", User.class);
+
+// Read a YAML list as a typed Java List
+List<String> items = testData.getListAs("items", String.class);
+```
+
+### Advantages of YAML
+
+- Human-readable with minimal syntax noise
+- Supports comments (`#`) — helpful for documenting test data
+- Handles nested structures and lists natively
+- Ideal replacement for properties files when you need hierarchy
+- Works seamlessly with SHAFT's type-safe API
+
+### Best Practices for YAML
+
+- Use `.yaml` (not `.yml`) extension for consistency with SHAFT conventions
+- Store YAML files under `src/test/resources/testData/`
+- Keep sensitive values (passwords, tokens) in environment variables or encrypted files
+- Use comments in YAML to explain the purpose of each section
+
+---
+
 ## Comparison of Test Data Formats
 
-| Feature | JSON | CSV | Excel | Properties |
-|:--------|:-----|:----|:------|:-----------|
-| **Structure** | Hierarchical | Tabular | Tabular | Key-Value |
-| **Complexity** | High | Low | Medium | Low |
-| **Best For** | APIs, Complex data | Bulk data | Test scenarios | Configuration |
-| **Readability** | Good | Excellent | Excellent | Excellent |
-| **Non-tech Friendly** | Medium | High | High | High |
-| **Multi-sheet Support** | N/A | No | Yes | No |
-| **Nested Data** | Yes | No | No | No |
-| **File Size** | Small | Small | Large | Small |
-| **Edit Tools** | Text editor, IDE | Excel, Text editor | Excel | Text editor |
+| Feature | JSON | CSV | Excel | Properties | YAML |
+|:--------|:-----|:----|:------|:-----------|:-----|
+| **Structure** | Hierarchical | Tabular | Tabular | Key-Value | Hierarchical |
+| **Complexity** | High | Low | Medium | Low | Medium |
+| **Best For** | APIs, Complex data | Bulk data | Test scenarios | Configuration | Config & nested data |
+| **Readability** | Good | Excellent | Excellent | Excellent | Excellent |
+| **Non-tech Friendly** | Medium | High | High | High | High |
+| **Multi-sheet Support** | N/A | No | Yes | No | No |
+| **Nested Data** | Yes | No | No | No | Yes |
+| **File Size** | Small | Small | Large | Small | Small |
+| **Supports Comments** | No | No | No | No | Yes |
+| **Edit Tools** | Text editor, IDE | Excel, Text editor | Excel | Text editor | Text editor, IDE |
 
 ---
 
