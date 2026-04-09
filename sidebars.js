@@ -56,6 +56,7 @@ const sidebars = {
       items: [
         "Getting_Started/setup_web",
         "Getting_Started/setup_mobile",
+        "Getting_Started/flutter_testing",
         "Getting_Started/setup_api",
       ],
     },
