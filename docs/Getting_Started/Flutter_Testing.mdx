@@ -1,0 +1,299 @@
+---
+id: flutter_testing
+title: "Flutter App Test Automation with SHAFT"
+sidebar_label: Flutter Testing
+description: "Automate Flutter Android and iOS apps using SHAFT and the Appium Flutter Driver. Covers prerequisites, configuration, FlutterFinder API, working code examples, cloud execution, and troubleshooting."
+keywords: [flutter test automation, appium flutter driver, flutter testing java, shaft flutter, flutterfinder java, flutter appium android ios, flutter widget testing]
+tags: [mobile, flutter, appium, android, ios]
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Flutter App Test Automation with SHAFT
+
+SHAFT supports automated testing of **Flutter** applications via the [Appium Flutter Driver](https://github.com/appium-userland/appium-flutter-driver) with the `FlutterIntegration` automation name.
+Widget location is powered by [appium-flutter-finder-java](https://github.com/ashwithpoojary98/appium-flutter-finder-java), which is included **transitively** — no extra dependency is needed.
+
+**Supported platforms:** Android & iOS
+
+:::warning[Build Mode Requirement]
+Your Flutter app **must** be built in **debug** or **profile** mode. Release builds strip the Flutter driver extension and will not work.
+:::
+
+---
+
+## Prerequisites
+
+### 1. Install Appium and the Flutter Driver
+
+```bash
+npm install -g appium
+appium driver install --source npm appium-flutter-driver
+```
+
+Verify the installation:
+
+```bash
+appium driver list --installed
+```
+
+### 2. Prepare Your Flutter App
+
+Add the Flutter driver extension to your `main.dart` before building:
+
+```dart title="lib/main.dart"
+import 'package:flutter_driver/driver_extension.dart';
+
+void main() {
+  enableFlutterDriverExtension();
+  runApp(MyApp());
+}
+```
+
+### 3. Build for Debug Mode
+
+```bash
+flutter build apk --debug        # Android
+flutter build ios --debug        # iOS
+```
+
+Place the resulting `.apk` / `.app` under `src/test/resources/apps/`.
+
+---
+
+## Maven Dependency
+
+SHAFT includes `appium_flutterfinder_java` (v1.0.12) **transitively** via `com.shaft.engine:SHAFT_ENGINE`. You do **not** need to add it manually to your `pom.xml`.
+
+---
+
+## Configuration
+
+<Tabs>
+  <TabItem value="properties" label="Properties File" default>
+
+Add these properties to `src/main/resources/properties/custom.properties`:
+
+```properties title="src/main/resources/properties/custom.properties"
+# Target platform: Android or IOS
+targetPlatform=Android
+
+# Appium Flutter Driver automation name
+mobile_automationName=FlutterIntegration
+
+# Appium server address
+executionAddress=localhost:4723
+
+# Path to the debug APK (relative to project root)
+mobile_app=src/test/resources/apps/my-flutter-app.apk
+
+# Device configuration
+mobile_deviceName=Android Emulator
+mobile_platformVersion=13.0
+```
+
+  </TabItem>
+  <TabItem value="programmatic" label="Programmatic Config">
+
+Configure at runtime in a `@BeforeClass` method:
+
+```java title="FlutterTest.java"
+import com.shaft.driver.SHAFT;
+import io.appium.java_client.remote.AutomationName;
+import org.openqa.selenium.Platform;
+
+@BeforeClass
+public void setupConfig() {
+    SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
+    SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION);
+    SHAFT.Properties.platform.set().executionAddress("localhost:4723");
+    SHAFT.Properties.mobile.set().app("src/test/resources/apps/my-flutter-app.apk");
+    SHAFT.Properties.mobile.set().deviceName("Android Emulator");
+    SHAFT.Properties.mobile.set().platformVersion("13.0");
+}
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Locating Flutter Widgets — FlutterFinder API
+
+Initialize `FlutterFinder` from the underlying `RemoteWebDriver`:
+
+```java
+import io.github.ashwith.flutter.FlutterFinder;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+FlutterFinder finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
+```
+
+### Locator Strategies
+
+| Strategy | Method | When to Use |
+|---|---|---|
+| Value Key (String) | `finder.byValueKey("myButton")` | Widget with `Key('myButton')` |
+| Value Key (int) | `finder.byValueKey(123)` | Widget with an integer key |
+| Exact Text | `finder.byText("Submit")` | Match widget by visible text |
+| Widget Type | `finder.byType("TextField")` | Match by Flutter class name |
+| Tooltip | `finder.byToolTip("Increment")` | Widget tooltip text |
+| Semantics Label | `finder.bySemanticsLabel("Login")` | Accessibility / semantics label |
+
+---
+
+## Working Example — Full Test Class (TestNG)
+
+```java title="FlutterCounterTest.java"
+import com.shaft.driver.SHAFT;
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.remote.AutomationName;
+import io.github.ashwith.flutter.FlutterFinder;
+import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.*;
+
+public class FlutterCounterTest {
+
+    private SHAFT.GUI.WebDriver driver;
+    private FlutterFinder finder;
+
+    @BeforeClass
+    public void setupConfig() {
+        SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
+        SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION);
+        SHAFT.Properties.platform.set().executionAddress("localhost:4723");
+        SHAFT.Properties.mobile.set().app("src/test/resources/apps/flutter-counter.apk");
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        driver = new SHAFT.GUI.WebDriver();
+        finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
+    }
+
+    @Test
+    public void counterShouldIncrementOnButtonTap() {
+        WebElement incrementButton = finder.byToolTip("Increment");
+        incrementButton.click();
+        incrementButton.click();
+
+        driver.assertThat()
+              .element(AppiumBy.accessibilityId("counter"))
+              .text()
+              .isEqualTo("2")
+              .perform();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod() {
+        driver.quit();
+    }
+}
+```
+
+---
+
+## Integrating FlutterFinder with SHAFT's Fluent API
+
+`FlutterFinder` returns standard `WebElement` objects, so you can pass locators via `AppiumBy` to SHAFT's fluent element chain for a fully consistent experience:
+
+```java title="FlutterLoginTest.java"
+import io.appium.java_client.AppiumBy;
+
+driver.element()
+      .type(AppiumBy.accessibilityId("usernameField"), "testuser")
+      .and().type(AppiumBy.accessibilityId("passwordField"), "pass123")
+      .and().click(AppiumBy.accessibilityId("loginButton"))
+      .and().assertThat(AppiumBy.accessibilityId("welcomeText"))
+            .text().contains("Welcome")
+            .perform();
+```
+
+:::tip[Combine both approaches]
+Use `FlutterFinder` for widget-specific locators (keys, types, tooltips) and `AppiumBy.accessibilityId` / `AppiumBy.xpath` with SHAFT's fluent API for everything else.
+:::
+
+---
+
+## Cloud Execution
+
+<Tabs>
+  <TabItem value="browserstack" label="BrowserStack" default>
+
+```java title="FlutterTest.java"
+SHAFT.Properties.platform.set().executionAddress("browserstack");
+SHAFT.Properties.browserStack.set().platformVersion("13.0");
+SHAFT.Properties.browserStack.set().deviceName("Google Pixel 7");
+SHAFT.Properties.browserStack.set().appRelativeFilePath("path/to/flutter-app-debug.apk");
+SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION);
+```
+
+  </TabItem>
+  <TabItem value="lambdatest" label="LambdaTest">
+
+```java title="FlutterTest.java"
+SHAFT.Properties.platform.set().executionAddress("lambdatest");
+SHAFT.Properties.lambdaTest.set().platformVersion("13.0");
+SHAFT.Properties.lambdaTest.set().deviceName("Galaxy S21");
+SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION);
+```
+
+  </TabItem>
+</Tabs>
+
+See the full [Integrations guide →](./integrations) for credentials and additional cloud provider configuration.
+
+---
+
+## Best Practices
+
+- **Add `Key` widgets to interactive elements** so you can reliably locate them:
+
+  ```dart
+  ElevatedButton(key: Key('submitButton'), onPressed: ..., child: Text('Submit'))
+  ```
+
+- **Wrap elements with `Semantics`** for better findability and accessibility:
+
+  ```dart
+  Semantics(label: 'Submit Button', child: ElevatedButton(...))
+  ```
+
+- **Increase element timeout** if Flutter animations cause flakiness:
+
+  ```java
+  SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
+  ```
+
+- **Always use `@AfterMethod(alwaysRun = true)`** to ensure `driver.quit()` runs even when a test fails.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely Cause | Fix |
+|---|---|---|
+| `Could not find Flutter driver` | Flutter driver not installed | Run `appium driver install --source npm appium-flutter-driver` |
+| `Flutter driver extension not found` | App missing extension call | Add `enableFlutterDriverExtension()` in `main.dart` |
+| `Cannot find element` | Widget has no key or semantics | Add `Key('...')` or `Semantics(label: '...')` to the widget |
+| Session creation fails | Appium not running or wrong address | Verify Appium is running and `executionAddress` is correct |
+| App not found | Wrong app path | Verify `mobile_app` path is relative to the project root |
+
+Enable verbose debug logging if you need more detail:
+
+```properties title="src/main/resources/properties/custom.properties"
+log4j_logLevel=DEBUG
+```
+
+---
+
+## References
+
+- [Appium Flutter Driver on GitHub](https://github.com/appium-userland/appium-flutter-driver)
+- [appium-flutter-finder-java on GitHub](https://github.com/ashwithpoojary98/appium-flutter-finder-java)
+- [SHAFT_ENGINE Flutter Testing Internal Docs](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/docs/FLUTTER_TESTING.md)
+- [Flutter Testing Guide](https://flutter.dev/docs/testing)
+- [Mobile App Test Automation with SHAFT →](./setup_mobile)
