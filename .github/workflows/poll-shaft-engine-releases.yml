@@ -5,7 +5,7 @@ name: Poll SHAFT_ENGINE Releases
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # every 30 minutes
+    - cron: '0 * * * *'  # every hour
   workflow_dispatch:
 
 permissions:
@@ -48,7 +48,9 @@ jobs:
             // Check whether a blog post for this release already exists.
             const blogDir = path.join(process.env.GITHUB_WORKSPACE, 'blog');
             const existingFiles = fs.readdirSync(blogDir);
-            const alreadyPublished = existingFiles.some((f) => f.includes(`release-${safeTag}`));
+            const alreadyPublished = existingFiles.some(
+              (f) => f.endsWith(`release-${safeTag}.md`) || f.endsWith(`release-${safeTag}.mdx`)
+            );
 
             if (alreadyPublished) {
               console.log(`Blog post for ${tagName} already exists — nothing to do.`);
