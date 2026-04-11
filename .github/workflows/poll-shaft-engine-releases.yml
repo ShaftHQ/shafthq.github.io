@@ -1,0 +1,70 @@
+name: Poll SHAFT_ENGINE Releases
+
+# Periodically checks SHAFT_ENGINE for new releases and triggers the
+# automated-release-blog-post workflow when a post does not yet exist.
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'  # every 30 minutes
+  workflow_dispatch:
+
+permissions:
+  actions: write   # needed to dispatch automated-release-blog-post workflow
+  contents: read
+
+jobs:
+  poll-releases:
+    name: Poll for New SHAFT_ENGINE Releases
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Check for new SHAFT_ENGINE release and trigger blog post
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const SOURCE_OWNER = 'ShaftHQ';
+            const SOURCE_REPO = 'SHAFT_ENGINE';
+
+            // Fetch the latest published release from SHAFT_ENGINE.
+            const { data: latestRelease } = await github.rest.repos.getLatestRelease({
+              owner: SOURCE_OWNER,
+              repo: SOURCE_REPO
+            });
+
+            const tagName = latestRelease.tag_name;
+            const safeTag = tagName
+              .replace(/^v/i, '')
+              .replace(/[^a-zA-Z0-9._-]/g, '-')
+              .replace(/-+/g, '-')
+              .toLowerCase();
+
+            // Check whether a blog post for this release already exists.
+            const blogDir = path.join(process.env.GITHUB_WORKSPACE, 'blog');
+            const existingFiles = fs.readdirSync(blogDir);
+            const alreadyPublished = existingFiles.some((f) => f.includes(`release-${safeTag}`));
+
+            if (alreadyPublished) {
+              console.log(`Blog post for ${tagName} already exists — nothing to do.`);
+              return;
+            }
+
+            console.log(`New SHAFT_ENGINE release ${tagName} detected. Triggering blog post generation...`);
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'automated-release-blog-post.yml',
+              ref: 'master',
+              inputs: {
+                release_tag: tagName
+              }
+            });
+
+            console.log(`Dispatched automated-release-blog-post workflow for tag ${tagName}.`);
