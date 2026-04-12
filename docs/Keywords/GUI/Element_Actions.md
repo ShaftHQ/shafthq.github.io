@@ -277,6 +277,14 @@ Switches driver focus back to the main page content.
 driver.element().switchToDefaultContent();
 ```
 
+### getCurrentFrame()
+
+Returns the name or handle of the currently active iframe context. Useful for debugging iframe navigation state.
+
+```java title="GetCurrentFrameExample.java"
+String currentFrame = driver.element().getCurrentFrame();
+```
+
 ## Clipboard Actions
 
 Performs clipboard operations on a text field. Supported actions: `"copy"`, `"paste"`, `"cut"`, `"select all"`, `"unselect"`.
@@ -305,6 +313,39 @@ Submits a form programmatically using JavaScript.
 By formElement = By.id("loginForm");
 driver.element().submitFormUsingJavaScript(formElement);
 ```
+
+## Native Mobile Commands
+
+### executeNativeMobileCommand()
+
+Executes a native Appium mobile command with custom parameters. Use this for advanced mobile interactions not covered by the standard element actions, such as `mobile: scroll`, `mobile: swipe`, or platform-specific gestures.
+
+```java title="NativeMobileCommandExample.java"
+import java.util.Map;
+
+// Scroll down on iOS
+driver.element().executeNativeMobileCommand(
+    "mobile: scroll",
+    Map.of("direction", "down")
+);
+
+// Swipe on Android
+driver.element().executeNativeMobileCommand(
+    "mobile: swipeGesture",
+    Map.of(
+        "left", "100",
+        "top", "500",
+        "width", "200",
+        "height", "200",
+        "direction", "up",
+        "percent", "0.75"
+    )
+);
+```
+
+:::note
+This method is intended for mobile (Appium) test execution. The available commands and parameters depend on the Appium driver and the target platform (Android/iOS).
+:::
 
 ## Wait Methods
 

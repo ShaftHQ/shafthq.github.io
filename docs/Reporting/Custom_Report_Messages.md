@@ -120,18 +120,20 @@ Attachments appear as expandable entries in the Allure report and can hold any c
 import com.shaft.driver.SHAFT;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
 // Attach plain text (e.g., an API response body)
 String responseBody = api.getResponse().body().asString();
 SHAFT.Report.attach("text/plain", "API Response Body", responseBody);
 
 // Attach a screenshot captured as bytes
-byte[] screenshotBytes = driver.browser().captureScreenshotAsBytes();
+byte[] screenshotBytes = ((TakesScreenshot) driver.getDriver()).getScreenshotAs(OutputType.BYTES);
 InputStream screenshotStream = new ByteArrayInputStream(screenshotBytes);
 SHAFT.Report.attach("image/png", "Checkout Page Screenshot", screenshotStream);
 
 // Attach an HTML page snapshot
-String htmlContent = driver.browser().getCurrentPageSource();
+String htmlContent = driver.browser().getPageSource();
 SHAFT.Report.attach("text/html", "Page Source", htmlContent);
 ```
 
