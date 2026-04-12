@@ -7,193 +7,306 @@ keywords: [SHAFT, database, SQL, database testing, JDBC, query execution, automa
 tags: [database, sql, actions]
 ---
 
-## SHAFT Database
+## Connecting to a Database
 
-SHAFT provides a powerful and simplified interface for database automation, supporting various database operations including queries, updates, and stored procedures.
+SHAFT provides two constructors and matching factory methods for creating a database connection.
 
-### Object Initialization
+### Using the DatabaseType Enum (Recommended)
 
-To interact with databases, you need to create an instance of SHAFT.DB class and provide the database connection details.
+Use `DatabaseActions.DatabaseType` for built-in databases — SHAFT builds the JDBC URL automatically:
 
-#### Basic Initialization
-```java
+```java title="TypedConnection.java"
 import com.shaft.driver.SHAFT;
+import com.shaft.db.DatabaseActions;
 
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "username", "password");
+// MySQL
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.MY_SQL,
+    "localhost", "3306", "mydb", "dbuser", "dbpass"
+);
+
+// PostgreSQL
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.POSTGRES_SQL,
+    "localhost", "5432", "testdb", "admin", "admin123"
+);
+
+// SQL Server
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.SQL_SERVER,
+    "localhost", "1433", "testdb", "sa", "MyP@ssw0rd"
+);
+
+// Oracle (SID)
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.ORACLE,
+    "localhost", "1521", "ORCL", "system", "oracle"
+);
+
+// Oracle (Service Name)
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.ORACLE_SERVICE_NAME,
+    "localhost", "1521", "myservice.example.com", "system", "oracle"
+);
+
+// IBM DB2
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.IBM_DB2,
+    "localhost", "50000", "TESTDB", "db2inst1", "password"
+);
 ```
 
-#### Initialization with Connection String
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:postgresql://localhost:5432/testdb", "admin", "admin123");
+Supported `DatabaseType` values:
+
+| Value | Database |
+|-------|----------|
+| `MY_SQL` | MySQL / MariaDB |
+| `POSTGRES_SQL` | PostgreSQL |
+| `SQL_SERVER` | Microsoft SQL Server |
+| `ORACLE` | Oracle (SID) |
+| `ORACLE_SERVICE_NAME` | Oracle (Service Name) |
+| `IBM_DB2` | IBM DB2 |
+
+### Using a Custom JDBC Connection String
+
+For databases not in the enum, or for advanced connection parameters:
+
+```java title="CustomJdbcConnection.java"
+// Custom JDBC URL (e.g., MySQL with extra options)
+SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC");
+
+// PostgreSQL with schema
+SHAFT.DB db = new SHAFT.DB("jdbc:postgresql://localhost:5432/testdb?currentSchema=myschema");
 ```
 
-After creating the database object, you can perform various database operations using the available methods.
+### Factory Methods
 
-## Common Database Actions
+Both constructors have corresponding factory methods for cases where you want a fluent, static creation style:
 
-### Execute Query
-Execute a SELECT query and get the result set.
+```java title="FactoryMethods.java"
+// Via factory — DatabaseType
+SHAFT.DB db = SHAFT.DB.getInstance(
+    DatabaseActions.DatabaseType.MY_SQL,
+    "localhost", "3306", "mydb", "user", "pass"
+);
 
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String query = "SELECT * FROM users WHERE age > 18";
-ResultSet resultSet = db.executeSelectQuery(query);
+// Via factory — custom JDBC URL
+SHAFT.DB db = SHAFT.DB.getInstance("jdbc:postgresql://localhost:5432/testdb");
+```
 
-while (resultSet.next()) {
-    String name = resultSet.getString("name");
-    int age = resultSet.getInt("age");
-    System.out.println("Name: " + name + ", Age: " + age);
+---
+
+## Executing Queries
+
+### SELECT — executeSelectQuery()
+
+Returns a `ResultSet` for you to iterate:
+
+```java title="SelectQuery.java"
+import java.sql.ResultSet;
+
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.POSTGRES_SQL,
+    "localhost", "5432", "shopdb", "admin", "admin123"
+);
+
+ResultSet rs = db.executeSelectQuery("SELECT id, name, email FROM customers WHERE active = true");
+
+while (rs.next()) {
+    String name  = rs.getString("name");
+    String email = rs.getString("email");
+    SHAFT.Report.log("Customer: " + name + " <" + email + ">");
 }
 ```
 
-#### With Validations
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-ResultSet resultSet = db.executeSelectQuery("SELECT * FROM products WHERE price > 100");
+### Get a Single Cell Value — getResult()
 
-// Validate result count
-int count = 0;
-while (resultSet.next()) {
-    count++;
-}
-SHAFT.Validations.assertThat().number(count).isGreaterThan(0).perform();
+Extracts the first column of the first row as a string — ideal for scalar queries:
+
+```java title="GetSingleResult.java"
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.MY_SQL,
+    "localhost", "3306", "shopdb", "user", "pass"
+);
+
+String total = db.getResult("SELECT COUNT(*) FROM orders WHERE status = 'pending'");
+SHAFT.Validations.assertThat()
+     .number(Integer.parseInt(total))
+     .isGreaterThan(0)
+     .withCustomReportMessage("There should be at least one pending order")
+     .perform();
 ```
 
-### Execute Update
-Execute INSERT, UPDATE, or DELETE statements.
+You can also use the static overload with an existing `ResultSet`:
 
-#### Insert Data
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String insertQuery = "INSERT INTO users (name, email, age) VALUES ('John Doe', 'john@example.com', 30)";
-int rowsAffected = db.executeUpdateQuery(insertQuery);
-
-SHAFT.Validations.assertThat().number(rowsAffected).isEqualTo(1).perform();
+```java title="StaticGetResult.java"
+ResultSet rs  = db.executeSelectQuery("SELECT MAX(price) FROM products");
+String maxPrice = SHAFT.DB.getResult(rs);
 ```
 
-#### Update Data
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String updateQuery = "UPDATE users SET age = 31 WHERE email = 'john@example.com'";
-int rowsAffected = db.executeUpdateQuery(updateQuery);
+### Get a Column by Name — getColumn()
 
-SHAFT.Validations.assertThat().number(rowsAffected).isGreaterThanOrEquals(1).perform();
+Extracts all values from a named column across all rows:
+
+```java title="GetColumn.java"
+ResultSet rs = db.executeSelectQuery("SELECT email FROM users WHERE role = 'admin'");
+String emails = SHAFT.DB.getColumn(rs, "email");
+SHAFT.Validations.assertThat().object(emails).contains("admin@example.com").perform();
 ```
 
-#### Delete Data
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String deleteQuery = "DELETE FROM users WHERE email = 'john@example.com'";
-int rowsAffected = db.executeUpdateQuery(deleteQuery);
+### INSERT / UPDATE / DELETE — executeUpdateQuery()
+
+Returns the number of affected rows:
+
+```java title="UpdateQuery.java"
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.POSTGRES_SQL,
+    "localhost", "5432", "shopdb", "admin", "admin123"
+);
+
+// Insert
+int inserted = db.executeUpdateQuery(
+    "INSERT INTO orders (customer_id, total, status) VALUES (42, 99.99, 'new')"
+);
+SHAFT.Validations.assertThat().number(inserted).isEqualTo(1).perform();
+
+// Update
+int updated = db.executeUpdateQuery(
+    "UPDATE orders SET status = 'confirmed' WHERE customer_id = 42 AND status = 'new'"
+);
+SHAFT.Validations.assertThat().number(updated).isGreaterThanOrEquals(1).perform();
+
+// Delete (cleanup)
+db.executeUpdateQuery("DELETE FROM orders WHERE customer_id = 42");
 ```
 
-### Get Cell Value
-Retrieve a specific cell value from a query result.
+---
 
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String query = "SELECT name FROM users WHERE id = 1";
-String userName = db.getResult(query);
+## Advanced Usage
 
-SHAFT.Validations.assertThat().object(userName).isNotNull().perform();
-```
+### Parameterized Queries (Prevent SQL Injection)
 
-### Get Multiple Values
-Retrieve multiple values from a query result as a list.
+```java title="PreparedStatement.java"
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.MY_SQL,
+    "localhost", "3306", "shopdb", "user", "pass"
+);
 
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String query = "SELECT email FROM users WHERE age > 25";
-List<String> emails = db.getResultAsList(query);
-
-SHAFT.Validations.assertThat().number(emails.size()).isGreaterThan(0).perform();
-for (String email : emails) {
-    SHAFT.Validations.verifyThat().object(email).contains("@").perform();
-}
-```
-
-### Execute Stored Procedure
-Execute database stored procedures.
-
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String procedureCall = "{CALL getUsersByAge(?)}";
-CallableStatement stmt = db.getConnection().prepareCall(procedureCall);
-stmt.setInt(1, 25);
-ResultSet resultSet = stmt.executeQuery();
-
-while (resultSet.next()) {
-    String name = resultSet.getString("name");
-    System.out.println("User: " + name);
-}
+String email = "user@example.com";
+PreparedStatement stmt = db.getConnection()
+    .prepareStatement("SELECT id, name FROM users WHERE email = ? AND active = ?");
+stmt.setString(1, email);
+stmt.setBoolean(2, true);
+ResultSet rs = stmt.executeQuery();
 ```
 
 ### Transaction Management
-Execute multiple statements within a transaction.
 
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
+```java title="Transaction.java"
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.POSTGRES_SQL,
+    "localhost", "5432", "bankdb", "admin", "admin123"
+);
 
 try {
     db.getConnection().setAutoCommit(false);
-    
-    db.executeUpdateQuery("INSERT INTO accounts (name, balance) VALUES ('Account A', 1000)");
-    db.executeUpdateQuery("INSERT INTO accounts (name, balance) VALUES ('Account B', 500)");
-    db.executeUpdateQuery("UPDATE accounts SET balance = balance - 100 WHERE name = 'Account A'");
-    db.executeUpdateQuery("UPDATE accounts SET balance = balance + 100 WHERE name = 'Account B'");
-    
+
+    db.executeUpdateQuery("UPDATE accounts SET balance = balance - 500 WHERE id = 1");
+    db.executeUpdateQuery("UPDATE accounts SET balance = balance + 500 WHERE id = 2");
+
     db.getConnection().commit();
+    SHAFT.Report.report("Transfer committed successfully");
 } catch (Exception e) {
     db.getConnection().rollback();
+    SHAFT.Report.report("Transfer rolled back due to: " + e.getMessage());
     throw e;
 } finally {
     db.getConnection().setAutoCommit(true);
 }
 ```
 
-### Close Connection
-Always close the database connection when done.
+### Stored Procedures
 
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-// ... perform database operations ...
-db.closeConnection();
-```
+```java title="StoredProcedure.java"
+SHAFT.DB db = new SHAFT.DB(
+    DatabaseActions.DatabaseType.MY_SQL,
+    "localhost", "3306", "shopdb", "user", "pass"
+);
 
-#### Using Try-With-Resources
-```java
-try (SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass")) {
-    ResultSet resultSet = db.executeSelectQuery("SELECT * FROM users");
-    // ... process results ...
-} // Connection is automatically closed
-```
+CallableStatement stmt = db.getConnection().prepareCall("{CALL get_orders_by_status(?)}");
+stmt.setString(1, "pending");
+ResultSet rs = stmt.executeQuery();
 
-## Best Practices
-
-### Parameterized Queries
-Use parameterized queries to prevent SQL injection attacks.
-
-```java
-SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-String query = "SELECT * FROM users WHERE email = ? AND age > ?";
-PreparedStatement stmt = db.getConnection().prepareStatement(query);
-stmt.setString(1, "user@example.com");
-stmt.setInt(2, 18);
-ResultSet resultSet = stmt.executeQuery();
-```
-
-### Connection Pooling
-For better performance with multiple database operations, consider using connection pooling in your test suite setup.
-
-### Error Handling
-Always handle database exceptions appropriately.
-
-```java
-try {
-    SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb", "user", "pass");
-    ResultSet resultSet = db.executeSelectQuery("SELECT * FROM users");
-    // ... process results ...
-} catch (SQLException e) {
-    SHAFT.Report.fail("Database operation failed", e);
+while (rs.next()) {
+    SHAFT.Report.log("Order ID: " + rs.getInt("id"));
 }
 ```
+
+### Auto-Close with Try-With-Resources
+
+`SHAFT.DB` implements `AutoCloseable` — use it in a try-with-resources block to ensure the connection is always closed:
+
+```java title="TryWithResources.java"
+try (SHAFT.DB db = new SHAFT.DB(
+        DatabaseActions.DatabaseType.POSTGRES_SQL,
+        "localhost", "5432", "testdb", "admin", "admin123")) {
+
+    String userCount = db.getResult("SELECT COUNT(*) FROM users");
+    SHAFT.Validations.assertThat().object(userCount).isNotNull().perform();
+}
+// Connection is automatically closed here
+```
+
+---
+
+## Complete Test Example
+
+```java title="src/test/java/tests/UserDatabaseTest.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.db.DatabaseActions;
+import org.testng.annotations.*;
+import java.sql.ResultSet;
+
+public class UserDatabaseTest {
+    private SHAFT.DB db;
+
+    @BeforeClass
+    public void connect() {
+        db = new SHAFT.DB(
+            DatabaseActions.DatabaseType.POSTGRES_SQL,
+            "localhost", "5432", "userdb", "admin", "admin123"
+        );
+    }
+
+    @Test
+    public void newUserIsInsertedCorrectly() throws Exception {
+        // Insert
+        int rows = db.executeUpdateQuery(
+            "INSERT INTO users (name, email, role) VALUES ('Test User', 'test@shaft.io', 'viewer')"
+        );
+        SHAFT.Validations.assertThat().number(rows).isEqualTo(1).perform();
+
+        // Verify
+        String name = db.getResult("SELECT name FROM users WHERE email = 'test@shaft.io'");
+        SHAFT.Validations.assertThat()
+             .object(name)
+             .isEqualTo("Test User")
+             .withCustomReportMessage("Inserted user name should match")
+             .perform();
+
+        // Clean up
+        db.executeUpdateQuery("DELETE FROM users WHERE email = 'test@shaft.io'");
+    }
+
+    @AfterClass
+    public void disconnect() {
+        db.closeConnection();
+    }
+}
+```
+
+---
+
+## Connection Strings Reference
+
+See [Connection Strings →](./Connection_Strings) for common JDBC URL formats for each supported database.

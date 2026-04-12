@@ -7,277 +7,195 @@ keywords: [SHAFT, file actions, file management, read file, write file, copy fil
 tags: [cli, file, actions]
 ---
 
-## File Actions Driver
+## Getting a File Actions Instance
 
--   In order to perform file operations programmatically, you will need an instance of FileActions
+Use `SHAFT.CLI.file()` to get a `FileActions` instance:
 
-```java
+```java title="FileActionsSetup.java"
+import com.shaft.driver.SHAFT;
 import com.shaft.cli.FileActions;
 
-FileActions fileActions = FileActions.getInstance();
+FileActions file = SHAFT.CLI.file();
 ```
 
-Upon executing this line, SHAFT ENGINE provides you with a singleton instance to perform various file manipulation operations. This is essential for test data management, file-based validations, and automated file handling workflows.
-
-## File Actions
-
-The FileActions class handles file system operations, allowing you to create, read, write, copy, and delete files as part of your automated test flows.
+You can also use the legacy `FileActions.getInstance()` in existing projects.
 
 ## Read File
 
-### readFromFile
+### readFromFile()
 
-```java
-String content = fileActions.readFromFile("/path/to/file.txt");
+Reads and returns the complete contents of a file as a string.
+
+```java title="ReadFile.java"
+FileActions file = SHAFT.CLI.file();
+
+String content = file.readFromFile("src/test/resources/testData/users.json");
 ```
 
--   Reads and returns the complete contents of a file as a string.
--   Works with text files, configuration files, and other readable file formats.
--   The file path can be absolute or relative to your project directory.
+**Practical example — load test data before a test:**
 
-**Example:**
-```java
-String testData = fileActions.readFromFile("src/test/resources/testData.txt");
-System.out.println(testData);
+```java title="LoadTestDataExample.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.cli.FileActions;
+import org.testng.annotations.*;
+
+public class UserImportTest {
+    private SHAFT.API api;
+    private String usersPayload;
+
+    @BeforeClass
+    public void loadTestData() {
+        usersPayload = SHAFT.CLI.file()
+                           .readFromFile("src/test/resources/testDataFiles/users.json");
+    }
+
+    @Test
+    public void importUsersFromFile() {
+        api.post("/users/import")
+           .setRequestBody(usersPayload)
+           .setContentType("application/json")
+           .setTargetStatusCode(200)
+           .perform();
+    }
+
+    @BeforeMethod
+    public void setUp() {
+        api = new SHAFT.API("https://api.example.com");
+    }
+}
 ```
 
 ## Write to File
 
-### writeToFile
+### writeToFile()
 
-```java
-fileActions.writeToFile("/path/to/file.txt", "File content here");
+Writes content to a file. Creates the file (and parent directories) if they do not exist; overwrites if the file already exists.
+
+```java title="WriteFile.java"
+FileActions file = SHAFT.CLI.file();
+
+file.writeToFile("target/reports/execution-summary.txt", "All 42 tests passed.");
 ```
 
--   Writes the specified content to a file.
--   Creates a new file if it doesn't exist.
--   Overwrites the file content if it already exists.
--   Takes two parameters: file path and content string.
+**Practical example — save API response for later comparison:**
 
-**Example:**
-```java
-String reportData = "Test Results: All tests passed";
-fileActions.writeToFile("reports/test_summary.txt", reportData);
+```java title="SaveResponseExample.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+api.get("/config").setTargetStatusCode(200).perform();
+
+// Persist the baseline configuration
+SHAFT.CLI.file().writeToFile("src/test/resources/baseline/config.json", api.getResponseBody());
 ```
 
 ## Copy File
 
-### copyFile
+### copyFile()
 
-```java
-fileActions.copyFile("/path/to/source.txt", "/path/to/destination.txt");
-```
+Copies a file from a source path to a destination path.
 
--   Copies a file from the source path to the destination path.
--   Creates destination directories if they don't exist.
--   Useful for backing up files or duplicating test data.
--   Takes two parameters: source file path and destination file path.
+```java title="CopyFile.java"
+FileActions file = SHAFT.CLI.file();
 
-**Example:**
-```java
-// Backup configuration before test
-fileActions.copyFile("config/settings.json", "config/settings.backup.json");
+// Back up a config file before the test modifies it
+file.copyFile("config/app.properties", "config/app.properties.bak");
 ```
 
 ## Delete File
 
-### deleteFile
+### deleteFile()
 
-```java
-fileActions.deleteFile("/path/to/file.txt");
+Deletes the file at the specified path. Safe to call even if the file does not exist.
+
+```java title="DeleteFile.java"
+FileActions file = SHAFT.CLI.file();
+
+// Clean up a temporary file after the test
+file.deleteFile("target/temp/downloaded-report.pdf");
 ```
 
--   Deletes the file at the specified path.
--   Useful for cleanup operations or removing temporary files.
--   No error is thrown if the file doesn't exist (safe deletion).
+## Complete Example: Download, Validate, and Clean Up
 
-**Example:**
-```java
-// Cleanup after test
-fileActions.deleteFile("temp/temp_data.txt");
-```
+```java title="src/test/java/tests/ReportDownloadTest.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.cli.FileActions;
+import org.openqa.selenium.By;
+import org.testng.annotations.*;
 
-## Common Use Cases
+public class ReportDownloadTest {
+    private SHAFT.GUI.WebDriver driver;
+    private FileActions file;
+    private static final String DOWNLOAD_PATH = "target/downloads/report.pdf";
 
-### Test Data Management
+    @Test
+    public void downloadAndVerifyReport() {
+        driver.browser().navigateToURL("https://example.com/reports")
+              .and().element().click(By.id("download-report-btn"));
 
-Use file actions to manage test data files:
+        // Give the download a moment to complete, then read and validate
+        String content = file.readFromFile(DOWNLOAD_PATH);
+        SHAFT.Validations.assertThat()
+             .object(content)
+             .isNotNull()
+             .withCustomReportMessage("Downloaded report file should not be empty")
+             .perform();
+    }
 
-```java
-@BeforeClass
-void setupTestData() {
-    // Copy fresh test data for each test run
-    fileActions.copyFile(
-        "src/test/resources/original_data.json",
-        "target/test_data.json"
-    );
+    @BeforeMethod
+    public void setUp() {
+        driver = new SHAFT.GUI.WebDriver();
+        file   = SHAFT.CLI.file();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+        file.deleteFile(DOWNLOAD_PATH);
+    }
 }
-
-@Test
-void processTestData() {
-    String testData = fileActions.readFromFile("target/test_data.json");
-    // Process and use test data
-    processData(testData);
-}
-
-@AfterClass
-void cleanupTestData() {
-    fileActions.deleteFile("target/test_data.json");
-}
-```
-
-### Configuration File Handling
-
-Read and modify configuration files:
-
-```java
-@Test
-void updateConfiguration() {
-    // Read current config
-    String config = fileActions.readFromFile("config/app.properties");
-    
-    // Modify config
-    String updatedConfig = config.replace("debug=false", "debug=true");
-    
-    // Write updated config
-    fileActions.writeToFile("config/app.properties", updatedConfig);
-}
-```
-
-### Report Generation
-
-Generate custom reports or logs:
-
-```java
-@AfterMethod
-void generateTestReport(ITestResult result) {
-    String reportContent = String.format(
-        "Test: %s\nStatus: %s\nTime: %s\n",
-        result.getName(),
-        result.getStatus(),
-        new Date()
-    );
-    
-    fileActions.writeToFile(
-        "reports/" + result.getName() + "_report.txt",
-        reportContent
-    );
-}
-```
-
-### File Validation
-
-Combine with file validations to verify file operations:
-
-```java
-@Test
-void validateFileOperations() {
-    // Create a file
-    String content = "Test content";
-    fileActions.writeToFile("test.txt", content);
-    
-    // Validate file exists and has correct content
-    Validations.assertThat()
-        .file(".", "test.txt")
-        .exists()
-        .perform();
-    
-    String readContent = fileActions.readFromFile("test.txt");
-    Validations.assertThat()
-        .object(readContent)
-        .isEqualTo(content)
-        .perform();
-    
-    // Cleanup
-    fileActions.deleteFile("test.txt");
-}
-```
-
-## Working with Different File Types
-
-### Text Files
-
-```java
-// Read and write plain text
-String text = fileActions.readFromFile("data.txt");
-fileActions.writeToFile("output.txt", "Plain text content");
-```
-
-### Configuration Files
-
-```java
-// Handle properties, JSON, XML, YAML files
-String properties = fileActions.readFromFile("config.properties");
-String jsonData = fileActions.readFromFile("data.json");
-String xmlData = fileActions.readFromFile("config.xml");
-```
-
-### Test Data Files
-
-```java
-// Read test data from various formats
-String csvData = fileActions.readFromFile("testData.csv");
-String testScript = fileActions.readFromFile("testScript.sql");
 ```
 
 ## File Path Handling
 
-### Absolute Paths
+| Style | Example |
+|-------|---------|
+| **Relative (from project root)** | `src/test/resources/data.json` |
+| **Relative (target output)** | `target/reports/result.txt` |
+| **Absolute — Linux / macOS** | `/home/runner/work/data/file.txt` |
+| **Absolute — Windows** | `C:\\Users\\user\\data\\file.txt` |
 
-```java
-fileActions.readFromFile("/home/user/project/data/file.txt");  // Linux/Mac
-fileActions.readFromFile("C:\\Users\\username\\project\\data\\file.txt");  // Windows
-```
-
-### Relative Paths
-
-```java
-fileActions.readFromFile("src/test/resources/data.txt");
-fileActions.readFromFile("target/reports/summary.txt");
-```
-
-### Project-relative Paths
-
-```java
-// Relative to project root
-fileActions.readFromFile("testData/input.txt");
-fileActions.writeToFile("output/results.txt", data);
-```
-
-## Best Practices
-
--   **File Path Validation**: Ensure file paths are correct and accessible
--   **Error Handling**: Wrap file operations in try-catch blocks for production code
--   **Resource Cleanup**: Always delete temporary files after test execution
--   **Path Separators**: Use forward slashes (/) for cross-platform compatibility, or use `File.separator`
--   **Encoding**: Be aware of file encoding when reading/writing non-ASCII characters
--   **File Permissions**: Ensure your test execution environment has necessary file system permissions
--   **Backup Important Files**: Use `copyFile` to backup files before modifying them in tests
+Use forward slashes (`/`) for cross-platform compatibility; Java handles them on Windows too.
 
 ## Integration with File Validations
 
-File Actions work seamlessly with SHAFT's File Validations:
+File Actions pair naturally with SHAFT's file validation chain:
 
-```java
-// Perform file action
-fileActions.writeToFile("test.txt", "Hello SHAFT");
+```java title="FileValidationIntegration.java"
+FileActions file = SHAFT.CLI.file();
 
-// Validate the result
-Validations.assertThat()
-    .file(".", "test.txt")
-    .exists()
-    .perform();
+// Create a file
+file.writeToFile("target/output.txt", "Hello SHAFT");
 
-Validations.assertThat()
-    .file(".", "test.txt")
-    .content()
-    .contains("Hello SHAFT")
-    .perform();
+// Validate it exists
+SHAFT.Validations.assertThat()
+     .file("target", "output.txt")
+     .exists()
+     .perform();
+
+// Validate its content
+SHAFT.Validations.assertThat()
+     .file("target", "output.txt")
+     .content().contains("Hello SHAFT")
+     .perform();
+
+// Clean up
+file.deleteFile("target/output.txt");
 ```
 
-For more information on file validations, see the [File Validations](../Validations/Files.md) section.
+For the full file validation API see the [File Validations →](../Validations/Files.md) reference.
 
-As you skim through the console output, you will notice the comprehensive reporting SHAFT provides for each file operation, making it easy to track and debug file-related test activities.
+## Best Practices
 
-[reporting]: #
-[file validations]: ../Validations/Files.md
+- **Use relative paths** from the project root for portability across machines and CI environments.
+- **Back up before modifying** — use `copyFile()` to save a copy before overwriting configuration files.
+- **Clean up in teardown** — delete temporary files in `@AfterMethod` or `@AfterClass` to keep the workspace clean.
+- **Never store secrets in files committed to version control** — use environment variables instead.
