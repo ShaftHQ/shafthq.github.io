@@ -145,13 +145,20 @@ See the full [Integrations guide →](./integrations) for cloud testing configur
 
 ## Touch Actions
 
-SHAFT provides touch gesture support for mobile:
+SHAFT provides touch gesture support for mobile through `driver.touch()`:
 
-```java
-// Swipe, scroll, tap, and long press
-driver.element().tap(locator);
-driver.element().swipe(fromLocator, toLocator);
-driver.element().longPress(locator);
+```java title="TouchActionsExample.java"
+// Tap
+driver.touch().tap(locator);
+
+// Swipe from one element to another
+driver.touch().swipeToElement(sourceLocator, destinationLocator);
+
+// Swipe in a direction until element is visible
+driver.touch().swipeElementIntoView(targetLocator, TouchActions.SwipeDirection.DOWN);
+
+// Long press
+driver.touch().longTap(locator);
 ```
 
 See [Touch Actions reference →](../Keywords/GUI/Touch_Actions) for all available gestures.
