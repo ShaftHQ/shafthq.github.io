@@ -4,7 +4,7 @@ on:
   release:
     types: [published]
   repository_dispatch:
-    types: [shaft_release_published]
+    types: [shaft-engine-release]
   workflow_dispatch:
     inputs:
       release_tag:
