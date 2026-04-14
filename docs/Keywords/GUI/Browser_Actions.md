@@ -78,6 +78,19 @@ String currentUrl = driver.browser().getCurrentURL();
 
 Returns the URL of the current page.
 
+### Navigate to URL with Basic Authentication
+
+```java title="NavigateWithBasicAuth.java"
+driver.browser().navigateToURLWithBasicAuthentication(
+    "https://staging.example.com/secure",
+    "myUsername",
+    "myPassword",
+    "https://staging.example.com/dashboard"
+);
+```
+
+Navigates to a URL that requires HTTP Basic Authentication. Provide the target URL, credentials, and the expected URL after a successful login. Useful for staging environments and internal tools protected by basic auth.
+
 ## Window Management
 
 ### Maximize Window
@@ -206,13 +219,42 @@ driver.browser().captureScreenshot();
 
 Captures a screenshot and attaches it to the Allure report.
 
-### Capture Page Snapshot
+### captureSnapshot() vs capturePageSnapshot()
+
+SHAFT provides two distinct snapshot methods — choose the one that fits your reporting needs:
+
+| Method | What it captures | Attached to Allure |
+|---|---|---|
+| `captureSnapshot()` | Full-page screenshot **and** page source | Yes — both screenshot and HTML |
+| `capturePageSnapshot()` | Serialized DOM/page data only (no image) | Yes — HTML source only |
+
+### captureSnapshot()
 
 ```java title="CaptureSnapshot.java"
 driver.browser().captureSnapshot();
 ```
 
-Captures a full page snapshot including the page source.
+Captures a full page snapshot including both a screenshot and the page source, and attaches both to the Allure report.
+
+### capturePageSnapshot()
+
+```java title="CapturePageSnapshot.java"
+driver.browser().capturePageSnapshot();
+```
+
+Captures and serializes the current page DOM data and attaches it to the Allure report as an HTML artifact. Use this when you only need the page structure without a visual screenshot.
+
+### generateLightHouseReport()
+
+```java title="LightHouseReport.java"
+driver.browser().generateLightHouseReport();
+```
+
+Triggers a Google Lighthouse performance audit on the currently open page. The generated report is attached to the Allure output. Useful for catching performance regressions in CI/CD pipelines.
+
+:::tip
+Configure `openLighthouseReportWhileExecution=true` in your properties file to automatically open the Lighthouse report during test execution.
+:::
 
 ## Wait Actions
 
@@ -289,6 +331,18 @@ driver.browser().setContext("WEBVIEW_1");
 ```java title="ContextHandles.java"
 List<String> contexts = driver.browser().getContextHandles();
 ```
+
+## Accessibility Testing
+
+SHAFT Engine integrates [axe-core](https://github.com/dequelabs/axe-core) to run automated WCAG accessibility audits. Chain `.accessibility()` onto any browser action to start auditing:
+
+```java title="AccessibilityExample.java"
+driver.browser().navigateToURL("https://example.com")
+    .accessibility()
+    .assertNoCriticalViolations("Home Page");
+```
+
+For a full reference of all accessibility methods, see [Accessibility Testing](./didYouKnow/Accessibility_Testing).
 
 ## Fluent Chaining
 
