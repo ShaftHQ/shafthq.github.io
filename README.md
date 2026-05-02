@@ -13,7 +13,7 @@
   [![Maven Central](https://img.shields.io/maven-central/v/io.github.shafthq/shaft_engine?label=Maven%20Central&color=blue)](https://central.sonatype.com/artifact/io.github.shafthq/shaft_engine)
   [![License](https://img.shields.io/github/license/ShaftHQ/SHAFT_ENGINE)](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/master/LICENSE)
   [![Java 21](https://img.shields.io/badge/Java-21-orange?logo=openjdk)](https://adoptium.net/)
-  [![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR_BADGE_ID/deploy-status)](https://shaftengine.netlify.app/)
+  [![Live Site](https://img.shields.io/website?url=https%3A%2F%2Fshaftengine.netlify.app&label=docs%20site&color=brightgreen)](https://shaftengine.netlify.app/)
 
   <br/>
 
