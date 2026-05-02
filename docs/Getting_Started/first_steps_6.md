@@ -54,13 +54,13 @@ Add SHAFT to your `pom.xml`:
     <dependency>
         <groupId>io.github.shafthq</groupId>
         <artifactId>SHAFT_ENGINE</artifactId>
-        <version>10.2.20260411</version>
+        <version>10.2.20260501</version>
     </dependency>
 </dependencies>
 ```
 
 :::tip[Always use a pinned version]
-Replace `10.2.20260411` with the [latest release from Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE). Using `RELEASE` is not recommended for reproducible builds.
+Replace `10.2.20260501` with the [latest release from Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE). Using `RELEASE` is not recommended for reproducible builds.
 :::
 
 ### Step 2 — Add a Properties File
@@ -124,7 +124,7 @@ The Allure report opens automatically in your browser when all tests finish.
 
 Check [Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/SHAFT_ENGINE) or the [GitHub Releases page](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/latest) for the latest version.
 
-Current latest: **`10.2.20260411`**
+Current latest: **`10.2.20260501`**
 
 ### Update `pom.xml`
 
@@ -132,7 +132,7 @@ Current latest: **`10.2.20260411`**
 <dependency>
     <groupId>io.github.shafthq</groupId>
     <artifactId>SHAFT_ENGINE</artifactId>
-    <version>10.2.20260411</version>  <!-- update this line -->
+    <version>10.2.20260501</version>  <!-- update this line -->
 </dependency>
 ```
 
@@ -167,6 +167,7 @@ After updating the version, run through this checklist:
 
 | Version | Released | Highlights |
 |---------|----------|-----------|
+| `10.2.20260501` | 2026-05-01 | Fix `waitUntil` lambda expressions, fix Equals on incomparable types, CI improvements, httpclient5 security fix |
 | `10.2.20260411` | 2026-04-11 | Selenium 4.43, dependency tree cleanup, removed all deprecated methods |
 | `10.1.20260331` | 2026-03-31 | Stability improvements, Dependabot updates |
 

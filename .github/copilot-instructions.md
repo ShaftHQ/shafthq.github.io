@@ -112,7 +112,7 @@
 
 ## 10. Current Version & Runtime Requirements
 
-- The current stable SHAFT_ENGINE version is **`10.2.20260411`** — always use this version in dependency snippets unless instructed otherwise.
+- The current stable SHAFT_ENGINE version is **`10.2.20260501`** — always use this version in dependency snippets unless instructed otherwise.
 - SHAFT requires **Java 21 LTS** (virtual threads are used by `driver.async()`). Never suggest Java 8, 11, or 17 as the compile target.
 - The latest TestNG Maven archetype version is **`10.1.20260331`** — use this when showing archetype generation commands.
 
@@ -202,5 +202,5 @@ SHAFT.Report.attach("text/plain", "Response", body);     // attachment
 | UX | Progressive disclosure, step-by-step lists, tabs for alternatives |
 | Reach | Social-friendly titles, practical examples, accessible language |
 | Agentic AI | Structured format, self-contained examples, explicit API docs |
-| Version | Always use SHAFT `10.2.20260411`, Java 21, archetype `10.1.20260331` |
+| Version | Always use SHAFT `10.2.20260501`, Java 21, archetype `10.1.20260331` |
 | API | Never invent method names — verify against section 11 above |
