@@ -237,7 +237,8 @@ jobs:
             : '';
 
           const extractScopeSummary = (markdownText) => {
-            const candidateLines = markdownText
+            const sanitizedMarkdownText = markdownText.replace(/<!--[\s\S]*?-->/g, '');
+            const candidateLines = sanitizedMarkdownText
               .split('\n')
               .map((line) => line.trim())
               .filter((line) => line && !line.startsWith('#'))
