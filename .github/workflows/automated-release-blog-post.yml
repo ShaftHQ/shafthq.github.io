@@ -173,7 +173,8 @@ jobs:
         run: |
           git fetch origin master
 
-          safe_tag="$(echo "${RELEASE_TAG:-untagged-release}" | sed -E 's/^v//I; s/[^a-zA-Z0-9._-]+/-/g; s/-+/-/g' | tr '[:upper:]' '[:lower:]')"
+          safe_tag="$(echo "${RELEASE_TAG:-untagged-release}" | sed -E 's/^[vV]//; s/[^a-zA-Z0-9._-]+/-/g; s/-+/-/g' | tr '[:upper:]' '[:lower:]')"
+          echo "safe_tag=$safe_tag" >> "$GITHUB_OUTPUT"
           existing_path="$(git ls-tree -r --name-only origin/master "blog/*-release-${safe_tag}.md" | head -n 1)"
 
           if [ -n "$existing_path" ]; then
@@ -339,7 +340,7 @@ jobs:
         with:
           commit-message: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
           title: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
-          branch: 'automation/release-blog-post-${{ steps.release_data.outputs.tag }}'
+          branch: 'automation/release-blog-post-${{ steps.blog_post_exists.outputs.safe_tag }}'
           delete-branch: true
           labels: |
             automated-release
