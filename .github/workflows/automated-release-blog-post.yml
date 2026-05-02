@@ -227,7 +227,7 @@ jobs:
             ? contributors
                 .map((contributor) => {
                   const firstTimerBadge = contributor.isFirstTimer ? ' 🌟 **First-time contributor!**' : '';
-                  return `- <img src="${contributor.avatarUrl}" width="32" height="32" alt="@${contributor.login}" style="border-radius:50%;vertical-align:middle;" /> [@${contributor.login}](https://github.com/${contributor.login})${firstTimerBadge}`;
+                  return `- <img src="${contributor.avatarUrl}" width="32" height="32" alt="@${contributor.login}" /> [@${contributor.login}](https://github.com/${contributor.login})${firstTimerBadge}`;
                 })
                 .join('\n')
             : '- No contributor data was available for this release.';

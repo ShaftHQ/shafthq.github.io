@@ -19,6 +19,7 @@
     "test:homepage": "node tests/homepage-performance.test.js",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "node tests/run-e2e-tests.js",
+    "test:playwright": "playwright test",
     "verify-models": "node scripts/verify-models.js"
   },
   "dependencies": {
@@ -40,7 +41,8 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.9.2",
-    "@docusaurus/types": "^3.8.1"
+    "@docusaurus/types": "^3.8.1",
+    "@playwright/test": "^1.59.1"
   },
   "resolutions": {
     "serialize-javascript": "^7.0.3",

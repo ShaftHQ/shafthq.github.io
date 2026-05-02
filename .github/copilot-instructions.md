@@ -249,3 +249,4 @@ The following pages were created or significantly revised by other Copilot sessi
 - For changes to GitHub workflows, release automation, generated blog posts, or content that affects deployment checks, always wait for the related CI checks to finish before finalizing.
 - For PRs in this repository, verify Netlify checks pass when applicable (especially `Pages changed - shaftengine`, `Header rules - shaftengine`, and `Redirect rules - shaftengine`).
 - Do not consider the task complete until required checks have completed successfully or any failures are explicitly investigated and fixed.
+- Before proposing or updating a PR, always run local validation for affected areas (at minimum `npm run build`; and relevant tests such as `npm test`/`yarn test:playwright` when applicable) and confirm results in the PR update.
