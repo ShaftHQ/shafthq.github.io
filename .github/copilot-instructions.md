@@ -204,3 +204,42 @@ SHAFT.Report.attach("text/plain", "Response", body);     // attachment
 | Agentic AI | Structured format, self-contained examples, explicit API docs |
 | Version | Always use SHAFT `10.2.20260501`, Java 21, archetype `10.1.20260331` |
 | API | Never invent method names — verify against section 11 above |
+| Existing Pages | Do NOT wholesale rewrite pages recently added by other agents (see list below) |
+
+## 12. Pages Added by Other Agents — Do Not Wholesale Rewrite
+
+The following pages were created or significantly revised by other Copilot sessions and should only receive **targeted, surgical updates** rather than full rewrites:
+
+**High-priority pages added in April 2026 (PR #442):**
+- `docs/Keywords/GUI/didYouKnow/Accessibility_Testing.md`
+- `docs/Keywords/GUI/didYouKnow/Async_Element_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Network_Mocking.md`
+- `docs/Keywords/GUI/didYouKnow/Visual_Testing.md`
+- `docs/Keywords/GUI/didYouKnow/Self_Healing_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/ARIA_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/Smart_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/Explicit_Waits.md`
+- `docs/Keywords/GUI/didYouKnow/iFrame_Handling.md`
+- `docs/Keywords/API/API_Authentication.md`
+- `docs/Keywords/API/GraphQL_Testing.md`
+- `docs/Keywords/Validations/JSON_Schema_Validation.md`
+- `docs/Keywords/Validations/Soft_vs_Hard_Assertions.md`
+- `docs/Properties/Programmatic_Config.md`
+- `docs/Getting_Started/JUnit5_Integration.md`
+- `docs/Best_Practices/Cucumber_BDD_Steps.md`
+
+**Medium-priority pages added in April 2026 (PR #444):**
+- `docs/Keywords/GUI/Async_Element_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Mobile_Emulation.md`
+- `docs/Keywords/TestData_Management.md` ← already has YAML section; do not replace
+
+**Low-priority pages added in April 2026 (PR #446):**
+- `docs/Keywords/CLI/Docker_Terminal.md`
+- `docs/Keywords/CLI/SSH_Terminal.md`
+- `docs/Keywords/GUI/didYouKnow/Clipboard_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Kubernetes_Selenium_Grid.md`
+- `docs/Reporting/Custom_Report_Messages.md`
+
+**Pages fixed by another agent in April 2026 (PR #456):**
+- `docs/Keywords/GUI/Browser_Actions.md`
+- `docs/Keywords/GUI/Element_Actions.md`
