@@ -1,8 +1,6 @@
 name: Automated Release Blog Post
 
 on:
-  release:
-    types: [published]
   repository_dispatch:
     types: [shaft-engine-release]
   workflow_dispatch:
@@ -14,9 +12,10 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
-  group: automated-release-blog-post-${{ github.event.release.tag_name || github.event.client_payload.tag_name || github.event.inputs.release_tag || format('manual-{0}', github.run_id) }}
+  group: automated-release-blog-post-${{ github.event.client_payload.tag_name || github.event.client_payload.version || github.event.inputs.release_tag || format('manual-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
@@ -58,23 +57,10 @@ jobs:
               return data;
             };
 
-            // 1) Release event path: resolve the published tag from SHAFT_ENGINE.
-            if (context.eventName === 'release') {
-              const publishedTag = context.payload.release?.tag_name;
-              if (publishedTag) {
-                try {
-                  release = await fetchReleaseByTag(publishedTag);
-                } catch (error) {
-                  core.warning(
-                    `Could not resolve tag "${publishedTag}" from ${sourceRepoFullName}. Falling back to latest release.`
-                  );
-                }
-              }
-            }
-
-            // 2) repository_dispatch path: prefer tag from client_payload.
+            // 1) repository_dispatch path: prefer tag from client_payload.
             if (!release && context.eventName === 'repository_dispatch') {
-              const dispatchedTag = context.payload.client_payload?.tag_name;
+              const dispatchedTag =
+                context.payload.client_payload?.tag_name || context.payload.client_payload?.version;
               if (dispatchedTag) {
                 try {
                   release = await fetchReleaseByTag(dispatchedTag);
@@ -86,7 +72,7 @@ jobs:
               }
             }
 
-            // 3) Manual path (workflow_dispatch): optional tag input.
+            // 2) Manual path (workflow_dispatch): optional tag input.
             if (!release && context.eventName === 'workflow_dispatch' && releaseTagInput) {
               try {
                 release = await fetchReleaseByTag(releaseTagInput);
@@ -97,7 +83,7 @@ jobs:
               }
             }
 
-            // 4) Fallback path: latest official SHAFT_ENGINE release.
+            // 3) Fallback path: latest official SHAFT_ENGINE release.
             if (!release) {
               const latest = await github.rest.repos.getLatestRelease({
                 owner: SOURCE_OWNER,
@@ -180,7 +166,27 @@ jobs:
             core.setOutput('release_url', releaseUrl);
             core.setOutput('contributors_json', JSON.stringify(contributors));
 
+      - name: Check if blog post already exists on master
+        id: blog_post_exists
+        env:
+          RELEASE_TAG: ${{ steps.release_data.outputs.tag }}
+        run: |
+          git fetch origin master
+
+          safe_tag="$(echo "${RELEASE_TAG:-untagged-release}" | sed -E 's/^[vV]//; s/[^a-zA-Z0-9._-]+/-/g; s/-+/-/g' | tr '[:upper:]' '[:lower:]')"
+          echo "safe_tag=$safe_tag" >> "$GITHUB_OUTPUT"
+          existing_path="$(git ls-tree -r --name-only origin/master "blog/*-release-${safe_tag}.md" | head -n 1)"
+
+          if [ -n "$existing_path" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "path=$existing_path" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Release blog post exists::Skipping PR creation because ${existing_path} already exists on master."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Generate release blog post markdown
+        if: steps.blog_post_exists.outputs.exists != 'true'
         env:
           RELEASE_TAG: ${{ steps.release_data.outputs.tag }}
           RELEASE_PUBLISHED_AT: ${{ steps.release_data.outputs.published_at }}
@@ -327,8 +333,35 @@ jobs:
           console.log(`Created blog post at ${filePath}`);
           NODE
 
-      - name: Commit generated release blog post
-        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+      - name: Create pull request for generated release blog post
+        if: steps.blog_post_exists.outputs.exists != 'true'
+        id: cpr
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
         with:
-          commit_message: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
-          file_pattern: blog/*.md
+          commit-message: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
+          title: 'docs(blog): add automated release blog post for ${{ steps.release_data.outputs.tag }}'
+          branch: 'automation/release-blog-post-${{ steps.blog_post_exists.outputs.safe_tag }}'
+          delete-branch: true
+          labels: |
+            automated-release
+            blog
+            dependencies
+          body: |
+            ## 🤖 Automated SHAFT_ENGINE Release Blog Post
+
+            This PR was automatically generated by the `automated-release-blog-post` workflow.
+
+            | Field | Value |
+            |---|---|
+            | Release Tag | `${{ steps.release_data.outputs.tag }}` |
+            | Published At | `${{ steps.release_data.outputs.published_at }}` |
+            | Release URL | ${{ steps.release_data.outputs.release_url }} |
+            | Trigger | `${{ github.event_name }}` |
+
+            ### Notes
+            - This workflow creates a PR instead of pushing directly to `master` (branch protection compatible).
+            - If a blog post for this tag already exists on `master`, PR creation is skipped.
+
+      - name: Log created pull request URL
+        if: steps.cpr.outputs.pull-request-url != ''
+        run: echo "::notice title=Release blog post PR created::${{ steps.cpr.outputs.pull-request-url }}"
