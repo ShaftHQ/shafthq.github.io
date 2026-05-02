@@ -140,6 +140,53 @@ public class ExplicitWaitsTest {
 
 ---
 
+## Custom Condition Wait (Lambda)
+
+`driver.element().waitUntil()` accepts any Selenium `ExpectedCondition<Boolean>` — including lambda expressions — for cases not covered by the named wait methods above.
+
+```java title="CustomConditionWait.java"
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+// Wait until a specific element has a non-empty text value
+driver.element().waitUntil(
+    webDriver -> {
+        String text = webDriver.findElement(By.id("priceLabel")).getText();
+        return text != null && !text.isEmpty();
+    }
+);
+
+// Wait using a built-in ExpectedCondition
+driver.element().waitUntil(
+    ExpectedConditions.invisibilityOfElementLocated(By.id("spinner"))
+);
+
+// Wait until the page title starts with a specific prefix
+driver.browser().waitUntil(
+    webDriver -> webDriver.getTitle().startsWith("Order Confirmed")
+);
+```
+
+### When to Use Custom Conditions
+
+| Scenario | Recommended |
+|---|---|
+| Text/attribute not empty | `waitUntil()` with lambda |
+| Spinner disappears | `waitUntil(ExpectedConditions.invisibilityOf...)` |
+| JS flag becomes true | `waitUntil()` with `(JavascriptExecutor)` cast |
+| Named method exists | Use named method — it's more readable |
+
+```java title="JavaScriptConditionWait.java"
+import org.openqa.selenium.JavascriptExecutor;
+
+// Wait until a JavaScript variable is set to true
+driver.element().waitUntil(
+    webDriver -> (Boolean) ((JavascriptExecutor) webDriver)
+        .executeScript("return window.appReady === true;")
+);
+```
+
+---
+
 :::tip
 Prefer `waitUntilNumberOfElementsToBeMoreThan(locator, 0)` over `waitUntilPresenceOfAllElementsLocatedBy` when you only need to confirm that **at least one** result has loaded.
 :::

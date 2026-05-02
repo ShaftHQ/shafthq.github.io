@@ -7,41 +7,87 @@ keywords: [SHAFT, mobile configuration, Appium settings, Android, iOS, mobile au
 tags: [mobile, configuration, appium, android, ios]
 ---
 
-- Given that you already have an Appium server up and running, and some real or virtual mobile devices connected and configured, you can start configuring SHAFT to execute your tests against these devices.
+SHAFT uses Appium under the hood for mobile automation. Configure the properties below to target a local Appium server or a cloud device farm.
 
-:::tip[**Tip**]
-    - You can refer to the official **[appium user guide]** to set up your appium server and configure any needed prerequisites.
-    - You can also consider using cloud device farms like **[BrowserStack]** or **[LambdaTest]** to execute your tests remotely.
+:::tip
+- Set up your Appium server following the [official Appium documentation](https://appium.io/docs/en/latest/).
+- For cloud execution without managing your own devices, consider [BrowserStack](https://www.browserstack.com/) or [LambdaTest](https://www.lambdatest.com/).
 :::
 
-- Here are some basic properties you need to include in your `custom.properties` file to run against an Appium Server for any kind of mobile execution:
-```properties showLineNumbers title="src/main/resources/properties/custom.properties"
-# you can set the value here to point to your appium server instance
-# this is the default value for local appium servers
+---
+
+## Common Properties (Android & iOS)
+
+```properties title="src/main/resources/properties/custom.properties"
+# Address of your Appium server (default for local)
 executionAddress=localhost:4723
 
-# use this property to choose your target OS, it supports both `ANDROID` or `IOS`
+# Target platform: ANDROID or IOS
 targetOperatingSystem=ANDROID
 
-# use this property to configure your automation name as per the appium user guide.
-# this property supports `UiAutomator2`, `Espresso` for Android, or `XCUITest` for iOS.
+# Automation driver — UiAutomator2 or Espresso for Android, XCUITest for iOS
 mobile_automationName=UiAutomator2
 ```
 
-- For Mobile Web Execution, you can configure any of the same properties mentioned in the **[Web GUI basic config]** guide.
-- For Mobile Native Execution, you need to configure the following:
-```properties showLineNumbers title="src/main/resources/properties/custom.properties"
-# you can either set the path to your apk or ipa file to do a fresh installation
-# before your test run, which is the recommended approach
-mobile_app=relativePath/to/myApp.apk
+---
 
-# or you can use the package/activity combination to launch an already installed
-# app if you prefer, which is not recommended
+## Android Native App
+
+```properties title="src/main/resources/properties/custom.properties"
+# Install a fresh APK before each run (recommended)
+mobile_app=src/test/resources/apps/MyApp.apk
+
+# Device name as reported by `adb devices`
+mobile_deviceName=Pixel_7_API_34
+
+# Android version (optional but recommended)
+mobile_platformVersion=14.0
+```
+
+Alternatively, launch an already-installed app by package/activity (not recommended for clean test runs):
+
+```properties title="src/main/resources/properties/custom.properties"
 mobile_appPackage=com.example.android.myApp
 mobile_appActivity=.MainActivity
 ```
 
-:::tip[**Tip**]
+---
+
+## iOS Native App
+
+```properties title="src/main/resources/properties/custom.properties"
+targetOperatingSystem=IOS
+mobile_automationName=XCUITest
+
+# .app bundle for Simulator, .ipa for real device
+mobile_app=src/test/resources/apps/MyApp.app
+
+# Device name as shown in Xcode device list
+mobile_deviceName=iPhone 15
+mobile_platformVersion=17.0
+
+# UDID required for real device
+mobile_udid=00008110-001A23456789AB01
+```
+
+---
+
+## Mobile Web (Browser on Device)
+
+For mobile browser testing, configure the same properties as [Web GUI](./basicConfig) and add the mobile target:
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=localhost:4723
+targetOperatingSystem=ANDROID
+mobile_automationName=UiAutomator2
+mobile_browserName=Chrome
+mobile_deviceName=Pixel_7_API_34
+baseURL=https://m.example.com
+```
+
+---
+
+:::tip
 You can learn more about the different **[property types]** and the **[full list of supported properties]** by visiting the related pages.
 :::
 

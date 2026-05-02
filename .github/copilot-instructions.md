@@ -110,6 +110,85 @@
 
 ---
 
+## 10. Current Version & Runtime Requirements
+
+- The current stable SHAFT_ENGINE version is **`10.2.20260501`** — always use this version in dependency snippets unless instructed otherwise.
+- SHAFT requires **Java 21 LTS** (virtual threads are used by `driver.async()`). Never suggest Java 8, 11, or 17 as the compile target.
+- The latest TestNG Maven archetype version is **`10.1.20260331`** — use this when showing archetype generation commands.
+
+## 11. Verified API Patterns — Do Not Invent
+
+Use **only** the following verified patterns. Never guess method names.
+
+### GUI — correct entry points
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser()  // BrowserActions
+driver.element()  // ElementActions
+driver.touch()    // TouchActions   ← NOT driver.element().tap()
+driver.alert()    // AlertActions
+driver.async().element()  // AsyncElementActions (Java 21 virtual threads)
+```
+
+### GUI — touch actions are on driver.touch(), never driver.element()
+```java
+driver.touch().tap(locator);          // correct
+driver.touch().longTap(locator);      // correct
+driver.touch().swipeToElement(src, dst);  // correct
+// driver.element().tap(locator);     // WRONG — does not exist
+```
+
+### CLI — use SHAFT.CLI factory, not direct instantiation
+```java
+TerminalActions terminal = SHAFT.CLI.terminal();   // correct
+FileActions      file    = SHAFT.CLI.file();        // correct
+// new TerminalActions() is also valid but SHAFT.CLI.terminal() is preferred
+```
+
+### API — correct methods
+```java
+// Add header (persists for all subsequent requests)
+api.addHeader("Authorization", "Bearer " + token);
+api.post("/endpoint").addHeader("X-Custom", "value").perform();
+
+// Parameters — use setParameters() with a list, NOT setParameter()
+List<List<Object>> params = Arrays.asList(Arrays.asList("key", "value"));
+api.get("/search").setParameters(params, RestActions.ParametersType.QUERY).perform();
+
+// Simple query string — use setUrlArguments()
+api.get("/comments").setUrlArguments("postId=1").perform();
+
+// Status-code assertion — set it on the request, not the response chain
+api.get("/users").setTargetStatusCode(200).perform();
+
+// Response assertions — use extractedJsonValue, body, or time; there is NO statusCode() chain
+api.assertThatResponse().extractedJsonValue("$.name").isEqualTo("Alice").perform();
+api.assertThatResponse().body().contains("Alice").perform();
+api.assertThatResponse().time().isLessThan(3000).perform();
+```
+
+### DB — prefer DatabaseType constructor for built-in databases
+```java
+// DatabaseType values: MY_SQL, SQL_SERVER, POSTGRES_SQL, ORACLE, ORACLE_SERVICE_NAME, IBM_DB2
+SHAFT.DB db = new SHAFT.DB(DatabaseActions.DatabaseType.MY_SQL, "localhost", "3306", "mydb", "user", "pass");
+SHAFT.DB db = new SHAFT.DB(DatabaseActions.DatabaseType.POSTGRES_SQL, "localhost", "5432", "testdb", "admin", "admin123");
+
+// Custom JDBC string — for databases not in the enum
+SHAFT.DB db = new SHAFT.DB("jdbc:mysql://localhost:3306/mydb?useSSL=false");
+
+// Factory methods (same options)
+SHAFT.DB db = SHAFT.DB.getInstance(DatabaseActions.DatabaseType.MY_SQL, "localhost", "3306", "mydb", "user", "pass");
+```
+
+### Report API
+```java
+SHAFT.Report.log("Section heading for report");          // discrete log entry
+SHAFT.Report.report("Verification passed: cart = 3");    // named step entry
+SHAFT.Report.attach("text/plain", "Response", body);     // attachment
+```
+
+---
+
 ## Quick Reference
 
 | Area | Key Rule |
@@ -123,3 +202,44 @@
 | UX | Progressive disclosure, step-by-step lists, tabs for alternatives |
 | Reach | Social-friendly titles, practical examples, accessible language |
 | Agentic AI | Structured format, self-contained examples, explicit API docs |
+| Version | Always use SHAFT `10.2.20260501`, Java 21, archetype `10.1.20260331` |
+| API | Never invent method names — verify against section 11 above |
+| Existing Pages | Do NOT wholesale rewrite pages recently added by other agents (see list below) |
+
+## 12. Pages Added by Other Agents — Do Not Wholesale Rewrite
+
+The following pages were created or significantly revised by other Copilot sessions and should only receive **targeted, surgical updates** rather than full rewrites:
+
+**High-priority pages added in April 2026 (PR #442):**
+- `docs/Keywords/GUI/didYouKnow/Accessibility_Testing.md`
+- `docs/Keywords/GUI/didYouKnow/Async_Element_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Network_Mocking.md`
+- `docs/Keywords/GUI/didYouKnow/Visual_Testing.md`
+- `docs/Keywords/GUI/didYouKnow/Self_Healing_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/ARIA_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/Smart_Locators.md`
+- `docs/Keywords/GUI/didYouKnow/Explicit_Waits.md`
+- `docs/Keywords/GUI/didYouKnow/iFrame_Handling.md`
+- `docs/Keywords/API/API_Authentication.md`
+- `docs/Keywords/API/GraphQL_Testing.md`
+- `docs/Keywords/Validations/JSON_Schema_Validation.md`
+- `docs/Keywords/Validations/Soft_vs_Hard_Assertions.md`
+- `docs/Properties/Programmatic_Config.md`
+- `docs/Getting_Started/JUnit5_Integration.md`
+- `docs/Best_Practices/Cucumber_BDD_Steps.md`
+
+**Medium-priority pages added in April 2026 (PR #444):**
+- `docs/Keywords/GUI/Async_Element_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Mobile_Emulation.md`
+- `docs/Keywords/TestData_Management.md` ← already has YAML section; do not replace
+
+**Low-priority pages added in April 2026 (PR #446):**
+- `docs/Keywords/CLI/Docker_Terminal.md`
+- `docs/Keywords/CLI/SSH_Terminal.md`
+- `docs/Keywords/GUI/didYouKnow/Clipboard_Actions.md`
+- `docs/Keywords/GUI/didYouKnow/Kubernetes_Selenium_Grid.md`
+- `docs/Reporting/Custom_Report_Messages.md`
+
+**Pages fixed by another agent in April 2026 (PR #456):**
+- `docs/Keywords/GUI/Browser_Actions.md`
+- `docs/Keywords/GUI/Element_Actions.md`

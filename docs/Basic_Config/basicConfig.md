@@ -7,52 +7,89 @@ keywords: [SHAFT, web configuration, browser settings, headless mode, proxy sett
 tags: [web, configuration, selenium, browser]
 ---
 
-- To get you started, SHAFT will auto-generate some default properties for your first test run.
-- Here are some basic properties you should think about including in your `custom.properties` file:
-```properties showLineNumbers title="src/main/resources/properties/custom.properties"
-# you may want to configure your base url to enable your scripts to run against different environments
-baseURL=http://www.mytestdomain.com
+SHAFT auto-generates a default `custom.properties` file on your first test run. Use it to tailor browser selection, timeouts, and reporting without touching your test code.
 
-# this is how you can change the target browser for your tests to `CHROME`, `FIREFOX`, `SAFARI`
-# or `MICROSOFTEDGE`
-targetBrowserName=FIREFOX
+:::tip
+All properties can also be set programmatically or overridden via Maven `-D` flags. See [Programmatic Config](../Properties/Programmatic_Config) and [Properties Reference](../Properties/PropertiesList) for the full list.
+:::
 
-# you can use this flag to run in headless mode, which is faster and frees your computer screen
-# for use
+---
+
+## Target Browser
+
+```properties title="src/main/resources/properties/custom.properties"
+# Supported values: CHROME | FIREFOX | SAFARI | MICROSOFTEDGE
+targetBrowserName=CHROME
+
+# Run without a visible browser window (faster, ideal for CI/CD)
 headlessExecution=true
+```
 
-# you can use one of these flags to generate extra visuals (gif / video) in your allure report
+Override from the command line without changing the file:
+
+```bash
+mvn test -DtargetBrowserName=FIREFOX -DheadlessExecution=true
+```
+
+---
+
+## Base URL and Timeouts
+
+```properties title="src/main/resources/properties/custom.properties"
+# Used as a prefix when you call driver.browser().navigateToURL("/path")
+baseURL=https://staging.example.com
+
+# Time (seconds) SHAFT will retry finding an element before failing
+defaultElementIdentificationTimeout=30
+
+# Time (seconds) to wait for a page navigation to complete
+browserNavigationTimeout=60
+
+# Time (seconds) to wait for the full page DOM to load
+pageLoadTimeout=60
+```
+
+---
+
+## Visual Reporting
+
+```properties title="src/main/resources/properties/custom.properties"
+# Generate an animated GIF of each test in the Allure report
 createAnimatedGif=true
+
+# Record a full MP4 video of each test execution
 videoParams_recordVideo=true
+```
 
-# configuring your proxy settings is essential if you are sitting behind a corporate proxy server,
-# no need to include this property if you're not
-com.SHAFT.proxySettings=host:port
+---
 
-# you can configure SHAFT to automatically retry failed tests by setting this property
+## Reliability & Retries
+
+```properties title="src/main/resources/properties/custom.properties"
+# Automatically retry failed tests up to N times
 retryMaximumNumberOfAttempts=3
 
-# you can disable any of the built-in forced checks that SHAFT uses to ensure a more reliable
-# execution by setting the following properties
+# Loosen the built-in pre-action checks if your app has unusual rendering
 forceCheckForElementVisibility=false
 forceCheckElementLocatorIsUnique=false
 forceCheckTextWasTypedCorrectly=false
 forceCheckNavigationWasSuccessful=false
-respectBuiltInWaitsInNativeMode=false
 
-# you can enable this commonly used workaround if your element clicks keep failing
-# (though it is recommended to tweak your locator)
+# Use JavaScript click as a fallback when a WebDriver click fails
 clickUsingJavascriptWhenWebDriverClickFails=true
-
-# you can also configure the following timeouts (in seconds)
-defaultElementIdentificationTimeout=60
-browserNavigationTimeout=60		
-pageLoadTimeout=60
 ```
-:::tip[**Tip**]
-    You can learn more about the different **[property types]** and the **[full list of supported properties]** by visiting the related pages.
-:::
 
+---
+
+## Proxy
+
+Only needed if you are behind a corporate proxy:
+
+```properties title="src/main/resources/properties/custom.properties"
+com.SHAFT.proxySettings=proxy.corp.example.com:8080
+```
+
+---
 
 [property types]: <../Properties/PropertyTypes>
 [full list of supported properties]: <../Properties/PropertiesList>

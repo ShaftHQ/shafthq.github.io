@@ -2,147 +2,208 @@
 id: Element_Validations
 title: Element Validations
 sidebar_label: Element Validations
-description: "Validate element text, attributes, existence, and state using SHAFT Engine's fluent driver-based validation API."
-keywords: [SHAFT, element validations, text validation, attribute validation, visibility, checkbox, web testing]
+description: "Validate element text, attributes, existence, visibility, state, and visual appearance using SHAFT Engine's fluent validation API."
+keywords: [SHAFT, element validations, text validation, attribute validation, visibility, checkbox, assertThat, verifyThat]
 tags: [web, element, validations]
 ---
 
-## Difference between assertThat() and verifyThat():
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-Assertions and Verification testing are important components in GUI automation testing. Each one performs a specific role: 
-1. In **Assertions**, if the assert is not met, test case execution will be **aborted** and the rest of the test cases will be skipped, with the test case execution result marked as **failed**. Assertions are used as checkpoints for testing or validating business-critical transactions. This type of assertion is called **Hard Assertion**.
-2. In **Verifications**, even if the verification is not met, test case execution will continue to run until the last test is executed. The errors that may be found will be reported at the end of the test suite. This type of verification is called **Soft Assertion**.
+## assertThat vs verifyThat
 
-### Text Validations 
+| | `assertThat` (Hard) | `verifyThat` (Soft) |
+|---|---|---|
+| Failure behaviour | Stops the test immediately | Continues; collects all failures |
+| Use for | Business-critical checkpoints | Multiple validations in one test |
 
-#### text().isEqualTo()
-Validates that the text of the element exactly matches the expected value.
+:::tip
+Always call `.perform()` at the end of every validation chain — without it the validation will not execute.
+:::
 
-```java
-driver.element().assertThat(elementLocator).text().isEqualTo("Expected Text").perform();
-driver.element().verifyThat(elementLocator).text().isEqualTo("Expected Text").perform();
+---
+
+## Text Validations
+
+### text().isEqualTo()
+
+```java title="TextEquals.java"
+driver.assertThat(locator).text().isEqualTo("Add to cart").perform();
+driver.verifyThat(locator).text().isEqualTo("Add to cart").perform();
 ```
 
-#### text().equalsIgnoringCaseSensitivity()
-Validates that the text of the element matches the expected value without considering case sensitivity (capital or lowercase letters).
+### text().contains()
 
-```java
-driver.element().assertThat(elementLocator).text().equalsIgnoringCaseSensitivity("Expected Text").perform();
-driver.element().verifyThat(elementLocator).text().equalsIgnoringCaseSensitivity("Expected Text").perform();
+```java title="TextContains.java"
+driver.assertThat(locator).text().contains("Welcome").perform();
 ```
 
-#### textTrimmed()
-Validates against the provided element's text attribute after it's trimmed (all leading and trailing whitespace removed).
+### text().equalsIgnoringCaseSensitivity()
 
-```java
-driver.element().assertThat(elementLocator).textTrimmed().equalsIgnoringCaseSensitivity("Expected Text").perform();
-driver.element().verifyThat(elementLocator).textTrimmed().equalsIgnoringCaseSensitivity("Expected Text").perform();
+```java title="TextEqualsIgnoreCase.java"
+driver.assertThat(locator).text().equalsIgnoringCaseSensitivity("SHAFT ENGINE").perform();
 ```
 
-### Element Existence
-#### exists()
-Use this to check that the target element exists
+### textTrimmed()
 
-```java
-driver.element().assertThat(elementLocator).exists().perform();
-driver.element().verifyThat(elementLocator).exists().perform();
+Validates text after stripping leading and trailing whitespace:
+
+```java title="TextTrimmed.java"
+driver.assertThat(locator).textTrimmed().isEqualTo("Hello World").perform();
 ```
 
-#### doesNotExist()
-Use this to check that the target element does not exist
+---
 
-```java
-driver.element().assertThat(elementLocator).doesNotExist().perform();
-driver.element().verifyThat(elementLocator).doesNotExist().perform();
-```
-### Element States
+## Existence & Visibility
 
-#### isChecked()
-Use this to check against the provided elements checked attribute
+### exists() / doesNotExist()
 
-```java
-driver.element().assertThat(elementLocator).isChecked().perform();
-driver.element().verifyThat(elementLocator).isChecked().perform();
+```java title="Existence.java"
+driver.assertThat(locator).exists().perform();
+driver.assertThat(locator).doesNotExist().perform();
 ```
 
-#### isNotChecked()
-Use this to check against the provided elements checked attribute
+### isVisible() / isHidden()
 
-```java
-driver.element().assertThat(elementLocator).isNotChecked().perform();
-driver.element().verifyThat(elementLocator).isNotChecked().perform();
+```java title="Visibility.java"
+driver.assertThat(locator).isVisible().perform();
+driver.assertThat(locator).isHidden().perform();
 ```
 
-#### isDisabled()
-Use this to check that the element is disabled.
+---
 
-```java
-driver.element().assertThat(elementLocator).isDisabled().perform();
-driver.element().verifyThat(elementLocator).isDisabled().perform();
+## Element State
+
+### isEnabled() / isDisabled()
+
+```java title="EnabledDisabled.java"
+driver.assertThat(locator).isEnabled().perform();
+driver.assertThat(locator).isDisabled().perform();
 ```
 
-#### isEnabled()
-Use this to check that the element is enabled.
+### isSelected() / isNotSelected()
 
-```java
-driver.element().assertThat(elementLocator).isEnabled().perform();
-driver.element().verifyThat(elementLocator).isEnabled().perform();
+```java title="SelectedNotSelected.java"
+driver.assertThat(locator).isSelected().perform();
+driver.assertThat(locator).isNotSelected().perform();
 ```
 
-#### isVisible()
-Use this to check that the element is visible.
+### isChecked() / isNotChecked()
 
-```java
-driver.element().assertThat(elementLocator).isVisible().perform();
-driver.element().verifyThat(elementLocator).isVisible().perform();
-```
-#### isHidden()
-Use this to check that the element is hidden.
-
-```java
-driver.element().assertThat(elementLocator).isHidden().perform();
-driver.element().verifyThat(elementLocator).isHidden().perform();
+```java title="CheckedNotChecked.java"
+driver.assertThat(locator).isChecked().perform();
+driver.assertThat(locator).isNotChecked().perform();
 ```
 
-#### isSelected()
-Use this to check against the provided elements selected attribute
+---
 
-```java
-driver.element().assertThat(elementLocator).isSelected().perform();
-driver.element().verifyThat(elementLocator).isSelected().perform();
+## Attribute & CSS Validations
+
+### attribute()
+
+```java title="Attribute.java"
+driver.assertThat(locator).attribute("class").contains("active").perform();
+driver.assertThat(locator).attribute("href").isEqualTo("https://example.com").perform();
+driver.assertThat(locator).attribute("aria-label").contains("Submit").perform();
 ```
 
-#### isNotSelected()
-Use this to check against the provided elements selected attribute
+### cssProperty()
 
-```java
-driver.element().assertThat(elementLocator).isNotSelected().perform();
-driver.element().verifyThat(elementLocator).isNotSelected().perform();
+```java title="CssProperty.java"
+driver.assertThat(locator).cssProperty("color").contains("rgb(0, 128, 0)").perform();
+driver.assertThat(locator).cssProperty("display").isEqualTo("none").perform();
 ```
 
-### Attributes Validations
+---
 
-#### attribute()
-Use this to check against a certain element attribute
+## Visual Validation
 
-```java
-driver.element().assertThat(elementLocator).attribute("name").isEqualTo("expected value").perform();
-driver.element().verifyThat(elementLocator).attribute("name").isEqualTo("expected value").perform();
+### matchesReferenceImage()
+
+On the first run, SHAFT saves a baseline screenshot. On subsequent runs it compares against the baseline.
+
+```java title="VisualValidation.java"
+driver.assertThat(locator).matchesReferenceImage().perform();
+driver.assertThat(locator).doesNotMatchReferenceImage().perform();
 ```
 
+Baseline images are saved in `src/test/resources/DynamicObjectRepository/`. See [Visual Testing →](./didYouKnow/Visual_Testing) for engine options.
 
+---
 
+## Custom Report Messages
 
-[webdriver]: https://www.selenium.dev/documentation/en/webdriver/
-[default configurations]: #
-[properties files]: #
-[edit configurations]: #
-[driverfactory]: #
-[reporting]: #
-[webdrivermanager]: https://github.com/bonigarcia/webdrivermanager
-[browseractions]: https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/browser/BrowserActions.html
-[elementactions]: https://mohabmohie.github.io/SHAFT_ENGINE/apidocs/com/shaft/gui/element/ElementActions.html
-[by methods]: https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html
-[reporting]: #
-[verification]: #
-[getcssproperty​]: #get-the-value-of-a-css-property
+Add a business-readable message to any validation:
+
+```java title="CustomMessage.java"
+driver.assertThat(By.id("cart-badge"))
+      .text().isEqualTo("3")
+      .withCustomReportMessage("Cart should contain exactly 3 items after adding the product")
+      .perform();
+```
+
+---
+
+## Complete Example
+
+```java title="src/test/java/tests/CheckoutValidationTest.java"
+import com.shaft.driver.SHAFT;
+import org.openqa.selenium.By;
+import org.testng.annotations.*;
+
+public class CheckoutValidationTest {
+    private SHAFT.GUI.WebDriver driver;
+
+    private final By addToCartBtn  = By.cssSelector("[data-test='add-to-cart']");
+    private final By cartBadge     = By.className("shopping_cart_badge");
+    private final By checkoutBtn   = By.id("checkout");
+    private final By orderSummary  = By.id("order-summary");
+    private final By placeOrderBtn = By.id("place-order");
+
+    @Test
+    public void checkoutFlow() {
+        driver.browser().navigateToURL("https://example.com/products");
+
+        // Add item and check badge
+        driver.element().click(addToCartBtn);
+        driver.assertThat(cartBadge)
+              .text().isEqualTo("1")
+              .withCustomReportMessage("Cart badge must show 1 after adding an item")
+              .perform();
+
+        // Proceed to checkout
+        driver.element().click(checkoutBtn);
+        driver.assertThat().browser().url().contains("/checkout").perform();
+
+        // Verify order summary is displayed
+        driver.assertThat(orderSummary)
+              .isVisible()
+              .withCustomReportMessage("Order summary must be visible on checkout page")
+              .perform();
+
+        // Verify place order button is enabled
+        driver.assertThat(placeOrderBtn)
+              .isEnabled()
+              .withCustomReportMessage("Place Order button must be enabled")
+              .perform();
+    }
+
+    @BeforeMethod
+    public void setup() {
+        driver = new SHAFT.GUI.WebDriver();
+    }
+
+    @AfterMethod
+    public void teardown() {
+        driver.quit();
+    }
+}
+```
+
+---
+
+## See Also
+
+- [Validations Overview →](../Validations/Overview) — All validation targets and usage patterns
+- [Element Actions →](./Element_Actions) — Available interactions before validating
+- [Custom Report Messages →](../../Reporting/Custom_Report_Messages) — Enrich Allure reports with business context
