@@ -27,6 +27,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Validate release template links and avatar markup
+        run: npm run test:release-template
+
       - name: Build website
         id: build
         run: yarn build
@@ -105,7 +108,7 @@ jobs:
 
   playwright-smoke:
     name: Playwright Render Smoke Tests
-    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    if: github.event_name == 'pull_request' && github.base_ref == 'master'
     runs-on: ubuntu-latest
     permissions:
       contents: read

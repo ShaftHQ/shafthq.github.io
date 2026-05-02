@@ -19,6 +19,7 @@
     "test:homepage": "node tests/homepage-performance.test.js",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "node tests/run-e2e-tests.js",
+    "test:release-template": "node tests/release-blog-template.test.js",
     "test:playwright": "playwright test",
     "verify-models": "node scripts/verify-models.js"
   },
