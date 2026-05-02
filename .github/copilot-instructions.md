@@ -243,3 +243,9 @@ The following pages were created or significantly revised by other Copilot sessi
 **Pages fixed by another agent in April 2026 (PR #456):**
 - `docs/Keywords/GUI/Browser_Actions.md`
 - `docs/Keywords/GUI/Element_Actions.md`
+
+## 13. CI Verification for Workflow/Release Automation Changes
+
+- For changes to GitHub workflows, release automation, generated blog posts, or content that affects deployment checks, always wait for the related CI checks to finish before finalizing.
+- For PRs in this repository, verify Netlify checks pass when applicable (especially `Pages changed - shaftengine`, `Header rules - shaftengine`, and `Redirect rules - shaftengine`).
+- Do not consider the task complete until required checks have completed successfully or any failures are explicitly investigated and fixed.
