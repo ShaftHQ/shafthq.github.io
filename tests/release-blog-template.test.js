@@ -33,6 +33,23 @@ try {
   const workflowContent = fs.readFileSync(workflowPath, 'utf8');
   const latestReleaseContent = fs.readFileSync(latestReleasePostPath, 'utf8');
   const marchReleaseContent = fs.readFileSync(releasePostMarchPath, 'utf8');
+  const extractUrls = (content) => [
+    ...new Set(
+      (content.match(/https?:\/\/[^\s)>\]]+/g) || [])
+        .map((url) => url.trim().replace(/[.,;:!?]+$/g, ''))
+        .filter(Boolean),
+    ),
+  ];
+
+  const hasGithubPathPrefix = (urlList, prefix) =>
+    urlList.some((candidateUrl) => {
+      try {
+        const parsed = new URL(candidateUrl);
+        return parsed.hostname === 'github.com' && parsed.pathname.startsWith(prefix);
+      } catch {
+        return false;
+      }
+    });
 
   assert(
     workflowContent.includes(
@@ -47,13 +64,26 @@ try {
   );
 
   assert(
-    !latestReleaseContent.includes('https://github.com/ShaftHQ/SHAFTENGINE/'),
-    'Release post must use valid SHAFT_ENGINE GitHub links.',
+    !latestReleaseContent.includes('SHAFTENGINE'),
+    'Release post must not contain malformed SHAFTENGINE links.',
   );
 
   assert(
-    !marchReleaseContent.includes('https://github.com/ShaftHQ/SHAFTENGINE/'),
-    'Release changelog summary must use valid SHAFT_ENGINE GitHub links.',
+    !marchReleaseContent.includes('SHAFTENGINE'),
+    'Release changelog summary must not contain malformed SHAFTENGINE links.',
+  );
+
+  const latestReleaseUrls = extractUrls(latestReleaseContent);
+  const marchReleaseUrls = extractUrls(marchReleaseContent);
+
+  assert(
+    hasGithubPathPrefix(latestReleaseUrls, '/ShaftHQ/SHAFT_ENGINE/'),
+    'Release post must include valid SHAFT_ENGINE GitHub links.',
+  );
+
+  assert(
+    hasGithubPathPrefix(marchReleaseUrls, '/ShaftHQ/SHAFT_ENGINE/pull/'),
+    'Release changelog summary must include valid SHAFT_ENGINE pull request links.',
   );
 
   const expectedResourceLinks = [
