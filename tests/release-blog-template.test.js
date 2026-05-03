@@ -104,6 +104,10 @@ try {
 
   const workflowScriptMatch = workflowContent.match(/node <<'NODE'\n([\s\S]*?)\n\s*NODE/);
   assert(workflowScriptMatch, 'Could not locate release template generator script in workflow.');
+  assert(
+    workflowScriptMatch[1].includes('process.env.RELEASE_TAG'),
+    'Extracted generator script does not look like the expected release template script.',
+  );
 
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'release-template-test-'));
   try {
@@ -145,7 +149,11 @@ try {
       'Generated release markdown must not include inline style strings.',
     );
   } finally {
-    fs.rmSync(tempDir, { recursive: true, force: true });
+    try {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    } catch (cleanupError) {
+      console.warn(`Failed to clean up temp directory: ${cleanupError.message}`);
+    }
   }
 
   console.log('✅ Release blog template checks passed.');
