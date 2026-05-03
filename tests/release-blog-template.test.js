@@ -11,6 +11,19 @@ function assert(condition, message) {
   }
 }
 
+function logSubprocessOutput(error) {
+  ['stdout', 'stderr'].forEach((streamName) => {
+    if (error[streamName]) {
+      console.error(error[streamName].toString());
+    }
+  });
+}
+
+function generateExpectedFilename(publishedAt, releaseTag) {
+  const generatedDate = new Date(publishedAt);
+  return `${generatedDate.getUTCFullYear()}-${String(generatedDate.getUTCMonth() + 1).padStart(2, '0')}-${String(generatedDate.getUTCDate()).padStart(2, '0')}-release-${releaseTag.toLowerCase()}.md`;
+}
+
 try {
   const workflowPath = path.join(
     __dirname,
@@ -137,17 +150,11 @@ try {
         },
       });
     } catch (error) {
-      if (error.stdout) {
-        console.error(error.stdout.toString());
-      }
-      if (error.stderr) {
-        console.error(error.stderr.toString());
-      }
+      logSubprocessOutput(error);
       throw error;
     }
 
-    const generatedDate = new Date(simulatedPublishedAt);
-    const generatedFileName = `${generatedDate.getUTCFullYear()}-${String(generatedDate.getUTCMonth() + 1).padStart(2, '0')}-${String(generatedDate.getUTCDate()).padStart(2, '0')}-release-${simulatedReleaseTag.toLowerCase()}.md`;
+    const generatedFileName = generateExpectedFilename(simulatedPublishedAt, simulatedReleaseTag);
     const generatedBlogPath = path.join(tempDir, 'blog', generatedFileName);
     const generatedBlogContent = fs.readFileSync(generatedBlogPath, 'utf8');
 
