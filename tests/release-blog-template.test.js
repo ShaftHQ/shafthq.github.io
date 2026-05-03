@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 function assert(condition, message) {
   if (!condition) {
@@ -99,6 +101,52 @@ try {
       `Expected resource link is missing: ${resourceLink}`,
     );
   });
+
+  const workflowScriptMatch = workflowContent.match(/node <<'NODE'\n([\s\S]*?)\n\s*NODE/);
+  assert(workflowScriptMatch, 'Could not locate release template generator script in workflow.');
+
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'release-template-test-'));
+  try {
+    const generatedScriptPath = path.join(tempDir, 'generate-release-post.js');
+    fs.writeFileSync(generatedScriptPath, workflowScriptMatch[1], 'utf8');
+
+    execFileSync('node', [generatedScriptPath], {
+      cwd: tempDir,
+      stdio: 'pipe',
+      env: {
+        ...process.env,
+        RELEASE_TAG: '10.2.99999999',
+        RELEASE_PUBLISHED_AT: '2026-05-02T00:00:00Z',
+        RELEASE_AUTHOR: 'copilot',
+        RELEASE_BODY: '- Template rendering validation',
+        RELEASE_URL: 'https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/10.2.99999999',
+        CONTRIBUTORS_JSON: JSON.stringify([
+          {
+            login: 'TemplateTester',
+            avatarUrl: 'https://github.com/TemplateTester.png',
+            isFirstTimer: true,
+          },
+        ]),
+      },
+    });
+
+    const generatedBlogPath = path.join(tempDir, 'blog', '2026-05-02-release-10.2.99999999.md');
+    const generatedBlogContent = fs.readFileSync(generatedBlogPath, 'utf8');
+
+    assert(
+      generatedBlogContent.includes(
+        '<img src="https://github.com/TemplateTester.png" width="32" height="32" alt="@TemplateTester" /> [@TemplateTester](https://github.com/TemplateTester)',
+      ),
+      'Generated release markdown must include 32x32 contributor avatar markup.',
+    );
+
+    assert(
+      !generatedBlogContent.includes('style="border-radius:50%;vertical-align:middle;"'),
+      'Generated release markdown must not include inline style strings.',
+    );
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 
   console.log('✅ Release blog template checks passed.');
 } catch (error) {
