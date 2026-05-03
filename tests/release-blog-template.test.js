@@ -11,10 +11,10 @@ function assert(condition, message) {
   }
 }
 
-function logSubprocessOutput(error) {
+function logSubprocessOutput(processResult) {
   ['stdout', 'stderr'].forEach((streamName) => {
-    if (error[streamName]) {
-      console.error(error[streamName].toString());
+    if (processResult[streamName]) {
+      console.error(processResult[streamName].toString());
     }
   });
 }
@@ -155,6 +155,10 @@ try {
     }
 
     const generatedFileName = generateExpectedFilename(simulatedPublishedAt, simulatedReleaseTag);
+    assert(
+      generatedFileName === '2026-05-02-release-10.2.99999999.md',
+      'Expected generated filename format YYYY-MM-DD-release-tag.md.',
+    );
     const generatedBlogPath = path.join(tempDir, 'blog', generatedFileName);
     const generatedBlogContent = fs.readFileSync(generatedBlogPath, 'utf8');
 
