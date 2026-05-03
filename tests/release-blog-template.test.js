@@ -113,28 +113,42 @@ try {
   try {
     const generatedScriptPath = path.join(tempDir, 'generate-release-post.js');
     fs.writeFileSync(generatedScriptPath, workflowScriptMatch[1], 'utf8');
+    const simulatedReleaseTag = '10.2.99999999';
+    const simulatedPublishedAt = '2026-05-02T00:00:00Z';
 
-    execFileSync('node', [generatedScriptPath], {
-      cwd: tempDir,
-      stdio: 'pipe',
-      env: {
-        ...process.env,
-        RELEASE_TAG: '10.2.99999999',
-        RELEASE_PUBLISHED_AT: '2026-05-02T00:00:00Z',
-        RELEASE_AUTHOR: 'copilot',
-        RELEASE_BODY: '- Template rendering validation',
-        RELEASE_URL: 'https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/10.2.99999999',
-        CONTRIBUTORS_JSON: JSON.stringify([
-          {
-            login: 'TemplateTester',
-            avatarUrl: 'https://github.com/TemplateTester.png',
-            isFirstTimer: true,
-          },
-        ]),
-      },
-    });
+    try {
+      execFileSync('node', [generatedScriptPath], {
+        cwd: tempDir,
+        stdio: 'pipe',
+        env: {
+          ...process.env,
+          RELEASE_TAG: simulatedReleaseTag,
+          RELEASE_PUBLISHED_AT: simulatedPublishedAt,
+          RELEASE_AUTHOR: 'copilot',
+          RELEASE_BODY: '- Template rendering validation',
+          RELEASE_URL: `https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/${simulatedReleaseTag}`,
+          CONTRIBUTORS_JSON: JSON.stringify([
+            {
+              login: 'TemplateTester',
+              avatarUrl: 'https://github.com/TemplateTester.png',
+              isFirstTimer: true,
+            },
+          ]),
+        },
+      });
+    } catch (error) {
+      if (error.stdout) {
+        console.error(error.stdout.toString());
+      }
+      if (error.stderr) {
+        console.error(error.stderr.toString());
+      }
+      throw error;
+    }
 
-    const generatedBlogPath = path.join(tempDir, 'blog', '2026-05-02-release-10.2.99999999.md');
+    const generatedDate = new Date(simulatedPublishedAt);
+    const generatedFileName = `${generatedDate.getUTCFullYear()}-${String(generatedDate.getUTCMonth() + 1).padStart(2, '0')}-${String(generatedDate.getUTCDate()).padStart(2, '0')}-release-${simulatedReleaseTag.toLowerCase()}.md`;
+    const generatedBlogPath = path.join(tempDir, 'blog', generatedFileName);
     const generatedBlogContent = fs.readFileSync(generatedBlogPath, 'utf8');
 
     assert(
