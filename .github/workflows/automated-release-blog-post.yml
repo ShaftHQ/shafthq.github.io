@@ -253,7 +253,8 @@ jobs:
                     .replace(/\s+/g, ' ')
                     .trim()
                 )
-                .filter((line) => line && !/[<>]/.test(line))
+                // Guard against incomplete HTML fragments that can break MDX (e.g., "<div ..." or "...>").
+                .filter((line) => line && !/^<[^>]*$/.test(line) && !/^[^<]*>$/.test(line))
                 .filter(Boolean);
 
             if (!candidateLines.length) {
