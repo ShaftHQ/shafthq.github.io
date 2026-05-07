@@ -250,3 +250,4 @@ The following pages were created or significantly revised by other Copilot sessi
 - For PRs in this repository, verify Netlify checks pass when applicable (especially `Pages changed - shaftengine`, `Header rules - shaftengine`, and `Redirect rules - shaftengine`).
 - Do not consider the task complete until required checks have completed successfully or any failures are explicitly investigated and fixed.
 - Before proposing or updating a PR, always run local validation for affected areas (at minimum `npm run build`; and relevant tests such as `npm test`/`yarn test:playwright` when applicable) and confirm results in the PR update.
+- For automated release blog generation, ensure the generated `## ⚡ What Changed?` summary is MDX-safe text only (no raw HTML tag fragments like `<div ...`/`</div`), and verify with `npm run test:release-template` plus `npm run build` before pushing.

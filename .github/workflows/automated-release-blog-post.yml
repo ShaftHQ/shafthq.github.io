@@ -236,14 +236,26 @@ jobs:
             ? `\n🎉 **A warm welcome to our first-time contributors!** ${firstTimers.map((c) => `[@${c.login}](https://github.com/${c.login})`).join(', ')} — your first contribution is now part of SHAFT's story. We're thrilled to have you on board!`
             : '';
 
-          const extractScopeSummary = (markdownText) => {
-            const sanitizedMarkdownText = markdownText.replace(/<!--[\s\S]*?-->/g, '');
-            const candidateLines = sanitizedMarkdownText
-              .split('\n')
-              .map((line) => line.trim())
-              .filter((line) => line && !line.startsWith('#'))
-              .map((line) => line.replace(/^[-*+]\s*/, '').replace(/[*_>#]/g, '').trim())
-              .filter(Boolean);
+            const extractScopeSummary = (markdownText) => {
+              const sanitizedMarkdownText = markdownText.replace(/<!--[\s\S]*?-->/g, '');
+              const candidateLines = sanitizedMarkdownText
+                .split('\n')
+                .map((line) => line.trim())
+                .filter((line) => line && !line.startsWith('#'))
+                .map((line) =>
+                  line
+                    .replace(/<[^>]+>/g, ' ')
+                    .replace(/!\[[^\]]*\]\([^)]+\)/g, '')
+                    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+                    .replace(/^[-*+]\s*/, '')
+                    .replace(/^>\s*/, '')
+                    .replace(/[*_`#]/g, '')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                )
+                // Guard against incomplete HTML fragments that can break MDX (e.g., "<div ..." or "...>").
+                .filter((line) => line && !/^<[^>]*$/.test(line) && !/^[^<]*>$/.test(line))
+                .filter(Boolean);
 
             if (!candidateLines.length) {
               return 'This version focuses on improving developer productivity, strengthening runtime reliability, and making test design more expressive across common automation scenarios.';
