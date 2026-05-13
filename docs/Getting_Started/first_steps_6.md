@@ -211,7 +211,7 @@ AppiumDriver driver = new AndroidDriver(new URL("http://localhost:4723"), caps);
 
 ```java title="After — SHAFT (capabilities in custom.properties)"
 // custom.properties:
-// targetPlatform=ANDROID
+// targetOperatingSystem=ANDROID
 // executionAddress=127.0.0.1:4723
 // mobile_automationName=UIAUTOMATOR2
 // mobile_app=src/test/resources/apps/MyApp.apk

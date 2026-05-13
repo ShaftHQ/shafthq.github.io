@@ -726,6 +726,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### BrowserStack
 
 - These properties control SHAFT's built-in integration with BrowserStack.
+- Use the canonical authentication keys `browserStack.userName` and `browserStack.accessKey`; the legacy aliases `browserStack.user` and `browserStack.key` are normalized for compatibility.
+- For native mobile apps, `browserStack.appUrl` is resolved before remote `mobile_app` values such as `bs://...`, `http://...`, or `https://...`.
 - You can find all supported Web-based (Desktop or Mobile) execution properties & values in BrowserStack's [Web Capability Generator](https://www.browserstack.com/docs/automate/capabilities)
 - You can find all supported Native Mobile App execution properties & values in BrowserStack's [Appium Capability Generator](https://www.browserstack.com/app-automate/capabilities?tag=w3c)
 
@@ -741,10 +743,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | browserStack.accessKey               | ``            |                 | BrowserStack access key for authentication.                                                           |
 | browserStack.platformVersion         | ``            |                 | Mobile platform version for BrowserStack execution.                                                   |
 | browserStack.deviceName              | ``            |                 | Mobile device name for BrowserStack execution.                                                        |
-| browserStack.appUrl                  | ``            |                 | Use appUrl to test a previously uploaded app file.                                                    |
+| browserStack.appUrl                  | ``            |                 | Use a BrowserStack app URL for a previously uploaded app; takes precedence over remote `mobile_app`.   |
 | browserStack.customID                | ``            |                 | Use customID to test the latest uploaded version as the above url expires regularly.                  |
 | browserStack.appName                 | ``            |                 | App name for uploading to BrowserStack.                                                               |
-| browserStack.appRelativeFilePath     | ``            |                 | Relative file path to the app for uploading to BrowserStack.                                          |
+| browserStack.appRelativeFilePath     | ``            |                 | Relative file path to the app for SHAFT/BrowserStack upload workflows.                                |
 | browserStack.osVersion               | ``            |                 | In case of Desktop web testing you must also set the `targetOperatingSystem`, and `targetBrowserName`.|
 | browserStack.browserVersion          | ``            |                 | Browser version, optional, uses random by default.                                                    |
 | browserStack.local                   | `false`       | `true`, `false` | Enable BrowserStack local testing.                                                                    |
