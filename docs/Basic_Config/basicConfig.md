@@ -59,6 +59,12 @@ createAnimatedGif=true
 
 # Record a full MP4 video of each test execution
 videoParams_recordVideo=true
+
+# Keep the Allure 3 Awesome report portable as one HTML file
+allure.singleFile=true
+
+# Group the Allure report tree by suite labels
+allure.groupBy=parentSuite,suite,subSuite
 ```
 
 ---
