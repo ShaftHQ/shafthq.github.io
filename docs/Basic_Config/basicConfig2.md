@@ -72,6 +72,29 @@ mobile_udid=00008110-001A23456789AB01
 
 ---
 
+## BrowserStack Native Apps
+
+When `executionAddress=browserstack`, SHAFT can start native mobile sessions from either a BrowserStack app URL or a remote app value in `mobile_app`:
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=browserstack
+targetOperatingSystem=ANDROID
+mobile_automationName=UiAutomator2
+mobile_deviceName=Google Pixel 7
+mobile_platformVersion=13.0
+
+# Preferred when you already know the uploaded BrowserStack app URL
+browserStack.appUrl=bs://<uploaded-app-id>
+
+# Also supported for remote app references when browserStack.appUrl is not set
+# mobile_app=bs://<uploaded-app-id>
+# mobile_app=https://example.com/apps/MyApp.apk
+```
+
+If both `browserStack.appUrl` and `mobile_app` point to remote app values, `browserStack.appUrl` takes precedence. Use local `mobile_app` paths when SHAFT should upload the app for you.
+
+---
+
 ## Mobile Web (Browser on Device)
 
 For mobile browser testing, configure the same properties as [Web GUI](./basicConfig) and add the mobile target:

@@ -63,8 +63,8 @@ executionAddress=https://hub-cloud.browserstack.com/wd/hub
 targetBrowserName=chrome
 
 # Credentials (use environment variables in CI)
-browserStack.user=${BROWSERSTACK_USERNAME}
-browserStack.key=${BROWSERSTACK_ACCESS_KEY}
+browserStack.userName=${BROWSERSTACK_USERNAME}
+browserStack.accessKey=${BROWSERSTACK_ACCESS_KEY}
 
 # Capabilities
 browserStack.os=Windows
@@ -79,12 +79,12 @@ browserStack.buildName=Build 1
 
 ```properties title="custom.properties"
 executionAddress=https://hub-cloud.browserstack.com/wd/hub
-targetPlatform=ANDROID
+targetOperatingSystem=ANDROID
 
-browserStack.user=${BROWSERSTACK_USERNAME}
-browserStack.key=${BROWSERSTACK_ACCESS_KEY}
+browserStack.userName=${BROWSERSTACK_USERNAME}
+browserStack.accessKey=${BROWSERSTACK_ACCESS_KEY}
 
-mobile_app=bs://your_uploaded_app_hash
+browserStack.appUrl=bs://your_uploaded_app_hash
 mobile_deviceName=Google Pixel 7
 mobile_platformVersion=13.0
 ```
@@ -126,7 +126,7 @@ lambdaTest.build=Build 1
 
 ```properties title="custom.properties"
 executionAddress=https://mobile-hub.lambdatest.com/wd/hub
-targetPlatform=ANDROID
+targetOperatingSystem=ANDROID
 
 lambdaTest.user=${LAMBDATEST_USERNAME}
 lambdaTest.accessKey=${LAMBDATEST_ACCESS_KEY}

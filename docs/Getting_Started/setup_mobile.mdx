@@ -34,7 +34,7 @@ Configure your mobile target in `src/main/resources/properties/custom.properties
 
 ```properties
 # Platform
-targetPlatform=ANDROID
+targetOperatingSystem=ANDROID
 
 # Appium server
 executionAddress=127.0.0.1:4723
@@ -57,7 +57,7 @@ mobile_autoGrantPermissions=true
 
 ```properties
 # Platform
-targetPlatform=IOS
+targetOperatingSystem=IOS
 
 # Appium server
 executionAddress=127.0.0.1:4723
@@ -130,9 +130,9 @@ Run on real devices in the cloud:
 ```properties
 # BrowserStack
 executionAddress=https://hub.browserstack.com/wd/hub
-browserStack.user=YOUR_USERNAME
-browserStack.key=YOUR_ACCESS_KEY
-mobile_app=bs://your_app_hash
+browserStack.userName=YOUR_USERNAME
+browserStack.accessKey=YOUR_ACCESS_KEY
+browserStack.appUrl=bs://your_app_hash
 
 # LambdaTest
 executionAddress=https://mobile-hub.lambdatest.com/wd/hub
