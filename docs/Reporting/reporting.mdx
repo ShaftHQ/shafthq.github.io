@@ -131,6 +131,71 @@ SHAFT.Properties.allure.set()
   </TabItem>
 </Tabs>
 
+### Tune Allure 3 Awesome Report Output
+
+When SHAFT generates an Allure 3 report, it writes the corresponding `allurerc.yaml` file for the Allure Awesome plugin. In addition to the title, output directory, logo, and history settings, you can now control the Awesome plugin options that affect packaging, language, browser opening, and the hierarchy shown in the report tree.
+
+:::note
+These options apply to Allure 3 report generation. `allure.automaticallyOpen` controls whether SHAFT opens the final report after test execution, while `allure.open` is passed to the Allure CLI configuration itself.
+:::
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+# Generate a self-contained HTML report file (default: true)
+allure.singleFile=true
+
+# Allure UI language code (default: en)
+allure.reportLanguage=en
+
+# Let the Allure CLI open the report after generation (default: false)
+allure.open=false
+
+# Comma-separated Allure label hierarchy (default: parentSuite,suite,subSuite)
+allure.groupBy=parentSuite,suite,subSuite
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test \
+  -Dallure.singleFile=false \
+  -Dallure.reportLanguage=fr \
+  -Dallure.open=false \
+  -Dallure.groupBy=package,class,method
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set()
+    .singleFile(false)
+    .reportLanguage("fr")
+    .open(false)
+    .groupBy("package,class,method");
+```
+
+  </TabItem>
+</Tabs>
+
+Common `allure.groupBy` presets include:
+
+| Preset | Value | Best For |
+|---|---|---|
+| Suite hierarchy | `parentSuite,suite,subSuite` | Default TestNG or suite-based organization |
+| BDD hierarchy | `epic,feature,story` | Business-readable Allure annotation reports |
+| Code hierarchy | `package,class,method` | Developer-oriented navigation by Java structure |
+| Module hierarchy | `module,parentSuite,suite,subSuite` | Multi-module projects |
+
+### Troubleshoot Allure CLI Generation
+
+SHAFT runs Allure report generation synchronously so the generated command, exit code, standard output, and standard error are visible in execution logs. If report generation fails, check the log entries around `Executing Allure report generation command`, `Allure generate stdout`, `Allure generate stderr`, and `Allure report generation command exited with code ...` before changing report settings.
+
 ### Accumulate History and Reports Across Runs
 
 By default, SHAFT keeps Allure history to enable trend graphs across runs. You can control this behavior:
@@ -368,6 +433,10 @@ Key properties quick reference:
 | `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
 | `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
 | `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
+| `allure.singleFile` | `true` | Generate an Allure 3 Awesome report as a self-contained HTML file |
+| `allure.reportLanguage` | `en` | Language code used by the Allure 3 Awesome report UI |
+| `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
+| `allure.groupBy` | `parentSuite,suite,subSuite` | Comma-separated label hierarchy for the Allure 3 report tree |
 | `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
 | `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
 | `videoParams_scope` | `DriverSession` | Scope of video recording |
