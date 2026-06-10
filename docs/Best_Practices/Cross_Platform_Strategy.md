@@ -82,11 +82,11 @@ public void testLogin() {
 :::tip
 Switch platforms by changing a single property — no code changes needed:
 ```properties title="src/main/resources/properties/custom.properties"
-targetPlatform=ANDROID
+targetOperatingSystem=ANDROID
 ```
 Or override it from the command line:
 ```bash
-mvn test -DtargetPlatform=IOS
+mvn test -DtargetOperatingSystem=IOS
 ```
 :::
 
@@ -134,5 +134,5 @@ my-company-tests/
 For most teams, starting with a **single project** is the best default. You get maximum code reuse and a single source of truth for your test scenarios. If the apps diverge significantly over time, you can always split later.
 
 :::info
-SHAFT Engine's property-based platform switching makes it easy to run the same tests against both platforms from a single project. Just parameterize `targetPlatform` in your CI/CD pipeline.
+SHAFT Engine's property-based platform switching makes it easy to run the same tests against both platforms from a single project. Just parameterize `targetOperatingSystem` in your CI/CD pipeline.
 :::
