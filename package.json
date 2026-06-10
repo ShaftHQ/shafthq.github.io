@@ -43,7 +43,7 @@
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.9.2",
     "@docusaurus/types": "^3.8.1",
-    "@playwright/test": "^1.59.1"
+    "@playwright/test": "^1.60.0"
   },
   "resolutions": {
     "serialize-javascript": "^7.0.3",
