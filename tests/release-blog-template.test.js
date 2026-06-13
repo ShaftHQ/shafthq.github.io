@@ -181,8 +181,14 @@ try {
         !generatedBlogContent.includes('<artifactId>SHAFT_ENGINE</artifactId>'),
       'Generated releases must use modular SHAFT coordinates.',
     );
+    const generatedLinks = [...generatedBlogContent.matchAll(/\]\((https?:\/\/[^)\s]+)\)/gu)]
+      .map((match) => new URL(match[1]));
     assert(
-      generatedBlogContent.includes('https://shaftengine.netlify.app/docs/start/overview'),
+      generatedLinks.some(
+        (url) => url.protocol === 'https:'
+          && url.hostname === 'shaftengine.netlify.app'
+          && url.pathname === '/docs/start/overview',
+      ),
       'Generated releases must link to the canonical documentation site.',
     );
 

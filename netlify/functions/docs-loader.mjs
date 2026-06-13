@@ -1,4 +1,4 @@
-import {readFileSync, readdirSync, statSync} from 'fs';
+import {readFileSync, readdirSync} from 'fs';
 import {dirname, extname, join, relative, sep} from 'path';
 import {fileURLToPath} from 'url';
 import {
@@ -24,16 +24,15 @@ const STOP_WORDS = new Set([
 let cachedIndex = null;
 
 function readDocumentationFiles(dirPath, baseDir, files = []) {
-  for (const entry of readdirSync(dirPath)) {
-    const fullPath = join(dirPath, entry);
-    const stat = statSync(fullPath);
+  for (const entry of readdirSync(dirPath, {withFileTypes: true})) {
+    const fullPath = join(dirPath, entry.name);
 
-    if (stat.isDirectory()) {
+    if (entry.isDirectory()) {
       readDocumentationFiles(fullPath, baseDir, files);
       continue;
     }
 
-    if (!['.md', '.mdx'].includes(extname(entry).toLowerCase())) continue;
+    if (!entry.isFile() || !['.md', '.mdx'].includes(extname(entry.name).toLowerCase())) continue;
 
     const relativePath = relative(baseDir, fullPath);
     const pathSegments = relativePath.split(sep);

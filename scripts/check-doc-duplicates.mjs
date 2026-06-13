@@ -1,4 +1,4 @@
-import {readFileSync, readdirSync, statSync} from 'fs';
+import {readFileSync, readdirSync} from 'fs';
 import {extname, join, relative} from 'path';
 import {fileURLToPath} from 'url';
 
@@ -7,14 +7,13 @@ const canonicalDirectories = new Set(['start', 'testing', 'agentic', 'features',
 const blocks = new Map();
 
 function visit(directory) {
-  for (const entry of readdirSync(directory)) {
-    const fullPath = join(directory, entry);
-    const stat = statSync(fullPath);
-    if (stat.isDirectory()) {
+  for (const entry of readdirSync(directory, {withFileTypes: true})) {
+    const fullPath = join(directory, entry.name);
+    if (entry.isDirectory()) {
       visit(fullPath);
       continue;
     }
-    if (!['.md', '.mdx'].includes(extname(entry))) continue;
+    if (!entry.isFile() || !['.md', '.mdx'].includes(extname(entry.name))) continue;
 
     const relativePath = relative(root, fullPath).replaceAll('\\', '/');
     if (!canonicalDirectories.has(relativePath.split('/')[0])) continue;
