@@ -9,6 +9,9 @@ import {
 } from './constants.mjs';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
+const snippets = JSON.parse(
+  readFileSync(join(currentDir, '..', '..', 'src', 'data', 'snippets.json'), 'utf-8'),
+);
 const MAX_RETRIEVAL_CHARACTERS = 80_000;
 const MAX_RETRIEVAL_CHUNKS = 8;
 const EXCLUDED_DIRECTORIES = new Set(['archive', 'maintainers']);
@@ -47,6 +50,13 @@ function readDocumentationFiles(dirPath, baseDir, files = []) {
 
 function normalizeMarkdown(content) {
   return content
+    .replace(/\r\n?/gu, '\n')
+    .replace(
+      /<McpClientCommands\s*\/>/gu,
+      `### Codex\n\n\`${snippets.codexMcp}\`\n\n### GitHub Copilot / VS Code\n\n\`${snippets.copilotMcp}\``,
+    )
+    .replace(/<DoctorCommand\s*\/>/gu, `\`${snippets.doctor}\``)
+    .replace(/<HealCommand\s*\/>/gu, `\`${snippets.heal}\``)
     .replace(/^---[\s\S]*?---\s*/u, '')
     .replace(/^(?:import|export)\s+.*$/gmu, '')
     .replace(/<[^>]+>/gu, ' ')
@@ -120,6 +130,12 @@ function scoreChunk(chunk, query, queryTokens) {
   for (const token of queryTokens) {
     if (pathAndHeading.includes(token)) score += 8;
     if (chunk.searchText.includes(token)) score += 2;
+  }
+  if (
+    queryTokens.length > 0
+    && queryTokens.every((token) => chunk.searchText.includes(token))
+  ) {
+    score += 20;
   }
 
   if (chunk.path === 'start/overview.mdx') score += 0.5;

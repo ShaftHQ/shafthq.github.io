@@ -117,3 +117,4 @@
 
 [functions]
   directory = "netlify/functions"
+  included_files = ["docs/**", "src/data/snippets.json"]

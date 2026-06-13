@@ -3,6 +3,7 @@ import CodeBlock from '@theme/CodeBlock';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import releases from '@site/src/data/releases.json';
+import snippets from '@site/src/data/snippets.json';
 
 const projectCommand = `mvn archetype:generate \\
   "-DarchetypeGroupId=io.github.shafthq" \\
@@ -59,12 +60,12 @@ export function McpClientCommands(): JSX.Element {
     <Tabs groupId="mcp-client">
       <TabItem value="codex" label="Codex" default>
         <CodeBlock language="bash">
-          {'codex mcp add shaft-mcp -- docker run --rm -i ghcr.io/shafthq/shaft-engine-mcp:latest'}
+          {snippets.codexMcp}
         </CodeBlock>
       </TabItem>
       <TabItem value="copilot" label="GitHub Copilot / VS Code">
         <CodeBlock language="bash">
-          {'code --add-mcp \'{"name":"shaft-mcp","command":"docker","args":["run","--rm","-i","ghcr.io/shafthq/shaft-engine-mcp:latest"]}\''}
+          {snippets.copilotMcp}
         </CodeBlock>
       </TabItem>
     </Tabs>
@@ -76,12 +77,12 @@ export function DoctorCommand(): JSX.Element {
     <Tabs groupId="shell">
       <TabItem value="posix" label="macOS / Linux" default>
         <CodeBlock language="bash">
-          {'java -jar SHAFT_MCP-<version>.jar doctor analyze --input allure-results --allowed-root "$PWD" --output-dir target/shaft-doctor'}
+          {snippets.doctor}
         </CodeBlock>
       </TabItem>
       <TabItem value="powershell" label="PowerShell">
         <CodeBlock language="powershell">
-          {'java -jar SHAFT_MCP-<version>.jar doctor analyze --input allure-results --allowed-root "$PWD" --output-dir target/shaft-doctor'}
+          {snippets.doctor}
         </CodeBlock>
       </TabItem>
     </Tabs>
@@ -89,7 +90,7 @@ export function DoctorCommand(): JSX.Element {
 }
 
 export function HealCommand(): JSX.Element {
-  return <CodeBlock language="bash">{'mvn test \'-Dhealing.strategy=shaft-heal\''}</CodeBlock>;
+  return <CodeBlock language="bash">{snippets.heal}</CodeBlock>;
 }
 
 export function ReleaseFacts(): JSX.Element {

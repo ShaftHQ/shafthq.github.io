@@ -9,7 +9,10 @@ function assert(condition, message) {
 }
 
 const index = buildDocumentationIndex();
-assert(index.length > 50, 'Documentation index should contain useful chunks.');
+assert(
+  index.length > 500,
+  'Documentation index should preserve headings consistently across platforms.',
+);
 assert(
   index.some((chunk) => chunk.path.endsWith('.mdx')),
   'MDX pages must be indexed.',
@@ -43,6 +46,15 @@ for (const [query, expectedTerms] of cases) {
     );
   }
 }
+
+const mcpSelection = retrieveDocumentation('connect Codex to SHAFT MCP');
+assert(
+  mcpSelection.some(
+    (chunk) => chunk.path === 'agentic/mcp.mdx'
+      && chunk.content.includes('shaft-engine-mcp'),
+  ),
+  'MCP retrieval must expand shared command components into searchable content.',
+);
 
 const selected = retrieveDocumentation('SHAFT MCP Doctor Heal Web Mobile API');
 assert(selected.length <= 8, 'Retrieval must select no more than eight chunks.');
