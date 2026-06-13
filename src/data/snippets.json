@@ -1,0 +1,6 @@
+{
+  "codexMcp": "codex mcp add shaft-mcp -- docker run --rm -i ghcr.io/shafthq/shaft-engine-mcp:latest",
+  "copilotMcp": "code --add-mcp '{\"name\":\"shaft-mcp\",\"command\":\"docker\",\"args\":[\"run\",\"--rm\",\"-i\",\"ghcr.io/shafthq/shaft-engine-mcp:latest\"]}'",
+  "doctor": "java -jar SHAFT_MCP-<version>.jar doctor analyze --input allure-results --allowed-root \"$PWD\" --output-dir target/shaft-doctor",
+  "heal": "mvn test '-Dhealing.strategy=shaft-heal'"
+}

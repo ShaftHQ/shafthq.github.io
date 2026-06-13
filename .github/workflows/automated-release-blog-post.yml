@@ -205,6 +205,18 @@ jobs:
           const releaseBody = process.env.RELEASE_BODY || '_No changelog provided._';
           const releaseUrl = process.env.RELEASE_URL || '';
           const contributors = JSON.parse(process.env.CONTRIBUTORS_JSON || '[]');
+          const engineVersion = tag.replace(/^v/i, '');
+
+          const releaseDataPath = path.join(process.cwd(), 'src', 'data', 'releases.json');
+          const currentReleaseData = fs.existsSync(releaseDataPath)
+            ? JSON.parse(fs.readFileSync(releaseDataPath, 'utf8'))
+            : { archetypeVersion: '10.1.20260331', javaVersion: '25', mavenVersion: '3.9' };
+          fs.mkdirSync(path.dirname(releaseDataPath), { recursive: true });
+          fs.writeFileSync(
+            releaseDataPath,
+            `${JSON.stringify({...currentReleaseData, engineVersion}, null, 2)}\n`,
+            'utf8'
+          );
 
           const date = new Date(publishedAt);
           const yyyy = date.getUTCFullYear();
@@ -280,7 +292,7 @@ jobs:
 
           Hey there, SHAFT community! 👋
 
-          A fresh release just dropped and it's packed with improvements you don't want to miss. **SHAFT_ENGINE ${tag}** is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.
+          A fresh release just dropped and it's packed with improvements you don't want to miss. **SHAFT ${tag}** is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.
 
           <!-- truncate -->
 
@@ -305,14 +317,27 @@ jobs:
 
           ## 🚀 Get Started in Seconds
 
-          Upgrading is simple — just update your dependency version:
+          Import the SHAFT BOM once, then use the modular engine:
 
           \`\`\`xml
-          <dependency>
+          <dependencyManagement>
+            <dependencies>
+              <dependency>
+                <groupId>io.github.shafthq</groupId>
+                <artifactId>shaft-bom</artifactId>
+                <version>${engineVersion}</version>
+                <type>pom</type>
+                <scope>import</scope>
+              </dependency>
+            </dependencies>
+          </dependencyManagement>
+
+          <dependencies>
+            <dependency>
               <groupId>io.github.shafthq</groupId>
-              <artifactId>SHAFT_ENGINE</artifactId>
-              <version>${tag.replace(/^v/i, '')}</version>
-          </dependency>
+              <artifactId>shaft-engine</artifactId>
+            </dependency>
+          </dependencies>
           \`\`\`
 
           ## 💬 Join the Conversation
@@ -322,7 +347,7 @@ jobs:
           - ⭐ [Star SHAFT on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE) — it helps more than you think
           - 💡 [Start a Discussion](https://github.com/ShaftHQ/SHAFT_ENGINE/discussions) — share feedback or ideas
           - 🐛 [Report an Issue](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new) — help us squash bugs faster
-          - 📖 [Read the Docs](https://shafthq.github.io/) — dive deeper into SHAFT
+          - 📖 [Read the Docs](https://shaftengine.netlify.app/docs/start/overview) — dive deeper into SHAFT
 
           Thanks for being part of the SHAFT journey. Until the next release — happy testing! 🎯
           `

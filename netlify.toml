@@ -10,5 +10,111 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+[[redirects]]
+  from = "/docs/Keywords/*"
+  to = "/docs/reference/actions/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Basic_Config/*"
+  to = "/docs/reference/configuration/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Best_Practices/*"
+  to = "/docs/reference/guides/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Properties/*"
+  to = "/docs/reference/properties/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Reporting/*"
+  to = "/docs/reference/reporting/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps"
+  to = "/docs/start/overview"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps_2"
+  to = "/docs/start/quick-start"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps_3"
+  to = "/docs/start/quick-start"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps_4"
+  to = "/docs/start/installation"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps_5"
+  to = "/docs/start/installation"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/first_steps_6"
+  to = "/docs/start/installation"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/shaft_wizard"
+  to = "/docs/start/installation"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/setup_web"
+  to = "/docs/testing/web"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/setup_mobile"
+  to = "/docs/testing/mobile"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/flutter_testing"
+  to = "/docs/testing/mobile"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/setup_api"
+  to = "/docs/testing/api"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/integrations"
+  to = "/docs/features/modules"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/support"
+  to = "/docs/start/overview"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Getting_Started/JUnit5_Integration"
+  to = "/docs/reference/guides/JUnit5_Integration"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Demos/web"
+  to = "/docs/testing/web"
+  status = 301
+
+[[redirects]]
+  from = "/docs/Demos/mobile"
+  to = "/docs/testing/mobile"
+  status = 301
+
 [functions]
   directory = "netlify/functions"
+  included_files = ["docs/**", "src/data/snippets.json"]

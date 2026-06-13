@@ -12,7 +12,6 @@ const config = {
   url: 'https://shaftengine.netlify.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
   favicon: 'img/shaft.ico',
   deploymentBranch: 'gh-pages',
 
@@ -130,6 +129,13 @@ const config = {
   // ],
 
   trailingSlash: false,
+  markdown: {
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
+  },
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -169,16 +175,16 @@ const config = {
             const items = await defaultCreateSitemapItems(params);
             return items.map((item) => {
               // Boost priority for high-value entry pages.
-              if (item.url.includes('/docs/Getting_Started/first_steps')) {
+              if (item.url.includes('/docs/start/overview')) {
                 return {...item, priority: 0.9};
               }
-              if (item.url.includes('/docs/Getting_Started/')) {
+              if (item.url.includes('/docs/start/') || item.url.includes('/docs/testing/')) {
                 return {...item, priority: 0.8};
               }
-              if (item.url.match(/\/docs\/Keywords\/GUI\/(Browser_Actions|Element_Actions|Element_Identification)/)) {
+              if (item.url.match(/\/docs\/reference\/actions\/GUI\/(Browser_Actions|Element_Actions|Element_Identification)/)) {
                 return {...item, priority: 0.8};
               }
-              if (item.url.includes('/docs/Keywords/')) {
+              if (item.url.includes('/docs/reference/')) {
                 return {...item, priority: 0.7};
               }
               if (item.url.includes('/docs/')) {
@@ -258,9 +264,9 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'Getting_Started/first_steps',
+            docId: 'start/overview',
             position: 'left',
-            label: 'Guide',
+            label: 'Docs',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           // {
@@ -298,7 +304,11 @@ const config = {
             items: [
               {
                 label: 'Start here',
-                to: '/docs/Getting_Started/first_steps',
+                to: '/docs/start/overview',
+              },
+              {
+                label: 'Connect MCP',
+                to: '/docs/agentic/mcp',
               },
             ],
           },

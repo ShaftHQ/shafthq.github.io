@@ -2,18 +2,16 @@ import { GoogleGenAI } from '@google/genai';
 import { loadDocumentation, getGitHubRepositoryContext } from './docs-loader.mjs';
 import { MAX_MESSAGE_LENGTH, MAX_SYSTEM_INSTRUCTION_LENGTH } from './constants.mjs';
 
-// Load documentation once when the function is initialized (cold start)
-// This will be reused across warm invocations for better performance
-let cachedDocumentation = null;
 let cachedGitHubContext = null;
 
-function getDocumentationContext() {
-  if (!cachedDocumentation) {
-    console.log('[Gemini Proxy] Loading documentation for the first time...');
-    cachedDocumentation = loadDocumentation();
+function getDocumentationContext(message) {
+  if (!cachedGitHubContext) {
     cachedGitHubContext = getGitHubRepositoryContext();
   }
-  return { documentation: cachedDocumentation, githubContext: cachedGitHubContext };
+  return {
+    documentation: loadDocumentation(message),
+    githubContext: cachedGitHubContext,
+  };
 }
 
 export default async (req) => {
@@ -94,13 +92,13 @@ export default async (req) => {
     const genAI = new GoogleGenAI({ apiKey });
 
     // Load documentation context
-    const { documentation, githubContext } = getDocumentationContext();
+    const { documentation, githubContext } = getDocumentationContext(message);
     
     // Enhance system instruction with full documentation
     let enhancedSystemInstruction = systemInstruction;
     
     if (documentation) {
-      // Prepend the full documentation to the system instruction
+      // Prepend only the most relevant canonical documentation chunks.
       enhancedSystemInstruction = `${documentation}\n\n${githubContext}\n\n---\n\n${systemInstruction}\n\nIMPORTANT: Use ONLY the documentation provided above to answer questions. Do not use any external sources, internet searches, or your pre-training knowledge. If the answer is not in the documentation above, clearly state that the information is not available in the official documentation.`;
     } else {
       console.warn('[Gemini Proxy] Documentation could not be loaded, using original system instruction');

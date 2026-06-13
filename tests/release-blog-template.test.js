@@ -115,7 +115,9 @@ try {
     );
   });
 
-  const workflowScriptMatch = workflowContent.match(/node <<'NODE'\n([\s\S]*?)\n\s*NODE/);
+  const workflowScriptMatch = workflowContent.match(
+    /node <<'NODE'\r?\n([\s\S]*?)\r?\n\s*NODE/,
+  );
   assert(workflowScriptMatch, 'Could not locate release template generator script in workflow.');
   assert(
     workflowScriptMatch[1].includes('process.env.RELEASE_TAG'),
@@ -172,6 +174,30 @@ try {
     assert(
       !generatedBlogContent.includes('style="border-radius:50%;vertical-align:middle;"'),
       'Generated release markdown must not include inline style strings.',
+    );
+    assert(
+      generatedBlogContent.includes('<artifactId>shaft-bom</artifactId>') &&
+        generatedBlogContent.includes('<artifactId>shaft-engine</artifactId>') &&
+        !generatedBlogContent.includes('<artifactId>SHAFT_ENGINE</artifactId>'),
+      'Generated releases must use modular SHAFT coordinates.',
+    );
+    const generatedLinks = [...generatedBlogContent.matchAll(/\]\((https?:\/\/[^)\s]+)\)/gu)]
+      .map((match) => new URL(match[1]));
+    assert(
+      generatedLinks.some(
+        (url) => url.protocol === 'https:'
+          && url.hostname === 'shaftengine.netlify.app'
+          && url.pathname === '/docs/start/overview',
+      ),
+      'Generated releases must link to the canonical documentation site.',
+    );
+
+    const generatedReleaseData = JSON.parse(
+      fs.readFileSync(path.join(tempDir, 'src', 'data', 'releases.json'), 'utf8'),
+    );
+    assert(
+      generatedReleaseData.engineVersion === simulatedReleaseTag,
+      'Release automation must update centralized engine metadata.',
     );
   } finally {
     try {

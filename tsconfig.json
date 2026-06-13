@@ -1,0 +1,14 @@
+{
+  "extends": "@docusaurus/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "node_modules/@docusaurus/module-type-aliases/src/index.d.ts",
+    "node_modules/@docusaurus/theme-classic/src/theme-classic.d.ts"
+  ],
+  "exclude": ["build", ".docusaurus"]
+}

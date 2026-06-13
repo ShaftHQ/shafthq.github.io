@@ -1,78 +1,66 @@
-/**
- * Simple test to verify the documentation loader works correctly
- * This test does not require a Gemini API key
- */
-import { loadDocumentation, getGitHubRepositoryContext } from '../netlify/functions/docs-loader.mjs';
+import {
+  buildDocumentationIndex,
+  loadDocumentation,
+  retrieveDocumentation,
+} from '../netlify/functions/docs-loader.mjs';
 
-console.log('=== Testing Documentation Loader ===\n');
-
-// Test 1: Load documentation
-console.log('Test 1: Loading documentation...');
-const docs = loadDocumentation();
-if (!docs) {
-  console.error('❌ FAILED: Documentation loader returned null');
-  process.exit(1);
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
 }
-console.log('✅ PASSED: Documentation loaded successfully');
-console.log(`   Length: ${docs.length} characters`);
-console.log(`   Sample: ${docs.substring(0, 100)}...`);
 
-// Test 2: Verify documentation structure
-console.log('\nTest 2: Verifying documentation structure...');
-if (!docs.includes('SHAFT Engine User Guide')) {
-  console.error('❌ FAILED: Documentation does not contain expected header');
-  process.exit(1);
-}
-if (!docs.includes('Document:')) {
-  console.error('❌ FAILED: Documentation does not contain document markers');
-  process.exit(1);
-}
-console.log('✅ PASSED: Documentation structure is valid');
+const index = buildDocumentationIndex();
+assert(
+  index.length > 500,
+  'Documentation index should preserve headings consistently across platforms.',
+);
+assert(
+  index.some((chunk) => chunk.path.endsWith('.mdx')),
+  'MDX pages must be indexed.',
+);
+assert(
+  index.every((chunk) => !chunk.path.startsWith('archive/')),
+  'Archive pages must be excluded.',
+);
+assert(
+  index.every((chunk) => !chunk.path.startsWith('maintainers/')),
+  'Maintainer pages must be excluded.',
+);
 
-// Test 3: Load GitHub context
-console.log('\nTest 3: Loading GitHub context...');
-const github = getGitHubRepositoryContext();
-if (!github) {
-  console.error('❌ FAILED: GitHub context loader returned null');
-  process.exit(1);
-}
-console.log('✅ PASSED: GitHub context loaded successfully');
-console.log(`   Length: ${github.length} characters`);
-
-// Test 4: Verify GitHub context structure
-console.log('\nTest 4: Verifying GitHub context structure...');
-if (!github.includes('github.com/ShaftHQ/SHAFT_ENGINE')) {
-  console.error('❌ FAILED: GitHub context does not contain repository URL');
-  process.exit(1);
-}
-console.log('✅ PASSED: GitHub context structure is valid');
-
-// Test 5: Check documentation contains key topics
-console.log('\nTest 5: Checking for key documentation topics...');
-const expectedTopics = [
-  'SHAFT',
-  'API',
-  'Web',
-  'Mobile',
-  'configuration',
-  'properties'
+const cases = [
+  ['connect Codex to SHAFT MCP', ['codex mcp add', 'shaft-engine-mcp']],
+  ['run Doctor against Allure results', ['doctor analyze', 'allowed-root']],
+  ['enable SHAFT Heal', ['healing.strategy=shaft-heal', 'shaft-heal']],
+  ['create a web test', ['SHAFT.GUI.WebDriver', 'navigateToURL']],
+  ['create a mobile Appium test', ['Appium', 'SHAFT.GUI.WebDriver']],
+  ['create an API test', ['SHAFT.API', 'assertThatResponse']],
 ];
 
-let missingTopics = [];
-for (const topic of expectedTopics) {
-  if (!docs.toLowerCase().includes(topic.toLowerCase())) {
-    missingTopics.push(topic);
+for (const [query, expectedTerms] of cases) {
+  const context = loadDocumentation(query);
+  assert(context, `Context should load for "${query}".`);
+  assert(context.length <= 80_500, `Context exceeded retrieval cap for "${query}".`);
+  for (const term of expectedTerms) {
+    assert(
+      context.toLowerCase().includes(term.toLowerCase()),
+      `"${query}" context is missing "${term}".`,
+    );
   }
 }
 
-if (missingTopics.length > 0) {
-  console.error(`❌ FAILED: Documentation is missing topics: ${missingTopics.join(', ')}`);
-  process.exit(1);
-}
-console.log('✅ PASSED: All expected topics found in documentation');
+const mcpSelection = retrieveDocumentation('connect Codex to SHAFT MCP');
+assert(
+  mcpSelection.some(
+    (chunk) => chunk.path === 'agentic/mcp.mdx'
+      && chunk.content.includes('shaft-engine-mcp'),
+  ),
+  'MCP retrieval must expand shared command components into searchable content.',
+);
 
-// Summary
-console.log('\n=== All Tests Passed! ===');
-console.log(`Total documentation size: ${docs.length} characters`);
-console.log(`GitHub context size: ${github.length} characters`);
-console.log('The documentation loader is working correctly.');
+const selected = retrieveDocumentation('SHAFT MCP Doctor Heal Web Mobile API');
+assert(selected.length <= 8, 'Retrieval must select no more than eight chunks.');
+assert(
+  selected.every((chunk) => !chunk.content.includes('Java 21 LTS')),
+  'Retrieved documentation must not recommend the retired Java 21 baseline.',
+);
+
+console.log('Documentation retrieval checks passed.');
