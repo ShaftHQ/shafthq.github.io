@@ -27,8 +27,11 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Validate release template links and avatar markup
-        run: npm run test:release-template
+      - name: Run documentation and component tests
+        run: yarn test
+
+      - name: Type-check site code
+        run: yarn typecheck
 
       - name: Build website
         id: build
@@ -125,6 +128,9 @@ jobs:
 
       - name: Build website
         run: yarn build
+
+      - name: Run documentation and component tests
+        run: yarn test
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium

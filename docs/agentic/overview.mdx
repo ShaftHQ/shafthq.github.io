@@ -1,0 +1,35 @@
+---
+id: overview
+title: Agentic testing
+description: Understand how MCP, Pilot, Capture, Doctor, and Heal fit together.
+slug: /agentic/overview
+sidebar_position: 1
+tags: [mcp, pilot, capture, doctor, heal]
+---
+
+# Agentic testing without hidden automation
+
+SHAFT separates deterministic automation from optional model-provider advice.
+MCP, Capture, Doctor, and Heal remain useful without provider credentials.
+
+```mermaid
+flowchart TD
+    Client["AI client"] --> MCP["SHAFT MCP"]
+    MCP --> Engine["shaft-engine tools"]
+    MCP --> Capture["Capture"]
+    Capture --> Generated["Reviewable TestNG source"]
+    Results["Allure results"] --> Doctor["Doctor"]
+    Doctor --> Diagnosis["Portable diagnosis"]
+    FailedLocator["Failed locator"] --> Heal["Deterministic Heal"]
+    Heal --> Report["Explainable recovery report"]
+    Provider["Optional provider"] -. consent + redaction .-> Doctor
+    Provider -. consent + redaction .-> Heal
+```
+
+| Capability | Default behavior | Start here |
+|---|---|---|
+| MCP | Local stdio tools; no model credentials stored | [Connect MCP](/docs/agentic/mcp) |
+| Capture | Record and generate deterministic test code | [Capture](/docs/agentic/capture) |
+| Doctor | Analyze allowlisted evidence offline | [Doctor](/docs/agentic/doctor) |
+| Heal | Recover eligible web locators with an explainable policy | [Heal](/docs/agentic/heal) |
+| Pilot providers | Disabled until explicitly configured and approved | [Provider controls](/docs/agentic/providers) |

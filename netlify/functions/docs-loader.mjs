@@ -1,97 +1,178 @@
-import { readFileSync, readdirSync, statSync } from 'fs';
-import { join, relative } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import { SHAFT_GITHUB_ORG, SHAFT_GITHUB_REPO, SHAFT_GITHUB_ISSUES, SHAFT_GITHUB_DISCUSSIONS } from './constants.mjs';
+import {readFileSync, readdirSync, statSync} from 'fs';
+import {dirname, extname, join, relative, sep} from 'path';
+import {fileURLToPath} from 'url';
+import {
+  SHAFT_GITHUB_DISCUSSIONS,
+  SHAFT_GITHUB_ISSUES,
+  SHAFT_GITHUB_ORG,
+  SHAFT_GITHUB_REPO,
+} from './constants.mjs';
 
-// Get current file's directory for path resolution
-const currentFileUrl = fileURLToPath(import.meta.url);
-const currentDir = dirname(currentFileUrl);
+const currentDir = dirname(fileURLToPath(import.meta.url));
+const MAX_RETRIEVAL_CHARACTERS = 80_000;
+const MAX_RETRIEVAL_CHUNKS = 8;
+const EXCLUDED_DIRECTORIES = new Set(['archive', 'maintainers']);
+const STOP_WORDS = new Set([
+  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'how',
+  'in', 'is', 'it', 'of', 'on', 'or', 'that', 'the', 'this', 'to', 'use',
+  'what', 'when', 'where', 'which', 'with', 'your',
+]);
 
-/**
- * Recursively read all markdown files from a directory
- */
-function readMarkdownFiles(dirPath, baseDir, files = []) {
-  const entries = readdirSync(dirPath);
-  
-  for (const entry of entries) {
+let cachedIndex = null;
+
+function readDocumentationFiles(dirPath, baseDir, files = []) {
+  for (const entry of readdirSync(dirPath)) {
     const fullPath = join(dirPath, entry);
     const stat = statSync(fullPath);
-    
+
     if (stat.isDirectory()) {
-      readMarkdownFiles(fullPath, baseDir, files);
-    } else if (entry.endsWith('.md')) {
-      const content = readFileSync(fullPath, 'utf-8');
-      const relativePath = relative(baseDir, fullPath);
-      files.push({
-        path: relativePath,
-        content: content
-      });
+      readDocumentationFiles(fullPath, baseDir, files);
+      continue;
     }
+
+    if (!['.md', '.mdx'].includes(extname(entry).toLowerCase())) continue;
+
+    const relativePath = relative(baseDir, fullPath);
+    const pathSegments = relativePath.split(sep);
+    if (EXCLUDED_DIRECTORIES.has(pathSegments[0])) continue;
+
+    const content = readFileSync(fullPath, 'utf-8');
+    if (/^---[\s\S]*?\bunlisted:\s*true\b[\s\S]*?---/i.test(content)) continue;
+
+    files.push({path: relativePath.replaceAll(sep, '/'), content});
   }
-  
+
   return files;
 }
 
-/**
- * Load all documentation files and compile them into a knowledge base
- */
-export function loadDocumentation() {
-  try {
-    // Path to docs directory (two levels up from functions directory, then into docs)
-    const docsPath = join(currentDir, '..', '..', 'docs');
-    
-    const docFiles = readMarkdownFiles(docsPath, docsPath);
-    
-    // Compile all documentation into a single string with clear section markers
-    let compiledDocs = '# SHAFT Engine User Guide - Complete Documentation\n\n';
-    compiledDocs += 'This is the complete, official SHAFT Engine documentation. Use ONLY this information to answer user questions.\n\n';
-    compiledDocs += '---\n\n';
-    
-    for (const file of docFiles) {
-      compiledDocs += `## Document: ${file.path}\n\n`;
-      compiledDocs += file.content;
-      compiledDocs += '\n\n---\n\n';
+function normalizeMarkdown(content) {
+  return content
+    .replace(/^---[\s\S]*?---\s*/u, '')
+    .replace(/^(?:import|export)\s+.*$/gmu, '')
+    .replace(/<[^>]+>/gu, ' ')
+    .replace(/\{\/\*[\s\S]*?\*\/\}/gu, ' ')
+    .replace(/[ \t]+/gu, ' ')
+    .replace(/\n{3,}/gu, '\n\n')
+    .trim();
+}
+
+function tokenize(value) {
+  return [
+    ...new Set(
+      value
+        .toLowerCase()
+        .replace(/[^a-z0-9._-]+/gu, ' ')
+        .split(/\s+/u)
+        .filter((token) => token.length > 1 && !STOP_WORDS.has(token)),
+    ),
+  ];
+}
+
+function splitIntoChunks(file) {
+  const normalized = normalizeMarkdown(file.content);
+  const lines = normalized.split('\n');
+  const chunks = [];
+  let heading = file.path.replace(/\.(?:md|mdx)$/u, '');
+  let body = [];
+
+  const flush = () => {
+    const content = body.join('\n').trim();
+    if (!content) return;
+    chunks.push({
+      path: file.path,
+      heading,
+      content,
+      searchText: `${file.path} ${heading} ${content}`.toLowerCase(),
+    });
+  };
+
+  for (const line of lines) {
+    const match = line.match(/^#{1,3}\s+(.+)$/u);
+    if (match) {
+      flush();
+      heading = match[1].replace(/[`*_]/gu, '').trim();
+      body = [line];
+    } else {
+      body.push(line);
     }
-    
-    console.log(`[Documentation Loader] Successfully loaded ${docFiles.length} documentation files`);
-    
-    return compiledDocs;
+  }
+  flush();
+  return chunks;
+}
+
+export function buildDocumentationIndex() {
+  if (cachedIndex) return cachedIndex;
+
+  const docsPath = join(currentDir, '..', '..', 'docs');
+  const files = readDocumentationFiles(docsPath, docsPath);
+  cachedIndex = files.flatMap(splitIntoChunks);
+  console.log(
+    `[Documentation Loader] Indexed ${files.length} files into ${cachedIndex.length} chunks`,
+  );
+  return cachedIndex;
+}
+
+function scoreChunk(chunk, query, queryTokens) {
+  const pathAndHeading = `${chunk.path} ${chunk.heading}`.toLowerCase();
+  let score = 0;
+
+  if (query && chunk.searchText.includes(query)) score += 30;
+  for (const token of queryTokens) {
+    if (pathAndHeading.includes(token)) score += 8;
+    if (chunk.searchText.includes(token)) score += 2;
+  }
+
+  if (chunk.path === 'start/overview.mdx') score += 0.5;
+  return score;
+}
+
+export function retrieveDocumentation(query, options = {}) {
+  const maxCharacters = options.maxCharacters ?? MAX_RETRIEVAL_CHARACTERS;
+  const maxChunks = options.maxChunks ?? MAX_RETRIEVAL_CHUNKS;
+  const normalizedQuery = String(query || 'SHAFT overview').trim().toLowerCase();
+  const queryTokens = tokenize(normalizedQuery);
+
+  const ranked = buildDocumentationIndex()
+    .map((chunk) => ({...chunk, score: scoreChunk(chunk, normalizedQuery, queryTokens)}))
+    .filter((chunk) => chunk.score > 0)
+    .sort((left, right) => right.score - left.score || left.path.localeCompare(right.path));
+
+  const selected = [];
+  let characters = 0;
+  for (const chunk of ranked) {
+    const rendered = `## ${chunk.heading}\nSource: /docs/${chunk.path.replace(/\.(?:md|mdx)$/u, '')}\n\n${chunk.content}`;
+    if (selected.length >= maxChunks) break;
+    if (characters + rendered.length > maxCharacters) continue;
+    selected.push({...chunk, rendered});
+    characters += rendered.length;
+  }
+
+  return selected;
+}
+
+export function loadDocumentation(query = 'SHAFT overview') {
+  try {
+    const selected = retrieveDocumentation(query);
+    const sections = selected.map((chunk) => chunk.rendered).join('\n\n---\n\n');
+    return `# SHAFT Engine official documentation\n\nRetrieved for: ${query}\n\n${sections}`;
   } catch (error) {
     console.error('[Documentation Loader] Error loading documentation:', error);
     return null;
   }
 }
 
-/**
- * Get GitHub repository information for SHAFT_ENGINE
- * This provides context about the official source code repository
- */
 export function getGitHubRepositoryContext() {
   return `
-# SHAFT Engine Official GitHub Repository
+# SHAFT Engine official GitHub repository
 
 Repository: ${SHAFT_GITHUB_REPO}
 Organization: ${SHAFT_GITHUB_ORG}
 
-For source code references, API documentation, or implementation details not covered in the user guide,
-users should refer to:
-- GitHub Repository: ${SHAFT_GITHUB_REPO}
-- GitHub Issues: ${SHAFT_GITHUB_ISSUES}
-- GitHub Discussions: ${SHAFT_GITHUB_DISCUSSIONS}
-- API JavaDocs: Available in the repository
+Use these official resources when a question is outside the retrieved guide:
+- Issues: ${SHAFT_GITHUB_ISSUES}
+- Discussions: ${SHAFT_GITHUB_DISCUSSIONS}
+- JavaDocs: https://shafthq.github.io/SHAFT_ENGINE/
 
-When users ask about specific implementation details or source code:
-1. First check if the information is available in the user guide above
-2. If not, direct them to the appropriate GitHub resource
-3. Never make up or assume implementation details
-
-The main SHAFT packages are located at:
-- com.shaft.driver.SHAFT - Main entry point
-- com.shaft.api - API testing capabilities
-- com.shaft.gui - Web/GUI testing capabilities
-- com.shaft.cli - CLI testing capabilities
-- com.shaft.db - Database testing capabilities
-- com.shaft.validation - Validation and assertion utilities
-`;
+Never invent implementation details that are absent from the retrieved
+documentation.`;
 }

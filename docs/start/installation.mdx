@@ -1,0 +1,47 @@
+---
+id: installation
+title: Install SHAFT
+description: Generate a project or add modular SHAFT dependencies to an existing Maven build.
+slug: /start/installation
+sidebar_position: 2
+tags: [installation, maven, java-25]
+---
+
+import {EngineDependencies, ProjectCommand, ReleaseFacts} from '@site/src/components/DocSnippets';
+
+# Install SHAFT
+
+## Requirements
+
+<ReleaseFacts />
+
+## Generate a project
+
+<ProjectCommand />
+
+The generated project includes a test runner, configuration, sample test, and
+reporting setup. Run it with:
+
+```bash
+cd shaft-demo
+mvn test
+```
+
+## Add SHAFT to an existing project
+
+Import the BOM once, then add the required engine without a separate version:
+
+<EngineDependencies />
+
+Add optional modules only when the matching capability is used. See the
+[module map](/docs/features/modules) before adding providers.
+
+## Verify the installation
+
+```bash
+mvn test-compile
+```
+
+For an existing uppercase `SHAFT_ENGINE` dependency, use the
+[automated upgrade guide](/docs/start/upgrade) instead of mixing legacy and
+modular artifacts.

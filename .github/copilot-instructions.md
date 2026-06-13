@@ -112,8 +112,8 @@
 
 ## 10. Current Version & Runtime Requirements
 
-- The current stable SHAFT_ENGINE version is **`10.2.20260501`** — always use this version in dependency snippets unless instructed otherwise.
-- SHAFT requires **Java 21 LTS** (virtual threads are used by `driver.async()`). Never suggest Java 8, 11, or 17 as the compile target.
+- The current SHAFT version is stored in `src/data/releases.json`; use that value in dependency snippets.
+- SHAFT requires **Java 25**. Never suggest an older compile target.
 - The latest TestNG Maven archetype version is **`10.1.20260331`** — use this when showing archetype generation commands.
 
 ## 11. Verified API Patterns — Do Not Invent
@@ -127,7 +127,7 @@ driver.browser()  // BrowserActions
 driver.element()  // ElementActions
 driver.touch()    // TouchActions   ← NOT driver.element().tap()
 driver.alert()    // AlertActions
-driver.async().element()  // AsyncElementActions (Java 21 virtual threads)
+driver.async().element()  // AsyncElementActions (Java 25 baseline)
 ```
 
 ### GUI — touch actions are on driver.touch(), never driver.element()
@@ -202,7 +202,7 @@ SHAFT.Report.attach("text/plain", "Response", body);     // attachment
 | UX | Progressive disclosure, step-by-step lists, tabs for alternatives |
 | Reach | Social-friendly titles, practical examples, accessible language |
 | Agentic AI | Structured format, self-contained examples, explicit API docs |
-| Version | Always use SHAFT `10.2.20260501`, Java 21, archetype `10.1.20260331` |
+| Version | Read SHAFT and archetype versions from `src/data/releases.json`; use Java 25 |
 | API | Never invent method names — verify against section 11 above |
 | Existing Pages | Do NOT wholesale rewrite pages recently added by other agents (see list below) |
 

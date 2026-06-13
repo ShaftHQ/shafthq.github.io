@@ -14,16 +14,16 @@ function DeferredAutoBot(): JSX.Element | null {
     window.addEventListener('keydown', hydrateOnIntent, { once: true });
     window.addEventListener('scroll', hydrateOnIntent, { once: true, passive: true });
 
-    if ('requestIdleCallback' in window) {
-      const requestIdle = (
-        window as Window & {
-          requestIdleCallback: (
-            callback: IdleRequestCallback,
-            options?: IdleRequestOptions,
-          ) => number;
-          cancelIdleCallback?: (handle: number) => void;
-        }
-      );
+    const browserWindow = window as Window & {
+      requestIdleCallback?: (
+        callback: IdleRequestCallback,
+        options?: IdleRequestOptions,
+      ) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (typeof browserWindow.requestIdleCallback === 'function') {
+      const requestIdle = browserWindow;
       idleId = requestIdle.requestIdleCallback(hydrate, { timeout: AUTOBOT_DEFER_TIMEOUT_MS });
       return () => {
         window.removeEventListener('pointerdown', hydrateOnIntent);
@@ -33,12 +33,12 @@ function DeferredAutoBot(): JSX.Element | null {
       };
     }
 
-    const timeoutId = window.setTimeout(hydrate, AUTOBOT_DEFER_TIMEOUT_MS);
+    const timeoutId = globalThis.setTimeout(hydrate, AUTOBOT_DEFER_TIMEOUT_MS);
     return () => {
       window.removeEventListener('pointerdown', hydrateOnIntent);
       window.removeEventListener('keydown', hydrateOnIntent);
       window.removeEventListener('scroll', hydrateOnIntent);
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, []);
 

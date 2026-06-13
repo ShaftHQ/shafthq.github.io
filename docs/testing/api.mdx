@@ -1,0 +1,39 @@
+---
+id: api
+title: API testing
+description: Build, execute, inspect, and assert REST API requests with SHAFT.
+slug: /testing/api
+sidebar_position: 3
+tags: [api, rest-assured, example]
+---
+
+# API testing
+
+```java
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class CountryApiTest {
+    @Test
+    public void getCountryByCapital() {
+        new SHAFT.API("https://restcountries.com/v3.1/")
+                .get("capital/Cairo")
+                .perform()
+                .assertThatResponse()
+                .extractedJsonValue("[0].name.common")
+                .isEqualTo("Egypt")
+                .perform();
+    }
+}
+```
+
+```mermaid
+flowchart LR
+    Builder["Build request"] --> Perform["perform()"]
+    Perform --> Evidence["Request + response evidence"]
+    Evidence --> Assert["Fluent response assertion"]
+```
+
+Continue with [request building](/docs/reference/actions/API/Request_Builder),
+[authentication](/docs/reference/actions/API/API_Authentication), and
+[response assertions](/docs/reference/actions/API/Response_Validations).

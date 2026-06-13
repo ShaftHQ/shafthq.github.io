@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import styles from './styles.module.css';
 import Link from "@docusaurus/Link";
 // global import for fontawesome icons
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library, type IconProp } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { faTwitter, faFontAwesome } from '@fortawesome/free-brands-svg-icons'
 library.add(fas, faTwitter, faFontAwesome)
@@ -77,7 +77,7 @@ const FeatureListRow2: FeatureItem[] = [
         description: (
             <>
                 Proud member of the <a href={'https://www.selenium.dev/ecosystem/#frameworks'}> official <b>Selenium
-                ecosystem</b> frameworks</a> with 40,000+ active users worldwide
+                ecosystem</b> frameworks</a>
             </>
         ),
     },
@@ -136,7 +136,7 @@ function Feature({title, svg, description, background: BackgroundSvg}: FeatureIt
                     position: 'relative',
                     zIndex: 1,
                 }}>
-                    <FontAwesomeIcon className={styles.featureSvg} icon={svg} role="img"/>
+                    <FontAwesomeIcon className={styles.featureSvg} icon={svg as IconProp} role="img"/>
                 </div>
                 <div className="text--center padding-horiz--md" style={{
                     borderRadius: 30,

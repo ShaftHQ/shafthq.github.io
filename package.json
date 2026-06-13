@@ -6,17 +6,18 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "docusaurus build && node scripts/prune-search-index.mjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
-    "test": "node tests/run-all-tests.js",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:docs && npm run test:homepage && npm run test:history && npm run test:release-template",
     "test:history": "node tests/chat-history.test.js",
     "test:homepage": "node tests/homepage-performance.test.js",
+    "test:docs": "node tests/docs-loader.test.js && node tests/enhanced-instruction.test.js && node scripts/check-doc-duplicates.mjs",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "node tests/run-e2e-tests.js",
     "test:release-template": "node tests/release-blog-template.test.js",
@@ -26,6 +27,7 @@
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",
     "@docusaurus/core": "^3.10.1",
+    "@docusaurus/theme-mermaid": "^3.10.1",
     "@docusaurus/preset-classic": "^3.10.1",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-brands-svg-icons": "^7.2.0",
@@ -42,8 +44,10 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.9.2",
+    "@docusaurus/tsconfig": "^3.10.1",
     "@docusaurus/types": "^3.8.1",
-    "@playwright/test": "^1.60.0"
+    "@playwright/test": "^1.60.0",
+    "typescript": "^5.6.3"
   },
   "resolutions": {
     "serialize-javascript": "^7.0.3",

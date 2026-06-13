@@ -17,26 +17,26 @@ html {
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary: #006ec0;
+  --ifm-color-primary-dark: #0063ad;
+  --ifm-color-primary-darker: #005da3;
+  --ifm-color-primary-darkest: #004d86;
+  --ifm-color-primary-light: #147bc7;
+  --ifm-color-primary-lighter: #2585cc;
+  --ifm-color-primary-lightest: #4b9bd6;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary: #4cc2ff;
+  --ifm-color-primary-dark: #2db7ff;
+  --ifm-color-primary-darker: #1db2ff;
+  --ifm-color-primary-darkest: #0098e7;
+  --ifm-color-primary-light: #6bcaff;
+  --ifm-color-primary-lighter: #7bcfff;
+  --ifm-color-primary-lightest: #a9dfff;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 table {
@@ -47,6 +47,43 @@ table {
 table td,
 table th {
   word-wrap: break-word;
+}
+
+.doc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.doc-card {
+  display: flex;
+  min-height: 150px;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.doc-card:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.doc-card strong {
+  color: var(--ifm-color-primary);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 680px) {
+  .doc-card-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .header-github-link::before {
