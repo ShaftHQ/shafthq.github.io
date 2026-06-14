@@ -8,7 +8,7 @@ tags: [overview, web, mobile, api, cli, database]
 ---
 
 import Link from '@docusaurus/Link';
-import {ProjectCommand, ReleaseFacts} from '@site/src/components/DocSnippets';
+import {ReleaseFacts} from '@site/src/components/DocSnippets';
 
 # One engine. Every test surface.
 
@@ -39,12 +39,8 @@ flowchart LR
 
 ## Start in 90 seconds
 
-<ProjectCommand />
-
-```bash
-cd shaft-demo
-mvn test
-```
+Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
+runner and testing surfaces, then download a ready-to-run project.
 
 <ReleaseFacts />
 
@@ -64,9 +60,9 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 
 | Goal | Go directly to |
 |---|---|
-| Create or install a project | [Installation](/docs/start/installation) |
+| Create a new project | [Project Generator](/docs/start/installation) |
 | Run the first test | [Quick start](/docs/start/quick-start) |
 | Connect an AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
 | Diagnose a failed run | [SHAFT Doctor](/docs/agentic/doctor) |
 | Recover a changed locator | [SHAFT Heal](/docs/agentic/heal) |
-| Upgrade a legacy project | [Upgrade guide](/docs/start/upgrade) |
+| Upgrade a Selenium, Appium, REST Assured, or older SHAFT project | [Automated upgrade tool](/docs/start/upgrade) |

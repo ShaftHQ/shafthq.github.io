@@ -1,13 +1,13 @@
 ---
 id: installation
 title: Install SHAFT
-description: Generate a project or add modular SHAFT dependencies to an existing Maven build.
+description: Generate a new SHAFT project or upgrade an existing automation project.
 slug: /start/installation
 sidebar_position: 2
 tags: [installation, maven, java-25]
 ---
 
-import {EngineDependencies, ProjectCommand, ReleaseFacts} from '@site/src/components/DocSnippets';
+import {ReleaseFacts} from '@site/src/components/DocSnippets';
 
 # Install SHAFT
 
@@ -15,33 +15,37 @@ import {EngineDependencies, ProjectCommand, ReleaseFacts} from '@site/src/compon
 
 <ReleaseFacts />
 
-## Generate a project
+## Create a new project
 
-<ProjectCommand />
+The **SHAFT Project Generator is the only recommended way to create a new
+project**. Choose the test runner and testing surfaces you need, then download
+the ready-to-run project.
 
-The generated project includes a test runner, configuration, sample test, and
-reporting setup. Run it with:
+<iframe
+  src="https://shafthq.github.io/SHAFT_ENGINE/shaft-engine/resources/"
+  width="100%"
+  height="800px"
+  style={{border: '1px solid var(--ifm-color-emphasis-300)', borderRadius: '8px'}}
+  title="SHAFT Project Generator"
+></iframe>
 
-```bash
-cd shaft-demo
-mvn test
-```
+:::tip Generator not visible?
+Open the [SHAFT Project Generator in a new tab](https://shafthq.github.io/SHAFT_ENGINE/shaft-engine/resources/).
+:::
 
-## Add SHAFT to an existing project
+The generated project includes the selected test runner, configuration, sample
+tests, reporting setup, and optional CI files.
 
-Import the BOM once, then add the required engine without a separate version:
+## Upgrade an existing project
 
-<EngineDependencies />
+Do not recreate or manually reconfigure an existing automation project. Use the
+[automated upgrade tool](/docs/start/upgrade) for:
 
-Add optional modules only when the matching capability is used. See the
-[module map](/docs/features/modules) before adding providers.
+- Selenium projects
+- Appium projects
+- REST Assured projects
+- Projects using an older SHAFT version
 
-## Verify the installation
-
-```bash
-mvn test-compile
-```
-
-For an existing uppercase `SHAFT_ENGINE` dependency, use the
-[automated upgrade guide](/docs/start/upgrade) instead of mixing legacy and
-modular artifacts.
+The upgrader detects the project type, applies the modular SHAFT dependencies,
+validates the result with Maven, and rolls back its changes if compilation
+fails.
