@@ -47,7 +47,7 @@
     "@docusaurus/tsconfig": "^3.10.1",
     "@docusaurus/types": "^3.8.1",
     "@playwright/test": "^1.60.0",
-    "typescript": "^5.6.3"
+    "typescript": "^6.0.3"
   },
   "resolutions": {
     "serialize-javascript": "^7.0.3",
