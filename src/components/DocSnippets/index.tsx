@@ -43,21 +43,8 @@ export function MigrationDependencies(): JSX.Element {
   );
 }
 
-export function McpClientCommands(): JSX.Element {
-  return (
-    <Tabs groupId="mcp-client">
-      <TabItem value="codex" label="Codex" default>
-        <CodeBlock language="bash">
-          {snippets.codexMcp}
-        </CodeBlock>
-      </TabItem>
-      <TabItem value="copilot" label="GitHub Copilot / VS Code">
-        <CodeBlock language="bash">
-          {snippets.copilotMcp}
-        </CodeBlock>
-      </TabItem>
-    </Tabs>
-  );
+export function McpSetupPrompt(): JSX.Element {
+  return <CodeBlock language="text">{snippets.mcpSetupPrompt}</CodeBlock>;
 }
 
 export function DoctorCommand(): JSX.Element {

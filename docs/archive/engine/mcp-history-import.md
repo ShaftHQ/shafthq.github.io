@@ -14,7 +14,7 @@ The inventory was captured on 2026-06-11 before the import.
 
 | Item | Value |
 | --- | --- |
-| Source repository | `https://github.com/ShaftHQ/SHAFT_MCP` |
+| Source repository | `https://github.com/ShaftHQ/shaft-mcp` |
 | Source default branch | `main` |
 | Source commit | `5fb9e809ba428a85e0eaff415b5b3cbc79aca7ff` |
 | Source tree | `28fa1693ca9af64fb1e9829c2e7984abe2c7016f` |
@@ -41,7 +41,7 @@ would discard the imported ancestry.
 
 ## Source repository state
 
-At inventory time, `ShaftHQ/SHAFT_MCP` was public, active, and unarchived.
+At inventory time, `ShaftHQ/shaft-mcp` was public, active, and unarchived.
 This migration does not archive it or change any source repository setting,
 release, package, deployment, issue, or pull request.
 
@@ -51,9 +51,9 @@ Open pull requests:
 
 | PR | Branch | Title |
 | --- | --- | --- |
-| [#110](https://github.com/ShaftHQ/SHAFT_MCP/pull/110) | `dependabot/maven/io.github.shafthq-SHAFT_ENGINE-10.2.20260610` | Bump `io.github.shafthq:SHAFT_ENGINE` from `10.2.20260506` to `10.2.20260610` |
-| [#113](https://github.com/ShaftHQ/SHAFT_MCP/pull/113) | `dependabot/maven/org.junit.jupiter-junit-jupiter-engine-6.1.0` | Bump `junit-jupiter-engine` from `6.0.3` to `6.1.0` |
-| [#114](https://github.com/ShaftHQ/SHAFT_MCP/pull/114) | `dependabot/maven/org.apache.maven.surefire-surefire-testng-3.5.6` | Bump `surefire-testng` from `3.5.5` to `3.5.6` |
+| [#110](https://github.com/ShaftHQ/shaft-mcp/pull/110) | `dependabot/maven/io.github.shafthq-SHAFT_ENGINE-10.2.20260610` | Bump `io.github.shafthq:SHAFT_ENGINE` from `10.2.20260506` to `10.2.20260610` |
+| [#113](https://github.com/ShaftHQ/shaft-mcp/pull/113) | `dependabot/maven/org.junit.jupiter-junit-jupiter-engine-6.1.0` | Bump `junit-jupiter-engine` from `6.0.3` to `6.1.0` |
+| [#114](https://github.com/ShaftHQ/shaft-mcp/pull/114) | `dependabot/maven/org.apache.maven.surefire-surefire-testng-3.5.6` | Bump `surefire-testng` from `3.5.5` to `3.5.6` |
 
 The fetched source branch inventory also contained `main`, six
 `smithery/patch-*` branches, two `sync-versions-to-*` branches, and the three
@@ -93,9 +93,9 @@ source tags are not pushed by this pull request.
 
 Maven Central:
 
-- Coordinates: `io.github.shafthq:SHAFT_MCP`
+- Coordinates: `io.github.shafthq:shaft-mcp`
 - Metadata:
-  `https://repo1.maven.org/maven2/io/github/shafthq/SHAFT_MCP/maven-metadata.xml`
+  `https://repo1.maven.org/maven2/io/github/shafthq/shaft-mcp/maven-metadata.xml`
 - Published versions: `9.3.20250823`, `9.3.20250824`, `9.3.20250928`,
   `9.4.20251007`, `9.4.20251022`, `9.4.20251028`, `9.4.20251108`,
   `9.4.20251116`, `10.1.20260312`, `10.1.20260315`, `10.1.20260319`,
@@ -141,11 +141,11 @@ Hosted deployments:
 Documentation and repository links:
 
 - Source README:
-  `https://github.com/ShaftHQ/SHAFT_MCP/blob/main/readme.md`
+  `https://github.com/ShaftHQ/shaft-mcp/blob/main/readme.md`
 - Deployment guide:
-  `https://github.com/ShaftHQ/SHAFT_MCP/blob/main/SMITHERY_DEPLOYMENT.md`
+  `https://github.com/ShaftHQ/shaft-mcp/blob/main/SMITHERY_DEPLOYMENT.md`
 - SHAFT documentation: `https://shafthq.github.io/`
-- Source issues: `https://github.com/ShaftHQ/SHAFT_MCP/issues`
+- Source issues: `https://github.com/ShaftHQ/shaft-mcp/issues`
 
 ## Secrets and variables
 

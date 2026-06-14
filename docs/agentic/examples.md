@@ -10,18 +10,18 @@ tags: [pilot, examples]
 # Pilot examples
 
 These examples contain no credentials and assume the executable
-`SHAFT_MCP-<version>.jar` has been downloaded from Maven Central or built from
+`shaft-mcp-<version>.jar` has been downloaded from Maven Central or built from
 the monorepo.
 
 ## No-AI Capture to TestNG
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar capture start \
+java -jar shaft-mcp-<version>.jar capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar SHAFT_MCP-<version>.jar capture status
-java -jar SHAFT_MCP-<version>.jar capture stop
-java -jar SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp-<version>.jar capture status
+java -jar shaft-mcp-<version>.jar capture stop
+java -jar shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json \
   --output-dir generated-tests --replay
 ```
@@ -29,7 +29,7 @@ java -jar SHAFT_MCP-<version>.jar capture generate \
 ## No-AI Doctor analysis
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar doctor analyze \
+java -jar shaft-mcp-<version>.jar doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
 ```
@@ -49,10 +49,10 @@ reviewed change. `doctor propose-fix` creates an isolated worktree and does not
 publish to GitHub. Publishing requires a second command with the exact approval
 token returned by the proposal.
 
-Download the credential-free MCP configurations:
+Use the single self-configuring prompt in
+[Connect shaft-mcp](/docs/agentic/mcp) instead of editing a client
+configuration manually.
 
-- [Codex TOML](/examples/shaft-pilot/mcp/codex-config.toml)
-- [Claude Desktop JSON](/examples/shaft-pilot/mcp/claude-desktop.json)
-- [Gemini CLI JSON](/examples/shaft-pilot/mcp/gemini-settings.json)
-- [GitHub Copilot / VS Code JSON](/examples/shaft-pilot/mcp/vscode-mcp.json)
+Download the credential-free Doctor example:
+
 - [Doctor chat invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json)

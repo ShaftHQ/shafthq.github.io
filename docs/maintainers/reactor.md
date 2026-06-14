@@ -16,7 +16,7 @@ relocation artifact that points consumers to the canonical JAR.
 
 - The root `pom.xml` is the `io.github.shafthq:shaft-parent` aggregator and build parent. It owns shared version properties, dependency management, and plugin management.
 - `shaft-engine/pom.xml` builds the engine JAR. All framework source, resources, tests, examples, and runtime support assets remain under `shaft-engine/src/`; Java packages remain under `com.shaft`.
-- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, and `SHAFT_MCP` versions without adding dependencies by itself.
+- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, and `shaft-mcp` versions without adding dependencies by itself.
 - `shaft-pilot-core/pom.xml` builds provider-neutral Pilot contracts, security controls, configuration snapshots, and deterministic fallback. It depends on `shaft-engine`; the engine has no reverse dependency.
 - `shaft-capture/pom.xml` builds managed Chrome/Edge recording, versioned contracts, deterministic privacy classification, Java/TestNG generation, compile/replay validation, schema migration, and atomic JSON persistence. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
 - `shaft-doctor/pom.xml` builds allowlisted local evidence collection, redacted portable bundles, deterministic failure rules, JSON/Markdown reports, provider-neutral optional advisory integration, and isolated approval-gated repair proposals. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
@@ -101,7 +101,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional BrowserStack SDK JAR: `shaft-browserstack/target/shaft-browserstack-<version>.jar`
 - Optional desktop video JAR: `shaft-video/target/shaft-video-<version>.jar`
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual-<version>.jar`
-- MCP executable JAR: `shaft-mcp/target/SHAFT_MCP-<version>.jar`
+- MCP executable JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
 - Surefire reports: `<module>/target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
 - Per-module JaCoCo execution data: `<module>/target/jacoco.exec`

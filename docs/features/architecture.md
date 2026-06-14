@@ -31,7 +31,7 @@ flowchart TB
     Consumer -.->|optional| BrowserStack["shaft-browserstack<br/>BrowserStack Java SDK"]
     Consumer -.->|optional| Video["shaft-video<br/>local desktop recording"]
     Consumer -.->|optional| Visual["shaft-visual<br/>OpenCV + Eyes + Shutterbug"]
-    Agent -.-> MCP["SHAFT_MCP<br/>executable MCP server"]
+    Agent -.-> MCP["shaft-mcp<br/>executable MCP server"]
 
     BrowserStack --> Engine
     Video --> Engine
@@ -66,7 +66,7 @@ flowchart TB
 | `shaft-browserstack` | JAR            | BrowserStack SDK interception and `browserstack.yml` orchestration. Direct BrowserStack sessions stay in `shaft-engine`. |
 | `shaft-video`        | JAR            | Local non-headless desktop recording. Appium-native recording stays in `shaft-engine`.                                   |
 | `shaft-visual`       | JAR            | Reference-image assertions and image-based lookup through OpenCV, Eyes, and Shutterbug.                                  |
-| `SHAFT_MCP`          | executable JAR | Optional MCP server and CLI exposing browser automation, managed capture, Doctor analysis, and packaged direct adapters.  |
+| `shaft-mcp`          | executable JAR | Optional MCP server and CLI exposing browser automation, managed capture, Doctor analysis, and packaged direct adapters.  |
 | `shaft-bom`          | POM            | Aligns all SHAFT artifact versions; adds no runtime classes.                                                             |
 | `SHAFT_ENGINE`       | relocation POM | Temporary legacy-coordinate bridge to `shaft-engine`; adds no optional providers.                                        |
 

@@ -32,13 +32,13 @@ Build the executable MCP JAR, then use its `capture` subcommand:
 
 ```bash
 mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture start \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture status
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture checkpoint \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture status
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture checkpoint \
   --description "Checkout ready"
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture stop
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture stop
 ```
 
 Use `--runtime-dir <path>` on every command to isolate control files. `stop`
@@ -126,7 +126,7 @@ store.stop(Instant.now());
 Generate a test, SHAFT JSON test data, and a deterministic report:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json \
   --output-dir generated-tests
 ```
@@ -168,12 +168,12 @@ AI enrichment is optional and uses two phases:
 
 ```bash
 # Calls the enabled provider only with explicit processing approval.
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json --output-dir generated-tests \
   --ai-preview --allow-local-ai
 
 # Apply the reviewed, fingerprinted preview.
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json --output-dir generated-tests-enriched \
   --apply-enrichment generated-tests/target/shaft-capture/enrichment-preview.json \
   --approve-enrichment --replay

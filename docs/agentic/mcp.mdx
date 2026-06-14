@@ -1,33 +1,46 @@
 ---
 id: mcp
-title: Connect SHAFT MCP
+title: Connect shaft-mcp
 description: Run SHAFT browser, Capture, and Doctor tools from Codex, Copilot, and other MCP clients.
 slug: /agentic/mcp
 sidebar_position: 2
 tags: [mcp, codex, copilot, chatgpt, claude, gemini]
 ---
 
-import {McpClientCommands} from '@site/src/components/DocSnippets';
+import {McpSetupPrompt} from '@site/src/components/DocSnippets';
 
-# Connect SHAFT MCP
+# Connect shaft-mcp
 
-`io.github.shafthq:SHAFT_MCP` is the executable Model Context Protocol server
-for SHAFT browser automation. It is built in the SHAFT reactor, depends on the
-canonical `shaft-engine` module, and does not add any dependency to ordinary
+`shaft-mcp` is the executable Model Context Protocol server for SHAFT browser
+automation. It is published to Maven Central as
+`io.github.shafthq:shaft-mcp`, built in the SHAFT reactor, and depends on the
+canonical `shaft-engine` module. It does not add any dependency to ordinary
 `shaft-engine` consumers.
 
-## Connect in one command
+## Connect in one prompt
 
-Docker is the shortest cross-platform path:
+Paste this single prompt into Codex Desktop, Claude Desktop, or the GitHub
+Copilot agent in IntelliJ IDEA:
 
-<McpClientCommands />
+<McpSetupPrompt />
+
+The agent resolves the latest `shaft-mcp` release from Maven Central, downloads
+the executable JAR to an operating-system-appropriate per-user directory,
+writes its own MCP client configuration, reloads it, and verifies the
+connection. You do not need to determine a version, choose a path, or edit a
+configuration file.
+
+The resulting local stdio process lets SHAFT launch the browser on your desktop
+so you can see and interact with the automation session. Do not use the Docker
+image for interactive local browser work: its browser runs inside the container
+and is not displayed on your desktop.
 
 Then ask your client:
 
 > Use SHAFT to open `https://example.com`, verify the page title, and summarize
 > the generated test evidence.
 
-The model provider remains owned by the client. SHAFT MCP does not request,
+The model provider remains owned by the client. `shaft-mcp` does not request,
 store, or proxy the client's model credentials.
 
 ## Build from source
@@ -59,13 +72,13 @@ The HTTP port defaults to `8081` and can be overridden with `PORT` or
 The same JAR also provides a local SHAFT Capture CLI:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture start \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture start \
   --url https://example.test --browser chrome --output recordings/example.json
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture status
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture stop
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture status
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture stop
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json --output-dir generated-tests
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor analyze \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
 ```
@@ -85,7 +98,7 @@ for the deterministic release gate and standalone-repository archival order.
 
 ## Authentication boundary
 
-SHAFT MCP does not require or store OpenAI, Anthropic, Google, Microsoft, or
+`shaft-mcp` does not require or store OpenAI, Anthropic, Google, Microsoft, or
 Ollama credentials. The MCP client authenticates its own model/provider
 session. Configure only browser/Grid settings required by the SHAFT tools, such
 as `REMOTE_DRIVER_ADDRESS`.
@@ -93,38 +106,18 @@ as `REMOTE_DRIVER_ADDRESS`.
 Browser, filesystem, and GitHub mutations should remain approval-gated in the
 client. Start with a tool allowlist when the client supports one.
 
-## Local stdio clients
+## What the client configures
 
-Build the JAR, replace `<version>` with the reactor version, and use the
-absolute JAR path:
+The desktop agent creates a local stdio server named `shaft-mcp`. Its executable
+is `java`, and its arguments are `-jar` followed by the absolute path of the
+downloaded `shaft-mcp-<version>.jar`. The prompt deliberately delegates path
+selection and configuration-file discovery to the client, making the workflow
+the same on Windows, macOS, and Linux.
 
-```json
-{
-  "mcpServers": {
-    "shaft-mcp": {
-      "type": "stdio",
-      "command": "java",
-      "args": ["-jar", "/absolute/path/SHAFT_MCP-<version>.jar"]
-    }
-  }
-}
-```
-
-Client-specific locations:
-
-- **Codex CLI and IDE extension:** add the server with
-  `codex mcp add shaft-mcp -- java -jar /absolute/path/SHAFT_MCP-<version>.jar`,
-  or use `[mcp_servers.shaft-mcp]` in `~/.codex/config.toml`.
-- **Claude Desktop / Claude Code:** use the `mcpServers` stdio entry in the
-  client configuration.
-- **Gemini CLI:** place the server under the top-level `mcpServers` object in
-  Gemini `settings.json`.
-- **GitHub Copilot in an MCP-capable IDE:** use the IDE's MCP server
-  configuration and the same `java -jar` command. Copilot remains the MCP
-  host and uses its own authentication; there is no generic Copilot model API
-  key for SHAFT to request or store.
-- **Generic MCP clients:** configure a stdio server command with newline
-  delimited JSON-RPC over stdin/stdout.
+The MCP client remains responsible for tool approvals and model
+authentication. When the client requests permission to download the JAR or
+update its settings, approve that operation and let it finish the remaining
+steps.
 
 Codex also supports direct Streamable HTTP:
 
@@ -136,10 +129,13 @@ default_tools_approval_mode = "prompt"
 
 ## Remote clients
 
+Containers and Streamable HTTP are intended for remote, shared, or headless
+deployments where a visible desktop browser is not required.
+
 Start the server locally for testing:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar \
   --spring.profiles.active=http
 ```
 
@@ -156,11 +152,6 @@ Current client references:
 - [Gemini CLI MCP](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md)
 - [GitHub Copilot MCP](https://docs.github.com/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers)
 
-Download the credential-free
-[Codex](/examples/shaft-pilot/mcp/codex-config.toml),
-[Claude Desktop](/examples/shaft-pilot/mcp/claude-desktop.json),
-[Gemini CLI](/examples/shaft-pilot/mcp/gemini-settings.json), and
-[VS Code with Copilot](/examples/shaft-pilot/mcp/vscode-mcp.json) samples.
 [Doctor invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json)
 cover ChatGPT, Codex, Claude, Gemini, and GitHub Copilot calls to the same
 `doctor_analyze` tool. Client authentication remains outside SHAFT; Copilot is
@@ -168,16 +159,14 @@ not treated as a direct generic API-key provider.
 
 ## Distribution identity
 
-The first monorepo release preserves:
+The distribution uses:
 
-- Maven: `io.github.shafthq:SHAFT_MCP`
+- Maven Central: `io.github.shafthq:shaft-mcp`
 - MCP server name: `shaft-mcp`
 - Canonical OCI image: `ghcr.io/shafthq/shaft-engine-mcp`
-- First-release compatibility image: `ghcr.io/shafthq/shaft-mcp:10.2.20260612`
 - MCP registry name: `io.github.ShaftHQ/shaft-mcp`
 - Java package and existing tool names
 
 `shaft-mcp/server.json` is a release template. The publication workflow
 replaces `@project.version@` from the root reactor version before registry
-validation and publication. Existing users of the historical image can pin
-the compatibility version above; use the canonical image for upgrades.
+validation and publication.

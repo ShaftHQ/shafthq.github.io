@@ -26,7 +26,7 @@ Connect an MCP client to `http://localhost:8081/mcp`.
 
 ## Publication flow
 
-1. The Maven Central workflow publishes `io.github.shafthq:SHAFT_MCP` with the
+1. The Maven Central workflow publishes `io.github.shafthq:shaft-mcp` with the
    complete reactor.
 2. `publish-shaft-mcp.yml` pushes
    `ghcr.io/shafthq/shaft-engine-mcp:<version>` and `latest`.

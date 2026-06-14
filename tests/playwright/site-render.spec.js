@@ -32,17 +32,17 @@ for (const route of [
   });
 }
 
-test('MCP command can be copied', async ({page, context}) => {
+test('MCP setup prompt can be copied', async ({page, context}) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/docs/agentic/mcp');
-  const codeBlock = page.locator('pre').filter({hasText: 'codex mcp add shaft-mcp'}).first();
+  const codeBlock = page.locator('pre').filter({hasText: 'Configure shaft-mcp'}).first();
   await expect(codeBlock).toBeVisible();
   await codeBlock
     .locator('xpath=..')
     .getByRole('button', {name: 'Copy code to clipboard'})
     .click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(
-    'codex mcp add shaft-mcp',
+    'Query Maven Central for the latest available version',
   );
 });
 
