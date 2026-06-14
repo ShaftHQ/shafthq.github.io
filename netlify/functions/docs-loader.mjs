@@ -51,8 +51,8 @@ function normalizeMarkdown(content) {
   return content
     .replace(/\r\n?/gu, '\n')
     .replace(
-      /<McpClientCommands\s*\/>/gu,
-      `### Codex\n\n\`${snippets.codexMcp}\`\n\n### GitHub Copilot / VS Code\n\n\`${snippets.copilotMcp}\``,
+      /<McpSetupPrompt\s*\/>/gu,
+      snippets.mcpSetupPrompt,
     )
     .replace(/<DoctorCommand\s*\/>/gu, `\`${snippets.doctor}\``)
     .replace(/<HealCommand\s*\/>/gu, `\`${snippets.heal}\``)

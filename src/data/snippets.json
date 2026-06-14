@@ -1,6 +1,5 @@
 {
-  "codexMcp": "codex mcp add shaft-mcp -- docker run --rm -i ghcr.io/shafthq/shaft-engine-mcp:latest",
-  "copilotMcp": "code --add-mcp '{\"name\":\"shaft-mcp\",\"command\":\"docker\",\"args\":[\"run\",\"--rm\",\"-i\",\"ghcr.io/shafthq/shaft-engine-mcp:latest\"]}'",
-  "doctor": "java -jar SHAFT_MCP-<version>.jar doctor analyze --input allure-results --allowed-root \"$PWD\" --output-dir target/shaft-doctor",
+  "mcpSetupPrompt": "Configure shaft-mcp for this desktop client now. Query Maven Central for the latest available version of io.github.shafthq:shaft-mcp, download its executable JAR into a stable per-user application-data directory appropriate for this operating system, and configure this client with a local stdio MCP server named shaft-mcp that runs java -jar with the downloaded JAR's absolute path. Reload the MCP configuration, connect to the server, and verify that its tools are available. Complete every step yourself without asking me to edit configuration files or run commands; request approval only if the client or operating system requires it.",
+  "doctor": "java -jar shaft-mcp-<version>.jar doctor analyze --input allure-results --allowed-root \"$PWD\" --output-dir target/shaft-doctor",
   "heal": "mvn test '-Dhealing.strategy=shaft-heal'"
 }

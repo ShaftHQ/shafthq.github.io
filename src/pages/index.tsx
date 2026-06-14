@@ -2,6 +2,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import CodeBlock from '@theme/CodeBlock';
+import snippets from '@site/src/data/snippets.json';
 import styles from './index.module.css';
 
 const testSurfaces = [
@@ -111,11 +112,11 @@ function AgentSection(): JSX.Element {
           </div>
         </div>
         <div className={styles.commandCard}>
-          <span>Codex</span>
-          <CodeBlock language="bash">
-            {'codex mcp add shaft-mcp -- docker run --rm -i ghcr.io/shafthq/shaft-engine-mcp:latest'}
+          <span>Codex · Claude · GitHub Copilot</span>
+          <CodeBlock language="text">
+            {snippets.mcpSetupPrompt}
           </CodeBlock>
-          <p>Then ask: “Use SHAFT to open example.com and verify the page title.”</p>
+          <p>Paste this prompt once; your desktop agent downloads, configures, and connects the stdio JAR.</p>
         </div>
       </div>
     </section>

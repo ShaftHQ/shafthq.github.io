@@ -17,7 +17,7 @@ to an unverified artifact.
 | Area | Required release evidence |
 | --- | --- |
 | Runtime | JDK 25 and Maven 3.9 or newer. |
-| Modules | `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, and `SHAFT_MCP` tests plus full reactor package. |
+| Modules | `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, and `shaft-mcp` tests plus full reactor package. |
 | No-AI path | `pilot.ai.enabled=false`, provider `none`, Capture generation/replay, Doctor diagnosis, and MCP tools pass without credentials. |
 | Browsers | Headless Chrome and Edge record the representative local fixture; generated Chrome replay compiles, passes, and populates Allure. |
 | Doctor | Product, test, locator, data, timing, environment, infrastructure, unknown, empty, and retry evidence fixtures pass. |
@@ -26,7 +26,7 @@ to an unverified artifact.
 | Containers | The release Docker image starts in HTTP mode and completes MCP initialization. |
 | External agents | ChatGPT, Codex, Claude, Gemini, and GitHub Copilot setup is documented with current client limitations and credential ownership. |
 | Publication | Maven Central artifacts, sources, JavaDocs, signatures, BOM, executable JAR, aggregate SBOM, GHCR image, MCP registry metadata, and GitHub release use one version. |
-| Migration | The preserved `io.github.shafthq:SHAFT_MCP` coordinate and `shaft-mcp` server ID resolve. `ghcr.io/shafthq/shaft-mcp:10.2.20260612` remains a tested compatibility image, while `ghcr.io/shafthq/shaft-engine-mcp` is published by the monorepo for current and future releases. |
+| Migration | The preserved `io.github.shafthq:shaft-mcp` coordinate and `shaft-mcp` server ID resolve. `ghcr.io/shafthq/shaft-mcp:10.2.20260612` remains a tested compatibility image, while `ghcr.io/shafthq/shaft-engine-mcp` is published by the monorepo for current and future releases. |
 
 Live paid-provider smoke tests are optional. Run them only with explicit
 approval and credentials in the provider-native environment variable. Their
@@ -91,7 +91,7 @@ JAR, stdio, and packaged/container Streamable HTTP were verified.
 
 ## Standalone repository migration
 
-Do not archive `ShaftHQ/SHAFT_MCP` until every distribution check above passes.
+Do not archive `ShaftHQ/shaft-mcp` until every distribution check above passes.
 Then:
 
 1. Replace its README introduction with a prominent notice that development,
@@ -118,7 +118,7 @@ check leaves the old repository unarchived.
   release. Publish a newer version for corrections.
 - If GHCR, registry, hosted MCP, JavaDocs, or release creation fails, repair
   only that downstream channel and keep the verified Maven version.
-- If migration verification fails, leave `ShaftHQ/SHAFT_MCP` writable and
+- If migration verification fails, leave `ShaftHQ/shaft-mcp` writable and
   restore its normal automation until the canonical path is confirmed.
 - If a secret canary appears in a recording, report, generated test, image,
   log, example, or packaged artifact, stop publication, remove the output,

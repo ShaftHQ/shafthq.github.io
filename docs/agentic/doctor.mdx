@@ -54,7 +54,7 @@ From an MCP chat:
 The executable MCP JAR exposes Doctor as a local command:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor analyze \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor analyze \
   --input allure-results \
   --input target/shaft-logs \
   --allowed-root "$PWD" \
@@ -71,7 +71,7 @@ Screenshots and page snapshots are excluded by default. Retain them only with
 explicit approval:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor analyze \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor analyze \
   --input allure-results \
   --allowed-root "$PWD" \
   --output-dir target/shaft-doctor \
@@ -87,7 +87,7 @@ as incomplete and is never interpreted as successful.
 ## Optional provider advisory
 
 Add `shaft-ai` when invoking `DoctorAnalyzer.analyzeWithAi(...)` directly. The
-executable `SHAFT_MCP` JAR already packages the OpenAI, Anthropic, Gemini, and
+executable `shaft-mcp` JAR already packages the OpenAI, Anthropic, Gemini, and
 Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
 must independently enable the provider, processing location, model, and every
 submitted evidence category.
@@ -101,7 +101,7 @@ java \
   -Dpilot.ai.consent.local=true \
   -Dpilot.ai.allowedEvidenceCategories=TEXT,LOG,CONFIGURATION \
   -Dpilot.ai.ollama.model=<local-model> \
-  -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor analyze \
+  -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor analyze \
   --input allure-results \
   --allowed-root "$PWD" \
   --output-dir target/shaft-doctor \
@@ -186,7 +186,7 @@ Example `repair-input.json`:
 ```
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor propose-fix \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor propose-fix \
   --repository "$PWD" \
   --base-sha <full-approved-sha> \
   --diagnosis target/shaft-doctor/doctor-report.json \
@@ -217,7 +217,7 @@ create a worktree.
 Publishing is always a later explicit action:
 
 ```bash
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar doctor publish-draft-pr \
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor publish-draft-pr \
   --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
   --approval-token <token-from-reviewed-proposal> \
   --approve

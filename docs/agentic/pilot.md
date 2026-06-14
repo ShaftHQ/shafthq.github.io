@@ -23,7 +23,7 @@ API key, model, or network call.
 | `shaft-capture` | Managed Chrome/Edge recording and deterministic TestNG generation. |
 | `shaft-doctor` | Portable evidence, deterministic diagnosis, and isolated reviewed repair proposals. |
 | `shaft-ai` | Optional direct OpenAI, Anthropic, Gemini, and Ollama adapters. |
-| `SHAFT_MCP` | Executable stdio and Streamable HTTP server plus Capture and Doctor CLI. |
+| `shaft-mcp` | Executable stdio and Streamable HTTP server plus Capture and Doctor CLI. |
 
 Library consumers should import `shaft-bom` and add only the modules they use:
 
@@ -58,12 +58,12 @@ own authentication.
 
 ## Install the executable
 
-Download `io.github.shafthq:SHAFT_MCP:<version>` from Maven Central, or build it
+Download `io.github.shafthq:shaft-mcp:<version>` from Maven Central, or build it
 from the monorepo:
 
 ```bash
 mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
-java -jar shaft-mcp/target/SHAFT_MCP-<version>.jar
+java -jar shaft-mcp/target/shaft-mcp-<version>.jar
 ```
 
 The default process is an MCP stdio server. The same JAR dispatches `capture`
@@ -75,22 +75,22 @@ Start a privacy-filtered recording. This example is headless for CI or scripted
 use; omit `--headless` when a person will drive the browser locally:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar capture start \
+java -jar shaft-mcp-<version>.jar capture start \
   --url https://example.test \
   --browser chrome \
   --output recordings/example.json \
   --headless
-java -jar SHAFT_MCP-<version>.jar capture status
+java -jar shaft-mcp-<version>.jar capture status
 ```
 
 Drive the visible browser or the automation controlling the headless session,
 optionally add a checkpoint, then stop and generate:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar capture checkpoint \
+java -jar shaft-mcp-<version>.jar capture checkpoint \
   --description "Checkout confirmation is visible" --kind ASSERTION
-java -jar SHAFT_MCP-<version>.jar capture stop
-java -jar SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp-<version>.jar capture stop
+java -jar shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json \
   --output-dir generated-tests \
   --package generated.capture \
@@ -109,7 +109,7 @@ compiles, passes, and produces populated Allure result JSON.
 Analyze only explicitly allowed evidence:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar doctor analyze \
+java -jar shaft-mcp-<version>.jar doctor analyze \
   --input allure-results \
   --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
@@ -127,7 +127,7 @@ Create a complete reviewed input based on
 `examples/shaft-pilot/doctor/repair-input.json`, then run:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar doctor propose-fix \
+java -jar shaft-mcp-<version>.jar doctor propose-fix \
   --repository "$PWD" \
   --base-sha <40-character-commit> \
   --diagnosis target/shaft-doctor/doctor-report.json \
@@ -143,7 +143,7 @@ the current branch or write to GitHub. After reviewing the diff and validation
 result, publish only a draft pull request with the exact returned token:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar doctor publish-draft-pr \
+java -jar shaft-mcp-<version>.jar doctor publish-draft-pr \
   --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
   --approval-token <exact-token> \
   --approve
@@ -155,16 +155,16 @@ or proceed without separate explicit approval.
 
 ## MCP clients
 
-For local clients, configure `java -jar /absolute/path/SHAFT_MCP-<version>.jar`
-as a stdio server named `shaft-mcp`. Use the
-[Codex configuration](/examples/shaft-pilot/mcp/codex-config.toml),
-[VS Code configuration](/examples/shaft-pilot/mcp/vscode-mcp.json), or the
-other ready-to-edit downloads for Claude and Gemini.
+For Codex Desktop, Claude Desktop, or GitHub Copilot in IntelliJ IDEA, use the
+single self-configuring prompt in [Connect shaft-mcp](/docs/agentic/mcp). The
+desktop agent resolves the latest Maven Central release, downloads the JAR,
+configures its own local stdio server, reloads the configuration, and verifies
+the connection without requiring you to edit a client configuration file.
 
 Start Streamable HTTP for clients that need a reachable HTTPS endpoint:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar --spring.profiles.active=http
+java -jar shaft-mcp-<version>.jar --spring.profiles.active=http
 ```
 
 The endpoint is `/mcp` and the default port is `8081`. ChatGPT developer

@@ -27,7 +27,7 @@ assert(
 );
 
 const cases = [
-  ['connect Codex to SHAFT MCP', ['codex mcp add', 'shaft-engine-mcp']],
+  ['connect Codex to shaft-mcp', ['Configure shaft-mcp', 'latest available version']],
   ['run Doctor against Allure results', ['doctor analyze', 'allowed-root']],
   ['enable SHAFT Heal', ['healing.strategy=shaft-heal', 'shaft-heal']],
   ['create a web test', ['SHAFT.GUI.WebDriver', 'navigateToURL']],
@@ -47,11 +47,11 @@ for (const [query, expectedTerms] of cases) {
   }
 }
 
-const mcpSelection = retrieveDocumentation('connect Codex to SHAFT MCP');
+const mcpSelection = retrieveDocumentation('connect Codex to shaft-mcp');
 assert(
   mcpSelection.some(
     (chunk) => chunk.path === 'agentic/mcp.mdx'
-      && chunk.content.includes('shaft-engine-mcp'),
+      && chunk.content.includes('Query Maven Central'),
   ),
   'MCP retrieval must expand shared command components into searchable content.',
 );

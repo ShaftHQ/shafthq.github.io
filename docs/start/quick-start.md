@@ -325,14 +325,14 @@ Use the [module selection and migration guide](/docs/start/upgrade)
 for the complete method matrix.
 
 For a no-AI browser-recording workflow, build or download the executable
-`SHAFT_MCP` JAR and run:
+`shaft-mcp` JAR and run:
 
 ```bash
-java -jar SHAFT_MCP-<version>.jar capture start \
+java -jar shaft-mcp-<version>.jar capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar SHAFT_MCP-<version>.jar capture stop
-java -jar SHAFT_MCP-<version>.jar capture generate \
+java -jar shaft-mcp-<version>.jar capture stop
+java -jar shaft-mcp-<version>.jar capture generate \
   --session recordings/example.json \
   --output-dir generated-tests --replay
 ```
