@@ -11,7 +11,7 @@ import {MigrationDependencies} from '@site/src/components/DocSnippets';
 
 # Upgrade to modular SHAFT
 
-The preferred upgrade route is the transactional
+The only recommended upgrade route is the transactional
 `shaft-upgrader` module and its
 [`upgrade_to_modular_shaft.py`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-upgrader/upgrade_to_modular_shaft.py)
 script. It upgrades:
@@ -32,9 +32,10 @@ replaces the old Maven coordinate, imports the BOM, scans source and
 configuration for optional capabilities, compiles the result, and rolls back
 every changed file if compilation does not pass.
 
-The manual dependency reference remains below for review and troubleshooting.
+The manual dependency reference remains below only for reviewing the automated
+result and troubleshooting; it is not an alternative migration path.
 
-## Preferred automated upgrade
+## Automated upgrade
 
 ### What the script guarantees
 

@@ -9,31 +9,26 @@ tags: [quick-start, example]
 
 # Quick start
 
-Get started with SHAFT Engine in minutes! Choose the option that best fits your needs.
+Get started with SHAFT Engine in minutes. The correct path depends on whether
+you are creating a project or upgrading one.
 
-## Option 1: Project Generator (NEW! 🎉)
+## Create a new project
 
 > [!TIP]
-> Recommended for quickly creating new projects with a user-friendly interface.
+> The SHAFT Project Generator is the only recommended way to create a new
+> project.
 
 - The fastest way to create a new SHAFT project with your preferred test runner and platform.
-- Visit the [SHAFT Project Generator](/docs/start/installation) to generate your project in seconds.
+- Use the embedded [SHAFT Project Generator](/docs/start/installation) to generate your project in seconds.
 - Choose your test runner (TestNG, JUnit, or Cucumber), select your platform (Web, Mobile, or API), and download a ready-to-use project.
 - Optionally includes GitHub Actions workflow and Dependabot configuration.
 
-## Option 2: Maven Archetype
+## Upgrade an existing project
 
 > [!TIP]
-> Recommended for new local sandbox projects using command line.
-
-- The easiest and most straightforward way to create a new project that uses SHAFT.
-- Use the [installation command](/docs/start/installation) to generate a configured project.
-
-## Option 3: Upgrade an Existing Project
-
-> [!TIP]
-> This is the recommended route for native Selenium, Appium, REST Assured, and
-> legacy `SHAFT_ENGINE` Maven projects using TestNG or JUnit.
+> The automated upgrade tool is the only recommended way to migrate Selenium,
+> Appium, REST Assured, or older SHAFT projects to the latest modular SHAFT
+> release.
 
 Run the transactional `upgrade_to_modular_shaft.py` script from the
 [upgrade guide](/docs/start/upgrade)
@@ -53,18 +48,9 @@ Read the complete
 [automated upgrade and rollback guide](/docs/start/upgrade) before
 running it on a production repository.
 
-### Manual setup reference
+## Create your first tests
 
-### Step 1: Initial Setup
-
-- Create a new Java/Maven project using the latest version from IntelliJ IDEA, Eclipse, or your favorite IDE.
-- Copy the highlighted contents of
-  this [pom.xml](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/examples/TestNG/shaft-testng-web/pom.xml#L10-L121) file into yours
-  inside the ```<project>``` tag.
-
-### Step 2: Creating Tests
-
-#### 2.1. TestNG
+### TestNG
 
 - Create a new Package ```testPackage``` under ```src/test/java```
 - Create a new Java class ```TestClass``` under your newly created `testPackage`.
@@ -128,7 +114,7 @@ public void afterMethod(){
 }
 ```
 
-#### 2.2. JUnit5
+### JUnit 5
 
 - Create a new Package ```testPackage``` under ```src/test/java```
 - Create a new Java class ```TestClass``` under your newly created `testPackage`.
@@ -192,7 +178,7 @@ public void afterEach(){
 }
 ```
 
-#### 2.3. Cucumber
+### Cucumber
 
 - Create the following directory structure: ```src/test/java/cucumberTestRunner``` and ```src/test/java/customCucumberSteps```
 - Create a new Java class ```CucumberTests.java``` under `cucumberTestRunner`.
@@ -277,7 +263,7 @@ Feature: Search functionality
 > <br/>- After saving the changes, remember to delete any old runs you may have triggered by mistake before adding the needed config.
 
 
-### Step 3: Managing Test Data
+### Manage test data
 - Create the following file ```src/test/resources/testDataFiles/simpleJSON.json```.
 - Copy the below code snippet into your newly created json file.
 ```json
@@ -288,7 +274,7 @@ Feature: Search functionality
 }
 ```
 
-### Step 4: Running Tests
+### Run tests
 - Run your ```TestClass.java``` either from the side menu or by pressing the run button.
 - On the first test run: 
   - SHAFT will create a new folder ```src/main/resources/properties``` and generate some default properties files.

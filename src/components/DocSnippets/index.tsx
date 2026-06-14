@@ -5,18 +5,6 @@ import TabItem from '@theme/TabItem';
 import releases from '@site/src/data/releases.json';
 import snippets from '@site/src/data/snippets.json';
 
-const projectCommand = `mvn archetype:generate \\
-  "-DarchetypeGroupId=io.github.shafthq" \\
-  "-DarchetypeArtifactId=testng-archetype" \\
-  "-DarchetypeVersion=${releases.archetypeVersion}" \\
-  "-DinteractiveMode=false" \\
-  "-DgroupId=com.example" \\
-  "-DartifactId=shaft-demo"`;
-
-export function ProjectCommand(): JSX.Element {
-  return <CodeBlock language="bash">{projectCommand}</CodeBlock>;
-}
-
 export function EngineDependencies(): JSX.Element {
   return (
     <CodeBlock language="xml">{`<dependencyManagement>
