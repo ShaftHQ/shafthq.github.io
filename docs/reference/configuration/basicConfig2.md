@@ -68,6 +68,9 @@ mobile_platformVersion=17.0
 
 # UDID required for real device
 mobile_udid=00008110-001A23456789AB01
+
+# Optional: launch an already-installed iOS app by bundle identifier
+mobile_bundleId=com.example.ios.myApp
 ```
 
 ---
@@ -107,6 +110,17 @@ mobile_browserName=Chrome
 mobile_deviceName=Pixel_7_API_34
 baseURL=https://m.example.com
 ```
+
+---
+
+## SHAFT MCP Mobile Automation
+
+`shaft-mcp` can start mobile sessions through the same SHAFT Engine setup:
+
+- `mobile_initialize_web_emulation` runs a resized desktop browser in mobile compatibility mode.
+- `mobile_initialize_native` starts an Appium-backed Android or iOS native session using the configured Appium server and device name, UDID, app, app package/activity, or iOS bundle ID.
+- `mobile_take_screenshot` captures the current mobile screen, and `mobile_get_accessibility_tree` returns the active Appium page source/accessibility XML so the MCP client can understand the screen before acting.
+- `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, and `mobile_recording_code_blocks` support record/playback and copy-pasteable SHAFT action snippets.
 
 ---
 

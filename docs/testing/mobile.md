@@ -35,6 +35,18 @@ flowchart LR
     SHAFT --> Report["Allure evidence"]
 ```
 
+## SHAFT MCP mobile automation
+
+`shaft-mcp` can drive mobile sessions when an MCP client needs browser-style automation over Android or iOS targets:
+
+- Use `mobile_initialize_web_emulation` for mobile web checks in a resized desktop browser.
+- Use `mobile_initialize_native` for Appium-backed native Android or iOS execution. Configure `executionAddress`, `targetOperatingSystem`, `mobile_automationName`, `mobile_deviceName`, and either `mobile_app`, Android `mobile_appPackage`/`mobile_appActivity`, or iOS `mobile_bundleId`.
+- Use `mobile_get_contexts`, `mobile_switch_context`, `mobile_take_screenshot`, and `mobile_get_accessibility_tree` to inspect the live device screen before deciding what action to take.
+- Use `mobile_tap`, `mobile_type`, `mobile_swipe_by_offset`, `mobile_swipe_element_into_view`, `mobile_tap_coordinates`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs.
+- Use `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, and `mobile_recording_code_blocks` to record, replay, and generate Java snippets that can be pasted into a SHAFT test or page object.
+
+For native execution, start Appium and connect the emulator or real device before initializing the MCP mobile session.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration allows you to seamlessly test Flutter apps on both Android and iOS platforms.
