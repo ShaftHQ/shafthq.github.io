@@ -4,6 +4,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import releases from '@site/src/data/releases.json';
 import snippets from '@site/src/data/snippets.json';
+export {McpApplications} from './McpApplications';
 
 export function EngineDependencies(): JSX.Element {
   return (
@@ -41,10 +42,6 @@ export function MigrationDependencies(): JSX.Element {
       <EngineDependencies />
     </>
   );
-}
-
-export function McpSetupPrompt(): JSX.Element {
-  return <CodeBlock language="text">{snippets.mcpSetupPrompt}</CodeBlock>;
 }
 
 export function DoctorCommand(): JSX.Element {

@@ -51,8 +51,13 @@ function normalizeMarkdown(content) {
   return content
     .replace(/\r\n?/gu, '\n')
     .replace(
-      /<McpSetupPrompt\s*\/>/gu,
-      snippets.mcpSetupPrompt,
+      /<McpApplications\s*\/>/gu,
+      snippets.mcpInstaller.applications
+        .map((application) => `${application.name}: \`${snippets.mcpInstaller.commandTemplate.replace(
+          '{agentFlag}',
+          application.flag,
+        )}\``)
+        .join('\n'),
     )
     .replace(/<DoctorCommand\s*\/>/gu, `\`${snippets.doctor}\``)
     .replace(/<HealCommand\s*\/>/gu, `\`${snippets.heal}\``)

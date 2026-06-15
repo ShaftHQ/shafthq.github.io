@@ -49,7 +49,7 @@ reviewed change. `doctor propose-fix` creates an isolated worktree and does not
 publish to GitHub. Publishing requires a second command with the exact approval
 token returned by the proposal.
 
-Use the single self-configuring prompt in
+Use the matching application installer in
 [Connect shaft-mcp](/docs/agentic/mcp) instead of editing a client
 configuration manually.
 

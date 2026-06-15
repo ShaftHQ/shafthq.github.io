@@ -33,6 +33,7 @@ const sidebars = {
       items: [
         'agentic/overview',
         'agentic/mcp',
+        'agentic/mcp-manual',
         'agentic/pilot',
         'agentic/capture',
         'agentic/doctor',

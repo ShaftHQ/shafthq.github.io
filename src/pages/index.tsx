@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import CodeBlock from '@theme/CodeBlock';
-import snippets from '@site/src/data/snippets.json';
+import {McpApplications} from '@site/src/components/DocSnippets';
 import styles from './index.module.css';
 
 const testSurfaces = [
@@ -97,13 +96,14 @@ function SurfaceSection(): JSX.Element {
 function AgentSection(): JSX.Element {
   return (
     <section className={`${styles.section} ${styles.contrastSection}`}>
-      <div className={`container ${styles.agentGrid}`}>
-        <div>
+      <div className={`container ${styles.agentSection}`}>
+        <div className={styles.agentIntro}>
           <span className={styles.eyebrow}>Agent-ready, deterministic by default</span>
-          <h2>Give Codex or Copilot real automation tools.</h2>
+          <h2>Connect shaft-mcp to your application.</h2>
           <p>
             SHAFT MCP exposes browser, Capture, and Doctor operations while the
-            client retains its own model credentials and approval policy.
+            client retains its own model credentials and approval policy. Run
+            the matching command again at any time to update to the latest release.
           </p>
           <div className={styles.featureLinks}>
             <Link to="/docs/agentic/mcp">MCP setup</Link>
@@ -111,13 +111,7 @@ function AgentSection(): JSX.Element {
             <Link to="/docs/agentic/heal">Recover with Heal</Link>
           </div>
         </div>
-        <div className={styles.commandCard}>
-          <span>Codex · Claude · GitHub Copilot</span>
-          <CodeBlock language="text">
-            {snippets.mcpSetupPrompt}
-          </CodeBlock>
-          <p>Paste this prompt once; your desktop agent downloads, configures, and connects the stdio JAR.</p>
-        </div>
+        <McpApplications />
       </div>
     </section>
   );

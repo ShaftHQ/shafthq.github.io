@@ -1,0 +1,127 @@
+---
+id: mcp-manual
+title: Configure shaft-mcp manually
+description: Download the latest shaft-mcp JAR and configure Codex, Claude, or GitHub Copilot as a local stdio MCP client.
+slug: /agentic/mcp/manual
+sidebar_position: 3
+tags: [mcp, codex, copilot, claude, manual]
+---
+
+# Configure shaft-mcp manually
+
+Use this page when the automatic installer cannot update your MCP client.
+You need Java 25, Maven 3.9+, the selected client, and absolute paths for both
+the Java executable and the JAR.
+
+## Download the newest JAR
+
+Open [`io.github.shafthq:shaft-mcp` on Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-mcp),
+select the newest published version, and download its executable JAR. Store it
+in a stable per-user application-data directory, not in a project checkout or
+temporary directory.
+
+Find the absolute Java 25 executable path:
+
+```powershell
+(Get-Command java).Source
+```
+
+```bash
+command -v java
+```
+
+In the examples below, replace `/absolute/path/to/java` and
+`/absolute/path/to/shaft-mcp.jar` with those absolute paths.
+
+## Codex CLI, App, and IDE extension
+
+Codex surfaces share `~/.codex/config.toml`. Follow the
+[official Codex MCP documentation](https://developers.openai.com/codex/mcp)
+and add:
+
+```toml
+[mcp_servers.shaft-mcp]
+command = "/absolute/path/to/java"
+args = ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+```
+
+Start a new Codex App session after changing the file.
+
+## Claude Code
+
+Follow the [official Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
+and create the user-scope entry:
+
+```bash
+claude mcp remove shaft-mcp -s user
+claude mcp add -s user shaft-mcp -- "/absolute/path/to/java" -jar "/absolute/path/to/shaft-mcp.jar"
+```
+
+The remove command can report that the server does not exist during first-time
+setup.
+
+## Claude Desktop
+
+Claude Desktop supports local MCP servers on Windows and macOS. Follow
+[Anthropic's local MCP server guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop)
+and add this entry to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "shaft-mcp": {
+      "command": "/absolute/path/to/java",
+      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+    }
+  }
+}
+```
+
+The file is under `%APPDATA%\Claude` on Windows and
+`~/Library/Application Support/Claude` on macOS. Merge the `shaft-mcp` member
+into any existing `mcpServers` object, then restart Claude Desktop.
+
+## GitHub Copilot CLI
+
+Follow the
+[official Copilot CLI MCP documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers)
+and add this entry to `~/.copilot/mcp-config.json`:
+
+```json
+{
+  "mcpServers": {
+    "shaft-mcp": {
+      "type": "local",
+      "command": "/absolute/path/to/java",
+      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"],
+      "tools": ["*"]
+    }
+  }
+}
+```
+
+## GitHub Copilot in VS Code
+
+Run **MCP: Open User Configuration** so the server is available across
+workspaces. Follow the
+[official VS Code MCP documentation](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
+and add:
+
+```json
+{
+  "servers": {
+    "shaft-mcp": {
+      "type": "stdio",
+      "command": "/absolute/path/to/java",
+      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+    }
+  }
+}
+```
+
+## Verify and recover
+
+Start a new client session and confirm that `shaft-mcp` exposes its tools. If a
+manual edit fails, restore the configuration backup before trying again. Never
+keep both project-level and per-user entries named `shaft-mcp`; the project
+entry can override the installed user configuration.

@@ -7,7 +7,7 @@ sidebar_position: 2
 tags: [mcp, codex, copilot, chatgpt, claude, gemini]
 ---
 
-import {McpSetupPrompt} from '@site/src/components/DocSnippets';
+import {McpApplications} from '@site/src/components/DocSnippets';
 
 # Connect shaft-mcp
 
@@ -17,18 +17,18 @@ automation. It is published to Maven Central as
 canonical `shaft-engine` module. It does not add any dependency to ordinary
 `shaft-engine` consumers.
 
-## Connect in one prompt
+## Applications
 
-Paste this single prompt into Codex Desktop, Claude Desktop, or the GitHub
-Copilot agent in IntelliJ IDEA:
+Choose your MCP client and copy its command. The page detects your operating
+system after it loads and hides desktop applications that are unavailable
+there.
 
-<McpSetupPrompt />
+<McpApplications />
 
-The agent resolves the latest `shaft-mcp` release from Maven Central, downloads
-the executable JAR to an operating-system-appropriate per-user directory,
-writes its own MCP client configuration, reloads it, and verifies the
-connection. You do not need to determine a version, choose a path, or edit a
-configuration file.
+The command resolves `LATEST` from Maven Central, copies the executable JAR to
+versioned per-user application data, verifies it over stdio, and updates the
+selected user configuration without creating a second `shaft-mcp` entry. Run
+the same command later to install a newer release.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -106,18 +106,19 @@ as `REMOTE_DRIVER_ADDRESS`.
 Browser, filesystem, and GitHub mutations should remain approval-gated in the
 client. Start with a tool allowlist when the client supports one.
 
-## What the client configures
+## What the installer configures
 
-The desktop agent creates a local stdio server named `shaft-mcp`. Its executable
-is `java`, and its arguments are `-jar` followed by the absolute path of the
-downloaded `shaft-mcp-<version>.jar`. The prompt deliberately delegates path
-selection and configuration-file discovery to the client, making the workflow
-the same on Windows, macOS, and Linux.
+The installer creates a local stdio server named `shaft-mcp`. It records the
+absolute Java 25 executable and the absolute versioned JAR path so GUI clients
+do not depend on their inherited `PATH`.
+
+Configuration is per-user only. If the current project already defines a
+`shaft-mcp` server that would override the user entry, the installer stops
+without editing the project. Every user configuration mutation is backed up,
+verified, and rolled back on failure.
 
 The MCP client remains responsible for tool approvals and model
-authentication. When the client requests permission to download the JAR or
-update its settings, approve that operation and let it finish the remaining
-steps.
+authentication.
 
 Codex also supports direct Streamable HTTP:
 

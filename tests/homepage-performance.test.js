@@ -14,15 +14,17 @@ function assert(condition, message) {
 assert(index.includes('shaft-automation-hero.png'), 'Homepage must use the optimized branded hero.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
 assert(index.includes('/docs/agentic/mcp'), 'Homepage must expose MCP setup.');
-assert(index.includes('snippets.mcpSetupPrompt'), 'Homepage must render the shared MCP setup prompt.');
+assert(index.includes('<McpApplications />'), 'Homepage must render the shared MCP applications.');
 assert(
-  snippets.mcpSetupPrompt.includes('latest available version')
-    && snippets.mcpSetupPrompt.includes('without asking me to edit configuration files or run commands'),
-  'MCP setup prompt must automate latest-version installation and client configuration.',
+  snippets.mcpInstaller.commandTemplate.includes('io.github.shafthq:shaft-mcp:LATEST')
+    && snippets.mcpInstaller.commandTemplate.endsWith("install {agentFlag}'")
+    && snippets.mcpInstaller.applications.length === 6,
+  'MCP installer data must resolve LATEST and expose every supported application.',
 );
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage must respect reduced motion.');
 assert(styles.includes('@media (max-width: 620px)'), 'Homepage must include a mobile layout.');
+assert(!styles.includes('overflow-x: auto'), 'Homepage must not create a horizontal workflow scroller.');
 
 console.log('Homepage content, evidence, and accessibility checks passed.');

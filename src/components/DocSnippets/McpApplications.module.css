@@ -1,0 +1,116 @@
+.root {
+  width: 100%;
+  min-width: 0;
+}
+
+.requirements {
+  margin: 0 0 1rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.list {
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 18px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 16px 44px rgba(8, 29, 52, 0.08);
+}
+
+.row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(190px, 0.34fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+.row + .row {
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.identity > span:last-child {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.identity strong,
+.identity small {
+  overflow-wrap: anywhere;
+}
+
+.identity small {
+  color: var(--ifm-color-emphasis-600);
+}
+
+.icon {
+  display: inline-grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: 0 0 2.6rem;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-primary);
+  font-size: 1.05rem;
+}
+
+.command {
+  display: block;
+  min-width: 0;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-font-color-base);
+  font-size: 0.77rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.copyButton {
+  display: inline-flex;
+  min-width: 5.6rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--ifm-color-emphasis-400);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.copyButton:hover,
+.copyButton:focus-visible {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.manualLink {
+  margin: 1rem 0 0;
+}
+
+@media (max-width: 760px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .copyButton {
+    width: 100%;
+  }
+}
