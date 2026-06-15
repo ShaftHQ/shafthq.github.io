@@ -208,6 +208,7 @@ You can use these tab groups to navigate and get information about how to manage
   String app = SHAFT.Properties.mobile.app();
   String appPackage = SHAFT.Properties.mobile.appPackage();
   String appActivity = SHAFT.Properties.mobile.appActivity();
+  String bundleId = SHAFT.Properties.mobile.bundleId();
 
   /** set **/
   SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
@@ -219,7 +220,8 @@ You can use these tab groups to navigate and get information about how to manage
     .browserVersion("")
     .app("src/test/resources/testDataFiles/apps/ApiDemos-debug.apk")
     .appPackage("")
-    .appActivity("");
+    .appActivity("")
+    .bundleId("");
   ```
 
   </TabItem>
@@ -243,6 +245,7 @@ You can use these tab groups to navigate and get information about how to manage
   mobile_app=src/test/resources/testDataFiles/apps/ApiDemos-debug.apk
   mobile_appPackage=
   mobile_appActivity=
+  mobile_bundleId=
   ```
   
   </TabItem>
@@ -259,6 +262,7 @@ You can use these tab groups to navigate and get information about how to manage
 | mobile_app                   | ` `            | `relativePath/to/myApp.apk`, `absolutePath/to/myApp.apk`, `http://myapp.com/app.ipa` | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appPackage            | ` `            | example: `com.example.android.myApp`                                                 | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appActivity           | ` `            | example: `.MainActivity`                                                             | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
+| mobile_bundleId              | ` `            | example: `com.example.ios.myApp`                                                     | • iOS bundle identifier for launching an already installed app without providing `mobile_app`.<br/>• You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
 
   </TabItem>
 </Tabs>

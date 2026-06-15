@@ -11,8 +11,8 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 
 # Connect shaft-mcp
 
-`shaft-mcp` is the executable Model Context Protocol server for SHAFT browser
-automation. It is published to Maven Central as
+`shaft-mcp` is the executable Model Context Protocol server for SHAFT browser,
+mobile, Capture, and Doctor automation. It is published to Maven Central as
 `io.github.shafthq:shaft-mcp`, built in the SHAFT reactor, and depends on the
 canonical `shaft-engine` module. It does not add any dependency to ordinary
 `shaft-engine` consumers.
@@ -64,6 +64,12 @@ The packaged server supports:
 - deterministic diagnosis through `doctor_analyze`, restricted to explicit
   input paths and allowed roots, with an optional separately identified
   provider advisory when Pilot AI is explicitly enabled;
+- mobile web emulation and native Android/iOS execution through
+  `mobile_initialize_web_emulation` and `mobile_initialize_native`;
+- mobile inspection through `mobile_take_screenshot`,
+  `mobile_get_accessibility_tree`, context switching, and action tools for
+  tapping, typing, swiping, rotation, keyboard, backgrounding, app activation,
+  recording, playback, and copy-pasteable Java action blocks;
 - legacy SSE endpoint properties as configuration aliases during migration.
 
 The HTTP port defaults to `8081` and can be overridden with `PORT` or
@@ -90,6 +96,10 @@ recovery details.
 See [SHAFT Doctor](/docs/agentic/doctor) for evidence categories, allowlisted path
 handling, deterministic rules, redaction, offline bundle analysis, optional
 provider advisories, and safe fallback behavior.
+
+See [Mobile and Flutter testing](/docs/testing/mobile) for Appium setup,
+mobile web emulation, native device configuration, MCP screenshots, accessibility
+trees, and record/playback usage.
 
 See [SHAFT Pilot](/docs/agentic/pilot) for installation, provider configuration,
 Capture and Doctor examples, privacy defaults, and client-specific MCP setup.
