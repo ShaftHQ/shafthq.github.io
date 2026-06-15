@@ -155,11 +155,10 @@ or proceed without separate explicit approval.
 
 ## MCP clients
 
-For Codex Desktop, Claude Desktop, or GitHub Copilot in IntelliJ IDEA, use the
-single self-configuring prompt in [Connect shaft-mcp](/docs/agentic/mcp). The
-desktop agent resolves the latest Maven Central release, downloads the JAR,
-configures its own local stdio server, reloads the configuration, and verifies
-the connection without requiring you to edit a client configuration file.
+For Codex, Claude, or GitHub Copilot, choose the matching application command
+in [Connect shaft-mcp](/docs/agentic/mcp). The installer resolves the latest
+Maven Central release, verifies the JAR, and updates the per-user local stdio
+configuration without requiring you to edit a client configuration file.
 
 Start Streamable HTTP for clients that need a reachable HTTPS endpoint:
 

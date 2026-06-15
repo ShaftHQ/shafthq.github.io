@@ -22,6 +22,7 @@ for (const route of [
   '/docs/testing/mobile',
   '/docs/testing/api',
   '/docs/agentic/mcp',
+  '/docs/agentic/mcp/manual',
   '/docs/agentic/doctor',
   '/docs/agentic/heal',
 ]) {
@@ -32,19 +33,33 @@ for (const route of [
   });
 }
 
-test('MCP setup prompt can be copied', async ({page, context}) => {
+test('MCP application command can be copied', async ({page, context}) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/docs/agentic/mcp');
-  const codeBlock = page.locator('pre').filter({hasText: 'Configure shaft-mcp'}).first();
-  await expect(codeBlock).toBeVisible();
-  await codeBlock
-    .locator('xpath=..')
-    .getByRole('button', {name: 'Copy code to clipboard'})
-    .click();
+  await page.getByRole('button', {name: 'Copy Codex CLI / IDE install command'}).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(
-    'Query Maven Central for the latest available version',
+    'install --codex',
   );
 });
+
+test('Linux hides unsupported desktop applications', async ({page}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'platform', {get: () => 'Linux x86_64'});
+  });
+  await page.goto('/docs/agentic/mcp');
+  await expect(page.locator('[data-application="codex"]')).toBeVisible();
+  await expect(page.locator('[data-application="claude-desktop"]')).toHaveCount(0);
+  await expect(page.locator('[data-application="codex-app"]')).toHaveCount(0);
+});
+
+for (const route of ['/', '/docs/agentic/mcp', '/docs/agentic/mcp/manual']) {
+  test(`${route} has no page-level horizontal overflow`, async ({page}) => {
+    await page.goto(route);
+    await expect.poll(() => page.evaluate(
+      () => document.documentElement.scrollWidth === document.documentElement.clientWidth,
+    )).toBeTruthy();
+  });
+}
 
 test('dark mode remains readable', async ({page}) => {
   await page.goto('/');

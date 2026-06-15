@@ -1,5 +1,57 @@
 {
-  "mcpSetupPrompt": "Configure shaft-mcp for this desktop client now. Query Maven Central for the latest available version of io.github.shafthq:shaft-mcp, download its executable JAR into a stable per-user application-data directory appropriate for this operating system, and configure this client with a local stdio MCP server named shaft-mcp that runs java -jar with the downloaded JAR's absolute path. Reload the MCP configuration, connect to the server, and verify that its tools are available. Complete every step yourself without asking me to edit configuration files or run commands; request approval only if the client or operating system requires it.",
+  "mcpInstaller": {
+    "commandTemplate": "mvn --batch-mode --no-transfer-progress -U -N org.apache.maven.plugins:maven-dependency-plugin:3.9.0:copy org.codehaus.mojo:exec-maven-plugin:3.6.3:exec '-Dartifact=io.github.shafthq:shaft-mcp:LATEST' '-DoutputDirectory=${java.io.tmpdir}/shaft-mcp-bootstrap' '-Dmdep.stripVersion=true' '-Dmdep.overWriteReleases=true' '-Dexec.executable=java' '-Dexec.args=-jar \"${java.io.tmpdir}/shaft-mcp-bootstrap/shaft-mcp.jar\" install {agentFlag}'",
+    "applications": [
+      {
+        "id": "codex",
+        "name": "Codex CLI / IDE",
+        "detail": "Global Codex configuration",
+        "flag": "--codex",
+        "icon": "terminal",
+        "platforms": ["windows", "macos", "linux"]
+      },
+      {
+        "id": "codex-app",
+        "name": "Codex App",
+        "detail": "Shares the Codex global configuration",
+        "flag": "--codex-app",
+        "icon": "bolt",
+        "platforms": ["windows", "macos"]
+      },
+      {
+        "id": "claude",
+        "name": "Claude Code",
+        "detail": "User-scope MCP server",
+        "flag": "--claude",
+        "icon": "code",
+        "platforms": ["windows", "macos", "linux"]
+      },
+      {
+        "id": "claude-desktop",
+        "name": "Claude Desktop",
+        "detail": "Local desktop MCP server",
+        "flag": "--claude-desktop",
+        "icon": "desktop",
+        "platforms": ["windows", "macos"]
+      },
+      {
+        "id": "copilot",
+        "name": "GitHub Copilot CLI",
+        "detail": "User-level Copilot configuration",
+        "flag": "--copilot",
+        "icon": "github",
+        "platforms": ["windows", "macos", "linux"]
+      },
+      {
+        "id": "copilot-vscode",
+        "name": "GitHub Copilot in VS Code",
+        "detail": "Current VS Code user profile",
+        "flag": "--copilot-vscode",
+        "icon": "laptop-code",
+        "platforms": ["windows", "macos", "linux"]
+      }
+    ]
+  },
   "doctor": "java -jar shaft-mcp-<version>.jar doctor analyze --input allure-results --allowed-root \"$PWD\" --output-dir target/shaft-doctor",
   "heal": "mvn test '-Dhealing.strategy=shaft-heal'"
 }

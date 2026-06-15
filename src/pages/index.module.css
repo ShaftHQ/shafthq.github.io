@@ -7,8 +7,7 @@
   color: #fff;
 }
 
-.heroGrid,
-.agentGrid {
+.heroGrid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
   align-items: center;
@@ -90,7 +89,7 @@
 }
 
 .sectionHeading h2,
-.agentGrid h2,
+.agentIntro h2,
 .finalCta h2 {
   margin: 0.65rem 0 1rem;
   font-size: clamp(2rem, 4vw, 3.4rem);
@@ -99,7 +98,7 @@
 }
 
 .sectionHeading p,
-.agentGrid p {
+.agentIntro p {
   color: var(--ifm-color-emphasis-700);
   font-size: 1.08rem;
 }
@@ -150,28 +149,13 @@
   background: var(--ifm-color-emphasis-100);
 }
 
-.commandCard {
-  padding: 1.4rem;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 20px;
-  background: #081523;
-  box-shadow: 0 24px 70px rgba(8, 29, 52, 0.16);
+.agentSection {
+  min-width: 0;
 }
 
-.commandCard > span {
-  display: block;
-  margin-bottom: 0.75rem;
-  color: #72d0ff;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.commandCard p {
-  margin: 0.75rem 0 0;
-  color: #c8d6e7;
-  font-size: 0.9rem;
+.agentIntro {
+  max-width: 780px;
+  margin-bottom: 2rem;
 }
 
 .featureLinks {
@@ -184,23 +168,25 @@
 
 .workflow {
   display: grid;
-  grid-template-columns: repeat(9, auto);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
   padding: 1.25rem;
   border: 1px solid var(--ifm-color-emphasis-300);
   border-radius: 18px;
-  overflow-x: auto;
+  overflow: hidden;
   background: var(--ifm-background-surface-color);
 }
 
 .workflow span {
-  min-width: max-content;
+  min-width: 0;
   padding: 0.75rem 1rem;
   border-radius: 999px;
   background: var(--ifm-color-emphasis-100);
   font-weight: 750;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .workflow b {
@@ -258,8 +244,7 @@
 }
 
 @media (max-width: 996px) {
-  .heroGrid,
-  .agentGrid {
+  .heroGrid {
     grid-template-columns: 1fr;
   }
 
@@ -270,6 +255,15 @@
 
   .evidenceGrid {
     grid-template-columns: 1fr;
+  }
+
+  .workflow {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .workflow b {
+    text-align: center;
+    transform: rotate(90deg);
   }
 }
 
