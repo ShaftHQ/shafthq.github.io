@@ -1,6 +1,10 @@
 {
   "mcpInstaller": {
-    "commandTemplate": "mvn --batch-mode --no-transfer-progress -U -N org.apache.maven.plugins:maven-dependency-plugin:3.9.0:copy org.codehaus.mojo:exec-maven-plugin:3.6.3:exec '-Dartifact=io.github.shafthq:shaft-mcp:LATEST' '-DoutputDirectory=${java.io.tmpdir}/shaft-mcp-bootstrap' '-Dmdep.stripVersion=true' '-Dmdep.overWriteReleases=true' '-Dexec.executable=java' '-Dexec.args=-jar \"${java.io.tmpdir}/shaft-mcp-bootstrap/shaft-mcp.jar\" install {agentFlag}'",
+    "commandTemplates": {
+      "windows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client {client}\"",
+      "macos": "curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- {agentFlag}",
+      "linux": "curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- {agentFlag}"
+    },
     "applications": [
       {
         "id": "codex",

@@ -25,10 +25,12 @@ there.
 
 <McpApplications />
 
-The command resolves `LATEST` from Maven Central, copies the executable JAR to
-versioned per-user application data, verifies it over stdio, and updates the
-selected user configuration without creating a second `shaft-mcp` entry. Run
-the same command later to install a newer release.
+The command downloads a repository-hosted bootstrap script, resolves
+`io.github.shafthq:shaft-mcp:LATEST` from Maven Central without requiring a
+local project, copies the executable JAR to versioned per-user application
+data, verifies it over stdio, and updates the selected user configuration
+without creating a second `shaft-mcp` entry. Run the same command later to
+install a newer release.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -118,9 +120,13 @@ client. Start with a tool allowlist when the client supports one.
 
 ## What the installer configures
 
-The installer creates a local stdio server named `shaft-mcp`. It records the
-absolute Java 25 executable and the absolute versioned JAR path so GUI clients
-do not depend on their inherited `PATH`.
+The bootstrap script uses the local Java 25 and Maven 3.9+ when available. If
+either is missing, it installs a per-user cached Java 25 runtime or Maven
+3.9.12 during the same command and then invokes the packaged installer.
+
+The packaged installer creates a local stdio server named `shaft-mcp`. It
+records the absolute Java 25 executable and the absolute versioned JAR path so
+GUI clients do not depend on their inherited `PATH`.
 
 Configuration is per-user only. If the current project already defines a
 `shaft-mcp` server that would override the user entry, the installer stops

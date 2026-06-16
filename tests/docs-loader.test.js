@@ -51,7 +51,9 @@ const mcpSelection = retrieveDocumentation('shaft-mcp LATEST install --codex');
 assert(
   mcpSelection.some(
     (chunk) => chunk.path === 'agentic/mcp.mdx'
-      && chunk.content.includes('shaft-mcp:LATEST'),
+      && chunk.content.includes('install-shaft-mcp.sh')
+      && chunk.content.includes('Install-ShaftMcp')
+      && chunk.content.includes('io.github.shafthq:shaft-mcp:LATEST'),
   ),
   'MCP retrieval must expand shared command components into searchable content.',
 );
