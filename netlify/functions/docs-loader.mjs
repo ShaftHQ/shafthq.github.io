@@ -12,6 +12,7 @@ const currentDir = dirname(fileURLToPath(import.meta.url));
 const snippets = JSON.parse(
   readFileSync(join(currentDir, '..', '..', 'src', 'data', 'snippets.json'), 'utf-8'),
 );
+const MCP_COMMAND_SYSTEMS = ['windows', 'macos', 'linux'];
 const MAX_RETRIEVAL_CHARACTERS = 80_000;
 const MAX_RETRIEVAL_CHUNKS = 8;
 const EXCLUDED_DIRECTORIES = new Set(['archive', 'maintainers']);
@@ -53,10 +54,11 @@ function normalizeMarkdown(content) {
     .replace(
       /<McpApplications\s*\/>/gu,
       snippets.mcpInstaller.applications
-        .map((application) => `${application.name}: \`${snippets.mcpInstaller.commandTemplate.replace(
-          '{agentFlag}',
-          application.flag,
-        )}\``)
+        .flatMap((application) => MCP_COMMAND_SYSTEMS
+          .filter((system) => application.platforms.includes(system))
+          .map((system) => `${application.name} (${system}): \`${snippets.mcpInstaller.commandTemplates[system]
+            .replace('{agentFlag}', application.flag)
+            .replace('{client}', application.id)}\``))
         .join('\n'),
     )
     .replace(/<DoctorCommand\s*\/>/gu, `\`${snippets.doctor}\``)

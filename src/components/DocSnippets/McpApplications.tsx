@@ -26,6 +26,8 @@ type Application = {
   platforms: OperatingSystem[];
 };
 
+type CommandTemplates = Record<Exclude<OperatingSystem, 'unknown'>, string>;
+
 const APPLICATION_ICONS: Record<string, IconDefinition> = {
   terminal: faTerminal,
   bolt: faBolt,
@@ -43,8 +45,16 @@ function detectOperatingSystem(): OperatingSystem {
   return 'unknown';
 }
 
-function commandFor(flag: string): string {
-  return snippets.mcpInstaller.commandTemplate.replace('{agentFlag}', flag);
+function commandFor(application: Application, operatingSystem: OperatingSystem): string {
+  const commands = snippets.mcpInstaller.commandTemplates as CommandTemplates;
+  const template = operatingSystem === 'windows'
+    ? commands.windows
+    : operatingSystem === 'macos'
+      ? commands.macos
+      : commands.linux;
+  return template
+    .replace('{agentFlag}', application.flag)
+    .replace('{client}', application.id);
 }
 
 export function McpApplications(): JSX.Element {
@@ -64,7 +74,7 @@ export function McpApplications(): JSX.Element {
   );
 
   async function copyCommand(application: Application): Promise<void> {
-    await navigator.clipboard.writeText(commandFor(application.flag));
+    await navigator.clipboard.writeText(commandFor(application, operatingSystem));
     setCopiedId(application.id);
     globalThis.setTimeout(() => setCopiedId(null), 1800);
   }
@@ -72,12 +82,12 @@ export function McpApplications(): JSX.Element {
   return (
     <div className={styles.root} data-detected-os={operatingSystem}>
       <p className={styles.requirements}>
-        Requires Java 25, Maven 3.9+, and the selected application.
-        The command installs or updates the latest Maven Central release.
+        Requires the selected application and network access.
+        The command installs Java 25 and Maven 3.9.12 when they are missing.
       </p>
       <div className={styles.list} aria-label="shaft-mcp applications">
         {applications.map((application) => {
-          const command = commandFor(application.flag);
+          const command = commandFor(application, operatingSystem);
           const copied = copiedId === application.id;
           return (
             <article className={styles.row} data-application={application.id} key={application.id}>

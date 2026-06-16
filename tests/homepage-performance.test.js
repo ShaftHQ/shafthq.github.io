@@ -16,10 +16,11 @@ assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quic
 assert(index.includes('/docs/agentic/mcp'), 'Homepage must expose MCP setup.');
 assert(index.includes('<McpApplications />'), 'Homepage must render the shared MCP applications.');
 assert(
-  snippets.mcpInstaller.commandTemplate.includes('io.github.shafthq:shaft-mcp:LATEST')
-    && snippets.mcpInstaller.commandTemplate.endsWith("install {agentFlag}'")
+  snippets.mcpInstaller.commandTemplates.windows.includes('Install-ShaftMcp -Client {client}')
+    && snippets.mcpInstaller.commandTemplates.macos.includes('install-shaft-mcp.sh')
+    && snippets.mcpInstaller.commandTemplates.linux.includes('sh -s -- {agentFlag}')
     && snippets.mcpInstaller.applications.length === 6,
-  'MCP installer data must resolve LATEST and expose every supported application.',
+  'MCP installer data must expose OS-specific standalone commands for every supported application.',
 );
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');
