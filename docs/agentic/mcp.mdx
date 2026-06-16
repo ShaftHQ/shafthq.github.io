@@ -25,12 +25,15 @@ there.
 
 <McpApplications />
 
-The command downloads a repository-hosted bootstrap script, resolves
-`io.github.shafthq:shaft-mcp:LATEST` from Maven Central without requiring a
-local project, copies the executable JAR to versioned per-user application
-data, verifies it over stdio, and updates the selected user configuration
-without creating a second `shaft-mcp` entry. Run the same command later to
-install a newer release.
+The command downloads a repository-hosted bootstrap script. The bootstrapper
+uses Python 3.9+ when available, or installs a checksum-verified portable Python
+runtime in the per-user SHAFT cache when Python is missing. The shared Python
+installer then resolves `io.github.shafthq:shaft-mcp:LATEST` from Maven Central
+without requiring a local project, verifies the JAR checksum, copies the
+executable JAR to versioned per-user application data, verifies it over stdio,
+and updates the selected user configuration without creating a second
+`shaft-mcp` entry. Run the same command later to install a newer release. If you
+run the script without a target, it prompts you to choose a supported client.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -133,13 +136,22 @@ length, argument count, threshold, planner, and fallback state are logged.
 
 ## What the installer configures
 
-The bootstrap script uses the local Java 25 and Maven 3.9+ when available. If
-either is missing, it installs a per-user cached Java 25 runtime or Maven
-3.9.12 during the same command and then invokes the packaged installer.
+The bootstrap script uses Python 3.9+ when available. If Python is missing, it
+installs a checksum-verified portable Python runtime under the per-user SHAFT
+cache. The shared Python installer then uses the local Java 25 when available.
+If Java 25 is missing, it installs a per-user cached Java 25 runtime during the
+same command. It downloads the released `shaft-mcp` JAR directly from Maven
+Central, verifies the SHA-256 checksum, probes the server over stdio, and writes
+the selected client configuration itself.
 
-The packaged installer creates a local stdio server named `shaft-mcp`. It
-records the absolute Java 25 executable and the absolute versioned JAR path so
-GUI clients do not depend on their inherited `PATH`.
+The script creates a local stdio server named `shaft-mcp`. It records the
+absolute Java 25 executable and the absolute versioned JAR path so GUI clients
+do not depend on their inherited `PATH`.
+
+`claude` configures Claude Code. `claude-desktop` configures Claude Desktop on
+Windows or macOS and requires restarting Claude Desktop. GitHub Copilot for
+IntelliJ IDEA uses the JetBrains Copilot `mcp.json` configuration and may need
+the IDE to reload after the file changes.
 
 Configuration is per-user only. If the current project already defines a
 `shaft-mcp` server that would override the user entry, the installer stops

@@ -1,17 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Link from '@docusaurus/Link';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import type {IconDefinition} from '@fortawesome/fontawesome-svg-core';
-import {faGithub} from '@fortawesome/free-brands-svg-icons';
-import {
-  faBolt,
-  faCheck,
-  faCode,
-  faCopy,
-  faDesktop,
-  faLaptopCode,
-  faTerminal,
-} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faCopy} from '@fortawesome/free-solid-svg-icons';
 import snippets from '@site/src/data/snippets.json';
 import styles from './McpApplications.module.css';
 
@@ -22,20 +12,11 @@ type Application = {
   name: string;
   detail: string;
   flag: string;
-  icon: keyof typeof APPLICATION_ICONS;
+  logo: string;
   platforms: OperatingSystem[];
 };
 
 type CommandTemplates = Record<Exclude<OperatingSystem, 'unknown'>, string>;
-
-const APPLICATION_ICONS: Record<string, IconDefinition> = {
-  terminal: faTerminal,
-  bolt: faBolt,
-  code: faCode,
-  desktop: faDesktop,
-  github: faGithub,
-  'laptop-code': faLaptopCode,
-};
 
 function detectOperatingSystem(): OperatingSystem {
   const platform = (navigator.platform || navigator.userAgent || '').toLowerCase();
@@ -83,7 +64,7 @@ export function McpApplications(): JSX.Element {
     <div className={styles.root} data-detected-os={operatingSystem}>
       <p className={styles.requirements}>
         Requires the selected application and network access.
-        The command installs Java 25 and Maven 3.9.12 when they are missing.
+        The command bootstraps Python and Java only when missing, then downloads shaft-mcp directly from Maven Central.
       </p>
       <div className={styles.list} aria-label="shaft-mcp applications">
         {applications.map((application) => {
@@ -93,7 +74,7 @@ export function McpApplications(): JSX.Element {
             <article className={styles.row} data-application={application.id} key={application.id}>
               <div className={styles.identity}>
                 <span className={styles.icon} aria-hidden="true">
-                  <FontAwesomeIcon icon={APPLICATION_ICONS[application.icon]} />
+                  <img className={styles.logo} src={application.logo} alt="" loading="lazy" decoding="async" />
                 </span>
                 <span>
                   <strong>{application.name}</strong>

@@ -63,6 +63,12 @@
   font-size: 1.05rem;
 }
 
+.logo {
+  width: 1.45rem;
+  height: 1.45rem;
+  object-fit: contain;
+}
+
 .command {
   display: block;
   min-width: 0;

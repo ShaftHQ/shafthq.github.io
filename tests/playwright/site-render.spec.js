@@ -10,8 +10,11 @@ test('homepage exposes the primary product paths', async ({page}) => {
   );
   await expect(page.getByRole('link', {name: 'Connect your AI agent'})).toHaveAttribute(
     'href',
-    '/docs/agentic/mcp',
+    '#connect-ai-agent',
   );
+  await expect(page.locator('#connect-ai-agent')).toBeVisible();
+  await page.getByRole('link', {name: 'Connect your AI agent'}).click();
+  await expect.poll(() => page.evaluate(() => window.location.hash)).toBe('#connect-ai-agent');
   await expect(page.locator('img[src="/img/shaft-automation-hero.png"]')).toBeVisible();
 });
 
@@ -38,7 +41,7 @@ test('MCP application command can be copied', async ({page, context}) => {
   await page.goto('/docs/agentic/mcp');
   await page.getByRole('button', {name: 'Copy Codex CLI / IDE install command'}).click();
   await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(
-    'install --codex',
+    'codex',
   );
 });
 
@@ -48,8 +51,8 @@ test('Linux hides unsupported desktop applications', async ({page}) => {
   });
   await page.goto('/docs/agentic/mcp');
   await expect(page.locator('[data-application="codex"]')).toBeVisible();
+  await expect(page.locator('[data-application="copilot-intellij"]')).toBeVisible();
   await expect(page.locator('[data-application="claude-desktop"]')).toHaveCount(0);
-  await expect(page.locator('[data-application="codex-app"]')).toHaveCount(0);
 });
 
 for (const route of ['/', '/docs/agentic/mcp', '/docs/agentic/mcp/manual']) {
