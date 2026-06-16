@@ -25,6 +25,9 @@ To close all running driver instances:
 driver.quit();
 ```
 
+For trust-gated natural-language browser, element, and touch workflows, see
+[Natural Language Actions](./Natural_Language_Actions).
+
 ## Navigation
 
 ### Navigate to URL

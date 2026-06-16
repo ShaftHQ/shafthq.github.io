@@ -86,6 +86,28 @@ action preconditions, meets `healing.minimumConfidence`, and leads the next
 eligible candidate by at least `healing.ambiguityMargin`. Ties and low
 confidence preserve the original failure.
 
+## Trust threshold and warnings
+
+`healing.minimumTrustPercentage` is the preferred confidence gate for teams that
+want a human-readable percentage. Leave it at `-1` to keep using
+`healing.minimumConfidence`; set it from `0` to `100` to require that minimum
+trust before any recovered locator can be used.
+
+```properties
+healing.strategy=shaft-heal
+healing.minimumTrustPercentage=85
+```
+
+The deterministic score must pass this gate before optional provider metadata
+is considered. Visual or AI provider scores can rank eligible candidates, but
+they cannot rescue a locator candidate that failed the deterministic trust
+threshold.
+
+When SHAFT accepts a healed locator, it logs a warning and attaches the warning
+to the report. The warning includes the broken locator, healed locator, trust
+percentage, configured threshold, provider status, and evidence summary. Common
+secret-looking tokens are redacted before logging.
+
 ## History and reports
 
 History is local, versioned, checksummed, bounded, retention-limited, and
