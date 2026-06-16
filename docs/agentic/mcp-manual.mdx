@@ -9,9 +9,12 @@ tags: [mcp, codex, copilot, claude, manual]
 
 # Configure shaft-mcp manually
 
-Use this page when the automatic installer cannot update your MCP client.
-You need Java 25, the selected client, and absolute paths for both the Java
-executable and the JAR.
+Use this page when the [standalone installer](/docs/agentic/mcp) cannot update
+your MCP client. The automatic path is preferred: it bootstraps Python and Java
+only when needed, downloads `shaft-mcp` directly from Maven Central, verifies
+checksums, probes stdio, and writes the selected client configuration. Manual
+setup requires Java 25, the selected client, and absolute paths for both the
+Java executable and the JAR.
 
 ## Download the newest JAR
 
@@ -33,7 +36,7 @@ command -v java
 In the examples below, replace `/absolute/path/to/java` and
 `/absolute/path/to/shaft-mcp.jar` with those absolute paths.
 
-## Codex CLI, App, and IDE extension
+## Codex CLI and IDE extension
 
 Codex surfaces share `~/.codex/config.toml`. Follow the
 [official Codex MCP documentation](https://developers.openai.com/codex/mcp)
@@ -45,7 +48,7 @@ command = "/absolute/path/to/java"
 args = ["-jar", "/absolute/path/to/shaft-mcp.jar"]
 ```
 
-Start a new Codex App session after changing the file.
+Start a new Codex session after changing the file.
 
 ## Claude Code
 
@@ -100,12 +103,12 @@ and add this entry to `~/.copilot/mcp-config.json`:
 }
 ```
 
-## GitHub Copilot in VS Code
+## GitHub Copilot in IntelliJ IDEA
 
-Run **MCP: Open User Configuration** so the server is available across
-workspaces. Follow the
-[official VS Code MCP documentation](https://code.visualstudio.com/docs/agent-customization/mcp-servers)
-and add:
+Open GitHub Copilot Chat in IntelliJ IDEA, switch to Agent mode, and use the
+tools menu to open the MCP configuration. Follow the
+[official GitHub Copilot MCP documentation](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/extend-copilot-chat-with-mcp#configuring-mcp-servers-manually-2)
+and add this entry to the `servers` object:
 
 ```json
 {
@@ -118,6 +121,12 @@ and add:
   }
 }
 ```
+
+On Windows the file is under
+`%LOCALAPPDATA%\github-copilot\intellij\mcp.json`. On macOS and Linux the
+Copilot JetBrains plugin commonly uses
+`~/.config/github-copilot/intellij/mcp.json`. Restart IntelliJ IDEA or reload
+Copilot Chat if the tools do not appear immediately.
 
 ## Verify and recover
 

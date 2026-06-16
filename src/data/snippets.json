@@ -11,23 +11,15 @@
         "name": "Codex CLI / IDE",
         "detail": "Global Codex configuration",
         "flag": "--codex",
-        "icon": "terminal",
+        "logo": "/img/mcp-clients/openai.svg",
         "platforms": ["windows", "macos", "linux"]
-      },
-      {
-        "id": "codex-app",
-        "name": "Codex App",
-        "detail": "Shares the Codex global configuration",
-        "flag": "--codex-app",
-        "icon": "bolt",
-        "platforms": ["windows", "macos"]
       },
       {
         "id": "claude",
         "name": "Claude Code",
         "detail": "User-scope MCP server",
         "flag": "--claude",
-        "icon": "code",
+        "logo": "/img/mcp-clients/claude.svg",
         "platforms": ["windows", "macos", "linux"]
       },
       {
@@ -35,7 +27,7 @@
         "name": "Claude Desktop",
         "detail": "Local desktop MCP server",
         "flag": "--claude-desktop",
-        "icon": "desktop",
+        "logo": "/img/mcp-clients/claude.svg",
         "platforms": ["windows", "macos"]
       },
       {
@@ -43,15 +35,15 @@
         "name": "GitHub Copilot CLI",
         "detail": "User-level Copilot configuration",
         "flag": "--copilot",
-        "icon": "github",
+        "logo": "/img/mcp-clients/github-copilot.svg",
         "platforms": ["windows", "macos", "linux"]
       },
       {
-        "id": "copilot-vscode",
-        "name": "GitHub Copilot in VS Code",
-        "detail": "Current VS Code user profile",
-        "flag": "--copilot-vscode",
-        "icon": "laptop-code",
+        "id": "copilot-intellij",
+        "name": "GitHub Copilot in IntelliJ IDEA",
+        "detail": "JetBrains MCP configuration",
+        "flag": "--copilot-intellij",
+        "logo": "/img/mcp-clients/intellij-idea.svg",
         "platforms": ["windows", "macos", "linux"]
       }
     ]
