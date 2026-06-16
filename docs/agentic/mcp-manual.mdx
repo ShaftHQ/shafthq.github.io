@@ -36,6 +36,31 @@ command -v java
 In the examples below, replace `/absolute/path/to/java` and
 `/absolute/path/to/shaft-mcp.jar` with those absolute paths.
 
+## Runtime workspace
+
+Manual configuration uses the same runtime workspace behavior as the installer.
+`shaft-mcp` no longer depends on the MCP client's launch directory for engine
+artifacts.
+
+Set `SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment to force a stable
+writable root. If it is not set, `shaft-mcp` uses the process current directory
+only when that directory is writable and, on Windows, not under a protected
+system directory. Otherwise it falls back to:
+
+- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-mcp\work`
+- macOS: `~/Library/Application Support/ShaftHQ/shaft-mcp/work`
+- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-mcp/work`
+
+During MCP runs, generated Allure results and reports, downloaded properties,
+downloads, videos, services files, dynamic object repository files, test data,
+Extent reports, execution summaries, and performance reports are resolved under
+the runtime root when their SHAFT property paths are relative. Explicit absolute
+path overrides stay absolute. MCP tool names and arguments do not change.
+
+If an older setup fails with `AccessDeniedException` under
+`C:\Windows\system32`, the MCP host launched from a protected Windows directory.
+Set `SHAFT_MCP_WORKSPACE_ROOT` or upgrade and rely on the app-data fallback.
+
 ## Codex CLI and IDE extension
 
 Codex surfaces share `~/.codex/config.toml`. Follow the

@@ -48,6 +48,32 @@ Then ask your client:
 The model provider remains owned by the client. `shaft-mcp` does not request,
 store, or proxy the client's model credentials.
 
+## Runtime workspace
+
+`shaft-mcp` chooses a writable runtime root for SHAFT engine artifacts. It no
+longer depends on the directory from which the MCP client launched the Java
+process.
+
+Set `SHAFT_MCP_WORKSPACE_ROOT` to force a stable writable root. If it is not
+set, `shaft-mcp` uses the process current directory only when that directory is
+writable and, on Windows, not under a protected system directory. Otherwise it
+falls back to per-user application data:
+
+- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-mcp\work`
+- macOS: `~/Library/Application Support/ShaftHQ/shaft-mcp/work`
+- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-mcp/work`
+
+During MCP runs, relative SHAFT artifact paths are resolved under the runtime
+root. This includes generated Allure results and reports, downloaded
+properties, downloads, videos, services files, dynamic object repository files,
+test data, Extent reports, execution summaries, and performance reports.
+Explicit absolute path overrides remain absolute. MCP tool names and arguments
+are unchanged.
+
+If you see an `AccessDeniedException` under `C:\Windows\system32`, the MCP host
+launched from a protected Windows directory. Upgrade to a release with the
+app-data fallback, or set `SHAFT_MCP_WORKSPACE_ROOT` to a writable directory.
+
 ## Build from source
 
 Run from the repository root:
