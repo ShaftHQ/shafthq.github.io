@@ -9,6 +9,10 @@ tags: [mobile, touch, actions, appium]
 
 SHAFT provides touch action methods for mobile app automation. Access them through `driver.touch()`.
 
+For trust-gated natural-language touch workflows such as
+`driver.act("tap Continue")`, see
+[Natural Language Actions](./Natural_Language_Actions).
+
 ## Tap Actions
 
 ### tap()

@@ -70,6 +70,9 @@ The packaged server supports:
   `mobile_get_accessibility_tree`, context switching, and action tools for
   tapping, typing, swiping, rotation, keyboard, backgrounding, app activation,
   recording, playback, and copy-pasteable Java action blocks;
+- trust-gated natural-language browser, element, and touch execution through
+  `natural_act`, using the active SHAFT driver and the same
+  `driver.act(...)` planner rules;
 - legacy SSE endpoint properties as configuration aliases during migration.
 
 The HTTP port defaults to `8081` and can be overridden with `PORT` or
@@ -101,6 +104,10 @@ See [Mobile and Flutter testing](/docs/testing/mobile) for Appium setup,
 mobile web emulation, native device configuration, MCP screenshots, accessibility
 trees, and record/playback usage.
 
+See [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions)
+for deterministic `driver.act(...)` patterns, trust thresholds, allowed-action
+filters, and optional planner fallback behavior.
+
 See [SHAFT Pilot](/docs/agentic/pilot) for installation, provider configuration,
 Capture and Doctor examples, privacy defaults, and client-specific MCP setup.
 Maintainers should use the [SHAFT Pilot release runbook](/docs/maintainers/pilot-release)
@@ -115,6 +122,12 @@ as `REMOTE_DRIVER_ADDRESS`.
 
 Browser, filesystem, and GitHub mutations should remain approval-gated in the
 client. Start with a tool allowlist when the client supports one.
+
+`natural_act` temporarily enables natural-language execution for the call and
+restores the previous current-thread settings afterward. MCP clients may pass a
+per-call `minimumTrustPercentage`, `planner`, `aiFallbackEnabled`, and
+`allowedActions`. Argument values are not written to SHAFT logs; only intent
+length, argument count, threshold, planner, and fallback state are logged.
 
 ## What the installer configures
 

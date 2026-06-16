@@ -683,6 +683,123 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   </TabItem>
 </Tabs>
 
+### Healing
+
+- These properties control optional SHAFT Heal locator recovery through the
+  `shaft-heal` module.
+
+<Tabs groupId="PropertyTypes" queryString="Healing">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  SHAFT.Properties.healing.set()
+    .strategy("shaft-heal")
+    .minimumTrustPercentage(85)
+    .minimumConfidence(0.75)
+    .ambiguityMargin(0.10)
+    .historyEnabled(true)
+    .historyPath("target/shaft-heal/history.json")
+    .visualEnabled(false)
+    .aiEnabled(false);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```powershell
+  mvn test "-Dhealing.strategy=shaft-heal" "-Dhealing.minimumTrustPercentage=85"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  healing.strategy=shaft-heal
+  healing.minimumTrustPercentage=85
+  healing.minimumConfidence=0.75
+  healing.ambiguityMargin=0.10
+  healing.evidenceCategories=accessibility,label,test-id,stable-id-name,semantic,dom-fingerprint,native-state,ancestor-context,history
+  healing.testIdAttributes=data-testid,data-test,data-qa
+  healing.history.enabled=true
+  healing.history.path=target/shaft-heal/history.json
+  healing.history.maxEntries=500
+  healing.history.retentionDays=30
+  healing.visual.enabled=false
+  healing.ai.enabled=false
+  healing.sourcePatch.enabled=false
+  ```
+
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name                    | Default Value | Possible Values | Description |
+| -------------------------------- | ------------- | --------------- | ----------- |
+| healing.strategy                 | `disabled`    | `disabled`, `healenium`, `shaft-heal`, `composite` | Selects the locator recovery strategy. |
+| healing.minimumTrustPercentage   | `-1`          | `-1`, `0`-`100` | Preferred human-readable trust gate. `-1` keeps using `healing.minimumConfidence`. |
+| healing.minimumConfidence        | `0.75`        | `0.0`-`1.0`     | Minimum deterministic confidence when no trust percentage override is set. |
+| healing.ambiguityMargin          | `0.10`        | `0.0`-`1.0`     | Required lead over the next eligible candidate. |
+| healing.evidenceCategories       | `accessibility,label,test-id,stable-id-name,semantic,dom-fingerprint,native-state,ancestor-context,history` | comma-separated categories | Deterministic evidence categories allowed for recovery. |
+| healing.testIdAttributes         | `data-testid,data-test,data-qa` | comma-separated attributes | Attributes treated as stable test IDs. |
+| healing.history.enabled          | `true`        | `true`, `false` | Enables bounded local recovery history. |
+| healing.history.path             | `target/shaft-heal/history.json` | path | Local recovery history file. |
+| healing.history.maxEntries       | `500`         | integer | Maximum retained history entries. |
+| healing.history.retentionDays    | `30`          | integer | Maximum history age in days. |
+| healing.visual.enabled           | `false`       | `true`, `false` | Enables optional local visual evidence. |
+| healing.ai.enabled               | `false`       | `true`, `false` | Enables optional provider reranking after deterministic eligibility. |
+| healing.sourcePatch.enabled      | `false`       | `true`, `false` | Reserved consent gate for reviewed source-patch proposals. |
+
+  </TabItem>
+</Tabs>
+
+### Natural Actions
+
+- These properties control trust-gated natural-language browser, element, and
+  touch actions through `SHAFT.GUI.WebDriver.act(...)`.
+
+<Tabs groupId="PropertyTypes" queryString="NaturalActions">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  SHAFT.Properties.naturalActions.set()
+    .enabled(true)
+    .minimumTrustPercentage(85)
+    .planner("deterministic")
+    .aiFallbackEnabled(false)
+    .allowedActions("browser,element,touch");
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```powershell
+  mvn test "-DnaturalActions.enabled=true" "-DnaturalActions.minimumTrustPercentage=85"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  naturalActions.enabled=false
+  naturalActions.minimumTrustPercentage=85
+  naturalActions.planner=deterministic
+  naturalActions.aiFallback.enabled=false
+  naturalActions.allowedActions=browser,element,touch
+  ```
+
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name                         | Default Value | Possible Values | Description |
+| ------------------------------------- | ------------- | --------------- | ----------- |
+| naturalActions.enabled                | `false`       | `true`, `false` | Enables `driver.act(...)`. Disabled plans fail before execution. |
+| naturalActions.minimumTrustPercentage | `85`          | `0`-`100`       | Minimum plan trust required before execution. |
+| naturalActions.planner                | `deterministic` | `deterministic`, `auto`, or a ServiceLoader planner ID | Selects the natural-action planner. |
+| naturalActions.aiFallback.enabled     | `false`       | `true`, `false` | Allows optional provider-assisted planners after deterministic planning is unavailable. |
+| naturalActions.allowedActions         | `browser,element,touch` | comma-separated `browser`, `element`, `touch` | Restricts which action categories natural actions may execute. |
+
+  </TabItem>
+</Tabs>
+
 ### Paths
 
 <Tabs groupId="PropertyTypes" queryString="Paths">

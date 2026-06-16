@@ -9,6 +9,10 @@ tags: [web, element, actions, selenium]
 
 To interact with web elements, use `driver.element()` followed by the desired action. All element actions require a `By` locator to identify the target element.
 
+For trust-gated natural-language element workflows such as
+`driver.act("click Save")`, see
+[Natural Language Actions](./Natural_Language_Actions).
+
 ## Typing
 
 ### type()
