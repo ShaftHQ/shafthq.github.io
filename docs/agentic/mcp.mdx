@@ -11,11 +11,11 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 
 # Connect shaft-mcp
 
-`shaft-mcp` is the executable Model Context Protocol server for SHAFT browser,
+`shaft-mcp` is the Model Context Protocol server for SHAFT browser,
 mobile, Capture, and Doctor automation. It is published to Maven Central as
-`io.github.shafthq:shaft-mcp`, built in the SHAFT reactor, and depends on the
-canonical `shaft-engine` module. It does not add any dependency to ordinary
-`shaft-engine` consumers.
+the thin `io.github.shafthq:shaft-mcp` JAR, built in the SHAFT reactor, and
+depends on the canonical `shaft-engine` module. It does not add any dependency
+to ordinary `shaft-engine` consumers.
 
 ## Applications
 
@@ -29,11 +29,12 @@ The command downloads a repository-hosted bootstrap script. The bootstrapper
 uses Python 3.9+ when available, or installs a checksum-verified portable Python
 runtime in the per-user SHAFT cache when Python is missing. The shared Python
 installer then resolves `io.github.shafthq:shaft-mcp:LATEST` from Maven Central
-without requiring a local project, verifies the JAR checksum, copies the
-executable JAR to versioned per-user application data, verifies it over stdio,
-and updates the selected user configuration without creating a second
-`shaft-mcp` entry. Run the same command later to install a newer release. If you
-run the script without a target, it prompts you to choose a supported client.
+without requiring a local project, verifies checksums, downloads the thin JAR
+and its runtime dependencies to versioned per-user application data, writes a
+Java argfile, verifies it over stdio, and updates the selected user
+configuration without creating a second `shaft-mcp` entry. Run the same command
+later to install a newer release. If you run the script without a target, it
+prompts you to choose a supported client.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -80,7 +81,10 @@ Run from the repository root:
 
 ```bash
 mvn -pl shaft-mcp -am test
-mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp dependency:copy-dependencies -DincludeScope=runtime \
+  '-DoutputDirectory=${maven.multiModuleProjectDirectory}/shaft-mcp/target/dependency' \
+  -DskipTests -Dgpg.skip
 python3 scripts/ci/validate_shaft_mcp_transports.py
 ```
 
@@ -109,16 +113,20 @@ The packaged server supports:
 The HTTP port defaults to `8081` and can be overridden with `PORT` or
 `--server.port`.
 
-The same JAR also provides a local SHAFT Capture CLI:
+The same main class also provides local SHAFT Capture and Doctor CLIs. Use `;`
+instead of `:` in `MCP_CP` on Windows:
 
 ```bash
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture start \
+MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
+MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
+
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome --output recordings/example.json
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture status
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture stop
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture status
+java -cp "$MCP_CP" "$MCP_MAIN" capture stop
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar doctor analyze \
+java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
 ```
@@ -166,13 +174,14 @@ The bootstrap script uses Python 3.9+ when available. If Python is missing, it
 installs a checksum-verified portable Python runtime under the per-user SHAFT
 cache. The shared Python installer then uses the local Java 25 when available.
 If Java 25 is missing, it installs a per-user cached Java 25 runtime during the
-same command. It downloads the released `shaft-mcp` JAR directly from Maven
-Central, verifies the SHA-256 checksum, probes the server over stdio, and writes
-the selected client configuration itself.
+same command. It downloads the released thin `shaft-mcp` JAR and runtime
+dependencies directly from Maven Central, verifies checksums, writes a Java
+argfile, probes the server over stdio, and writes the selected client
+configuration itself.
 
 The script creates a local stdio server named `shaft-mcp`. It records the
-absolute Java 25 executable and the absolute versioned JAR path so GUI clients
-do not depend on their inherited `PATH`.
+absolute Java 25 executable and the absolute versioned argfile path so GUI
+clients do not depend on their inherited `PATH`.
 
 `claude` configures Claude Code. `claude-desktop` configures Claude Desktop on
 Windows or macOS and requires restarting Claude Desktop. GitHub Copilot for
@@ -203,8 +212,7 @@ deployments where a visible desktop browser is not required.
 Start the server locally for testing:
 
 ```bash
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar \
-  --spring.profiles.active=http
+java -cp "$MCP_CP" "$MCP_MAIN" --spring.profiles.active=http
 ```
 
 Use the HTTPS `/mcp` URL for ChatGPT developer mode/apps, the Claude API MCP

@@ -83,7 +83,7 @@ mvn -pl shaft-visual -am test -Dtest=ImageProcessingActionsUnitTest
 mvn -pl shaft-heal -am test
 mvn -pl shaft-pilot-core,shaft-capture,shaft-doctor,shaft-ai -am test
 mvn -pl shaft-mcp -am test -Dtest=ShaftMcpApplicationTests
-mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
 python3 scripts/ci/validate_shaft_mcp_transports.py
 mvn -pl shaft-engine -am test
 mvn clean install -DskipTests -Dgpg.skip
@@ -101,7 +101,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional BrowserStack SDK JAR: `shaft-browserstack/target/shaft-browserstack-<version>.jar`
 - Optional desktop video JAR: `shaft-video/target/shaft-video-<version>.jar`
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual-<version>.jar`
-- MCP executable JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
+- MCP thin JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
 - Surefire reports: `<module>/target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
 - Per-module JaCoCo execution data: `<module>/target/jacoco.exec`

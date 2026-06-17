@@ -28,17 +28,23 @@ prompt, and preload-script signals when available. A JavaScript listener
 drained through ordinary WebDriver provides deterministic interaction capture
 and remains the compatibility fallback.
 
-Build the executable MCP JAR, then use its `capture` subcommand:
+Build the thin MCP JAR and runtime dependency directory, then use its `capture`
+subcommand. Use `;` instead of `:` in `MCP_CP` on Windows:
 
 ```bash
-mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture start \
+mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp dependency:copy-dependencies -DincludeScope=runtime \
+  '-DoutputDirectory=${maven.multiModuleProjectDirectory}/shaft-mcp/target/dependency' \
+  -DskipTests -Dgpg.skip
+MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
+MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture status
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture checkpoint \
+java -cp "$MCP_CP" "$MCP_MAIN" capture status
+java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
   --description "Checkout ready"
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture stop
+java -cp "$MCP_CP" "$MCP_MAIN" capture stop
 ```
 
 Use `--runtime-dir <path>` on every command to isolate control files. `stop`
@@ -126,7 +132,7 @@ store.stop(Instant.now());
 Generate a test, SHAFT JSON test data, and a deterministic report:
 
 ```bash
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json \
   --output-dir generated-tests
 ```
@@ -168,12 +174,12 @@ AI enrichment is optional and uses two phases:
 
 ```bash
 # Calls the enabled provider only with explicit processing approval.
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \
   --ai-preview --allow-local-ai
 
 # Apply the reviewed, fingerprinted preview.
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests-enriched \
   --apply-enrichment generated-tests/target/shaft-capture/enrichment-preview.json \
   --approve-enrichment --replay

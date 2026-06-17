@@ -1,7 +1,7 @@
 ---
 id: mcp-manual
 title: Configure shaft-mcp manually
-description: Download the latest shaft-mcp JAR and configure Codex, Claude, or GitHub Copilot as a local stdio MCP client.
+description: Configure Codex, Claude, or GitHub Copilot with a local shaft-mcp Java argfile.
 slug: /agentic/mcp/manual
 sidebar_position: 3
 tags: [mcp, codex, copilot, claude, manual]
@@ -13,15 +13,15 @@ Use this page when the [standalone installer](/docs/agentic/mcp) cannot update
 your MCP client. The automatic path is preferred: it bootstraps Python and Java
 only when needed, downloads `shaft-mcp` directly from Maven Central, verifies
 checksums, probes stdio, and writes the selected client configuration. Manual
-setup requires Java 25, the selected client, and absolute paths for both the
-Java executable and the JAR.
+setup requires Java 25, the selected client, the thin JAR, its runtime
+dependencies, and absolute paths for both the Java executable and an argfile.
 
-## Download the newest JAR
+## Prepare the JAR, dependencies, and argfile
 
 Open [`io.github.shafthq:shaft-mcp` on Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-mcp),
-select the newest published version, and download its executable JAR. Store it
-in a stable per-user application-data directory, not in a project checkout or
-temporary directory.
+select the newest published version, and download its thin JAR plus runtime
+dependencies. Store them in a stable per-user application-data directory, not
+in a project checkout or temporary directory.
 
 Find the absolute Java 25 executable path:
 
@@ -33,8 +33,17 @@ Find the absolute Java 25 executable path:
 command -v java
 ```
 
-In the examples below, replace `/absolute/path/to/java` and
-`/absolute/path/to/shaft-mcp.jar` with those absolute paths.
+Create `/absolute/path/to/shaft-mcp.args`:
+
+```text
+-cp
+"/absolute/path/to/shaft-mcp.jar:/absolute/path/to/lib/*"
+com.shaft.mcp.ShaftMcpApplication
+```
+
+Use `;` instead of `:` in the classpath on Windows. In the examples below,
+replace `/absolute/path/to/java` and `/absolute/path/to/shaft-mcp.args` with
+those absolute paths.
 
 ## Runtime workspace
 
@@ -70,7 +79,7 @@ and add:
 ```toml
 [mcp_servers.shaft-mcp]
 command = "/absolute/path/to/java"
-args = ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+args = ["@/absolute/path/to/shaft-mcp.args"]
 ```
 
 Start a new Codex session after changing the file.
@@ -82,7 +91,7 @@ and create the user-scope entry:
 
 ```bash
 claude mcp remove shaft-mcp -s user
-claude mcp add -s user shaft-mcp -- "/absolute/path/to/java" -jar "/absolute/path/to/shaft-mcp.jar"
+claude mcp add -s user shaft-mcp -- "/absolute/path/to/java" "@/absolute/path/to/shaft-mcp.args"
 ```
 
 The remove command can report that the server does not exist during first-time
@@ -99,7 +108,7 @@ and add this entry to `claude_desktop_config.json`:
   "mcpServers": {
     "shaft-mcp": {
       "command": "/absolute/path/to/java",
-      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+      "args": ["@/absolute/path/to/shaft-mcp.args"]
     }
   }
 }
@@ -121,7 +130,7 @@ and add this entry to `~/.copilot/mcp-config.json`:
     "shaft-mcp": {
       "type": "local",
       "command": "/absolute/path/to/java",
-      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"],
+      "args": ["@/absolute/path/to/shaft-mcp.args"],
       "tools": ["*"]
     }
   }
@@ -141,7 +150,7 @@ and add this entry to the `servers` object:
     "shaft-mcp": {
       "type": "stdio",
       "command": "/absolute/path/to/java",
-      "args": ["-jar", "/absolute/path/to/shaft-mcp.jar"]
+      "args": ["@/absolute/path/to/shaft-mcp.args"]
     }
   }
 }
