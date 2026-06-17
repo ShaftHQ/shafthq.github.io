@@ -420,6 +420,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   boolean generateArchive = SHAFT.Properties.allure.generateArchive();
   String customLogo = SHAFT.Properties.allure.customLogo();
   String customTitle = SHAFT.Properties.allure.customTitle();
+  boolean realtimeMonitoring = SHAFT.Properties.allure.realtimeMonitoring();
   boolean singleFile = SHAFT.Properties.allure.singleFile();
   String reportLanguage = SHAFT.Properties.allure.reportLanguage();
   boolean open = SHAFT.Properties.allure.open();
@@ -434,6 +435,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
     .generateArchive(false)
     .customLogo("https://example.com/logo.png")
     .customTitle("My Test Suite Report")
+    .realtimeMonitoring(false)
     .singleFile(true)
     .reportLanguage("en")
     .open(false)
@@ -452,6 +454,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   allure.generateArchive=false
   allure.customLogo=https://example.com/logo.png
   allure.customTitle=My Test Suite Report
+  allure.realtimeMonitoring=false
   allure.singleFile=true
   allure.reportLanguage=en
   allure.open=false
@@ -470,6 +473,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.generateArchive        | `false`                                                                                                                                          | `true`, `false`                                              | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: `generateAllureReportArchive`)* |
 | allure.customLogo             | *(SHAFT default logo URL)*                                                                                                                       | URL or local file path                                       | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report.                                                                  |
 | allure.customTitle            | `Test run report`                                                                                                                                | Any string                                                   | • Custom title displayed in the header of the generated Allure report.                                                                                              |
+| allure.realtimeMonitoring     | `false`                                                                                                                                          | `true`, `false`                                              | • Enables SHAFT-managed Allure 3 native real-time monitoring via `allure watch` while tests run. Ignored for Allure 2 or when the Allure CLI cannot be resolved.    |
 | allure.singleFile             | `true`                                                                                                                                           | `true`, `false`                                              | • Controls the Allure 3 Awesome plugin `singleFile` option. When `true`, the report is generated as a self-contained HTML file.                                      |
 | allure.reportLanguage         | `en`                                                                                                                                             | Language code, such as `en`, `fr`, or `ru`                   | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI.                                                                     |
 | allure.open                   | `false`                                                                                                                                          | `true`, `false`                                              | • Controls the Allure 3 Awesome plugin `open` option passed to Allure CLI report generation.                                                                        |
