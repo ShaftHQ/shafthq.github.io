@@ -185,6 +185,36 @@ SHAFT.Properties.allure.set()
   </TabItem>
 </Tabs>
 
+### Monitor Allure 3 Results While Tests Run
+
+When `allure.realtimeMonitoring=true` and SHAFT resolves an Allure 3 CLI, SHAFT starts native `allure watch` against `allure-results` while tests run. The watch process is stopped before final report generation and archiving. This is disabled by default, and is ignored when Allure 2 compatibility mode is active or the Allure CLI cannot be resolved.
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.realtimeMonitoring=true
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -Dallure.realtimeMonitoring=true
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set().realtimeMonitoring(true);
+```
+
+  </TabItem>
+</Tabs>
+
 Common `allure.groupBy` presets include:
 
 | Preset | Value | Best For |
@@ -436,6 +466,7 @@ Key properties quick reference:
 | `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
 | `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
 | `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
+| `allure.realtimeMonitoring` | `false` | Start native Allure 3 `allure watch` while tests run |
 | `allure.singleFile` | `true` | Generate an Allure 3 Awesome report as a self-contained HTML file |
 | `allure.reportLanguage` | `en` | Language code used by the Allure 3 Awesome report UI |
 | `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
