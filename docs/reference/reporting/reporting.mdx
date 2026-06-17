@@ -387,7 +387,7 @@ SHAFT.Properties.visuals.set()
 
 ## Animated GIFs
 
-In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This lightweight alternative is also attached to the Allure report:
+In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This lightweight alternative is encoded in the background, keeps the configured frame delay, and avoids applying the SHAFT watermark twice when screenshots already include it:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
