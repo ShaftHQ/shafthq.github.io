@@ -56,18 +56,24 @@ Add `shaft-ai` only for direct provider calls. External ChatGPT, Codex,
 Claude, Gemini, and GitHub Copilot clients use SHAFT through MCP and keep their
 own authentication.
 
-## Install the executable
+## Install the MCP server
 
-Download `io.github.shafthq:shaft-mcp:<version>` from Maven Central, or build it
-from the monorepo:
+Use [Connect shaft-mcp](/docs/agentic/mcp) for normal installation. To build
+and run from the monorepo:
 
 ```bash
-mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
-java -jar shaft-mcp/target/shaft-mcp-<version>.jar
+mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp dependency:copy-dependencies -DincludeScope=runtime \
+  '-DoutputDirectory=${maven.multiModuleProjectDirectory}/shaft-mcp/target/dependency' \
+  -DskipTests -Dgpg.skip
+MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
+MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
+java -cp "$MCP_CP" "$MCP_MAIN"
 ```
 
-The default process is an MCP stdio server. The same JAR dispatches `capture`
-and `doctor` subcommands.
+Use `;` instead of `:` in `MCP_CP` on Windows. The default process is an MCP
+stdio server. The same main class dispatches `capture` and `doctor`
+subcommands.
 
 ## Capture example
 
@@ -75,22 +81,22 @@ Start a privacy-filtered recording. This example is headless for CI or scripted
 use; omit `--headless` when a person will drive the browser locally:
 
 ```bash
-java -jar shaft-mcp-<version>.jar capture start \
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test \
   --browser chrome \
   --output recordings/example.json \
   --headless
-java -jar shaft-mcp-<version>.jar capture status
+java -cp "$MCP_CP" "$MCP_MAIN" capture status
 ```
 
 Drive the visible browser or the automation controlling the headless session,
 optionally add a checkpoint, then stop and generate:
 
 ```bash
-java -jar shaft-mcp-<version>.jar capture checkpoint \
+java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
   --description "Checkout confirmation is visible" --kind ASSERTION
-java -jar shaft-mcp-<version>.jar capture stop
-java -jar shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture stop
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json \
   --output-dir generated-tests \
   --package generated.capture \
@@ -109,7 +115,7 @@ compiles, passes, and produces populated Allure result JSON.
 Analyze only explicitly allowed evidence:
 
 ```bash
-java -jar shaft-mcp-<version>.jar doctor analyze \
+java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results \
   --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
@@ -127,7 +133,7 @@ Create a complete reviewed input based on
 `examples/shaft-pilot/doctor/repair-input.json`, then run:
 
 ```bash
-java -jar shaft-mcp-<version>.jar doctor propose-fix \
+java -cp "$MCP_CP" "$MCP_MAIN" doctor propose-fix \
   --repository "$PWD" \
   --base-sha <40-character-commit> \
   --diagnosis target/shaft-doctor/doctor-report.json \
@@ -143,7 +149,7 @@ the current branch or write to GitHub. After reviewing the diff and validation
 result, publish only a draft pull request with the exact returned token:
 
 ```bash
-java -jar shaft-mcp-<version>.jar doctor publish-draft-pr \
+java -cp "$MCP_CP" "$MCP_MAIN" doctor publish-draft-pr \
   --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
   --approval-token <exact-token> \
   --approve
@@ -163,7 +169,7 @@ configuration without requiring you to edit a client configuration file.
 Start Streamable HTTP for clients that need a reachable HTTPS endpoint:
 
 ```bash
-java -jar shaft-mcp-<version>.jar --spring.profiles.active=http
+java -cp "$MCP_CP" "$MCP_MAIN" --spring.profiles.active=http
 ```
 
 The endpoint is `/mcp` and the default port is `8081`. ChatGPT developer
@@ -229,7 +235,7 @@ output.
 
 | Symptom | Resolution |
 | --- | --- |
-| MCP process exits or prints non-protocol output | Use Java 25, run the packaged JAR directly, and keep stdio logs on stderr. |
+| MCP process exits or prints non-protocol output | Use Java 25, launch with the installer-generated argfile or thin classpath, and keep stdio logs on stderr. |
 | HTTP client cannot connect | Start with `--spring.profiles.active=http`, expose port `8081`, and use `/mcp`. |
 | Capture cannot start | Confirm Chrome or Edge is installed, no prior Capture session owns the runtime directory, and use `--headless` in CI. |
 | Generated test does not replay | Read `generation-report.json`; fix missing external data or an unsupported/ambiguous locator before regenerating. |

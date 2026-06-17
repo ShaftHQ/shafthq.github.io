@@ -324,15 +324,16 @@ required. See the [SHAFT Heal guide](/docs/agentic/heal).
 Use the [module selection and migration guide](/docs/start/upgrade)
 for the complete method matrix.
 
-For a no-AI browser-recording workflow, build or download the executable
-`shaft-mcp` JAR and run:
+For a no-AI browser-recording workflow, use the `shaft-mcp` installer or put the
+thin JAR and runtime dependencies on `MCP_CP`, then run:
 
 ```bash
-java -jar shaft-mcp-<version>.jar capture start \
+MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar shaft-mcp-<version>.jar capture stop
-java -jar shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture stop
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json \
   --output-dir generated-tests --replay
 ```

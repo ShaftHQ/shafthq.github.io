@@ -9,19 +9,19 @@ tags: [pilot, examples]
 
 # Pilot examples
 
-These examples contain no credentials and assume the executable
-`shaft-mcp-<version>.jar` has been downloaded from Maven Central or built from
-the monorepo.
+These examples contain no credentials and assume the thin `shaft-mcp` JAR and
+runtime dependencies are on `MCP_CP`, with `MCP_MAIN` set to
+`com.shaft.mcp.ShaftMcpApplication`.
 
 ## No-AI Capture to TestNG
 
 ```bash
-java -jar shaft-mcp-<version>.jar capture start \
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome \
   --output recordings/example.json --headless
-java -jar shaft-mcp-<version>.jar capture status
-java -jar shaft-mcp-<version>.jar capture stop
-java -jar shaft-mcp-<version>.jar capture generate \
+java -cp "$MCP_CP" "$MCP_MAIN" capture status
+java -cp "$MCP_CP" "$MCP_MAIN" capture stop
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json \
   --output-dir generated-tests --replay
 ```
@@ -29,7 +29,7 @@ java -jar shaft-mcp-<version>.jar capture generate \
 ## No-AI Doctor analysis
 
 ```bash
-java -jar shaft-mcp-<version>.jar doctor analyze \
+java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
 ```

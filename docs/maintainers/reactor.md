@@ -83,7 +83,7 @@ mvn -pl shaft-visual -am test -Dtest=ImageProcessingActionsUnitTest
 mvn -pl shaft-heal -am test
 mvn -pl shaft-pilot-core,shaft-capture,shaft-doctor,shaft-ai -am test
 mvn -pl shaft-mcp -am test -Dtest=ShaftMcpApplicationTests
-mvn -pl shaft-mcp -am package -DskipTests -Dgpg.skip
+mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
 python3 scripts/ci/validate_shaft_mcp_transports.py
 mvn -pl shaft-engine -am test
 mvn clean install -DskipTests -Dgpg.skip
@@ -101,7 +101,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional BrowserStack SDK JAR: `shaft-browserstack/target/shaft-browserstack-<version>.jar`
 - Optional desktop video JAR: `shaft-video/target/shaft-video-<version>.jar`
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual-<version>.jar`
-- MCP executable JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
+- MCP thin JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
 - Surefire reports: `<module>/target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
 - Per-module JaCoCo execution data: `<module>/target/jacoco.exec`
@@ -130,8 +130,8 @@ Workflow commands run from the repository root and select only the modules requi
 
 | Workflow | Reactor policy |
 | --- | --- |
-| `e2eTests.yml` | Engine jobs use `-pl shaft-engine -am`; BrowserStack jobs use `-pl shaft-browserstack -am`; focused visual and desktop-video jobs use their respective optional modules. |
-| `e2eLocalTests.yml`, `e2eLambdaTestTests.yml`, `e2eMoonTests.yml` | Use `-pl shaft-engine -am`; Appium and ordinary browser jobs do not resolve `shaft-video`. |
+| `e2eTests.yml` | Engine and grid jobs use `-pl shaft-engine -am`; BrowserStack jobs use `-pl shaft-browserstack -am`; focused visual and desktop-video jobs use their respective optional modules; Moon runs from the engine module with the JUnit profile. |
+| `e2eLocalTests.yml`, `lambdatestTests.yml` | Local browser, local Cucumber, and LambdaTest jobs use `-pl shaft-engine -am`; ordinary browser/provider jobs do not resolve `shaft-video`. |
 | `coverage-readiness.yml` | Runs focused engine tests, builds `report-aggregate`, gates `target/jacoco/jacoco.csv`, and uploads only `target/jacoco/jacoco.xml` to Codecov. |
 | `code-quality-scan.yml`, `codeql-analysis.yml`, `copilot-setup-steps.yml` | Select the code-bearing engine, optional integrations, and MCP module explicitly; BOM and relocation-only modules are excluded from compilation/analysis. |
 | `shaft-mcp.yml` | Runs manually and daily at 01:00 UTC with local E2E workflows; packages the executable and smokes stdio plus Streamable HTTP. |

@@ -25,7 +25,7 @@ to an unverified artifact.
 | MCP transports | Packaged stdio and Streamable HTTP `/mcp` initialization and tool discovery pass. |
 | Containers | The release Docker image starts in HTTP mode and completes MCP initialization. |
 | External agents | ChatGPT, Codex, Claude, Gemini, and GitHub Copilot setup is documented with current client limitations and credential ownership. |
-| Publication | Maven Central artifacts, sources, JavaDocs, signatures, BOM, executable JAR, aggregate SBOM, GHCR image, MCP registry metadata, and GitHub release use one version. |
+| Publication | Maven Central artifacts, sources, JavaDocs, signatures, BOM, thin MCP JAR, aggregate SBOM, GHCR image, MCP registry metadata, and GitHub release use one version. |
 | Migration | The preserved `io.github.shafthq:shaft-mcp` coordinate and `shaft-mcp` server ID resolve. `ghcr.io/shafthq/shaft-mcp:10.2.20260612` remains a tested compatibility image, while `ghcr.io/shafthq/shaft-engine-mcp` is published by the monorepo for current and future releases. |
 
 Live paid-provider smoke tests are optional. Run them only with explicit
