@@ -130,8 +130,8 @@ Workflow commands run from the repository root and select only the modules requi
 
 | Workflow | Reactor policy |
 | --- | --- |
-| `e2eTests.yml` | Engine jobs use `-pl shaft-engine -am`; BrowserStack jobs use `-pl shaft-browserstack -am`; focused visual and desktop-video jobs use their respective optional modules. |
-| `e2eLocalTests.yml`, `e2eLambdaTestTests.yml`, `e2eMoonTests.yml` | Use `-pl shaft-engine -am`; Appium and ordinary browser jobs do not resolve `shaft-video`. |
+| `e2eTests.yml` | Engine and grid jobs use `-pl shaft-engine -am`; BrowserStack jobs use `-pl shaft-browserstack -am`; focused visual and desktop-video jobs use their respective optional modules; Moon runs from the engine module with the JUnit profile. |
+| `e2eLocalTests.yml`, `lambdatestTests.yml` | Local browser, local Cucumber, and LambdaTest jobs use `-pl shaft-engine -am`; ordinary browser/provider jobs do not resolve `shaft-video`. |
 | `coverage-readiness.yml` | Runs focused engine tests, builds `report-aggregate`, gates `target/jacoco/jacoco.csv`, and uploads only `target/jacoco/jacoco.xml` to Codecov. |
 | `code-quality-scan.yml`, `codeql-analysis.yml`, `copilot-setup-steps.yml` | Select the code-bearing engine, optional integrations, and MCP module explicitly; BOM and relocation-only modules are excluded from compilation/analysis. |
 | `shaft-mcp.yml` | Runs manually and daily at 01:00 UTC with local E2E workflows; packages the executable and smokes stdio plus Streamable HTTP. |
