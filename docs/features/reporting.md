@@ -12,6 +12,11 @@ tags: [reporting, allure, screenshots, evidence]
 SHAFT records test actions as structured Allure steps and attaches the evidence
 needed to understand failures.
 
+Generated element assertions keep the Allure step text concise: the locator is
+reported once as a step parameter, while internal element reads used to evaluate
+the assertion are kept in the debug execution log instead of repeated child
+steps.
+
 ```mermaid
 flowchart LR
     Action["Test action"] --> Step["Allure step"]
