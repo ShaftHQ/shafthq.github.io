@@ -34,6 +34,9 @@ Primary content lives under:
 - Use source-backed claims only. Never restore unsupported adoption numbers,
   stale Java baselines, legacy coordinates as current guidance, secrets, or
   hardcoded "latest" versions.
+- Before PRs, refresh graphify in this repo and `C:\Users\Mohab\IdeaProjects\SHAFT_ENGINE`
+  when files or relationships change; use incremental if a graph exists,
+  otherwise full extraction, and report backend/key blockers.
 
 ## Experience
 
