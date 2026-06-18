@@ -17,6 +17,12 @@ reported once as a step parameter, while internal element reads used to evaluate
 the assertion are kept in the debug execution log instead of repeated child
 steps.
 
+Text-entry element actions keep the Allure timeline readable by showing a
+single-line preview of the value being typed in the step title. Long or
+multiline values are capped in the title, while the locator, typed text, and
+resolved element name remain available in the step parameters and details.
+Secure typing stays masked in both the title and parameters.
+
 ```mermaid
 flowchart LR
     Action["Test action"] --> Step["Allure step"]

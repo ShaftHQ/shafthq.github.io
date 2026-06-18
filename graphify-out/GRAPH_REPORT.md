@@ -1,7 +1,7 @@
-# Graph Report - shafthq_retry_gif_docs  (2026-06-18)
+# Graph Report - shafthq_allure_typing_docs  (2026-06-18)
 
 ## Corpus Check
-- 204 files · ~224,516 words
+- 204 files · ~224,620 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f2336845`
+- Built from commit: `c1f77967`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
