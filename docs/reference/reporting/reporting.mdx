@@ -387,7 +387,7 @@ SHAFT.Properties.visuals.set()
 
 ## Animated GIFs
 
-In addition to full video recordings, SHAFT can create an animated GIF from the screenshots taken during execution. This lightweight alternative is encoded in the background, keeps the configured frame delay, and avoids applying the SHAFT watermark twice when screenshots already include it:
+Animated GIFs are disabled by default. SHAFT creates them when you explicitly set `createAnimatedGif=true`, and also enables them automatically for retry attempts when `forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the background and do not force every action screenshot to be attached to the report:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
@@ -438,6 +438,7 @@ allure.generateArchive=true
 # Allure opens automatically by default — add visual evidence
 videoParams_recordVideo=true
 createAnimatedGif=true
+# Attach every action screenshot while actively debugging
 screenshotParams_whenToTakeAScreenshot=Always
 ```
 
@@ -474,6 +475,6 @@ Key properties quick reference:
 | `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
 | `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
 | `videoParams_scope` | `DriverSession` | Scope of video recording |
-| `createAnimatedGif` | `false` | Create an animated GIF from screenshots |
+| `createAnimatedGif` | `false` | Create an animated GIF; retries can enable it automatically |
 | `animatedGif_frameDelay` | `500` | Delay between GIF frames (milliseconds) |
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | When to capture screenshots |
+| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | When to attach screenshots; the default attaches validation checkpoints only |
