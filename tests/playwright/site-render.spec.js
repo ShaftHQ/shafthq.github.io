@@ -1,5 +1,69 @@
 const {test, expect} = require('@playwright/test');
 
+const samplePom = `<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>shaft-testng-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.shafthq</groupId>
+                <artifactId>shaft-bom</artifactId>
+                <version>\${shaft.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.github.shafthq</groupId>
+            <artifactId>shaft-engine</artifactId>
+        </dependency>
+    </dependencies>
+    <build></build>
+</project>`;
+
+async function stubGeneratorSources(page) {
+  await page.route('https://cdnjs.cloudflare.com/ajax/libs/jszip/**/jszip.min.js', route => route.fulfill({
+    contentType: 'application/javascript',
+    body: `
+      window.JSZip = class {
+        constructor() { this.files = {}; }
+        file(name, content) {
+          if (content === undefined) return {async: async () => this.files[name]};
+          this.files[name] = content;
+          return this;
+        }
+        async generateAsync() {
+          window.__generatedFiles = this.files;
+          return new Blob([JSON.stringify(this.files)], {type: 'application/json'});
+        }
+      };
+    `,
+  }));
+  await page.route('https://api.github.com/repos/ShaftHQ/SHAFT_ENGINE/contents/shaft-engine/src/main/resources/examples', route => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify([{type: 'dir', name: 'TestNG', url: 'https://api.github.test/examples/TestNG'}]),
+  }));
+  await page.route('https://api.github.test/examples/TestNG', route => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify([{type: 'dir', name: 'shaft-testng-api'}]),
+  }));
+  await page.route('https://api.github.com/repos/ShaftHQ/SHAFT_ENGINE/contents/shaft-engine/src/main/resources/examples/TestNG/shaft-testng-api', route => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify([{type: 'file', name: 'pom.xml', download_url: 'https://raw.test/pom.xml'}]),
+  }));
+  await page.route('https://raw.test/pom.xml', route => route.fulfill({
+    contentType: 'text/xml',
+    body: samplePom,
+  }));
+}
+
 test('homepage exposes the primary product paths', async ({page}) => {
   await page.goto('/');
   await expect(page).toHaveTitle(/SHAFT/i);
@@ -40,8 +104,44 @@ test('installation page embeds the project generator', async ({page}) => {
   await page.goto('/docs/start/installation');
   await expect(page.locator('iframe[title="SHAFT Project Generator"]')).toHaveAttribute(
     'src',
-    'https://shafthq.github.io/SHAFT_ENGINE/shaft-engine/resources/index.html',
+    '/project-generator',
   );
+  const generator = page.frameLocator('iframe[title="SHAFT Project Generator"]');
+  await expect(generator.getByRole('heading', {name: 'SHAFT Project Generator'})).toBeVisible();
+  await expect(generator.getByRole('button', {name: 'Next'})).toBeDisabled();
+});
+
+test('project generator adds selected optional modules to pom.xml', async ({page}) => {
+  await stubGeneratorSources(page);
+  await page.goto('/project-generator');
+
+  await page.getByLabel('TestNG').check();
+  await page.getByRole('button', {name: 'Next'}).click();
+  await page.getByLabel('Api').check();
+  await page.getByRole('button', {name: 'Next'}).click();
+  await page.getByLabel('Group ID').fill('com.example');
+  await page.getByLabel('Version').fill('1.2.3');
+  await page.getByRole('button', {name: 'Next'}).click();
+
+  await expect(page.getByRole('heading', {name: 'Optional SHAFT modules'})).toBeVisible();
+  await expect(page.getByRole('link', {name: 'Learn more about SHAFT Heal'})).toHaveAttribute(
+    'href',
+    '/docs/agentic/heal',
+  );
+  await page.getByRole('checkbox', {name: 'SHAFT Heal'}).check();
+  await page.getByRole('button', {name: 'Next'}).click();
+  await page.getByLabel('Yes, include GitHub Actions workflow').uncheck();
+  await page.getByRole('button', {name: 'Next'}).click();
+  await page.getByLabel('Yes, include Dependabot configuration').uncheck();
+  await page.getByRole('button', {name: 'Generate Project'}).click();
+
+  await expect(page.getByRole('heading', {name: 'Project Generated Successfully'})).toBeVisible();
+  const pom = await page.evaluate(() => window.__generatedFiles['shaft-api-testng/pom.xml']);
+  expect(pom).toContain('<groupId>com.example</groupId>');
+  expect(pom).toContain('<artifactId>shaft-api-testng</artifactId>');
+  expect(pom).toContain('<version>1.2.3</version>');
+  expect(pom).toContain('<artifactId>shaft-heal</artifactId>');
+  expect(pom).not.toContain('<artifactId>shaft-pilot-core</artifactId>');
 });
 
 test('MCP application command can be copied', async ({page, context}) => {
