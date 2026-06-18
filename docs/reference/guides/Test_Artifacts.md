@@ -117,9 +117,9 @@ Always use `if: always()` (GitHub Actions) or `post { always { } }` (Jenkins) so
 
 | Property | Default | Description |
 |---|---|---|
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, or `Never` |
+| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, `FailuresOnly`, or `Never`; default attaches validation checkpoint screenshots only |
 | `videoParams_recordVideo` | `false` | Record video of each test session |
-| `createAnimatedGif` | `false` | Create an animated GIF from captured screenshots |
+| `createAnimatedGif` | `false` | Create an animated GIF; retry attempts can enable it automatically |
 | `allure.generateArchive` | `false` | Generate a portable ZIP archive of the report |
 
 For the full list of reporting properties, see the

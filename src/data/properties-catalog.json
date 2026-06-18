@@ -373,7 +373,7 @@
     "targetFile": "custom.properties",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "When retrying a failed test, capture screenshots and logs to attach as supporting evidence in the Allure report."
+    "description": "When retrying a failed test, enable GIF, video, and WebDriver log evidence for the retry attempt."
   },
   {
     "section": "Flags",
@@ -805,7 +805,7 @@
     "targetFile": "custom.properties",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "Create animated GIF from screenshots."
+    "description": "Create animated GIFs; retry attempts can enable this automatically."
   },
   {
     "section": "Visuals",
@@ -868,8 +868,8 @@
     "key": "screenshotParams_whenToTakeAScreenshot",
     "targetFile": "custom.properties",
     "defaultValue": "ValidationPointsOnly",
-    "possibleValues": "",
-    "description": "Screenshot Params when To Take AScreenshot setting."
+    "possibleValues": "Always, ValidationPointsOnly, FailuresOnly, Never",
+    "description": "When to attach screenshots during test execution; the default attaches validation checkpoints only."
   },
   {
     "section": "Visuals",
