@@ -6,6 +6,12 @@ function DeferredAutoBot(): JSX.Element | null {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
+    try {
+      if (window.self !== window.top) return;
+    } catch {
+      return;
+    }
+
     let idleId = 0;
     const hydrate = () => setShouldRender(true);
     const hydrateOnIntent = () => hydrate();
