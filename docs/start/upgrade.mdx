@@ -16,16 +16,18 @@ The only recommended upgrade route is the transactional
 [`upgrade_to_modular_shaft.py`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-upgrader/upgrade_to_modular_shaft.py)
 script. It upgrades:
 
-- Native Selenium, Appium, or REST Assured Maven projects using TestNG or JUnit.
+- Native Selenium, Appium, REST Assured, or Cucumber Maven projects using
+  TestNG, JUnit, or Cucumber.
 - Projects already using modular SHAFT.
 - Legacy projects using `io.github.shafthq:SHAFT_ENGINE`.
 
 For native projects, the script preserves the existing Selenium, Appium, REST
-Assured, TestNG, and JUnit source and dependencies. It adds modular SHAFT so the
-project can adopt the SHAFT API incrementally; it does not mechanically rewrite
-all native test code. Native projects start with `shaft-engine` only; their
-existing third-party BrowserStack, OpenCV, or video dependencies are preserved
-without being reinterpreted as SHAFT optional-module usage.
+Assured, Cucumber, TestNG, and JUnit source and dependencies. It adds modular
+SHAFT so the project can adopt the SHAFT API incrementally; it does not
+mechanically rewrite all native test code. Native projects start with
+`shaft-engine` only; their existing third-party BrowserStack, OpenCV, or video
+dependencies are preserved without being reinterpreted as SHAFT optional-module
+usage.
 
 For legacy SHAFT projects, Java imports remain under `com.shaft`. The script
 replaces the old Maven coordinate, imports the BOM, scans source and
@@ -48,7 +50,8 @@ result and troubleshooting; it is not an alternative migration path.
 4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
    the legacy `SHAFT_ENGINE` dependency.
 5. Adds only the optional modules supported by project evidence.
-6. Runs Maven `test-compile` so both main and test source are compiled.
+6. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
+   the local Maven repository and both main and test source are compiled.
 7. Commits the file transaction only after compilation passes.
 8. Restores every touched file byte-for-byte when validation fails.
 9. Optionally uses the OpenAI Responses API for exactly three repair attempts
@@ -65,7 +68,7 @@ flowchart TD
     BaselinePass -- No --> Stop
     BaselinePass -- Yes --> Snapshot["Open file transaction"]
     Snapshot --> Upgrade["Update POM and select optional modules"]
-    Upgrade --> Compile["Run Maven test-compile"]
+    Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
     Compile --> Pass{"Compilation passes?"}
     Pass -- Yes --> Commit["Commit upgraded files"]
     Pass -- No --> Key{"OpenAI API key available?"}
@@ -149,7 +152,7 @@ AI attempt count, and rollback status. It never contains the API key.
 | --- | --- |
 | `--project PATH` | Project root. Defaults to the current directory. |
 | `--shaft-version VERSION` | Use a controlled version instead of Maven Central's latest release. Useful for local/offline repositories. |
-| `--compile-command COMMAND` | Override the default Maven `test-compile -DskipTests -Dgpg.skip` command. |
+| `--compile-command COMMAND` | Override the default Maven `dependency:go-offline test-compile -DskipTests -Dgpg.skip` command. |
 | `--compile-timeout SECONDS` | Set the timeout for each compile invocation. Default: 900 seconds. |
 | `--skip-baseline-compile` | Skip the unchanged-project compile. This weakens failure attribution and is not recommended. |
 | `--dry-run` | Print POM diffs without writing or compiling. |
@@ -171,6 +174,7 @@ The script supports projects when it detects one of these shapes:
 | Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
 | Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
 | Native REST Assured | REST Assured dependency/import plus TestNG or JUnit dependency/import. |
+| Cucumber | Cucumber dependency/import. |
 
 For multi-module builds, POMs that directly declare SHAFT or a supported native
 stack/runner pair are updated. Other reactor POMs are left unchanged.
@@ -247,13 +251,15 @@ Appium driver-native recording and cloud-provider video do not select
 The default validation command is:
 
 ```bash
-mvn test-compile -DskipTests -Dgpg.skip
+mvn dependency:go-offline test-compile -DskipTests -Dgpg.skip
 ```
 
-`test-compile` compiles both production and test source without executing tests.
-The same command runs before and after migration. Use `--compile-command` only
-when the project requires a profile, settings file, module selector, or another
-project-specific compile entry point.
+`dependency:go-offline` resolves project dependencies and build plugins into
+the local Maven repository. `test-compile` compiles both production and test
+source without executing tests. The same command runs before and after
+migration. Use `--compile-command` only when the project requires a profile,
+settings file, module selector, or another project-specific compile entry
+point.
 
 The transaction records original bytes and file permissions immediately before
 the first write to each file. A normal success discards that in-memory
