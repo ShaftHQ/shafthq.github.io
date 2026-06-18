@@ -17,7 +17,7 @@
     "test": "npm run test:docs && npm run test:homepage && npm run test:history && npm run test:release-template",
     "test:history": "node tests/chat-history.test.js",
     "test:homepage": "node tests/homepage-performance.test.js",
-    "test:docs": "node tests/docs-loader.test.js && node tests/enhanced-instruction.test.js && node scripts/check-doc-duplicates.mjs",
+    "test:docs": "node tests/docs-loader.test.js && node tests/enhanced-instruction.test.js && node tests/properties-catalog.test.js && node scripts/check-doc-duplicates.mjs",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "node tests/run-e2e-tests.js",
     "test:release-template": "node tests/release-blog-template.test.js",

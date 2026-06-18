@@ -1,0 +1,16 @@
+---
+id: custom-properties-generator
+title: Custom Properties Generator
+sidebar_label: Properties Generator
+description: "Generate SHAFT Engine properties files from a searchable catalog of supported properties, defaults, possible values, and descriptions."
+keywords: [SHAFT, custom properties, properties generator, configuration, custom.properties]
+tags: [configuration, properties, generator]
+---
+
+import {PropertiesGenerator} from '@site/src/components/PropertiesGenerator';
+
+Use this generator to choose SHAFT properties, edit their values, and download the matching `.properties` files.
+
+Save generated files under `src/main/resources/properties/` in your test project. SHAFT reads every `.properties` file in that folder during startup.
+
+<PropertiesGenerator />

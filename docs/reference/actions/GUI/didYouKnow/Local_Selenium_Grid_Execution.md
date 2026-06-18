@@ -460,7 +460,7 @@ targetOperatingSystem=Linux
 targetBrowserName=chrome
 ```
 
-```properties title="src/main/resources/properties/testng.properties"
+```properties title="src/main/resources/properties/TestNG.properties"
 # Enable parallel test execution
 setParallel=METHODS
 setParallelMode=DYNAMIC

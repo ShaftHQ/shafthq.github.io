@@ -92,6 +92,7 @@ for (const route of [
   '/docs/agentic/mcp/manual',
   '/docs/agentic/doctor',
   '/docs/agentic/heal',
+  '/docs/reference/properties/custom-properties-generator',
 ]) {
   test(`${route} renders`, async ({page}) => {
     const response = await page.goto(route);
@@ -163,7 +164,7 @@ test('Linux hides unsupported desktop applications', async ({page}) => {
   await expect(page.locator('[data-application="claude-desktop"]')).toHaveCount(0);
 });
 
-for (const route of ['/', '/docs/agentic/mcp', '/docs/agentic/mcp/manual']) {
+for (const route of ['/', '/docs/agentic/mcp', '/docs/agentic/mcp/manual', '/docs/reference/properties/custom-properties-generator']) {
   test(`${route} has no page-level horizontal overflow`, async ({page}) => {
     await page.goto(route);
     await expect.poll(() => page.evaluate(
@@ -171,6 +172,45 @@ for (const route of ['/', '/docs/agentic/mcp', '/docs/agentic/mcp/manual']) {
     )).toBeTruthy();
   });
 }
+
+test('properties generator downloads and copies custom.properties', async ({page, context}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/docs/reference/properties/custom-properties-generator');
+  await expect(
+    page.getByLabel('Generated file destination').getByText('src/main/resources/properties/', {exact: true}),
+  ).toBeVisible();
+
+  await page.getByPlaceholder('Property name, section, or description').fill('headlessExecution');
+  const row = page.locator('[data-property-key="headlessExecution"]');
+  await expect(row).toBeVisible();
+  await row.getByRole('checkbox').check();
+  await row.getByLabel('Value').selectOption('true');
+
+  await expect(page.locator('pre')).toContainText('headlessExecution=true');
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', {name: 'Download and copy custom.properties'}).click();
+  const download = await downloadPromise;
+  expect(download.suggestedFilename()).toBe('custom.properties');
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toContain(
+    'headlessExecution=true',
+  );
+});
+
+test('properties generator groups TestNG output separately', async ({page}) => {
+  await page.goto('/docs/reference/properties/custom-properties-generator');
+  await page.getByPlaceholder('Property name, section, or description').fill('setParallel');
+  const row = page.locator('[data-property-key="setParallel"]');
+  await expect(row).toHaveAttribute('data-target-file', 'TestNG.properties');
+  await row.getByRole('checkbox').check();
+  await row.getByLabel('Value').selectOption('METHODS');
+  await expect(
+    page.getByLabel('Generated properties files').getByText(
+      'src/main/resources/properties/TestNG.properties',
+      {exact: true},
+    ),
+  ).toBeVisible();
+  await expect(page.locator('pre')).toContainText('setParallel=METHODS');
+});
 
 test('dark mode remains readable', async ({page}) => {
   await page.goto('/');
