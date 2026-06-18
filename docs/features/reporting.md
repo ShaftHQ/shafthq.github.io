@@ -19,9 +19,9 @@ steps.
 
 Text-entry element actions keep the Allure timeline readable by showing a
 single-line preview of the value being typed in the step title. Long or
-multiline values are capped in the title, while the locator, typed text, and
-resolved element name remain available in the step parameters and details.
-Secure typing stays masked in both the title and parameters.
+multiline values are capped in the title. The step metadata keeps the locator
+and includes the resolved element name only when the engine captures one.
+Secure typing stays masked.
 
 ```mermaid
 flowchart LR
