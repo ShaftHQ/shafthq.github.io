@@ -30,6 +30,12 @@ Each analysis writes:
   `Finding` records, confidence, uncertainty, and `Remediation` actions, plus
   a separately identified advisory when provider analysis is requested;
 - `doctor-report.md`: a portable human-readable report and evidence index;
+- `doctor-triage.json` and `doctor-triage.md`: deterministic counts for
+  failing attempts, retry-hidden failures, recurring signatures, primary
+  signature, summary, and cited evidence IDs;
+- `execution-intelligence.json` and `execution-intelligence.md`: a compact
+  execution trend summary with primary cause, confidence, hidden retry count,
+  and recurring failure count;
 - `artifacts/`: approved binary evidence such as screenshots.
 
 Reports contain no original absolute machine paths. Evidence IDs and bundle
@@ -40,8 +46,9 @@ analysis of identical inputs is byte stable.
 
 <DoctorCommand />
 
-The command writes `doctor-evidence.json`, `doctor-report.json`, and
-`doctor-report.md` under `target/shaft-doctor`.
+The command writes `doctor-evidence.json`, `doctor-report.json`,
+`doctor-report.md`, `doctor-triage.*`, and `execution-intelligence.*` under
+`target/shaft-doctor`.
 
 From an MCP chat:
 

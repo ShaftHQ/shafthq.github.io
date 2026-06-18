@@ -144,13 +144,16 @@ generated-tests/
   src/test/java/generated/capture/<SessionName>Test.java
   src/test/resources/testDataFiles/<session-name>-test.json
   target/shaft-capture/generation-report.json
+  target/shaft-capture/capture-review.json
 ```
 
 Generation selects locators in the accessibility, label, test-ID, stable
 ID/name, CSS, then XPath family. The report records the score contribution from
 uniqueness, visibility, interactability, semantic match, volatility,
 frame/shadow context, and replay evidence, plus ranked fallbacks. Stable
-user-provided locators can outrank volatile semantic evidence.
+user-provided locators can outrank volatile semantic evidence. The review file
+summarizes deterministic readiness, blockers, risks, and next suggestions; MCP
+generation results expose the same path as `reviewPath`.
 
 Ordinary values are copied from the recording's external JSON into the
 generated test-data file. Secret and sensitive references become required

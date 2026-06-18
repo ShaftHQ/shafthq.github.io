@@ -730,6 +730,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   healing.history.retentionDays=30
   healing.visual.enabled=false
   healing.ai.enabled=false
+  healing.ai.trigger=ambiguous
   healing.sourcePatch.enabled=false
   ```
 
@@ -750,6 +751,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | healing.history.retentionDays    | `30`          | integer | Maximum history age in days. |
 | healing.visual.enabled           | `false`       | `true`, `false` | Enables optional local visual evidence. |
 | healing.ai.enabled               | `false`       | `true`, `false` | Enables optional provider reranking after deterministic eligibility. |
+| healing.ai.trigger               | `ambiguous`   | `never`, `ambiguous`, `below-threshold`, `always` | Controls when enabled AI reranking runs after deterministic scoring. |
 | healing.sourcePatch.enabled      | `false`       | `true`, `false` | Reserved consent gate for reviewed source-patch proposals. |
 
   </TabItem>
