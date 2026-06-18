@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-18)
 
 ## Corpus Check
-- 232 files · ~213,705 words
+- 205 files · ~268,567 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2069 nodes · 1902 edges · 232 communities (204 shown, 28 thin omitted)
+- 2073 nodes · 1934 edges · 210 communities (179 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `120de334`
+- Built from commit: `4f55c3c2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -158,6 +158,7 @@
 - [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
 - [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
 - [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
+- [[_COMMUNITY_staticimg (5)|static/img (5)]]
 - [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
 - [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
 - [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
@@ -208,6 +209,12 @@
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
+- [[_COMMUNITY_blogauthors.yml (1)|blog/authors.yml (1)]]
+- [[_COMMUNITY_srcdata (1)|src/data (1)]]
+- [[_COMMUNITY_demo-output.txt (1)|demo-output.txt (1)]]
+- [[_COMMUNITY_staticexamples (1)|static/examples (1)]]
+- [[_COMMUNITY_.github (1)|.github (1)]]
+- [[_COMMUNITY_staticimg (1)|static/img (1)]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Upgrade to modular SHAFT` - 23 edges
@@ -230,7 +237,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (232 total, 28 thin omitted)
+## Communities (210 total, 31 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -613,7 +620,7 @@ Cohesion: 0.29
 Nodes (6): Android Native App, BrowserStack Native Apps, Common Properties (Android & iOS), iOS Native App, Mobile Web (Browser on Device), SHAFT MCP Mobile Automation
 
 ### Community 101 - "docs/reference (7)"
-Cohesion: 0.29
+Cohesion: 0.50
 Nodes (3): Example Configuration, Integrate JIRA With SHAFT Engine, Steps
 
 ### Community 102 - "docs/reference (7)"
@@ -784,6 +791,10 @@ Nodes (5): Common Use Cases, Use Case 1: Multi-Language Testing, Use Case 2: Cro
 Cohesion: 0.40
 Nodes (5): CSV Encoding Issues, Excel File Locked, File Not Found, Invalid JSON Format, Troubleshooting
 
+### Community 146 - "static/img (5)"
+Cohesion: 0.13
+Nodes (12): fallbackProjects, fetchDirectoryContents(), fetchJson(), fetchText(), GitHubItem, loadProjectData(), OptionalModule, optionalModules (+4 more)
+
 ### Community 147 - "docs/reference (5)"
 Cohesion: 0.40
 Nodes (4): Complete Example, intercept() — Block or Modify Requests, mock() — Replace Responses, Use Cases
@@ -892,20 +903,30 @@ Nodes (3): buildChatHistory(), success, testChatHistoryFiltering()
 Cohesion: 0.50
 Nodes (3): attribute(), Validate Browser Title, Validate Browser URL
 
+### Community 202 - "blog/authors.yml (1)"
+Cohesion: 0.31
+Nodes (6): buildPropertiesFile(), catalog, PropertyDefinition, propertyId(), sanitizeValue(), targetPath()
+
+### Community 203 - "src/data (1)"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260618, ⚡ What Changed?, What's Changed
+
+### Community 204 - "demo-output.txt (1)"
+Cohesion: 0.40
+Nodes (3): allowedTargets, catalog, seen
+
 ## Knowledge Gaps
-- **1340 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1335 more)
+- **1360 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1355 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Excel Test Data` connect `docs/reference (7)` to `docs/reference (6)`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
+- **Why does `Interacting with IFrames` connect `docs/reference (7)` to `docs/reference (7)`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1340 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1360 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -914,3 +935,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
+- **Should `docs/reference (38)` be split into smaller, more focused modules?**
+  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._

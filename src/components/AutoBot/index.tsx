@@ -253,19 +253,19 @@ Focus on helping users with:
       {/* Floating Chat Button */}
       {!isOpen && (
         <button
+          type="button"
           className={styles.chatButton}
           onClick={toggleChat}
           aria-label="Open AutoBot Chat"
           title="Chat with AutoBot"
         >
           <img src="/img/autobot-avatar.svg" alt="AutoBot" className={styles.chatButtonIcon} loading="lazy" decoding="async" />
-          <span className={styles.badge}>AI</span>
         </button>
       )}
 
       {/* Chat Window */}
       {isOpen && (
-        <div className={styles.chatWindow}>
+        <div className={styles.chatWindow} role="dialog" aria-label="AutoBot chat">
           {/* Header */}
           <div className={styles.chatHeader}>
             <div className={styles.headerLeft}>
@@ -274,12 +274,13 @@ Focus on helping users with:
                 <h3>AutoBot</h3>
                 <span className={styles.statusIndicator}>
                   <span className={styles.statusDot}></span>
-                  Online
+                  SHAFT docs assistant
                 </span>
               </div>
             </div>
             <div className={styles.headerActions}>
               <button
+                type="button"
                 className={styles.iconButton}
                 onClick={clearChat}
                 aria-label="Clear chat"
@@ -288,6 +289,7 @@ Focus on helping users with:
                 <FontAwesomeIcon icon={"fa-solid fa-trash" as IconProp} />
               </button>
               <button
+                type="button"
                 className={styles.iconButton}
                 onClick={toggleChat}
                 aria-label="Minimize chat"
@@ -365,12 +367,14 @@ Focus on helping users with:
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               onFocus={handleInputFocus}
-              placeholder="Ask me anything about SHAFT..."
+              aria-label="Ask AutoBot about SHAFT"
+              placeholder="Ask about SHAFT docs..."
               className={styles.inputField}
               rows={1}
               disabled={isLoading}
             />
             <button
+              type="button"
               onClick={handleSend}
               className={styles.sendButton}
               disabled={!input.trim() || isLoading}

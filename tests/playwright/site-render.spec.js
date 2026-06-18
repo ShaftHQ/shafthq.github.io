@@ -110,6 +110,14 @@ test('installation page embeds the project generator', async ({page}) => {
   const generator = page.frameLocator('iframe[title="SHAFT Project Generator"]');
   await expect(generator.getByRole('heading', {name: 'SHAFT Project Generator'})).toBeVisible();
   await expect(generator.getByRole('button', {name: 'Next'})).toBeDisabled();
+  await expect(page.getByRole('button', {name: 'Open AutoBot Chat'})).toBeVisible({timeout: 6500});
+  await expect(generator.getByRole('button', {name: 'Open AutoBot Chat'})).toHaveCount(0);
+});
+
+test('project generator opened directly keeps AutoBot available', async ({page}) => {
+  await page.goto('/project-generator');
+  await expect(page.getByRole('heading', {name: 'SHAFT Project Generator'})).toBeVisible();
+  await expect(page.getByRole('button', {name: 'Open AutoBot Chat'})).toBeVisible({timeout: 6500});
 });
 
 test('project generator adds selected optional modules to pom.xml', async ({page}) => {
