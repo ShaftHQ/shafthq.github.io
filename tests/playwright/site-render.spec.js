@@ -36,6 +36,14 @@ for (const route of [
   });
 }
 
+test('installation page embeds the project generator', async ({page}) => {
+  await page.goto('/docs/start/installation');
+  await expect(page.locator('iframe[title="SHAFT Project Generator"]')).toHaveAttribute(
+    'src',
+    'https://shafthq.github.io/SHAFT_ENGINE/shaft-engine/resources/index.html',
+  );
+});
+
 test('MCP application command can be copied', async ({page, context}) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/docs/agentic/mcp');
