@@ -152,6 +152,7 @@ AI reranking is also disabled by default:
 
 ```properties
 healing.ai.enabled=false
+healing.ai.trigger=ambiguous
 ```
 
 AI uses the provider-neutral controls from `shaft-pilot-core`. Add `shaft-ai`
@@ -159,7 +160,10 @@ only for direct OpenAI, Anthropic, Gemini, or Ollama calls, and configure the
 Pilot approval, evidence, budget, timeout, and provider properties separately.
 Only minimized candidate records are eligible for transfer. Provider output may
 rerank supplied candidate IDs but cannot invent an element or override
-deterministic acceptance.
+deterministic acceptance. The default trigger keeps AI fallback deterministic
+first: reranking runs only for ambiguous or below-threshold candidate sets. Use
+`never`, `below-threshold`, or `always` when a stricter or broader trigger is
+needed.
 
 ## Source changes and limits
 
