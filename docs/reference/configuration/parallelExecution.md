@@ -25,11 +25,11 @@ TestNG provides built-in support for running tests in parallel. SHAFT makes it e
 
 ### Configuration
 
-You can configure TestNG parallel execution in your `testng.properties` file or programmatically.
+You can configure TestNG parallel execution in your `TestNG.properties` file or programmatically.
 
 #### File-based Configuration
 
-```properties title="src/main/resources/properties/testng.properties"
+```properties title="src/main/resources/properties/TestNG.properties"
 # Set the parallel mode: METHODS, CLASSES, TESTS, or INSTANCES
 setParallel=METHODS
 
@@ -117,7 +117,7 @@ project-root/
 ├── src/
 │   ├── main/resources/properties/
 │   │   ├── custom.properties
-│   │   └── testng.properties
+│   │   └── TestNG.properties
 │   └── test/
 │       ├── java/com/example/tests/
 │       │   └── SearchTest.java
@@ -224,9 +224,9 @@ To override the XML file path from the command line without changing `pom.xml`:
 mvn test -DsuiteXmlFile=src/test/resources/smoke-testng.xml
 ```
 
-:::note testng.xml vs testng.properties
+:::note testng.xml vs TestNG.properties
 - **`testng.xml`** controls _which_ tests to run and _how_ to run them (suite structure, parallel mode, thread count per suite).
-- **`testng.properties`** applies the same settings globally across all runs.
+- **`TestNG.properties`** applies the same settings globally across all runs.
 
 When both are present, the `testng.xml` suite-level settings (parallel mode and thread count) take precedence.
 :::
@@ -311,7 +311,7 @@ You can combine cross-browser execution with TestNG parallelization for maximum 
 SHAFT.CrossBrowserMode=parallelized
 ```
 
-```properties title="src/main/resources/properties/testng.properties"
+```properties title="src/main/resources/properties/TestNG.properties"
 setParallel=CLASSES
 setThreadCount=3
 ```
@@ -388,7 +388,7 @@ public class ParallelThreadLocalTest {
 
 ### Configure TestNG for Parallel Execution
 
-```properties title="src/main/resources/properties/testng.properties"
+```properties title="src/main/resources/properties/TestNG.properties"
 setParallel=METHODS
 setThreadCount=3
 ```
@@ -534,7 +534,7 @@ browserNavigationTimeout=60
 pageLoadTimeout=60
 ```
 
-```properties title="src/main/resources/properties/testng.properties"
+```properties title="src/main/resources/properties/TestNG.properties"
 # Run test methods in parallel
 setParallel=METHODS
 
@@ -587,7 +587,7 @@ For more information, check out these related topics:
 
 SHAFT provides powerful parallel execution capabilities:
 
-1. **TestNG Parallel Execution**: Configure through `testng.properties` with multiple modes (METHODS, CLASSES, TESTS, INSTANCES)
+1. **TestNG Parallel Execution**: Configure through `TestNG.properties` with multiple modes (METHODS, CLASSES, TESTS, INSTANCES)
 2. **Cross-Browser Execution**: Run tests across Chrome, Firefox, and Safari sequentially or in parallel
 3. **ThreadLocal Pattern**: Safely manage WebDriver instances in multi-threaded environments
 
