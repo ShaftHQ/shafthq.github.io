@@ -445,7 +445,7 @@ For even faster execution, consider enabling maximum performance mode:
 maximumPerformanceMode=2
 ```
 
-This provides up to 400% performance boost by disabling complementary features.
+This provides up to 400% performance boost by disabling complementary features, including screenshot watermarking.
 
 ---
 

@@ -70,6 +70,7 @@ public class UserImportTest {
 ### writeToFile()
 
 Writes content to a file. Creates the file (and parent directories) if they do not exist; overwrites if the file already exists.
+For binary content, SHAFT reports the written byte count instead of logging the full byte array.
 
 ```java title="WriteFile.java"
 FileActions file = SHAFT.CLI.file();
