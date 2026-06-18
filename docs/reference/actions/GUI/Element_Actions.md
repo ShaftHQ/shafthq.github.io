@@ -16,9 +16,9 @@ For trust-gated natural-language element workflows such as
 ## Typing
 
 Typing actions show the value being entered in the Allure step title. SHAFT
-caps long or multiline values in the title so reports stay readable, and keeps
-the full typed value, locator, and resolved element name in the step parameters
-and details. Secure typing remains masked.
+caps long or multiline values in the title so reports stay readable, keeps the
+locator in step metadata, and adds the resolved element name only when the
+engine captures one. Secure typing remains masked.
 
 ### type()
 
