@@ -71,6 +71,25 @@ The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_generate`; `capture_codegen_features` returns the feature map. Status
 contains safe metadata and counts, never typed values.
 
+When recording in a visible browser, SHAFT injects a compact Capture panel into
+the managed Chrome/Edge session. The panel lists captured actions in plain
+English while the user clicks, types, selects, uploads, or navigates. Its
+controls pause or resume action capture, add a user checkpoint, edit the visible
+action text by recording an edit checkpoint, and stop the recording. Pressing
+stop from the panel requests a normal SHAFT stop, closes the managed browser,
+and leaves the session in `COMPLETED` status for generation.
+
+For agent-driven MCP flows, the intended handoff is: call `capture_start` or
+`capture_start_codegen`, let the user interact with the visible browser, wait
+for either `capture_stop` or a browser-panel stop to complete, then call
+`capture_code_blocks`. The agent should show the generated result and ask
+whether the user wants the complete Java snippet or wants the agent to insert
+the code into the current repository. Snippet mode uses the returned Java
+full-class block, including imports, locator fields, setup, SHAFT actions, and
+teardown. Insertion mode should inspect the repository and move locators and
+actions into existing Page Object classes when that pattern already exists, or
+create the smallest matching page/test classes when it does not.
+
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
 separator is assumed; restrictive POSIX permissions are applied when supported

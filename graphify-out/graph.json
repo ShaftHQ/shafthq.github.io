@@ -4517,7 +4517,7 @@
       "label": "Format",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L65",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "agentic_capture_format",
       "community": 94,
@@ -4527,7 +4527,7 @@
       "label": "Privacy boundary",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L92",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "agentic_capture_privacy_boundary",
       "community": 94,
@@ -4537,7 +4537,7 @@
       "label": "Lifecycle",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L109",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "agentic_capture_lifecycle",
       "community": 94,
@@ -4547,7 +4547,7 @@
       "label": "Deterministic TestNG generation",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L130",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "agentic_capture_deterministic_testng_generation",
       "community": 94,
@@ -40136,5 +40136,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1097e9431fb2e2f6b25ffe259de1c5e62ab7bbad"
+  "built_at_commit": "94ee0304f2d2632dfd7bfd26eb110d4c605c9de5"
 }
