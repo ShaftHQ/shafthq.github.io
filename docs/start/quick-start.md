@@ -118,6 +118,9 @@ public void afterMethod(){
 
 - Create a new Package ```testPackage``` under ```src/test/java```
 - Create a new Java class ```TestClass``` under your newly created `testPackage`.
+- SHAFT-generated JUnit projects enable the SHAFT listener and extension through
+  `src/test/resources/junit-platform.properties`. Existing projects should keep
+  `junit.jupiter.extensions.autodetection.enabled=true` in that file.
 - Copy the below imports into your newly created `TestClass` after the line that contains `package testPackage`.
 
 ```java
