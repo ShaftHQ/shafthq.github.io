@@ -20,8 +20,8 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Allure archive** | `allure-report-archive/` | Portable ZIP when `allure.generateArchive=true` |
 | **Execution summary** | `execution-summary/` | Lightweight HTML summary report |
 | **Screenshots** | Attached inside `allure-results/` | Automatically captured on validation and failure |
-| **Videos** | Attached inside `allure-results/` | When `videoParams_recordVideo=true` |
-| **Animated GIFs** | Attached inside `allure-results/` | When `createAnimatedGif=true` |
+| **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `videoParams_recordVideo=true` |
+| **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `createAnimatedGif=true` |
 
 :::info
 All paths are relative to your project root directory.

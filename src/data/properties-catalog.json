@@ -1423,7 +1423,7 @@
     "targetFile": "custom.properties",
     "defaultValue": "allure-results/videos",
     "possibleValues": "",
-    "description": "Path to the folder where recorded videos are saved."
+    "description": "Path to the folder where recorded videos and generated animated GIF files are saved."
   },
   {
     "section": "Pattern",

@@ -387,7 +387,7 @@ SHAFT.Properties.visuals.set()
 
 ## Animated GIFs
 
-Animated GIFs are disabled by default. SHAFT creates them when you explicitly set `createAnimatedGif=true`, and also enables them automatically for retry attempts when `forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the background and do not force every action screenshot to be attached to the report:
+Animated GIFs are disabled by default. SHAFT creates them when you explicitly set `createAnimatedGif=true`, and also enables them automatically for retry attempts when `forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the background and do not force every action screenshot to be attached to the report. Generated GIF files are written under `video.folder` before they are attached to Allure:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
