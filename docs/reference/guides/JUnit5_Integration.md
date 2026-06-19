@@ -30,6 +30,42 @@ SHAFT Engine's `pom.xml` may already include JUnit 5 transitively. Check your de
 
 ---
 
+## Runtime Registration
+
+SHAFT Engine registers its JUnit support through the Java ServiceLoader
+mechanism:
+
+- `com.shaft.listeners.JunitListener` is registered as a JUnit Platform
+  `LauncherSessionListener`.
+- `com.shaft.listeners.JunitExtension` is registered as a Jupiter extension.
+- `junit.jupiter.extensions.autodetection.enabled=true` is supplied through
+  `junit-platform.properties`.
+
+Generated JUnit projects also create or update
+`src/test/resources/junit-platform.properties` without replacing existing
+settings. If you maintain that file yourself, keep this line in it:
+
+```properties title="src/test/resources/junit-platform.properties"
+junit.jupiter.extensions.autodetection.enabled=true
+```
+
+You do not need to add `@ExtendWith` to ordinary SHAFT JUnit tests.
+
+The listener and extension together provide the same SHAFT lifecycle behavior
+that TestNG users get: engine setup and teardown, Allure attachments, execution
+summary rows, telemetry, Jira/Xray handoff, retries, fail-fast skips, linked
+issue skips, setup/teardown failure reporting, and soft-verification failures
+that fail the JUnit run.
+
+:::note
+TestNG remains supported. TestNG XML suite shaping and TestNG retry analyzer
+binding are still TestNG runner features. For JUnit cross-browser coverage, use
+JUnit parameterized tests and SHAFT per-thread properties instead of relying on
+TestNG XML cloning.
+:::
+
+---
+
 ## Test Class Structure
 
 ```java title="WebTestJUnit5.java"
@@ -133,5 +169,6 @@ Use `@BeforeEach` / `@AfterEach` (fresh driver per test) for **independent test 
 :::
 
 :::note
-SHAFT's `JunitListener` is automatically registered via the Java ServiceLoader mechanism — you do not need to add `@ExtendWith` annotations to enable SHAFT reporting for JUnit 5 tests.
+SHAFT's JUnit listener and extension are automatically registered via the Java
+ServiceLoader mechanism.
 :::
