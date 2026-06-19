@@ -1,10 +1,10 @@
 ---
 id: mcp
 title: Connect shaft-mcp
-description: Run SHAFT browser, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
+description: Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 slug: /agentic/mcp
 sidebar_position: 2
-tags: [mcp, codex, copilot, chatgpt, claude, gemini]
+tags: [mcp, codex, copilot, chatgpt, claude, gemini, agents, guide, locators, api, cli]
 ---
 
 import {McpApplications} from '@site/src/components/DocSnippets';
@@ -81,6 +81,29 @@ and `element_type` with a locator strategy and locator value. The older
 semantic click/type aliases are not exposed to MCP clients; for approved
 natural-language execution, use `natural_act`.
 
+## Guide search for agents
+
+Use `shaft_guide_search` before asking an agent to write or repair SHAFT code.
+The tool searches the live official SHAFT guide index and returns cited guide
+sections, short excerpts, nearby Java examples, and rules the agent must follow
+while generating code.
+
+Good queries are direct and task-shaped:
+
+- `page object model locators SHAFT.GUI.Locator`
+- `API request builder response validation`
+- `CLI terminal actions files`
+- `mobile Appium native locators`
+- `Allure failed test troubleshooting`
+
+The guide search covers public docs for GUI, API, CLI, mobile, reporting,
+configuration, locators, Page Object Model, Capture, Doctor, Heal, and
+troubleshooting. Agents should use the returned URLs as source citations, copy
+SHAFT method names only from the guide examples, prefer `SHAFT.GUI.WebDriver`
+and `SHAFT.GUI.Locator` for GUI code, use Selenium `By` objects instead of
+`@FindBy`/`PageFactory`, and say when the guide does not contain enough
+evidence for an answer.
+
 If you see an `AccessDeniedException` under `C:\Windows\system32`, the MCP host
 launched from a protected Windows directory. Upgrade to a release with the
 app-data fallback, or set `SHAFT_MCP_WORKSPACE_ROOT` to a writable directory.
@@ -114,6 +137,9 @@ The packaged server supports:
   Doctor, and returns review-only fixes plus an agent replay handoff;
 - explicit browser element actions through `element_click` and `element_type`,
   using locator strategy and locator value arguments;
+- official guide search through `shaft_guide_search`, so agents can retrieve
+  cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
+  guidance, and troubleshooting steps before writing code;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
 - mobile inspection through `mobile_take_screenshot`,
