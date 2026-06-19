@@ -360,8 +360,8 @@
     "semantic_hash": "487656e0a23181cb1ba53136a6045cfd"
   },
   "docs/agentic/capture.md": {
-    "mtime": 1781788265.040473,
-    "ast_hash": "920f1d12e4450016f0e71289d5ae5610",
+    "mtime": 1781877570.644359,
+    "ast_hash": "0546bd69e7c49d194ae1dc440a0e78ea",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -380,13 +380,13 @@
     "semantic_hash": ""
   },
   "docs/agentic/mcp-manual.mdx": {
-    "mtime": 1781849144.6689613,
-    "ast_hash": "ceb74203f7a96336a17db4654e40c20a",
+    "mtime": 1781867468.7904787,
+    "ast_hash": "96777f19b2a38c2c43325928c5f24852",
     "semantic_hash": ""
   },
   "docs/agentic/mcp.mdx": {
-    "mtime": 1781849126.5195496,
-    "ast_hash": "2986733b4ae44a27f7692e60bfb16b2b",
+    "mtime": 1781867468.7968178,
+    "ast_hash": "90003797377d085380829f3ffff4be6b",
     "semantic_hash": ""
   },
   "docs/agentic/overview.mdx": {
@@ -525,8 +525,8 @@
     "semantic_hash": "7d7fc0a07beff5b9eae4461e82f38070"
   },
   "docs/features/reporting.md": {
-    "mtime": 1781847943.260084,
-    "ast_hash": "a1845dda986460486931dac6421664fd",
+    "mtime": 1781867468.7982132,
+    "ast_hash": "ff4b70eff2e34e31f8659e562233762e",
     "semantic_hash": ""
   },
   "docs/features/technology.md": {
@@ -680,8 +680,8 @@
     "semantic_hash": "65368bb85030a6d0a3ba2715d8a048f2"
   },
   "docs/reference/actions/GUI/Element_Actions.md": {
-    "mtime": 1781847950.0445101,
-    "ast_hash": "cb3104c90c20378496e2f9cc8ba796ed",
+    "mtime": 1781867468.8002217,
+    "ast_hash": "2b91d6a8c60ee059b6fb787c0e85a046",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Element_Identification.md": {
@@ -910,7 +910,7 @@
     "semantic_hash": "2304f5f6b6bd249ec5aaa7366776b49d"
   },
   "docs/reference/guides/JUnit5_Integration.md": {
-    "mtime": 1781588115.71735,
+    "mtime": 1781874246.5907123,
     "ast_hash": "96e1d254a18921d6e471d28e931228d7",
     "semantic_hash": "96e1d254a18921d6e471d28e931228d7"
   },
@@ -985,7 +985,7 @@
     "semantic_hash": "e156aa22a0f85fc96cf13306cc0f5eea"
   },
   "docs/start/quick-start.md": {
-    "mtime": 1781788265.0524733,
+    "mtime": 1781874246.5907123,
     "ast_hash": "16561e5313f768b55ed048ae6d7d57ad",
     "semantic_hash": ""
   },
