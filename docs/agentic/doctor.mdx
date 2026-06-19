@@ -52,7 +52,7 @@ The command writes `doctor-evidence.json`, `doctor-report.json`,
 
 From an MCP chat:
 
-> Use `doctor_analyze` on the `allure-results` directory. Allow only the current
+> Use `doctor_analyze_failed_allure` on the `allure-results` directory. Allow only the current
 > project root, write results to `target/shaft-doctor`, and do not collect
 > screenshots.
 
@@ -151,7 +151,7 @@ checksum. Failures and raw evidence are never cached.
 
 ## MCP
 
-`doctor_analyze` accepts explicit input paths, historical bundle paths,
+`doctor_analyze_failed_allure` accepts explicit input paths, historical bundle paths,
 allowed roots, an output directory, screenshot/page-snapshot approvals, and
 the minimum expected Allure result count. The tool calls the same
 `DoctorAnalyzer` used by the CLI. It remains deterministic when Pilot AI is
@@ -159,10 +159,28 @@ disabled; when the MCP server is explicitly started with an enabled provider,
 the same separate advisory and fallback rules apply.
 
 ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
-`doctor_analyze` as external MCP clients. Their model authentication stays in
+`doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
 the client and is not ingested by SHAFT. Copilot is MCP interoperability, not a
 generic Copilot API-key adapter. Download the credential-free
 [representative invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json).
+
+## MCP healer loop
+
+`healer_run_failed_test` builds on Doctor for failing Selenium tests. It reruns
+an allowlisted Maven test command under guardrails, snapshots the populated
+Allure results that changed during each attempt, and sends the fresh failing
+evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
+
+The healer gives the MCP agent an explicit replay handoff: the agent may use
+its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
+tools to inspect the failed flow, even when no SHAFT provider API key is
+configured. Configured SHAFT provider advisories remain optional and require
+the same Pilot consent as Doctor.
+
+The boundary is still review-only. The healer can suggest locator, wait,
+test-data, assertion, or setup fixes, or report a suspected product bug, but it
+does not edit files, skip tests, quarantine tests, publish branches, or bypass
+user confirmation.
 
 ## Reviewed repair proposals
 
