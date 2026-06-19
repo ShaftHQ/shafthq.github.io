@@ -71,6 +71,8 @@ driver.element().clear(textBox);
 ### click()
 
 Waits for the target element to be interactable, then clicks on it. Falls back to JavaScript click if the standard Selenium click fails.
+Click reports keep the resolved element name in the step title and keep the
+normalized locator, including Smart Locator labels, in step metadata.
 
 ```java title="ClickExample.java"
 By signInButton = By.id("sign_in_btn");
@@ -252,6 +254,8 @@ boolean isClickable = driver.element().isElementClickable(elementLocator);
 ### select()
 
 Selects an option from a dropdown list by visible text.
+Select reports show the selected value in the step title and keep the dropdown
+locator in step metadata.
 
 ```java title="SelectExample.java"
 By dropdown = By.id("dropdown");

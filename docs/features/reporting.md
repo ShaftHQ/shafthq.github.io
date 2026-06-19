@@ -17,11 +17,11 @@ reported once as a step parameter, while internal element reads used to evaluate
 the assertion are kept in the debug execution log instead of repeated child
 steps.
 
-Text-entry element actions keep the Allure timeline readable by showing a
-single-line preview of the value being typed in the step title. Long or
-multiline values are capped in the title. The step metadata keeps the locator
-and includes the resolved element name only when the engine captures one.
-Secure typing stays masked.
+Text-entry and dropdown element actions keep the Allure timeline readable by
+showing the value being typed or selected in the step title. Long or multiline
+values are capped in the title. The step metadata keeps the normalized locator,
+including Smart Locator labels, and includes the resolved element name only when
+the engine captures one. Secure typing stays masked.
 
 ```mermaid
 flowchart LR
