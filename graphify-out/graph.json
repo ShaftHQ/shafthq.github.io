@@ -12334,30 +12334,30 @@
       "norm_label": "network interception"
     },
     {
-      "label": "Mock HTTP Requests",
+      "label": "Intercept and Mock HTTP Requests",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
       "source_location": "L299",
       "_origin": "ast",
-      "id": "gui_browser_actions_mock_http_requests",
+      "id": "gui_browser_actions_intercept_and_mock_http_requests",
       "community": 2,
-      "norm_label": "mock http requests"
+      "norm_label": "intercept and mock http requests"
     },
     {
-      "label": "Intercept HTTP Requests",
+      "label": "Validate Intercepted Responses",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
       "source_location": "L314",
       "_origin": "ast",
-      "id": "gui_browser_actions_intercept_http_requests",
+      "id": "gui_browser_actions_validate_intercepted_responses",
       "community": 2,
-      "norm_label": "intercept http requests"
+      "norm_label": "validate intercepted responses"
     },
     {
       "label": "Mobile Context",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L325",
+      "source_location": "L329",
       "_origin": "ast",
       "id": "gui_browser_actions_mobile_context",
       "community": 2,
@@ -12367,7 +12367,7 @@
       "label": "Get and Set Context",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L327",
+      "source_location": "L331",
       "_origin": "ast",
       "id": "gui_browser_actions_get_and_set_context",
       "community": 2,
@@ -12377,7 +12377,7 @@
       "label": "Get Context Handles",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L334",
+      "source_location": "L338",
       "_origin": "ast",
       "id": "gui_browser_actions_get_context_handles",
       "community": 2,
@@ -12387,7 +12387,7 @@
       "label": "Accessibility Testing",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L340",
+      "source_location": "L344",
       "_origin": "ast",
       "id": "gui_browser_actions_accessibility_testing",
       "community": 2,
@@ -12397,7 +12397,7 @@
       "label": "Fluent Chaining",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L352",
+      "source_location": "L356",
       "_origin": "ast",
       "id": "gui_browser_actions_fluent_chaining",
       "community": 2,
@@ -15354,34 +15354,54 @@
       "norm_label": "use cases"
     },
     {
-      "label": "mock() \u2014 Replace Responses",
+      "label": "Mock Responses",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
       "source_location": "L30",
       "_origin": "ast",
-      "id": "didyouknow_network_mocking_mock_replace_responses",
+      "id": "didyouknow_network_mocking_mock_responses",
       "community": 147,
-      "norm_label": "mock() \u2014 replace responses"
+      "norm_label": "mock responses"
     },
     {
-      "label": "intercept() \u2014 Block or Modify Requests",
+      "label": "Validate Real Responses",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
-      "source_location": "L56",
+      "source_location": "L55",
       "_origin": "ast",
-      "id": "didyouknow_network_mocking_intercept_block_or_modify_requests",
+      "id": "didyouknow_network_mocking_validate_real_responses",
       "community": 147,
-      "norm_label": "intercept() \u2014 block or modify requests"
+      "norm_label": "validate real responses"
+    },
+    {
+      "label": "Request Matchers",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "didyouknow_network_mocking_request_matchers",
+      "community": 147,
+      "norm_label": "request matchers"
     },
     {
       "label": "Complete Example",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
-      "source_location": "L79",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "didyouknow_network_mocking_complete_example",
       "community": 147,
       "norm_label": "complete example"
+    },
+    {
+      "label": "Advanced Predicate API",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
+      "source_location": "L149",
+      "_origin": "ast",
+      "id": "didyouknow_network_mocking_advanced_predicate_api",
+      "community": 147,
+      "norm_label": "advanced predicate api"
     },
     {
       "label": "Self_Healing_Locators.md",
@@ -25370,9 +25390,9 @@
       "source_file": "docs/agentic/doctor.mdx",
       "source_location": "L167",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_doctor_diagnose_failures_with_doctor",
-      "target": "agentic_doctor_mcp_healer_loop",
-      "confidence_score": 1.0
+      "target": "agentic_doctor_mcp_healer_loop"
     },
     {
       "relation": "contains",
@@ -25710,9 +25730,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_guide_search_for_agents",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_guide_search_for_agents"
     },
     {
       "relation": "contains",
@@ -25720,9 +25740,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L183",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_healing_failed_selenium_tests",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_healing_failed_selenium_tests"
     },
     {
       "relation": "contains",
@@ -30500,9 +30520,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_extracted_json_value",
-      "target": "api_response_validations_usage_42",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_42"
     },
     {
       "relation": "contains",
@@ -30510,9 +30530,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_extracted_json_value_as_list",
-      "target": "api_response_validations_usage_57",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_57"
     },
     {
       "relation": "contains",
@@ -30520,9 +30540,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_time",
-      "target": "api_response_validations_usage_71",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_71"
     },
     {
       "relation": "contains",
@@ -32508,21 +32528,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L314",
+      "source_location": "L299",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "gui_browser_actions_network_interception",
-      "target": "gui_browser_actions_intercept_http_requests"
+      "target": "gui_browser_actions_intercept_and_mock_http_requests",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
-      "source_location": "L299",
+      "source_location": "L314",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "gui_browser_actions_network_interception",
-      "target": "gui_browser_actions_mock_http_requests"
+      "target": "gui_browser_actions_validate_intercepted_responses",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -35308,6 +35328,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "didyouknow_network_mocking",
+      "target": "didyouknow_network_mocking_advanced_predicate_api",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
       "source_location": "L79",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -35318,21 +35348,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
-      "source_location": "L56",
+      "source_location": "L30",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "didyouknow_network_mocking",
-      "target": "didyouknow_network_mocking_intercept_block_or_modify_requests"
+      "target": "didyouknow_network_mocking_mock_responses",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
-      "source_location": "L30",
+      "source_location": "L72",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "didyouknow_network_mocking",
-      "target": "didyouknow_network_mocking_mock_replace_responses"
+      "target": "didyouknow_network_mocking_request_matchers",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -35343,6 +35373,16 @@
       "confidence_score": 1.0,
       "source": "didyouknow_network_mocking",
       "target": "didyouknow_network_mocking_use_cases"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
+      "source_location": "L55",
+      "weight": 1.0,
+      "source": "didyouknow_network_mocking",
+      "target": "didyouknow_network_mocking_validate_real_responses",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -38070,9 +38110,9 @@
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_junit5_integration",
-      "target": "guides_junit5_integration_runtime_registration",
-      "confidence_score": 1.0
+      "target": "guides_junit5_integration_runtime_registration"
     },
     {
       "relation": "contains",
@@ -40216,5 +40256,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "57ef517136f41fcb62eac580b469fa2f9149640d"
+  "built_at_commit": "76079ea095ab77fc84837642b271fdef06674f5f"
 }

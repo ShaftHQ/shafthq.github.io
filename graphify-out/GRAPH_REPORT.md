@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-19)
+# Graph Report - shafthq.github.io  (2026-06-20)
 
 ## Corpus Check
-- 204 files · ~226,064 words
+- 204 files · ~226,074 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2077 nodes · 1938 edges · 210 communities (179 shown, 31 thin omitted)
+- 2079 nodes · 1940 edges · 210 communities (179 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `57ef5171`
+- Built from commit: `76079ea0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -796,8 +796,8 @@ Cohesion: 0.13
 Nodes (12): fallbackProjects, fetchDirectoryContents(), fetchJson(), fetchText(), GitHubItem, loadProjectData(), OptionalModule, optionalModules (+4 more)
 
 ### Community 147 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (4): Complete Example, intercept() — Block or Modify Requests, mock() — Replace Responses, Use Cases
+Cohesion: 0.29
+Nodes (6): Advanced Predicate API, Complete Example, Mock Responses, Request Matchers, Use Cases, Validate Real Responses
 
 ### Community 148 - "docs/reference (5)"
 Cohesion: 0.40
@@ -916,17 +916,15 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ## Knowledge Gaps
-- **1364 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1359 more)
+- **1366 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1361 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
-  _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1364 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1366 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -936,4 +934,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**
+  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._
+- **Should `docs/start (38)` be split into smaller, more focused modules?**
   _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._

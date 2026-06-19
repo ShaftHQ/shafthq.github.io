@@ -2,15 +2,15 @@
 id: Network_Mocking
 title: Network Mocking and Request Interception
 sidebar_label: Network Mocking
-description: "Mock API responses and intercept network requests in SHAFT Engine using Selenium DevTools — test error states, offline mode, and slow networks reliably."
+description: "Mock API responses, intercept browser network requests, and validate real responses in SHAFT Engine using Selenium DevTools."
 keywords: [SHAFT, network mocking, request interception, Selenium DevTools, CDP, mock API, offline testing]
 tags: [web, network, devtools, mocking]
 ---
 
-SHAFT Engine exposes Selenium's Chrome DevTools Protocol (CDP) integration via `driver.browser().mock()` and `driver.browser().intercept()`. This allows you to **replace API responses** with controlled test data and **block or modify outgoing requests** — all without changing your application code.
+SHAFT Engine exposes browser network interception through `driver.browser().interceptRequest()`. Use it to match outgoing browser requests, replace responses with controlled test data, or let real responses continue and validate them with SHAFT API validations.
 
 :::info
-Network mocking relies on the Chrome DevTools Protocol. Use a Chromium-based browser (Chrome or Edge) when running tests that require this feature.
+Network interception relies on Selenium DevTools support. Use a DevTools-capable browser, such as Chrome or Edge, when running tests that require this feature.
 :::
 
 ---
@@ -19,59 +19,73 @@ Network mocking relies on the Chrome DevTools Protocol. Use a Chromium-based bro
 
 | Scenario | Recommended approach |
 |---|---|
-| Test error states (500, 404) | `mock()` with a custom status code |
-| Test empty states (no data) | `mock()` with empty JSON body |
-| Block analytics / tracking calls | `intercept()` with 204 response |
-| Simulate offline mode | `intercept()` all requests with network error |
-| Inject controlled test data | `mock()` with fixed JSON payload |
+| Test error states (500, 404) | `.respond().statusCode(500).perform()` |
+| Test empty states (no data) | `.respond().jsonBody("{\"items\":[]}").perform()` |
+| Block analytics / tracking calls | Match the analytics URL and return a 204 response |
+| Validate real API responses from the browser | `.assertResponse(...)` or `.verifyResponse(...)` |
+| Inject controlled test data | Match the request and return a fixed JSON payload |
 
 ---
 
-## mock() — Replace Responses
+## Mock Responses
 
-Use `mock()` to intercept requests matching a condition and return a **custom HTTP response** instead of the real one.
+Build the request matcher first, then configure the mocked response. Register the rule before navigating to the page that sends the request.
 
 ```java title="NetworkMocking.java"
 import com.shaft.driver.SHAFT;
-import org.openqa.selenium.remote.http.Contents;
-import org.openqa.selenium.remote.http.HttpResponse;
 
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 
-// Mock an API response
-driver.browser().mock(
-    request -> request.getUri().contains("/api/users"),
-    new HttpResponse()
-        .setStatus(200)
-        .addHeader("Content-Type", "application/json")
-        .setContent(Contents.utf8String("{\"users\": [{\"name\": \"Mock User\"}]}"))
-);
+driver.browser()
+        .interceptRequest()
+        .get()
+        .urlContains("/api/users")
+        .queryParam("role", "admin")
+        .header("X-Test", "yes")
+        .respond()
+        .statusCode(200)
+        .jsonBody("{\"users\":[{\"name\":\"Mock User\"}]}")
+        .perform();
 
-// Navigate to the page that calls the mocked API
 driver.browser().navigateToURL("https://example.com/dashboard");
 ```
 
 ---
 
-## intercept() — Block or Modify Requests
+## Validate Real Responses
 
-Use `intercept()` to **block or silently replace** outbound requests — for example, to suppress analytics calls or simulate unavailable services.
+Use `assertResponse()` for hard assertions or `verifyResponse()` for soft verifications. The real request continues to the server, then SHAFT validates the received response.
 
-```java title="NetworkMocking.java"
-// Intercept and silence analytics calls
-driver.browser().intercept(
-    request -> request.getUri().contains("/api/analytics"),
-    new HttpResponse().setStatus(204)
-);
+```java title="NetworkValidation.java"
+driver.browser()
+        .interceptRequest()
+        .get()
+        .pathEquals("/api/users")
+        .assertResponse(response -> response
+                .extractedJsonValue("users.size()")
+                .isEqualTo("1")
+                .perform());
+```
 
-// Intercept and simulate a server error
-driver.browser().intercept(
-    request -> request.getUri().contains("/api/checkout"),
-    new HttpResponse()
-        .setStatus(500)
-        .addHeader("Content-Type", "application/json")
-        .setContent(Contents.utf8String("{\"error\": \"Internal Server Error\"}"))
-);
+---
+
+## Request Matchers
+
+Use the built-in matchers for common request fields:
+
+```java title="RequestMatchers.java"
+driver.browser()
+        .interceptRequest()
+        .post()
+        .pathContains("/api/checkout")
+        .urlMatches("https://example.com/.*/checkout")
+        .queryParam("source", "web")
+        .header("Content-Type", "application/json")
+        .bodyContains("\"coupon\":\"SUMMER\"")
+        .matching(request -> request.getUri().contains("/api/"))
+        .respond()
+        .statusCode(202)
+        .perform();
 ```
 
 ---
@@ -81,8 +95,6 @@ driver.browser().intercept(
 ```java title="NetworkMockingTest.java"
 import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.http.Contents;
-import org.openqa.selenium.remote.http.HttpResponse;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -97,23 +109,30 @@ public class NetworkMockingTest {
 
     @Test
     public void testEmptyUserList() {
-        driver.browser().mock(
-            request -> request.getUri().contains("/api/users"),
-            new HttpResponse()
-                .setStatus(200)
-                .addHeader("Content-Type", "application/json")
-                .setContent(Contents.utf8String("{\"users\": []}"))
-        );
+        driver.browser()
+                .interceptRequest()
+                .get()
+                .urlContains("/api/users")
+                .respond()
+                .statusCode(200)
+                .jsonBody("{\"users\":[]}")
+                .perform();
+
         driver.browser().navigateToURL("https://example.com/users");
         driver.assertThat(By.id("emptyState")).text().contains("No users found").perform();
     }
 
     @Test
     public void testServerErrorHandling() {
-        driver.browser().mock(
-            request -> request.getUri().contains("/api/users"),
-            new HttpResponse().setStatus(500)
-        );
+        driver.browser()
+                .interceptRequest()
+                .get()
+                .urlContains("/api/users")
+                .respond()
+                .statusCode(500)
+                .jsonBody("{\"error\":\"Internal Server Error\"}")
+                .perform();
+
         driver.browser().navigateToURL("https://example.com/users");
         driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong").perform();
     }
@@ -127,10 +146,23 @@ public class NetworkMockingTest {
 
 ---
 
-:::tip
-Register mocks **before** navigating to the page. The browser must have the intercept rules in place before any requests are made.
-:::
+## Advanced Predicate API
+
+`mock()` and `intercept()` remain available for advanced use cases that need direct Selenium `HttpRequest` predicates and `HttpResponse` objects.
+
+```java title="PredicateApi.java"
+import org.openqa.selenium.remote.http.Contents;
+import org.openqa.selenium.remote.http.HttpResponse;
+
+driver.browser().mock(
+        request -> request.getUri().contains("/api/users"),
+        new HttpResponse()
+                .setStatus(200)
+                .addHeader("Content-Type", "application/json")
+                .setContent(Contents.utf8String("{\"users\":[]}"))
+);
+```
 
 :::note
-Mocks and intercepts registered via `mock()` and `intercept()` are scoped to the current browser session and are cleared when the driver is quit.
+Interception rules are scoped to the current browser session. They are cleared automatically when the driver is quit, or explicitly with `driver.browser().clearNetworkInterceptors()`. If multiple rules match the same request, the latest registered rule wins.
 :::
