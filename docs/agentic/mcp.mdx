@@ -1,7 +1,7 @@
 ---
 id: mcp
 title: Connect shaft-mcp
-description: Run SHAFT browser, Capture, and Doctor tools from Codex, Copilot, and other MCP clients.
+description: Run SHAFT browser, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 slug: /agentic/mcp
 sidebar_position: 2
 tags: [mcp, codex, copilot, chatgpt, claude, gemini]
@@ -12,7 +12,7 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 # Connect shaft-mcp
 
 `shaft-mcp` is the Model Context Protocol server for SHAFT browser,
-mobile, Capture, and Doctor automation. It is published to Maven Central as
+mobile, Capture, Doctor, and healer automation. It is published to Maven Central as
 the thin `io.github.shafthq:shaft-mcp` JAR, built in the SHAFT reactor, and
 depends on the canonical `shaft-engine` module. It does not add any dependency
 to ordinary `shaft-engine` consumers.
@@ -106,9 +106,12 @@ The packaged server supports:
   `capture_stop`, with no AI provider required;
 - deterministic TestNG generation through `capture_generate`, with compile,
   optional replay, and review-only AI enrichment phases;
-- deterministic diagnosis through `doctor_analyze`, restricted to explicit
+- deterministic diagnosis through `doctor_analyze_failed_allure`, restricted to explicit
   input paths and allowed roots, with an optional separately identified
   provider advisory when Pilot AI is explicitly enabled;
+- guarded Selenium test healing through `healer_run_failed_test`, which reruns
+  tokenized Maven validation commands, analyzes fresh Allure evidence through
+  Doctor, and returns review-only fixes plus an agent replay handoff;
 - explicit browser element actions through `element_click` and `element_type`,
   using locator strategy and locator value arguments;
 - mobile web emulation and native Android/iOS execution through
@@ -150,6 +153,31 @@ recovery details.
 See [SHAFT Doctor](/docs/agentic/doctor) for evidence categories, allowlisted path
 handling, deterministic rules, redaction, offline bundle analysis, optional
 provider advisories, and safe fallback behavior.
+
+## Healing failed Selenium tests
+
+`healer_run_failed_test` is the Selenium/SHAFT counterpart to test-agent
+healer loops: it reruns the failing test, inspects the fresh SHAFT Allure
+evidence, asks Doctor for the latest diagnosis, and stops when the guarded run
+passes or when guardrails block more attempts.
+
+The tool accepts a repository root, a tokenized Maven command, an output
+directory, optional source-path allowlists, and explicit approvals for
+screenshots, page snapshots, network validation, and configured SHAFT provider
+advisories. Test-running commands are forced headless and run offline by
+default. Shell syntax, release/deploy goals, external Maven settings, and
+worktree-escape paths are rejected.
+
+When the healer returns a failed diagnosis, the calling MCP agent may use its
+own LLM and the existing SHAFT MCP browser, DOM, screenshot, element, and
+natural-action tools to replay the failed Selenium flow and inspect the current
+UI. This agent-side reasoning does not require a SHAFT provider API key.
+
+The healer never edits source or publishes a change by itself. Locator, wait,
+test-data, assertion, and product-bug recommendations remain review-only until
+the user confirms the fix. If Doctor classifies the failure as product
+behavior, the result is reported as a suspected product bug instead of a test
+patch.
 
 See [Mobile and Flutter testing](/docs/testing/mobile) for Appium setup,
 mobile web emulation, native device configuration, MCP screenshots, accessibility
@@ -249,7 +277,7 @@ Current client references:
 
 [Doctor invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json)
 cover ChatGPT, Codex, Claude, Gemini, and GitHub Copilot calls to the same
-`doctor_analyze` tool. Client authentication remains outside SHAFT; Copilot is
+`doctor_analyze_failed_allure` tool. Client authentication remains outside SHAFT; Copilot is
 not treated as a direct generic API-key provider.
 
 ## Distribution identity
