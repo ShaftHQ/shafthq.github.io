@@ -28,13 +28,14 @@ there.
 The command downloads a repository-hosted bootstrap script. The bootstrapper
 uses Python 3.9+ when available, or installs a checksum-verified portable Python
 runtime in the per-user SHAFT cache when Python is missing. The shared Python
-installer then resolves `io.github.shafthq:shaft-mcp:LATEST` from Maven Central
-without requiring a local project, verifies checksums, downloads the thin JAR
-and its runtime dependencies to versioned per-user application data, writes a
-Java argfile, verifies it over stdio, and updates the selected user
-configuration without creating a second `shaft-mcp` entry. Run the same command
-later to install a newer release. If you run the script without a target, it
-prompts you to choose a supported client.
+installer prints the SHAFT MCP banner, shows the selected client, resolves
+`io.github.shafthq:shaft-mcp:LATEST` from Maven Central without requiring a
+local project, verifies checksums, shows progress for long downloads, downloads
+the thin JAR and its runtime dependencies to versioned per-user application
+data, writes a Java argfile, verifies it over stdio, and updates the selected
+user configuration without creating a second `shaft-mcp` entry. Run the same
+command later to install a newer release. If you run the script without a
+target, it prompts you to choose a supported client.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -55,8 +56,13 @@ store, or proxy the client's model credentials.
 longer depends on the directory from which the MCP client launched the Java
 process.
 
-Set `SHAFT_MCP_WORKSPACE_ROOT` to force a stable writable root. If it is not
-set, `shaft-mcp` uses the process current directory only when that directory is
+The installer writes the Java argfile with both
+`-Duser.dir=<runtime-root>` and
+`-Dshaft.mcp.workspaceRoot=<runtime-root>` so GUI clients that launch from a
+system directory still use a writable per-user workspace. Manual configurations
+can set the same `shaft.mcp.workspaceRoot` JVM property, or set
+`SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment. If neither is set,
+`shaft-mcp` uses the process current directory only when that directory is
 writable and, on Windows, not under a protected system directory. Otherwise it
 falls back to per-user application data:
 
@@ -68,8 +74,12 @@ During MCP runs, relative SHAFT artifact paths are resolved under the runtime
 root. This includes generated Allure results and reports, downloaded
 properties, downloads, videos, services files, dynamic object repository files,
 test data, Extent reports, execution summaries, and performance reports.
-Explicit absolute path overrides remain absolute. MCP tool names and arguments
-are unchanged.
+Explicit absolute path overrides remain absolute.
+
+The element action tools stay explicit and locator-based. Use `element_click`
+and `element_type` with a locator strategy and locator value. The older
+semantic click/type aliases are not exposed to MCP clients; for approved
+natural-language execution, use `natural_act`.
 
 If you see an `AccessDeniedException` under `C:\Windows\system32`, the MCP host
 launched from a protected Windows directory. Upgrade to a release with the
@@ -99,6 +109,8 @@ The packaged server supports:
 - deterministic diagnosis through `doctor_analyze`, restricted to explicit
   input paths and allowed roots, with an optional separately identified
   provider advisory when Pilot AI is explicitly enabled;
+- explicit browser element actions through `element_click` and `element_type`,
+  using locator strategy and locator value arguments;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
 - mobile inspection through `mobile_take_screenshot`,
@@ -175,13 +187,16 @@ installs a checksum-verified portable Python runtime under the per-user SHAFT
 cache. The shared Python installer then uses the local Java 25 when available.
 If Java 25 is missing, it installs a per-user cached Java 25 runtime during the
 same command. It downloads the released thin `shaft-mcp` JAR and runtime
-dependencies directly from Maven Central, verifies checksums, writes a Java
-argfile, probes the server over stdio, and writes the selected client
-configuration itself.
+dependencies directly from Maven Central, verifies checksums, shows progress
+for large downloads, writes a Java argfile, probes the server over stdio, and
+writes the selected client configuration itself.
 
 The script creates a local stdio server named `shaft-mcp`. It records the
 absolute Java 25 executable and the absolute versioned argfile path so GUI
-clients do not depend on their inherited `PATH`.
+clients do not depend on their inherited `PATH`. The argfile also pins
+`user.dir` and `shaft.mcp.workspaceRoot` to the per-user SHAFT work directory so
+Allure results, downloads, reports, and other SHAFT artifacts are not created
+under a protected client launch directory.
 
 `claude` configures Claude Code. `claude-desktop` configures Claude Desktop on
 Windows or macOS and requires restarting Claude Desktop. GitHub Copilot for
@@ -192,6 +207,10 @@ Configuration is per-user only. If the current project already defines a
 `shaft-mcp` server that would override the user entry, the installer stops
 without editing the project. Every user configuration mutation is backed up,
 verified, and rolled back on failure.
+
+At the end of a successful install, the script prints the installed
+`shaft-mcp` version, the configured client, the restart or new-session action,
+and this user guide link.
 
 The MCP client remains responsible for tool approvals and model
 authentication.

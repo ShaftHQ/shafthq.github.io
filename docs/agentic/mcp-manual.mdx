@@ -12,9 +12,10 @@ tags: [mcp, codex, copilot, claude, manual]
 Use this page when the [standalone installer](/docs/agentic/mcp) cannot update
 your MCP client. The automatic path is preferred: it bootstraps Python and Java
 only when needed, downloads `shaft-mcp` directly from Maven Central, verifies
-checksums, probes stdio, and writes the selected client configuration. Manual
-setup requires Java 25, the selected client, the thin JAR, its runtime
-dependencies, and absolute paths for both the Java executable and an argfile.
+checksums, shows progress for long downloads, probes stdio, and writes the
+selected client configuration. Manual setup requires Java 25, the selected
+client, the thin JAR, its runtime dependencies, a writable runtime workspace,
+and absolute paths for both the Java executable and an argfile.
 
 ## Prepare the JAR, dependencies, and argfile
 
@@ -33,17 +34,21 @@ Find the absolute Java 25 executable path:
 command -v java
 ```
 
-Create `/absolute/path/to/shaft-mcp.args`:
+Create a writable runtime workspace, then create
+`/absolute/path/to/shaft-mcp.args`:
 
 ```text
+"-Duser.dir=/absolute/path/to/shaft-mcp-work"
+"-Dshaft.mcp.workspaceRoot=/absolute/path/to/shaft-mcp-work"
 -cp
 "/absolute/path/to/shaft-mcp.jar:/absolute/path/to/lib/*"
 com.shaft.mcp.ShaftMcpApplication
 ```
 
-Use `;` instead of `:` in the classpath on Windows. In the examples below,
-replace `/absolute/path/to/java` and `/absolute/path/to/shaft-mcp.args` with
-those absolute paths.
+Use `;` instead of `:` in the classpath on Windows. The JVM property paths may
+use forward slashes on every operating system. In the examples below, replace
+`/absolute/path/to/java` and `/absolute/path/to/shaft-mcp.args` with those
+absolute paths.
 
 ## Runtime workspace
 
@@ -51,10 +56,13 @@ Manual configuration uses the same runtime workspace behavior as the installer.
 `shaft-mcp` no longer depends on the MCP client's launch directory for engine
 artifacts.
 
-Set `SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment to force a stable
-writable root. If it is not set, `shaft-mcp` uses the process current directory
-only when that directory is writable and, on Windows, not under a protected
-system directory. Otherwise it falls back to:
+Prefer the `-Dshaft.mcp.workspaceRoot=<runtime-root>` JVM property in the Java
+argfile because it works the same way for Codex, Claude Desktop, GitHub
+Copilot, and other local MCP clients. You can also set
+`SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment. If neither is set,
+`shaft-mcp` uses the process current directory only when that directory is
+writable and, on Windows, not under a protected system directory. Otherwise it
+falls back to:
 
 - Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-mcp\work`
 - macOS: `~/Library/Application Support/ShaftHQ/shaft-mcp/work`
@@ -64,7 +72,12 @@ During MCP runs, generated Allure results and reports, downloaded properties,
 downloads, videos, services files, dynamic object repository files, test data,
 Extent reports, execution summaries, and performance reports are resolved under
 the runtime root when their SHAFT property paths are relative. Explicit absolute
-path overrides stay absolute. MCP tool names and arguments do not change.
+path overrides stay absolute.
+
+Use the normal `element_click` and `element_type` tools with explicit locator
+strategy and locator value arguments. Semantic click/type aliases are not
+exposed to MCP clients; use `natural_act` when a workflow needs approved
+natural-language execution.
 
 If an older setup fails with `AccessDeniedException` under
 `C:\Windows\system32`, the MCP host launched from a protected Windows directory.
@@ -167,4 +180,6 @@ Copilot Chat if the tools do not appear immediately.
 Start a new client session and confirm that `shaft-mcp` exposes its tools. If a
 manual edit fails, restore the configuration backup before trying again. Never
 keep both project-level and per-user entries named `shaft-mcp`; the project
-entry can override the installed user configuration.
+entry can override the installed user configuration. If a client still lists
+removed semantic click/type tools, restart the client so it refreshes the MCP
+tool manifest.
