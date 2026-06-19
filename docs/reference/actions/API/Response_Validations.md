@@ -12,10 +12,13 @@ Using the SHAFT API object to directly validate the latest response is very conv
 
 ### Body
 Validate on the response body.
-Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
+Chains to JSON/body validation methods, including structural JSON equality that ignores array/object ordering.
 
 ```java
 api.assertThatResponse().body().contains("data").perform();
+api.assertThatResponse().body()
+   .equalsIgnoringOrder("{\"roles\":[\"admin\",\"tester\"]}")
+   .perform();
 ```
 #### Usage
 ```java

@@ -33,7 +33,9 @@ With `executionAddress=browserstack`, these paths are core:
 - W3C `bstack:options` construction.
 - BrowserStack app upload from `browserStack.appRelativeFilePath`.
 - Credentials, device/browser/OS properties, BrowserStack Local flag,
-  debug/network logs, geolocation, and custom capabilities.
+  debug/network logs, geolocation, and custom nonblank `browserStack.*`
+  capabilities. App upload keys such as `appUrl`, `appName`, and
+  `appRelativeFilePath` are handled separately.
 - `BrowserStackSdkHelper.generateBrowserStackYml()` generation/copy behavior.
 
 The generated `browserstack.yml` does not orchestrate anything by itself. With

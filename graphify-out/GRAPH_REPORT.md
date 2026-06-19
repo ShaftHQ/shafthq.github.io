@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-19)
 
 ## Corpus Check
-- 204 files · ~225,311 words
+- 204 files · ~226,064 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2073 nodes · 1934 edges · 210 communities (179 shown, 31 thin omitted)
+- 2077 nodes · 1938 edges · 210 communities (179 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `94ee0304`
+- Built from commit: `57ef5171`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -223,8 +223,8 @@
 4. `Security Fix Summary` - 13 edges
 5. `SHAFT API Response Validations` - 13 edges
 6. `Mobile and Flutter testing` - 13 edges
-7. `Migration Guide: GitHub Pages to Netlify` - 12 edges
-8. `Diagnose failures with Doctor` - 11 edges
+7. `Diagnose failures with Doctor` - 12 edges
+8. `Migration Guide: GitHub Pages to Netlify` - 12 edges
 9. `AutoBot Optimization Summary` - 11 edges
 10. `Final Summary - Chatbot Fix Implementation` - 11 edges
 
@@ -404,8 +404,8 @@ Cohesion: 0.15
 Nodes (12): 1) Root-Cause-First Diagnosis, 2) Confidence Scoring, 3) Fix Ordering by Risk, 4) Validation-Centric Output, Archived Skill: Code Analysis and Optimization, Description, High-Value Enhancements for Accuracy, Limitations (+4 more)
 
 ### Community 43 - "docs/agentic (12)"
-Cohesion: 0.17
-Nodes (11): CLI reference, Diagnose failures with Doctor, Diagnosis, Evidence, MCP, Optional provider advisory, Outputs, Reviewed repair proposals (+3 more)
+Cohesion: 0.15
+Nodes (12): CLI reference, Diagnose failures with Doctor, Diagnosis, Evidence, MCP, MCP healer loop, Optional provider advisory, Outputs (+4 more)
 
 ### Community 44 - "blog/2026-05-02-release-10.2.20260501.md (12)"
 Cohesion: 0.17
@@ -492,8 +492,8 @@ Cohesion: 0.22
 Nodes (8): Add and enable the module, Deterministic decision policy, History and reports, Privacy and optional providers, Recover locators with Heal, Source changes and limits, Strategy and Healenium coexistence, Trust threshold and warnings
 
 ### Community 66 - "docs/agentic (9)"
-Cohesion: 0.22
-Nodes (8): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Remote clients, Runtime workspace, What the installer configures
+Cohesion: 0.18
+Nodes (10): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium tests, Remote clients (+2 more)
 
 ### Community 67 - "docs/reference (9)"
 Cohesion: 0.22
@@ -824,8 +824,8 @@ Cohesion: 0.40
 Nodes (5): Complete Shadow DOM Example, Interacting with Shadow DOM, Locating Shadow DOM Elements, Nested Shadow DOM, What is Shadow DOM?
 
 ### Community 154 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (4): Class-Level Driver (Shared Instance), JUnit 5 vs TestNG Comparison, Maven Dependency, Test Class Structure
+Cohesion: 0.33
+Nodes (5): Class-Level Driver (Shared Instance), JUnit 5 vs TestNG Comparison, Maven Dependency, Runtime Registration, Test Class Structure
 
 ### Community 155 - "docs/integrations (5)"
 Cohesion: 0.40
@@ -916,17 +916,17 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ## Knowledge Gaps
-- **1360 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1355 more)
+- **1364 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1359 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Interacting with IFrames` connect `docs/reference (7)` to `docs/reference (7)`?**
+- **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1360 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1364 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
