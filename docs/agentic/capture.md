@@ -21,12 +21,12 @@ redacted representation after the separate Pilot approval checks succeed.
 
 ## Managed browser recording
 
-The recorder launches a fresh SHAFT-managed Chrome or Edge session. Firefox is
-rejected with an explicit unsupported-browser message until equivalent event
-coverage is available. WebDriver BiDi supplies navigation, browsing-context,
-prompt, and preload-script signals when available. A JavaScript listener
-drained through ordinary WebDriver provides deterministic interaction capture
-and remains the compatibility fallback.
+The recorder launches a fresh SHAFT-managed Chrome, Chromium, or Edge session.
+Firefox and WebKit are rejected with explicit unsupported-browser messages
+until equivalent event coverage is available. WebDriver BiDi supplies
+navigation, browsing-context, prompt, and preload-script signals when
+available. A JavaScript listener drained through ordinary WebDriver provides
+deterministic interaction capture and remains the compatibility fallback.
 
 Build the thin MCP JAR and runtime dependency directory, then use its `capture`
 subcommand. Use `;` instead of `:` in `MCP_CP` on Windows:
@@ -40,7 +40,9 @@ MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
 MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
 java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome \
-  --output recordings/example.json --headless
+  --output recordings/example.json --headless \
+  --viewport-size 1280,720 \
+  --test-id-attribute data-testid
 java -cp "$MCP_CP" "$MCP_MAIN" capture status
 java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
   --description "Checkout ready"
@@ -51,10 +53,22 @@ Use `--runtime-dir <path>` on every command to isolate control files. `stop`
 also accepts `--discard`. Only one recorder may own a runtime directory at a
 time. The daemon control endpoint is bound to loopback, requires a generated
 bearer token, and removes its token and descriptor at shutdown. Browser
-profiles are temporary and removed after normal stop or interruption.
+profiles are temporary and removed after normal stop or interruption unless
+`--user-data-dir <path>` is supplied.
 
-The same lifecycle is exposed by the `capture_start`, `capture_status`, and
-`capture_stop` MCP tools. Generation is exposed by `capture_generate`. Status
+`capture start` also accepts Playwright-codegen-shaped options where SHAFT can
+map them safely: `--viewport-size`, `--test-id-attribute`, `--lang`,
+`--user-agent`, `--user-data-dir`, `--proxy-server`, `--proxy-bypass`,
+`--ignore-https-errors`, and `--timeout`. Other Playwright options such as
+`--target`, `--device`, `--color-scheme`, `--geolocation`, `--timezone`,
+`--load-storage`, `--save-storage`, `--save-har`, and `--save-har-glob` are
+retained as metadata and warnings when they cannot be enforced portably through
+Selenium. Use `capture features` to list the current Playwright codegen feature
+map.
+
+The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
+`capture_status`, and `capture_stop` MCP tools. Generation is exposed by
+`capture_generate`; `capture_codegen_features` returns the feature map. Status
 contains safe metadata and counts, never typed values.
 
 All process arguments and filesystem paths are built with Java APIs
@@ -145,6 +159,7 @@ generated-tests/
   src/test/resources/testDataFiles/<session-name>-test.json
   target/shaft-capture/generation-report.json
   target/shaft-capture/capture-review.json
+  target/shaft-capture/capture-workbench.html
 ```
 
 Generation selects locators in the accessibility, label, test-ID, stable
@@ -153,7 +168,10 @@ uniqueness, visibility, interactability, semantic match, volatility,
 frame/shadow context, and replay evidence, plus ranked fallbacks. Stable
 user-provided locators can outrank volatile semantic evidence. The review file
 summarizes deterministic readiness, blockers, risks, and next suggestions; MCP
-generation results expose the same path as `reviewPath`.
+generation results expose the same path as `reviewPath`. The workbench HTML is
+a local review UI for building record/checkpoint commands, editing generated
+source through the browser file picker or download fallback, and reviewing the
+Playwright codegen feature map beside the generated code.
 
 Ordinary values are copied from the recording's external JSON into the
 generated test-data file. Secret and sensitive references become required
@@ -173,7 +191,7 @@ class in an isolated process and require populated, passing Allure result
 files. Existing source, data, report, or preview files are never replaced
 unless `--overwrite` is supplied.
 
-AI enrichment is optional and uses two phases:
+AI enrichment is optional and uses two phases for native CLI users:
 
 ```bash
 # Calls the enabled provider only with explicit processing approval.
@@ -193,6 +211,13 @@ cannot replace deterministic locators. Preview output is schema-validated and
 privacy-scanned; apply rejects stale fingerprints, invalid identifiers,
 unknown events, and assertions that contradict captured state. Accepted
 changes are compiled and replayed again.
+
+When an MCP client calls Capture or Doctor AI-enabled tools, SHAFT treats that
+tool call as the agent approval boundary for sharing the already redacted local
+evidence with the calling agent. If no configured provider/API key is available,
+MCP results still include agent handoff blocks so the MCP client can use its own
+LLM and repository context. Native terminal commands keep the explicit provider
+and `--allow-local-ai` or `--allow-remote-ai` approval requirements.
 
 Run the focused suite with:
 
