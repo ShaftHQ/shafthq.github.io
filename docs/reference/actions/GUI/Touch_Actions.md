@@ -80,6 +80,21 @@ By targetElement = By.id("item_50");
 driver.touch().swipeElementIntoView(scrollableContainer, targetElement, TouchActions.SwipeDirection.DOWN);
 ```
 
+### swipeToEndOfView()
+
+Swipes until the current Appium view can no longer scroll in the requested direction.
+
+```java title="SwipeToEndExample.java"
+driver.touch().swipeToEndOfView(TouchActions.SwipeDirection.DOWN);
+```
+
+You can also limit the gesture to a scrollable container:
+
+```java title="SwipeContainerToEndExample.java"
+By scrollableContainer = By.id("list_view");
+driver.touch().swipeToEndOfView(scrollableContainer, TouchActions.SwipeDirection.UP);
+```
+
 ## Keyboard Actions
 
 ### nativeKeyboardKeyPress()
@@ -139,6 +154,14 @@ Waits until a specific element is visible on the screen using image-based detect
 
 ```java title="WaitForVisualElement.java"
 driver.touch().waitUntilElementIsVisible("path/to/reference-screenshot.png");
+```
+
+### waitUntilElementIsNotVisible()
+
+Waits until a reference image is no longer visible on the screen.
+
+```java title="WaitForVisualElementToDisappear.java"
+driver.touch().waitUntilElementIsNotVisible("path/to/reference-screenshot.png");
 ```
 
 ## Complete Example
