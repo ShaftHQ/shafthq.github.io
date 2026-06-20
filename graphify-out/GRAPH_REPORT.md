@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-20)
 
 ## Corpus Check
-- 203 files · ~227,050 words
+- 290 files · ~283,242 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2202 nodes · 2177 edges · 210 communities (176 shown, 34 thin omitted)
+- 2203 nodes · 2178 edges · 210 communities (176 shown, 34 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e11f92db`
+- Built from commit: `75365a04`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -498,8 +498,8 @@ Cohesion: 0.20
 Nodes (9): Add and enable the module, Deterministic decision policy, History and reports, Privacy and optional providers, Recover locators with Heal, Related, Source changes and limits, Strategy and Healenium coexistence (+1 more)
 
 ### Community 66 - "docs/agentic (9)"
-Cohesion: 0.17
-Nodes (11): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium tests, Related (+3 more)
+Cohesion: 0.15
+Nodes (12): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium tests, Related (+4 more)
 
 ### Community 67 - "docs/reference (9)"
 Cohesion: 0.22
@@ -934,7 +934,7 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ## Knowledge Gaps
-- **1439 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1434 more)
+- **1440 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1435 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **34 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -942,7 +942,7 @@ Nodes (3): allowedTargets, catalog, seen
 _Questions this graph is uniquely positioned to answer:_
 
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1439 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1440 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

@@ -5394,10 +5394,20 @@
       "norm_label": "guide search for agents"
     },
     {
+      "label": "Test automation scenario catalog",
+      "file_type": "document",
+      "source_file": "docs/agentic/mcp.mdx",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "agentic_mcp_test_automation_scenario_catalog",
+      "community": 66,
+      "norm_label": "test automation scenario catalog"
+    },
+    {
       "label": "Build from source",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L111",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "agentic_mcp_build_from_source",
       "community": 66,
@@ -5407,7 +5417,7 @@
       "label": "Healing failed Selenium tests",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L189",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "agentic_mcp_healing_failed_selenium_tests",
       "community": 66,
@@ -5417,7 +5427,7 @@
       "label": "Authentication boundary",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L227",
+      "source_location": "L258",
       "_origin": "ast",
       "id": "agentic_mcp_authentication_boundary",
       "community": 66,
@@ -5427,7 +5437,7 @@
       "label": "What the installer configures",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L243",
+      "source_location": "L274",
       "_origin": "ast",
       "id": "agentic_mcp_what_the_installer_configures",
       "community": 66,
@@ -5437,7 +5447,7 @@
       "label": "Remote clients",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L286",
+      "source_location": "L317",
       "_origin": "ast",
       "id": "agentic_mcp_remote_clients",
       "community": 66,
@@ -5447,7 +5457,7 @@
       "label": "Distribution identity",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L315",
+      "source_location": "L346",
       "_origin": "ast",
       "id": "agentic_mcp_distribution_identity",
       "community": 66,
@@ -5457,7 +5467,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L329",
+      "source_location": "L360",
       "_origin": "ast",
       "id": "agentic_mcp_related",
       "community": 66,
@@ -22764,9 +22774,9 @@
       "source_file": "package.json",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_scripts",
-      "target": "package_scripts_test_shaft",
-      "confidence_score": 1.0
+      "target": "package_scripts_test_shaft"
     },
     {
       "relation": "contains",
@@ -23214,9 +23224,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_commandinvocation",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_commandinvocation"
     },
     {
       "relation": "contains",
@@ -23224,9 +23234,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_findavailableport",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_findavailableport"
     },
     {
       "relation": "contains",
@@ -23234,9 +23244,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_isportavailable",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_isportavailable"
     },
     {
       "relation": "contains",
@@ -23244,9 +23254,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_issiteavailable",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_issiteavailable"
     },
     {
       "relation": "contains",
@@ -23254,9 +23264,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_releases",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_releases"
     },
     {
       "relation": "contains",
@@ -23264,9 +23274,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_reporoot",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_reporoot"
     },
     {
       "relation": "contains",
@@ -23274,9 +23284,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests",
-      "target": "scripts_run_shaft_tests_waitforsite",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_waitforsite"
     },
     {
       "relation": "calls",
@@ -23285,9 +23295,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests_findavailableport",
-      "target": "scripts_run_shaft_tests_isportavailable",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_isportavailable"
     },
     {
       "relation": "calls",
@@ -23296,9 +23306,9 @@
       "source_file": "scripts/run-shaft-tests.mjs",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests_waitforsite",
-      "target": "scripts_run_shaft_tests_issiteavailable",
-      "confidence_score": 1.0
+      "target": "scripts_run_shaft_tests_issiteavailable"
     },
     {
       "relation": "contains",
@@ -24529,9 +24539,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_assert",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_assert"
     },
     {
       "relation": "contains",
@@ -24539,9 +24549,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_docsroot",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_docsroot"
     },
     {
       "relation": "contains",
@@ -24549,9 +24559,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_publicdirectories",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_publicdirectories"
     },
     {
       "relation": "contains",
@@ -24559,9 +24569,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_publicdocs",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_publicdocs"
     },
     {
       "relation": "contains",
@@ -25010,9 +25020,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "aftermethod",
-      "confidence_score": 1.0
+      "target": "aftermethod"
     },
     {
       "relation": "imports",
@@ -25021,9 +25031,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "beforemethod",
-      "confidence_score": 1.0
+      "target": "beforemethod"
     },
     {
       "relation": "imports",
@@ -25032,9 +25042,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "imports",
@@ -25043,9 +25053,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "dataprovider",
-      "confidence_score": 1.0
+      "target": "dataprovider"
     },
     {
       "relation": "contains",
@@ -25053,9 +25063,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "docs_siterendertest_siterendertest",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest"
     },
     {
       "relation": "imports",
@@ -25064,9 +25074,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "imports",
@@ -25075,9 +25085,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "method",
@@ -25085,9 +25095,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L322",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_attribute",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_attribute"
     },
     {
       "relation": "method",
@@ -25095,9 +25105,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_button",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_button"
     },
     {
       "relation": "method",
@@ -25105,9 +25115,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L314",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_buttonlocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_buttonlocator"
     },
     {
       "relation": "method",
@@ -25115,9 +25125,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L302",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_checkboxwithlabellocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_checkboxwithlabellocator"
     },
     {
       "relation": "method",
@@ -25125,9 +25135,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L276",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "method",
@@ -25135,9 +25145,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L306",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_clicklabel",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_clicklabel"
     },
     {
       "relation": "method",
@@ -25145,9 +25155,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L330",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_clipboardtext",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_clipboardtext"
     },
     {
       "relation": "method",
@@ -25155,9 +25165,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L326",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_currenthash",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_currenthash"
     },
     {
       "relation": "method",
@@ -25165,9 +25175,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L248",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_darkmoderemainsreadable",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_darkmoderemainsreadable"
     },
     {
       "relation": "method",
@@ -25175,9 +25185,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L108",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths"
     },
     {
       "relation": "method",
@@ -25185,9 +25195,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L298",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_inputafterlabel",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_inputafterlabel"
     },
     {
       "relation": "method",
@@ -25195,9 +25205,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator"
     },
     {
       "relation": "method",
@@ -25205,9 +25215,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L339",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_installclipboardshim",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_installclipboardshim"
     },
     {
       "relation": "method",
@@ -25215,9 +25225,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L410",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_jsstring",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_jsstring"
     },
     {
       "relation": "method",
@@ -25225,9 +25235,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L290",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_link",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_link"
     },
     {
       "relation": "method",
@@ -25235,9 +25245,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L310",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_linklocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_linklocator"
     },
     {
       "relation": "method",
@@ -25245,9 +25255,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L197",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications"
     },
     {
       "relation": "method",
@@ -25255,9 +25265,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L187",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied"
     },
     {
       "relation": "method",
@@ -25265,9 +25275,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L267",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "method",
@@ -25275,9 +25285,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_overflowroutes",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_overflowroutes"
     },
     {
       "relation": "method",
@@ -25285,9 +25295,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L355",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_overridenavigatorplatform",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_overridenavigatorplatform"
     },
     {
       "relation": "method",
@@ -25295,9 +25305,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L208",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow"
     },
     {
       "relation": "method",
@@ -25305,9 +25315,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_primarydocsroutesrender",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_primarydocsroutesrender"
     },
     {
       "relation": "method",
@@ -25315,9 +25325,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_primaryroutes",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_primaryroutes"
     },
     {
       "relation": "method",
@@ -25325,9 +25335,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L153",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom"
     },
     {
       "relation": "method",
@@ -25335,9 +25345,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L145",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_projectgeneratoropeneddirectlykeepsautobotavailable",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_projectgeneratoropeneddirectlykeepsautobotavailable"
     },
     {
       "relation": "method",
@@ -25345,9 +25355,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L216",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties"
     },
     {
       "relation": "method",
@@ -25355,9 +25365,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L233",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately"
     },
     {
       "relation": "method",
@@ -25365,9 +25375,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L259",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_releasepagerenderscontributoravatarswithsmallsize",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_releasepagerenderscontributoravatarswithsmallsize"
     },
     {
       "relation": "method",
@@ -25375,9 +25385,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L335",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "method",
@@ -25385,9 +25395,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L280",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_selectvalue",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_selectvalue"
     },
     {
       "relation": "method",
@@ -25395,9 +25405,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_setup",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_setup"
     },
     {
       "relation": "method",
@@ -25405,9 +25415,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L364",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_stubprojectgeneratorsources",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_stubprojectgeneratorsources"
     },
     {
       "relation": "method",
@@ -25415,9 +25425,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_teardown",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_teardown"
     },
     {
       "relation": "method",
@@ -25425,9 +25435,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L272",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "references",
@@ -25436,9 +25446,9 @@
       "source_location": "L56",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_setup",
-      "target": "beforemethod",
-      "confidence_score": 1.0
+      "target": "beforemethod"
     },
     {
       "relation": "references",
@@ -25447,9 +25457,9 @@
       "source_location": "L71",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_teardown",
-      "target": "aftermethod",
-      "confidence_score": 1.0
+      "target": "aftermethod"
     },
     {
       "relation": "references",
@@ -25458,9 +25468,9 @@
       "source_location": "L79",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primaryroutes",
-      "target": "dataprovider",
-      "confidence_score": 1.0
+      "target": "dataprovider"
     },
     {
       "relation": "references",
@@ -25469,9 +25479,9 @@
       "source_location": "L79",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primaryroutes",
-      "target": "object",
-      "confidence_score": 1.0
+      "target": "object"
     },
     {
       "relation": "calls",
@@ -25513,9 +25523,9 @@
       "source_location": "L95",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_overflowroutes",
-      "target": "object",
-      "confidence_score": 1.0
+      "target": "object"
     },
     {
       "relation": "calls",
@@ -25546,9 +25556,9 @@
       "source_location": "L335",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_script",
-      "target": "object",
-      "confidence_score": 1.0
+      "target": "object"
     },
     {
       "relation": "references",
@@ -25557,9 +25567,9 @@
       "source_location": "L95",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_overflowroutes",
-      "target": "dataprovider",
-      "confidence_score": 1.0
+      "target": "dataprovider"
     },
     {
       "relation": "calls",
@@ -25568,9 +25578,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_attribute",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_attribute"
     },
     {
       "relation": "calls",
@@ -25579,9 +25589,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -25590,9 +25600,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_currenthash",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_currenthash"
     },
     {
       "relation": "calls",
@@ -25601,9 +25611,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_link",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_link"
     },
     {
       "relation": "calls",
@@ -25612,9 +25622,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_linklocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_linklocator"
     },
     {
       "relation": "calls",
@@ -25623,9 +25633,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -25634,9 +25644,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "references",
@@ -25645,9 +25655,9 @@
       "source_location": "L108",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25656,9 +25666,9 @@
       "source_location": "L248",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_darkmoderemainsreadable",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25667,9 +25677,9 @@
       "source_location": "L130",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25678,9 +25688,9 @@
       "source_location": "L197",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25689,9 +25699,9 @@
       "source_location": "L187",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25700,9 +25710,9 @@
       "source_location": "L208",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25711,9 +25721,9 @@
       "source_location": "L124",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primarydocsroutesrender",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25722,9 +25732,9 @@
       "source_location": "L153",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25733,9 +25743,9 @@
       "source_location": "L145",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoropeneddirectlykeepsautobotavailable",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25744,9 +25754,9 @@
       "source_location": "L216",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25755,9 +25765,9 @@
       "source_location": "L233",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "references",
@@ -25766,9 +25776,9 @@
       "source_location": "L259",
       "weight": 1.0,
       "context": "attribute",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_releasepagerenderscontributoravatarswithsmallsize",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "calls",
@@ -25777,9 +25787,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primarydocsroutesrender",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -25788,9 +25798,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primarydocsroutesrender",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "references",
@@ -25799,9 +25809,9 @@
       "source_location": "L124",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_primarydocsroutesrender",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25810,9 +25820,9 @@
       "source_location": "L322",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_attribute",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25821,9 +25831,9 @@
       "source_location": "L294",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_button",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25832,9 +25842,9 @@
       "source_location": "L314",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_buttonlocator",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25843,9 +25853,9 @@
       "source_location": "L302",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_checkboxwithlabellocator",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25854,9 +25864,9 @@
       "source_location": "L306",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_clicklabel",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25865,9 +25875,9 @@
       "source_location": "L330",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_clipboardtext",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25876,9 +25886,9 @@
       "source_location": "L326",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_currenthash",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25887,9 +25897,9 @@
       "source_location": "L298",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_inputafterlabel",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25898,9 +25908,9 @@
       "source_location": "L410",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_jsstring",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25909,9 +25919,9 @@
       "source_location": "L290",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_link",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25920,9 +25930,9 @@
       "source_location": "L310",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linklocator",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25931,9 +25941,9 @@
       "source_location": "L267",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_navigate",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25942,9 +25952,9 @@
       "source_location": "L355",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_overridenavigatorplatform",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25953,9 +25963,9 @@
       "source_location": "L208",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25964,9 +25974,9 @@
       "source_location": "L335",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_script",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -25975,9 +25985,9 @@
       "source_location": "L280",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_selectvalue",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "calls",
@@ -25986,9 +25996,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "target": "docs_siterendertest_siterendertest_attribute",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_attribute"
     },
     {
       "relation": "calls",
@@ -25997,9 +26007,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "target": "docs_siterendertest_siterendertest_button",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_button"
     },
     {
       "relation": "calls",
@@ -26008,9 +26018,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26019,9 +26029,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installationpageembedsprojectgenerator",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26030,9 +26040,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L147",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoropeneddirectlykeepsautobotavailable",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26041,9 +26051,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoropeneddirectlykeepsautobotavailable",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26052,9 +26062,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L169",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_attribute",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_attribute"
     },
     {
       "relation": "calls",
@@ -26063,9 +26073,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L159",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_buttonlocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_buttonlocator"
     },
     {
       "relation": "calls",
@@ -26074,9 +26084,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L173",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_checkboxwithlabellocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_checkboxwithlabellocator"
     },
     {
       "relation": "calls",
@@ -26085,9 +26095,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L159",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26096,9 +26106,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L158",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_clicklabel",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_clicklabel"
     },
     {
       "relation": "calls",
@@ -26107,9 +26117,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L162",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_inputafterlabel",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_inputafterlabel"
     },
     {
       "relation": "calls",
@@ -26118,9 +26128,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L156",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26129,9 +26139,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L179",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26140,9 +26150,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L155",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_stubprojectgeneratorsources",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_stubprojectgeneratorsources"
     },
     {
       "relation": "calls",
@@ -26151,9 +26161,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L168",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_projectgeneratoraddsselectedoptionalmodulestopom",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26162,9 +26172,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26173,9 +26183,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L194",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "target": "docs_siterendertest_siterendertest_clipboardtext",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_clipboardtext"
     },
     {
       "relation": "calls",
@@ -26184,9 +26194,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L190",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "target": "docs_siterendertest_siterendertest_installclipboardshim",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_installclipboardshim"
     },
     {
       "relation": "calls",
@@ -26195,9 +26205,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_mcpapplicationcommandcanbecopied",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26206,9 +26216,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L200",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26217,9 +26227,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L199",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications",
-      "target": "docs_siterendertest_siterendertest_overridenavigatorplatform",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_overridenavigatorplatform"
     },
     {
       "relation": "calls",
@@ -26228,9 +26238,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L202",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linuxhidesunsupporteddesktopapplications",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26239,9 +26249,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L211",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26250,9 +26260,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L213",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_pageshavenopagelevelhorizontaloverflow",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26261,9 +26271,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L224",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26272,9 +26282,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L230",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_clipboardtext",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_clipboardtext"
     },
     {
       "relation": "calls",
@@ -26283,9 +26293,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L219",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_installclipboardshim",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_installclipboardshim"
     },
     {
       "relation": "calls",
@@ -26294,9 +26304,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L218",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26305,9 +26315,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L225",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_selectvalue",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_selectvalue"
     },
     {
       "relation": "calls",
@@ -26316,9 +26326,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L221",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorcopiescustomproperties",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26327,9 +26337,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L239",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "docs_siterendertest_siterendertest_attribute",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_attribute"
     },
     {
       "relation": "calls",
@@ -26338,9 +26348,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L240",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26349,9 +26359,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L235",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26360,9 +26370,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L241",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "docs_siterendertest_siterendertest_selectvalue",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_selectvalue"
     },
     {
       "relation": "calls",
@@ -26371,9 +26381,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L238",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_propertiesgeneratorgroupstestngoutputseparately",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26382,9 +26392,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L254",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_darkmoderemainsreadable",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26393,9 +26403,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_darkmoderemainsreadable",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26404,9 +26414,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_darkmoderemainsreadable",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26415,9 +26425,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L261",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_releasepagerenderscontributoravatarswithsmallsize",
-      "target": "docs_siterendertest_siterendertest_navigate",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_navigate"
     },
     {
       "relation": "calls",
@@ -26426,9 +26436,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L263",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_releasepagerenderscontributoravatarswithsmallsize",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26437,9 +26447,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L319",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_attribute",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26448,9 +26458,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_button",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26459,9 +26469,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_inputafterlabel",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26470,9 +26480,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L291",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_link",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "calls",
@@ -26481,9 +26491,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L282",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_selectvalue",
-      "target": "docs_siterendertest_siterendertest_visible",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_visible"
     },
     {
       "relation": "references",
@@ -26492,9 +26502,9 @@
       "source_location": "L272",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_visible",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26503,9 +26513,9 @@
       "source_location": "L272",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_visible",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "references",
@@ -26514,9 +26524,9 @@
       "source_location": "L318",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_attribute",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26525,9 +26535,9 @@
       "source_location": "L314",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_buttonlocator",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26536,9 +26546,9 @@
       "source_location": "L302",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_checkboxwithlabellocator",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26547,9 +26557,9 @@
       "source_location": "L276",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_click",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26558,9 +26568,9 @@
       "source_location": "L310",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_linklocator",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26569,9 +26579,9 @@
       "source_location": "L280",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_selectvalue",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -26580,9 +26590,9 @@
       "source_location": "L322",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_attribute",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "references",
@@ -26591,9 +26601,9 @@
       "source_location": "L294",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_button",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "references",
@@ -26602,9 +26612,9 @@
       "source_location": "L298",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_inputafterlabel",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "references",
@@ -26613,9 +26623,9 @@
       "source_location": "L290",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_link",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "calls",
@@ -26624,9 +26634,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L307",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_clicklabel",
-      "target": "docs_siterendertest_siterendertest_click",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_click"
     },
     {
       "relation": "calls",
@@ -26635,9 +26645,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L283",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_selectvalue",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26646,9 +26656,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L291",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_link",
-      "target": "docs_siterendertest_siterendertest_linklocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_linklocator"
     },
     {
       "relation": "calls",
@@ -26657,9 +26667,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_button",
-      "target": "docs_siterendertest_siterendertest_buttonlocator",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_buttonlocator"
     },
     {
       "relation": "calls",
@@ -26668,9 +26678,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L327",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_currenthash",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26679,9 +26689,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L331",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_clipboardtext",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26690,9 +26700,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L340",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_installclipboardshim",
-      "target": "docs_siterendertest_siterendertest_script",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_script"
     },
     {
       "relation": "calls",
@@ -26701,9 +26711,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L405",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_stubprojectgeneratorsources",
-      "target": "docs_siterendertest_siterendertest_jsstring",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_jsstring"
     },
     {
       "relation": "contains",
@@ -28191,9 +28201,9 @@
       "source_file": "docs/agentic/capture.md",
       "source_location": "L255",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_capture_record_tests_with_capture",
-      "target": "agentic_capture_related",
-      "confidence_score": 1.0
+      "target": "agentic_capture_related"
     },
     {
       "relation": "contains",
@@ -28281,9 +28291,9 @@
       "source_file": "docs/agentic/doctor.mdx",
       "source_location": "L319",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_doctor_diagnose_failures_with_doctor",
-      "target": "agentic_doctor_related",
-      "confidence_score": 1.0
+      "target": "agentic_doctor_related"
     },
     {
       "relation": "contains",
@@ -28371,9 +28381,9 @@
       "source_file": "docs/agentic/examples.md",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_examples_pilot_examples",
-      "target": "agentic_examples_related",
-      "confidence_score": 1.0
+      "target": "agentic_examples_related"
     },
     {
       "relation": "contains",
@@ -28441,9 +28451,9 @@
       "source_file": "docs/agentic/heal.mdx",
       "source_location": "L181",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_heal_recover_locators_with_heal",
-      "target": "agentic_heal_related",
-      "confidence_score": 1.0
+      "target": "agentic_heal_related"
     },
     {
       "relation": "contains",
@@ -28551,9 +28561,9 @@
       "source_file": "docs/agentic/mcp-manual.mdx",
       "source_location": "L187",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_manual_configure_shaft_mcp_manually",
-      "target": "agentic_mcp_manual_related",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_manual_related"
     },
     {
       "relation": "contains",
@@ -28651,9 +28661,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L329",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_related",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_related"
     },
     {
       "relation": "contains",
@@ -28674,6 +28684,16 @@
       "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
       "target": "agentic_mcp_runtime_workspace"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/agentic/mcp.mdx",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "agentic_mcp_connect_shaft_mcp",
+      "target": "agentic_mcp_test_automation_scenario_catalog",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -28701,9 +28721,9 @@
       "source_file": "docs/agentic/overview.mdx",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_overview_agentic_testing_without_hidden_automation",
-      "target": "agentic_overview_related",
-      "confidence_score": 1.0
+      "target": "agentic_overview_related"
     },
     {
       "relation": "contains",
@@ -28791,9 +28811,9 @@
       "source_file": "docs/agentic/pilot.md",
       "source_location": "L250",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_pilot_shaft_pilot",
-      "target": "agentic_pilot_related",
-      "confidence_score": 1.0
+      "target": "agentic_pilot_related"
     },
     {
       "relation": "contains",
@@ -28861,9 +28881,9 @@
       "source_file": "docs/agentic/providers.md",
       "source_location": "L139",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_providers_optional_ai_providers",
-      "target": "agentic_providers_related",
-      "confidence_score": 1.0
+      "target": "agentic_providers_related"
     },
     {
       "relation": "contains",
@@ -31881,9 +31901,9 @@
       "source_file": "docs/features/architecture.md",
       "source_location": "L182",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "features_architecture_architecture",
-      "target": "features_architecture_related",
-      "confidence_score": 1.0
+      "target": "features_architecture_related"
     },
     {
       "relation": "contains",
@@ -31911,9 +31931,9 @@
       "source_file": "docs/features/modules.md",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "features_modules_features_and_modules",
-      "target": "features_modules_related",
-      "confidence_score": 1.0
+      "target": "features_modules_related"
     },
     {
       "relation": "contains",
@@ -32021,9 +32041,9 @@
       "source_file": "docs/features/partners.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "features_partners_partners_and_adopters",
-      "target": "features_partners_related",
-      "confidence_score": 1.0
+      "target": "features_partners_related"
     },
     {
       "relation": "contains",
@@ -32071,9 +32091,9 @@
       "source_file": "docs/features/reporting.md",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "features_reporting_reporting_and_evidence",
-      "target": "features_reporting_related",
-      "confidence_score": 1.0
+      "target": "features_reporting_related"
     },
     {
       "relation": "contains",
@@ -32091,9 +32111,9 @@
       "source_file": "docs/features/technology.md",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "features_technology_technology",
-      "target": "features_technology_related",
-      "confidence_score": 1.0
+      "target": "features_technology_related"
     },
     {
       "relation": "contains",
@@ -32121,9 +32141,9 @@
       "source_file": "docs/integrations/browserstack.md",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "integrations_browserstack_browserstack",
-      "target": "integrations_browserstack_related",
-      "confidence_score": 1.0
+      "target": "integrations_browserstack_related"
     },
     {
       "relation": "contains",
@@ -32161,9 +32181,9 @@
       "source_file": "docs/integrations/video.md",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "integrations_video_video_recording",
-      "target": "integrations_video_related",
-      "confidence_score": 1.0
+      "target": "integrations_video_related"
     },
     {
       "relation": "contains",
@@ -32201,9 +32221,9 @@
       "source_file": "docs/integrations/visual.md",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "integrations_visual_visual_testing",
-      "target": "integrations_visual_related",
-      "confidence_score": 1.0
+      "target": "integrations_visual_related"
     },
     {
       "relation": "contains",
@@ -32811,9 +32831,9 @@
       "source_file": "docs/reference/actions/API/API_Authentication.md",
       "source_location": "L169",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_api_authentication",
-      "target": "api_api_authentication_related",
-      "confidence_score": 1.0
+      "target": "api_api_authentication_related"
     },
     {
       "relation": "contains",
@@ -32891,9 +32911,9 @@
       "source_file": "docs/reference/actions/API/GraphQL_Testing.md",
       "source_location": "L167",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_graphql_testing",
-      "target": "api_graphql_testing_related",
-      "confidence_score": 1.0
+      "target": "api_graphql_testing_related"
     },
     {
       "relation": "contains",
@@ -32921,9 +32941,9 @@
       "source_file": "docs/reference/actions/API/Request_Builder.md",
       "source_location": "L391",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_request_builder",
-      "target": "api_request_builder_related",
-      "confidence_score": 1.0
+      "target": "api_request_builder_related"
     },
     {
       "relation": "contains",
@@ -33301,9 +33321,9 @@
       "source_file": "docs/reference/actions/API/Response_Getters.md",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_getters",
-      "target": "api_response_getters_related",
-      "confidence_score": 1.0
+      "target": "api_response_getters_related"
     },
     {
       "relation": "contains",
@@ -33441,9 +33461,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations",
-      "target": "api_response_validations_related",
-      "confidence_score": 1.0
+      "target": "api_response_validations_related"
     },
     {
       "relation": "contains",
@@ -33591,9 +33611,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_extracted_json_value",
-      "target": "api_response_validations_usage_41",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_41"
     },
     {
       "relation": "contains",
@@ -33601,9 +33621,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_extracted_json_value_as_list",
-      "target": "api_response_validations_usage_56",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_56"
     },
     {
       "relation": "contains",
@@ -33611,9 +33631,9 @@
       "source_file": "docs/reference/actions/API/Response_Validations.md",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_response_validations_time",
-      "target": "api_response_validations_usage_70",
-      "confidence_score": 1.0
+      "target": "api_response_validations_usage_70"
     },
     {
       "relation": "contains",
@@ -33831,9 +33851,9 @@
       "source_file": "docs/reference/actions/CLI/File_Actions.md",
       "source_location": "L202",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cli_file_actions",
-      "target": "cli_file_actions_related",
-      "confidence_score": 1.0
+      "target": "cli_file_actions_related"
     },
     {
       "relation": "contains",
@@ -34101,9 +34121,9 @@
       "source_file": "docs/reference/actions/CLI/Terminal_Actions.md",
       "source_location": "L197",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "cli_terminal_actions",
-      "target": "cli_terminal_actions_related",
-      "confidence_score": 1.0
+      "target": "cli_terminal_actions_related"
     },
     {
       "relation": "contains",
@@ -34211,9 +34231,9 @@
       "source_file": "docs/reference/actions/DB/Connection_Strings.md",
       "source_location": "L377",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "db_connection_strings",
-      "target": "db_connection_strings_related",
-      "confidence_score": 1.0
+      "target": "db_connection_strings_related"
     },
     {
       "relation": "contains",
@@ -34601,9 +34621,9 @@
       "source_file": "docs/reference/actions/DB/DB_Actions.md",
       "source_location": "L312",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "db_db_actions",
-      "target": "db_db_actions_related",
-      "confidence_score": 1.0
+      "target": "db_db_actions_related"
     },
     {
       "relation": "contains",
@@ -34761,9 +34781,9 @@
       "source_file": "docs/reference/actions/DB/Oracle_JDBC_Setup.md",
       "source_location": "L355",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "db_oracle_jdbc_setup",
-      "target": "db_oracle_jdbc_setup_related",
-      "confidence_score": 1.0
+      "target": "db_oracle_jdbc_setup_related"
     },
     {
       "relation": "contains",
@@ -35151,9 +35171,9 @@
       "source_file": "docs/reference/actions/GUI/Alert_Actions.md",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_alert_actions",
-      "target": "gui_alert_actions_related",
-      "confidence_score": 1.0
+      "target": "gui_alert_actions_related"
     },
     {
       "relation": "contains",
@@ -35321,9 +35341,9 @@
       "source_file": "docs/reference/actions/GUI/Browser_Actions.md",
       "source_location": "L367",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_browser_actions",
-      "target": "gui_browser_actions_related",
-      "confidence_score": 1.0
+      "target": "gui_browser_actions_related"
     },
     {
       "relation": "contains",
@@ -35741,9 +35761,9 @@
       "source_file": "docs/reference/actions/GUI/Did_You_Know.md",
       "source_location": "L109",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_did_you_know",
-      "target": "gui_did_you_know_related",
-      "confidence_score": 1.0
+      "target": "gui_did_you_know_related"
     },
     {
       "relation": "contains",
@@ -35891,9 +35911,9 @@
       "source_file": "docs/reference/actions/GUI/Element_Actions.md",
       "source_location": "L409",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_element_actions",
-      "target": "gui_element_actions_related",
-      "confidence_score": 1.0
+      "target": "gui_element_actions_related"
     },
     {
       "relation": "contains",
@@ -37081,9 +37101,9 @@
       "source_file": "docs/reference/actions/GUI/Natural_Language_Actions.md",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_natural_language_actions",
-      "target": "gui_natural_language_actions_related",
-      "confidence_score": 1.0
+      "target": "gui_natural_language_actions_related"
     },
     {
       "relation": "contains",
@@ -37131,9 +37151,9 @@
       "source_file": "docs/reference/actions/GUI/Touch_Actions.md",
       "source_location": "L181",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_touch_actions",
-      "target": "gui_touch_actions_related",
-      "confidence_score": 1.0
+      "target": "gui_touch_actions_related"
     },
     {
       "relation": "contains",
@@ -37351,9 +37371,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/ARIA_Locators.md",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_aria_locators",
-      "target": "didyouknow_aria_locators_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_aria_locators_related"
     },
     {
       "relation": "contains",
@@ -37391,9 +37411,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Accessibility_Testing.md",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_accessibility_testing",
-      "target": "didyouknow_accessibility_testing_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_accessibility_testing_related"
     },
     {
       "relation": "contains",
@@ -37461,9 +37481,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Async_Element_Actions.md",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_async_element_actions",
-      "target": "didyouknow_async_element_actions_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_async_element_actions_related"
     },
     {
       "relation": "contains",
@@ -37711,9 +37731,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Custom_Capabilities.md",
       "source_location": "L196",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_custom_capabilities",
-      "target": "didyouknow_custom_capabilities_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_custom_capabilities_related"
     },
     {
       "relation": "contains",
@@ -37821,9 +37841,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Explicit_Waits.md",
       "source_location": "L200",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_explicit_waits",
-      "target": "didyouknow_explicit_waits_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_explicit_waits_related"
     },
     {
       "relation": "contains",
@@ -37941,9 +37961,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine.md",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_integrate_jira_with_shaft_engine_integrate_jira_with_shaft_engine",
-      "target": "didyouknow_integrate_jira_with_shaft_engine_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_integrate_jira_with_shaft_engine_related"
     },
     {
       "relation": "contains",
@@ -38561,9 +38581,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Native_selenium_Webdriver.md",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_native_selenium_webdriver",
-      "target": "didyouknow_native_selenium_webdriver_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_native_selenium_webdriver_related"
     },
     {
       "relation": "contains",
@@ -38621,9 +38641,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_network_mocking",
-      "target": "didyouknow_network_mocking_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_network_mocking_related"
     },
     {
       "relation": "contains",
@@ -38671,9 +38691,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators.md",
       "source_location": "L123",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_self_healing_locators",
-      "target": "didyouknow_self_healing_locators_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_self_healing_locators_related"
     },
     {
       "relation": "contains",
@@ -38801,9 +38821,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder.md",
       "source_location": "L193",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_shaft_locator_builder",
-      "target": "didyouknow_shaft_locator_builder_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_shaft_locator_builder_related"
     },
     {
       "relation": "contains",
@@ -38921,9 +38941,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Smart_Locators.md",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_smart_locators",
-      "target": "didyouknow_smart_locators_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_smart_locators_related"
     },
     {
       "relation": "contains",
@@ -38941,9 +38961,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests.md",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_using_cookies_in_your_tests",
-      "target": "didyouknow_using_cookies_in_your_tests_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_using_cookies_in_your_tests_related"
     },
     {
       "relation": "contains",
@@ -38981,9 +39001,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/Visual_Testing.md",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_visual_testing",
-      "target": "didyouknow_visual_testing_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_visual_testing_related"
     },
     {
       "relation": "contains",
@@ -39051,9 +39071,9 @@
       "source_file": "docs/reference/actions/GUI/didYouKnow/iFrame_Handling.md",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "didyouknow_iframe_handling",
-      "target": "didyouknow_iframe_handling_related",
-      "confidence_score": 1.0
+      "target": "didyouknow_iframe_handling_related"
     },
     {
       "relation": "contains",
@@ -39631,9 +39651,9 @@
       "source_file": "docs/reference/actions/Validations/Browser.md",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_browser",
-      "target": "validations_browser_related",
-      "confidence_score": 1.0
+      "target": "validations_browser_related"
     },
     {
       "relation": "contains",
@@ -39721,9 +39741,9 @@
       "source_file": "docs/reference/actions/Validations/Elements.md",
       "source_location": "L166",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_elements",
-      "target": "validations_elements_related",
-      "confidence_score": 1.0
+      "target": "validations_elements_related"
     },
     {
       "relation": "contains",
@@ -39881,9 +39901,9 @@
       "source_file": "docs/reference/actions/Validations/Files.md",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_files",
-      "target": "validations_files_related",
-      "confidence_score": 1.0
+      "target": "validations_files_related"
     },
     {
       "relation": "contains",
@@ -39891,9 +39911,9 @@
       "source_file": "docs/reference/actions/Validations/ForceFail.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_forcefail",
-      "target": "validations_forcefail_eager_execution",
-      "confidence_score": 1.0
+      "target": "validations_forcefail_eager_execution"
     },
     {
       "relation": "contains",
@@ -39911,9 +39931,9 @@
       "source_file": "docs/reference/actions/Validations/ForceFail.md",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_forcefail",
-      "target": "validations_forcefail_related",
-      "confidence_score": 1.0
+      "target": "validations_forcefail_related"
     },
     {
       "relation": "contains",
@@ -39971,9 +39991,9 @@
       "source_file": "docs/reference/actions/Validations/JSON_Schema_Validation.md",
       "source_location": "L151",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_json_schema_validation",
-      "target": "validations_json_schema_validation_related",
-      "confidence_score": 1.0
+      "target": "validations_json_schema_validation_related"
     },
     {
       "relation": "contains",
@@ -40061,9 +40081,9 @@
       "source_file": "docs/reference/actions/Validations/Nums.md",
       "source_location": "L72",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_nums",
-      "target": "validations_nums_related",
-      "confidence_score": 1.0
+      "target": "validations_nums_related"
     },
     {
       "relation": "contains",
@@ -40191,9 +40211,9 @@
       "source_file": "docs/reference/actions/Validations/Objects.md",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_objects",
-      "target": "validations_objects_related",
-      "confidence_score": 1.0
+      "target": "validations_objects_related"
     },
     {
       "relation": "contains",
@@ -40211,9 +40231,9 @@
       "source_file": "docs/reference/actions/Validations/Overview.md",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_overview",
-      "target": "validations_overview_related",
-      "confidence_score": 1.0
+      "target": "validations_overview_related"
     },
     {
       "relation": "contains",
@@ -40341,9 +40361,9 @@
       "source_file": "docs/reference/actions/Validations/Response.md",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_response",
-      "target": "validations_response_related",
-      "confidence_score": 1.0
+      "target": "validations_response_related"
     },
     {
       "relation": "contains",
@@ -40381,9 +40401,9 @@
       "source_file": "docs/reference/actions/Validations/Soft_vs_Hard_Assertions.md",
       "source_location": "L121",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "validations_soft_vs_hard_assertions",
-      "target": "validations_soft_vs_hard_assertions_related",
-      "confidence_score": 1.0
+      "target": "validations_soft_vs_hard_assertions_related"
     },
     {
       "relation": "contains",
@@ -40431,9 +40451,9 @@
       "source_file": "docs/reference/configuration/basicConfig.md",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "configuration_basicconfig",
-      "target": "configuration_basicconfig_related",
-      "confidence_score": 1.0
+      "target": "configuration_basicconfig_related"
     },
     {
       "relation": "contains",
@@ -40521,9 +40541,9 @@
       "source_file": "docs/reference/configuration/basicConfig2.md",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "configuration_basicconfig2",
-      "target": "configuration_basicconfig2_related",
-      "confidence_score": 1.0
+      "target": "configuration_basicconfig2_related"
     },
     {
       "relation": "contains",
@@ -40571,9 +40591,9 @@
       "source_file": "docs/reference/configuration/basicConfig3.md",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "configuration_basicconfig3",
-      "target": "configuration_basicconfig3_related",
-      "confidence_score": 1.0
+      "target": "configuration_basicconfig3_related"
     },
     {
       "relation": "contains",
@@ -41081,9 +41101,9 @@
       "source_file": "docs/reference/guides/Architecture.md",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_architecture",
-      "target": "guides_architecture_related",
-      "confidence_score": 1.0
+      "target": "guides_architecture_related"
     },
     {
       "relation": "contains",
@@ -41191,9 +41211,9 @@
       "source_file": "docs/reference/guides/BDD_Style_Reports.md",
       "source_location": "L139",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_bdd_style_reports",
-      "target": "guides_bdd_style_reports_related",
-      "confidence_score": 1.0
+      "target": "guides_bdd_style_reports_related"
     },
     {
       "relation": "contains",
@@ -41291,9 +41311,9 @@
       "source_file": "docs/reference/guides/CI_CD_Integration.md",
       "source_location": "L165",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_ci_cd_integration",
-      "target": "guides_ci_cd_integration_related",
-      "confidence_score": 1.0
+      "target": "guides_ci_cd_integration_related"
     },
     {
       "relation": "contains",
@@ -41331,9 +41351,9 @@
       "source_file": "docs/reference/guides/Cross_Platform_Strategy.md",
       "source_location": "L140",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_cross_platform_strategy",
-      "target": "guides_cross_platform_strategy_related",
-      "confidence_score": 1.0
+      "target": "guides_cross_platform_strategy_related"
     },
     {
       "relation": "contains",
@@ -41421,9 +41441,9 @@
       "source_file": "docs/reference/guides/Cucumber_BDD_Steps.md",
       "source_location": "L148",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_cucumber_bdd_steps",
-      "target": "guides_cucumber_bdd_steps_related",
-      "confidence_score": 1.0
+      "target": "guides_cucumber_bdd_steps_related"
     },
     {
       "relation": "contains",
@@ -41491,9 +41511,9 @@
       "source_file": "docs/reference/guides/Element_Identification.md",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_element_identification",
-      "target": "guides_element_identification_related",
-      "confidence_score": 1.0
+      "target": "guides_element_identification_related"
     },
     {
       "relation": "contains",
@@ -41561,9 +41581,9 @@
       "source_file": "docs/reference/guides/Fluent_Design.md",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_fluent_design",
-      "target": "guides_fluent_design_related",
-      "confidence_score": 1.0
+      "target": "guides_fluent_design_related"
     },
     {
       "relation": "contains",
@@ -41621,9 +41641,9 @@
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
       "source_location": "L176",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_junit5_integration",
-      "target": "guides_junit5_integration_related",
-      "confidence_score": 1.0
+      "target": "guides_junit5_integration_related"
     },
     {
       "relation": "contains",
@@ -41721,9 +41741,9 @@
       "source_file": "docs/reference/guides/Solution_Design.md",
       "source_location": "L223",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_solution_design",
-      "target": "guides_solution_design_related",
-      "confidence_score": 1.0
+      "target": "guides_solution_design_related"
     },
     {
       "relation": "contains",
@@ -41781,9 +41801,9 @@
       "source_file": "docs/reference/guides/Test_Artifacts.md",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_test_artifacts",
-      "target": "guides_test_artifacts_related",
-      "confidence_score": 1.0
+      "target": "guides_test_artifacts_related"
     },
     {
       "relation": "contains",
@@ -41841,9 +41861,9 @@
       "source_file": "docs/reference/guides/Test_Structure.md",
       "source_location": "L157",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_test_structure",
-      "target": "guides_test_structure_related",
-      "confidence_score": 1.0
+      "target": "guides_test_structure_related"
     },
     {
       "relation": "contains",
@@ -41921,9 +41941,9 @@
       "source_file": "docs/reference/guides/Testing_Pyramid.md",
       "source_location": "L149",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_testing_pyramid",
-      "target": "guides_testing_pyramid_related",
-      "confidence_score": 1.0
+      "target": "guides_testing_pyramid_related"
     },
     {
       "relation": "contains",
@@ -42051,9 +42071,9 @@
       "source_file": "docs/reference/guides/Tool_Selection.md",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_tool_selection",
-      "target": "guides_tool_selection_related",
-      "confidence_score": 1.0
+      "target": "guides_tool_selection_related"
     },
     {
       "relation": "contains",
@@ -42151,9 +42171,9 @@
       "source_file": "docs/reference/overview.md",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "reference_overview_reference",
-      "target": "reference_overview_related",
-      "confidence_score": 1.0
+      "target": "reference_overview_related"
     },
     {
       "relation": "contains",
@@ -42271,9 +42291,9 @@
       "source_file": "docs/reference/properties/CommonExamples.mdx",
       "source_location": "L506",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "properties_commonexamples",
-      "target": "properties_commonexamples_related",
-      "confidence_score": 1.0
+      "target": "properties_commonexamples_related"
     },
     {
       "relation": "contains",
@@ -42321,9 +42341,9 @@
       "source_file": "docs/reference/properties/Programmatic_Config.md",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "properties_programmatic_config",
-      "target": "properties_programmatic_config_related",
-      "confidence_score": 1.0
+      "target": "properties_programmatic_config_related"
     },
     {
       "relation": "contains",
@@ -42521,9 +42541,9 @@
       "source_file": "docs/reference/properties/PropertiesList.mdx",
       "source_location": "L1064",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "properties_propertieslist",
-      "target": "properties_propertieslist_related",
-      "confidence_score": 1.0
+      "target": "properties_propertieslist_related"
     },
     {
       "relation": "contains",
@@ -42631,9 +42651,9 @@
       "source_file": "docs/reference/properties/PropertyTypes.md",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "properties_propertytypes",
-      "target": "properties_propertytypes_related",
-      "confidence_score": 1.0
+      "target": "properties_propertytypes_related"
     },
     {
       "relation": "contains",
@@ -42641,9 +42661,9 @@
       "source_file": "docs/reference/properties/custom-properties-generator.mdx",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "properties_custom_properties_generator",
-      "target": "properties_custom_properties_generator_related",
-      "confidence_score": 1.0
+      "target": "properties_custom_properties_generator_related"
     },
     {
       "relation": "contains",
@@ -42821,9 +42841,9 @@
       "source_file": "docs/reference/reporting/reporting.mdx",
       "source_location": "L482",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "reporting_reporting",
-      "target": "reporting_reporting_related",
-      "confidence_score": 1.0
+      "target": "reporting_reporting_related"
     },
     {
       "relation": "contains",
@@ -43011,9 +43031,9 @@
       "source_file": "docs/start/installation.mdx",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_installation_install_shaft",
-      "target": "start_installation_related",
-      "confidence_score": 1.0
+      "target": "start_installation_related"
     },
     {
       "relation": "contains",
@@ -43061,9 +43081,9 @@
       "source_file": "docs/start/overview.mdx",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_overview_one_engine_every_test_surface",
-      "target": "start_overview_related",
-      "confidence_score": 1.0
+      "target": "start_overview_related"
     },
     {
       "relation": "contains",
@@ -43131,9 +43151,9 @@
       "source_file": "docs/start/quick-start.md",
       "source_location": "L352",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_related",
-      "confidence_score": 1.0
+      "target": "start_quick_start_related"
     },
     {
       "relation": "contains",
@@ -43361,9 +43381,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L725",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade_upgrade_to_modular_shaft",
-      "target": "start_upgrade_related",
-      "confidence_score": 1.0
+      "target": "start_upgrade_related"
     },
     {
       "relation": "contains",
@@ -43591,9 +43611,9 @@
       "source_file": "docs/testing/api.mdx",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_api_api_testing",
-      "target": "testing_api_related",
-      "confidence_score": 1.0
+      "target": "testing_api_related"
     },
     {
       "relation": "contains",
@@ -43611,9 +43631,9 @@
       "source_file": "docs/testing/cli.md",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_cli_cli_testing",
-      "target": "testing_cli_related",
-      "confidence_score": 1.0
+      "target": "testing_cli_related"
     },
     {
       "relation": "contains",
@@ -43631,9 +43651,9 @@
       "source_file": "docs/testing/database.md",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_database_database_testing",
-      "target": "testing_database_related",
-      "confidence_score": 1.0
+      "target": "testing_database_related"
     },
     {
       "relation": "contains",
@@ -43971,11 +43991,11 @@
       "source_file": "docs/testing/web.mdx",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_web_web_testing",
-      "target": "testing_web_related",
-      "confidence_score": 1.0
+      "target": "testing_web_related"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e11f92db1f96a4e8ad291e84be7d066864bbc2ae"
+  "built_at_commit": "75365a044b48d1fdde7a313a8c036e3dbf5a99bb"
 }
