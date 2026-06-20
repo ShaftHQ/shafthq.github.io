@@ -2,12 +2,12 @@
 id: GraphQL_Testing
 title: GraphQL API Testing
 sidebar_label: GraphQL Testing
-description: "Test GraphQL APIs in SHAFT Engine — send queries, mutations, and subscriptions with variables, fragments, and authentication headers using sendGraphQlRequest."
+description: "Test GraphQL APIs in SHAFT Engine — send queries, mutations, and subscriptions with variables, fragments, and authentication headers using SHAFT.API."
 keywords: [SHAFT, GraphQL, API testing, GraphQL query, variables, fragments, mutations, sendGraphQlRequest]
 tags: [api, graphql, rest-assured]
 ---
 
-SHAFT Engine provides first-class GraphQL support through `RestActions.sendGraphQlRequest()` and its overloads. You can send **queries**, **mutations**, and **subscriptions** with or without variables, fragments, and custom authentication headers — all with the same fluent assertion API used for REST requests.
+SHAFT Engine provides first-class GraphQL support through `SHAFT.API.sendGraphQlRequest()`. It returns the normal request builder, so **queries**, **mutations**, variables, fragments, authentication headers, status checks, and response assertions all use the same fluent API as REST requests.
 
 ---
 
@@ -16,17 +16,17 @@ SHAFT Engine provides first-class GraphQL support through `RestActions.sendGraph
 Send a basic GraphQL query and validate the response:
 
 ```java title="GraphQLTesting.java"
-import com.shaft.api.RestActions;
-import io.restassured.response.Response;
+import com.shaft.driver.SHAFT;
 
-// Simple GraphQL query
-Response response = RestActions.sendGraphQlRequest(
-    "https://api.example.com/graphql",
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest(
+    "/graphql",
     "{ users { id name email } }"
-);
+).perform();
 
-// Assert HTTP 200
-response.then().statusCode(200);
+// Assert response content
+api.assertThatResponse().extractedJsonValue("data.users").isNotNull().perform();
 ```
 
 ---
@@ -40,11 +40,13 @@ Pass a variables JSON string alongside the query:
 String query = "query GetUser($id: ID!) { user(id: $id) { name email } }";
 String variables = "{\"id\": \"123\"}";
 
-Response response = RestActions.sendGraphQlRequest(
-    "https://api.example.com/graphql",
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest(
+    "/graphql",
     query,
     variables
-);
+).perform();
 ```
 
 ---
@@ -56,12 +58,14 @@ Use GraphQL fragments for reusable field selections:
 ```java title="GraphQLTesting.java"
 String fragment = "fragment UserFields on User { id name email role }";
 
-Response response = RestActions.sendGraphQlRequest(
-    "https://api.example.com/graphql",
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest(
+    "/graphql",
     "{ users { ...UserFields } }",
     null,
     fragment
-);
+).perform();
 ```
 
 ---
@@ -74,13 +78,14 @@ Add a custom header (e.g., Bearer token) alongside the query:
 // GraphQL with fragment and auth header
 String fragment = "fragment UserFields on User { id name email role }";
 
-Response response = RestActions.sendGraphQlRequestWithHeader(
-    "https://api.example.com/graphql",
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest(
+    "/graphql",
     "{ users { ...UserFields } }",
     null,
-    fragment,
-    "Authorization", "Bearer mytoken123"
-);
+    fragment
+).addHeader("Authorization", "Bearer mytoken123").perform();
 ```
 
 ---
@@ -88,52 +93,41 @@ Response response = RestActions.sendGraphQlRequestWithHeader(
 ## Complete Test Example
 
 ```java title="GraphQLTest.java"
-import com.shaft.api.RestActions;
-import io.restassured.response.Response;
+import com.shaft.driver.SHAFT;
 import org.testng.annotations.Test;
 
 public class GraphQLTest {
 
     @Test
     public void queryAllUsers() {
-        Response response = RestActions.sendGraphQlRequest(
-            "https://api.example.com/graphql",
-            "{ users { id name email } }"
-        );
-        response.then()
-            .statusCode(200)
-            .body("data.users", org.hamcrest.Matchers.not(org.hamcrest.Matchers.empty()));
+        SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+        api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
+
+        api.assertThatResponse().extractedJsonValue("data.users").isNotNull().perform();
     }
 
     @Test
     public void queryUserById() {
+        SHAFT.API api = new SHAFT.API("https://api.example.com");
         String query = "query GetUser($id: ID!) { user(id: $id) { name email } }";
         String variables = "{\"id\": \"1\"}";
 
-        Response response = RestActions.sendGraphQlRequest(
-            "https://api.example.com/graphql",
-            query,
-            variables
-        );
-        response.then()
-            .statusCode(200)
-            .body("data.user.email", org.hamcrest.Matchers.notNullValue());
+        api.sendGraphQlRequest("/graphql", query, variables).perform();
+
+        api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull().perform();
     }
 
     @Test
     public void createUserMutation() {
+        SHAFT.API api = new SHAFT.API("https://api.example.com");
         String mutation = "mutation CreateUser($input: CreateUserInput!) { "
             + "createUser(input: $input) { id name email } }";
         String variables = "{\"input\": {\"name\": \"Jane\", \"email\": \"jane@example.com\"}}";
 
-        Response response = RestActions.sendGraphQlRequest(
-            "https://api.example.com/graphql",
-            mutation,
-            variables
-        );
-        response.then()
-            .statusCode(200)
-            .body("data.createUser.id", org.hamcrest.Matchers.notNullValue());
+        api.sendGraphQlRequest("/graphql", mutation, variables).perform();
+
+        api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull().perform();
     }
 }
 ```
@@ -153,7 +147,7 @@ api.post("/graphql")
    .setRequestBody("{\"query\": \"{ users { id name } }\"}")
    .addHeader("Content-Type", "application/json")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 
 api.assertThatResponse()
    .extractedJsonValue("data.users[0].name")
