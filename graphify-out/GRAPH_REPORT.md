@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-20)
 
 ## Corpus Check
-- 204 files · ~226,034 words
+- 205 files · ~226,280 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2077 nodes · 1938 edges · 210 communities (179 shown, 31 thin omitted)
+- 2078 nodes · 1939 edges · 210 communities (179 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `76079ea0`
+- Built from commit: `b38cdad8`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -420,8 +420,8 @@ Cohesion: 0.17
 Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
 
 ### Community 47 - "docs/reference (12)"
-Cohesion: 0.17
-Nodes (9): Best Practices, Build and Deployment Validation, Common Use Cases, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, File System Validation, Getting a Terminal Instance (+1 more)
+Cohesion: 0.15
+Nodes (10): Best Practices, Build and Deployment Validation, Common Use Cases, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, File System Validation, Getting a Terminal Instance (+2 more)
 
 ### Community 48 - "docs/reference (12)"
 Cohesion: 0.17
@@ -916,7 +916,7 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ## Knowledge Gaps
-- **1364 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1359 more)
+- **1365 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1360 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -926,7 +926,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
   _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1364 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1365 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

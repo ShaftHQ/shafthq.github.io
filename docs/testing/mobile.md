@@ -44,8 +44,9 @@ flowchart LR
 - Use `mobile_get_contexts`, `mobile_switch_context`, `mobile_take_screenshot`, and `mobile_get_accessibility_tree` to inspect the live device screen before deciding what action to take.
 - Use `mobile_tap`, `mobile_type`, `mobile_swipe_by_offset`, `mobile_swipe_element_into_view`, `mobile_tap_coordinates`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs.
 - Use `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, and `mobile_recording_code_blocks` to record, replay, and generate Java snippets that can be pasted into a SHAFT test or page object.
+- Use `mobile_inspector_record_prepare` and `mobile_inspector_record_start` when the agent should launch a wrapped Appium Inspector recording session. The prepare step lists connected Android devices from `adb devices -l`, reports cached Android emulators, shows missing Appium or Android SDK dependencies, returns suggested capabilities, and includes a confirmation token. Starting the confirmed plan opens a local Inspector wrapper with pause, resume, checkpoint, stop, and discard controls.
 
-For native execution, start Appium and connect the emulator or real device before initializing the MCP mobile session.
+For native execution, either connect a real Appium target or let the Inspector prepare step guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `mobile_record_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
 
 ## Flutter applications
 
