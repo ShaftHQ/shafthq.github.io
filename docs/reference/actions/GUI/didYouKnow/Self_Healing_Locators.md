@@ -100,7 +100,7 @@ public class SelfHealingTest {
             .type(By.id("password"), "secret")
             .click(By.id("loginBtn")); // auto-heals if ID changed
 
-        driver.assertThat().browser().url().contains("/dashboard").perform();
+        driver.assertThat().browser().url().contains("/dashboard");
     }
 
     @AfterMethod
@@ -119,3 +119,10 @@ Review the Healenium healing report after each test run and update your locators
 :::warning
 Disable Healenium for performance-sensitive test suites or when running in environments where the Healenium backend server is not available.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

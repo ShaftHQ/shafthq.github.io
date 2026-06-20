@@ -307,8 +307,7 @@ api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.users[0].name")
-   .isEqualTo("Alice")
-   .perform();
+   .isEqualTo("Alice");
 ```
 
 ### GraphQL Query with Variables
@@ -323,8 +322,7 @@ api.sendGraphQlRequest("/graphql", query, variables).perform();
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.user.email")
-   .contains("@example.com")
-   .perform();
+   .contains("@example.com");
 ```
 
 ### GraphQL with Authentication Header
@@ -336,7 +334,7 @@ api.sendGraphQlRequest("/graphql", "{ me { name } }")
    .addHeader("Authorization", "Bearer mytoken123")
    .perform();
 
-api.assertThatResponse().body().contains("\"name\"").perform();
+api.assertThatResponse().body().contains("\"name\"");
 ```
 
 ### GraphQL Mutation
@@ -354,8 +352,7 @@ api.sendGraphQlRequest("/graphql", mutation, variables)
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.createUser.name")
-   .isEqualTo("Bob")
-   .perform();
+   .isEqualTo("Bob");
 ```
 
 :::tip
@@ -373,7 +370,7 @@ public class Test_Api {
     public void test_get() {
         api = new SHAFT.API("https://jsonplaceholder.typicode.com");
         api.get("/users").perform();
-        api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5").perform();
+        api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5");
     }
 
     @Test
@@ -385,8 +382,14 @@ public class Test_Api {
                     "job": "leader"
                 }""";
         api.post("api/users").setRequestBody(body).setTargetStatusCode(201).setContentType(ContentType.JSON).perform();
-        api.assertThatResponse().extractedJsonValue("name").isEqualTo("morpheus").withCustomReportMessage("Check that Morpheus exists.").perform();
+        api.assertThatResponse().extractedJsonValue("name").isEqualTo("morpheus").withCustomReportMessage("Check that Morpheus exists.");
     }
 
 }
 ```
+
+## Related
+
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)

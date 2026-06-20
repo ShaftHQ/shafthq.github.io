@@ -23,3 +23,16 @@ flowchart LR
 See [database actions](/docs/reference/actions/DB/DB_Actions),
 [connection strings](/docs/reference/actions/DB/Connection_Strings), and the
 [Oracle setup](/docs/reference/actions/DB/Oracle_JDBC_Setup).
+
+```java
+SHAFT.DB database = new SHAFT.DB("jdbc:h2:mem:test");
+ResultSet rows = database.executeSelectQuery("SELECT 1");
+
+SHAFT.Validations.assertThat().object(rows).isNotNull();
+```
+
+## Related
+
+- [DB Actions](/docs/reference/actions/DB/DB_Actions)
+- [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
+- [Oracle Jdbc Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup)

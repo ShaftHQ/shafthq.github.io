@@ -25,3 +25,16 @@ flowchart LR
 
 Open the [terminal actions reference](/docs/reference/actions/CLI/Terminal_Actions)
 for executable examples and result handling.
+
+```java
+SHAFT.CLI terminal = new SHAFT.CLI();
+String output = terminal.performTerminalCommand("echo Hello SHAFT");
+
+SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT");
+```
+
+## Related
+
+- [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)
+- [File Actions](/docs/reference/actions/CLI/File_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)

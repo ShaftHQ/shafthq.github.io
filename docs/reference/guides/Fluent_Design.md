@@ -62,8 +62,7 @@ driver.browser().navigateToURL("https://example.com/register")
         .and().click(registerButton)
     .and().assertThat(confirmationLabel)
         .text().contains("Registration successful")
-        .withCustomReportMessage("Verify registration completed with correct data")
-        .perform();
+        .withCustomReportMessage("Verify registration completed with correct data");
 ```
 
 :::tip
@@ -85,8 +84,7 @@ driver.browser().navigateToURL("https://example.com/login")
     .and().browser()
         .navigateToURL("https://example.com/dashboard")
     .and().assertThat(welcomeMessage)
-        .text().contains("Welcome, admin")
-        .perform();
+        .text().contains("Welcome, admin");
 ```
 
 ---
@@ -101,3 +99,10 @@ driver.browser().navigateToURL("https://example.com/login")
 :::info
 Fluent design is not just syntactic sugar — it encourages you to think about tests as user stories, which leads to more maintainable test suites.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

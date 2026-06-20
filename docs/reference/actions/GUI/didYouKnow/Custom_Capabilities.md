@@ -169,7 +169,7 @@ public class CustomCapabilitiesTest {
               .and().element().type(By.id("email"), "user@example.com")
               .and().element().type(By.id("password"), "secret")
               .and().element().click(By.id("loginBtn"))
-              .and().assertThat().browser().url().contains("/dashboard").perform();
+              .and().assertThat().browser().url().contains("/dashboard");
     }
 
     @AfterMethod
@@ -192,3 +192,10 @@ Use custom capabilities only for browser-specific settings that are not exposed 
 :::note
 When running on Selenium Grid or cloud platforms (BrowserStack, LambdaTest), custom capabilities are merged with the platform-level capabilities defined in your properties file.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

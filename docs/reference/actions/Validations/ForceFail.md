@@ -16,13 +16,11 @@ Forces a test failure and reports it in the execution report.
 ```java title="ForceFailExample.java"
 // Force fail with a custom message
 Validations.assertThat().forceFail()
-    .withCustomReportMessage("This feature is not yet implemented")
-    .perform();
+    .withCustomReportMessage("This feature is not yet implemented");
 
 // Soft force fail — collects the failure and continues execution
 Validations.verifyThat().forceFail()
-    .withCustomReportMessage("Known issue: JIRA-1234")
-    .perform();
+    .withCustomReportMessage("Known issue: JIRA-1234");
 ```
 
 ## withCustomReportMessage()
@@ -33,27 +31,26 @@ Sets a business-readable message that appears in the Allure execution report ins
 // Works with any validation type
 Validations.assertThat().object(actualValue)
     .isEqualTo(expectedValue)
-    .withCustomReportMessage("Verify user name matches expected value")
-    .perform();
+    .withCustomReportMessage("Verify user name matches expected value");
 
 driver.assertThat().element(loginButton)
     .isVisible()
-    .withCustomReportMessage("Verify login button is displayed")
-    .perform();
+    .withCustomReportMessage("Verify login button is displayed");
 ```
 
-## perform()
+## Eager execution
 
-Executes the validation. **Every validation chain must end with `.perform()`** — without it, the validation will not run.
+Validation chains execute eagerly when the validation condition is selected. A terminal `.perform()` call is no longer required for assertions or verifications.
 
 ```java title="PerformExample.java"
-// All these validations require .perform() at the end
-Validations.assertThat().file("src/test/resources", "data.json").exists().perform();
-Validations.assertThat().number(count).isGreaterThan(0).perform();
-Validations.assertThat().object(name).isEqualTo("John").perform();
-driver.assertThat().element(locator).exists().perform();
+Validations.assertThat().file("src/test/resources", "data.json").exists();
+Validations.assertThat().number(count).isGreaterThan(0);
+Validations.assertThat().object(name).isEqualTo("John");
+driver.assertThat().element(locator).exists();
 ```
 
-:::warning
-Forgetting to call `.perform()` is a common mistake. The validation will appear to pass because it was never actually executed.
-:::
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

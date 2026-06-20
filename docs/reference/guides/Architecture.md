@@ -128,3 +128,10 @@ SHAFT is an **engine**, not a framework. It does not dictate how you structure y
 :::info
 This flexibility means SHAFT works with your team's existing architecture and conventions. You adopt it gradually — one test at a time — without rewriting your entire suite.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

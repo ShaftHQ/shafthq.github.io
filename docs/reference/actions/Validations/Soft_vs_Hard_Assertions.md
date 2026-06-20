@@ -19,8 +19,8 @@ Use hard assertions for **business-critical checkpoints** where proceeding with 
 
 ```java title="SoftVsHardAssertions.java"
 // Hard assertion — test fails immediately on first failure
-driver.assertThat().browser().title().contains("Dashboard").perform();
-driver.assertThat(By.id("welcomeMsg")).text().contains("Welcome").perform();
+driver.assertThat().browser().title().contains("Dashboard");
+driver.assertThat(By.id("welcomeMsg")).text().contains("Welcome");
 ```
 
 ---
@@ -33,9 +33,9 @@ Use soft assertions when you want to **validate multiple independent conditions*
 
 ```java title="SoftVsHardAssertions.java"
 // Soft assertion — collects failures, reports all at end of test
-driver.verifyThat().element(By.id("name")).text().contains("John").perform();
-driver.verifyThat().element(By.id("email")).text().contains("@").perform();
-driver.verifyThat().element(By.id("role")).text().isEqualTo("Admin").perform();
+driver.verifyThat().element(By.id("name")).text().contains("John");
+driver.verifyThat().element(By.id("email")).text().contains("@");
+driver.verifyThat().element(By.id("role")).text().isEqualTo("Admin");
 // All three are verified; all failures reported together at test end
 ```
 
@@ -49,12 +49,12 @@ Both modes are also available without a driver instance via `SHAFT.Validations`:
 import com.shaft.driver.SHAFT;
 
 // Standalone hard assertion
-SHAFT.Validations.assertThat().object("actual").isEqualTo("expected").perform();
-SHAFT.Validations.assertThat().number(42).isGreaterThan(0).perform();
+SHAFT.Validations.assertThat().object("actual").isEqualTo("expected");
+SHAFT.Validations.assertThat().number(42).isGreaterThan(0);
 
 // Standalone soft assertions
-SHAFT.Validations.verifyThat().object("actual").isEqualTo("expected").perform();
-SHAFT.Validations.verifyThat().number(42).isGreaterThan(0).perform();
+SHAFT.Validations.verifyThat().object("actual").isEqualTo("expected");
+SHAFT.Validations.verifyThat().number(42).isGreaterThan(0);
 ```
 
 ---
@@ -92,13 +92,13 @@ public class AssertionStrategyTest {
         driver.browser().navigateToURL("https://example.com/profile");
 
         // Hard assertion: must be on the correct page before proceeding
-        driver.assertThat().browser().url().contains("/profile").perform();
+        driver.assertThat().browser().url().contains("/profile");
 
         // Soft assertions: validate all profile fields, collect all failures
-        driver.verifyThat().element(By.id("fullName")).text().isNotEmpty().perform();
-        driver.verifyThat().element(By.id("email")).text().contains("@").perform();
-        driver.verifyThat().element(By.id("role")).text().isEqualTo("Admin").perform();
-        driver.verifyThat().element(By.id("status")).text().isEqualTo("Active").perform();
+        driver.verifyThat().element(By.id("fullName")).text().isNotEmpty();
+        driver.verifyThat().element(By.id("email")).text().contains("@");
+        driver.verifyThat().element(By.id("role")).text().isEqualTo("Admin");
+        driver.verifyThat().element(By.id("status")).text().isEqualTo("Active");
     }
 
     @AfterMethod
@@ -117,3 +117,8 @@ A good pattern is to use **one hard assertion** to confirm the test precondition
 :::info
 Soft assertion failures are accumulated per-test and reported at the end of the test method. In TestNG, SHAFT triggers a test failure after the `@AfterMethod` completes, so all soft failures for a test are visible in the Allure report.
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

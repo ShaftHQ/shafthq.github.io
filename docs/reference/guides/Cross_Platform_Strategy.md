@@ -136,3 +136,10 @@ For most teams, starting with a **single project** is the best default. You get 
 :::info
 SHAFT Engine's property-based platform switching makes it easy to run the same tests against both platforms from a single project. Just parameterize `targetOperatingSystem` in your CI/CD pipeline.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

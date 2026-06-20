@@ -40,6 +40,12 @@ Use [reporting configuration](/docs/reference/reporting) and
 [custom report messages](/docs/reference/reporting/Custom_Report_Messages) for
 detailed controls.
 
+```properties title="src/main/resources/properties/custom.properties"
+screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
+reporting.attachFullLog=true
+createAnimatedGif=false
+```
+
 ## Execution logs
 
 SHAFT writes the engine execution log through asynchronous Log4j2 appenders so
@@ -51,3 +57,10 @@ Set `reporting.attachFullLog=true` when you want the full engine log attached to
 the Allure report after execution. The attachment is streamed from a temporary
 deduplicated snapshot so the live `target/logs/log4j.log` file remains available
 for retry diagnostics, local investigation, and CI artifact collection.
+
+## Related
+
+- [Architecture](/docs/features/architecture)
+- [Modules](/docs/features/modules)
+- [Technology](/docs/features/technology)
+- [Browserstack](/docs/integrations/browserstack)

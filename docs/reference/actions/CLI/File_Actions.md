@@ -138,8 +138,7 @@ public class ReportDownloadTest {
         SHAFT.Validations.assertThat()
              .object(content)
              .isNotNull()
-             .withCustomReportMessage("Downloaded report file should not be empty")
-             .perform();
+             .withCustomReportMessage("Downloaded report file should not be empty");
     }
 
     @BeforeMethod
@@ -180,14 +179,12 @@ file.writeToFile("target/output.txt", "Hello SHAFT");
 // Validate it exists
 SHAFT.Validations.assertThat()
      .file("target", "output.txt")
-     .exists()
-     .perform();
+     .exists();
 
 // Validate its content
 SHAFT.Validations.assertThat()
      .file("target", "output.txt")
-     .content().contains("Hello SHAFT")
-     .perform();
+     .content().contains("Hello SHAFT");
 
 // Clean up
 file.deleteFile("target/output.txt");
@@ -201,3 +198,9 @@ For the full file validation API see the [File Validations →](../Validations/F
 - **Back up before modifying** — use `copyFile()` to save a copy before overwriting configuration files.
 - **Clean up in teardown** — delete temporary files in `@AfterMethod` or `@AfterClass` to keep the workspace clean.
 - **Never store secrets in files committed to version control** — use environment variables instead.
+
+## Related
+
+- [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
+- [CLI](/docs/testing/cli)

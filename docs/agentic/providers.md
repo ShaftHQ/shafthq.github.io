@@ -135,3 +135,10 @@ Provider request mappings follow the official
 [Anthropic structured output](https://platform.claude.com/docs/en/build-with-claude/structured-outputs),
 [Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output),
 and [Ollama chat](https://docs.ollama.com/api/chat) contracts.
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)

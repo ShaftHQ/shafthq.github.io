@@ -126,3 +126,10 @@ Run accessibility audits as part of your CI/CD pipeline to catch regressions ear
 :::note
 Accessibility audit results are automatically included in the SHAFT Allure report, showing the page name, score, and details of any violations found.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

@@ -89,6 +89,14 @@ active development and [community support](/docs/start/overview).
 SHAFT supports [parallel execution](/docs/reference/configuration/parallelExecution),
 remote Grid execution, and cloud providers such as BrowserStack.
 
+```java title="ProofOfConceptTest.java"
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://duckduckgo.com");
+driver.element().type(By.name("q"), "SHAFT Engine");
+driver.assertThat().browser().title().contains("DuckDuckGo");
+driver.quit();
+```
+
 ---
 
 ## Comparison at a Glance
@@ -112,3 +120,9 @@ remote Grid execution, and cloud providers such as BrowserStack.
 2. **Prioritize maintenance cost** — the tool you use on day one is less important than the tool that keeps your team productive on day 1,000.
 3. **Run a proof of concept** — try the top two candidates against a real test scenario from your application before committing.
 4. **Consider the full stack** — a tool that covers web, mobile, API, and CLI with one API reduces context switching and training time.
+
+## Related
+
+- [Quick start](/docs/start/quick-start)
+- [Features and modules](/docs/features/modules)
+- [Solution design](/docs/reference/guides/Solution_Design)

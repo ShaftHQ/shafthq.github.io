@@ -111,8 +111,7 @@ String checksum = SHAFT.CLI.file().getFileChecksum(
 SHAFT.Validations.assertThat()
     .object(checksum)
     .isEqualTo(expectedChecksum)
-    .withCustomReportMessage("Deployed JAR checksum must match the expected build artifact")
-    .perform();
+    .withCustomReportMessage("Deployed JAR checksum must match the expected build artifact");
 ```
 
 ---
@@ -136,8 +135,7 @@ void verifyApplicationDeployedSuccessfully() {
     SHAFT.Validations.assertThat()
         .object(processes)
         .contains("app.jar")
-        .withCustomReportMessage("Application process must be running on the remote server")
-        .perform();
+        .withCustomReportMessage("Application process must be running on the remote server");
 
     // Check the health endpoint is responding locally on the server
     String healthResponse = remote.performTerminalCommand(
@@ -146,8 +144,7 @@ void verifyApplicationDeployedSuccessfully() {
     SHAFT.Validations.assertThat()
         .object(healthResponse)
         .contains("\"status\":\"UP\"")
-        .withCustomReportMessage("Application health endpoint must return UP status")
-        .perform();
+        .withCustomReportMessage("Application health endpoint must return UP status");
 }
 ```
 
@@ -207,8 +204,7 @@ void ensureSufficientDiskSpace() {
     SHAFT.Validations.assertThat()
         .number((double) availableGB)
         .isGreaterThanOrEquals(5.0)
-        .withCustomReportMessage("Remote server must have at least 5 GB free on /var/log before running tests")
-        .perform();
+        .withCustomReportMessage("Remote server must have at least 5 GB free on /var/log before running tests");
 }
 ```
 

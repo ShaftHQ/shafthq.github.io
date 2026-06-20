@@ -93,8 +93,7 @@ driver.element().clipboardActions(By.id("tokenInput"), ClipboardAction.PASTE);
 driver.assertThat()
     .element(By.id("tokenInput")).text()
     .isNotEmpty()
-    .withCustomReportMessage("Token field must contain the pasted value")
-    .perform();
+    .withCustomReportMessage("Token field must contain the pasted value");
 ```
 
 ### Replace All Content in a Text Area

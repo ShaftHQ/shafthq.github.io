@@ -251,3 +251,10 @@ mvn -pl shaft-capture -am test \
   -DincludeCaptureBrowserE2E=true \
   -Dtest=ManagedCaptureRecorderBrowserTest,CaptureGeneratedReplayBrowserTest
 ```
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)

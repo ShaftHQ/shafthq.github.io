@@ -126,7 +126,7 @@ public class ShadowDomFormTest {
             .insideShadowDom(checkoutForm)
             .build();
 
-        driver.assertThat(successMsg).isDisplayed().perform();
+        driver.assertThat(successMsg).isDisplayed();
     }
 
     @BeforeMethod

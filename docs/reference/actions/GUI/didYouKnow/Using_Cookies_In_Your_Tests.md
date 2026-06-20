@@ -11,6 +11,7 @@ You can manage cookies in your tests to maintain session state. Below is an exam
 
 #### Example
 ```java
+import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -42,3 +43,10 @@ public class CookieExample {
         driver.browser().refreshCurrentPage();
     }
 }
+```
+
+## Related
+
+- [Browser actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web testing](/docs/testing/web)

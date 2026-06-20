@@ -88,7 +88,7 @@ public class SmartLocatorsTest {
             .type(passwordField, "secret")
             .click(loginButton);
 
-        driver.assertThat().browser().url().contains("/dashboard").perform();
+        driver.assertThat().browser().url().contains("/dashboard");
     }
 
     @AfterMethod
@@ -107,3 +107,10 @@ Smart Locators are ideal for forms where labels and button text closely match th
 :::note
 When multiple elements match the same label or text, Smart Locators will return the first match in DOM order. Use more specific locators (e.g., with a parent container) if disambiguation is needed.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

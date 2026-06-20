@@ -20,7 +20,7 @@ Every SHAFT validation chain supports an optional `withCustomReportMessage()` ca
 
 ### Syntax
 
-Add `withCustomReportMessage()` anywhere in the validation chain, before the terminal `.perform()` call:
+Add `withCustomReportMessage()` after the validation condition to replace the generated report step name:
 
 ```java title="CustomMessageExample.java"
 import com.shaft.driver.SHAFT;
@@ -29,8 +29,7 @@ import org.openqa.selenium.By;
 driver.assertThat()
     .browser().title()
     .contains("Dashboard")
-    .withCustomReportMessage("User should be redirected to the Dashboard after a successful login")
-    .perform();
+    .withCustomReportMessage("User should be redirected to the Dashboard after a successful login");
 ```
 
 ### Browser Validations
@@ -40,15 +39,13 @@ driver.assertThat()
 driver.assertThat()
     .browser().title()
     .isEqualTo("My App — Dashboard")
-    .withCustomReportMessage("Dashboard page title must match the design spec")
-    .perform();
+    .withCustomReportMessage("Dashboard page title must match the design spec");
 
 // Assert URL after navigation
 driver.assertThat()
     .browser().url()
     .contains("/dashboard")
-    .withCustomReportMessage("URL must contain /dashboard after successful login")
-    .perform();
+    .withCustomReportMessage("URL must contain /dashboard after successful login");
 ```
 
 ### Element Validations
@@ -60,15 +57,13 @@ import org.openqa.selenium.By;
 driver.assertThat()
     .element(By.id("account-balance")).text()
     .contains("$1,000")
-    .withCustomReportMessage("Account balance should display correctly after the deposit")
-    .perform();
+    .withCustomReportMessage("Account balance should display correctly after the deposit");
 
 // Assert a confirmation message is visible
 driver.assertThat()
     .element(By.cssSelector(".alert-success")).attribute("class")
     .contains("alert-success")
-    .withCustomReportMessage("Success alert must be shown after order submission")
-    .perform();
+    .withCustomReportMessage("Success alert must be shown after order submission");
 ```
 
 ### API Response Validations
@@ -77,13 +72,12 @@ driver.assertThat()
 import com.shaft.driver.SHAFT;
 
 SHAFT.API api = new SHAFT.API("https://api.example.com");
-api.get("/users/1").setTargetStatusCode(200).performRequest();
+api.get("/users/1").setTargetStatusCode(200).perform();
 
 api.assertThatResponse()
     .extractedJsonValue("$.name")
     .isEqualTo("John Doe")
-    .withCustomReportMessage("GET /users/1 must return the correct user name")
-    .perform();
+    .withCustomReportMessage("GET /users/1 must return the correct user name");
 ```
 
 ---
@@ -157,8 +151,7 @@ void checkoutFlow() {
     driver.assertThat()
         .element(By.id("cart-count")).text()
         .isEqualTo("1")
-        .withCustomReportMessage("Cart badge must show 1 item after adding the product")
-        .perform();
+        .withCustomReportMessage("Cart badge must show 1 item after adding the product");
 
     SHAFT.Report.log("Step 2 — Proceed to checkout");
 
@@ -167,8 +160,7 @@ void checkoutFlow() {
     driver.assertThat()
         .browser().url()
         .contains("/checkout")
-        .withCustomReportMessage("Browser must navigate to the checkout page")
-        .perform();
+        .withCustomReportMessage("Browser must navigate to the checkout page");
 
     SHAFT.Report.report("Checkout flow completed successfully");
 }

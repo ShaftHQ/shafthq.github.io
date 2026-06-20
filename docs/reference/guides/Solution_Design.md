@@ -123,8 +123,7 @@ public void testLogin() {
         .and().type(By.id("password"), "password123")
         .and().click(By.id("login-btn"));
     driver.assertThat(By.id("welcome"))
-        .text().contains("Welcome, admin")
-        .perform();
+        .text().contains("Welcome, admin");
 }
 ```
 
@@ -206,7 +205,7 @@ public class CheckoutTest extends BaseTest {
         new ProductPage(driver).addToCart("Laptop");
 
         // Inline for simple assertions
-        driver.assertThat(By.id("cart-count")).text().isEqualTo("1").perform();
+        driver.assertThat(By.id("cart-count")).text().isEqualTo("1");
     }
 }
 ```
@@ -220,3 +219,9 @@ public class CheckoutTest extends BaseTest {
 3. **Leverage SHAFT's fluent API** inside your page object methods for readability.
 4. **Avoid deep inheritance hierarchies** — prefer composition over inheritance when sharing behavior between page objects.
 5. **Choose one primary pattern and be consistent** across your project — mixing too many patterns creates confusion.
+
+## Related
+
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)
