@@ -296,31 +296,35 @@ driver.browser().waitUntilNumberOfWindowsToBe(2);
 
 ## Network Interception
 
-### Mock HTTP Requests
+### Intercept and Mock HTTP Requests
 
 ```java title="MockRequest.java"
-import java.io.ByteArrayInputStream;
-import org.openqa.selenium.remote.http.HttpRequest;
-import org.openqa.selenium.remote.http.HttpResponse;
-
-driver.browser().mock(
-    request -> request.getUri().contains("/api/data"),
-    new HttpResponse().setStatus(200).setContent(() -> new ByteArrayInputStream("{}".getBytes()))
-);
+driver.browser()
+        .interceptRequest()
+        .get()
+        .urlContains("/api/data")
+        .respond()
+        .statusCode(200)
+        .jsonBody("{}")
+        .perform();
 ```
 
-Intercepts HTTP requests matching the predicate and returns the mocked response.
+Intercepts browser HTTP requests matching the builder criteria and returns the mocked response.
 
-### Intercept HTTP Requests
+### Validate Intercepted Responses
 
-```java title="InterceptRequest.java"
-import java.io.ByteArrayInputStream;
-
-driver.browser().intercept(
-    request -> request.getUri().contains("/api/data"),
-    new HttpResponse().setStatus(200).setContent(() -> new ByteArrayInputStream("{}".getBytes()))
-);
+```java title="ValidateResponse.java"
+driver.browser()
+        .interceptRequest()
+        .get()
+        .pathEquals("/api/data")
+        .assertResponse(response -> response
+                .body()
+                .contains("{}")
+                .perform());
 ```
+
+Use `clearNetworkInterceptors()` to remove active browser network rules before the driver session ends.
 
 ## Mobile Context
 
