@@ -1,17 +1,15 @@
 .hero {
-  padding: clamp(4rem, 9vw, 8rem) 0 4rem;
+  padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(3rem, 5vw, 4.5rem);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 72% 20%, rgba(0, 146, 255, 0.18), transparent 34%),
-    linear-gradient(145deg, #06101e 0%, #0a1b31 62%, #07111f 100%);
+  background: linear-gradient(145deg, #07111f 0%, #102a31 58%, #181f2a 100%);
   color: #fff;
 }
 
 .heroGrid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
   align-items: center;
-  gap: clamp(2rem, 6vw, 6rem);
+  gap: clamp(2rem, 5vw, 5rem);
 }
 
 .heroCopy {
@@ -23,9 +21,9 @@
   max-width: 720px;
   margin: 0.75rem 0 1.25rem;
   color: #fff;
-  font-size: clamp(3rem, 7vw, 5.75rem);
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  font-size: clamp(2.8rem, 6vw, 4.95rem);
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .heroCopy > p {
@@ -39,7 +37,7 @@
   color: #4cc2ff;
   font-size: 0.78rem;
   font-weight: 800;
-  letter-spacing: 0.13em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -65,18 +63,73 @@
   text-underline-offset: 4px;
 }
 
-.heroVisual {
-  position: relative;
-  width: min(900px, 72vw);
-  margin: 0 -18vw 0 -4vw;
+.heroProof {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(157, 221, 205, 0.28);
+  border-radius: 8px;
+  background: rgba(7, 17, 31, 0.72);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.24);
 }
 
-.heroVisual img {
+.proofHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #dff5ee;
+  font-weight: 800;
+}
+
+.proofHeader a {
+  color: #8debd0;
+  font-size: 0.88rem;
+}
+
+.heroProof pre {
+  max-width: 100%;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #07111f;
+  color: #e9f7f4;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.heroChecklist {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.heroChecklist li {
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(141, 235, 208, 0.2);
+  border-radius: 8px;
+  background: rgba(141, 235, 208, 0.08);
+  color: #dff5ee;
+  font-weight: 700;
+}
+
+.heroProof img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 24px;
-  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  opacity: 0.9;
+}
+
+.compactSection {
+  padding-top: clamp(3rem, 6vw, 5rem);
 }
 
 .section {
@@ -94,13 +147,61 @@
   margin: 0.65rem 0 1rem;
   font-size: clamp(2rem, 4vw, 3.4rem);
   line-height: 1.08;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .sectionHeading p,
 .agentIntro p {
   color: var(--ifm-color-emphasis-700);
   font-size: 1.08rem;
+}
+
+.proofGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.proofCard,
+.comparisonRow,
+.surfaceCard {
+  border-radius: 8px;
+}
+
+.proofCard {
+  display: flex;
+  min-height: 255px;
+  flex-direction: column;
+  padding: 1.4rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-top: 4px solid #0d9276;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  transition: border-color 160ms ease, transform 160ms ease;
+}
+
+.proofCard:hover,
+.surfaceCard:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  transform: translateY(-3px);
+}
+
+.proofCard strong {
+  margin-bottom: 1rem;
+  color: #0d6a55;
+  font-size: 1.25rem;
+}
+
+.proofCard span {
+  flex: 1;
+}
+
+.proofCard small {
+  margin-top: 1.25rem;
+  font-weight: 800;
 }
 
 .surfaceGrid {
@@ -115,19 +216,11 @@
   flex-direction: column;
   padding: 1.4rem;
   border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 18px;
   background: var(--ifm-background-surface-color);
   color: var(--ifm-font-color-base);
   box-shadow: 0 14px 35px rgba(8, 29, 52, 0.07);
   text-decoration: none;
   transition: border-color 160ms ease, transform 160ms ease;
-}
-
-.surfaceCard:hover {
-  border-color: var(--ifm-color-primary);
-  color: var(--ifm-font-color-base);
-  text-decoration: none;
-  transform: translateY(-4px);
 }
 
 .surfaceCard strong {
@@ -149,6 +242,53 @@
   background: var(--ifm-color-emphasis-100);
 }
 
+.comparisonGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.comparisonRow {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-background-surface-color);
+}
+
+.comparisonRow strong {
+  color: #0d6a55;
+  font-size: 1.15rem;
+}
+
+.comparisonRow p {
+  margin: 0;
+}
+
+.comparisonRow span {
+  color: var(--ifm-color-emphasis-800);
+  font-weight: 800;
+}
+
+.deepLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.deepLinks a {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+  font-weight: 800;
+}
+
+.agentBand {
+  background: linear-gradient(180deg, var(--ifm-color-emphasis-100), var(--ifm-background-color));
+}
+
 .agentSection {
   min-width: 0;
 }
@@ -168,13 +308,13 @@
 
 .workflow {
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-columns: repeat(11, minmax(0, 1fr));
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
   padding: 1.25rem;
   border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 18px;
+  border-radius: 8px;
   overflow: hidden;
   background: var(--ifm-background-surface-color);
 }
@@ -182,7 +322,7 @@
 .workflow span {
   min-width: 0;
   padding: 0.75rem 1rem;
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--ifm-color-emphasis-100);
   font-weight: 750;
   overflow-wrap: anywhere;
@@ -216,7 +356,7 @@
 .finalCta {
   padding: clamp(4rem, 8vw, 7rem) 0;
   text-align: center;
-  background: linear-gradient(145deg, #07111f, #0a2340);
+  background: linear-gradient(145deg, #07111f, #102a31);
   color: #fff;
 }
 
@@ -233,6 +373,10 @@
 }
 
 @media (max-width: 1100px) {
+  .proofGrid {
+    grid-template-columns: 1fr;
+  }
+
   .surfaceGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -248,9 +392,8 @@
     grid-template-columns: 1fr;
   }
 
-  .heroVisual {
-    width: 110%;
-    margin: 0 -5%;
+  .comparisonRow {
+    grid-template-columns: 1fr;
   }
 
   .evidenceGrid {
@@ -270,6 +413,14 @@
 @media (max-width: 620px) {
   .hero {
     padding-top: 3.25rem;
+  }
+
+  .heroChecklist {
+    grid-template-columns: 1fr;
+  }
+
+  .heroProof pre {
+    font-size: 0.76rem;
   }
 
   .surfaceGrid {

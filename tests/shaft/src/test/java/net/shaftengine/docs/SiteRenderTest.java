@@ -110,8 +110,12 @@ public class SiteRenderTest {
         navigate("/");
 
         shaft.assertThat().browser().title().contains("SHAFT");
-        visible(By.xpath("//h1[normalize-space()='One engine for every test surface.']"));
-        SHAFT.Validations.assertThat().object(attribute(link("Run your first test"), "href"))
+        visible(By.xpath("//h1[normalize-space()='Use Selenium. Outgrow Selenium boilerplate.']"));
+        SHAFT.Validations.assertThat().object(attribute(link("Open the minimal web test"), "href"))
+                .contains("/docs/testing/web");
+        SHAFT.Validations.assertThat().object(attribute(link("Compare the stack"), "href"))
+                .contains("#why-shaft");
+        SHAFT.Validations.assertThat().object(attribute(link("Read quick start"), "href"))
                 .contains("/docs/start/quick-start");
         SHAFT.Validations.assertThat().object(attribute(link("Connect your AI agent"), "href"))
                 .contains("#connect-ai-agent");
@@ -253,7 +257,7 @@ public class SiteRenderTest {
         if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
             click(By.cssSelector("button[title*='Switch between dark and light mode']"));
         }
-        visible(By.xpath("//h1[normalize-space()='One engine for every test surface.']"));
+        visible(By.xpath("//h1[normalize-space()='Use Selenium. Outgrow Selenium boilerplate.']"));
     }
 
     @Test
