@@ -1,15 +1,16 @@
-# Graph Report - .  (2026-06-20)
+# Graph Report - shafthq.github.io  (2026-06-20)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 291 files · ~286,957 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2238 nodes · 2212 edges · 218 communities (181 shown, 37 thin omitted)
+- 2225 nodes · 2199 edges · 211 communities (178 shown, 33 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e877a81f`
+- Built from commit: `2a3e8199`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -221,25 +222,18 @@
 - [[_COMMUNITY_staticimg (1)|static/img (1)]]
 - [[_COMMUNITY_staticimg (1)|static/img (1)]]
 - [[_COMMUNITY_Community 209|Community 209]]
-- [[_COMMUNITY_Community 210|Community 210]]
-- [[_COMMUNITY_Community 211|Community 211]]
-- [[_COMMUNITY_Community 212|Community 212]]
-- [[_COMMUNITY_Community 213|Community 213]]
-- [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
-- [[_COMMUNITY_Community 216|Community 216]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 36 edges
 2. `Upgrade to modular SHAFT` - 24 edges
-3. `scripts` - 21 edges
+3. `scripts` - 20 edges
 4. `String` - 17 edges
 5. `Request Builder` - 16 edges
-6. `Diagnose failures with Doctor` - 13 edges
-7. `Security Fix Summary` - 13 edges
-8. `SHAFT API Response Validations` - 13 edges
-9. `Mobile and Flutter testing` - 13 edges
-10. `Test` - 13 edges
+6. `Test` - 13 edges
+7. `Diagnose failures with Doctor` - 13 edges
+8. `Security Fix Summary` - 13 edges
+9. `SHAFT API Response Validations` - 13 edges
+10. `Mobile and Flutter testing` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `loadDocumentation()` --calls--> `getDocumentationContext()`  [EXTRACTED]
@@ -250,7 +244,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (218 total, 37 thin omitted)
+## Communities (211 total, 33 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -261,8 +255,8 @@ Cohesion: 0.04
 Nodes (19): Clicking, Clipboard Actions, Drag and Drop, Drag by Offset, Drag to a Position, Drag to Another Element, Dropdowns, Element Information (+11 more)
 
 ### Community 2 - "docs/reference (47)"
-Cohesion: 0.22
-Nodes (9): Add Cookie, Cookies, Delete All Cookies, Delete Cookie, Get All Cookies, Get Cookie, Get Cookie Domain, Get Cookie Path (+1 more)
+Cohesion: 0.04
+Nodes (43): Accessibility Testing, Add Cookie, Capture Screenshot, Close Current Window, Cookies, Delete All Cookies, Delete Cookie, Fluent Chaining (+35 more)
 
 ### Community 3 - "docs/reference (39)"
 Cohesion: 0.05
@@ -341,20 +335,20 @@ Cohesion: 0.10
 Nodes (19): Architecture Overview, Best Practices, Customizing the Deployment, Deploy in a Dedicated Namespace, GitHub Actions Example, Integrating with CI/CD, Monitoring and Scaling Behavior, Prerequisites (+11 more)
 
 ### Community 22 - "docs/reference (20)"
-Cohesion: 0.10
+Cohesion: 0.09
 Nodes (8): App Management, Complete Example, Keyboard Actions, Related, Swipe Actions, Tap Actions, Visual Element Detection, Zoom Actions
 
 ### Community 23 - "package.json (20)"
 Cohesion: 0.10
-Nodes (21): scripts, build, clear, deploy, docusaurus, serve, start, swizzle (+13 more)
+Nodes (20): scripts, build, clear, deploy, docusaurus, serve, start, swizzle (+12 more)
 
 ### Community 24 - "docs/archive (19)"
 Cohesion: 0.11
 Nodes (18): A) GitHub file URL input, Assertion Patterns, B) Pasted code input, C) Non-code input, Concurrency / Global State, Guardrails, Locator Patterns, Persona (+10 more)
 
 ### Community 25 - "docs/reference (18)"
-Cohesion: 0.09
-Nodes (21): Body, Contains File Content, Does Not Contain File Content, Does Not Equal File Content, Does Not Equal File Content Ignoring Order, Does Not Match Schema, Extracted Json Value, Extracted Json Value As List (+13 more)
+Cohesion: 0.11
+Nodes (18): Body, Contains File Content, Does Not Contain File Content, Does Not Equal File Content, Does Not Equal File Content Ignoring Order, Does Not Match Schema, Extracted Json Value, Extracted Json Value As List (+10 more)
 
 ### Community 27 - "docs/reference (17)"
 Cohesion: 0.11
@@ -393,7 +387,7 @@ Cohesion: 0.14
 Nodes (13): Best Practices, Combining Docker Terminal with SHAFT.API, Common Use Cases, Create a Docker Terminal, Database Seed / Cleanup via Container, Execute Commands, Multiple Commands in Sequence, Prerequisites (+5 more)
 
 ### Community 36 - "docs/reference (14)"
-Cohesion: 0.12
+Cohesion: 0.13
 Nodes (10): Best Practices, Complete Example: Download, Validate, and Clean Up, Copy File, Delete File, File Path Handling, Getting a File Actions Instance, Integration with File Validations, Read File (+2 more)
 
 ### Community 37 - "docs/reference (14)"
@@ -433,7 +427,7 @@ Cohesion: 0.17
 Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
 
 ### Community 47 - "docs/reference (12)"
-Cohesion: 0.13
+Cohesion: 0.14
 Nodes (11): Best Practices, Build and Deployment Validation, Common Use Cases, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, File System Validation, Getting a Terminal Instance (+3 more)
 
 ### Community 48 - "docs/reference (12)"
@@ -468,6 +462,10 @@ Nodes (11): API Key Authentication, API Key in Header, API Key in Query Paramete
 Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
+### Community 56 - "src/pages (11)"
+Cohesion: 0.11
+Nodes (9): comparisonRows, decisionPoints, heroEngines, proofPoints, sharedRails, stackPills, surfaceMap, testSurfaces (+1 more)
+
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.17
 Nodes (11): Create a new project, Create your first tests, Cucumber, JUnit 5, Manage test data, Optional modular integrations, Quick start, Related (+3 more)
@@ -493,8 +491,8 @@ Cohesion: 0.20
 Nodes (9): Chosen Flattening Mode, Execute Local Rewrite, Goal, Maintainer Cutover Procedure (Force Push), Pre-Cutover Inputs, Repository history rewrite, Retention / Removal Policy, Rollback Plan (+1 more)
 
 ### Community 63 - "package.json (10)"
-Cohesion: 0.14
-Nodes (13): browserslist, development, production, engines, node, license, name, overrides (+5 more)
+Cohesion: 0.20
+Nodes (9): browserslist, development, production, engines, node, license, name, private (+1 more)
 
 ### Community 64 - "src/components (10)"
 Cohesion: 0.22
@@ -589,8 +587,8 @@ Cohesion: 0.25
 Nodes (7): Aggregate coverage continuity, Common commands, Consumer usage, Dependency baseline fixtures, GitHub Actions reactor policy, Maven reactor layout, Modules
 
 ### Community 88 - "package.json (8)"
-Cohesion: 0.25
-Nodes (8): devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @playwright/test, @types/react, @types/react-dom, typescript
+Cohesion: 0.29
+Nodes (7): devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @types/react, @types/react-dom, typescript
 
 ### Community 89 - "docs/reference (8)"
 Cohesion: 0.22
@@ -813,8 +811,8 @@ Cohesion: 0.13
 Nodes (12): fallbackProjects, fetchDirectoryContents(), fetchJson(), fetchText(), GitHubItem, loadProjectData(), OptionalModule, optionalModules (+4 more)
 
 ### Community 147 - "docs/reference (5)"
-Cohesion: 0.20
-Nodes (9): Advanced Predicate API, Complete Example, intercept() — Block or Modify Requests, mock() — Replace Responses, Mock Responses, Related, Request Matchers, Use Cases (+1 more)
+Cohesion: 0.25
+Nodes (7): Advanced Predicate API, Complete Example, Mock Responses, Related, Request Matchers, Use Cases, Validate Real Responses
 
 ### Community 148 - "docs/reference (5)"
 Cohesion: 0.33
@@ -905,8 +903,8 @@ Cohesion: 0.50
 Nodes (3): Discovery contract, Operation inventory, Visual-processing provider boundary
 
 ### Community 173 - "package.json (4)"
-Cohesion: 0.14
-Nodes (11): ADDITIONAL_TEST_QUERIES, CRITICAL_TEST_QUERY, fs, path, SCREENSHOTS_DIR, fs, generatePlaywrightInstructions(), main() (+3 more)
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260620, ⚡ What Changed?, What's Changed
 
 ### Community 174 - "package.json (4)"
 Cohesion: 0.50
@@ -941,44 +939,28 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ### Community 209 - "Community 209"
-Cohesion: 0.22
-Nodes (9): Close Current Window, Full Screen Window, Get Page Source, Get Window Size, Get Window Title, Maximize Window, Resize Window, Switch Windows or Tabs (+1 more)
-
-### Community 210 - "Community 210"
-Cohesion: 0.25
-Nodes (7): Accessibility Testing, Fluent Chaining, Get and Set Context, Get Context Handles, Getting Started, Mobile Context, Related
-
-### Community 211 - "Community 211"
-Cohesion: 0.25
-Nodes (8): Get Current URL, Navigate Back, Navigate Forward, Navigate to URL, Navigate to URL in a New Tab or Window, Navigate to URL with Basic Authentication, Navigation, Refresh Page
-
-### Community 213 - "Community 213"
-Cohesion: 0.40
-Nodes (5): Intercept and Mock HTTP Requests, Intercept HTTP Requests, Mock HTTP Requests, Network Interception, Validate Intercepted Responses
-
-### Community 214 - "Community 214"
-Cohesion: 0.40
-Nodes (5): Wait Actions, Wait for Lazy Loading, Wait Until Number of Windows, Wait Until Title Is, Wait Until URL Matches
+Cohesion: 0.50
+Nodes (4): overrides, minimatch, node-forge, serialize-javascript
 
 ## Knowledge Gaps
-- **1461 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1456 more)
+- **1456 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1451 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **33 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1461 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1456 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
+- **Should `docs/reference (47)` be split into smaller, more focused modules?**
+  _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
-- **Should `docs/start (38)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (37)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05263157894736842 - nodes in this community are weakly interconnected._

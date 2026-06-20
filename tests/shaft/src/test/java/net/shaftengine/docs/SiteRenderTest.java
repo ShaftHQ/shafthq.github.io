@@ -110,8 +110,14 @@ public class SiteRenderTest {
         navigate("/");
 
         shaft.assertThat().browser().title().contains("SHAFT");
-        visible(By.xpath("//h1[normalize-space()='One engine for every test surface.']"));
-        SHAFT.Validations.assertThat().object(attribute(link("Run your first test"), "href"))
+        visible(By.xpath("//h1[normalize-space()='One Java engine for web, native mobile GUI, and API automation.']"));
+        SHAFT.Validations.assertThat().object(attribute(link("Generate a runnable project"), "href"))
+                .contains("/docs/start/installation");
+        SHAFT.Validations.assertThat().object(attribute(link("Read the minimal web test"), "href"))
+                .contains("/docs/testing/web");
+        visible(By.xpath("//a[contains(@href,'/docs/testing/mobile') and .//*[normalize-space()='Native mobile GUI'] and .//*[normalize-space()='Appium']]"));
+        visible(By.xpath("//a[contains(@href,'/docs/testing/api') and .//*[normalize-space()='API testing'] and .//*[normalize-space()='REST Assured']]"));
+        SHAFT.Validations.assertThat().object(attribute(link("Read quick start"), "href"))
                 .contains("/docs/start/quick-start");
         SHAFT.Validations.assertThat().object(attribute(link("Connect your AI agent"), "href"))
                 .contains("#connect-ai-agent");
@@ -253,7 +259,7 @@ public class SiteRenderTest {
         if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
             click(By.cssSelector("button[title*='Switch between dark and light mode']"));
         }
-        visible(By.xpath("//h1[normalize-space()='One engine for every test surface.']"));
+        visible(By.xpath("//h1[normalize-space()='One Java engine for web, native mobile GUI, and API automation.']"));
     }
 
     @Test
