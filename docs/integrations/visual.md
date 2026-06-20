@@ -62,6 +62,7 @@ flowchart TD
 | `doesNotMatchReferenceImage()` and its overload                | Negative OpenCV/visual-engine comparison.                    |
 | `TouchActions.tap(String)`                                     | Finds and taps an image inside the current screen.           |
 | `TouchActions.waitUntilElementIsVisible(String)`               | Waits for an image match.                                    |
+| `TouchActions.waitUntilElementIsNotVisible(String)`            | Waits until an image match disappears from the screen.       |
 | `TouchActions.swipeElementIntoView(String, ...)`               | Swipes until the reference image is found.                   |
 | `ImageProcessingActions.findImageWithinCurrentPage(...)`       | Direct OpenCV-backed image lookup.                           |
 | `ImageProcessingActions.compareAgainstBaseline(...)`           | Direct baseline comparison.                                  |
