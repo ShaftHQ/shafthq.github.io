@@ -22,28 +22,28 @@ You can also instantiate directly for legacy projects: `new TerminalActions()`.
 
 ## Execute a Single Command
 
-### executeCommand()
+### performTerminalCommand()
 
 Executes a terminal command and returns the standard output as a string.
 
 ```java title="SingleCommand.java"
 TerminalActions terminal = SHAFT.CLI.terminal();
 
-String output = terminal.executeCommand("echo Hello SHAFT");
-SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT").perform();
+String output = terminal.performTerminalCommand("echo Hello SHAFT");
+SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT");
 ```
 
 **Linux / macOS:**
 ```java title="LinuxCommands.java"
-String files   = terminal.executeCommand("ls -la /tmp");
-String diskUse = terminal.executeCommand("df -h /");
-String uptime  = terminal.executeCommand("uptime");
+String files   = terminal.performTerminalCommand("ls -la /tmp");
+String diskUse = terminal.performTerminalCommand("df -h /");
+String uptime  = terminal.performTerminalCommand("uptime");
 ```
 
 **Windows:**
 ```java title="WindowsCommands.java"
-String dir       = terminal.executeCommand("dir C:\\");
-String processes = terminal.executeCommand("tasklist");
+String dir       = terminal.performTerminalCommand("dir C:\\");
+String processes = terminal.performTerminalCommand("tasklist");
 ```
 
 ## Execute Multiple Commands
@@ -64,7 +64,7 @@ List<String> commands = Arrays.asList(
     "cat /tmp/shaft_test/data.txt"
 );
 String output = terminal.performTerminalCommands(commands);
-SHAFT.Validations.assertThat().object(output).contains("test data").perform();
+SHAFT.Validations.assertThat().object(output).contains("test data");
 ```
 
 ## Common Use Cases
@@ -83,19 +83,19 @@ public class DatabaseSeedTest {
     public void setUp() {
         terminal = SHAFT.CLI.terminal();
         // Seed the database before the test class
-        terminal.executeCommand("psql -U testuser -d testdb -f src/test/resources/seed.sql");
+        terminal.performTerminalCommand("psql -U testuser -d testdb -f src/test/resources/seed.sql");
     }
 
     @Test
     public void verifyRecordsWereSeeded() {
-        String result = terminal.executeCommand("psql -U testuser -d testdb -c \"SELECT COUNT(*) FROM users;\"");
-        SHAFT.Validations.assertThat().object(result).contains("10").perform();
+        String result = terminal.performTerminalCommand("psql -U testuser -d testdb -c \"SELECT COUNT(*) FROM users;\"");
+        SHAFT.Validations.assertThat().object(result).contains("10");
     }
 
     @AfterClass
     public void tearDown() {
         // Clean up test data
-        terminal.executeCommand("psql -U testuser -d testdb -c \"DELETE FROM users WHERE email LIKE '%test%';\"");
+        terminal.performTerminalCommand("psql -U testuser -d testdb -c \"DELETE FROM users WHERE email LIKE '%test%';\"");
     }
 }
 ```
@@ -114,20 +114,18 @@ public class DeploymentTest {
         TerminalActions terminal = SHAFT.CLI.terminal();
 
         // Trigger deployment
-        String deployOutput = terminal.executeCommand("./scripts/deploy.sh staging");
+        String deployOutput = terminal.performTerminalCommand("./scripts/deploy.sh staging");
         SHAFT.Validations.assertThat()
              .object(deployOutput)
              .contains("Deployment successful")
-             .withCustomReportMessage("Deploy script should report success")
-             .perform();
+             .withCustomReportMessage("Deploy script should report success");
 
         // Verify the service is running
-        String healthCheck = terminal.executeCommand("curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/health");
+        String healthCheck = terminal.performTerminalCommand("curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/health");
         SHAFT.Validations.assertThat()
              .object(healthCheck)
              .isEqualTo("200")
-             .withCustomReportMessage("Application health endpoint should return HTTP 200")
-             .perform();
+             .withCustomReportMessage("Application health endpoint should return HTTP 200");
     }
 }
 ```
@@ -147,12 +145,12 @@ public class FileSystemTest {
 
         // Trigger the export via your application's API or UI …
         // Then validate the generated file
-        String exists = terminal.executeCommand("test -f /tmp/export.csv && echo 'found' || echo 'missing'");
-        SHAFT.Validations.assertThat().object(exists).contains("found").perform();
+        String exists = terminal.performTerminalCommand("test -f /tmp/export.csv && echo 'found' || echo 'missing'");
+        SHAFT.Validations.assertThat().object(exists).contains("found");
 
-        String lineCount = terminal.executeCommand("wc -l < /tmp/export.csv");
+        String lineCount = terminal.performTerminalCommand("wc -l < /tmp/export.csv");
         SHAFT.Validations.assertThat()
-             .object(lineCount.trim()).isNotNull().perform();
+             .object(lineCount.trim()).isNotNull();
     }
 }
 ```
@@ -162,14 +160,30 @@ public class FileSystemTest {
 | OS | Shell | Example command |
 |----|-------|----------------|
 | **Linux / macOS** | bash | `ls -la`, `chmod 755 script.sh`, `./deploy.sh` |
-| **Windows** | cmd | `dir`, `tasklist`, `powershell -Command "..."` |
+| **Windows** | PowerShell | `dir`, `tasklist`, `Get-Process` |
 
 When writing cross-platform tests, guard with a platform check:
 
 ```java title="CrossPlatformCommand.java"
 String os = System.getProperty("os.name").toLowerCase();
 String listCmd = os.contains("win") ? "dir" : "ls -la";
-String output = terminal.executeCommand(listCmd);
+String output = terminal.performTerminalCommand(listCmd);
+```
+
+## Timeouts and Reporting
+
+Local commands use `shellSessionTimeout`; timed-out processes are destroyed and reported as failures.
+Returned output stays unchanged for assertions, while command/report logs redact common secrets such as tokens, passwords, bearer headers, and URI credentials.
+
+Use the environment-variable overload when a command needs secret input:
+
+```java title="CommandEnvironment.java"
+import java.util.Map;
+
+String output = SHAFT.CLI.terminal().performTerminalCommand(
+    "echo $env:DEPLOY_TOKEN",
+    Map.of("DEPLOY_TOKEN", System.getenv("DEPLOY_TOKEN"))
+);
 ```
 
 ## Best Practices
@@ -179,3 +193,9 @@ String output = terminal.executeCommand(listCmd);
 - **Avoid secrets in commands** — use environment variables rather than inline passwords.
 - **Clean up after yourself** — delete temporary files and directories in `@AfterMethod` / `@AfterClass`.
 - **Check for error keywords** — scan output for `error`, `failed`, or non-zero exit signals.
+
+## Related
+
+- [File Actions](/docs/reference/actions/CLI/File_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
+- [CLI](/docs/testing/cli)

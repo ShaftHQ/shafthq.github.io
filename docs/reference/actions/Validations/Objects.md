@@ -14,8 +14,8 @@ You can perform assertions and verifications on objects using the `NativeValidat
 Checks that the actual object is equal to the expected value.
 
 ```java title="ObjectEqualValidation.java"
-Validations.assertThat().object(actualValue).isEqualTo(expectedValue).perform();
-Validations.verifyThat().object(actualValue).isEqualTo(expectedValue).perform();
+Validations.assertThat().object(actualValue).isEqualTo(expectedValue);
+Validations.verifyThat().object(actualValue).isEqualTo(expectedValue);
 ```
 
 ## doesNotEqual()
@@ -23,8 +23,8 @@ Validations.verifyThat().object(actualValue).isEqualTo(expectedValue).perform();
 Checks that the actual object is not equal to the expected value.
 
 ```java title="ObjectNotEqualValidation.java"
-Validations.assertThat().object(actualValue).doesNotEqual(expectedValue).perform();
-Validations.verifyThat().object(actualValue).doesNotEqual(expectedValue).perform();
+Validations.assertThat().object(actualValue).doesNotEqual(expectedValue);
+Validations.verifyThat().object(actualValue).doesNotEqual(expectedValue);
 ```
 
 ## contains()
@@ -32,8 +32,8 @@ Validations.verifyThat().object(actualValue).doesNotEqual(expectedValue).perform
 Checks that the actual object contains the expected value.
 
 ```java title="ObjectContainsValidation.java"
-Validations.assertThat().object(actualText).contains("expected substring").perform();
-Validations.verifyThat().object(actualText).contains("expected substring").perform();
+Validations.assertThat().object(actualText).contains("expected substring");
+Validations.verifyThat().object(actualText).contains("expected substring");
 ```
 
 ## doesNotContain()
@@ -41,7 +41,7 @@ Validations.verifyThat().object(actualText).contains("expected substring").perfo
 Checks that the actual object does not contain the expected value.
 
 ```java title="ObjectNotContainsValidation.java"
-Validations.assertThat().object(actualText).doesNotContain("unwanted text").perform();
+Validations.assertThat().object(actualText).doesNotContain("unwanted text");
 ```
 
 ## matchesRegex()
@@ -49,7 +49,7 @@ Validations.assertThat().object(actualText).doesNotContain("unwanted text").perf
 Checks that the actual object matches the expected regular expression.
 
 ```java title="ObjectRegexValidation.java"
-Validations.assertThat().object(actualValue).matchesRegex("\\d{3}-\\d{4}").perform();
+Validations.assertThat().object(actualValue).matchesRegex("\\d{3}-\\d{4}");
 ```
 
 ## doesNotMatchRegex()
@@ -57,7 +57,7 @@ Validations.assertThat().object(actualValue).matchesRegex("\\d{3}-\\d{4}").perfo
 Checks that the actual object does not match the expected regular expression.
 
 ```java title="ObjectNotRegexValidation.java"
-Validations.assertThat().object(actualValue).doesNotMatchRegex("\\d+").perform();
+Validations.assertThat().object(actualValue).doesNotMatchRegex("\\d+");
 ```
 
 ## equalsIgnoringCaseSensitivity()
@@ -65,7 +65,7 @@ Validations.assertThat().object(actualValue).doesNotMatchRegex("\\d+").perform()
 Checks that the actual object equals the expected value, ignoring case sensitivity.
 
 ```java title="ObjectCaseInsensitiveValidation.java"
-Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("hello world").perform();
+Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("hello world");
 ```
 
 ## doesNotEqualIgnoringCaseSensitivity()
@@ -73,7 +73,7 @@ Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("he
 Checks that the actual object does not equal the expected value, ignoring case sensitivity.
 
 ```java title="ObjectCaseInsensitiveNotEqualValidation.java"
-Validations.assertThat().object("Hello").doesNotEqualIgnoringCaseSensitivity("world").perform();
+Validations.assertThat().object("Hello").doesNotEqualIgnoringCaseSensitivity("world");
 ```
 
 ## isNull()
@@ -81,7 +81,7 @@ Validations.assertThat().object("Hello").doesNotEqualIgnoringCaseSensitivity("wo
 Checks that the actual object is null.
 
 ```java title="ObjectNullValidation.java"
-Validations.assertThat().object(actualValue).isNull().perform();
+Validations.assertThat().object(actualValue).isNull();
 ```
 
 ## isNotNull()
@@ -89,7 +89,7 @@ Validations.assertThat().object(actualValue).isNull().perform();
 Checks that the actual object is not null.
 
 ```java title="ObjectNotNullValidation.java"
-Validations.assertThat().object(actualValue).isNotNull().perform();
+Validations.assertThat().object(actualValue).isNotNull();
 ```
 
 ## isTrue()
@@ -97,7 +97,7 @@ Validations.assertThat().object(actualValue).isNotNull().perform();
 Checks that the actual object evaluates to true.
 
 ```java title="ObjectTrueValidation.java"
-Validations.assertThat().object(actualValue).isTrue().perform();
+Validations.assertThat().object(actualValue).isTrue();
 ```
 
 ## isFalse()
@@ -105,7 +105,7 @@ Validations.assertThat().object(actualValue).isTrue().perform();
 Checks that the actual object evaluates to false.
 
 ```java title="ObjectFalseValidation.java"
-Validations.assertThat().object(actualValue).isFalse().perform();
+Validations.assertThat().object(actualValue).isFalse();
 ```
 
 :::tip
@@ -113,7 +113,12 @@ You can add a custom report message to any object validation:
 ```java
 Validations.assertThat().object(username)
     .isEqualTo("admin")
-    .withCustomReportMessage("Verify username is 'admin'")
-    .perform();
+    .withCustomReportMessage("Verify username is 'admin'");
 ```
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

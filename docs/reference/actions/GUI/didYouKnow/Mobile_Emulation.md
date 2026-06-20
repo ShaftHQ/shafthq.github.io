@@ -127,13 +127,11 @@ public class MobileEmulationTest {
 
         // On mobile, the hamburger menu should be visible
         driver.assertThat().element(By.cssSelector(".hamburger-menu"))
-              .isDisplayed()
-              .perform();
+              .isDisplayed();
 
         // Desktop navigation should be hidden
         driver.assertThat().element(By.cssSelector(".desktop-nav"))
-              .isHidden()
-              .perform();
+              .isHidden();
     }
 
     @AfterMethod

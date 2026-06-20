@@ -15,11 +15,11 @@ Checks that the response body is equal to the content of an expected file.
 
 ```java title="ResponseFileEqualValidation.java"
 // Using SHAFT.API instance (recommended)
-api.assertThatResponse().isEqualToFileContent("src/test/resources/expected-response.json").perform();
-api.verifyThatResponse().isEqualToFileContent("src/test/resources/expected-response.json").perform();
+api.assertThatResponse().isEqualToFileContent("src/test/resources/expected-response.json");
+api.verifyThatResponse().isEqualToFileContent("src/test/resources/expected-response.json");
 
 // Using standalone validation
-Validations.assertThat().response(response).isEqualToFileContent("src/test/resources/expected-response.json").perform();
+Validations.assertThat().response(response).isEqualToFileContent("src/test/resources/expected-response.json");
 ```
 
 ## doesNotEqualFileContent()
@@ -27,7 +27,7 @@ Validations.assertThat().response(response).isEqualToFileContent("src/test/resou
 Checks that the response body is not equal to the content of an expected file.
 
 ```java title="ResponseFileNotEqualValidation.java"
-api.assertThatResponse().doesNotEqualFileContent("src/test/resources/old-response.json").perform();
+api.assertThatResponse().doesNotEqualFileContent("src/test/resources/old-response.json");
 ```
 
 ## containsFileContent()
@@ -35,7 +35,7 @@ api.assertThatResponse().doesNotEqualFileContent("src/test/resources/old-respons
 Checks that the response body contains the content of an expected file.
 
 ```java title="ResponseContainsFileValidation.java"
-api.assertThatResponse().containsFileContent("src/test/resources/partial-response.json").perform();
+api.assertThatResponse().containsFileContent("src/test/resources/partial-response.json");
 ```
 
 ## doesNotContainFileContent()
@@ -43,7 +43,7 @@ api.assertThatResponse().containsFileContent("src/test/resources/partial-respons
 Checks that the response body does not contain the content of an expected file.
 
 ```java title="ResponseNotContainsFileValidation.java"
-api.assertThatResponse().doesNotContainFileContent("src/test/resources/excluded-content.json").perform();
+api.assertThatResponse().doesNotContainFileContent("src/test/resources/excluded-content.json");
 ```
 
 ## extractedJsonValue()
@@ -52,8 +52,8 @@ Extracts a value from the JSON response using a JSONPath expression and validate
 
 ```java title="ResponseJsonExtractValidation.java"
 // Validate extracted JSON value
-api.assertThatResponse().extractedJsonValue("data.name").isEqualTo("John").perform();
-api.verifyThatResponse().extractedJsonValue("data.items[0].id").isEqualTo("123").perform();
+api.assertThatResponse().extractedJsonValue("data.name").isEqualTo("John");
+api.verifyThatResponse().extractedJsonValue("data.items[0].id").isEqualTo("123");
 ```
 
 :::info
@@ -65,7 +65,7 @@ JSONPath expressions should be provided **without** the leading `$.` prefix. For
 Extracts a list of values from the JSON response using a JSONPath expression and validates it.
 
 ```java title="ResponseJsonListExtractValidation.java"
-api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull().perform();
+api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull();
 ```
 
 ## matchesSchema()
@@ -73,8 +73,8 @@ api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull().perf
 Checks that the response body matches a JSON schema defined in an expected file.
 
 ```java title="ResponseSchemaValidation.java"
-api.assertThatResponse().matchesSchema("src/test/resources/response-schema.json").perform();
-api.verifyThatResponse().matchesSchema("src/test/resources/response-schema.json").perform();
+api.assertThatResponse().matchesSchema("src/test/resources/response-schema.json");
+api.verifyThatResponse().matchesSchema("src/test/resources/response-schema.json");
 ```
 
 ## doesNotMatchSchema()
@@ -82,9 +82,15 @@ api.verifyThatResponse().matchesSchema("src/test/resources/response-schema.json"
 Checks that the response body does not match a JSON schema defined in an expected file.
 
 ```java title="ResponseSchemaNotMatchValidation.java"
-api.assertThatResponse().doesNotMatchSchema("src/test/resources/wrong-schema.json").perform();
+api.assertThatResponse().doesNotMatchSchema("src/test/resources/wrong-schema.json");
 ```
 
 :::tip
 When using `SHAFT.API`, the response from the last request is automatically passed to the validation builder. You don't need to pass it explicitly.
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

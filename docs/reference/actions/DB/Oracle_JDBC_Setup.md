@@ -189,8 +189,7 @@ public class OracleDBTest {
             
             SHAFT.Validations.assertThat()
                 .object(result)
-                .isEqualTo("Connection Successful")
-                .perform();
+                .isEqualTo("Connection Successful");
             
             db.closeConnection();
             
@@ -352,3 +351,9 @@ For connection pooling:
 - [Oracle JDBC FAQ](https://www.oracle.com/database/technologies/faq-jdbc.html)
 - [SHAFT Database Connection Strings](Connection_Strings.md)
 - [SHAFT Database Actions](DB_Actions.md)
+
+## Related
+
+- [DB Actions](/docs/reference/actions/DB/DB_Actions)
+- [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
+- [Database](/docs/testing/database)

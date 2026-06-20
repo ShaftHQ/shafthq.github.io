@@ -181,36 +181,29 @@ Sets the parameters (if any) for the API request that you're currently building.
 Note that: Form parameter works with multipart/form-data requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-List<List<Object>> parameters = Arrays.asList(Arrays.asList("username", "john"), Arrays.asList("password","1234"));
+Map<String, Object> parameters = new LinkedHashMap<>();
+parameters.put("username", "john");
+parameters.put("password", "1234");
 api.post("serviceName").setParameters(parameters, RestActions.ParametersType.FORM).perform();
 ```
 #### Parameters Type QUERY
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-List<List<Object>> parameters = Arrays.asList(Arrays.asList("search", "john"), Arrays.asList("orderBy","desc"));
+Map<String, Object> parameters = new LinkedHashMap<>();
+parameters.put("search", "john");
+parameters.put("orderBy", "desc");
 api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
 ```
 #### Parameters Type MULTIPART
 Note that: Multipart parameters are used for file uploads and text fields.  
 All text parts are sent as **UTF-8**, and the correct boundary is set automatically (no need to set `Content-Type` manually).
 
-**Using `List<List<Object>>`**
+**Using `Map<String,Object>`**
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-List<List<Object>> parameters = Arrays.asList(
-        Arrays.asList("image", new java.io.File("src/test/resources/11_02.png")),
-        Arrays.asList("arabicText", "تست أوتوميشن")
-);
-api.post("serviceName")
-   .setParameters(parameters, RestActions.ParametersType.MULTIPART)
-   .perform();
-```
-**Using `Map<String,Object>` **
-```java
-SHAFT.API api = new SHAFT.API("serviceURI");
-Map<String, Object> parametersMap = new HashMap<>();
+Map<String, Object> parametersMap = new LinkedHashMap<>();
 parametersMap.put("image", new java.io.File("src/test/resources/11_02.png"));
-        parametersMap.put("arabicText", "تست أوتوميشن");
+parametersMap.put("arabicText", "تست أوتوميشن");
 
 api.post("serviceName")
    .setParameters(parametersMap, RestActions.ParametersType.MULTIPART)
@@ -303,22 +296,18 @@ for response assertions and the
 
 ## GraphQL API Testing
 
-SHAFT supports GraphQL requests out of the box through `sendGraphQlRequest()`. You can send queries, mutations, and fragments without any additional dependencies.
+SHAFT supports GraphQL requests through `SHAFT.API.sendGraphQlRequest()`. It builds a normal POST request with `Content-Type: application/json`, so headers, status codes, and response assertions use the same fluent chain.
 
 ### Simple GraphQL Query
 
 ```java title="GraphQLSimpleQuery.java"
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
-Response response = api.sendGraphQlRequest(
-    "/graphql",
-    "{ users { id name email } }"
-).perform();
+api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.users[0].name")
-   .isEqualTo("Alice")
-   .perform();
+   .isEqualTo("Alice");
 ```
 
 ### GraphQL Query with Variables
@@ -333,8 +322,7 @@ api.sendGraphQlRequest("/graphql", query, variables).perform();
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.user.email")
-   .contains("@example.com")
-   .perform();
+   .contains("@example.com");
 ```
 
 ### GraphQL with Authentication Header
@@ -346,7 +334,7 @@ api.sendGraphQlRequest("/graphql", "{ me { name } }")
    .addHeader("Authorization", "Bearer mytoken123")
    .perform();
 
-api.assertThatResponse().body().contains("\"name\"").perform();
+api.assertThatResponse().body().contains("\"name\"");
 ```
 
 ### GraphQL Mutation
@@ -364,8 +352,7 @@ api.sendGraphQlRequest("/graphql", mutation, variables)
 
 api.assertThatResponse()
    .extractedJsonValue("$.data.createUser.name")
-   .isEqualTo("Bob")
-   .perform();
+   .isEqualTo("Bob");
 ```
 
 :::tip
@@ -383,7 +370,7 @@ public class Test_Api {
     public void test_get() {
         api = new SHAFT.API("https://jsonplaceholder.typicode.com");
         api.get("/users").perform();
-        api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5").perform();
+        api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5");
     }
 
     @Test
@@ -395,8 +382,14 @@ public class Test_Api {
                     "job": "leader"
                 }""";
         api.post("api/users").setRequestBody(body).setTargetStatusCode(201).setContentType(ContentType.JSON).perform();
-        api.assertThatResponse().extractedJsonValue("name").isEqualTo("morpheus").withCustomReportMessage("Check that Morpheus exists.").perform();
+        api.assertThatResponse().extractedJsonValue("name").isEqualTo("morpheus").withCustomReportMessage("Check that Morpheus exists.");
     }
 
 }
 ```
+
+## Related
+
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)

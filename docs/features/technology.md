@@ -25,3 +25,22 @@ heavy providers optional.
 
 See [Architecture](/docs/features/architecture) and
 [Features and modules](/docs/features/modules) for exact dependency boundaries.
+
+The facade keeps test code on one entry point while the underlying libraries do
+the specialized work:
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+driver.browser().navigateToURL("https://duckduckgo.com");
+driver.element().type(By.name("q"), "SHAFT Engine");
+driver.assertThat().browser().title().contains("DuckDuckGo");
+
+driver.quit();
+```
+
+## Related
+
+- [Architecture](/docs/features/architecture)
+- [Features and modules](/docs/features/modules)
+- [Quick start](/docs/start/quick-start)

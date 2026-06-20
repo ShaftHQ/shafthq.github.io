@@ -124,3 +124,10 @@ Always use `if: always()` (GitHub Actions) or `post { always { } }` (Jenkins) so
 
 For the full list of reporting properties, see the
 [Properties List](/docs/reference/properties/PropertiesList).
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

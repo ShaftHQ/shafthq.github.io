@@ -104,6 +104,35 @@ and `SHAFT.GUI.Locator` for GUI code, use Selenium `By` objects instead of
 `@FindBy`/`PageFactory`, and say when the guide does not contain enough
 evidence for an answer.
 
+## Test automation scenario catalog
+
+Use `test_automation_scenarios` when the user asks an agent to create,
+refactor, or troubleshoot a SHAFT test suite and the agent needs a concrete
+flow to follow. The tool returns scenario ids, sample prompts, the MCP tools to
+call, the repository pattern to use, guardrails, and completion criteria.
+
+Common catalog entries include:
+
+| Scenario | Agent action | Flow concludes when |
+|---|---|---|
+| `api-openapi-contract-suite` | Read the Swagger/OpenAPI contract, group operations by tag/resource, write reusable request builders and response validators under `src/main/java`, then write TestNG scenarios under `src/test/java`. | Focused API tests compile, run, and validate against the configured OpenAPI contract. |
+| `web-pom-fluent-test` | Inspect the page with browser DOM/screenshot tools, create or extend Page Object classes, and write fluent SHAFT actions and assertions. | The headless GUI test passes and page object methods are reusable. |
+| `web-locator-refactor` | Replace brittle locators with SHAFT smart locators, ARIA locators, `SHAFT.GUI.Locator`, or stable Selenium `By` locators. | Affected tests pass without `@FindBy`, PageFactory, or absolute XPath. |
+| `web-capture-to-pom` | Record with Capture, generate replay snippets, then move stable locators and actions into existing page objects. | Replay-derived code is integrated instead of pasted as a generic generated class. |
+| `mobile-native-appium` | Inspect contexts and accessibility trees, prefer accessibility ids/Appium locators, and create mobile page objects plus TestNG tests. | The native mobile test compiles; any unavailable device/cloud run is reported. |
+| `mobile-record-replay` | Record mobile actions through MCP, generate code blocks, and move them into mobile page methods. | The replay code is reviewed, guarded, and inserted into the right classes. |
+| `failure-doctor-analysis` | Analyze Allure results with Doctor and separate product defects, test defects, and infrastructure issues. | The first actionable failure and next validation step are reported. |
+| `failure-healer-loop` | Rerun a guarded failing Selenium test, analyze fresh evidence, and propose review-only fixes. | The failure is fixed by validation or reported as blocked/product behavior. |
+| `report-generate-and-summarize` | Generate the report and summarize SHAFT/Allure evidence. | The report path and high-signal pass/fail summary are returned. |
+| `ci-local-validation` | Load validation gotchas, run affected checks first, then escalate only when needed. | The agent reports exact commands, results, and remaining risk. |
+
+Before finalizing generated Java, call `test_code_guardrails_check`. It fails
+code that contains `Thread.sleep(...)` or absolute XPath such as
+`By.xpath("/html/body/...")`. Prefer SHAFT waits/actions/assertions and the
+locator order from the catalog: smart/semantic locators, ARIA locators,
+`SHAFT.GUI.Locator`, stable `By`/`AppiumBy`, then non-absolute XPath only when
+nothing better exists.
+
 If you see an `AccessDeniedException` under `C:\Windows\system32`, the MCP host
 launched from a protected Windows directory. Upgrade to a release with the
 app-data fallback, or set `SHAFT_MCP_WORKSPACE_ROOT` to a writable directory.
@@ -140,12 +169,20 @@ The packaged server supports:
 - official guide search through `shaft_guide_search`, so agents can retrieve
   cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
   guidance, and troubleshooting steps before writing code;
+- structured test automation playbooks through `test_automation_scenarios`,
+  plus generated-code guardrail checks through `test_code_guardrails_check`;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
 - mobile inspection through `mobile_take_screenshot`,
   `mobile_get_accessibility_tree`, context switching, and action tools for
   tapping, typing, swiping, rotation, keyboard, backgrounding, app activation,
   recording, playback, and copy-pasteable Java action blocks;
+- wrapped Appium Inspector mobile recording through
+  `mobile_toolchain_status`, `mobile_inspector_record_prepare`,
+  `mobile_inspector_record_start`, `mobile_inspector_record_control`, and
+  `mobile_inspector_record_stop`. The prepare step reports `adb devices -l`,
+  cached Android AVDs, missing local dependencies, suggested capabilities, and
+  any Android emulator creation proposal before the user confirms startup;
 - trust-gated natural-language browser, element, and touch execution through
   `natural_act`, using the active SHAFT driver and the same
   `driver.act(...)` planner rules;
@@ -319,3 +356,10 @@ The distribution uses:
 `shaft-mcp/server.json` is a release template. The publication workflow
 replaces `@project.version@` from the root reactor version before registry
 validation and publication.
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)
+- [Providers](/docs/agentic/providers)

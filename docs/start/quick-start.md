@@ -234,7 +234,7 @@ public class StepDefinitions {
     
     @Then("I should see the page title contains {string}")
     public void i_should_see_the_page_title_contains(String expectedTitle) {
-        driver.assertThat().browser().title().contains(expectedTitle).perform();
+        driver.assertThat().browser().title().contains(expectedTitle);
     }
     
     @Then("I close the browser")
@@ -348,3 +348,9 @@ troubleshooting.
 ---
 
 [Overview](/docs/start/overview) · [Features](/docs/features/modules)
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Upgrade](/docs/start/upgrade)
+- [Modules](/docs/features/modules)

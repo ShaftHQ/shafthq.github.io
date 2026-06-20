@@ -7,7 +7,7 @@ keywords: [SHAFT, SSH terminal, remote server, CLI, TerminalActions, SSH executi
 tags: [cli, terminal, ssh, remote]
 ---
 
-SHAFT's `TerminalActions` class supports **SSH remote execution** natively. Using the SSH-specific constructor, you can connect to any remote machine, run shell commands, and transfer files — all from within your test code.
+SHAFT's `TerminalActions` class supports **SSH remote execution** natively. Use the `SHAFT.CLI.remoteTerminal(...)` facade for reusable SSH sessions, command execution, port forwarding, and SFTP transfers.
 
 ---
 
@@ -23,13 +23,14 @@ SHAFT's `TerminalActions` class supports **SSH remote execution** natively. Usin
 
 ```java title="SshTerminalSetup.java"
 import com.shaft.cli.TerminalActions;
+import com.shaft.driver.SHAFT;
 
-TerminalActions remote = new TerminalActions(
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
     "192.168.1.100",    // SSH host (IP or hostname)
     22,                 // SSH port (default: 22)
     "deploy-user",      // SSH username
     "~/.ssh/",          // Directory containing the private key
-    false               // isKeyRecursive — set to true for recursive key search
+    "id_rsa"            // SSH private key file name
 );
 ```
 
@@ -77,23 +78,22 @@ System.out.println(result);
 
 ## File Transfer
 
-SHAFT's `FileActions` class integrates with SSH terminals to transfer files between the remote server and the local machine.
+`TerminalActions` includes SFTP helpers for transferring files between the remote server and the local machine.
 
 ### Download a File from the Remote Server
 
 ```java title="SshDownloadFile.java"
 import com.shaft.cli.TerminalActions;
-import com.shaft.tools.io.FileActions;
+import com.shaft.driver.SHAFT;
 
-TerminalActions remote = new TerminalActions(
-    "192.168.1.100", 22, "deploy-user", "~/.ssh/", false
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
+    "192.168.1.100", 22, "deploy-user", "~/.ssh/", "id_rsa"
 );
 
 // Copy a remote log file to the local target directory
-FileActions.getInstance().copyFileToLocalMachine(
-    remote,
-    "/var/log/app/application.log",   // remote file path
-    "target/logs/"                     // local destination directory
+String localPath = remote.downloadFile(
+    "/var/log/app/application.log",
+    "target/logs/application.log"
 );
 ```
 
@@ -102,17 +102,16 @@ FileActions.getInstance().copyFileToLocalMachine(
 Use checksums to verify file integrity after deployments or transfers:
 
 ```java title="SshFileChecksum.java"
-String checksum = FileActions.getInstance().getFileChecksum(
+String checksum = SHAFT.CLI.file().getFileChecksum(
     remote,
-    "/opt/app/build.jar",   // remote file path
-    "SHA-256"               // algorithm
+    "/opt/app/",
+    "build.jar"
 );
 
 SHAFT.Validations.assertThat()
     .object(checksum)
     .isEqualTo(expectedChecksum)
-    .withCustomReportMessage("Deployed JAR checksum must match the expected build artifact")
-    .perform();
+    .withCustomReportMessage("Deployed JAR checksum must match the expected build artifact");
 ```
 
 ---
@@ -127,8 +126,8 @@ import com.shaft.driver.SHAFT;
 
 @Test
 void verifyApplicationDeployedSuccessfully() {
-    TerminalActions remote = new TerminalActions(
-        "prod-server.example.com", 22, "ci-user", "~/.ssh/", false
+    TerminalActions remote = SHAFT.CLI.remoteTerminal(
+        "prod-server.example.com", 22, "ci-user", "~/.ssh/", "id_rsa"
     );
 
     // Check the process is running
@@ -136,8 +135,7 @@ void verifyApplicationDeployedSuccessfully() {
     SHAFT.Validations.assertThat()
         .object(processes)
         .contains("app.jar")
-        .withCustomReportMessage("Application process must be running on the remote server")
-        .perform();
+        .withCustomReportMessage("Application process must be running on the remote server");
 
     // Check the health endpoint is responding locally on the server
     String healthResponse = remote.performTerminalCommand(
@@ -146,26 +144,21 @@ void verifyApplicationDeployedSuccessfully() {
     SHAFT.Validations.assertThat()
         .object(healthResponse)
         .contains("\"status\":\"UP\"")
-        .withCustomReportMessage("Application health endpoint must return UP status")
-        .perform();
+        .withCustomReportMessage("Application health endpoint must return UP status");
 }
 ```
 
 ### Collect Remote Logs as Test Evidence
 
 ```java title="CollectRemoteLogs.java"
-TerminalActions remote = new TerminalActions(
-    "test-server.example.com", 22, "testuser", "~/.ssh/", false
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
+    "test-server.example.com", 22, "testuser", "~/.ssh/", "id_rsa"
 );
 
 @AfterMethod
 void collectLogs() {
     // Download the log file from the remote server
-    FileActions.getInstance().copyFileToLocalMachine(
-        remote,
-        "/var/log/app/test-run.log",
-        "target/logs/"
-    );
+    remote.downloadFile("/var/log/app/test-run.log", "target/logs/test-run.log");
 
     // Also attach recent log tail directly to the Allure report
     String recentLogs = remote.performTerminalCommand("tail -n 100 /var/log/app/test-run.log");
@@ -176,8 +169,8 @@ void collectLogs() {
 ### Trigger Remote Scripts
 
 ```java title="TriggerRemoteScript.java"
-TerminalActions remote = new TerminalActions(
-    "build-server.example.com", 22, "build-user", "~/.ssh/", false
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
+    "build-server.example.com", 22, "build-user", "~/.ssh/", "id_rsa"
 );
 
 @BeforeClass
@@ -196,8 +189,8 @@ void resetTestEnvironment() {
 ### Check Remote Disk Space Before Tests
 
 ```java title="CheckDiskSpaceRemote.java"
-TerminalActions remote = new TerminalActions(
-    "192.168.1.50", 22, "ops-user", "~/.ssh/", false
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
+    "192.168.1.50", 22, "ops-user", "~/.ssh/", "id_rsa"
 );
 
 @BeforeClass
@@ -211,8 +204,7 @@ void ensureSufficientDiskSpace() {
     SHAFT.Validations.assertThat()
         .number((double) availableGB)
         .isGreaterThanOrEquals(5.0)
-        .withCustomReportMessage("Remote server must have at least 5 GB free on /var/log before running tests")
-        .perform();
+        .withCustomReportMessage("Remote server must have at least 5 GB free on /var/log before running tests");
 }
 ```
 

@@ -116,3 +116,10 @@ For a cleaner approach, you can centralize platform-specific locators in a const
 3. **Build locators dynamically** when they depend on runtime data.
 4. **Use SHAFT Locator Builder** for readable, maintainable locators without raw XPath or CSS.
 5. **Abstract platform differences** behind helper methods when supporting both Android and iOS.
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

@@ -89,9 +89,9 @@ public class ApiTest {
             .setRequestBody("{\"name\": \"John\", \"email\": \"john@example.com\"}")
             .setContentType("application/json")
             .perform();
-        api.assertThatResponse().extractedJsonValue("name").isEqualTo("John").perform();
-        api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com").perform();
-        api.verifyThatResponse().statusCode().isEqualTo(201).perform();
+        api.assertThatResponse().extractedJsonValue("name").isEqualTo("John");
+        api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com");
+        api.verifyThatResponse().statusCode().isEqualTo(201);
     }
 }
 ```
@@ -145,3 +145,10 @@ By using one engine across all levels, you get a **consistent API, unified repor
 3. **Use UI tests for critical paths only** — login, checkout, core business flows.
 4. **Push testing down** — if you can verify something with an API test, do not use a UI test.
 5. **Review your test distribution regularly** — measure how many tests exist at each level and rebalance.
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

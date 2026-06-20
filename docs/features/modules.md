@@ -28,6 +28,33 @@ automation capabilities. Three dependency-heavy integrations are optional.
 See the [upgrade guide](/docs/start/upgrade) for the exact method
 boundaries.
 
+Use the BOM to align the core engine with any optional modules you add:
+
+```xml title="pom.xml"
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>io.github.shafthq</groupId>
+      <artifactId>shaft-bom</artifactId>
+      <version>${shaft.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<dependencies>
+  <dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>shaft-engine</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>shaft-visual</artifactId>
+  </dependency>
+</dependencies>
+```
+
 ## Smart Features
 
 SHAFT provides a lot of out-of-the-box convenience features to facilitate your testing process and eliminate the need for boilerplate code.
@@ -89,4 +116,9 @@ All of SHAFT's smart features target the three pillars of successful test automa
 
 ---
 
-[Overview](/docs/start/overview) · [Technology](/docs/features/technology)
+## Related
+
+- [Architecture](/docs/features/architecture)
+- [Upgrade and module selection](/docs/start/upgrade)
+- [Visual processing module](/docs/integrations/visual)
+- [Technology](/docs/features/technology)

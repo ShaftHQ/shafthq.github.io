@@ -130,7 +130,7 @@ public class CustomSteps {
 
     @Then("I should see the dashboard")
     public void verifyDashboard() {
-        driver.assertThat().browser().url().contains("/dashboard").perform();
+        driver.assertThat().browser().url().contains("/dashboard");
     }
 }
 ```
@@ -144,3 +144,10 @@ Do not remove `com.shaft.cucumber` from the `cucumber.glue` configuration. Remov
 :::note
 Allure reporting for Cucumber is enabled by adding `io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm` to `cucumber.plugin`. This produces the same rich Allure report as non-Cucumber SHAFT tests.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

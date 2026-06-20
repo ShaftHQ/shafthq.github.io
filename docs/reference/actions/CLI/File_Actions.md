@@ -22,14 +22,14 @@ You can also use the legacy `FileActions.getInstance()` in existing projects.
 
 ## Read File
 
-### readFromFile()
+### readFile()
 
 Reads and returns the complete contents of a file as a string.
 
 ```java title="ReadFile.java"
 FileActions file = SHAFT.CLI.file();
 
-String content = file.readFromFile("src/test/resources/testData/users.json");
+String content = file.readFile("src/test/resources/testData/users.json");
 ```
 
 **Practical example — load test data before a test:**
@@ -46,7 +46,7 @@ public class UserImportTest {
     @BeforeClass
     public void loadTestData() {
         usersPayload = SHAFT.CLI.file()
-                           .readFromFile("src/test/resources/testDataFiles/users.json");
+                           .readFile("src/test/resources/testDataFiles/users.json");
     }
 
     @Test
@@ -76,6 +76,8 @@ FileActions file = SHAFT.CLI.file();
 
 file.writeToFile("target/reports/execution-summary.txt", "All 42 tests passed.");
 ```
+
+SHAFT reports the target path and byte count for write operations; it does not attach raw byte payloads as action output.
 
 **Practical example — save API response for later comparison:**
 
@@ -132,12 +134,11 @@ public class ReportDownloadTest {
               .and().element().click(By.id("download-report-btn"));
 
         // Give the download a moment to complete, then read and validate
-        String content = file.readFromFile(DOWNLOAD_PATH);
+        String content = file.readFile(DOWNLOAD_PATH);
         SHAFT.Validations.assertThat()
              .object(content)
              .isNotNull()
-             .withCustomReportMessage("Downloaded report file should not be empty")
-             .perform();
+             .withCustomReportMessage("Downloaded report file should not be empty");
     }
 
     @BeforeMethod
@@ -178,14 +179,12 @@ file.writeToFile("target/output.txt", "Hello SHAFT");
 // Validate it exists
 SHAFT.Validations.assertThat()
      .file("target", "output.txt")
-     .exists()
-     .perform();
+     .exists();
 
 // Validate its content
 SHAFT.Validations.assertThat()
      .file("target", "output.txt")
-     .content().contains("Hello SHAFT")
-     .perform();
+     .content().contains("Hello SHAFT");
 
 // Clean up
 file.deleteFile("target/output.txt");
@@ -199,3 +198,9 @@ For the full file validation API see the [File Validations →](../Validations/F
 - **Back up before modifying** — use `copyFile()` to save a copy before overwriting configuration files.
 - **Clean up in teardown** — delete temporary files in `@AfterMethod` or `@AfterClass` to keep the workspace clean.
 - **Never store secrets in files committed to version control** — use environment variables instead.
+
+## Related
+
+- [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
+- [CLI](/docs/testing/cli)

@@ -17,26 +17,32 @@ Use this method to validate a specific browser attribute. It returns a `NativeVa
 
 ```java title="BrowserUrlValidation.java"
 // Using driver-based validation (recommended)
-driver.assertThat().browser().attribute("url").isEqualTo("https://example.com").perform();
-driver.verifyThat().browser().attribute("url").contains("example").perform();
+driver.assertThat().browser().attribute("url").isEqualTo("https://example.com");
+driver.verifyThat().browser().attribute("url").contains("example");
 
 // Using standalone validation
-Validations.assertThat().browser(driver.getDriver()).attribute("url").isEqualTo("https://example.com").perform();
-Validations.verifyThat().browser(driver.getDriver()).attribute("url").contains("example").perform();
+Validations.assertThat().browser(driver.getDriver()).attribute("url").isEqualTo("https://example.com");
+Validations.verifyThat().browser(driver.getDriver()).attribute("url").contains("example");
 ```
 
 ### Validate Browser Title
 
 ```java title="BrowserTitleValidation.java"
 // Using driver-based validation (recommended)
-driver.assertThat().browser().attribute("title").isEqualTo("My Page Title").perform();
-driver.verifyThat().browser().attribute("title").contains("Page").perform();
+driver.assertThat().browser().attribute("title").isEqualTo("My Page Title");
+driver.verifyThat().browser().attribute("title").contains("Page");
 
 // Using standalone validation
-Validations.assertThat().browser(driver.getDriver()).attribute("title").isEqualTo("My Page Title").perform();
-Validations.verifyThat().browser(driver.getDriver()).attribute("title").contains("Page").perform();
+Validations.assertThat().browser(driver.getDriver()).attribute("title").isEqualTo("My Page Title");
+Validations.verifyThat().browser(driver.getDriver()).attribute("title").contains("Page");
 ```
 
 :::tip
 After calling `.attribute()`, you can chain any of the following comparison methods: `.isEqualTo()`, `.contains()`, `.doesNotContain()`, `.matchesRegex()`, `.isNull()`, `.isNotNull()`, and more.
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

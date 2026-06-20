@@ -1,0 +1,11 @@
+target/
+allure-report/
+allure-results/
+execution-summary/
+performanceReport/
+allurerc.yaml
+generate_allure_report.bat
+src/main/resources/dynamicObjectRepository/
+src/main/resources/properties/default/
+src/test/resources/META-INF/
+src/test/resources/testDataFiles/

@@ -134,3 +134,9 @@ You can learn more about the different **[property types]** and the **[full list
 [full list of supported properties]: /docs/reference/properties/PropertiesList
 [BrowserStack]: <https://www.browserstack.com/>
 [LambdaTest]: <https://www.lambdatest.com/>
+
+## Related
+
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Common Examples](/docs/reference/properties/CommonExamples)

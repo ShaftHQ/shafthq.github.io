@@ -55,8 +55,7 @@ api.get("/users/1")
    .performRequest();
 
 api.assertThatResponse()
-   .matchesSchema("src/test/resources/schemas/user-schema.json")
-   .perform();
+   .matchesSchema("src/test/resources/schemas/user-schema.json");
 ```
 
 ---
@@ -67,8 +66,7 @@ Assert that the response body does **not** match a given schema (useful for nega
 
 ```java title="JSONSchemaValidation.java"
 api.assertThatResponse()
-   .doesNotMatchSchema("src/test/resources/schemas/admin-schema.json")
-   .perform();
+   .doesNotMatchSchema("src/test/resources/schemas/admin-schema.json");
 ```
 
 ---
@@ -90,8 +88,7 @@ public class JSONSchemaValidationTest {
            .performRequest();
 
         api.assertThatResponse()
-           .matchesSchema("src/test/resources/schemas/user-schema.json")
-           .perform();
+           .matchesSchema("src/test/resources/schemas/user-schema.json");
     }
 
     @Test
@@ -103,8 +100,7 @@ public class JSONSchemaValidationTest {
            .performRequest();
 
         api.assertThatResponse()
-           .matchesSchema("src/test/resources/schemas/user-list-schema.json")
-           .perform();
+           .matchesSchema("src/test/resources/schemas/user-list-schema.json");
     }
 
     @Test
@@ -117,8 +113,7 @@ public class JSONSchemaValidationTest {
 
         // Confirm the response does not expose admin-only fields
         api.assertThatResponse()
-           .doesNotMatchSchema("src/test/resources/schemas/admin-schema.json")
-           .perform();
+           .doesNotMatchSchema("src/test/resources/schemas/admin-schema.json");
     }
 }
 ```
@@ -152,3 +147,9 @@ Commit your schema files to source control alongside your tests. When a delibera
 :::note
 SHAFT uses the [JSON Schema Validator](https://github.com/java-json-tools/json-schema-validator) library under the hood, which supports JSON Schema Draft 4, 6, and 7.
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

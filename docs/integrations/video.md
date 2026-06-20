@@ -39,3 +39,10 @@ Android/iOS recording in `shaft-engine` through driver-native
 
 Remote BrowserStack, LambdaTest, Selenium Grid, Selenoid, or Moon video options
 are capabilities of those remote providers and do not require `shaft-video`.
+
+## Related
+
+- [Modules](/docs/features/modules)
+- [Upgrade](/docs/start/upgrade)
+- [Browserstack](/docs/integrations/browserstack)
+- [Visual](/docs/integrations/visual)

@@ -56,3 +56,10 @@ configuration manually.
 Download the credential-free Doctor example:
 
 - [Doctor chat invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json)
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)

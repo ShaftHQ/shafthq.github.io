@@ -75,7 +75,7 @@ By successBanner = SHAFT.GUI.Locator
     .containsText("Order placed successfully")
     .build();
 
-driver.assertThat(successBanner).isDisplayed().perform();
+driver.assertThat(successBanner).isDisplayed();
 ```
 
 ### By Class and Tag
@@ -161,7 +161,7 @@ public class ShoppingCartPage {
     }
 
     public ShoppingCartPage verifyCartCount(String expected) {
-        driver.assertThat(cartBadge).text().isEqualTo(expected).perform();
+        driver.assertThat(cartBadge).text().isEqualTo(expected);
         return this;
     }
 
@@ -190,3 +190,9 @@ For more locator strategies see:
 - [Self-Healing Locators →](./Self_Healing_Locators)
 - [LocatorBuilderTest examples on GitHub →](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java)
 
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

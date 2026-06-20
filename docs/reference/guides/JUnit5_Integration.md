@@ -95,7 +95,7 @@ public class WebTestJUnit5 {
         driver.browser().navigateToURL("https://duckduckgo.com/");
         driver.element().type(By.id("searchbox_input"), "SHAFT Engine");
         driver.element().click(By.id("search_button_homepage"));
-        driver.assertThat().browser().url().contains("q=SHAFT").perform();
+        driver.assertThat().browser().url().contains("q=SHAFT");
     }
 
     @AfterEach
@@ -146,13 +146,13 @@ public class SharedDriverJUnit5 {
     @Test
     @Order(1)
     void verifyDashboardLoaded() {
-        driver.assertThat().browser().url().contains("/dashboard").perform();
+        driver.assertThat().browser().url().contains("/dashboard");
     }
 
     @Test
     @Order(2)
     void verifyUserNameDisplayed() {
-        driver.assertThat(By.id("userName")).text().contains("Test User").perform();
+        driver.assertThat(By.id("userName")).text().contains("Test User");
     }
 
     @AfterAll
@@ -172,3 +172,10 @@ Use `@BeforeEach` / `@AfterEach` (fresh driver per test) for **independent test 
 SHAFT's JUnit listener and extension are automatically registered via the Java
 ServiceLoader mechanism.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

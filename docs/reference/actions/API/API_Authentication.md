@@ -24,7 +24,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.get("/secure/data")
    .setAuthentication("username", "password", AuthenticationType.BASIC)
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -37,7 +37,7 @@ Use `AuthenticationType.DIGEST` for digest-challenge protected endpoints:
 api.get("/digest-auth/data")
    .setAuthentication("user", "pass", AuthenticationType.DIGEST)
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -50,7 +50,7 @@ Submit credentials as form parameters using `AuthenticationType.FORM`:
 api.post("/login")
    .setAuthentication("user@example.com", "password123", AuthenticationType.FORM)
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -63,7 +63,7 @@ Add the `Authorization` header with a `Bearer` token prefix:
 api.get("/oauth/resource")
    .addHeader("Authorization", "Bearer your-oauth-token")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -76,7 +76,7 @@ api.get("/oauth/resource")
 api.get("/data")
    .addHeader("X-API-Key", "your-api-key")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ### API Key in Query Parameter
@@ -85,7 +85,7 @@ api.get("/data")
 api.get("/data")
    .addUrlParameter("api_key", "your-api-key")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -98,7 +98,7 @@ Pass a session cookie using `addHeader`:
 api.get("/profile")
    .addHeader("Cookie", "session_id=abc123xyz; token=your-session-token")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 ```
 
 ---
@@ -113,12 +113,12 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 // Authenticate once — credentials reused for all subsequent requests
 api.get("/login")
    .setAuthentication("user", "password", AuthenticationType.BASIC)
-   .performRequest();
+   .perform();
 
 // These requests automatically include the authentication credentials
-api.get("/users").setTargetStatusCode(200).performRequest();
-api.get("/orders").setTargetStatusCode(200).performRequest();
-api.get("/profile").setTargetStatusCode(200).performRequest();
+api.get("/users").setTargetStatusCode(200).perform();
+api.get("/orders").setTargetStatusCode(200).perform();
+api.get("/profile").setTargetStatusCode(200).perform();
 ```
 
 ---
@@ -138,12 +138,11 @@ public class APIAuthTest {
         api.get("/basic-auth/user/pass")
            .setAuthentication("user", "pass", AuthenticationType.BASIC)
            .setTargetStatusCode(200)
-           .performRequest();
+           .perform();
 
         api.assertThatResponse()
            .extractedJsonValue("authenticated")
-           .isEqualTo("true")
-           .perform();
+           .isEqualTo("true");
     }
 
     @Test
@@ -152,7 +151,7 @@ public class APIAuthTest {
         api.get("/protected")
            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
            .setTargetStatusCode(200)
-           .performRequest();
+           .perform();
     }
 }
 ```
@@ -166,3 +165,9 @@ Store authentication credentials in SHAFT property files or environment variable
 :::warning
 OAuth2 tokens expire. For CI/CD pipelines, implement a token-refresh step before your test suite runs or retrieve the token programmatically as part of test setup.
 :::
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API](/docs/testing/api)

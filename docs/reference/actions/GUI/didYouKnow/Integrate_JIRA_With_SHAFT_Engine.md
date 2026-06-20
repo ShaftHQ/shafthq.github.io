@@ -36,14 +36,14 @@ This guide provides the necessary steps to integrate JIRA with the SHAFT engine 
 
    ![Generated Token](/img/JIRA/Generate_Token.png)
 
-8. **Set the Copied Token**: Open your `JIRA.properties` file and set the copied token as the value for the `authorization` property:
+8. **Set the Copied Token**: Open your `JiraXRay.properties` file and set the copied token as the value for the `authorization` property.
 
 
 ## Example Configuration
 
-Below is an example of how to set these properties in your `JIRA.properties` file:
+Below is an example of how to set these properties in your `JiraXRay.properties` file:
 
-```properties
+```properties title="src/main/resources/properties/JiraXRay.properties"
 # Enable interaction with JIRA
 jiraInteraction=true
 
@@ -54,7 +54,7 @@ jiraUrl=https://your-jira-instance.atlassian.net
 projectKey=PROJ
 
 # Authorization token for JIRA APIs
- authorization=your-copied-token
+authorization=your-copied-token
 
 # Report test cases execution to JIRA
 reportTestCasesExecution=true
@@ -76,4 +76,11 @@ assignee=jira-user-id
 
 # Allure report link patterns
 allure.link.tms.pattern=https://your-tms-instance.com/tms/{}
+```
+
+## Related
+
+- [Reporting](/docs/reference/reporting)
+- [Custom report messages](/docs/reference/reporting/Custom_Report_Messages)
+- [Properties reference](/docs/reference/properties/PropertiesList)
 

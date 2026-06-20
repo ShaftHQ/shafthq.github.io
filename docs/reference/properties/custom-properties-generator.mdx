@@ -13,4 +13,18 @@ Use this generator to choose SHAFT properties, edit their values, and download t
 
 Save generated files under `src/main/resources/properties/` in your test project. SHAFT reads every `.properties` file in that folder during startup.
 
+For example, a generated web configuration can include:
+
+```properties title="src/main/resources/properties/custom.properties"
+targetBrowserName=GoogleChrome
+headlessExecution=true
+createAnimatedGif=false
+```
+
 <PropertiesGenerator />
+
+## Related
+
+- [Property types](/docs/reference/properties/PropertyTypes)
+- [Properties reference](/docs/reference/properties/PropertiesList)
+- [Common configuration examples](/docs/reference/properties/CommonExamples)

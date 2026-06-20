@@ -119,7 +119,7 @@ public class NetworkMockingTest {
                 .perform();
 
         driver.browser().navigateToURL("https://example.com/users");
-        driver.assertThat(By.id("emptyState")).text().contains("No users found").perform();
+        driver.assertThat(By.id("emptyState")).text().contains("No users found");
     }
 
     @Test
@@ -134,7 +134,7 @@ public class NetworkMockingTest {
                 .perform();
 
         driver.browser().navigateToURL("https://example.com/users");
-        driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong").perform();
+        driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong");
     }
 
     @AfterMethod
@@ -166,3 +166,10 @@ driver.browser().mock(
 :::note
 Interception rules are scoped to the current browser session. They are cleared automatically when the driver is quit, or explicitly with `driver.browser().clearNetworkInterceptors()`. If multiple rules match the same request, the latest registered rule wins.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)
