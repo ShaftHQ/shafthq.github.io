@@ -161,3 +161,9 @@ This lets you run the same test suite against staging, production, or different 
 4. **Set retry attempts** — `retryMaximumNumberOfAttempts=2` helps with flaky tests in CI environments.
 5. **Parameterize everything** — use CLI properties so the same test suite works across environments.
 6. **Archive test artifacts** — always upload reports and logs, even on failure (use `if: always()` in GitHub Actions or `post { always { } }` in Jenkins).
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Quick Start](/docs/start/quick-start)

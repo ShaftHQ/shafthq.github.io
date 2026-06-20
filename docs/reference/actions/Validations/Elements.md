@@ -15,12 +15,12 @@ Checks that the target element exists in the DOM.
 
 ```java title="ElementExistsValidation.java"
 // Using driver-based validation (recommended)
-driver.assertThat().element(locator).exists().perform();
-driver.verifyThat().element(locator).exists().perform();
+driver.assertThat().element(locator).exists();
+driver.verifyThat().element(locator).exists();
 
 // Using standalone validation
-Validations.assertThat().element(driver.getDriver(), locator).exists().perform();
-Validations.verifyThat().element(driver.getDriver(), locator).exists().perform();
+Validations.assertThat().element(driver.getDriver(), locator).exists();
+Validations.verifyThat().element(driver.getDriver(), locator).exists();
 ```
 
 ## doesNotExist()
@@ -28,8 +28,8 @@ Validations.verifyThat().element(driver.getDriver(), locator).exists().perform()
 Checks that the target element does not exist in the DOM.
 
 ```java title="ElementDoesNotExistValidation.java"
-driver.assertThat().element(locator).doesNotExist().perform();
-driver.verifyThat().element(locator).doesNotExist().perform();
+driver.assertThat().element(locator).doesNotExist();
+driver.verifyThat().element(locator).doesNotExist();
 ```
 
 ## matchesReferenceImage()
@@ -37,8 +37,8 @@ driver.verifyThat().element(locator).doesNotExist().perform();
 Checks that the target element matches a reference image using OpenCV. On the first run, a screenshot of the element is captured and saved as the reference. Subsequent runs compare the element against this reference. Reference images are stored under `src/test/resources/DynamicObjectRepository`.
 
 ```java title="VisualValidation.java"
-driver.assertThat().element(locator).matchesReferenceImage().perform();
-driver.verifyThat().element(locator).matchesReferenceImage().perform();
+driver.assertThat().element(locator).matchesReferenceImage();
+driver.verifyThat().element(locator).matchesReferenceImage();
 ```
 
 ## doesNotMatchReferenceImage()
@@ -46,8 +46,8 @@ driver.verifyThat().element(locator).matchesReferenceImage().perform();
 Checks that the target element does not match the stored reference image.
 
 ```java title="VisualMismatchValidation.java"
-driver.assertThat().element(locator).doesNotMatchReferenceImage().perform();
-driver.verifyThat().element(locator).doesNotMatchReferenceImage().perform();
+driver.assertThat().element(locator).doesNotMatchReferenceImage();
+driver.verifyThat().element(locator).doesNotMatchReferenceImage();
 ```
 
 ## attribute()
@@ -56,10 +56,10 @@ Checks a specific element attribute against an expected value. After calling `.a
 
 ```java title="ElementAttributeValidation.java"
 // Validate the "class" attribute contains "active"
-driver.assertThat().element(locator).attribute("class").contains("active").perform();
+driver.assertThat().element(locator).attribute("class").contains("active");
 
 // Validate the "href" attribute equals a specific URL
-driver.verifyThat().element(locator).attribute("href").isEqualTo("https://example.com").perform();
+driver.verifyThat().element(locator).attribute("href").isEqualTo("https://example.com");
 ```
 
 ## text()
@@ -67,8 +67,8 @@ driver.verifyThat().element(locator).attribute("href").isEqualTo("https://exampl
 Checks the text content of the target element. Chain a comparison method after calling `.text()`.
 
 ```java title="ElementTextValidation.java"
-driver.assertThat().element(locator).text().isEqualTo("Welcome").perform();
-driver.verifyThat().element(locator).text().contains("Welcome").perform();
+driver.assertThat().element(locator).text().isEqualTo("Welcome");
+driver.verifyThat().element(locator).text().contains("Welcome");
 ```
 
 ## textTrimmed()
@@ -76,8 +76,8 @@ driver.verifyThat().element(locator).text().contains("Welcome").perform();
 Checks the text content of the target element after trimming all leading and trailing whitespace.
 
 ```java title="ElementTextTrimmedValidation.java"
-driver.assertThat().element(locator).textTrimmed().isEqualTo("Hello World").perform();
-driver.verifyThat().element(locator).textTrimmed().contains("Hello").perform();
+driver.assertThat().element(locator).textTrimmed().isEqualTo("Hello World");
+driver.verifyThat().element(locator).textTrimmed().contains("Hello");
 ```
 
 ## cssProperty()
@@ -85,8 +85,8 @@ driver.verifyThat().element(locator).textTrimmed().contains("Hello").perform();
 Checks a CSS property value of the target element. Chain a comparison method after calling `.cssProperty()`.
 
 ```java title="ElementCssValidation.java"
-driver.assertThat().element(locator).cssProperty("color").contains("rgb(0, 128, 0)").perform();
-driver.verifyThat().element(locator).cssProperty("font-size").isEqualTo("14px").perform();
+driver.assertThat().element(locator).cssProperty("color").contains("rgb(0, 128, 0)");
+driver.verifyThat().element(locator).cssProperty("font-size").isEqualTo("14px");
 ```
 
 ## State Validations
@@ -96,7 +96,7 @@ driver.verifyThat().element(locator).cssProperty("font-size").isEqualTo("14px").
 Checks that the target element is visible on the page.
 
 ```java title="ElementVisibleValidation.java"
-driver.assertThat().element(locator).isVisible().perform();
+driver.assertThat().element(locator).isVisible();
 ```
 
 ### isHidden()
@@ -104,7 +104,7 @@ driver.assertThat().element(locator).isVisible().perform();
 Checks that the target element is hidden.
 
 ```java title="ElementHiddenValidation.java"
-driver.assertThat().element(locator).isHidden().perform();
+driver.assertThat().element(locator).isHidden();
 ```
 
 ### isEnabled()
@@ -112,7 +112,7 @@ driver.assertThat().element(locator).isHidden().perform();
 Checks that the target element is enabled (not disabled).
 
 ```java title="ElementEnabledValidation.java"
-driver.assertThat().element(locator).isEnabled().perform();
+driver.assertThat().element(locator).isEnabled();
 ```
 
 ### isDisabled()
@@ -120,7 +120,7 @@ driver.assertThat().element(locator).isEnabled().perform();
 Checks that the target element is disabled.
 
 ```java title="ElementDisabledValidation.java"
-driver.assertThat().element(locator).isDisabled().perform();
+driver.assertThat().element(locator).isDisabled();
 ```
 
 ### isSelected()
@@ -128,7 +128,7 @@ driver.assertThat().element(locator).isDisabled().perform();
 Checks that the target element is selected (e.g., a checkbox or radio button).
 
 ```java title="ElementSelectedValidation.java"
-driver.assertThat().element(locator).isSelected().perform();
+driver.assertThat().element(locator).isSelected();
 ```
 
 ### isNotSelected()
@@ -136,7 +136,7 @@ driver.assertThat().element(locator).isSelected().perform();
 Checks that the target element is not selected.
 
 ```java title="ElementNotSelectedValidation.java"
-driver.assertThat().element(locator).isNotSelected().perform();
+driver.assertThat().element(locator).isNotSelected();
 ```
 
 ### isChecked()
@@ -144,7 +144,7 @@ driver.assertThat().element(locator).isNotSelected().perform();
 Checks that the target element is checked.
 
 ```java title="ElementCheckedValidation.java"
-driver.assertThat().element(locator).isChecked().perform();
+driver.assertThat().element(locator).isChecked();
 ```
 
 ### isNotChecked()
@@ -152,14 +152,19 @@ driver.assertThat().element(locator).isChecked().perform();
 Checks that the target element is not checked.
 
 ```java title="ElementNotCheckedValidation.java"
-driver.assertThat().element(locator).isNotChecked().perform();
+driver.assertThat().element(locator).isNotChecked();
 ```
 
 :::tip
-All the state validation methods above return a `ValidationsExecutor`. You can optionally add a custom report message before calling `.perform()`:
+All the state validation methods above execute eagerly when the condition is selected. You can optionally add a custom report message to the chain:
 ```java
 driver.assertThat().element(locator).isVisible()
-    .withCustomReportMessage("Verify login button is visible")
-    .perform();
+    .withCustomReportMessage("Verify login button is visible");
 ```
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

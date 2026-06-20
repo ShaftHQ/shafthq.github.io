@@ -26,7 +26,7 @@ api.sendGraphQlRequest(
 ).perform();
 
 // Assert response content
-api.assertThatResponse().extractedJsonValue("data.users").isNotNull().perform();
+api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
 ```
 
 ---
@@ -104,7 +104,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
 
-        api.assertThatResponse().extractedJsonValue("data.users").isNotNull().perform();
+        api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
     }
 
     @Test
@@ -115,7 +115,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", query, variables).perform();
 
-        api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull().perform();
+        api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull();
     }
 
     @Test
@@ -127,7 +127,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", mutation, variables).perform();
 
-        api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull().perform();
+        api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull();
     }
 }
 ```
@@ -151,8 +151,7 @@ api.post("/graphql")
 
 api.assertThatResponse()
    .extractedJsonValue("data.users[0].name")
-   .isEqualTo("John Doe")
-   .perform();
+   .isEqualTo("John Doe");
 ```
 
 ---
@@ -164,3 +163,10 @@ Use the `variables` parameter instead of string interpolation in GraphQL queries
 :::note
 GraphQL APIs typically return HTTP 200 even when errors occur — always validate the `errors` field in the response body alongside the status code.
 :::
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)

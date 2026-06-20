@@ -101,7 +101,7 @@ public class AsyncRegistrationTest {
         // Proceed sequentially once the form is filled
         driver.element().click(By.id("submitBtn"));
 
-        driver.assertThat().browser().url().contains("/success").perform();
+        driver.assertThat().browser().url().contains("/success");
     }
 
     @AfterMethod

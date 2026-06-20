@@ -44,7 +44,7 @@ rawDriver.get("https://example.com");
 // Wrap it — all SHAFT fluent actions, smart waits, and reporting now apply
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver(rawDriver);
 
-driver.assertThat().browser().title().contains("Example").perform();
+driver.assertThat().browser().title().contains("Example");
 driver.element().click(By.id("ctaButton"));
 
 driver.quit();
@@ -62,3 +62,10 @@ driver.quit();
 :::tip
 After wrapping, call `driver.quit()` (not `rawDriver.quit()`) to ensure SHAFT's lifecycle hooks run correctly and the Allure report is finalised.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

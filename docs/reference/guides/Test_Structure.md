@@ -37,7 +37,7 @@ public class LoginTest {
             .type(By.id("username"), "validUser")
             .and().type(By.id("password"), "validPass")
             .and().click(By.id("login-btn"));
-        driver.assertThat(By.id("welcome")).text().contains("Welcome").perform();
+        driver.assertThat(By.id("welcome")).text().contains("Welcome");
     }
 
     @Test(description = "Verify login with invalid password")
@@ -46,7 +46,7 @@ public class LoginTest {
             .type(By.id("username"), "validUser")
             .and().type(By.id("password"), "wrongPass")
             .and().click(By.id("login-btn"));
-        driver.assertThat(By.id("error")).text().contains("Invalid credentials").perform();
+        driver.assertThat(By.id("error")).text().contains("Invalid credentials");
     }
 
     @AfterMethod
@@ -93,7 +93,7 @@ public class CheckoutScenario {
     @Test(description = "Step 2: Add item to cart", dependsOnMethods = "login")
     public void addToCart() {
         driver.element().click(By.cssSelector("[data-product='laptop'] .add-to-cart"));
-        driver.assertThat(By.id("cart-count")).text().isEqualTo("1").perform();
+        driver.assertThat(By.id("cart-count")).text().isEqualTo("1");
     }
 
     @Test(description = "Step 3: Complete checkout", dependsOnMethods = "addToCart")
@@ -102,7 +102,7 @@ public class CheckoutScenario {
         driver.element()
             .type(By.id("card-number"), "4111111111111111")
             .and().click(By.id("pay-btn"));
-        driver.assertThat(By.id("confirmation")).text().contains("Order confirmed").perform();
+        driver.assertThat(By.id("confirmation")).text().contains("Order confirmed");
     }
 
     @AfterClass
@@ -153,3 +153,9 @@ The `priority` attribute is appropriate **only** for controlling the order of tr
 3. **Keep scenarios short** — 3 to 5 steps maximum. Longer scenarios are harder to debug.
 4. **Use `@BeforeClass` / `@AfterClass` for scenario-level setup/teardown** and `@BeforeMethod` / `@AfterMethod` for isolated test setup/teardown.
 5. **Name test methods clearly** so that `dependsOnMethods` references are self-explanatory.
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

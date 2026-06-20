@@ -133,8 +133,7 @@ String total = db.getResult("SELECT COUNT(*) FROM orders WHERE status = 'pending
 SHAFT.Validations.assertThat()
      .number(Integer.parseInt(total))
      .isGreaterThan(0)
-     .withCustomReportMessage("There should be at least one pending order")
-     .perform();
+     .withCustomReportMessage("There should be at least one pending order");
 ```
 
 You can also use the static overload with an existing `ResultSet`:
@@ -151,7 +150,7 @@ Extracts all values from a named column across all rows:
 ```java title="GetColumn.java"
 ResultSet rs = db.executeSelectQuery("SELECT email FROM users WHERE role = 'admin'");
 String emails = SHAFT.DB.getColumn(rs, "email");
-SHAFT.Validations.assertThat().object(emails).contains("admin@example.com").perform();
+SHAFT.Validations.assertThat().object(emails).contains("admin@example.com");
 ```
 
 ### INSERT / UPDATE / DELETE — executeUpdateQuery()
@@ -168,13 +167,13 @@ SHAFT.DB db = new SHAFT.DB(
 int inserted = db.executeUpdateQuery(
     "INSERT INTO orders (customer_id, total, status) VALUES (42, 99.99, 'new')"
 );
-SHAFT.Validations.assertThat().number(inserted).isEqualTo(1).perform();
+SHAFT.Validations.assertThat().number(inserted).isEqualTo(1);
 
 // Update
 int updated = db.executeUpdateQuery(
     "UPDATE orders SET status = 'confirmed' WHERE customer_id = 42 AND status = 'new'"
 );
-SHAFT.Validations.assertThat().number(updated).isGreaterThanOrEquals(1).perform();
+SHAFT.Validations.assertThat().number(updated).isGreaterThanOrEquals(1);
 
 // Delete (cleanup)
 db.executeUpdateQuery("DELETE FROM orders WHERE customer_id = 42");
@@ -252,7 +251,7 @@ try (SHAFT.DB db = new SHAFT.DB(
         "localhost", "5432", "testdb", "admin", "admin123")) {
 
     String userCount = db.getResult("SELECT COUNT(*) FROM users");
-    SHAFT.Validations.assertThat().object(userCount).isNotNull().perform();
+    SHAFT.Validations.assertThat().object(userCount).isNotNull();
 }
 // Connection is automatically closed here
 ```
@@ -284,15 +283,14 @@ public class UserDatabaseTest {
         int rows = db.executeUpdateQuery(
             "INSERT INTO users (name, email, role) VALUES ('Test User', 'test@shaft.io', 'viewer')"
         );
-        SHAFT.Validations.assertThat().number(rows).isEqualTo(1).perform();
+        SHAFT.Validations.assertThat().number(rows).isEqualTo(1);
 
         // Verify
         String name = db.getResult("SELECT name FROM users WHERE email = 'test@shaft.io'");
         SHAFT.Validations.assertThat()
              .object(name)
              .isEqualTo("Test User")
-             .withCustomReportMessage("Inserted user name should match")
-             .perform();
+             .withCustomReportMessage("Inserted user name should match");
 
         // Clean up
         db.executeUpdateQuery("DELETE FROM users WHERE email = 'test@shaft.io'");
@@ -310,3 +308,9 @@ public class UserDatabaseTest {
 ## Connection Strings Reference
 
 See [Connection Strings →](./Connection_Strings) for common JDBC URL formats for each supported database.
+
+## Related
+
+- [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
+- [Oracle Jdbc Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup)
+- [Database](/docs/testing/database)

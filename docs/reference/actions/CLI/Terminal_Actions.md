@@ -30,7 +30,7 @@ Executes a terminal command and returns the standard output as a string.
 TerminalActions terminal = SHAFT.CLI.terminal();
 
 String output = terminal.performTerminalCommand("echo Hello SHAFT");
-SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT").perform();
+SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT");
 ```
 
 **Linux / macOS:**
@@ -64,7 +64,7 @@ List<String> commands = Arrays.asList(
     "cat /tmp/shaft_test/data.txt"
 );
 String output = terminal.performTerminalCommands(commands);
-SHAFT.Validations.assertThat().object(output).contains("test data").perform();
+SHAFT.Validations.assertThat().object(output).contains("test data");
 ```
 
 ## Common Use Cases
@@ -89,7 +89,7 @@ public class DatabaseSeedTest {
     @Test
     public void verifyRecordsWereSeeded() {
         String result = terminal.performTerminalCommand("psql -U testuser -d testdb -c \"SELECT COUNT(*) FROM users;\"");
-        SHAFT.Validations.assertThat().object(result).contains("10").perform();
+        SHAFT.Validations.assertThat().object(result).contains("10");
     }
 
     @AfterClass
@@ -118,16 +118,14 @@ public class DeploymentTest {
         SHAFT.Validations.assertThat()
              .object(deployOutput)
              .contains("Deployment successful")
-             .withCustomReportMessage("Deploy script should report success")
-             .perform();
+             .withCustomReportMessage("Deploy script should report success");
 
         // Verify the service is running
         String healthCheck = terminal.performTerminalCommand("curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/health");
         SHAFT.Validations.assertThat()
              .object(healthCheck)
              .isEqualTo("200")
-             .withCustomReportMessage("Application health endpoint should return HTTP 200")
-             .perform();
+             .withCustomReportMessage("Application health endpoint should return HTTP 200");
     }
 }
 ```
@@ -148,11 +146,11 @@ public class FileSystemTest {
         // Trigger the export via your application's API or UI …
         // Then validate the generated file
         String exists = terminal.performTerminalCommand("test -f /tmp/export.csv && echo 'found' || echo 'missing'");
-        SHAFT.Validations.assertThat().object(exists).contains("found").perform();
+        SHAFT.Validations.assertThat().object(exists).contains("found");
 
         String lineCount = terminal.performTerminalCommand("wc -l < /tmp/export.csv");
         SHAFT.Validations.assertThat()
-             .object(lineCount.trim()).isNotNull().perform();
+             .object(lineCount.trim()).isNotNull();
     }
 }
 ```
@@ -195,3 +193,9 @@ String output = SHAFT.CLI.terminal().performTerminalCommand(
 - **Avoid secrets in commands** — use environment variables rather than inline passwords.
 - **Clean up after yourself** — delete temporary files and directories in `@AfterMethod` / `@AfterClass`.
 - **Check for error keywords** — scan output for `error`, `failed`, or non-zero exit signals.
+
+## Related
+
+- [File Actions](/docs/reference/actions/CLI/File_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
+- [CLI](/docs/testing/cli)

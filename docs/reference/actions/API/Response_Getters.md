@@ -21,7 +21,7 @@ String body = api.getResponseBody();
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210").perform();
 String body = api.getResponseBody();
-SHAFT.Validations.assertThat().object(body).contains("Beverly Hills").perform();
+SHAFT.Validations.assertThat().object(body).contains("Beverly Hills");
 ```
 
 ### Get Response Status Code
@@ -35,7 +35,7 @@ int statusCode = api.getResponseStatusCode();
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210").perform();
 int statusCode = api.getResponseStatusCode();
-SHAFT.Validations.assertThat().number(statusCode).isEqualTo(200).perform();
+SHAFT.Validations.assertThat().number(statusCode).isEqualTo(200);
 ```
 
 ### Get Response Time
@@ -49,8 +49,8 @@ long responseTime = api.getResponseTime();
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210").perform();
 long responseTime = api.getResponseTime();
-SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1).perform();
-SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000).perform();
+SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1);
+SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
 ```
 
 ### Get Response JSON Value
@@ -66,7 +66,7 @@ String value = api.getResponseJSONValue("jsonPath");
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/users").perform();
 String value = api.getResponseJSONValue("$[?(@.name=='Ervin Howell')].address.street");
-SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains").perform();
+SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ```
 
 ### Get Response JSON Value As List
@@ -80,7 +80,7 @@ SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/todos").perform();
 List<Object> completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
 for (Object completed : completedList) {
-    SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true").perform();
+    SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true");
 }
 ```
 
@@ -93,3 +93,10 @@ String value = api.getResponseXMLValue("xmlPath");
 ```java
 List<Object> value = api.getResponseXMLValueAsList("xmlPath");
 ```
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)

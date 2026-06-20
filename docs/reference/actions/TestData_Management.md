@@ -86,7 +86,7 @@ public class JSONTestDataExample {
             .and().element().type(By.id("email"), email)
             .and().element().type(By.id("password"), password)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat(By.className("welcome")).text().contains(welcomeText).perform();
+            .and().assertThat(By.className("welcome")).text().contains(welcomeText);
         
         driver.quit();
     }
@@ -101,7 +101,7 @@ public class JSONTestDataExample {
         driver.browser().navigateToURL("https://duckduckgo.com/")
             .and().element().type(By.name("q"), searchQuery)
             .and().element().click(By.cssSelector("button[type='submit']"))
-            .and().assertThat(By.id("links")).text().contains(expectedResults).perform();
+            .and().assertThat(By.id("links")).text().contains(expectedResults);
         
         driver.quit();
     }
@@ -193,7 +193,7 @@ public class CSVTestDataExample {
             .and().element().type(By.id("username"), username)
             .and().element().type(By.id("password"), password)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat(By.className("message")).text().isEqualTo(expectedMessage).perform();
+            .and().assertThat(By.className("message")).text().isEqualTo(expectedMessage);
         
         driver.quit();
     }
@@ -238,7 +238,7 @@ public class CSVDataDrivenTest {
             .and().element().type(By.id("username"), username)
             .and().element().type(By.id("password"), password)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat(By.className("message")).text().contains(expectedMessage).perform();
+            .and().assertThat(By.className("message")).text().contains(expectedMessage);
         
         driver.quit();
     }
@@ -311,7 +311,7 @@ public class ExcelTestDataExample {
             .and().element().type(By.id("username"), username)
             .and().element().type(By.id("password"), password)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat().browser().url().contains(expectedURL).perform();
+            .and().assertThat().browser().url().contains(expectedURL);
         
         driver.quit();
     }
@@ -325,7 +325,7 @@ public class ExcelTestDataExample {
         
         driver.browser().navigateToURL("https://example.com/products")
             .and().element().click(By.linkText(productName))
-            .and().assertThat(By.className("price")).text().contains(productPrice).perform();
+            .and().assertThat(By.className("price")).text().contains(productPrice);
         
         driver.quit();
     }
@@ -381,7 +381,7 @@ public class ExcelDataDrivenTest {
             .and().element().type(By.id("username"), username)
             .and().element().type(By.id("password"), password)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat().browser().url().contains(expectedURL).perform();
+            .and().assertThat().browser().url().contains(expectedURL);
         
         driver.quit();
     }
@@ -467,7 +467,7 @@ public class PropertiesTestDataExample {
             .and().element().type(By.id("email"), userEmail)
             .and().element().type(By.id("password"), userPassword)
             .and().element().click(By.id("loginButton"))
-            .and().assertThat(By.className("welcome")).exists().perform();
+            .and().assertThat(By.className("welcome")).exists();
         
         driver.quit();
     }
@@ -805,7 +805,7 @@ public class CrossBrowserTestWithData {
             .and().element().type(By.id("password"), testData.getTestData("user.password"))
             .and().element().click(By.id("loginButton"))
             .and().assertThat(By.className("welcome")).text()
-                .contains(testData.getTestData("user.welcomeMessage")).perform();
+                .contains(testData.getTestData("user.welcomeMessage"));
     }
 
     @BeforeMethod

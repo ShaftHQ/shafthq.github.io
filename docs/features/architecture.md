@@ -73,6 +73,27 @@ flowchart TB
 See the [upgrade guide](/docs/start/upgrade) for method-level
 dependency boundaries.
 
+```xml title="pom.xml"
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>io.github.shafthq</groupId>
+      <artifactId>shaft-bom</artifactId>
+      <version>${shaft.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<dependencies>
+  <dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>shaft-engine</artifactId>
+  </dependency>
+</dependencies>
+```
+
 ## Facade architecture
 
 ```mermaid
@@ -157,3 +178,10 @@ present.
 ---
 
 [Overview](/docs/start/overview) · [Quick start](/docs/start/quick-start)
+
+## Related
+
+- [Modules](/docs/features/modules)
+- [Reporting](/docs/features/reporting)
+- [Technology](/docs/features/technology)
+- [Browserstack](/docs/integrations/browserstack)

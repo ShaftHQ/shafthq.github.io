@@ -28,3 +28,18 @@ others.
 These names are community-reported rather than audited customer endorsements.
 No organization is represented as guaranteeing or officially endorsing SHAFT
 unless linked as a sponsor above.
+
+Use your own provider credentials through properties rather than hardcoding
+them in tests:
+
+```properties title="src/main/resources/properties/browserStack.properties"
+browserStack.userName=${BROWSERSTACK_USERNAME}
+browserStack.accessKey=${BROWSERSTACK_ACCESS_KEY}
+browserStack.browserstackAutomation=true
+```
+
+## Related
+
+- [BrowserStack integration](/docs/integrations/browserstack)
+- [Features and modules](/docs/features/modules)
+- [Configuration properties](/docs/reference/properties/PropertyTypes)

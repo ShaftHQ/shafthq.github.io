@@ -122,7 +122,7 @@ public class ExplicitWaitsTest {
         driver.element().waitUntilElementTextToBe(By.id("statusLabel"), "Complete");
         driver.element().waitUntilNumberOfElementsToBe(By.cssSelector(".result-item"), 3);
 
-        driver.assertThat(By.id("summary")).text().contains("3 items processed").perform();
+        driver.assertThat(By.id("summary")).text().contains("3 items processed");
     }
 
     @Test
@@ -196,3 +196,10 @@ Prefer `waitUntilNumberOfElementsToBeMoreThan(locator, 0)` over `waitUntilPresen
 :::warning
 Avoid combining excessive explicit waits with a high implicit timeout — this multiplies the worst-case wait time and slows down failure detection. Set the implicit timeout conservatively and rely on explicit waits for specific conditions.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

@@ -111,7 +111,7 @@ public class AsyncFormTest {
 
         // Continue with sequential actions
         driver.element().click(By.id("submitBtn"));
-        driver.assertThat(By.id("successMsg")).text().contains("Registration complete").perform();
+        driver.assertThat(By.id("successMsg")).text().contains("Registration complete");
     }
 
     @AfterMethod
@@ -126,3 +126,10 @@ public class AsyncFormTest {
 :::tip
 Pair async element actions with SHAFT's fluent assertion API after synchronization to keep your tests both fast and readable.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

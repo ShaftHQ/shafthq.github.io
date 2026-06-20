@@ -98,3 +98,9 @@ overrides.
 See [Connect shaft-mcp](/docs/agentic/mcp) for transport setup and MCP client
 approval guidance.
 
+## Related
+
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Element Identification](/docs/reference/actions/GUI/Element_Identification)
+- [Web](/docs/testing/web)

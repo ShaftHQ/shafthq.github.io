@@ -373,3 +373,9 @@ SHAFT.DB db = new SHAFT.DB(
 - Use different configurations for different environments (dev, test, prod)
 - Document required JDBC drivers and their versions
 - Keep JDBC drivers up to date for security and bug fixes
+
+## Related
+
+- [DB Actions](/docs/reference/actions/DB/DB_Actions)
+- [Oracle Jdbc Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup)
+- [Database](/docs/testing/database)

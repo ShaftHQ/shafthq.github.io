@@ -90,8 +90,7 @@ void verifyApplicationHealthInsideContainer() {
     SHAFT.Validations.assertThat()
         .object(processes)
         .contains("java")
-        .withCustomReportMessage("Java process must be running inside the backend container")
-        .perform();
+        .withCustomReportMessage("Java process must be running inside the backend container");
 }
 ```
 
@@ -106,8 +105,7 @@ String logs = docker.performTerminalCommand("tail -n 50 /var/log/app/application
 SHAFT.Validations.assertThat()
     .object(logs)
     .doesNotContain("ERROR")
-    .withCustomReportMessage("No ERROR entries should appear in the last 50 log lines")
-    .perform();
+    .withCustomReportMessage("No ERROR entries should appear in the last 50 log lines");
 ```
 
 ### Read a Generated File from the Container
@@ -169,8 +167,7 @@ void createUserViaDbAndVerifyThroughApi() {
     api.assertThatResponse()
         .extractedJsonValue("$[0].name")
         .isEqualTo("Test User")
-        .withCustomReportMessage("Newly created user should be retrievable via the API")
-        .perform();
+        .withCustomReportMessage("Newly created user should be retrievable via the API");
 }
 ```
 

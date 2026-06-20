@@ -114,3 +114,10 @@ Run visual tests in a consistent environment (same OS, browser version, screen r
 :::warning
 Avoid running visual tests in headless mode if your baselines were captured in headed mode — subtle rendering differences between the two modes will cause false failures.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

@@ -109,7 +109,7 @@ public class ARIALocatorTest {
             .type(searchBox, "SHAFT Engine")
             .click(searchButton);
 
-        driver.assertThat().browser().url().contains("search").perform();
+        driver.assertThat().browser().url().contains("search");
     }
 
     @AfterMethod
@@ -124,3 +124,10 @@ public class ARIALocatorTest {
 :::tip
 Pair ARIA locators with SHAFT's Smart Locators (`inputField` / `clickableField`) for the most readable and maintainable locator strategy. See [Smart Locators](Smart_Locators) for details.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

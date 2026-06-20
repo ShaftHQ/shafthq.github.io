@@ -101,3 +101,9 @@ com.SHAFT.proxySettings=proxy.corp.example.com:8080
 
 [property types]: <../Properties/PropertyTypes>
 [full list of supported properties]: <../Properties/PropertiesList>
+
+## Related
+
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Common Examples](/docs/reference/properties/CommonExamples)

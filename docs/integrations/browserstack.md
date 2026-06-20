@@ -103,3 +103,10 @@ configuration, or the selected secret store. Do not hardcode them in tests.
 
 For the SDK's runtime behavior, see
 [How BrowserStack SDK works](https://www.browserstack.com/docs/automate/selenium/how-sdk-works).
+
+## Related
+
+- [Modules](/docs/features/modules)
+- [Upgrade](/docs/start/upgrade)
+- [Visual](/docs/integrations/visual)
+- [Video](/docs/integrations/video)

@@ -246,3 +246,10 @@ output.
 See [SHAFT Capture](/docs/agentic/capture), [SHAFT Doctor](/docs/agentic/doctor),
 [optional AI providers](/docs/agentic/providers), and [SHAFT MCP](/docs/agentic/mcp) for the
 complete contracts.
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Doctor](/docs/agentic/doctor)
+- [Providers](/docs/agentic/providers)

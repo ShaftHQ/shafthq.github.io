@@ -99,3 +99,10 @@ Both styles require `shaft-visual`.
 Without `shaft-visual`, provider-dependent methods throw an
 `IllegalStateException` that names the missing Maven coordinate. Core screenshot
 and image-file operations continue to work.
+
+## Related
+
+- [Modules](/docs/features/modules)
+- [Upgrade](/docs/start/upgrade)
+- [Browserstack](/docs/integrations/browserstack)
+- [Video](/docs/integrations/video)

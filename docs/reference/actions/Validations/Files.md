@@ -14,8 +14,8 @@ You can perform assertions and verifications on files using the `FileValidations
 Checks that a file exists at the specified path.
 
 ```java title="FileExistsValidation.java"
-Validations.assertThat().file("src/test/resources", "testData.json").exists().perform();
-Validations.verifyThat().file("src/test/resources", "testData.json").exists().perform();
+Validations.assertThat().file("src/test/resources", "testData.json").exists();
+Validations.verifyThat().file("src/test/resources", "testData.json").exists();
 ```
 
 ## doesNotExist()
@@ -23,8 +23,8 @@ Validations.verifyThat().file("src/test/resources", "testData.json").exists().pe
 Checks that a file does not exist at the specified path.
 
 ```java title="FileDoesNotExistValidation.java"
-Validations.assertThat().file("src/test/resources", "deleted.json").doesNotExist().perform();
-Validations.verifyThat().file("src/test/resources", "deleted.json").doesNotExist().perform();
+Validations.assertThat().file("src/test/resources", "deleted.json").doesNotExist();
+Validations.verifyThat().file("src/test/resources", "deleted.json").doesNotExist();
 ```
 
 ## checksum()
@@ -34,8 +34,7 @@ Calculates and validates the file checksum to confirm whether it has the exact s
 ```java title="FileChecksumValidation.java"
 Validations.assertThat().file("src/test/resources", "testData.json")
     .checksum()
-    .isEqualTo("expectedChecksumValue")
-    .perform();
+    .isEqualTo("expectedChecksumValue");
 ```
 
 ## content()
@@ -45,8 +44,7 @@ Reads and validates the file content. Works for PDF and text files. Chain a comp
 ```java title="FileContentValidation.java"
 Validations.assertThat().file("src/test/resources", "report.txt")
     .content()
-    .contains("Test Passed")
-    .perform();
+    .contains("Test Passed");
 ```
 
 :::tip
@@ -54,7 +52,12 @@ You can add a custom report message to any file validation:
 ```java
 Validations.assertThat().file("src/test/resources", "config.json")
     .exists()
-    .withCustomReportMessage("Verify config file is present")
-    .perform();
+    .withCustomReportMessage("Verify config file is present");
 ```
 :::
+
+## Related
+
+- [Overview](/docs/reference/actions/Validations/Overview)
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

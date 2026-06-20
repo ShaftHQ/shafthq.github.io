@@ -114,7 +114,7 @@ public class ProgrammaticConfigTest {
     public void navigateAndVerify() {
         driver.browser().navigateToURL("/login");
         driver.element().type(By.id("email"), "test@example.com");
-        driver.assertThat(By.id("email")).attribute("value").isEqualTo("test@example.com").perform();
+        driver.assertThat(By.id("email")).attribute("value").isEqualTo("test@example.com");
     }
 
     @AfterMethod
@@ -148,3 +148,9 @@ Set all properties in `@BeforeMethod` (or `@BeforeClass` for class-scoped driver
 :::warning
 Avoid setting properties in parallel test methods without careful thread-isolation — use `@BeforeMethod` (which is per-thread in TestNG) to keep configuration thread-safe.
 :::
+
+## Related
+
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Common Examples](/docs/reference/properties/CommonExamples)

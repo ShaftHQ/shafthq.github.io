@@ -108,3 +108,9 @@ mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:444
 :::note
 Note that you can refer to [the official Maven Surefire guide](https://maven.apache.org/surefire/maven-surefire-plugin/examples/single-test.html) to learn how to run certain test classes or packages.
 :::
+
+## Related
+
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Common Examples](/docs/reference/properties/CommonExamples)
+- [Programmatic Config](/docs/reference/properties/Programmatic_Config)

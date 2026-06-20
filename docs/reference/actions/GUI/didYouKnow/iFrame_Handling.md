@@ -56,7 +56,7 @@ driver.element()
 driver.element().switchToDefaultContent();
 
 // Continue interacting with main page elements
-driver.assertThat(By.id("paymentStatus")).text().contains("Success").perform();
+driver.assertThat(By.id("paymentStatus")).text().contains("Success");
 ```
 
 ---
@@ -109,8 +109,7 @@ public class iFrameTest {
         driver.element().switchToDefaultContent();
 
         driver.assertThat(By.id("paymentStatus"))
-            .text().contains("Success")
-            .perform();
+            .text().contains("Success");
     }
 
     @AfterMethod
@@ -129,3 +128,10 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe. Fo
 :::note
 Nested iframes (an iframe within an iframe) require switching into each frame in order. Call `switchToIframe()` once for each level of nesting.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

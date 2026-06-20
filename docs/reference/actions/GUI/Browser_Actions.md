@@ -363,3 +363,9 @@ driver.browser()
 :::tip
 SHAFT provides automatic reporting for every browser action. Check the **Reporting** section in the sidebar for details on the rich reports generated for each action.
 :::
+
+## Related
+
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Element Identification](/docs/reference/actions/GUI/Element_Identification)
+- [Web](/docs/testing/web)

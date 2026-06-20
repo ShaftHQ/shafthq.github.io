@@ -105,7 +105,7 @@ public class NetworkMockingTest {
                 .setContent(Contents.utf8String("{\"users\": []}"))
         );
         driver.browser().navigateToURL("https://example.com/users");
-        driver.assertThat(By.id("emptyState")).text().contains("No users found").perform();
+        driver.assertThat(By.id("emptyState")).text().contains("No users found");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class NetworkMockingTest {
             new HttpResponse().setStatus(500)
         );
         driver.browser().navigateToURL("https://example.com/users");
-        driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong").perform();
+        driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong");
     }
 
     @AfterMethod
@@ -134,3 +134,10 @@ Register mocks **before** navigating to the page. The browser must have the inte
 :::note
 Mocks and intercepts registered via `mock()` and `intercept()` are scoped to the current browser session and are cleared when the driver is quit.
 :::
+
+## Related
+
+- [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web](/docs/testing/web)

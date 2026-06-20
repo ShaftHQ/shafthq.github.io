@@ -94,8 +94,7 @@ public class RegistrationTest {
     private void verifyRegistrationSuccess() {
         driver.assertThat(By.id("confirmation"))
             .text().contains("Registration successful")
-            .withCustomReportMessage("Confirming registration completed successfully")
-            .perform();
+            .withCustomReportMessage("Confirming registration completed successfully");
     }
 
     @AfterMethod
@@ -136,3 +135,10 @@ The `@Description` text appears in the test detail view, giving business stakeho
 :::info
 This approach gives you the best of both worlds: business-readable reports that map to user stories, and simple Java code that is easy to maintain, refactor, and debug.
 :::
+
+## Related
+
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Test Structure](/docs/reference/guides/Test_Structure)
+- [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
+- [Quick Start](/docs/start/quick-start)

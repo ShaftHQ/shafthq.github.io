@@ -38,23 +38,27 @@ SHAFT provides two ways to write validations:
 import com.shaft.validation.Validations;
 
 // Hard assertion — fails immediately if condition is not met
-Validations.assertThat().object(actualValue).isEqualTo(expectedValue).perform();
+Validations.assertThat().object(actualValue).isEqualTo(expectedValue);
 
 // Soft assertion — collects failures and reports at the end
-Validations.verifyThat().object(actualValue).isEqualTo(expectedValue).perform();
+Validations.verifyThat().object(actualValue).isEqualTo(expectedValue);
 ```
 
 ### Driver-Based Validations
 
 ```java title="DriverValidationExample.java"
 // Assert using the driver instance
-driver.assertThat().element(locator).text().isEqualTo("Expected Text").perform();
+driver.assertThat().element(locator).text().isEqualTo("Expected Text");
 
 // Verify using the driver instance
-driver.verifyThat().element(locator).exists().perform();
+driver.verifyThat().element(locator).exists();
 ```
 
 :::tip
-Always call `.perform()` at the end of your validation chain. Without it, the validation will **not** execute.
+Assertion and verification chains execute eagerly when the validation condition is selected, so examples do not need a terminal `.perform()` call.
 :::
 
+## Related
+
+- [Soft Vs Hard Assertions](/docs/reference/actions/Validations/Soft_vs_Hard_Assertions)
+- [Element Validations](/docs/reference/actions/GUI/Element_Validations)

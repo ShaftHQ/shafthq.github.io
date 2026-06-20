@@ -142,8 +142,7 @@ public class APIAuthTest {
 
         api.assertThatResponse()
            .extractedJsonValue("authenticated")
-           .isEqualTo("true")
-           .perform();
+           .isEqualTo("true");
     }
 
     @Test
@@ -166,3 +165,9 @@ Store authentication credentials in SHAFT property files or environment variable
 :::warning
 OAuth2 tokens expire. For CI/CD pipelines, implement a token-refresh step before your test suite runs or retrieve the token programmatically as part of test setup.
 :::
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API](/docs/testing/api)
