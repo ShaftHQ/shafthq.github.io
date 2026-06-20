@@ -2,12 +2,12 @@
 id: Docker_Terminal
 title: Docker Container Terminal
 sidebar_label: Docker Terminal
-description: "Execute commands inside running Docker containers using SHAFT Engine's TerminalActions with the Docker constructor."
+description: "Legacy Docker-wrapped terminal execution using SHAFT Engine's deprecated TerminalActions Docker constructor."
 keywords: [SHAFT, docker terminal, container commands, CLI, TerminalActions, docker exec, automation]
 tags: [cli, terminal, docker, containers]
 ---
 
-SHAFT's `TerminalActions` class supports **Docker container execution** out of the box. Using the Docker-specific constructor, you can run shell commands inside any running container and capture the output — no external tooling required.
+Docker-wrapped `TerminalActions` execution is deprecated for removal. Existing tests can still use the Docker-specific constructor while migrating, but new code should execute `docker` commands through `SHAFT.CLI.terminal()` or use the target environment directly.
 
 ---
 
@@ -28,6 +28,8 @@ import com.shaft.cli.TerminalActions;
 // Connect to a running container named "my-app-container" as root
 TerminalActions docker = new TerminalActions("my-container-name", "root");
 ```
+
+This constructor is deprecated; keep it only for existing compatibility tests.
 
 You can verify that the terminal is operating inside a Docker container:
 
@@ -188,4 +190,4 @@ void createUserViaDbAndVerifyThroughApi() {
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.
 - [SSH Remote Terminal](./SSH_Terminal.md) — Execute commands on remote servers via SSH.
-- [File Actions](./File_Actions.md) — Copy files between local and remote/container filesystems.
+- [File Actions](./File_Actions.md) — Manage local files and directories.
