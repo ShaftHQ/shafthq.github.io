@@ -204,9 +204,6 @@ targetBrowserName=chrome
 
 # Optional: Enable headless mode for faster execution
 headlessExecution=true
-
-# Optional: Set session timeout
-dockerCommandTimeout=300
 ```
 
   </TabItem>
@@ -380,13 +377,14 @@ Logs are displayed in the terminal where you started the Hub/Node.
 **Problem**: Tests timeout when creating a session.
 
 **Solutions**:
-- Increase session timeout values:
-  ```properties
-  dockerCommandTimeout=600
-  ```
-- Reduce `SE_NODE_MAX_SESSIONS` if nodes are overloaded
-- Add more nodes to increase capacity
-- Check node health status in Grid console
+- Increase Selenium Grid session timeout values in your Grid or node configuration.
+- Reduce `SE_NODE_MAX_SESSIONS` if nodes are overloaded.
+- Add more nodes to increase capacity.
+- Check node health status in Grid console.
+
+:::note
+`dockerCommandTimeout` is deprecated and only affects the legacy docker-wrapped terminal execution path. It does not tune Selenium Grid session creation.
+:::
 
 ### Browser Not Found
 
@@ -429,9 +427,8 @@ Logs are displayed in the terminal where you started the Hub/Node.
 
 2. **Monitor Resource Usage**: Keep an eye on CPU and memory usage, especially when running many parallel sessions.
 
-3. **Set Appropriate Timeouts**: Configure session and command timeouts based on your test duration:
+3. **Set Appropriate Timeouts**: Configure Grid session capacity in Selenium Grid and element waits in SHAFT based on your test duration:
    ```properties
-   dockerCommandTimeout=300
    webDriverElementTimeout=30
    ```
 
