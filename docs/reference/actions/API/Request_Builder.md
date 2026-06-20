@@ -187,12 +187,24 @@ parameters.put("password", "1234");
 api.post("serviceName").setParameters(parameters, RestActions.ParametersType.FORM).perform();
 ```
 #### Parameters Type QUERY
+Query parameters are appended to the request URL. They can also be combined with a request body when the endpoint expects URL filters and payload data in the same request.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
 Map<String, Object> parameters = new LinkedHashMap<>();
 parameters.put("search", "john");
 parameters.put("orderBy", "desc");
 api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY).perform();
+```
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map<String, Object> parameters = new LinkedHashMap<>();
+parameters.put("include", "profile");
+String body = "{\"status\":\"active\"}";
+
+api.post("serviceName")
+   .setRequestBody(body)
+   .setParameters(parameters, RestActions.ParametersType.QUERY)
+   .perform();
 ```
 #### Parameters Type MULTIPART
 Note that: Multipart parameters are used for file uploads and text fields.  
