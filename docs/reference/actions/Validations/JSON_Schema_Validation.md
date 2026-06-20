@@ -52,7 +52,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/users/1")
    .setTargetStatusCode(200)
-   .performRequest();
+   .perform();
 
 api.assertThatResponse()
    .matchesSchema("src/test/resources/schemas/user-schema.json");
@@ -85,7 +85,7 @@ public class JSONSchemaValidationTest {
 
         api.get("/users/1")
            .setTargetStatusCode(200)
-           .performRequest();
+           .perform();
 
         api.assertThatResponse()
            .matchesSchema("src/test/resources/schemas/user-schema.json");
@@ -97,7 +97,7 @@ public class JSONSchemaValidationTest {
 
         api.get("/users")
            .setTargetStatusCode(200)
-           .performRequest();
+           .perform();
 
         api.assertThatResponse()
            .matchesSchema("src/test/resources/schemas/user-list-schema.json");
@@ -109,7 +109,7 @@ public class JSONSchemaValidationTest {
 
         api.get("/users/1")
            .setTargetStatusCode(200)
-           .performRequest();
+           .perform();
 
         // Confirm the response does not expose admin-only fields
         api.assertThatResponse()
