@@ -4,21 +4,21 @@ title: Playwright Backend
 sidebar_label: Playwright Backend
 description: "Use SHAFT GUI actions and assertions through the Microsoft Playwright Java backend."
 keywords: [SHAFT, Playwright, GUI, browser actions, element actions, assertions, tracing]
-tags: [web, playwright, gui]
+tags: [web, Playwright, gui]
 ---
 
 SHAFT can run GUI tests through Microsoft Playwright while keeping the same
 high-level SHAFT browser, element, alert, and assertion entry points.
 
-```java title="PlayWrightTest.java"
+```java title="PlaywrightTest.java"
 import com.shaft.driver.SHAFT;
 
-public class PlayWrightTest {
-    private SHAFT.GUI.Driver driver;
+public class PlaywrightTest {
+    private com.shaft.gui.driver.Driver driver;
 
     @BeforeMethod
     public void openBrowser() {
-        driver = new SHAFT.GUI.PlayWright();
+        driver = new SHAFT.GUI.Playwright();
     }
 
     @Test
@@ -35,8 +35,8 @@ public class PlayWrightTest {
 ```
 
 Use `SHAFT.GUI.WebDriver` for the Selenium/Appium backend and
-`SHAFT.GUI.PlayWright` for the Playwright backend. Both implement
-`SHAFT.GUI.Driver`, so test classes can choose the backend at setup time.
+`SHAFT.GUI.Playwright` for the Playwright backend. Both implement
+`com.shaft.gui.driver.Driver`, so test classes can choose the backend at setup time.
 
 ## Configuration
 
@@ -74,18 +74,18 @@ attaches the resulting Playwright trace zip to the SHAFT report.
 ## Native Access
 
 ```java title="NativePlaywright.java"
-SHAFT.GUI.PlayWright driver = new SHAFT.GUI.PlayWright();
+SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 
 com.microsoft.playwright.Page page = driver.getDriver();
 com.microsoft.playwright.BrowserContext context = driver.getNativeContext();
-com.microsoft.playwright.Playwright playwright = driver.getPlaywright();
+com.microsoft.playwright.Playwright Playwright = driver.getPlaywright();
 ```
 
 Element actions accept SHAFT locators and concrete Playwright actions also
 accept native `com.microsoft.playwright.Locator` objects.
 
 ```java title="NativeLocator.java"
-SHAFT.GUI.PlayWright driver = new SHAFT.GUI.PlayWright();
+SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 
 var saveButton = driver.getDriver().getByRole(
         com.microsoft.playwright.options.AriaRole.BUTTON,
@@ -117,7 +117,7 @@ Legend:
 
 | WebDriver entry point | Playwright mapping |
 | --- | --- |
-| `new SHAFT.GUI.WebDriver()` | `new SHAFT.GUI.PlayWright()` |
+| `new SHAFT.GUI.WebDriver()` | `new SHAFT.GUI.Playwright()` |
 | `quit()` | Supported; closes page, context, browser, Playwright runtime, and trace |
 | `browser()` | Supported: `com.shaft.gui.playwright.browser.BrowserActions` |
 | `element()` | Supported: `com.shaft.gui.playwright.element.ElementActions` |
