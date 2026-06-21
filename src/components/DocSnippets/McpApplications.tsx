@@ -63,15 +63,22 @@ export function McpApplications(): JSX.Element {
   return (
     <div className={styles.root} data-detected-os={operatingSystem}>
       <p className={styles.requirements}>
-        Requires the selected application and network access.
-        The command bootstraps Python and Java only when missing, then downloads shaft-mcp directly from Maven Central.
+        Use this only after reviewing your security policy. Run from an authenticated shell
+        and verify the command output before approving prompts or approvals.
+        A selected MCP client, network access, and compatible desktop platform are required.
+        The command bootstraps Python and Java only when missing, then installs shaft-mcp from this repository&apos;s release script flow.
       </p>
       <div className={styles.list} aria-label="shaft-mcp applications">
         {applications.map((application) => {
           const command = commandFor(application, operatingSystem);
           const copied = copiedId === application.id;
           return (
-            <article className={styles.row} data-application={application.id} key={application.id}>
+            <article
+              className={styles.row}
+              data-testid={`mcp-app-${application.id}`}
+              data-application={application.id}
+              key={application.id}
+            >
               <div className={styles.identity}>
                 <span className={styles.icon} aria-hidden="true">
                   <img className={styles.logo} src={application.logo} alt="" loading="lazy" decoding="async" />
@@ -81,12 +88,13 @@ export function McpApplications(): JSX.Element {
                   <small>{application.detail}</small>
                 </span>
               </div>
-              <code className={styles.command}>{command}</code>
+              <code className={styles.command} data-testid={`mcp-command-${application.id}`}>{command}</code>
               <button
                 className={styles.copyButton}
                 type="button"
                 onClick={() => void copyCommand(application)}
                 aria-label={`Copy ${application.name} install command`}
+                data-testid={`mcp-copy-${application.id}`}
               >
                 <FontAwesomeIcon icon={copied ? faCheck : faCopy} />
                 <span>{copied ? 'Copied' : 'Copy'}</span>

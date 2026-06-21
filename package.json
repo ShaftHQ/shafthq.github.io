@@ -20,6 +20,7 @@
     "test:docs": "node tests/docs-loader.test.js && node tests/enhanced-instruction.test.js && node tests/properties-catalog.test.js && node tests/docs-quality.test.js && node scripts/check-doc-duplicates.mjs",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "npm run test:shaft",
+    "test:playwright": "npx playwright test",
     "test:release-template": "node tests/release-blog-template.test.js",
     "test:shaft": "node scripts/run-shaft-tests.mjs",
     "verify-models": "node scripts/verify-models.js"

@@ -9,6 +9,8 @@
 .cache-loader
 TEST_REPORT.md
 test-screenshots/
+test-results/
+playwright-report/
 
 # Misc
 .DS_Store
