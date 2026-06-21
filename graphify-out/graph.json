@@ -5024,6 +5024,86 @@
       "norm_label": "\ud83d\udcac join the conversation"
     },
     {
+      "label": "2026-06-21-release-10.2.20260621.md",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621",
+      "community": 211,
+      "norm_label": "2026-06-21-release-10.2.20260621.md"
+    },
+    {
+      "label": "\u26a1 What Changed?",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_what_changed",
+      "community": 211,
+      "norm_label": "\u26a1 what changed?"
+    },
+    {
+      "label": "\ud83d\udccb Changelog",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_changelog",
+      "community": 211,
+      "norm_label": "\ud83d\udccb changelog"
+    },
+    {
+      "label": "SHAFT 10.2.20260621",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
+      "community": 211,
+      "norm_label": "shaft 10.2.20260621"
+    },
+    {
+      "label": "What's Changed",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_what_s_changed",
+      "community": 211,
+      "norm_label": "what's changed"
+    },
+    {
+      "label": "\ud83c\udfc6 Community Spotlight",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_community_spotlight",
+      "community": 211,
+      "norm_label": "\ud83c\udfc6 community spotlight"
+    },
+    {
+      "label": "\ud83d\ude80 Get Started in Seconds",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L115",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_get_started_in_seconds",
+      "community": 211,
+      "norm_label": "\ud83d\ude80 get started in seconds"
+    },
+    {
+      "label": "\ud83d\udcac Join the Conversation",
+      "file_type": "document",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L140",
+      "_origin": "ast",
+      "id": "blog_2026_06_21_release_10_2_20260621_join_the_conversation",
+      "community": 211,
+      "norm_label": "\ud83d\udcac join the conversation"
+    },
+    {
       "label": "capture.md",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
@@ -14767,7 +14847,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L203",
+      "source_location": "L208",
       "_origin": "ast",
       "id": "gui_playwright_backend_related",
       "community": 210,
@@ -28628,6 +28708,76 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_changelog"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_what_changed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_community_spotlight"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_get_started_in_seconds"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L140",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_join_the_conversation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-21-release-10.2.20260621.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
+      "target": "blog_2026_06_21_release_10_2_20260621_what_s_changed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/agentic/capture.md",
       "source_location": "L10",
       "weight": 1.0,
@@ -29141,9 +29291,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L236",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_healing_failed_selenium_or_playwright_tests",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_healing_failed_selenium_or_playwright_tests"
     },
     {
       "relation": "contains",
@@ -44617,5 +44767,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4c319bd61b0aa76d90b73b5fc2a6da70860f93ef"
+  "built_at_commit": "1fdc50c762bcc228ad92db5bb9a39775198b8be1"
 }

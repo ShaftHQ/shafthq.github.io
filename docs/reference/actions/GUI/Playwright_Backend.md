@@ -188,6 +188,11 @@ Legend:
 
 ### Assertions And Verifications
 
+Playwright-backed browser and element assertions use Playwright's native
+auto-waiting assertion engine where available, then report through SHAFT
+validations so checkpoints, validation screenshots, and WebDriver-style
+validation metadata are preserved.
+
 | WebDriver assertion surface | Playwright mapping |
 | --- | --- |
 | Driver `assertThat().browser()` / `verifyThat().browser()` | Supported through SHAFT validations |

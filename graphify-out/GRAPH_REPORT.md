@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io_graphify_tmp  (2026-06-21)
+# Graph Report - shafthq.github.io  (2026-06-21)
 
 ## Corpus Check
-- 205 files · ~231,251 words
+- 293 files · ~292,197 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2235 nodes · 2208 edges · 212 communities (180 shown, 32 thin omitted)
+- 2243 nodes · 2215 edges · 213 communities (181 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4c319bd6`
+- Built from commit: `1fdc50c7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -223,6 +223,7 @@
 - [[_COMMUNITY_staticimg (1)|static/img (1)]]
 - [[_COMMUNITY_Community 209|Community 209]]
 - [[_COMMUNITY_Community 210|Community 210]]
+- [[_COMMUNITY_Community 211|Community 211]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 36 edges
@@ -245,7 +246,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (212 total, 32 thin omitted)
+## Communities (213 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -951,18 +952,20 @@ Nodes (4): overrides, minimatch, node-forge, serialize-javascript
 Cohesion: 0.22
 Nodes (8): Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access, Related
 
+### Community 211 - "Community 211"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260621, ⚡ What Changed?, What's Changed
+
 ## Knowledge Gaps
-- **1464 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1459 more)
+- **1470 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1465 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `YAML Test Data` connect `docs/reference (6)` to `docs/reference (6)`?**
-  _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1464 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1470 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -972,4 +975,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**
+  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
+- **Should `docs/start (38)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
