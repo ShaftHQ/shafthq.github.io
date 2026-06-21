@@ -12,10 +12,12 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 # Connect shaft-mcp
 
 `shaft-mcp` is the Model Context Protocol server for SHAFT browser,
-mobile, Capture, Doctor, and healer automation. It is published to Maven Central as
-the thin `io.github.shafthq:shaft-mcp` JAR, built in the SHAFT reactor, and
-depends on the canonical `shaft-engine` module. It does not add any dependency
-to ordinary `shaft-engine` consumers.
+mobile, Capture, Doctor, and healer automation. Web GUI tools default to
+SHAFT WebDriver; choose the `playwright_*` tools when the project already uses
+`SHAFT.GUI.Playwright` or the user explicitly asks for Playwright code. It is
+published to Maven Central as the thin `io.github.shafthq:shaft-mcp` JAR, built
+in the SHAFT reactor, and depends on the canonical `shaft-engine` module. It
+does not add any dependency to ordinary `shaft-engine` consumers.
 
 ## Applications
 
@@ -77,9 +79,12 @@ test data, Extent reports, execution summaries, and performance reports.
 Explicit absolute path overrides remain absolute.
 
 The element action tools stay explicit and locator-based. Use `element_click`
-and `element_type` with a locator strategy and locator value. The older
-semantic click/type aliases are not exposed to MCP clients; for approved
-natural-language execution, use `natural_act`.
+and `element_type` with a locator strategy and locator value for default
+WebDriver sessions; use `playwright_element_click`,
+`playwright_element_type`, and the other `playwright_*` browser or element
+tools for SHAFT Playwright sessions. The older semantic click/type aliases are
+not exposed to MCP clients; for approved natural-language execution, use
+`natural_act`.
 
 ## Guide search for agents
 
@@ -118,11 +123,13 @@ Common catalog entries include:
 | `api-openapi-contract-suite` | Read the Swagger/OpenAPI contract, group operations by tag/resource, write reusable request builders and response validators under `src/main/java`, then write TestNG scenarios under `src/test/java`. | Focused API tests compile, run, and validate against the configured OpenAPI contract. |
 | `web-pom-fluent-test` | Inspect the page with browser DOM/screenshot tools, create or extend Page Object classes, and write fluent SHAFT actions and assertions. | The headless GUI test passes and page object methods are reusable. |
 | `web-locator-refactor` | Replace brittle locators with SHAFT smart locators, ARIA locators, `SHAFT.GUI.Locator`, or stable Selenium `By` locators. | Affected tests pass without `@FindBy`, PageFactory, or absolute XPath. |
-| `web-capture-to-pom` | Record with Capture, generate replay snippets, then move stable locators and actions into existing page objects. | Replay-derived code is integrated instead of pasted as a generic generated class. |
+| `web-capture-to-pom` | Record with Capture, generate WebDriver replay snippets, then move stable locators and actions into existing page objects. | Replay-derived code is integrated instead of pasted as a generic generated class. |
+| `web-playwright-pom-fluent-test` | Use `playwright_*` browser and element tools to inspect the page, then write fluent `SHAFT.GUI.Playwright` page objects and tests. | The Playwright test compiles and follows the existing project backend. |
+| `web-playwright-record-replay` | Record Playwright MCP actions, generate replay snippets, and move stable actions into Playwright page methods. | The replay code is reviewed, guarded, and inserted into Playwright classes. |
 | `mobile-native-appium` | Inspect contexts and accessibility trees, prefer accessibility ids/Appium locators, and create mobile page objects plus TestNG tests. | The native mobile test compiles; any unavailable device/cloud run is reported. |
 | `mobile-record-replay` | Record mobile actions through MCP, generate code blocks, and move them into mobile page methods. | The replay code is reviewed, guarded, and inserted into the right classes. |
 | `failure-doctor-analysis` | Analyze Allure results with Doctor and separate product defects, test defects, and infrastructure issues. | The first actionable failure and next validation step are reported. |
-| `failure-healer-loop` | Rerun a guarded failing Selenium test, analyze fresh evidence, and propose review-only fixes. | The failure is fixed by validation or reported as blocked/product behavior. |
+| `failure-healer-loop` | Rerun a guarded failing Selenium or Playwright test, analyze fresh evidence, and propose review-only fixes. | The failure is fixed by validation or reported as blocked/product behavior. |
 | `report-generate-and-summarize` | Generate the report and summarize SHAFT/Allure evidence. | The report path and high-signal pass/fail summary are returned. |
 | `ci-local-validation` | Load validation gotchas, run affected checks first, then escalate only when needed. | The agent reports exact commands, results, and remaining risk. |
 
@@ -156,14 +163,23 @@ The packaged server supports:
 - Streamable HTTP with `--spring.profiles.active=http`, at `/mcp`;
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
-- deterministic TestNG generation through `capture_generate`, with compile,
+- deterministic WebDriver TestNG generation through `capture_generate`,
+  `capture_generate_replay`, and `capture_code_blocks`, with compile,
   optional replay, and review-only AI enrichment phases;
-- deterministic diagnosis through `doctor_analyze_failed_allure`, restricted to explicit
-  input paths and allowed roots, with an optional separately identified
-  provider advisory when Pilot AI is explicitly enabled;
-- guarded Selenium test healing through `healer_run_failed_test`, which reruns
-  tokenized Maven validation commands, analyzes fresh Allure evidence through
-  Doctor, and returns review-only fixes plus an agent replay handoff;
+- deterministic Playwright TestNG generation through
+  `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
+  when the target repository uses `SHAFT.GUI.Playwright`;
+- explicit Playwright browser, element, screenshot, DOM, action recording,
+  playback, and copy-paste replay tools through the `playwright_*` tool family;
+- deterministic diagnosis through `doctor_analyze_failed_allure` for
+  WebDriver remediation and `playwright_doctor_analyze_failed_allure` for
+  Playwright remediation, restricted to explicit input paths and allowed roots,
+  with an optional separately identified provider advisory when Pilot AI is
+  explicitly enabled;
+- guarded test healing through `healer_run_failed_test` for Selenium/WebDriver
+  and `playwright_healer_run_failed_test` for SHAFT Playwright, which rerun
+  tokenized Maven validation commands, analyze fresh Allure evidence through
+  Doctor, and return review-only fixes plus an agent replay handoff;
 - explicit browser element actions through `element_click` and `element_type`,
   using locator strategy and locator value arguments;
 - official guide search through `shaft_guide_search`, so agents can retrieve
@@ -217,12 +233,17 @@ See [SHAFT Doctor](/docs/agentic/doctor) for evidence categories, allowlisted pa
 handling, deterministic rules, redaction, offline bundle analysis, optional
 provider advisories, and safe fallback behavior.
 
-## Healing failed Selenium tests
+## Healing failed Selenium or Playwright tests
 
 `healer_run_failed_test` is the Selenium/SHAFT counterpart to test-agent
 healer loops: it reruns the failing test, inspects the fresh SHAFT Allure
 evidence, asks Doctor for the latest diagnosis, and stops when the guarded run
 passes or when guardrails block more attempts.
+
+Use `playwright_healer_run_failed_test` for tests built around
+`SHAFT.GUI.Playwright`. It uses the same guardrails and evidence handling, but
+returns Playwright-oriented remediation snippets and directs the agent to the
+`playwright_*` replay and inspection tools.
 
 The tool accepts a repository root, a tokenized Maven command, an output
 directory, optional source-path allowlists, and explicit approvals for
@@ -232,9 +253,10 @@ default. Shell syntax, release/deploy goals, external Maven settings, and
 worktree-escape paths are rejected.
 
 When the healer returns a failed diagnosis, the calling MCP agent may use its
-own LLM and the existing SHAFT MCP browser, DOM, screenshot, element, and
-natural-action tools to replay the failed Selenium flow and inspect the current
-UI. This agent-side reasoning does not require a SHAFT provider API key.
+own LLM and the matching SHAFT MCP browser, DOM, screenshot, element, and
+replay tools to inspect the current UI. Use the existing WebDriver tool names
+for Selenium tests and the `playwright_*` names for Playwright tests. This
+agent-side reasoning does not require a SHAFT provider API key.
 
 The healer never edits source or publishes a change by itself. Locator, wait,
 test-data, assertion, and product-bug recommendations remain review-only until
