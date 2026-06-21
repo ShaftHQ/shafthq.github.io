@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io  (2026-06-21)
+# Graph Report - shafthq.github.io_graphify_tmp  (2026-06-21)
 
 ## Corpus Check
-- 292 files · ~288,094 words
+- 205 files · ~231,251 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a4c90d7c`
+- Built from commit: `4c319bd6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -505,7 +505,7 @@ Nodes (9): Add and enable the module, Deterministic decision policy, History and
 
 ### Community 66 - "docs/agentic (9)"
 Cohesion: 0.15
-Nodes (12): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium tests, Related (+4 more)
+Nodes (12): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium or Playwright tests, Related (+4 more)
 
 ### Community 67 - "docs/reference (9)"
 Cohesion: 0.22

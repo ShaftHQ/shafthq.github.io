@@ -184,6 +184,14 @@
     "description": "The target web browser for test execution."
   },
   {
+    "section": "Playwright",
+    "key": "playwright.deviceName",
+    "targetFile": "custom.properties",
+    "defaultValue": "",
+    "possibleValues": "Any Microsoft Playwright device descriptor name, Galaxy S26 Ultra, iPhone 17 Pro Max",
+    "description": "Playwright backend device descriptor applied to new browser contexts. Reads Playwright's descriptor registry and SHAFT-provided current-device aliases."
+  },
+  {
     "section": "Mobile",
     "key": "browserName",
     "targetFile": "custom.properties",
