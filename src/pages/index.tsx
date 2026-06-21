@@ -93,10 +93,12 @@ const heroEngines = [
 
 const stackPills = [
   'Selenium WebDriver',
+  'Playwright browser',
   'Appium native mobile',
   'REST Assured API',
+  'Database / CLI',
   'Selenium Grid',
-  'Allure reports',
+  'Allure + visual reports',
   'TestNG / JUnit 5',
   'Cucumber BDD',
   'MCP agents',
@@ -105,8 +107,8 @@ const stackPills = [
 const surfaceMap = [
   {
     label: 'Web GUI',
-    engine: 'Selenium WebDriver',
-    result: 'Synchronized W3C actions, smart locators, screenshots, and Allure evidence.',
+    engine: 'Selenium WebDriver / Playwright',
+    result: 'Synchronized browser actions, smart locators, screenshots, traces, and Allure evidence.',
     to: '/docs/testing/web',
   },
   {
@@ -162,13 +164,13 @@ function Hero(): JSX.Element {
     <header className={styles.hero}>
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
-          <span className={styles.eyebrow}>Native Selenium, Appium, REST Assured, Grid, Allure, and agents</span>
-          <h1>One Java engine for web, native mobile GUI, and API automation.</h1>
+          <span className={styles.eyebrow}>Native Selenium, Playwright, Appium, REST Assured, CLI, database, and reporting support</span>
+          <h1>One Java engine for web, mobile, API, database, and CLI automation.</h1>
           <p>
-            Keep direct Selenium WebDriver, Appium, and REST Assured control.
-            Use SHAFT when browser-only tools hit their boundary: synchronized
-            W3C actions, native mobile flows, API checks, Allure evidence,
-            Grid execution, BDD patterns, and AI-native troubleshooting.
+            Keep direct Selenium WebDriver, Microsoft Playwright, Appium, and REST Assured control.
+            Use SHAFT when single-surface tools hit their boundary: synchronized
+            browser actions, native mobile flows, API checks, database and CLI
+            coverage, Allure evidence, visual reports, BDD patterns, and AI-native troubleshooting.
           </p>
           <div className={styles.actions}>
             <Link className="button button--primary button--lg" to="/docs/start/installation">
@@ -423,8 +425,8 @@ function FinalCta(): JSX.Element {
 export default function Home(): JSX.Element {
   return (
     <Layout
-      title="Unified Web, Mobile, and API Test Automation"
-      description="SHAFT keeps native Selenium, Appium, and REST Assured access while adding synchronization, smart locators, reporting, Grid execution, BDD design, and agentic troubleshooting."
+      title="Unified Web, Mobile, API, Database, and CLI Test Automation"
+      description="SHAFT keeps native Selenium, Playwright, Appium, and REST Assured access while adding database and CLI coverage, synchronization, smart locators, reporting, Grid execution, BDD design, and agentic troubleshooting."
     >
       <Hero />
       <main>

@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-20)
+# Graph Report - shafthq.github.io  (2026-06-21)
 
 ## Corpus Check
-- 291 files · ~286,957 words
+- 292 files · ~288,094 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2225 nodes · 2199 edges · 211 communities (178 shown, 33 thin omitted)
+- 2235 nodes · 2208 edges · 212 communities (180 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2a3e8199`
+- Built from commit: `a4c90d7c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -222,6 +222,7 @@
 - [[_COMMUNITY_staticimg (1)|static/img (1)]]
 - [[_COMMUNITY_staticimg (1)|static/img (1)]]
 - [[_COMMUNITY_Community 209|Community 209]]
+- [[_COMMUNITY_Community 210|Community 210]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 36 edges
@@ -244,7 +245,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (211 total, 33 thin omitted)
+## Communities (212 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -926,6 +927,10 @@ Nodes (3): Execution logs, Related, Reporting and evidence
 Cohesion: 0.32
 Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
 
+### Community 199 - "docs/testing (2)"
+Cohesion: 0.50
+Nodes (3): Playwright backend, Related, Web testing
+
 ### Community 202 - "blog/authors.yml (1)"
 Cohesion: 0.31
 Nodes (6): buildPropertiesFile(), catalog, PropertyDefinition, propertyId(), sanitizeValue(), targetPath()
@@ -942,18 +947,22 @@ Nodes (3): allowedTargets, catalog, seen
 Cohesion: 0.50
 Nodes (4): overrides, minimatch, node-forge, serialize-javascript
 
+### Community 210 - "Community 210"
+Cohesion: 0.22
+Nodes (8): Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access, Related
+
 ## Knowledge Gaps
-- **1456 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1451 more)
+- **1464 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1459 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **33 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Best Practices for Test Data Management` connect `docs/reference (8)` to `docs/reference (6)`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `YAML Test Data` connect `docs/reference (6)` to `docs/reference (6)`?**
+  _High betweenness centrality (0.000) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1456 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1464 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
