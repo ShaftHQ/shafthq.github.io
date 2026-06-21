@@ -52,6 +52,7 @@ Common browser settings continue to use the existing web properties:
 Playwright-specific properties use the `playwright.` prefix:
 
 - `playwright.browserName`: optional override for the Playwright browser engine.
+- `playwright.deviceName`: optional Playwright device descriptor for the browser context.
 - `playwright.connectionMode`: `local`, `connect`, or `connectOverCDP`.
 - `playwright.endpoint`: WebSocket or CDP endpoint for remote Playwright sessions.
 - `playwright.channel`: optional Chromium channel.
@@ -66,6 +67,13 @@ Playwright-specific properties use the `playwright.` prefix:
 - `playwright.tracing.screenshots`
 - `playwright.tracing.snapshots`
 - `playwright.tracing.sources`
+
+`playwright.deviceName` accepts names from Microsoft Playwright's device
+descriptor registry. SHAFT reads that registry when creating the context and
+also provides current-device aliases for `Galaxy S26 Ultra` and
+`iPhone 17 Pro Max`. When `playwright.browserName` is empty, SHAFT uses the
+descriptor's default browser type; an explicit `playwright.browserName` still
+wins.
 
 Tracing is disabled by default. When SHAFT retry evidence capture is enabled,
 `playwright.tracing.onRetryOnly=true` enables tracing for the retry attempt and
