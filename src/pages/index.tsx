@@ -135,18 +135,18 @@ const sharedRails = [
 const comparisonRows = [
   {
     concern: 'Native Selenium',
-    critic: 'Direct control, but waits, reporting, screenshots, Grid config, mobile handoff, API setup, and triage become your framework to maintain.',
+    critic: 'Direct control, but synchronization, reporting, screenshots, Grid config, mobile handoff, API setup, and triage can remain in suite code.',
     shaft: 'Same WebDriver/Grid/Appium control, plus synchronized actions, REST Assured API flows, fluent validations, smart locators, and Allure evidence.',
   },
   {
-    concern: 'Playwright',
-    critic: 'Excellent for browser-only Node/TypeScript suites with traces, codegen, and web-first assertions.',
-    shaft: 'Better when the program is Java, W3C WebDriver/Grid, native mobile Appium, REST Assured APIs, database, CLI, BDD, and AI-assisted troubleshooting.',
+    concern: 'Microsoft Playwright',
+    critic: 'Great for browser-only Node/TypeScript suites with traces, codegen, and web-first assertions.',
+    shaft: 'A strong option when your suite needs to keep Java/WebDriver, native mobile Appium, REST Assured APIs, DB/CLI checks, BDD, and deterministic reporting together.',
   },
   {
     concern: 'Long-term suite design',
     critic: 'Single-surface tools age well until mobile, API setup, cloud devices, reports, and business-readable flows arrive.',
-    shaft: 'One fluent design and evidence model scales from a web smoke test to cross-surface TestNG, JUnit 5, and Cucumber suites.',
+    shaft: 'One fluent design and evidence model can scale from a web smoke test to cross-surface TestNG, JUnit 5, and Cucumber suites.',
   },
 ];
 
@@ -161,23 +161,23 @@ const workflowSteps = [
 
 function Hero(): JSX.Element {
   return (
-    <header className={styles.hero}>
+    <header className={styles.hero} data-testid="landing-hero">
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>Native Selenium, Playwright, Appium, REST Assured, CLI, database, and reporting support</span>
           <h1>One Java engine for web, mobile, API, database, and CLI automation.</h1>
           <p>
             Keep direct Selenium WebDriver, Microsoft Playwright, Appium, and REST Assured control.
-            Use SHAFT when single-surface tools hit their boundary: synchronized
-            browser actions, native mobile flows, API checks, database and CLI
-            coverage, Allure evidence, visual reports, BDD patterns, and AI-native troubleshooting.
+            If your stack is browser-only, a focused Playwright path can be best.
+            Add SHAFT when your program needs Java orchestration across web, native mobile,
+            API, database/CLI checks, and shared evidence.
           </p>
-          <div className={styles.actions}>
-            <Link className="button button--primary button--lg" to="/docs/start/installation">
+          <div className={styles.actions} data-testid="landing-hero-actions">
+            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/installation">
               Generate a runnable project
             </Link>
-            <Link className="button button--secondary button--lg" to="/docs/testing/web">
-              Read the minimal web test
+            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start">
+              Read quick start
             </Link>
           </div>
           <div className={styles.stackPills} aria-label="Native SHAFT integrations">
@@ -229,7 +229,7 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
 
 function ProofSection(): JSX.Element {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} data-testid="landing-proof" id="proof-section">
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>For skeptical automation engineers</span>
@@ -263,7 +263,7 @@ function ProofSection(): JSX.Element {
 
 function SurfaceSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.compactSection}`}>
+    <section className={`${styles.section} ${styles.compactSection}`} data-testid="landing-surfaces" id="surface-section">
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>Start narrow, keep the expansion path</span>
@@ -310,14 +310,15 @@ function SurfaceSection(): JSX.Element {
 
 function ComparisonSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.contrastSection}`}>
+    <section className={`${styles.section} ${styles.contrastSection}`} data-testid="landing-comparison" id="comparison-section">
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>The honest comparison</span>
-          <h2>Use Playwright for small browser-only suites. Use SHAFT when the test program has to scale.</h2>
+          <h2>Choose tools by scope: browser-only suites can stay in Playwright; SHAFT fits Java suites that must span multiple surfaces.</h2>
           <p>
-            The value is not another click API. The value is keeping native automation
-            power while standardizing synchronization, evidence, design, and recovery.
+            The value is keeping native automation power while standardizing synchronization,
+            evidence, design, and recovery when one team owns web, mobile, API, and
+            DB/CLI coverage together.
           </p>
         </div>
         <div className={styles.comparisonGrid}>
@@ -325,7 +326,7 @@ function ComparisonSection(): JSX.Element {
             <article className={styles.comparisonRow} key={row.concern}>
               <strong>{row.concern}</strong>
               <p><span>Critic view:</span> {row.critic}</p>
-              <p><span>SHAFT answer:</span> {row.shaft}</p>
+              <p><span>SHAFT fit when:</span> {row.shaft}</p>
             </article>
           ))}
         </div>
@@ -342,11 +343,11 @@ function ComparisonSection(): JSX.Element {
 
 function AgentSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.agentBand}`}>
+    <section className={`${styles.section} ${styles.agentBand}`} data-testid="landing-agent" id="connect-ai-agent">
       <div className={`container ${styles.agentSection}`}>
         <div className={styles.agentIntro}>
           <span className={styles.eyebrow}>AI-native after the fundamentals are solid</span>
-          <Heading as="h2" id="connect-ai-agent">Connect shaft-mcp to your application.</Heading>
+          <Heading as="h2">Connect shaft-mcp to your application.</Heading>
           <p>
             SHAFT MCP exposes browser, Capture, Doctor, and Heal operations while
             the client retains its own model credentials and approval policy.
@@ -358,8 +359,8 @@ function AgentSection(): JSX.Element {
             <Link to="/docs/agentic/heal">Recover with Heal</Link>
           </div>
         </div>
-        <details className={styles.agentDetails}>
-          <summary>Show install commands</summary>
+        <details className={styles.agentDetails} data-testid="landing-agent-commands">
+          <summary data-testid="landing-agent-commands-summary">Show install commands</summary>
           <McpApplications />
         </details>
       </div>
@@ -369,7 +370,7 @@ function AgentSection(): JSX.Element {
 
 function WorkflowSection(): JSX.Element {
   return (
-    <section className={styles.section}>
+    <section className={styles.section} data-testid="landing-workflow" id="workflow-section">
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>What happens when the app fights back</span>
@@ -403,17 +404,18 @@ function WorkflowSection(): JSX.Element {
 
 function FinalCta(): JSX.Element {
   return (
-    <section className={styles.finalCta}>
+    <section className={styles.finalCta} data-testid="landing-final" id="get-started">
       <div className="container">
         <h2>Start with native Selenium power. Keep the suite maintainable.</h2>
+        <p>Fastest path: install, generate a runnable project, run the quick start, then wire MCP only if you need AI-agent operations.</p>
         <div className={styles.actions}>
-          <Link className="button button--primary button--lg" to="/docs/start/installation">
+          <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/installation">
             Generate a runnable project
           </Link>
-          <Link className="button button--secondary button--lg" to="/docs/start/quick-start">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start">
             Read quick start
           </Link>
-          <Link className="button button--secondary button--lg" to="#connect-ai-agent">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-agent" to="#connect-ai-agent">
             Connect your AI agent
           </Link>
         </div>
@@ -429,7 +431,7 @@ export default function Home(): JSX.Element {
       description="SHAFT keeps native Selenium, Playwright, Appium, and REST Assured access while adding database and CLI coverage, synchronization, smart locators, reporting, Grid execution, BDD design, and agentic troubleshooting."
     >
       <Hero />
-      <main>
+      <main data-testid="landing-main">
         <ProofSection />
         <SurfaceSection />
         <ComparisonSection />

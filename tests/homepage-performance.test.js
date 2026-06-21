@@ -28,6 +28,18 @@ assert(
 );
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');
+assert(index.includes('data-testid="landing-hero"'), 'Homepage must expose a stable hero test hook.');
+assert(index.includes('data-testid="landing-comparison"'), 'Homepage must expose comparison-section test hooks.');
+assert(index.includes('data-testid="landing-agent"'), 'Homepage must expose an agent-section test hook.');
+assert(index.includes('data-testid="landing-final"'), 'Homepage must expose final CTA test hook.');
+assert(index.includes('data-testid="landing-main"'), 'Homepage must expose a main-content test hook.');
+assert(index.includes('landing-hero-quickstart-cta'), 'Landing hero should expose quick-start CTA hook.');
+assert(index.includes('id="proof-section"'), 'Landing proof section must expose a stable anchor.');
+assert(index.includes('id="surface-section"'), 'Landing surface section must expose a stable anchor.');
+assert(index.includes('id="comparison-section"'), 'Landing comparison section must expose a stable anchor.');
+assert(index.includes('id="workflow-section"'), 'Landing workflow section must expose a stable anchor.');
+assert(index.includes('id="get-started"'), 'Landing final CTA must expose a stable anchor.');
+assert(!index.includes('Use Playwright for browser-only suites.'), 'Homepage should not make unsupported blanket claims.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage must respect reduced motion.');
 assert(styles.includes('@media (max-width: 620px)'), 'Homepage must include a mobile layout.');
 assert(!styles.includes('overflow-x: auto'), 'Homepage must not create a horizontal workflow scroller.');
