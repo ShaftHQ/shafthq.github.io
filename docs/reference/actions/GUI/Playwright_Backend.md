@@ -14,7 +14,7 @@ high-level SHAFT browser, element, alert, and assertion entry points.
 import com.shaft.driver.SHAFT;
 
 public class PlaywrightTest {
-    private com.shaft.gui.driver.Driver driver;
+    private SHAFT.GUI.Driver driver;
 
     @BeforeMethod
     public void openBrowser() {
@@ -36,7 +36,7 @@ public class PlaywrightTest {
 
 Use `SHAFT.GUI.WebDriver` for the Selenium/Appium backend and
 `SHAFT.GUI.Playwright` for the Playwright backend. Both implement
-`com.shaft.gui.driver.Driver`, so test classes can choose the backend at setup time.
+`SHAFT.GUI.Driver`, so test classes can choose the backend at setup time.
 
 ## Configuration
 
@@ -78,7 +78,7 @@ SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 
 com.microsoft.playwright.Page page = driver.getDriver();
 com.microsoft.playwright.BrowserContext context = driver.getNativeContext();
-com.microsoft.playwright.Playwright Playwright = driver.getPlaywright();
+com.microsoft.playwright.Playwright playwright = driver.getPlaywright();
 ```
 
 Element actions accept SHAFT locators and concrete Playwright actions also

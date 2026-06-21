@@ -56,10 +56,10 @@ network mocking.
 
 Use `SHAFT.GUI.Playwright` when a test should run through Microsoft Playwright
 instead of Selenium/Appium WebDriver. Both backends implement
-`com.shaft.gui.driver.Driver`, so setup code can choose the backend per test class.
+`SHAFT.GUI.Driver`, so setup code can choose the backend per test class.
 
 ```java
-private com.shaft.gui.driver.Driver driver;
+private SHAFT.GUI.Driver driver;
 
 @BeforeMethod
 public void openBrowser() {
