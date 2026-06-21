@@ -158,6 +158,12 @@ the minimum expected Allure result count. The tool calls the same
 disabled; when the MCP server is explicitly started with an enabled provider,
 the same separate advisory and fallback rules apply.
 
+Use `doctor_analyze_failed_allure` and `doctor_suggest_fix` for default
+Selenium/WebDriver remediation snippets. Use
+`playwright_doctor_analyze_failed_allure` and `playwright_doctor_suggest_fix`
+when the failed test is written with `SHAFT.GUI.Playwright`; the evidence model
+is the same, but the returned code blocks use Playwright assertions and actions.
+
 ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
 `doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
 the client and is not ingested by SHAFT. Copilot is MCP interoperability, not a
@@ -170,10 +176,14 @@ generic Copilot API-key adapter. Download the credential-free
 an allowlisted Maven test command under guardrails, snapshots the populated
 Allure results that changed during each attempt, and sends the fresh failing
 evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
+Use `playwright_healer_run_failed_test` for `SHAFT.GUI.Playwright` tests; it
+uses the same execution guardrails and sends evidence through the Playwright
+Doctor tool surface.
 
 The healer gives the MCP agent an explicit replay handoff: the agent may use
 its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
-tools to inspect the failed flow, even when no SHAFT provider API key is
+tools to inspect WebDriver failures, or the `playwright_*` inspection and
+replay tools for Playwright failures, even when no SHAFT provider API key is
 configured. Configured SHAFT provider advisories remain optional and require
 the same Pilot consent as Doctor.
 

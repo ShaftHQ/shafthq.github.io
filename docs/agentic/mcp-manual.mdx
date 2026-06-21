@@ -75,8 +75,10 @@ the runtime root when their SHAFT property paths are relative. Explicit absolute
 path overrides stay absolute.
 
 Use the normal `element_click` and `element_type` tools with explicit locator
-strategy and locator value arguments. Semantic click/type aliases are not
-exposed to MCP clients; use `natural_act` when a workflow needs approved
+strategy and locator value arguments for default WebDriver sessions. Use the
+`playwright_*` browser, element, recording, playback, Doctor, and healer tools
+when the project uses `SHAFT.GUI.Playwright`. Semantic click/type aliases are
+not exposed to MCP clients; use `natural_act` when a workflow needs approved
 natural-language execution.
 
 If an older setup fails with `AccessDeniedException` under

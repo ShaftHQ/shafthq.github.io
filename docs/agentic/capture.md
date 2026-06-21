@@ -71,6 +71,13 @@ The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_generate`; `capture_codegen_features` returns the feature map. Status
 contains safe metadata and counts, never typed values.
 
+WebDriver code generation remains the default through `capture_generate`,
+`capture_generate_replay`, and `capture_code_blocks`. Use
+`playwright_capture_generate_replay` or `playwright_capture_code_blocks` only
+when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
+Playwright output. Those Playwright tools read the same Capture session format
+but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
 English while the user clicks, types, selects, uploads, or navigates. Its
@@ -82,13 +89,14 @@ and leaves the session in `COMPLETED` status for generation.
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call
-`capture_code_blocks`. The agent should show the generated result and ask
-whether the user wants the complete Java snippet or wants the agent to insert
-the code into the current repository. Snippet mode uses the returned Java
-full-class block, including imports, locator fields, setup, SHAFT actions, and
-teardown. Insertion mode should inspect the repository and move locators and
-actions into existing Page Object classes when that pattern already exists, or
-create the smallest matching page/test classes when it does not.
+`capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
+Playwright. The agent should show the generated result and ask whether the user
+wants the complete Java snippet or wants the agent to insert the code into the
+current repository. Snippet mode uses the returned Java full-class block,
+including imports, locator fields, setup, SHAFT actions, and teardown.
+Insertion mode should inspect the repository and move locators and actions
+into existing Page Object classes when that pattern already exists, or create
+the smallest matching page/test classes when it does not.
 
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
@@ -208,7 +216,9 @@ event IDs and remediation.
 Compilation is enabled by default. Add `--replay` to run the compiled TestNG
 class in an isolated process and require populated, passing Allure result
 files. Existing source, data, report, or preview files are never replaced
-unless `--overwrite` is supplied.
+unless `--overwrite` is supplied. MCP replay code follows the selected backend:
+WebDriver tools keep `SHAFT.GUI.WebDriver` and Playwright tools generate
+`SHAFT.GUI.Playwright`.
 
 AI enrichment is optional and uses two phases for native CLI users:
 

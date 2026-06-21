@@ -110,7 +110,7 @@ public class SiteRenderTest {
         navigate("/");
 
         shaft.assertThat().browser().title().contains("SHAFT");
-        visible(By.xpath("//h1[normalize-space()='One Java engine for web, native mobile GUI, and API automation.']"));
+        visible(By.xpath("//h1[normalize-space()='One Java engine for web, mobile, API, database, and CLI automation.']"));
         SHAFT.Validations.assertThat().object(attribute(link("Generate a runnable project"), "href"))
                 .contains("/docs/start/installation");
         SHAFT.Validations.assertThat().object(attribute(link("Read the minimal web test"), "href"))
@@ -259,7 +259,7 @@ public class SiteRenderTest {
         if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
             click(By.cssSelector("button[title*='Switch between dark and light mode']"));
         }
-        visible(By.xpath("//h1[normalize-space()='One Java engine for web, native mobile GUI, and API automation.']"));
+        visible(By.xpath("//h1[normalize-space()='One Java engine for web, mobile, API, database, and CLI automation.']"));
     }
 
     @Test
