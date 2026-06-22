@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-21)
+# Graph Report - shafthq.github.io  (2026-06-22)
 
 ## Corpus Check
-- 293 files · ~292,197 words
+- 209 files · ~233,234 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2243 nodes · 2215 edges · 213 communities (181 shown, 32 thin omitted)
+- 2258 nodes · 2229 edges · 213 communities (181 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1fdc50c7`
+- Built from commit: `3986f3eb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -228,10 +228,10 @@
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 36 edges
 2. `Upgrade to modular SHAFT` - 24 edges
-3. `scripts` - 20 edges
+3. `scripts` - 21 edges
 4. `String` - 17 edges
 5. `Request Builder` - 16 edges
-6. `Test` - 13 edges
+6. `Test` - 15 edges
 7. `Diagnose failures with Doctor` - 13 edges
 8. `Security Fix Summary` - 13 edges
 9. `SHAFT API Response Validations` - 13 edges
@@ -342,7 +342,7 @@ Nodes (8): App Management, Complete Example, Keyboard Actions, Related, Swipe Ac
 
 ### Community 23 - "package.json (20)"
 Cohesion: 0.10
-Nodes (20): scripts, build, clear, deploy, docusaurus, serve, start, swizzle (+12 more)
+Nodes (21): scripts, build, clear, deploy, docusaurus, serve, start, swizzle (+13 more)
 
 ### Community 24 - "docs/archive (19)"
 Cohesion: 0.11
@@ -373,8 +373,8 @@ Cohesion: 0.12
 Nodes (15): ✅ 1. GitHub Workflows (`.github/workflows/`), ✅ 2. Docusaurus Configuration (`docusaurus.config.js`), ✅ 3. AutoBot Component (`src/components/AutoBot/index.tsx`), ✅ 4. Environment File (`.env.example`), ✅ 5. Test Files, Conclusion, Configuration Chain, Configuration Summary (+7 more)
 
 ### Community 32 - "tests/chatbot-e2e.test.js (16)"
-Cohesion: 0.16
-Nodes (9): AfterMethod, BeforeMethod, By, DataProvider, SiteRenderTest, Object, String, Test (+1 more)
+Cohesion: 0.14
+Nodes (11): AfterMethod, BeforeMethod, By, DataProvider, SiteRenderTest, {expect, test}, Object, { defineConfig, devices } (+3 more)
 
 ### Community 33 - "tests/run-all-tests.js (15)"
 Cohesion: 0.23
@@ -466,7 +466,7 @@ Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disabl
 
 ### Community 56 - "src/pages (11)"
 Cohesion: 0.11
-Nodes (9): comparisonRows, decisionPoints, heroEngines, proofPoints, sharedRails, stackPills, surfaceMap, testSurfaces (+1 more)
+Nodes (10): comparisonRows, decisionPoints, heroEngines, onboardingSteps, proofPoints, sharedRails, stackPills, surfaceMap (+2 more)
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.17
@@ -493,8 +493,8 @@ Cohesion: 0.20
 Nodes (9): Chosen Flattening Mode, Execute Local Rewrite, Goal, Maintainer Cutover Procedure (Force Push), Pre-Cutover Inputs, Repository history rewrite, Retention / Removal Policy, Rollback Plan (+1 more)
 
 ### Community 63 - "package.json (10)"
-Cohesion: 0.20
-Nodes (9): browserslist, development, production, engines, node, license, name, private (+1 more)
+Cohesion: 0.14
+Nodes (13): browserslist, development, production, engines, node, license, name, overrides (+5 more)
 
 ### Community 64 - "src/components (10)"
 Cohesion: 0.22
@@ -589,8 +589,8 @@ Cohesion: 0.25
 Nodes (7): Aggregate coverage continuity, Common commands, Consumer usage, Dependency baseline fixtures, GitHub Actions reactor policy, Maven reactor layout, Modules
 
 ### Community 88 - "package.json (8)"
-Cohesion: 0.29
-Nodes (7): devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @types/react, @types/react-dom, typescript
+Cohesion: 0.25
+Nodes (8): devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @playwright/test, @types/react, @types/react-dom, typescript
 
 ### Community 89 - "docs/reference (8)"
 Cohesion: 0.22
@@ -858,7 +858,7 @@ Nodes (5): CLI-based, Code-based, File-based, Priority Hierarchy, Related
 
 ### Community 158 - "README.md (5)"
 Cohesion: 0.40
-Nodes (4): Content rules, Local development, SHAFT documentation site, Validate a change
+Nodes (4): Contribute, Local Development, SHAFT User Guide, Validate A Change
 
 ### Community 159 - "scripts/prune-search-index.mjs (5)"
 Cohesion: 0.40
@@ -945,8 +945,8 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ### Community 209 - "Community 209"
-Cohesion: 0.50
-Nodes (4): overrides, minimatch, node-forge, serialize-javascript
+Cohesion: 0.25
+Nodes (7): 1. Check Out The Code, 2. Install The Toolchain, 3. Run The Site Locally, 4. Make The Change, 5. Validate The Change, 6. Open The Pull Request, Contributing To The SHAFT User Guide
 
 ### Community 210 - "Community 210"
 Cohesion: 0.22
@@ -957,7 +957,7 @@ Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260621, ⚡ What Changed?, What's Changed
 
 ## Knowledge Gaps
-- **1470 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1465 more)
+- **1481 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1476 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -965,7 +965,7 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 _Questions this graph is uniquely positioned to answer:_
 
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1470 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1481 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
