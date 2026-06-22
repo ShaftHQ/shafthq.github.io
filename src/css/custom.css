@@ -17,6 +17,7 @@ html {
 
 /* You can override the default Infima variables here. */
 :root {
+  /* Use var(--site-*) for all new and updated UI styles. */
   --ifm-color-primary: #006ec0;
   --ifm-color-primary-dark: #0063ad;
   --ifm-color-primary-darker: #005da3;
@@ -26,7 +27,58 @@ html {
   --ifm-color-primary-lightest: #4b9bd6;
   --aa-primary-color-rgb: 0, 110, 192 !important;
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(var(--site-color-primary-rgb), 0.12);
+  --site-color-primary: #006ec0;
+  --site-color-primary-rgb: 0, 110, 192;
+  --site-color-on-dark-rgb: 255, 255, 255;
+  --site-color-deep: #102a31;
+  --site-color-deep-alt: #181f2a;
+  --site-color-deep-rgb: 16, 42, 49;
+  --site-color-deep-alt-rgb: 24, 31, 42;
+  --site-color-muted: #c8d6e7;
+  --site-color-muted-rgb: 200, 214, 231;
+  --site-color-on-dark: #ffffff;
+  --site-font-display: clamp(2.45rem, 5vw, 4.3rem);
+  --site-font-display-small: clamp(2.2rem, 9vw, 2.65rem);
+  --site-font-heading: clamp(2rem, 4vw, 3.4rem);
+  --site-font-body-large: clamp(1.04rem, 1.6vw, 1.22rem);
+  --site-font-body: 1.05rem;
+  --site-font-small: 0.82rem;
+  --site-font-label: 0.88rem;
+  --site-font-caption: 0.72rem;
+  --site-font-code: 0.84rem;
+  --site-font-code-small: 0.76rem;
+  --site-font-card-title-lg: 1.35rem;
+  --site-font-card-title: 1.25rem;
+  --site-font-card-title-md: 1.2rem;
+  --site-font-card-title-sm: 1.15rem;
+  --site-font-weight-regular: 500;
+  --site-font-weight-medium: 600;
+  --site-font-weight-bold: 700;
+  --landing-color-primary: var(--site-color-primary);
+  --landing-color-primary-rgb: var(--site-color-primary-rgb);
+  --landing-color-deep: var(--site-color-deep);
+  --landing-color-deep-alt: var(--site-color-deep-alt);
+  --landing-color-muted: var(--site-color-muted);
+  --landing-color-muted-rgb: var(--site-color-muted-rgb);
+  --landing-color-on-dark: var(--site-color-on-dark);
+  --landing-font-display: var(--site-font-display);
+  --landing-font-display-small: var(--site-font-display-small);
+  --landing-font-heading: var(--site-font-heading);
+  --landing-font-body-large: var(--site-font-body-large);
+  --landing-font-body: var(--site-font-body);
+  --landing-font-small: var(--site-font-small);
+  --landing-font-label: var(--site-font-label);
+  --landing-font-caption: var(--site-font-caption);
+  --landing-font-code: var(--site-font-code);
+  --landing-font-code-small: var(--site-font-code-small);
+  --landing-font-card-title-lg: var(--site-font-card-title-lg);
+  --landing-font-card-title: var(--site-font-card-title);
+  --landing-font-card-title-md: var(--site-font-card-title-md);
+  --landing-font-card-title-sm: var(--site-font-card-title-sm);
+  --landing-font-weight-regular: var(--site-font-weight-regular);
+  --landing-font-weight-medium: var(--site-font-weight-medium);
+  --landing-font-weight-bold: var(--site-font-weight-bold);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -41,7 +93,41 @@ body.dark {
   --ifm-color-primary-lighter: #7bcfff;
   --ifm-color-primary-lightest: #a9dfff;
   --aa-primary-color-rgb: 76, 194, 255 !important;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --docusaurus-highlighted-code-line-bg: rgba(var(--site-color-primary-rgb), 0.24);
+  --site-color-primary: #4cc2ff;
+  --site-color-primary-rgb: 76, 194, 255;
+  --site-color-on-dark-rgb: 245, 253, 255;
+  --site-color-deep: #07111f;
+  --site-color-deep-alt: #102a31;
+  --site-color-deep-rgb: 7, 17, 31;
+  --site-color-deep-alt-rgb: 16, 42, 49;
+  --site-color-muted: #dff5f4;
+  --site-color-muted-rgb: 223, 245, 244;
+  --site-color-on-dark: #f5fdff;
+  --landing-color-primary: var(--site-color-primary);
+  --landing-color-primary-rgb: var(--site-color-primary-rgb);
+  --landing-color-deep: var(--site-color-deep);
+  --landing-color-deep-alt: var(--site-color-deep-alt);
+  --landing-color-muted: var(--site-color-muted);
+  --landing-color-muted-rgb: var(--site-color-muted-rgb);
+  --landing-color-on-dark: var(--site-color-on-dark);
+  --landing-font-display: var(--site-font-display);
+  --landing-font-display-small: var(--site-font-display-small);
+  --landing-font-heading: var(--site-font-heading);
+  --landing-font-body-large: var(--site-font-body-large);
+  --landing-font-body: var(--site-font-body);
+  --landing-font-small: var(--site-font-small);
+  --landing-font-label: var(--site-font-label);
+  --landing-font-caption: var(--site-font-caption);
+  --landing-font-code: var(--site-font-code);
+  --landing-font-code-small: var(--site-font-code-small);
+  --landing-font-card-title-lg: var(--site-font-card-title-lg);
+  --landing-font-card-title: var(--site-font-card-title);
+  --landing-font-card-title-md: var(--site-font-card-title-md);
+  --landing-font-card-title-sm: var(--site-font-card-title-sm);
+  --landing-font-weight-regular: var(--site-font-weight-regular);
+  --landing-font-weight-medium: var(--site-font-weight-medium);
+  --landing-font-weight-bold: var(--site-font-weight-bold);
 }
 table {
   table-layout: fixed;
@@ -71,6 +157,7 @@ table th {
   background: var(--ifm-background-surface-color);
   color: var(--ifm-font-color-base);
   text-decoration: none;
+  font-size: var(--site-font-label);
 }
 
 .doc-card:hover {
@@ -80,9 +167,17 @@ table th {
 }
 
 .doc-card strong {
-  color: var(--ifm-color-primary);
-  font-size: 1.2rem;
+  color: var(--site-color-primary);
+  font-size: var(--site-font-card-title-md);
+  font-weight: var(--site-font-weight-bold);
 }
+
+.doc-card span {
+  color: var(--ifm-color-emphasis-800);
+  font-size: var(--site-font-label);
+}
+
+/* Keep code block rendering on its default Docusaurus theme for parity with docs pages. */
 
 @media (max-width: 680px) {
   .doc-card-grid {
@@ -130,7 +225,7 @@ table th {
   }
 
   &:hover {
-    color: #c96198;
+    color: var(--site-color-primary);
 
     &:before {
       animation: heart 2000ms infinite;
@@ -149,23 +244,94 @@ content: url(../../static/img/shaft_white.svg)
   min-width: 220px !important;
 }
 
+/* Keep search chrome aligned to the site token palette in both themes. */
+.dsla-search-wrapper,
+.dsla-search-field,
+.aa-InputWrapper,
+.aa-Input {
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+}
+
+.dsla-search-field::placeholder,
+.aa-Input::placeholder {
+  color: var(--ifm-color-emphasis-700);
+  opacity: 1;
+}
+
+input[aria-label='Search'],
+input[placeholder='Search...'],
+input[placeholder='Search'] {
+  color: var(--ifm-font-color-base);
+}
+
+input[aria-label='Search']::placeholder,
+input[placeholder='Search...']::placeholder,
+input[placeholder='Search']::placeholder {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.aa-ItemLink,
+.aa-ItemLink:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+[data-theme='dark'] .dsla-search-wrapper,
+[data-theme='dark'] .dsla-search-field,
+[data-theme='dark'] .aa-InputWrapper,
+[data-theme='dark'] .aa-Input {
+  --aa-text-color-rgb: var(--site-color-on-dark-rgb);
+  --aa-muted-color-rgb: var(--site-color-muted-rgb);
+  --aa-primary-color-rgb: var(--site-color-primary-rgb);
+  background: var(--ifm-background-surface-color);
+  color: var(--site-color-on-dark);
+}
+
+[data-theme='dark'] .dsla-search-field::placeholder,
+[data-theme='dark'] .aa-Input::placeholder {
+  color: var(--site-color-muted);
+}
+
+[data-theme='dark'] input[aria-label='Search'],
+[data-theme='dark'] input[placeholder='Search...'],
+[data-theme='dark'] input[placeholder='Search'] {
+  color: var(--site-color-on-dark);
+}
+
+[data-theme='dark'] input[aria-label='Search']::placeholder,
+[data-theme='dark'] input[placeholder='Search...']::placeholder,
+[data-theme='dark'] input[placeholder='Search']::placeholder {
+  color: var(--site-color-muted);
+}
+
 /* Improve search result title readability */
 .aa-ItemContentTitle {
-  font-weight: 600 !important;
-  font-size: 0.95rem !important;
+  font-weight: var(--site-font-weight-bold) !important;
+  font-size: var(--site-font-label) !important;
+  color: var(--ifm-font-color-base);
+}
+
+[data-theme='dark'] .aa-ItemContentTitle {
+  color: var(--site-color-on-dark);
 }
 
 /* Better description legibility */
 .aa-ItemContentDescription {
-  font-size: 0.85rem !important;
+  font-size: var(--site-font-small) !important;
   line-height: 1.45 !important;
   opacity: 0.85 !important;
+  color: var(--ifm-color-emphasis-700);
+}
+
+[data-theme='dark'] .aa-ItemContentDescription {
+  color: var(--site-color-muted);
 }
 
 /* Highlight matching text in search results */
 .aa-ItemContentTitle mark,
 .aa-ItemContentDescription mark {
-  background-color: rgba(46, 133, 85, 0.18) !important;
+  background-color: rgba(var(--site-color-primary-rgb), 0.18) !important;
   color: inherit !important;
   border-radius: 2px;
   padding: 0 2px;
@@ -173,7 +339,7 @@ content: url(../../static/img/shaft_white.svg)
 
 [data-theme='dark'] .aa-ItemContentTitle mark,
 [data-theme='dark'] .aa-ItemContentDescription mark {
-  background-color: rgba(37, 194, 160, 0.22) !important;
+  background-color: rgba(var(--site-color-primary-rgb), 0.22) !important;
 }
 
 /* Focus ring on the search input for accessibility */
@@ -182,8 +348,47 @@ content: url(../../static/img/shaft_white.svg)
   outline-offset: 1px;
 }
 
+.aa-Input:focus-visible {
+  outline: 2px solid var(--ifm-color-primary) !important;
+  outline-offset: 1px;
+}
+
 /* Subtle hover lift on result items */
 .aa-ItemLink:hover {
   background-color: var(--ifm-hover-overlay) !important;
+}
+
+.docusaurus-mermaid-container svg {
+  color: var(--ifm-font-color-base);
+  line-height: 1.45;
+}
+
+.docusaurus-mermaid-container .nodeLabel,
+.docusaurus-mermaid-container .edgeLabel,
+.docusaurus-mermaid-container .label {
+  color: var(--ifm-font-color-base);
+  fill: var(--ifm-font-color-base);
+  font-size: var(--site-font-small);
+}
+
+.docusaurus-mermaid-container .node rect,
+.docusaurus-mermaid-container .node circle,
+.docusaurus-mermaid-container .node ellipse,
+.docusaurus-mermaid-container .node path {
+  stroke: var(--site-color-primary);
+  fill: rgba(var(--site-color-primary-rgb), 0.09);
+}
+
+.docusaurus-mermaid-container .edgePath .path {
+  stroke: var(--site-color-primary);
+}
+
+.docusaurus-mermaid-container .flowchart-link {
+  stroke: var(--site-color-primary);
+}
+
+.docusaurus-mermaid-container .marker {
+  fill: var(--site-color-primary);
+  stroke: var(--site-color-primary);
 }
 

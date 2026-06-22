@@ -252,6 +252,27 @@ const config = {
         {name: 'description', content: 'SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured with zero boilerplate.'},
         {name: 'robots', content: 'index, follow'},
       ],
+      mermaid: {
+        theme: {
+          light: 'neutral',
+          dark: 'neutral',
+        },
+        options: {
+          themeVariables: {
+            primaryColor: '#006ec0',
+            primaryTextColor: '#102a31',
+            primaryBorderColor: '#006ec0',
+            secondaryColor: '#c8d6e7',
+            tertiaryColor: '#102a31',
+            lineColor: '#006ec0',
+            textColor: '#102a31',
+            edgeLabelBackground: '#ffffff',
+            nodeTextColor: '#102a31',
+            clusterBkg: '#c8d6e7',
+            clusterBorder: '#006ec0',
+          },
+        },
+      },
       styles: [
       '/css/custom.css',
       ],

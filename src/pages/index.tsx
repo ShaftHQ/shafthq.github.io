@@ -435,9 +435,9 @@ function FinalCta(): JSX.Element {
           <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start">
             Read quick start
           </Link>
-          <Link className="button button--secondary button--lg" data-testid="landing-cta-agent" to="#connect-ai-agent">
+          <a className="button button--secondary button--lg" data-testid="landing-cta-agent" href="#connect-ai-agent">
             Connect your AI agent
-          </Link>
+          </a>
         </div>
       </div>
     </section>

@@ -12,7 +12,7 @@
   background: linear-gradient(160deg, var(--ifm-color-primary-lighter), var(--ifm-color-primary-dark));
   border: 1px solid color-mix(in srgb, var(--ifm-color-primary-darkest) 45%, transparent);
   box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.18),
+    0 12px 30px rgba(var(--site-color-deep-rgb), 0.18),
     0 0 0 2px color-mix(in srgb, var(--ifm-color-primary-lightest) 24%, transparent) inset;
   display: flex;
   align-items: center;
@@ -26,7 +26,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 24%;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 4px 10px rgba(var(--site-color-deep-rgb), 0.25));
   transition: transform 0.2s ease;
 }
 
@@ -43,8 +43,8 @@
 }
 
 @keyframes botPulse {
-  0%, 100% { box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18), 0 0 0 2px color-mix(in srgb, var(--ifm-color-primary-lightest) 24%, transparent) inset; }
-  50% { box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24), 0 0 0 2px color-mix(in srgb, #ffffff 45%, transparent) inset; }
+  0%, 100% { box-shadow: 0 12px 30px rgba(var(--site-color-deep-rgb), 0.18), 0 0 0 2px color-mix(in srgb, var(--ifm-color-primary-lightest) 24%, transparent) inset; }
+  50% { box-shadow: 0 16px 36px rgba(var(--site-color-deep-rgb), 0.24), 0 0 0 2px color-mix(in srgb, var(--site-color-on-dark) 45%, transparent) inset; }
 }
 
 @keyframes botNod {

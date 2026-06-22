@@ -41,12 +41,12 @@
   min-width: 0;
   flex-direction: column;
   gap: 0.35rem;
-  font-weight: 700;
+  font-weight: var(--site-font-weight-bold);
 }
 
 .toolbar label > span,
 .valueField > span {
-  font-size: 0.85rem;
+  font-size: var(--site-font-small);
 }
 
 .toolbar input,
@@ -84,7 +84,7 @@
   padding: 0.7rem 0.85rem;
   border-radius: 8px;
   color: var(--ifm-color-emphasis-700);
-  font-size: 0.9rem;
+  font-size: var(--site-font-label);
 }
 
 .layout {
@@ -112,7 +112,7 @@
 .group h2,
 .outputHeader h2 {
   margin: 0;
-  font-size: 1.15rem;
+  font-size: var(--site-font-card-title-sm);
 }
 
 .group h2 {
@@ -158,7 +158,7 @@
 .propertyChoice small,
 .fileActions small {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.8rem;
+  font-size: var(--site-font-small);
 }
 
 .propertyRow p {
@@ -179,8 +179,8 @@
 
 .metadata dt {
   color: var(--ifm-color-emphasis-600);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: var(--site-font-caption);
+  font-weight: var(--site-font-weight-bold);
 }
 
 .metadata dd {
@@ -213,8 +213,8 @@
   align-items: center;
   gap: 0.35rem;
   color: var(--ifm-color-success-dark);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: var(--site-font-small);
+  font-weight: var(--site-font-weight-bold);
 }
 
 .empty {
@@ -249,8 +249,8 @@
   color: var(--ifm-color-white);
   cursor: pointer;
   font: inherit;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: var(--site-font-small);
+  font-weight: var(--site-font-weight-bold);
 }
 
 .fileActions button:hover,
@@ -284,3 +284,6 @@
     width: 100%;
   }
 }
+
+
+
