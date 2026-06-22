@@ -281,6 +281,9 @@ input[placeholder='Search']::placeholder {
 [data-theme='dark'] .dsla-search-field,
 [data-theme='dark'] .aa-InputWrapper,
 [data-theme='dark'] .aa-Input {
+  --aa-text-color-rgb: var(--site-color-on-dark-rgb);
+  --aa-muted-color-rgb: var(--site-color-muted-rgb);
+  --aa-primary-color-rgb: var(--site-color-primary-rgb);
   background: var(--ifm-background-surface-color);
   color: var(--site-color-on-dark);
 }

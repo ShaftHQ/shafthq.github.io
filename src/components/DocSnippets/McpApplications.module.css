@@ -5,7 +5,7 @@
 
 .requirements {
   margin: 0 0 1rem;
-  color: var(--site-color-muted);
+  color: var(--ifm-font-color-base);
   font-size: var(--site-font-body);
   font-weight: var(--site-font-weight-regular);
 }
@@ -55,7 +55,7 @@
 }
 
 .identity small {
-  color: var(--site-color-muted);
+  color: var(--ifm-font-color-base);
   font-size: var(--site-font-caption);
   font-weight: var(--site-font-weight-medium);
 }
