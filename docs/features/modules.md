@@ -110,7 +110,7 @@ All of SHAFT's smart features target the three pillars of successful test automa
 
 ### Test Orchestration
 
-| TestNG | JUnit5 | Cucumber |
+| TestNG | JUnit | Cucumber |
 | :---: |:---: |:---: |
 | :white_check_mark: |:white_check_mark: |:white_check_mark: |
 
@@ -122,3 +122,4 @@ All of SHAFT's smart features target the three pillars of successful test automa
 - [Upgrade and module selection](/docs/start/upgrade)
 - [Visual processing module](/docs/integrations/visual)
 - [Technology](/docs/features/technology)
+

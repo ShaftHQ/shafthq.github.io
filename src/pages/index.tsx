@@ -36,7 +36,7 @@ const testSurfaces = [
 const proofPoints = [
   {
     title: 'Native APIs stay available',
-    description: 'Use Selenium By, WebDriver, Appium locators, touch actions, SHAFT.API over REST Assured, TestNG, JUnit 5, and Cucumber when direct control matters.',
+    description: 'Use Selenium By, WebDriver, Appium locators, touch actions, SHAFT.API over REST Assured, TestNG, JUnit, and Cucumber when direct control matters.',
     label: 'Technology map',
     to: '/docs/features/technology',
   },
@@ -106,7 +106,7 @@ const stackPills = [
   'Database / CLI',
   'Selenium Grid',
   'Allure + visual reports',
-  'TestNG / JUnit 5',
+  'TestNG / JUnit',
   'Cucumber BDD',
   'MCP agents',
 ];
@@ -135,7 +135,7 @@ const surfaceMap = [
 const sharedRails = [
   'Selenium Grid remote execution',
   'Allure screenshots, logs, requests, and responses',
-  'Fluent design with TestNG, JUnit 5, and Cucumber BDD',
+  'Fluent design with TestNG, JUnit, and Cucumber BDD',
   'Doctor, Heal, and MCP tools for AI-assisted triage',
 ];
 
@@ -153,7 +153,7 @@ const comparisonRows = [
   {
     concern: 'Long-term suite design',
     critic: 'Single-surface tools age well until mobile, API setup, cloud devices, reports, and business-readable flows arrive.',
-    shaft: 'One fluent design and evidence model can scale from a web smoke test to cross-surface TestNG, JUnit 5, and Cucumber suites.',
+    shaft: 'One fluent design and evidence model can scale from a web smoke test to cross-surface TestNG, JUnit, and Cucumber suites.',
   },
 ];
 
@@ -450,3 +450,4 @@ export default function Home(): JSX.Element {
     </Layout>
   );
 }
+

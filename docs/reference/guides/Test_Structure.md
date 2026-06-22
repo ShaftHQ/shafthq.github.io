@@ -4,7 +4,7 @@ title: "Test Structure: Cases vs. Scenarios"
 sidebar_label: Test Structure
 description: "Understand the difference between isolated test cases and dependent test scenarios, and why you should avoid using priority to order tests."
 keywords: [SHAFT, test structure, test cases, test scenarios, test priority, dependsOnMethods, isolated tests, TestNG]
-tags: [best-practices, test-structure, testng, junit5]
+tags: [best-practices, test-structure, testng, junit]
 ---
 
 How you structure your tests has a major impact on reliability, maintainability, and debugging speed. This page covers the two main approaches — **isolated test cases** and **dependent test scenarios** — and explains why you should avoid using `priority` to control execution order.
@@ -159,3 +159,4 @@ The `priority` attribute is appropriate **only** for controlling the order of tr
 - [Solution Design](/docs/reference/guides/Solution_Design)
 - [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
 - [Quick Start](/docs/start/quick-start)
+

@@ -88,7 +88,7 @@ SHAFT wraps and enhances these industry-standard libraries:
 | **Selenium WebDriver** | Web browser automation |
 | **Appium** | Mobile app automation (Android and iOS) |
 | **REST Assured** | REST API testing |
-| **TestNG / JUnit 5** | Test execution and lifecycle management |
+| **TestNG / JUnit** | Test execution and lifecycle management |
 | **Allure** | Test reporting |
 
 ### Drivers / Protocols
@@ -135,3 +135,4 @@ This flexibility means SHAFT works with your team's existing architecture and co
 - [Test Structure](/docs/reference/guides/Test_Structure)
 - [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
 - [Quick Start](/docs/start/quick-start)
+

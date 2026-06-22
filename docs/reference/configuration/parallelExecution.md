@@ -2,9 +2,9 @@
 id: parallelExecution
 title: Parallel Execution Configuration
 sidebar_label: Parallel Execution
-description: "Run SHAFT tests in parallel using TestNG, JUnit 5, or Maven Surefire — thread-safe driver management with ThreadLocal and configuration examples."
-keywords: [SHAFT, parallel execution, TestNG parallel, JUnit 5 parallel, ThreadLocal driver, Maven Surefire, concurrent testing]
-tags: [parallel, configuration, testng, junit5, maven]
+description: "Run SHAFT tests in parallel using TestNG, JUnit, or Maven Surefire — thread-safe driver management with ThreadLocal and configuration examples."
+keywords: [SHAFT, parallel execution, TestNG parallel, JUnit parallel, ThreadLocal driver, Maven Surefire, concurrent testing]
+tags: [parallel, configuration, testng, junit, maven]
 ---
 
 SHAFT supports multiple types of parallel execution to help you run tests faster and more efficiently. This guide covers all the different parallel execution options available and how to configure them.
@@ -592,3 +592,4 @@ SHAFT provides powerful parallel execution capabilities:
 3. **ThreadLocal Pattern**: Safely manage WebDriver instances in multi-threaded environments
 
 By combining these features and following best practices, you can significantly reduce test execution time while maintaining test reliability and stability.
+
