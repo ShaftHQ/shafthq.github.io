@@ -91,6 +91,13 @@ const heroEngines = [
   },
 ];
 
+const onboardingSteps = [
+  'Generate a project from installation docs.',
+  'Run the quick start and validate one passing web flow.',
+  'Add native mobile, API, DB, and CLI checks using the same framework controls.',
+  'Enable MCP only after evidence review, then tighten prompts and approval policy.',
+];
+
 const stackPills = [
   'Selenium WebDriver',
   'Playwright browser',
@@ -209,12 +216,13 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().element().type(By.name("q"), "SHAFT Engine")
   .and().assertThat().title().contains("DuckDuckGo");`}</code>
           </pre>
-          <ul className={styles.heroChecklist}>
-            <li>Native Selenium, Appium, and REST Assured APIs</li>
-            <li>Automatic synchronization</li>
-            <li>Allure evidence by default</li>
-            <li>Grid, CLI, database, BDD, and agent paths stay open</li>
-          </ul>
+          <ol aria-label="SHAFT onboarding sequence" className={styles.heroChecklist}>
+            {onboardingSteps.map((step, index) => (
+              <li data-testid={`hero-onboarding-step-${index + 1}`} key={step}>
+                {step}
+              </li>
+            ))}
+          </ol>
           <img
             src="/img/shaft-automation-hero.png"
             alt="A central automation engine connected to browser, mobile, API, terminal, and reporting interfaces"

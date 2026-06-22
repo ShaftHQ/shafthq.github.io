@@ -63,10 +63,12 @@ export function McpApplications(): JSX.Element {
   return (
     <div className={styles.root} data-detected-os={operatingSystem}>
       <p className={styles.requirements}>
-        Use this only after reviewing your security policy. Run from an authenticated shell
-        and verify the command output before approving prompts or approvals.
+        Execute these commands only after your security team approves runtime-script execution
+        for your environment. Prefer manual configuration for production, high-security, or
+        air-gapped contexts. Verify command output before you grant any approval prompts.
         A selected MCP client, network access, and compatible desktop platform are required.
-        The command bootstraps Python and Java only when missing, then installs shaft-mcp from this repository&apos;s release script flow.
+        The command bootstraps Python and Java only when missing, then installs shaft-mcp from
+        this repository&apos;s release script flow.
       </p>
       <div className={styles.list} aria-label="shaft-mcp applications">
         {applications.map((application) => {
