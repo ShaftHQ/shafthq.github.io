@@ -59,7 +59,7 @@
   border-radius: 8px;
   background: var(--ifm-background-surface-color);
   box-shadow: 0 22px 55px rgba(var(--site-color-deep-rgb), 0.22);
-  color: var(--ifm-color-content);
+  color: var(--ifm-font-color-base);
 }
 
 .chatHeader {
@@ -230,7 +230,7 @@
 .assistantMessage .messageBubble {
   border: 1px solid var(--ifm-color-emphasis-200);
   background: var(--ifm-background-surface-color);
-  color: var(--ifm-color-content);
+  color: var(--ifm-font-color-base);
 }
 
 .messageBubble p {
@@ -536,24 +536,31 @@
 }
 
 [data-theme='dark'] .assistantMessage .messageBubble {
-  background: var(--ifm-color-emphasis-100);
-  border-color: var(--ifm-color-emphasis-500);
+  background: var(--site-color-deep-alt);
+  border-color: var(--site-color-muted);
+  color: var(--site-color-on-dark);
 }
 
 [data-theme='dark'] .inputField {
-  background: var(--ifm-color-emphasis-100);
-  border-color: var(--ifm-color-emphasis-400);
+  background: var(--ifm-background-surface-color);
+  border-color: var(--site-color-muted);
   color: var(--site-color-on-dark);
 }
 
 [data-theme='dark'] .chatFooter {
-  background: var(--ifm-color-emphasis-100);
+  background: var(--site-color-deep-alt);
+  color: var(--site-color-muted);
 }
 
 [data-theme='dark'] .userMessage .messageBubble,
 [data-theme='dark'] .sendButton,
 [data-theme='dark'] .messageAvatar {
   background: var(--ifm-color-primary-light);
+}
+
+[data-theme='dark'] .sendButton:focus-visible {
+  outline: 2px solid var(--site-color-muted);
+  outline-offset: 2px;
 }
 
 [data-theme='dark'] .sendButton:hover:not(:disabled) {

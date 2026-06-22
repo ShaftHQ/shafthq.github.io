@@ -72,6 +72,11 @@
   font-size: var(--site-font-body);
 }
 
+[data-theme='dark'] .icon {
+  background: var(--site-color-muted);
+  color: var(--site-color-deep-alt);
+}
+
 .logo {
   width: 1.45rem;
   height: 1.45rem;

@@ -148,15 +148,19 @@
   max-width: 100%;
   margin: 0;
   padding: 0.85rem;
-  border: 1px solid rgba(var(--site-color-on-dark-rgb), 0.12);
+  border: 1px solid var(--ifm-color-emphasis-200);
   border-radius: 8px;
   overflow: hidden;
-  background: var(--site-color-deep-alt);
-  color: var(--site-color-muted);
+  background: var(--ifm-code-background);
+  color: var(--ifm-font-color-base);
   font-size: var(--site-font-code);
   line-height: 1.5;
   overflow-wrap: anywhere;
   white-space: pre-wrap;
+}
+
+.heroProof pre code {
+  font-family: var(--ifm-font-family-monospace);
 }
 
 .heroChecklist {
@@ -212,7 +216,7 @@
 
 .sectionHeading p,
 .agentIntro p {
-  color: var(--site-color-muted);
+  color: var(--ifm-font-color-base);
   font-size: var(--site-font-body);
 }
 
