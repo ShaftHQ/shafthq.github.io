@@ -92,10 +92,22 @@ const heroEngines = [
 ];
 
 const onboardingSteps = [
-  'Generate a project from installation docs.',
-  'Run the quick start and validate one passing web flow.',
-  'Add native mobile, API, DB, and CLI checks using the same framework controls.',
-  'Enable MCP only after evidence review, then tighten prompts and approval policy.',
+  {
+    testId: 'hero-onboarding-step-1',
+    label: 'Generate a project from installation docs.',
+  },
+  {
+    testId: 'hero-onboarding-step-2',
+    label: 'Run the quick start and validate one passing web flow.',
+  },
+  {
+    testId: 'hero-onboarding-step-3',
+    label: 'Add native mobile, API, DB, and CLI checks using the same framework controls.',
+  },
+  {
+    testId: 'hero-onboarding-step-4',
+    label: 'Enable MCP only after evidence review, then tighten prompts and approval policy.',
+  },
 ];
 
 const stackPills = [
@@ -217,9 +229,9 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().assertThat().title().contains("DuckDuckGo");`}</code>
           </pre>
           <ol aria-label="SHAFT onboarding sequence" className={styles.heroChecklist}>
-            {onboardingSteps.map((step, index) => (
-              <li data-testid={`hero-onboarding-step-${index + 1}`} key={step}>
-                {step}
+            {onboardingSteps.map((step) => (
+              <li data-testid={step.testId} key={step.testId}>
+                {step.label}
               </li>
             ))}
           </ol>
