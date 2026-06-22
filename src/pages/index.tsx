@@ -91,6 +91,13 @@ const heroEngines = [
   },
 ];
 
+const onboardingSteps = [
+  'Generate a project from installation docs.',
+  'Run the quick start and validate one passing web flow.',
+  'Add native mobile, API, DB, and CLI checks using the same framework controls.',
+  'Enable MCP only after evidence review, then tighten prompts and approval policy.',
+];
+
 const stackPills = [
   'Selenium WebDriver',
   'Playwright browser',
@@ -210,10 +217,11 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().assertThat().title().contains("DuckDuckGo");`}</code>
           </pre>
           <ul className={styles.heroChecklist}>
-            <li>Native Selenium, Appium, and REST Assured APIs</li>
-            <li>Automatic synchronization</li>
-            <li>Allure evidence by default</li>
-            <li>Grid, CLI, database, BDD, and agent paths stay open</li>
+            {onboardingSteps.map((step, index) => (
+              <li data-testid={`hero-onboarding-step-${index + 1}`} key={step}>
+                {step}
+              </li>
+            ))}
           </ul>
           <img
             src="/img/shaft-automation-hero.png"
