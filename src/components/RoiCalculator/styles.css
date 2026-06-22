@@ -1,29 +1,25 @@
 code{
-    color: #006ec0;
-    background-color: aliceblue;
-}
-html[data-theme='dark'] code {
-    /*color: aliceblue;*/
-    /*background-color: #006ec0;*/
+    color: var(--site-color-primary);
+    background-color: rgba(var(--site-color-muted-rgb), 0.55);
 }
 input{
-    color: #006ec0;
-    background-color: aliceblue;
+    color: var(--site-color-primary);
+    background-color: rgba(var(--site-color-muted-rgb), 0.55);
     border: 0;
 }
 html[data-theme='dark'] input {
-    color: #006ec0;
-    background-color: aliceblue;
+    color: var(--site-color-primary);
+    background-color: rgba(var(--site-color-muted-rgb), 0.55);
     border: 0;
 }
 table#roi-data{
-    border: 2px solid aliceblue;
-    background-color: #004e89;
+    border: 2px solid rgba(var(--site-color-on-dark-rgb), 0.4);
+    background-color: var(--site-color-deep);
     resize: inherit;
 }
 html[data-theme='dark'] table#roi-data{
-    border: 2px solid aliceblue;
-    background-color: #004e89;
+    border: 2px solid rgba(var(--site-color-on-dark-rgb), 0.45);
+    background-color: var(--site-color-deep);
     resize: inherit;
 }
 #roi-results{
