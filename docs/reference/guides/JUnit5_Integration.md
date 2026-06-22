@@ -1,19 +1,19 @@
 ---
-id: JUnit5_Integration
-title: JUnit 5 Integration
-sidebar_label: JUnit 5 Integration
-description: "Run SHAFT Engine tests with JUnit 5 — set up test classes with @BeforeEach, @AfterEach, @Test, and @Order annotations alongside the SHAFT WebDriver."
-keywords: [SHAFT, JUnit 5, JUnit Jupiter, test setup, BeforeEach, AfterEach, TestMethodOrder, integration]
-tags: [getting-started, junit5, test-setup]
+id: JUnit_Integration
+title: JUnit Integration
+sidebar_label: JUnit Integration
+description: "Run SHAFT Engine tests with JUnit — set up test classes with @BeforeEach, @AfterEach, @Test, and @Order annotations alongside the SHAFT WebDriver."
+keywords: [SHAFT, JUnit, JUnit Jupiter, test setup, BeforeEach, AfterEach, TestMethodOrder, integration]
+tags: [getting-started, junit, test-setup]
 ---
 
-SHAFT Engine supports **JUnit 5 (Jupiter)** as a first-class test runner alongside TestNG. All SHAFT APIs, reporting, and properties configuration work identically regardless of which test framework you choose.
+SHAFT Engine supports **JUnit (Jupiter)** as a first-class test runner alongside TestNG. All SHAFT APIs, reporting, and properties configuration work identically regardless of which test framework you choose.
 
 ---
 
 ## Maven Dependency
 
-Add the JUnit 5 Jupiter engine to your `pom.xml`:
+Add the JUnit Jupiter engine to your `pom.xml`:
 
 ```xml title="pom.xml"
 <dependency>
@@ -25,7 +25,7 @@ Add the JUnit 5 Jupiter engine to your `pom.xml`:
 ```
 
 :::info
-SHAFT Engine's `pom.xml` may already include JUnit 5 transitively. Check your dependency tree with `mvn dependency:tree` before adding it manually.
+SHAFT Engine's `pom.xml` may already include JUnit transitively. Check your dependency tree with `mvn dependency:tree` before adding it manually.
 :::
 
 ---
@@ -68,13 +68,13 @@ TestNG XML cloning.
 
 ## Test Class Structure
 
-```java title="WebTestJUnit5.java"
+```java title="WebTestJUnit.java"
 import com.shaft.driver.SHAFT;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class WebTestJUnit5 {
+public class WebTestJUnit {
     private static SHAFT.GUI.WebDriver driver;
 
     @BeforeEach
@@ -107,9 +107,9 @@ public class WebTestJUnit5 {
 
 ---
 
-## JUnit 5 vs TestNG Comparison
+## JUnit vs TestNG Comparison
 
-| Feature | JUnit 5 | TestNG |
+| Feature | JUnit | TestNG |
 |---|---|---|
 | Setup annotation | `@BeforeEach` | `@BeforeMethod` |
 | Teardown annotation | `@AfterEach` | `@AfterMethod` |
@@ -124,13 +124,13 @@ public class WebTestJUnit5 {
 
 Use `@BeforeAll` / `@AfterAll` with a `static` driver for tests that share a single browser session:
 
-```java title="SharedDriverJUnit5.java"
+```java title="SharedDriverJUnit.java"
 import com.shaft.driver.SHAFT;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class SharedDriverJUnit5 {
+public class SharedDriverJUnit {
     private static SHAFT.GUI.WebDriver driver;
 
     @BeforeAll
@@ -179,3 +179,4 @@ ServiceLoader mechanism.
 - [Test Structure](/docs/reference/guides/Test_Structure)
 - [Ci Cd Integration](/docs/reference/guides/CI_CD_Integration)
 - [Quick Start](/docs/start/quick-start)
+

@@ -114,7 +114,7 @@ public void afterMethod(){
 }
 ```
 
-### JUnit 5
+### JUnit
 
 - Create a new Package ```testPackage``` under ```src/test/java```
 - Create a new Java class ```TestClass``` under your newly created `testPackage`.
@@ -354,3 +354,4 @@ troubleshooting.
 - [Installation](/docs/start/installation)
 - [Upgrade](/docs/start/upgrade)
 - [Modules](/docs/features/modules)
+

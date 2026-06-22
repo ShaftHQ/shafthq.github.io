@@ -33,9 +33,9 @@ SHAFT Engine covers **all five areas** with a unified API — `SHAFT.GUI.WebDriv
 
 - Does the tool use a language your team already knows?
 - Is it compatible with your build tools (Maven, Gradle)?
-- Does it integrate with your test runner (TestNG, JUnit 5)?
+- Does it integrate with your test runner (TestNG, JUnit)?
 
-SHAFT is built on **Java** and integrates natively with **Maven**, **TestNG**, and **JUnit 5**.
+SHAFT is built on **Java** and integrates natively with **Maven**, **TestNG**, and **JUnit**.
 
 ### 3. Reporting
 
@@ -126,3 +126,4 @@ driver.quit();
 - [Quick start](/docs/start/quick-start)
 - [Features and modules](/docs/features/modules)
 - [Solution design](/docs/reference/guides/Solution_Design)
+

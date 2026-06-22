@@ -18,7 +18,7 @@ heavy providers optional.
 | Web | [Selenium](https://www.selenium.dev/) |
 | Mobile | [Appium](https://appium.io/) |
 | API | [REST Assured](https://rest-assured.io/) |
-| Test runners | [TestNG](https://testng.org/), [JUnit 5](https://junit.org/junit5/), [Cucumber](https://cucumber.io/) |
+| Test runners | [TestNG](https://testng.org/), [JUnit](https://junit.org/junit/), [Cucumber](https://cucumber.io/) |
 | Evidence | [Allure Report](https://allurereport.org/) |
 | Optional visual providers | [OpenCV](https://opencv.org/), [Applitools](https://applitools.com/), Selenium Shutterbug |
 | Distribution | [Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine), [GitHub Container Registry](https://github.com/ShaftHQ/SHAFT_ENGINE/pkgs/container/shaft-engine-mcp) |
@@ -44,3 +44,4 @@ driver.quit();
 - [Architecture](/docs/features/architecture)
 - [Features and modules](/docs/features/modules)
 - [Quick start](/docs/start/quick-start)
+

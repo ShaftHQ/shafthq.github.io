@@ -47,7 +47,7 @@ supported active agent workflow and should not be loaded as repository policy.
 | Analyze pasted Java code           | Text      | Detects SHAFT anti-patterns with confidence scoring                               |
 | Fetch and analyze GitHub file URLs | JS + Text | Converts supported GitHub URLs to raw source with validation and timeout handling |
 | Prioritize fixes                   | Text      | Produces risk-based fix order and verification steps                              |
-| Generate SHAFT-compliant tests     | Text      | Produces TestNG/JUnit5 skeletons aligned to SHAFT lifecycle patterns              |
+| Generate SHAFT-compliant tests     | Text      | Produces TestNG/JUnit skeletons aligned to SHAFT lifecycle patterns              |
 | Improve issue-fix accuracy         | Text      | Distinguishes root cause vs symptoms and flags missing context                    |
 
 ## Notes
@@ -55,3 +55,4 @@ supported active agent workflow and should not be loaded as repository policy.
 - Best results come from including setup/teardown + test methods + relevant stack trace.
 - The helper script only supports public GitHub file URLs.
 - The skill emphasizes minimal safe changes and explicit validation guidance.
+
