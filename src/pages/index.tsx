@@ -216,13 +216,13 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().element().type(By.name("q"), "SHAFT Engine")
   .and().assertThat().title().contains("DuckDuckGo");`}</code>
           </pre>
-          <ul className={styles.heroChecklist}>
+          <ol aria-label="SHAFT onboarding sequence" className={styles.heroChecklist}>
             {onboardingSteps.map((step, index) => (
               <li data-testid={`hero-onboarding-step-${index + 1}`} key={step}>
                 {step}
               </li>
             ))}
-          </ul>
+          </ol>
           <img
             src="/img/shaft-automation-hero.png"
             alt="A central automation engine connected to browser, mobile, API, terminal, and reporting interfaces"

@@ -34,6 +34,9 @@ assert(index.includes('data-testid="landing-agent"'), 'Homepage must expose an a
 assert(index.includes('data-testid="landing-final"'), 'Homepage must expose final CTA test hook.');
 assert(index.includes('data-testid="landing-main"'), 'Homepage must expose a main-content test hook.');
 assert(index.includes('landing-hero-quickstart-cta'), 'Landing hero should expose quick-start CTA hook.');
+assert(index.includes('data-testid="landing-cta-install"'), 'Landing final CTA should expose install hook.');
+assert(index.includes('data-testid="landing-cta-quickstart"'), 'Landing final CTA should expose quick-start hook.');
+assert(index.includes('data-testid="landing-cta-agent"'), 'Landing final CTA should expose AI-agent hook.');
 assert(index.includes('hero-onboarding-step-1'), 'Landing hero should expose onboarding step 1 hook.');
 assert(index.includes('hero-onboarding-step-2'), 'Landing hero should expose onboarding step 2 hook.');
 assert(index.includes('hero-onboarding-step-3'), 'Landing hero should expose onboarding step 3 hook.');
