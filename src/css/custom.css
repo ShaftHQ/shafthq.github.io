@@ -24,13 +24,15 @@ html {
   --ifm-color-primary-light: #147bc7;
   --ifm-color-primary-lighter: #2585cc;
   --ifm-color-primary-lightest: #4b9bd6;
-  --aa-primary-color-rgb: 0, 110, 192;
+  --aa-primary-color-rgb: 0, 110, 192 !important;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme='dark'] {
+:root[data-theme='dark'],
+body[data-theme='dark'],
+body.dark {
   --ifm-color-primary: #4cc2ff;
   --ifm-color-primary-dark: #2db7ff;
   --ifm-color-primary-darker: #1db2ff;
@@ -38,7 +40,7 @@ html {
   --ifm-color-primary-light: #6bcaff;
   --ifm-color-primary-lighter: #7bcfff;
   --ifm-color-primary-lightest: #a9dfff;
-  --aa-primary-color-rgb: 76, 194, 255;
+  --aa-primary-color-rgb: 76, 194, 255 !important;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 table {
@@ -184,3 +186,4 @@ content: url(../../static/img/shaft_white.svg)
 .aa-ItemLink:hover {
   background-color: var(--ifm-hover-overlay) !important;
 }
+
