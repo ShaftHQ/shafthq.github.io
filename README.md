@@ -1,18 +1,30 @@
-# SHAFT documentation site
+# SHAFT User Guide
 
-Canonical product documentation for [SHAFT Engine](https://github.com/ShaftHQ/SHAFT_ENGINE),
-published at [shaftengine.netlify.app](https://shaftengine.netlify.app).
+This repository contains the canonical Docusaurus documentation site for
+[SHAFT Engine](https://github.com/ShaftHQ/SHAFT_ENGINE), published at
+[shaftengine.netlify.app](https://shaftengine.netlify.app).
 
-## Local development
+The engine source of truth is
+[ShaftHQ/SHAFT_ENGINE](https://github.com/ShaftHQ/SHAFT_ENGINE). This site owns
+the public guide, reference material, integration docs, and maintainer runbooks.
 
-Requirements: Node.js 20 and Yarn.
+## Local Development
+
+Requirements:
+
+- Node.js 20.
+- Yarn.
 
 ```bash
 yarn install
 yarn start
 ```
 
-## Validate a change
+The local Docusaurus server prints the browser URL after startup.
+
+## Validate A Change
+
+Run the full documentation contract before opening a pull request:
 
 ```bash
 yarn test
@@ -21,16 +33,15 @@ yarn build
 yarn test:playwright
 ```
 
-Broken Markdown links fail the build. Public SHAFT behavior changes should update
-this repository in the same delivery as the engine change.
+Broken Markdown links, duplicate content, retrieval tests, release template
+checks, search exclusions, and rendering checks are release requirements.
 
-## Content rules
+## Contribute
 
-- Keep one canonical page per concept.
-- Put reusable commands and dependency snippets in `src/components/DocSnippets`.
-- Put user documentation under `docs/`; retain historical records under the
-  unlisted `docs/archive/` tree.
-- Do not add unsupported adoption, performance, or compatibility claims.
-- Use source-verified examples and link evidence for public claims.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the checkout, local setup,
+validation, content, and pull request checklist.
+
+Public SHAFT behavior changes should update this repository in the same delivery
+as the engine change and link the engine pull request.
 
 Netlify builds with `yarn build` and publishes `build/`.
