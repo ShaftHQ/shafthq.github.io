@@ -1,7 +1,7 @@
 # Contributing To The SHAFT User Guide
 
 This repository contains the Docusaurus site published at
-[shaftengine.netlify.app](https://shaftengine.netlify.app). The engine source of
+[shaft-engine.automatest.org](https://shaft-engine.automatest.org). The engine source of
 truth is [ShaftHQ/SHAFT_ENGINE](https://github.com/ShaftHQ/SHAFT_ENGINE).
 
 ## 1. Check Out The Code

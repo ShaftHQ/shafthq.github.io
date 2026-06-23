@@ -144,7 +144,7 @@ Documentation and repository links:
   `https://github.com/ShaftHQ/shaft-mcp/blob/main/readme.md`
 - Deployment guide:
   `https://github.com/ShaftHQ/shaft-mcp/blob/main/SMITHERY_DEPLOYMENT.md`
-- SHAFT documentation: `https://shafthq.github.io/`
+- SHAFT documentation: `https://shaft-engine.automatest.org/`
 - Source issues: `https://github.com/ShaftHQ/shaft-mcp/issues`
 
 ## Secrets and variables

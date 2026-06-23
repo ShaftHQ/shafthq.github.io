@@ -2,7 +2,7 @@
 
 This repository contains the canonical Docusaurus documentation site for
 [SHAFT Engine](https://github.com/ShaftHQ/SHAFT_ENGINE), published at
-[shaftengine.netlify.app](https://shaftengine.netlify.app).
+[shaft-engine.automatest.org](https://shaft-engine.automatest.org).
 
 The engine source of truth is
 [ShaftHQ/SHAFT_ENGINE](https://github.com/ShaftHQ/SHAFT_ENGINE). This site owns
@@ -44,4 +44,6 @@ validation, content, and pull request checklist.
 Public SHAFT behavior changes should update this repository in the same delivery
 as the engine change and link the engine pull request.
 
-Netlify builds with `yarn build` and publishes `build/`.
+Cloudflare Pages builds with `yarn build`, publishes `build/`, and serves
+`/api/gemini-proxy` for AutoBot. GitHub Pages can publish the same static output
+as a fallback; Netlify can still host preview/static mirrors.

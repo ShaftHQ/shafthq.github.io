@@ -6,20 +6,22 @@ tags: [archive]
 
 # Deployment Checklist
 
-> **Note:** This checklist is from a previous deployment. The site is now deployed to Netlify at https://shaftengine.netlify.app/, and GitHub Pages (https://shafthq.github.io/) serves only as a redirect.
+> **Note:** This checklist is from a previous Netlify migration. The current
+> canonical deployment is described in
+> [Documentation site operations](/docs/maintainers/site-operations).
 
-## Current Deployment Status (Netlify Migration)
+## Historical Deployment Status (Netlify Migration)
 
 ### Migration Completed
-- [x] Site migrated to Netlify (https://shaftengine.netlify.app/)
+- [x] Site migrated to Netlify under the previous canonical hostname
 - [x] GitHub Pages configured to redirect to Netlify
 - [x] All URLs updated to point to Netlify
 - [x] Workflows updated to deploy redirect page to GitHub Pages
 - [x] Documentation updated to reflect new deployment
 
 ### Deployment Architecture
-- **Primary:** Netlify (https://shaftengine.netlify.app/)
-- **Redirect:** GitHub Pages (https://shafthq.github.io/ → Netlify)
+- **Historical primary:** Netlify
+- **Historical redirect:** GitHub Pages to Netlify
 - **CI/CD:** GitHub Actions for testing + redirect deployment, Netlify for production builds
 
 ---

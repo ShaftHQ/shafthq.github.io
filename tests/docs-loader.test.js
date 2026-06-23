@@ -3,6 +3,7 @@ import {
   loadDocumentation,
   retrieveDocumentation,
 } from '../netlify/functions/docs-loader.mjs';
+import {loadDocumentationFromIndex} from '../netlify/functions/docs-retrieval.mjs';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -56,6 +57,12 @@ assert(
       && chunk.content.includes('io.github.shafthq:shaft-mcp:LATEST'),
   ),
   'MCP retrieval must expand shared command components into searchable content.',
+);
+
+const staticIndexContext = loadDocumentationFromIndex(index, 'connect Codex to shaft-mcp');
+assert(
+  staticIndexContext.includes('Codex MCP documentation'),
+  'Static AutoBot index retrieval must preserve MCP setup content.',
 );
 
 const selected = retrieveDocumentation('SHAFT MCP Doctor Heal Web Mobile API');

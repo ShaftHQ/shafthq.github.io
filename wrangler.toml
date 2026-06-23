@@ -1,0 +1,4 @@
+name = "shaft-user-guide"
+pages_build_output_dir = "build"
+compatibility_date = "2026-06-23"
+compatibility_flags = ["nodejs_compat"]

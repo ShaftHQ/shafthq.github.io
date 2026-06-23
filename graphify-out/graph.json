@@ -104,14 +104,114 @@
       "norm_label": "{themes}"
     },
     {
+      "label": "siteAsset()",
+      "file_type": "code",
+      "source_file": "docusaurus.config.js",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "docusaurus_config_siteasset",
+      "community": 166,
+      "norm_label": "siteasset()"
+    },
+    {
       "label": "config",
       "file_type": "code",
       "source_file": "docusaurus.config.js",
-      "source_location": "L9",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "docusaurus_config_config",
       "community": 166,
       "norm_label": "config"
+    },
+    {
+      "label": "gemini-proxy.mjs",
+      "file_type": "code",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "api_gemini_proxy",
+      "community": 7,
+      "norm_label": "gemini-proxy.mjs"
+    },
+    {
+      "label": "loadIndex()",
+      "file_type": "code",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "api_gemini_proxy_loadindex",
+      "community": 7,
+      "norm_label": "loadindex()"
+    },
+    {
+      "label": "getDocumentationContext()",
+      "file_type": "code",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "api_gemini_proxy_getdocumentationcontext",
+      "community": 7,
+      "norm_label": "getdocumentationcontext()"
+    },
+    {
+      "label": "onRequest()",
+      "file_type": "code",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "api_gemini_proxy_onrequest",
+      "community": 7,
+      "norm_label": "onrequest()"
+    },
+    {
+      "label": "autobot-core.mjs",
+      "file_type": "code",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "functions_autobot_core",
+      "community": 7,
+      "norm_label": "autobot-core.mjs"
+    },
+    {
+      "label": "modelsToTry",
+      "file_type": "code",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "functions_autobot_core_modelstotry",
+      "community": 7,
+      "norm_label": "modelstotry"
+    },
+    {
+      "label": "jsonResponse()",
+      "file_type": "code",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "functions_autobot_core_jsonresponse",
+      "community": 7,
+      "norm_label": "jsonresponse()"
+    },
+    {
+      "label": "messageForModelFailure()",
+      "file_type": "code",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "functions_autobot_core_messageformodelfailure",
+      "community": 7,
+      "norm_label": "messageformodelfailure()"
+    },
+    {
+      "label": "createAutobotResponse()",
+      "file_type": "code",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "functions_autobot_core_createautobotresponse",
+      "community": 7,
+      "norm_label": "createautobotresponse()"
     },
     {
       "label": "constants.mjs",
@@ -137,7 +237,7 @@
       "label": "currentDir",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L11",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "functions_docs_loader_currentdir",
       "community": 7,
@@ -147,7 +247,7 @@
       "label": "snippets",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L12",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "functions_docs_loader_snippets",
       "community": 7,
@@ -157,7 +257,7 @@
       "label": "MCP_COMMAND_SYSTEMS",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L15",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "functions_docs_loader_mcp_command_systems",
       "community": 7,
@@ -167,27 +267,17 @@
       "label": "EXCLUDED_DIRECTORIES",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L18",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "functions_docs_loader_excluded_directories",
       "community": 7,
       "norm_label": "excluded_directories"
     },
     {
-      "label": "STOP_WORDS",
-      "file_type": "code",
-      "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "functions_docs_loader_stop_words",
-      "community": 7,
-      "norm_label": "stop_words"
-    },
-    {
       "label": "readDocumentationFiles()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L27",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "functions_docs_loader_readdocumentationfiles",
       "community": 7,
@@ -197,27 +287,17 @@
       "label": "normalizeMarkdown()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L51",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "functions_docs_loader_normalizemarkdown",
       "community": 7,
       "norm_label": "normalizemarkdown()"
     },
     {
-      "label": "tokenize()",
-      "file_type": "code",
-      "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L75",
-      "_origin": "ast",
-      "id": "functions_docs_loader_tokenize",
-      "community": 7,
-      "norm_label": "tokenize()"
-    },
-    {
       "label": "splitIntoChunks()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L87",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "functions_docs_loader_splitintochunks",
       "community": 7,
@@ -227,27 +307,17 @@
       "label": "buildDocumentationIndex()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L119",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "functions_docs_loader_builddocumentationindex",
       "community": 7,
       "norm_label": "builddocumentationindex()"
     },
     {
-      "label": "scoreChunk()",
-      "file_type": "code",
-      "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L131",
-      "_origin": "ast",
-      "id": "functions_docs_loader_scorechunk",
-      "community": 7,
-      "norm_label": "scorechunk()"
-    },
-    {
       "label": "retrieveDocumentation()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L151",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "functions_docs_loader_retrievedocumentation",
       "community": 7,
@@ -257,21 +327,71 @@
       "label": "loadDocumentation()",
       "file_type": "code",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L175",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "functions_docs_loader_loaddocumentation",
       "community": 7,
       "norm_label": "loaddocumentation()"
     },
     {
-      "label": "getGitHubRepositoryContext()",
+      "label": "docs-retrieval.mjs",
       "file_type": "code",
-      "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L186",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L1",
       "_origin": "ast",
-      "id": "functions_docs_loader_getgithubrepositorycontext",
+      "id": "functions_docs_retrieval",
       "community": 7,
-      "norm_label": "getgithubrepositorycontext()"
+      "norm_label": "docs-retrieval.mjs"
+    },
+    {
+      "label": "STOP_WORDS",
+      "file_type": "code",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "functions_docs_retrieval_stop_words",
+      "community": 7,
+      "norm_label": "stop_words"
+    },
+    {
+      "label": "tokenize()",
+      "file_type": "code",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "functions_docs_retrieval_tokenize",
+      "community": 7,
+      "norm_label": "tokenize()"
+    },
+    {
+      "label": "scoreChunk()",
+      "file_type": "code",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "functions_docs_retrieval_scorechunk",
+      "community": 7,
+      "norm_label": "scorechunk()"
+    },
+    {
+      "label": "retrieveFromIndex()",
+      "file_type": "code",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "functions_docs_retrieval_retrievefromindex",
+      "community": 7,
+      "norm_label": "retrievefromindex()"
+    },
+    {
+      "label": "loadDocumentationFromIndex()",
+      "file_type": "code",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "functions_docs_retrieval_loaddocumentationfromindex",
+      "community": 7,
+      "norm_label": "loaddocumentationfromindex()"
     },
     {
       "label": "gemini-proxy.mjs",
@@ -292,6 +412,26 @@
       "id": "functions_gemini_proxy_getdocumentationcontext",
       "community": 7,
       "norm_label": "getdocumentationcontext()"
+    },
+    {
+      "label": "github-context.mjs",
+      "file_type": "code",
+      "source_file": "netlify/functions/github-context.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "functions_github_context",
+      "community": 7,
+      "norm_label": "github-context.mjs"
+    },
+    {
+      "label": "getGitHubRepositoryContext()",
+      "file_type": "code",
+      "source_file": "netlify/functions/github-context.mjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "functions_github_context_getgithubrepositorycontext",
+      "community": 7,
+      "norm_label": "getgithubrepositorycontext()"
     },
     {
       "label": "package.json",
@@ -954,6 +1094,46 @@
       "norm_label": "{ defineconfig, devices }"
     },
     {
+      "label": "build-autobot-index.mjs",
+      "file_type": "code",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "scripts_build_autobot_index",
+      "community": 7,
+      "norm_label": "build-autobot-index.mjs"
+    },
+    {
+      "label": "root",
+      "file_type": "code",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "scripts_build_autobot_index_root",
+      "community": 7,
+      "norm_label": "root"
+    },
+    {
+      "label": "outputPath",
+      "file_type": "code",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "scripts_build_autobot_index_outputpath",
+      "community": 7,
+      "norm_label": "outputpath"
+    },
+    {
+      "label": "index",
+      "file_type": "code",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "scripts_build_autobot_index_index",
+      "community": 7,
+      "norm_label": "index"
+    },
+    {
       "label": "check-doc-duplicates.mjs",
       "file_type": "code",
       "source_file": "scripts/check-doc-duplicates.mjs",
@@ -1207,7 +1387,7 @@
       "label": "AutoBot()",
       "file_type": "code",
       "source_file": "src/components/AutoBot/index.tsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "autobot_index_autobot",
       "community": 96,
@@ -2394,6 +2574,16 @@
       "norm_label": "runtests()"
     },
     {
+      "label": "cloudflare-autobot.test.js",
+      "file_type": "code",
+      "source_file": "tests/cloudflare-autobot.test.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_cloudflare_autobot_test",
+      "community": 7,
+      "norm_label": "cloudflare-autobot.test.js"
+    },
+    {
       "label": "docs-loader.test.js",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
@@ -2407,7 +2597,7 @@
       "label": "assert()",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
-      "source_location": "L7",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "tests_docs_loader_test_assert",
       "community": 7,
@@ -2417,7 +2607,7 @@
       "label": "index",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "tests_docs_loader_test_index",
       "community": 7,
@@ -2427,7 +2617,7 @@
       "label": "cases",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "tests_docs_loader_test_cases",
       "community": 7,
@@ -2437,17 +2627,27 @@
       "label": "mcpSelection",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
-      "source_location": "L50",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "tests_docs_loader_test_mcpselection",
       "community": 7,
       "norm_label": "mcpselection"
     },
     {
+      "label": "staticIndexContext",
+      "file_type": "code",
+      "source_file": "tests/docs-loader.test.js",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "tests_docs_loader_test_staticindexcontext",
+      "community": 7,
+      "norm_label": "staticindexcontext"
+    },
+    {
       "label": "selected",
       "file_type": "code",
       "source_file": "tests/docs-loader.test.js",
-      "source_location": "L61",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "tests_docs_loader_test_selected",
       "community": 7,
@@ -7814,20 +8014,20 @@
       "norm_label": "deployment checklist"
     },
     {
-      "label": "Current Deployment Status (Netlify Migration)",
+      "label": "Historical Deployment Status (Netlify Migration)",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L11",
+      "source_location": "L13",
       "_origin": "ast",
-      "id": "site_deployment_checklist_current_deployment_status_netlify_migration",
+      "id": "site_deployment_checklist_historical_deployment_status_netlify_migration",
       "community": 16,
-      "norm_label": "current deployment status (netlify migration)"
+      "norm_label": "historical deployment status (netlify migration)"
     },
     {
       "label": "Migration Completed",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L13",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "site_deployment_checklist_migration_completed",
       "community": 16,
@@ -7837,7 +8037,7 @@
       "label": "Deployment Architecture",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L20",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "site_deployment_checklist_deployment_architecture",
       "community": 16,
@@ -7847,7 +8047,7 @@
       "label": "Pre-Deployment Verification (Historical)",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L27",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "site_deployment_checklist_pre_deployment_verification_historical",
       "community": 16,
@@ -7857,7 +8057,7 @@
       "label": "Code Changes",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L31",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "site_deployment_checklist_code_changes",
       "community": 16,
@@ -7867,7 +8067,7 @@
       "label": "Testing",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "site_deployment_checklist_testing",
       "community": 16,
@@ -7877,7 +8077,7 @@
       "label": "Configuration",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L45",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "site_deployment_checklist_configuration",
       "community": 16,
@@ -7887,7 +8087,7 @@
       "label": "Documentation",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L52",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "site_deployment_checklist_documentation",
       "community": 16,
@@ -7897,7 +8097,7 @@
       "label": "Security & Quality",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L62",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "site_deployment_checklist_security_quality",
       "community": 16,
@@ -7907,7 +8107,7 @@
       "label": "Deployment Steps",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L69",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "site_deployment_checklist_deployment_steps",
       "community": 16,
@@ -7917,7 +8117,7 @@
       "label": "Step 1: Add GitHub Secret (Required)",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L71",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "site_deployment_checklist_step_1_add_github_secret_required",
       "community": 16,
@@ -7927,7 +8127,7 @@
       "label": "Step 2: Merge Pull Request",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L88",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "site_deployment_checklist_step_2_merge_pull_request",
       "community": 16,
@@ -7937,7 +8137,7 @@
       "label": "Step 3: Verify Deployment",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L99",
+      "source_location": "L101",
       "_origin": "ast",
       "id": "site_deployment_checklist_step_3_verify_deployment",
       "community": 16,
@@ -7947,7 +8147,7 @@
       "label": "Step 4: Monitor GitHub Actions",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L129",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "site_deployment_checklist_step_4_monitor_github_actions",
       "community": 16,
@@ -7957,7 +8157,7 @@
       "label": "Troubleshooting",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L152",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "site_deployment_checklist_troubleshooting",
       "community": 16,
@@ -7967,7 +8167,7 @@
       "label": "Problem: API Tests Still Skipping",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L154",
+      "source_location": "L156",
       "_origin": "ast",
       "id": "site_deployment_checklist_problem_api_tests_still_skipping",
       "community": 16,
@@ -7977,7 +8177,7 @@
       "label": "Problem: Chatbot Shows Error Message",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L166",
+      "source_location": "L168",
       "_origin": "ast",
       "id": "site_deployment_checklist_problem_chatbot_shows_error_message",
       "community": 16,
@@ -7987,7 +8187,7 @@
       "label": "Problem: Model Fallback Not Working",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L178",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "site_deployment_checklist_problem_model_fallback_not_working",
       "community": 16,
@@ -7997,7 +8197,7 @@
       "label": "Post-Deployment Validation",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L190",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "site_deployment_checklist_post_deployment_validation",
       "community": 16,
@@ -8007,7 +8207,7 @@
       "label": "Rollback Plan",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L204",
+      "source_location": "L206",
       "_origin": "ast",
       "id": "site_deployment_checklist_rollback_plan",
       "community": 16,
@@ -8017,7 +8217,7 @@
       "label": "Success Criteria",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L213",
+      "source_location": "L215",
       "_origin": "ast",
       "id": "site_deployment_checklist_success_criteria",
       "community": 16,
@@ -8027,7 +8227,7 @@
       "label": "Support",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L224",
+      "source_location": "L226",
       "_origin": "ast",
       "id": "site_deployment_checklist_support",
       "community": 16,
@@ -8037,7 +8237,7 @@
       "label": "Approval Sign-off",
       "file_type": "document",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L240",
+      "source_location": "L242",
       "_origin": "ast",
       "id": "site_deployment_checklist_approval_sign_off",
       "community": 16,
@@ -8907,7 +9107,7 @@
       "label": "Overview",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L11",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_overview",
       "community": 11,
@@ -8917,7 +9117,7 @@
       "label": "Security Issue",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L15",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_security_issue",
       "community": 11,
@@ -8927,7 +9127,7 @@
       "label": "Architecture Changes",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_architecture_changes",
       "community": 11,
@@ -8937,7 +9137,7 @@
       "label": "Before (Insecure)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L23",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_before_insecure",
       "community": 11,
@@ -8947,7 +9147,7 @@
       "label": "After (Secure)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L31",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_after_secure",
       "community": 11,
@@ -8957,7 +9157,7 @@
       "label": "Files Changed",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L40",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_files_changed",
       "community": 11,
@@ -8967,7 +9167,7 @@
       "label": "1. `docusaurus.config.js`",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L42",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_1_docusaurus_config_js",
       "community": 11,
@@ -8977,7 +9177,7 @@
       "label": "2. `src/components/AutoBot/index.tsx`",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L50",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_2_src_components_autobot_index_tsx",
       "community": 11,
@@ -8987,7 +9187,7 @@
       "label": "3. `netlify.toml` (New)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L54",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_3_netlify_toml_new",
       "community": 11,
@@ -8997,7 +9197,7 @@
       "label": "4. `netlify/functions/gemini-proxy.mjs` (New)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L61",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_4_netlify_functions_gemini_proxy_mjs_new",
       "community": 11,
@@ -9007,7 +9207,7 @@
       "label": "5. `.github/workflows/deploy.yml`",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L67",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_5_github_workflows_deploy_yml",
       "community": 11,
@@ -9017,7 +9217,7 @@
       "label": "Migration Steps",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L71",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_migration_steps",
       "community": 11,
@@ -9027,7 +9227,7 @@
       "label": "Step 1: Set up Netlify Account",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L73",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_1_set_up_netlify_account",
       "community": 11,
@@ -9037,7 +9237,7 @@
       "label": "Step 2: Configure Build Settings",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L80",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_2_configure_build_settings",
       "community": 11,
@@ -9047,7 +9247,7 @@
       "label": "Step 3: Add Environment Variable",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L87",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_3_add_environment_variable",
       "community": 11,
@@ -9057,7 +9257,7 @@
       "label": "Step 4: Deploy",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L95",
+      "source_location": "L97",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_4_deploy",
       "community": 11,
@@ -9067,7 +9267,7 @@
       "label": "Step 5: Set up Custom Domain (Optional)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L101",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_5_set_up_custom_domain_optional",
       "community": 11,
@@ -9077,7 +9277,7 @@
       "label": "Step 6: Test the Chatbot",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L113",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_6_test_the_chatbot",
       "community": 11,
@@ -9087,7 +9287,7 @@
       "label": "Step 7: Disable GitHub Pages Deployment (Optional)",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L121",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_step_7_disable_github_pages_deployment_optional",
       "community": 11,
@@ -9097,7 +9297,7 @@
       "label": "Verification",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L127",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_verification",
       "community": 11,
@@ -9107,7 +9307,7 @@
       "label": "Verify API Key is NOT in Client Code",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L129",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_verify_api_key_is_not_in_client_code",
       "community": 11,
@@ -9117,7 +9317,7 @@
       "label": "Verify Function is Called",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L144",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_verify_function_is_called",
       "community": 11,
@@ -9127,7 +9327,7 @@
       "label": "Rollback Plan",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L152",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_rollback_plan",
       "community": 11,
@@ -9137,7 +9337,7 @@
       "label": "Benefits of Migration",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L164",
+      "source_location": "L166",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_benefits_of_migration",
       "community": 11,
@@ -9147,7 +9347,7 @@
       "label": "Support",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L172",
+      "source_location": "L174",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_support",
       "community": 11,
@@ -9157,7 +9357,7 @@
       "label": "GitHub Pages Redirect",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L180",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_github_pages_redirect",
       "community": 11,
@@ -9167,7 +9367,7 @@
       "label": "Additional Resources",
       "file_type": "document",
       "source_file": "docs/archive/site/netlify-migration-guide.md",
-      "source_location": "L191",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "site_netlify_migration_guide_additional_resources",
       "community": 11,
@@ -10457,17 +10657,27 @@
       "label": "Local development",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L17",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "maintainers_site_operations_local_development",
       "community": 139,
       "norm_label": "local development"
     },
     {
+      "label": "Egypt accessibility",
+      "file_type": "document",
+      "source_file": "docs/maintainers/site-operations.md",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "maintainers_site_operations_egypt_accessibility",
+      "community": 139,
+      "norm_label": "egypt accessibility"
+    },
+    {
       "label": "Validation",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L30",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "maintainers_site_operations_validation",
       "community": 139,
@@ -10477,7 +10687,7 @@
       "label": "Search and AutoBot",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L43",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "maintainers_site_operations_search_and_autobot",
       "community": 139,
@@ -10487,7 +10697,7 @@
       "label": "Content changes",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L53",
+      "source_location": "L84",
       "_origin": "ast",
       "id": "maintainers_site_operations_content_changes",
       "community": 139,
@@ -22855,7 +23065,7 @@
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "demo_autobot_approach",
-      "target": "functions_docs_loader_getgithubrepositorycontext"
+      "target": "functions_docs_loader_loaddocumentation"
     },
     {
       "relation": "imports",
@@ -22864,9 +23074,9 @@
       "source_file": "demo-autobot-approach.mjs",
       "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "demo_autobot_approach",
-      "target": "functions_docs_loader_loaddocumentation"
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -22882,11 +23092,278 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docusaurus.config.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "docusaurus_config",
+      "target": "docusaurus_config_siteasset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docusaurus.config.js",
       "source_location": "L4",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "docusaurus_config",
       "target": "docusaurus_config_themes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "api_gemini_proxy_getdocumentationcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "api_gemini_proxy_loadindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "api_gemini_proxy_onrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_autobot_core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_autobot_core_createautobotresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_docs_retrieval",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_docs_retrieval_loaddocumentationfromindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_github_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "api_gemini_proxy",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/cloudflare-autobot.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_cloudflare_autobot_test",
+      "target": "api_gemini_proxy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "api_gemini_proxy_getdocumentationcontext",
+      "target": "api_gemini_proxy_loadindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "api_gemini_proxy_getdocumentationcontext",
+      "target": "functions_docs_retrieval_loaddocumentationfromindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "api_gemini_proxy_getdocumentationcontext",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "api_gemini_proxy_onrequest",
+      "target": "functions_autobot_core_createautobotresponse"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/cloudflare-autobot.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_cloudflare_autobot_test",
+      "target": "api_gemini_proxy_onrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "functions_autobot_core",
+      "target": "functions_autobot_core_createautobotresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "functions_autobot_core",
+      "target": "functions_autobot_core_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "functions_autobot_core",
+      "target": "functions_autobot_core_messageformodelfailure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "functions_autobot_core",
+      "target": "functions_autobot_core_modelstotry",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "functions_autobot_core",
+      "target": "functions_constants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/gemini-proxy.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "functions_gemini_proxy",
+      "target": "functions_autobot_core",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "functions_autobot_core_createautobotresponse",
+      "target": "functions_autobot_core_jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/autobot-core.mjs",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "functions_autobot_core_createautobotresponse",
+      "target": "functions_autobot_core_messageformodelfailure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/gemini-proxy.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "functions_gemini_proxy",
+      "target": "functions_autobot_core_createautobotresponse",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -22922,6 +23399,17 @@
       "target": "tests_enhanced_instruction_test"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/github-context.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "functions_github_context",
+      "target": "functions_constants",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
@@ -22950,16 +23438,6 @@
       "confidence_score": 1.0,
       "source": "functions_docs_loader",
       "target": "functions_docs_loader_excluded_directories"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L186",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader",
-      "target": "functions_docs_loader_getgithubrepositorycontext"
     },
     {
       "relation": "contains",
@@ -23015,16 +23493,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L131",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader",
-      "target": "functions_docs_loader_scorechunk"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L12",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23042,24 +23510,37 @@
       "target": "functions_docs_loader_splitintochunks"
     },
     {
-      "relation": "contains",
+      "relation": "imports_from",
+      "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L19",
+      "source_location": "L4",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_docs_loader_stop_words"
+      "target": "functions_docs_retrieval",
+      "confidence_score": 1.0
     },
     {
-      "relation": "contains",
+      "relation": "imports",
+      "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L75",
+      "source_location": "L4",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_docs_loader_tokenize"
+      "target": "functions_docs_retrieval_loaddocumentationfromindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "functions_docs_loader",
+      "target": "functions_docs_retrieval_retrievefromindex",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -23071,6 +23552,28 @@
       "confidence_score": 1.0,
       "source": "functions_docs_loader",
       "target": "functions_gemini_proxy"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "functions_docs_loader",
+      "target": "functions_github_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "re_exports",
+      "context": "re-export",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "functions_docs_loader",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -23093,6 +23596,17 @@
       "confidence_score": 1.0,
       "source": "functions_docs_loader",
       "target": "tests_enhanced_instruction_test"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "scripts_build_autobot_index",
+      "target": "functions_docs_loader",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -23121,17 +23635,6 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
-      "source_location": "L155",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader_retrievedocumentation",
-      "target": "functions_docs_loader_tokenize"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L157",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -23154,11 +23657,44 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "functions_docs_loader_loaddocumentation",
+      "target": "functions_docs_loader_builddocumentationindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "scripts_build_autobot_index",
+      "target": "functions_docs_loader_builddocumentationindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L177",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "functions_docs_loader_loaddocumentation",
       "target": "functions_docs_loader_retrievedocumentation"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "functions_docs_loader_retrievedocumentation",
+      "target": "functions_docs_retrieval_retrievefromindex"
     },
     {
       "relation": "imports",
@@ -23170,6 +23706,17 @@
       "confidence_score": 1.0,
       "source": "functions_docs_loader_retrievedocumentation",
       "target": "tests_docs_loader_test"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "netlify/functions/docs-loader.mjs",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "functions_docs_loader_loaddocumentation",
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "imports",
@@ -23216,37 +23763,98 @@
       "target": "tests_enhanced_instruction_test"
     },
     {
-      "relation": "imports",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval",
+      "target": "functions_docs_retrieval_loaddocumentationfromindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval",
+      "target": "functions_docs_retrieval_retrievefromindex",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L21",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval",
+      "target": "functions_docs_retrieval_scorechunk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval",
+      "target": "functions_docs_retrieval_stop_words",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval",
+      "target": "functions_docs_retrieval_tokenize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "netlify/functions/gemini-proxy.mjs",
-      "source_location": "L2",
+      "source_file": "tests/docs-loader.test.js",
+      "source_location": "L6",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader_getgithubrepositorycontext",
-      "target": "functions_gemini_proxy"
+      "source": "tests_docs_loader_test",
+      "target": "functions_docs_retrieval",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
-      "source_file": "netlify/functions/gemini-proxy.mjs",
-      "source_location": "L9",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L45",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader_getgithubrepositorycontext",
-      "target": "functions_gemini_proxy_getdocumentationcontext"
+      "source": "functions_docs_retrieval_retrievefromindex",
+      "target": "functions_docs_retrieval_tokenize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/docs-retrieval.mjs",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "functions_docs_retrieval_loaddocumentationfromindex",
+      "target": "functions_docs_retrieval_retrievefromindex",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "tests/enhanced-instruction.test.js",
-      "source_location": "L1",
+      "source_file": "tests/docs-loader.test.js",
+      "source_location": "L6",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "functions_docs_loader_getgithubrepositorycontext",
-      "target": "tests_enhanced_instruction_test"
+      "source": "tests_docs_loader_test",
+      "target": "functions_docs_retrieval_loaddocumentationfromindex",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -23257,6 +23865,60 @@
       "confidence_score": 1.0,
       "source": "functions_gemini_proxy",
       "target": "functions_gemini_proxy_getdocumentationcontext"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/gemini-proxy.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "functions_gemini_proxy",
+      "target": "functions_github_context",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/gemini-proxy.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "functions_gemini_proxy",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/gemini-proxy.mjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "functions_gemini_proxy_getdocumentationcontext",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "netlify/functions/github-context.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "functions_github_context",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/enhanced-instruction.test.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "tests_enhanced_instruction_test",
+      "target": "functions_github_context_getgithubrepositorycontext",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -23908,6 +24570,36 @@
       "confidence_score": 1.0,
       "source": "playwright_config",
       "target": "test"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "scripts_build_autobot_index",
+      "target": "scripts_build_autobot_index_index",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "scripts_build_autobot_index",
+      "target": "scripts_build_autobot_index_outputpath",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/build-autobot-index.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "scripts_build_autobot_index",
+      "target": "scripts_build_autobot_index_root",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -25423,6 +26115,16 @@
       "confidence_score": 1.0,
       "source": "tests_docs_loader_test",
       "target": "tests_docs_loader_test_selected"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/docs-loader.test.js",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "tests_docs_loader_test",
+      "target": "tests_docs_loader_test_staticindexcontext",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -27833,9 +28535,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language",
-      "target": "design_language_shaft_ui_design_language",
-      "confidence_score": 1.0
+      "target": "design_language_shaft_ui_design_language"
     },
     {
       "relation": "contains",
@@ -27843,9 +28545,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_shaft_ui_design_language",
-      "target": "design_language_approved_palette_site_wide",
-      "confidence_score": 1.0
+      "target": "design_language_approved_palette_site_wide"
     },
     {
       "relation": "contains",
@@ -27853,9 +28555,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_shaft_ui_design_language",
-      "target": "design_language_code_block_and_mermaid_constraints",
-      "confidence_score": 1.0
+      "target": "design_language_code_block_and_mermaid_constraints"
     },
     {
       "relation": "contains",
@@ -27863,9 +28565,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L73",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_shaft_ui_design_language",
-      "target": "design_language_pr_checklist_for_future_ui_edits",
-      "confidence_score": 1.0
+      "target": "design_language_pr_checklist_for_future_ui_edits"
     },
     {
       "relation": "contains",
@@ -27873,9 +28575,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_shaft_ui_design_language",
-      "target": "design_language_styling_rule",
-      "confidence_score": 1.0
+      "target": "design_language_styling_rule"
     },
     {
       "relation": "contains",
@@ -27883,9 +28585,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_shaft_ui_design_language",
-      "target": "design_language_typography_tokens",
-      "confidence_score": 1.0
+      "target": "design_language_typography_tokens"
     },
     {
       "relation": "contains",
@@ -27893,9 +28595,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_approved_palette_site_wide",
-      "target": "design_language_dark_theme",
-      "confidence_score": 1.0
+      "target": "design_language_dark_theme"
     },
     {
       "relation": "contains",
@@ -27903,9 +28605,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_approved_palette_site_wide",
-      "target": "design_language_light_theme",
-      "confidence_score": 1.0
+      "target": "design_language_light_theme"
     },
     {
       "relation": "contains",
@@ -27913,9 +28615,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_typography_tokens",
-      "target": "design_language_font_weights",
-      "confidence_score": 1.0
+      "target": "design_language_font_weights"
     },
     {
       "relation": "contains",
@@ -27923,9 +28625,9 @@
       "source_file": "DESIGN_LANGUAGE.md",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "design_language_styling_rule",
-      "target": "design_language_allowed_exceptions",
-      "confidence_score": 1.0
+      "target": "design_language_allowed_exceptions"
     },
     {
       "relation": "contains",
@@ -29363,9 +30065,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_changelog",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_changelog"
     },
     {
       "relation": "contains",
@@ -29373,9 +30075,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622"
     },
     {
       "relation": "contains",
@@ -29383,9 +30085,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_what_changed",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_what_changed"
     },
     {
       "relation": "contains",
@@ -29393,9 +30095,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L52",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_community_spotlight",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_community_spotlight"
     },
     {
       "relation": "contains",
@@ -29403,9 +30105,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_get_started_in_seconds",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_get_started_in_seconds"
     },
     {
       "relation": "contains",
@@ -29413,9 +30115,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_join_the_conversation",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_join_the_conversation"
     },
     {
       "relation": "contains",
@@ -29423,9 +30125,9 @@
       "source_file": "blog/2026-06-22-release-10.2.20260622.md",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
-      "target": "blog_2026_06_22_release_10_2_20260622_what_s_changed",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_22_release_10_2_20260622_what_s_changed"
     },
     {
       "relation": "contains",
@@ -31561,21 +32263,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "site_deployment_checklist_deployment_checklist",
-      "target": "site_deployment_checklist_current_deployment_status_netlify_migration"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/archive/site/deployment-checklist.md",
       "source_location": "L69",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "site_deployment_checklist_deployment_checklist",
       "target": "site_deployment_checklist_deployment_steps"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/archive/site/deployment-checklist.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "site_deployment_checklist_deployment_checklist",
+      "target": "site_deployment_checklist_historical_deployment_status_netlify_migration",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -31641,21 +32343,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L20",
+      "source_location": "L22",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "site_deployment_checklist_current_deployment_status_netlify_migration",
-      "target": "site_deployment_checklist_deployment_architecture"
+      "source": "site_deployment_checklist_historical_deployment_status_netlify_migration",
+      "target": "site_deployment_checklist_deployment_architecture",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/archive/site/deployment-checklist.md",
-      "source_location": "L13",
+      "source_location": "L15",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "site_deployment_checklist_current_deployment_status_netlify_migration",
-      "target": "site_deployment_checklist_migration_completed"
+      "source": "site_deployment_checklist_historical_deployment_status_netlify_migration",
+      "target": "site_deployment_checklist_migration_completed",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -33976,6 +34678,16 @@
       "confidence_score": 1.0,
       "source": "maintainers_site_operations_documentation_site_operations",
       "target": "maintainers_site_operations_content_changes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/maintainers/site-operations.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "maintainers_site_operations_documentation_site_operations",
+      "target": "maintainers_site_operations_egypt_accessibility",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -43033,9 +43745,9 @@
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "guides_junit5_integration",
-      "target": "guides_junit5_integration_junit_vs_testng_comparison",
-      "confidence_score": 1.0
+      "target": "guides_junit5_integration_junit_vs_testng_comparison"
     },
     {
       "relation": "contains",
@@ -44593,9 +45305,9 @@
       "source_file": "docs/start/quick-start.md",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_create_your_first_tests",
-      "target": "start_quick_start_junit",
-      "confidence_score": 1.0
+      "target": "start_quick_start_junit"
     },
     {
       "relation": "contains",
@@ -45419,5 +46131,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7ab38c0fef0e5f1ecc0e475546952daf87662c02"
+  "built_at_commit": "de36d8ff4e0e93fe7cec21cdc8d65eb462b56ea8"
 }
