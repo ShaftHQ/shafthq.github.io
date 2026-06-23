@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io-codex-intellij-run-template-docs  (2026-06-23)
+# Graph Report - codex-junit-runtime-retry-docs  (2026-06-23)
 
 ## Corpus Check
-- 218 files · ~210,503 words
+- 218 files · ~210,529 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f0664bf7`
+- Built from commit: `94b27997`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

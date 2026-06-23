@@ -20467,7 +20467,7 @@
       "label": "Test Class Structure",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L69",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "guides_junit5_integration_test_class_structure",
       "community": 154,
@@ -20477,7 +20477,7 @@
       "label": "JUnit vs TestNG Comparison",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L110",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "guides_junit5_integration_junit_vs_testng_comparison",
       "community": 154,
@@ -20487,7 +20487,7 @@
       "label": "Class-Level Driver (Shared Instance)",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L123",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "guides_junit5_integration_class_level_driver_shared_instance",
       "community": 154,
@@ -20497,7 +20497,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L176",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "guides_junit5_integration_related",
       "community": 154,
@@ -46402,5 +46402,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f0664bf786eeefdc71419f1c25556734b2f57e88"
+  "built_at_commit": "94b27997f1304d9c315d2e48502c704ac14dbc36"
 }
