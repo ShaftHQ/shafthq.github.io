@@ -4,7 +4,7 @@ title: Documentation site operations
 description: Develop, validate, and deploy the canonical SHAFT documentation site.
 slug: /maintainers/site-operations
 sidebar_position: 2
-tags: [maintainers, docusaurus, cloudflare-pages, github-pages, netlify]
+tags: [maintainers, docusaurus, cloudflare-workers, github-pages, netlify]
 ---
 
 # Documentation site operations
@@ -14,7 +14,7 @@ architecture, usage, migration, and maintainer documentation. The canonical
 public URL is
 [shaft-engine.automatest.org](https://shaft-engine.automatest.org).
 
-Cloudflare Pages publishes the static guide and the `/api/gemini-proxy`
+Cloudflare Workers publishes the static guide and the `/api/gemini-proxy`
 function for this domain. Netlify and GitHub Pages may still serve mirrors, but
 the custom domain must not CNAME to Netlify while Egyptian consumer ISPs cannot
 reach Netlify edge IPs.
@@ -28,9 +28,10 @@ yarn install
 yarn start
 ```
 
-Cloudflare Pages uses `wrangler.toml`, builds with `yarn build`, publishes
-`build/`, and serves `functions/api/gemini-proxy.js` at `/api/gemini-proxy`.
-Set `GEMINI_API_KEY` in Cloudflare Pages environment variables; do not commit it.
+Cloudflare Workers Builds uses `wrangler.toml`, builds with `yarn build`,
+uploads `build/` through `[assets]`, and routes `/api/gemini-proxy` through
+`worker/index.js`. Set `YARN_VERSION=1.22.22` and `GEMINI_API_KEY` in
+Cloudflare environment variables; do not commit secrets.
 
 Netlify uses `yarn build`, publishes `build/`, and serves functions from
 `netlify/functions/`. `GEMINI_API_KEY` belongs in the Netlify environment; it
@@ -51,7 +52,7 @@ curl -4 -I https://shafthq.github.io/
 
 On 2026-06-23, Cairo probes on Link Egypt timed out against Netlify while
 Cloudflare and GitHub Pages returned HTTP 200. The recovery path is to publish
-the guide and `/api/gemini-proxy` on Cloudflare Pages and point DNS for
+the guide and `/api/gemini-proxy` on Cloudflare Workers and point DNS for
 `shaft-engine.automatest.org` at Cloudflare, not at the Netlify default
 hostname.
 

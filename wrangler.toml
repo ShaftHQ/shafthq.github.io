@@ -1,4 +1,9 @@
-name = "shaft-user-guide"
-pages_build_output_dir = "build"
+name = "shaft-engine"
+main = "worker/index.js"
 compatibility_date = "2026-06-23"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./build"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
