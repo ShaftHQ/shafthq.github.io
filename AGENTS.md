@@ -3,7 +3,7 @@
 ## Repository
 
 This repository is the canonical Docusaurus site for SHAFT Engine, published at
-`https://shaftengine.netlify.app`. The engine source of truth is
+`https://shaft-engine.automatest.org`. The engine source of truth is
 `ShaftHQ/SHAFT_ENGINE` on its default `main` branch.
 
 Primary content lives under:

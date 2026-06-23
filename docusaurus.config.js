@@ -4,12 +4,14 @@
 const {themes} = require('prism-react-renderer');
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
+const siteUrl = 'https://shaft-engine.automatest.org';
+const siteAsset = (path) => new URL(path, siteUrl).toString();
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'SHAFT User Guide',
   tagline: 'Stop reinventing the wheel. Start using SHAFT.',
-  url: 'https://shaftengine.netlify.app',
+  url: siteUrl,
   baseUrl: '/',
   onBrokenLinks: 'throw',
   favicon: 'img/shaft.ico',
@@ -46,7 +48,7 @@ const config = {
       tagName: 'meta',
       attributes: {
         property: 'og:image',
-        content: 'https://shaftengine.netlify.app/img/shaft.svg',
+        content: siteAsset('/img/shaft.svg'),
       },
     },
     {
@@ -68,7 +70,7 @@ const config = {
         applicationCategory: 'DeveloperApplication',
         operatingSystem: 'Windows, macOS, Linux',
         description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
-        url: 'https://shaftengine.netlify.app',
+        url: siteUrl,
         license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/master/LICENSE',
         author: {
           '@type': 'Organization',
@@ -91,8 +93,8 @@ const config = {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         name: 'ShaftHQ',
-        url: 'https://shaftengine.netlify.app',
-        logo: 'https://shaftengine.netlify.app/img/shaft.svg',
+        url: siteUrl,
+        logo: siteAsset('/img/shaft.svg'),
         sameAs: [
           'https://github.com/ShaftHQ',
           'https://www.facebook.com/groups/Automatest',

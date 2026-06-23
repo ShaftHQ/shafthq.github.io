@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /assets/
 
-Sitemap: https://shaftengine.netlify.app/sitemap.xml
+Sitemap: https://shaft-engine.automatest.org/sitemap.xml

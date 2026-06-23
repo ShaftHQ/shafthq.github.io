@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io-codex-user-guide-fixes  (2026-06-23)
+# Graph Report - shafthq.github.io-codex-fix-guide-base-url  (2026-06-23)
 
 ## Corpus Check
-- 211 files · ~209,980 words
+- 217 files · ~210,079 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2277 nodes · 2246 edges · 215 communities (183 shown, 32 thin omitted)
+- 2298 nodes · 2293 edges · 215 communities (183 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7ab38c0f`
+- Built from commit: `de36d8ff`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -240,10 +240,16 @@
 10. `Mobile and Flutter testing` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `loadDocumentation()` --calls--> `getDocumentationContext()`  [EXTRACTED]
-  netlify/functions/docs-loader.mjs → netlify/functions/gemini-proxy.mjs
-- `getGitHubRepositoryContext()` --calls--> `getDocumentationContext()`  [EXTRACTED]
-  netlify/functions/docs-loader.mjs → netlify/functions/gemini-proxy.mjs
+- `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
+  functions/api/gemini-proxy.mjs → netlify/functions/docs-retrieval.mjs
+- `getDocumentationContext()` --calls--> `getGitHubRepositoryContext()`  [EXTRACTED]
+  functions/api/gemini-proxy.mjs → netlify/functions/github-context.mjs
+- `onRequest()` --calls--> `createAutobotResponse()`  [EXTRACTED]
+  functions/api/gemini-proxy.mjs → netlify/functions/autobot-core.mjs
+- `retrieveDocumentation()` --calls--> `retrieveFromIndex()`  [EXTRACTED]
+  netlify/functions/docs-loader.mjs → netlify/functions/docs-retrieval.mjs
+- `loadDocumentation()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
+  netlify/functions/docs-loader.mjs → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
@@ -279,8 +285,8 @@ Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.09
-Nodes (26): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime, buildDocumentationIndex(), currentDir (+18 more)
+Cohesion: 0.07
+Nodes (39): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+31 more)
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -316,7 +322,7 @@ Nodes (26): API Key Works Locally But Not in GitHub Actions, Check Workflow Conf
 
 ### Community 16 - "docs/archive (25)"
 Cohesion: 0.08
-Nodes (24): Approval Sign-off, Code Changes, Configuration, Current Deployment Status (Netlify Migration), Deployment Architecture, Deployment Checklist, Deployment Steps, Documentation (+16 more)
+Nodes (24): Approval Sign-off, Code Changes, Configuration, Deployment Architecture, Deployment Checklist, Deployment Steps, Documentation, Historical Deployment Status (Netlify Migration) (+16 more)
 
 ### Community 17 - "docs/reference (23)"
 Cohesion: 0.08
@@ -787,8 +793,8 @@ Cohesion: 0.33
 Nodes (5): Atomic release order, Disposable dry run, Failure and rollback behavior, Maven Central publication contract, Public artifact set
 
 ### Community 139 - "docs/maintainers (6)"
-Cohesion: 0.33
-Nodes (5): Content changes, Documentation site operations, Local development, Search and AutoBot, Validation
+Cohesion: 0.29
+Nodes (6): Content changes, Documentation site operations, Egypt accessibility, Local development, Search and AutoBot, Validation
 
 ### Community 141 - "scripts/check-doc-duplicates.mjs (6)"
 Cohesion: 0.33
@@ -967,15 +973,17 @@ Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
 
 ## Knowledge Gaps
-- **1493 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1488 more)
+- **1499 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1494 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `Interacting with IFrames` connect `docs/reference (7)` to `docs/reference (7)`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1493 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1499 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -985,6 +993,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
-- **Should `docs/start (38)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._

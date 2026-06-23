@@ -7,6 +7,10 @@
 # Generated files
 .docusaurus
 .cache-loader
+static/autobot-index.json
+graphify-out/.graphify_root
+graphify-out/cache/
+graphify-out/20??-??-??/
 TEST_REPORT.md
 test-screenshots/
 test-results/

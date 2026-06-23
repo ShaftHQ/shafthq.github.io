@@ -16,6 +16,7 @@ interface Message {
 // Constants
 const MOBILE_BREAKPOINT = 768;
 const MOBILE_KEYBOARD_DELAY = 300;
+const USER_GUIDE_URL = 'https://shaft-engine.automatest.org/';
 
 const AutoBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +52,7 @@ If you cannot find the answer in the provided documentation, you must state:
 - GitHub Repository: https://github.com/shafthq/SHAFT_ENGINE
 - GitHub Issues: https://github.com/shafthq/SHAFT_ENGINE/issues
 - GitHub Discussions: https://github.com/shafthq/SHAFT_ENGINE/discussions
-- User Guide: https://shaftengine.netlify.app/"
+- User Guide: ${USER_GUIDE_URL}"
 
 RESPONSE GUIDELINES
 When answering questions:
@@ -191,7 +192,7 @@ Focus on helping users with:
       console.error('[AutoBot] Error calling Gemini API:', error);
       const errorMessage: Message = {
         role: 'assistant',
-        content: (error as Error).message || 'Sorry, I encountered an error. Please try again or check the user guide at https://shaftengine.netlify.app/',
+        content: (error as Error).message || `Sorry, I encountered an error. Please try again or check the user guide at ${USER_GUIDE_URL}`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
