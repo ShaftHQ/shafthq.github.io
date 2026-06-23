@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Disallow: /assets/
+
+Sitemap: https://shaft-engine.automatest.org/sitemap.xml
