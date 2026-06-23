@@ -793,11 +793,11 @@
   },
   {
     "section": "Timeouts",
-    "key": "waitUntilTimeout",
+    "key": "waitForUiStateTimeout",
     "targetFile": "custom.properties",
-    "defaultValue": "60",
+    "defaultValue": "600",
     "possibleValues": "(seconds)",
-    "description": "Timeout in seconds for wait.until operations."
+    "description": "Default timeout in seconds for UI state waits such as waitUntil()."
   },
   {
     "section": "Visuals",
