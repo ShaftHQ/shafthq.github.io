@@ -259,7 +259,7 @@ Feature: Search functionality
 ```
 
 > [!TIP]
-> In case you are planning to use Cucumber with IntelliJ IDEA, due to a known issue with IntelliJ you need to edit your run configuration template before running your tests by following these steps:
+> Project Generator Cucumber projects already include this IntelliJ IDEA run template. For manually created projects, edit your run configuration template before running your tests:
 > <br/>- Open 'Edit Run/Debug Configurations' dialog > Edit Configurations... > Edit configuration templates...
 > <br/>- Select <b>Cucumber Java</b> > Program Arguments > and add this argument:
 > <br/>`--plugin com.shaft.listeners.CucumberFeatureListener`
@@ -283,14 +283,12 @@ Feature: Search functionality
   - SHAFT will create a new folder ```src/main/resources/properties``` and generate some default properties files.
   - SHAFT will run in `minimalistic test run` mode and will self-configure its listeners under the `src/test/resources/META-INF/services` directory.
 > [!NOTE]
-> In case you get the following error message when trying to execute your first run:
-> 
-> ![image](https://github.com/user-attachments/assets/6b894234-e365-4fdd-a1d2-abd06ead7e98)
-> 
-> And you don't see the option ```Shorten the command line and rerun```:
->  - From Intellij IDEA main menu, go to Help/Edit Custom VM Options
->  - Add the following line and click save ```-Didea.dynamic.classpath=true```
->  - Restart IntelliJ to apply the changes
+> Project Generator projects already include shared IntelliJ IDEA run templates that set
+> `Shorten command line` to `@argFiles (Java 9+)`. For older or manually created
+> projects, open **Run > Edit Configurations > Edit configuration templates** and set
+> `Shorten command line` to `@argFiles (Java 9+)` for the Java, JUnit, TestNG, and
+> Cucumber Java templates you use. Delete any stale temporary runs created before
+> changing the template.
 
 > [!TIP]
 > Use the [properties reference](/docs/reference/properties/PropertiesList) to
