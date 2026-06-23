@@ -44,6 +44,6 @@ validation, content, and pull request checklist.
 Public SHAFT behavior changes should update this repository in the same delivery
 as the engine change and link the engine pull request.
 
-Cloudflare Pages builds with `yarn build`, publishes `build/`, and serves
-`/api/gemini-proxy` for AutoBot. GitHub Pages can publish the same static output
-as a fallback; Netlify can still host preview/static mirrors.
+Cloudflare Workers Builds runs `yarn build`, uploads `build/` as static assets,
+and serves `/api/gemini-proxy` for AutoBot. GitHub Pages can publish the same
+static output as a fallback; Netlify can still host preview/static mirrors.
