@@ -12,9 +12,17 @@ function assert(condition, message) {
 }
 
 assert(index.includes('shaft-automation-hero.png'), 'Homepage must use the optimized branded hero.');
+assert(index.includes('shaft-automation-hero.webp'), 'Homepage must serve a smaller WebP hero image when supported.');
+assert(index.includes('media="(max-width: 620px)"'), 'Homepage must avoid loading the hidden hero image on mobile.');
+assert(index.includes('width="1200"') && index.includes('height="676"'), 'Homepage hero dimensions must match the optimized image.');
+assert(index.includes('decoding="async"'), 'Homepage hero image decoding must be async.');
+assert(index.includes('fetchPriority="high"'), 'Homepage hero image must prioritize the first-viewport image.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
 assert(index.includes('/docs/agentic/mcp'), 'Homepage must expose MCP setup.');
-assert(index.includes('to="#connect-ai-agent"'), 'Homepage AI-agent CTA must scroll to the landing-page agent section.');
+assert(
+  index.includes('data-testid="landing-cta-agent"') && index.includes('href="#connect-ai-agent"'),
+  'Homepage AI-agent CTA must scroll to the landing-page agent section.',
+);
 assert(index.includes('id="connect-ai-agent"'), 'Homepage must expose a stable agent-section anchor.');
 assert(index.includes('<McpApplications />'), 'Homepage must render the shared MCP applications.');
 assert(

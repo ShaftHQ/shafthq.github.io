@@ -191,6 +191,10 @@
   opacity: 0.9;
 }
 
+.heroProof picture {
+  display: block;
+}
+
 .compactSection {
   padding-top: clamp(3rem, 6vw, 5rem);
 }

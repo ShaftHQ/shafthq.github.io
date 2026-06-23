@@ -1947,7 +1947,7 @@
       "label": "ProofSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L250",
+      "source_location": "L257",
       "_origin": "ast",
       "id": "pages_index_proofsection",
       "community": 56,
@@ -1957,7 +1957,7 @@
       "label": "SurfaceSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L284",
+      "source_location": "L291",
       "_origin": "ast",
       "id": "pages_index_surfacesection",
       "community": 56,
@@ -1967,7 +1967,7 @@
       "label": "ComparisonSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L331",
+      "source_location": "L338",
       "_origin": "ast",
       "id": "pages_index_comparisonsection",
       "community": 56,
@@ -1977,7 +1977,7 @@
       "label": "AgentSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L364",
+      "source_location": "L371",
       "_origin": "ast",
       "id": "pages_index_agentsection",
       "community": 56,
@@ -1987,7 +1987,7 @@
       "label": "WorkflowSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L391",
+      "source_location": "L398",
       "_origin": "ast",
       "id": "pages_index_workflowsection",
       "community": 56,
@@ -1997,7 +1997,7 @@
       "label": "FinalCta()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L425",
+      "source_location": "L432",
       "_origin": "ast",
       "id": "pages_index_finalcta",
       "community": 56,
@@ -2007,7 +2007,7 @@
       "label": "Home()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L447",
+      "source_location": "L454",
       "_origin": "ast",
       "id": "pages_index_home",
       "community": 56,
@@ -3592,6 +3592,116 @@
       "id": "contributing_6_open_the_pull_request",
       "community": 209,
       "norm_label": "6. open the pull request"
+    },
+    {
+      "label": "DESIGN_LANGUAGE.md",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "design_language",
+      "community": 212,
+      "norm_label": "design_language.md"
+    },
+    {
+      "label": "SHAFT UI Design Language",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "design_language_shaft_ui_design_language",
+      "community": 212,
+      "norm_label": "shaft ui design language"
+    },
+    {
+      "label": "Approved palette (site-wide)",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "design_language_approved_palette_site_wide",
+      "community": 212,
+      "norm_label": "approved palette (site-wide)"
+    },
+    {
+      "label": "Light theme",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "design_language_light_theme",
+      "community": 212,
+      "norm_label": "light theme"
+    },
+    {
+      "label": "Dark theme",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "design_language_dark_theme",
+      "community": 212,
+      "norm_label": "dark theme"
+    },
+    {
+      "label": "Typography tokens",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "design_language_typography_tokens",
+      "community": 212,
+      "norm_label": "typography tokens"
+    },
+    {
+      "label": "Font weights",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L46",
+      "_origin": "ast",
+      "id": "design_language_font_weights",
+      "community": 212,
+      "norm_label": "font weights"
+    },
+    {
+      "label": "Styling rule",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L54",
+      "_origin": "ast",
+      "id": "design_language_styling_rule",
+      "community": 212,
+      "norm_label": "styling rule"
+    },
+    {
+      "label": "Allowed exceptions",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "design_language_allowed_exceptions",
+      "community": 212,
+      "norm_label": "allowed exceptions"
+    },
+    {
+      "label": "Code block and Mermaid constraints",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "design_language_code_block_and_mermaid_constraints",
+      "community": 212,
+      "norm_label": "code block and mermaid constraints"
+    },
+    {
+      "label": "PR checklist for future UI edits",
+      "file_type": "document",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "design_language_pr_checklist_for_future_ui_edits",
+      "community": 212,
+      "norm_label": "pr checklist for future ui edits"
     },
     {
       "label": "README.md",
@@ -5251,6 +5361,86 @@
       "_origin": "ast",
       "id": "blog_2026_06_21_release_10_2_20260621_join_the_conversation",
       "community": 211,
+      "norm_label": "\ud83d\udcac join the conversation"
+    },
+    {
+      "label": "2026-06-22-release-10.2.20260622.md",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622",
+      "community": 213,
+      "norm_label": "2026-06-22-release-10.2.20260622.md"
+    },
+    {
+      "label": "\u26a1 What Changed?",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_what_changed",
+      "community": 213,
+      "norm_label": "\u26a1 what changed?"
+    },
+    {
+      "label": "\ud83d\udccb Changelog",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_changelog",
+      "community": 213,
+      "norm_label": "\ud83d\udccb changelog"
+    },
+    {
+      "label": "SHAFT 10.2.20260622",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "community": 213,
+      "norm_label": "shaft 10.2.20260622"
+    },
+    {
+      "label": "What's Changed",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_what_s_changed",
+      "community": 213,
+      "norm_label": "what's changed"
+    },
+    {
+      "label": "\ud83c\udfc6 Community Spotlight",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_community_spotlight",
+      "community": 213,
+      "norm_label": "\ud83c\udfc6 community spotlight"
+    },
+    {
+      "label": "\ud83d\ude80 Get Started in Seconds",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_get_started_in_seconds",
+      "community": 213,
+      "norm_label": "\ud83d\ude80 get started in seconds"
+    },
+    {
+      "label": "\ud83d\udcac Join the Conversation",
+      "file_type": "document",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L130",
+      "_origin": "ast",
+      "id": "blog_2026_06_22_release_10_2_20260622_join_the_conversation",
+      "community": 213,
       "norm_label": "\ud83d\udcac join the conversation"
     },
     {
@@ -19994,14 +20184,14 @@
       "norm_label": "test class structure"
     },
     {
-      "label": "JUnit 5 vs TestNG Comparison",
+      "label": "JUnit vs TestNG Comparison",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
       "source_location": "L110",
       "_origin": "ast",
-      "id": "guides_junit5_integration_junit_5_vs_testng_comparison",
+      "id": "guides_junit5_integration_junit_vs_testng_comparison",
       "community": 154,
-      "norm_label": "junit 5 vs testng comparison"
+      "norm_label": "junit vs testng comparison"
     },
     {
       "label": "Class-Level Driver (Shared Instance)",
@@ -21674,14 +21864,14 @@
       "norm_label": "testng"
     },
     {
-      "label": "JUnit 5",
+      "label": "JUnit",
       "file_type": "document",
       "source_file": "docs/start/quick-start.md",
       "source_location": "L117",
       "_origin": "ast",
-      "id": "start_quick_start_junit_5",
+      "id": "start_quick_start_junit",
       "community": 57,
-      "norm_label": "junit 5"
+      "norm_label": "junit"
     },
     {
       "label": "Cucumber",
@@ -27640,6 +27830,106 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "design_language",
+      "target": "design_language_shaft_ui_design_language",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "design_language_shaft_ui_design_language",
+      "target": "design_language_approved_palette_site_wide",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "design_language_shaft_ui_design_language",
+      "target": "design_language_code_block_and_mermaid_constraints",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "source": "design_language_shaft_ui_design_language",
+      "target": "design_language_pr_checklist_for_future_ui_edits",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "design_language_shaft_ui_design_language",
+      "target": "design_language_styling_rule",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "design_language_shaft_ui_design_language",
+      "target": "design_language_typography_tokens",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "design_language_approved_palette_site_wide",
+      "target": "design_language_dark_theme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "design_language_approved_palette_site_wide",
+      "target": "design_language_light_theme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "design_language_typography_tokens",
+      "target": "design_language_font_weights",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "DESIGN_LANGUAGE.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "design_language_styling_rule",
+      "target": "design_language_allowed_exceptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -29066,6 +29356,76 @@
       "confidence_score": 1.0,
       "source": "blog_2026_06_21_release_10_2_20260621_shaft_10_2_20260621",
       "target": "blog_2026_06_21_release_10_2_20260621_what_s_changed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_changelog",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_what_changed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L52",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_community_spotlight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_get_started_in_seconds",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_join_the_conversation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "blog/2026-06-22-release-10.2.20260622.md",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "blog_2026_06_22_release_10_2_20260622_shaft_10_2_20260622",
+      "target": "blog_2026_06_22_release_10_2_20260622_what_s_changed",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -42671,11 +43031,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L74",
+      "source_location": "L110",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "guides_junit5_integration",
-      "target": "guides_junit5_integration_junit_5_vs_testng_comparison"
+      "target": "guides_junit5_integration_junit_vs_testng_comparison",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -44233,9 +44593,9 @@
       "source_file": "docs/start/quick-start.md",
       "source_location": "L117",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "start_quick_start_create_your_first_tests",
-      "target": "start_quick_start_junit_5"
+      "target": "start_quick_start_junit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -45059,5 +45419,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3986f3eb28f0a64d35d09e6a81ac8baaf8f64483"
+  "built_at_commit": "7ab38c0fef0e5f1ecc0e475546952daf87662c02"
 }
