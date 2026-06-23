@@ -20,7 +20,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "demo_autobot_approach",
-      "community": 217,
+      "community": 7,
       "norm_label": "demo-autobot-approach.mjs"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "demo_autobot_approach_starttime",
-      "community": 217,
+      "community": 7,
       "norm_label": "starttime"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "demo_autobot_approach_documentation",
-      "community": 217,
+      "community": 7,
       "norm_label": "documentation"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "demo_autobot_approach_githubcontext",
-      "community": 217,
+      "community": 7,
       "norm_label": "githubcontext"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "demo_autobot_approach_keytopics",
-      "community": 217,
+      "community": 7,
       "norm_label": "keytopics"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "demo_autobot_approach_apidocstart",
-      "community": 217,
+      "community": 7,
       "norm_label": "apidocstart"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "demo_autobot_approach_samplequestions",
-      "community": 217,
+      "community": 7,
       "norm_label": "samplequestions"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "api_gemini_proxy",
-      "community": 216,
+      "community": 7,
       "norm_label": "gemini-proxy.js"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "api_gemini_proxy_loadindex",
-      "community": 216,
+      "community": 7,
       "norm_label": "loadindex()"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "api_gemini_proxy_getdocumentationcontext",
-      "community": 216,
+      "community": 7,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "api_gemini_proxy_onrequest",
-      "community": 216,
+      "community": 7,
       "norm_label": "onrequest()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_autobot_core",
-      "community": 214,
+      "community": 7,
       "norm_label": "autobot-core.mjs"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "functions_autobot_core_modelstotry",
-      "community": 214,
+      "community": 7,
       "norm_label": "modelstotry"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "functions_autobot_core_jsonresponse",
-      "community": 214,
+      "community": 7,
       "norm_label": "jsonresponse()"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "functions_autobot_core_messageformodelfailure",
-      "community": 214,
+      "community": 7,
       "norm_label": "messageformodelfailure()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "functions_autobot_core_createautobotresponse",
-      "community": 214,
+      "community": 7,
       "norm_label": "createautobotresponse()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_constants",
-      "community": 214,
+      "community": 7,
       "norm_label": "constants.mjs"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_docs_retrieval",
-      "community": 215,
+      "community": 7,
       "norm_label": "docs-retrieval.mjs"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "functions_docs_retrieval_stop_words",
-      "community": 215,
+      "community": 7,
       "norm_label": "stop_words"
     },
     {
@@ -360,7 +360,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "functions_docs_retrieval_tokenize",
-      "community": 215,
+      "community": 7,
       "norm_label": "tokenize()"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "functions_docs_retrieval_scorechunk",
-      "community": 215,
+      "community": 7,
       "norm_label": "scorechunk()"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "functions_docs_retrieval_retrievefromindex",
-      "community": 215,
+      "community": 7,
       "norm_label": "retrievefromindex()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "functions_docs_retrieval_loaddocumentationfromindex",
-      "community": 215,
+      "community": 7,
       "norm_label": "loaddocumentationfromindex()"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_gemini_proxy",
-      "community": 214,
+      "community": 7,
       "norm_label": "gemini-proxy.mjs"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "functions_gemini_proxy_getdocumentationcontext",
-      "community": 214,
+      "community": 7,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_github_context",
-      "community": 214,
+      "community": 7,
       "norm_label": "github-context.mjs"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "functions_github_context_getgithubrepositorycontext",
-      "community": 214,
+      "community": 7,
       "norm_label": "getgithubrepositorycontext()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests",
-      "community": 192,
+      "community": 7,
       "norm_label": "run-shaft-tests.mjs"
     },
     {
@@ -1270,7 +1270,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_reporoot",
-      "community": 192,
+      "community": 7,
       "norm_label": "reporoot"
     },
     {
@@ -1280,7 +1280,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_releases",
-      "community": 192,
+      "community": 7,
       "norm_label": "releases"
     },
     {
@@ -1290,7 +1290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_findavailableport",
-      "community": 192,
+      "community": 7,
       "norm_label": "findavailableport()"
     },
     {
@@ -1300,7 +1300,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_isportavailable",
-      "community": 192,
+      "community": 7,
       "norm_label": "isportavailable()"
     },
     {
@@ -1310,7 +1310,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_issiteavailable",
-      "community": 192,
+      "community": 7,
       "norm_label": "issiteavailable()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_waitforsite",
-      "community": 192,
+      "community": 7,
       "norm_label": "waitforsite()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_commandinvocation",
-      "community": 192,
+      "community": 7,
       "norm_label": "commandinvocation()"
     },
     {
@@ -2590,7 +2590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cloudflare_autobot_test",
-      "community": 216,
+      "community": 7,
       "norm_label": "cloudflare-autobot.test.js"
     },
     {
@@ -2600,7 +2600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_docs_loader_test",
-      "community": 215,
+      "community": 7,
       "norm_label": "docs-loader.test.js"
     },
     {
@@ -2610,7 +2610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_docs_loader_test_assert",
-      "community": 215,
+      "community": 7,
       "norm_label": "assert()"
     },
     {
@@ -2620,7 +2620,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_docs_loader_test_index",
-      "community": 215,
+      "community": 7,
       "norm_label": "index"
     },
     {
@@ -2630,7 +2630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_docs_loader_test_cases",
-      "community": 215,
+      "community": 7,
       "norm_label": "cases"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_docs_loader_test_mcpselection",
-      "community": 215,
+      "community": 7,
       "norm_label": "mcpselection"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_docs_loader_test_staticindexcontext",
-      "community": 215,
+      "community": 7,
       "norm_label": "staticindexcontext"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_docs_loader_test_selected",
-      "community": 215,
+      "community": 7,
       "norm_label": "selected"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test",
-      "community": 214,
+      "community": 7,
       "norm_label": "enhanced-instruction.test.js"
     },
     {
@@ -2750,7 +2750,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_documentation",
-      "community": 214,
+      "community": 7,
       "norm_label": "documentation"
     },
     {
@@ -2760,7 +2760,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_githubcontext",
-      "community": 214,
+      "community": 7,
       "norm_label": "githubcontext"
     },
     {
@@ -2877,7 +2877,7 @@
       "label": "seen",
       "file_type": "code",
       "source_file": "tests/properties-catalog.test.js",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "tests_properties_catalog_test_seen",
       "community": 204,
@@ -3650,7 +3650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "worker_index",
-      "community": 216,
+      "community": 7,
       "norm_label": "index.js"
     },
     {
@@ -3660,7 +3660,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "worker_index_allowedorigins",
-      "community": 216,
+      "community": 7,
       "norm_label": "allowedorigins"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "worker_index_corsheaders",
-      "community": 216,
+      "community": 7,
       "norm_label": "corsheaders"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "worker_index_allowedorigin",
-      "community": 216,
+      "community": 7,
       "norm_label": "allowedorigin()"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "worker_index_withcors",
-      "community": 216,
+      "community": 7,
       "norm_label": "withcors()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "worker_index_preflight",
-      "community": 216,
+      "community": 7,
       "norm_label": "preflight()"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "worker_index_fetch",
-      "community": 216,
+      "community": 7,
       "norm_label": "fetch()"
     },
     {
@@ -15407,7 +15407,7 @@
       "label": "Configuration",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "gui_playwright_backend_configuration",
       "community": 210,
@@ -15417,7 +15417,7 @@
       "label": "Native Access",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L82",
+      "source_location": "L131",
       "_origin": "ast",
       "id": "gui_playwright_backend_native_access",
       "community": 210,
@@ -15427,7 +15427,7 @@
       "label": "Mapping Tree",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L115",
+      "source_location": "L164",
       "_origin": "ast",
       "id": "gui_playwright_backend_mapping_tree",
       "community": 210,
@@ -15437,7 +15437,7 @@
       "label": "Driver",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L124",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "gui_playwright_backend_driver",
       "community": 210,
@@ -15447,7 +15447,7 @@
       "label": "Browser Actions",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L140",
+      "source_location": "L189",
       "_origin": "ast",
       "id": "gui_playwright_backend_browser_actions",
       "community": 210,
@@ -15457,7 +15457,7 @@
       "label": "Element Actions",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L167",
+      "source_location": "L216",
       "_origin": "ast",
       "id": "gui_playwright_backend_element_actions",
       "community": 210,
@@ -15467,7 +15467,7 @@
       "label": "Assertions And Verifications",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L189",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "gui_playwright_backend_assertions_and_verifications",
       "community": 210,
@@ -15477,7 +15477,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L208",
+      "source_location": "L257",
       "_origin": "ast",
       "id": "gui_playwright_backend_related",
       "community": 210,
@@ -21324,10 +21324,20 @@
       "norm_label": "web"
     },
     {
+      "label": "Playwright",
+      "file_type": "document",
+      "source_file": "docs/reference/properties/PropertiesList.mdx",
+      "source_location": "L187",
+      "_origin": "ast",
+      "id": "properties_propertieslist_playwright",
+      "community": 17,
+      "norm_label": "playwright"
+    },
+    {
       "label": "Mobile",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L188",
+      "source_location": "L291",
       "_origin": "ast",
       "id": "properties_propertieslist_mobile",
       "community": 17,
@@ -21337,7 +21347,7 @@
       "label": "API",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L270",
+      "source_location": "L373",
       "_origin": "ast",
       "id": "properties_propertieslist_api",
       "community": 17,
@@ -21347,7 +21357,7 @@
       "label": "Flags",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L313",
+      "source_location": "L416",
       "_origin": "ast",
       "id": "properties_propertieslist_flags",
       "community": 17,
@@ -21357,7 +21367,7 @@
       "label": "Reporting",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L367",
+      "source_location": "L468",
       "_origin": "ast",
       "id": "properties_propertieslist_reporting",
       "community": 17,
@@ -21367,7 +21377,7 @@
       "label": "Allure",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L404",
+      "source_location": "L505",
       "_origin": "ast",
       "id": "properties_propertieslist_allure",
       "community": 17,
@@ -21377,7 +21387,7 @@
       "label": "Timeouts",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L485",
+      "source_location": "L586",
       "_origin": "ast",
       "id": "properties_propertieslist_timeouts",
       "community": 17,
@@ -21387,7 +21397,7 @@
       "label": "Visuals",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L533",
+      "source_location": "L635",
       "_origin": "ast",
       "id": "properties_propertieslist_visuals",
       "community": 17,
@@ -21397,7 +21407,7 @@
       "label": "Jira",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L575",
+      "source_location": "L677",
       "_origin": "ast",
       "id": "properties_propertieslist_jira",
       "community": 17,
@@ -21407,7 +21417,7 @@
       "label": "Cucumber",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L616",
+      "source_location": "L718",
       "_origin": "ast",
       "id": "properties_propertieslist_cucumber",
       "community": 17,
@@ -21417,7 +21427,7 @@
       "label": "Healenium",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L673",
+      "source_location": "L775",
       "_origin": "ast",
       "id": "properties_propertieslist_healenium",
       "community": 17,
@@ -21427,7 +21437,7 @@
       "label": "Healing",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L693",
+      "source_location": "L795",
       "_origin": "ast",
       "id": "properties_propertieslist_healing",
       "community": 17,
@@ -21437,7 +21447,7 @@
       "label": "Natural Actions",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L763",
+      "source_location": "L865",
       "_origin": "ast",
       "id": "properties_propertieslist_natural_actions",
       "community": 17,
@@ -21447,7 +21457,7 @@
       "label": "Paths",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L812",
+      "source_location": "L914",
       "_origin": "ast",
       "id": "properties_propertieslist_paths",
       "community": 17,
@@ -21457,7 +21467,7 @@
       "label": "Pattern",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L838",
+      "source_location": "L941",
       "_origin": "ast",
       "id": "properties_propertieslist_pattern",
       "community": 17,
@@ -21467,17 +21477,27 @@
       "label": "Tinkey",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L854",
+      "source_location": "L957",
       "_origin": "ast",
       "id": "properties_propertieslist_tinkey",
       "community": 17,
       "norm_label": "tinkey"
     },
     {
+      "label": "Internal",
+      "file_type": "document",
+      "source_file": "docs/reference/properties/PropertiesList.mdx",
+      "source_location": "L975",
+      "_origin": "ast",
+      "id": "properties_propertieslist_internal",
+      "community": 17,
+      "norm_label": "internal"
+    },
+    {
       "label": "BrowserStack",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L872",
+      "source_location": "L1046",
       "_origin": "ast",
       "id": "properties_propertieslist_browserstack",
       "community": 17,
@@ -21487,7 +21507,7 @@
       "label": "LambdaTest",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L915",
+      "source_location": "L1089",
       "_origin": "ast",
       "id": "properties_propertieslist_lambdatest",
       "community": 17,
@@ -21497,7 +21517,7 @@
       "label": "Performance",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L962",
+      "source_location": "L1136",
       "_origin": "ast",
       "id": "properties_propertieslist_performance",
       "community": 17,
@@ -21507,7 +21527,7 @@
       "label": "TestNG",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L979",
+      "source_location": "L1153",
       "_origin": "ast",
       "id": "properties_propertieslist_testng",
       "community": 17,
@@ -21517,7 +21537,7 @@
       "label": "Log4j",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1016",
+      "source_location": "L1191",
       "_origin": "ast",
       "id": "properties_propertieslist_log4j",
       "community": 17,
@@ -21527,7 +21547,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1067",
+      "source_location": "L1242",
       "_origin": "ast",
       "id": "properties_propertieslist_related",
       "community": 17,
@@ -28696,9 +28716,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_agents_md",
-      "target": "agents_content",
-      "confidence_score": 1.0
+      "target": "agents_content"
     },
     {
       "relation": "contains",
@@ -28706,9 +28726,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_agents_md",
-      "target": "agents_defaults",
-      "confidence_score": 1.0
+      "target": "agents_defaults"
     },
     {
       "relation": "contains",
@@ -28716,9 +28736,9 @@
       "source_file": "AGENTS.md",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_agents_md",
-      "target": "agents_graphify",
-      "confidence_score": 1.0
+      "target": "agents_graphify"
     },
     {
       "relation": "contains",
@@ -44844,6 +44864,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
+      "source_location": "L975",
+      "weight": 1.0,
+      "source": "properties_propertieslist",
+      "target": "properties_propertieslist_internal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/properties/PropertiesList.mdx",
       "source_location": "L572",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -44929,6 +44959,16 @@
       "confidence_score": 1.0,
       "source": "properties_propertieslist",
       "target": "properties_propertieslist_platform"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/properties/PropertiesList.mdx",
+      "source_location": "L187",
+      "weight": 1.0,
+      "source": "properties_propertieslist",
+      "target": "properties_propertieslist_playwright",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -46402,5 +46442,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "c0db9931e4857f752de8921bcc41609d262a879d"
+  "built_at_commit": "a3db6d0dc9cab6a361e1e258363f94c1131a48cc"
 }

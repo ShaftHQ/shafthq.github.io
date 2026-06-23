@@ -1,16 +1,16 @@
-# Graph Report - codex-junit-runtime-retry-docs  (2026-06-23)
+# Graph Report - shafthq.github.io-codex-user-guide-completeness  (2026-06-23)
 
 ## Corpus Check
-- 218 files · ~210,363 words
+- 218 files · ~212,197 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2306 nodes · 2311 edges · 220 communities (188 shown, 32 thin omitted)
+- 2308 nodes · 2313 edges · 215 communities (183 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c0db9931`
+- Built from commit: `a3db6d0d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -206,7 +206,6 @@
 - [[_COMMUNITY_.github (2)|.github (2)]]
 - [[_COMMUNITY_docsintegrations (2)|docs/integrations (2)]]
 - [[_COMMUNITY_docsmaintainers (2)|docs/maintainers (2)]]
-- [[_COMMUNITY_playwright.config.js (2)|playwright.config.js (2)]]
 - [[_COMMUNITY_docsreference (2)|docs/reference (2)]]
 - [[_COMMUNITY_scriptsverify-models.js (2)|scripts/verify-models.js (2)]]
 - [[_COMMUNITY_sidebars.js (2)|sidebars.js (2)]]
@@ -226,10 +225,6 @@
 - [[_COMMUNITY_Community 211|Community 211]]
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
-- [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
-- [[_COMMUNITY_Community 216|Community 216]]
-- [[_COMMUNITY_Community 217|Community 217]]
 - [[_COMMUNITY_Community 218|Community 218]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -245,21 +240,21 @@
 10. `Mobile and Flutter testing` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `fetchText()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `loadIndex()` --calls--> `fetch()`  [INFERRED]
   functions/api/gemini-proxy.js → worker/index.js
+- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
+  scripts/run-shaft-tests.mjs → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
   functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (220 total, 32 thin omitted)
+## Communities (215 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -290,8 +285,8 @@ Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.19
-Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
+Cohesion: 0.05
+Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+43 more)
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -331,7 +326,7 @@ Nodes (24): Approval Sign-off, Code Changes, Configuration, Deployment Architect
 
 ### Community 17 - "docs/reference (23)"
 Cohesion: 0.08
-Nodes (23): Allure, API, BrowserStack, Cucumber, Flags, Healenium, Healing, Jira (+15 more)
+Nodes (25): Allure, API, BrowserStack, Cucumber, Flags, Healenium, Healing, Internal (+17 more)
 
 ### Community 18 - "docs/archive (23)"
 Cohesion: 0.09
@@ -937,10 +932,6 @@ Nodes (4): attribute(), Related, Validate Browser Title, Validate Browser URL
 Cohesion: 0.50
 Nodes (3): Execution logs, Related, Reporting and evidence
 
-### Community 192 - "playwright.config.js (2)"
-Cohesion: 0.32
-Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
-
 ### Community 199 - "docs/testing (2)"
 Cohesion: 0.50
 Nodes (3): Playwright backend, Related, Web testing
@@ -977,40 +968,24 @@ Nodes (10): Allowed exceptions, Approved palette (site-wide), Code block and Mer
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
 
-### Community 214 - "Community 214"
-Cohesion: 0.26
-Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
-
-### Community 215 - "Community 215"
-Cohesion: 0.19
-Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
-
-### Community 216 - "Community 216"
-Cohesion: 0.30
-Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
-
-### Community 217 - "Community 217"
-Cohesion: 0.29
-Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
-
 ### Community 218 - "Community 218"
 Cohesion: 0.67
 Nodes (3): browserslist, development, production
 
 ## Knowledge Gaps
-- **1502 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1497 more)
+- **1504 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1499 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `fetch()` connect `Community 216` to `playwright.config.js (2)`, `static/img (5)`?**
+- **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **Why does `Interacting with Shadow DOM` connect `docs/reference (5)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1502 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1504 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

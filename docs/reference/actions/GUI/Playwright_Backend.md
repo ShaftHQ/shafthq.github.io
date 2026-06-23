@@ -12,6 +12,7 @@ high-level SHAFT browser, element, alert, and assertion entry points.
 
 ```java title="PlaywrightTest.java"
 import com.shaft.driver.SHAFT;
+import org.testng.annotations.*;
 
 public class PlaywrightTest {
     private SHAFT.GUI.Driver driver;
@@ -57,6 +58,7 @@ Playwright-specific properties use the `playwright.` prefix:
 - `playwright.endpoint`: WebSocket or CDP endpoint for remote Playwright sessions.
 - `playwright.channel`: optional Chromium channel.
 - `playwright.slowMo`: Playwright slow motion in milliseconds.
+- `playwright.launchTimeoutMilliseconds`
 - `playwright.defaultTimeoutMilliseconds`
 - `playwright.navigationTimeoutMilliseconds`
 - `playwright.artifactsDirectory`
@@ -74,6 +76,53 @@ also provides current-device aliases for `Galaxy S26 Ultra` and
 `iPhone 17 Pro Max`. When `playwright.browserName` is empty, SHAFT uses the
 descriptor's default browser type; an explicit `playwright.browserName` still
 wins.
+
+```properties title="src/main/resources/properties/custom.properties"
+targetBrowserName=chrome
+headlessExecution=true
+baseURL=https://example.com
+browserWindowWidth=1280
+browserWindowHeight=720
+
+playwright.browserName=chromium
+playwright.deviceName=
+playwright.connectionMode=local
+playwright.endpoint=
+playwright.channel=
+playwright.slowMo=0
+playwright.launchTimeoutMilliseconds=30000
+playwright.defaultTimeoutMilliseconds=30000
+playwright.navigationTimeoutMilliseconds=30000
+playwright.artifactsDirectory=target/playwright-artifacts
+playwright.downloadsDirectory=
+playwright.acceptDownloads=true
+playwright.tracing.enabled=false
+playwright.tracing.onRetryOnly=true
+playwright.tracing.screenshots=true
+playwright.tracing.snapshots=true
+playwright.tracing.sources=true
+```
+
+The same settings are available programmatically:
+
+```java title="PlaywrightConfig.java"
+SHAFT.Properties.playwright.set()
+        .browserName("chromium")
+        .connectionMode("local")
+        .launchTimeoutMilliseconds(30000)
+        .defaultTimeoutMilliseconds(30000)
+        .navigationTimeoutMilliseconds(30000)
+        .artifactsDirectory("target/playwright-artifacts")
+        .acceptDownloads(true)
+        .tracingOnRetryOnly(true);
+```
+
+Remote sessions use `playwright.connectionMode` and `playwright.endpoint`:
+
+```properties title="src/main/resources/properties/custom.properties"
+playwright.connectionMode=connect
+playwright.endpoint=ws://localhost:3000
+```
 
 Tracing is disabled by default. When SHAFT retry evidence capture is enabled,
 `playwright.tracing.onRetryOnly=true` enables tracing for the retry attempt and
