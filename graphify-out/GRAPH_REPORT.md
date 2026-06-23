@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-22)
+# Graph Report - shafthq.github.io-codex-user-guide-fixes  (2026-06-23)
 
 ## Corpus Check
-- 209 files · ~233,234 words
+- 211 files · ~209,980 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2258 nodes · 2229 edges · 213 communities (181 shown, 32 thin omitted)
+- 2277 nodes · 2246 edges · 215 communities (183 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3986f3eb`
+- Built from commit: `7ab38c0f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -224,6 +224,8 @@
 - [[_COMMUNITY_Community 209|Community 209]]
 - [[_COMMUNITY_Community 210|Community 210]]
 - [[_COMMUNITY_Community 211|Community 211]]
+- [[_COMMUNITY_Community 212|Community 212]]
+- [[_COMMUNITY_Community 213|Community 213]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 36 edges
@@ -246,7 +248,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (213 total, 32 thin omitted)
+## Communities (215 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -470,7 +472,7 @@ Nodes (10): comparisonRows, decisionPoints, heroEngines, onboardingSteps, proofP
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.17
-Nodes (11): Create a new project, Create your first tests, Cucumber, JUnit 5, Manage test data, Optional modular integrations, Quick start, Related (+3 more)
+Nodes (11): Create a new project, Create your first tests, Cucumber, JUnit, Manage test data, Optional modular integrations, Quick start, Related (+3 more)
 
 ### Community 58 - "docs/agentic (10)"
 Cohesion: 0.18
@@ -842,7 +844,7 @@ Nodes (5): Complete Shadow DOM Example, Interacting with Shadow DOM, Locating Sh
 
 ### Community 154 - "docs/reference (5)"
 Cohesion: 0.29
-Nodes (6): Class-Level Driver (Shared Instance), JUnit 5 vs TestNG Comparison, Maven Dependency, Related, Runtime Registration, Test Class Structure
+Nodes (6): Class-Level Driver (Shared Instance), JUnit vs TestNG Comparison, Maven Dependency, Related, Runtime Registration, Test Class Structure
 
 ### Community 155 - "docs/integrations (5)"
 Cohesion: 0.33
@@ -956,8 +958,16 @@ Nodes (8): Assertions And Verifications, Browser Actions, Configuration, Driver,
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260621, ⚡ What Changed?, What's Changed
 
+### Community 212 - "Community 212"
+Cohesion: 0.18
+Nodes (10): Allowed exceptions, Approved palette (site-wide), Code block and Mermaid constraints, Dark theme, Font weights, Light theme, PR checklist for future UI edits, SHAFT UI Design Language (+2 more)
+
+### Community 213 - "Community 213"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
+
 ## Knowledge Gaps
-- **1481 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1476 more)
+- **1493 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1488 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -965,7 +975,7 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 _Questions this graph is uniquely positioned to answer:_
 
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1481 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1493 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

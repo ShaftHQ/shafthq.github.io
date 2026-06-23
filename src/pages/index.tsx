@@ -235,12 +235,19 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
               </li>
             ))}
           </ol>
-          <img
-            src="/img/shaft-automation-hero.png"
-            alt="A central automation engine connected to browser, mobile, API, terminal, and reporting interfaces"
-            width="1792"
-            height="1024"
-          />
+          <picture>
+            <source media="(max-width: 620px)" srcSet="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />
+            <source media="(min-width: 621px)" srcSet="/img/shaft-automation-hero.webp" type="image/webp" />
+            <source media="(min-width: 621px)" srcSet="/img/shaft-automation-hero.png" type="image/png" />
+            <img
+              src="/img/shaft-automation-hero.png"
+              alt="A central automation engine connected to browser, mobile, API, terminal, and reporting interfaces"
+              width="1200"
+              height="676"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
         </div>
       </div>
     </header>
