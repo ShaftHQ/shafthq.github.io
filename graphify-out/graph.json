@@ -3754,40 +3754,40 @@
       "norm_label": "agents.md"
     },
     {
-      "label": "Repository",
+      "label": "Defaults",
       "file_type": "document",
       "source_file": "AGENTS.md",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "agents_repository",
+      "id": "agents_defaults",
       "community": 124,
-      "norm_label": "repository"
+      "norm_label": "defaults"
     },
     {
-      "label": "Content Rules",
+      "label": "Content",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L16",
+      "source_location": "L10",
       "_origin": "ast",
-      "id": "agents_content_rules",
+      "id": "agents_content",
       "community": 124,
-      "norm_label": "content rules"
+      "norm_label": "content"
     },
     {
-      "label": "Experience",
+      "label": "Graphify",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L41",
+      "source_location": "L19",
       "_origin": "ast",
-      "id": "agents_experience",
+      "id": "agents_graphify",
       "community": 124,
-      "norm_label": "experience"
+      "norm_label": "graphify"
     },
     {
       "label": "Validation",
       "file_type": "document",
       "source_file": "AGENTS.md",
-      "source_location": "L51",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "agents_validation",
       "community": 124,
@@ -20467,7 +20467,7 @@
       "label": "Test Class Structure",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L69",
+      "source_location": "L74",
       "_origin": "ast",
       "id": "guides_junit5_integration_test_class_structure",
       "community": 154,
@@ -20477,7 +20477,7 @@
       "label": "JUnit vs TestNG Comparison",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L110",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "guides_junit5_integration_junit_vs_testng_comparison",
       "community": 154,
@@ -20487,7 +20487,7 @@
       "label": "Class-Level Driver (Shared Instance)",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L123",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "guides_junit5_integration_class_level_driver_shared_instance",
       "community": 154,
@@ -20497,7 +20497,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/guides/JUnit5_Integration.md",
-      "source_location": "L176",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "guides_junit5_integration_related",
       "community": 154,
@@ -28694,21 +28694,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "AGENTS.md",
-      "source_location": "L16",
+      "source_location": "L10",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "agents_agents_md",
-      "target": "agents_content_rules"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "AGENTS.md",
-      "source_location": "L41",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "agents_agents_md",
-      "target": "agents_experience"
+      "target": "agents_content",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -28716,9 +28706,19 @@
       "source_file": "AGENTS.md",
       "source_location": "L3",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "agents_agents_md",
-      "target": "agents_repository"
+      "target": "agents_defaults",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "AGENTS.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "agents_agents_md",
+      "target": "agents_graphify",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -46402,5 +46402,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "94b27997f1304d9c315d2e48502c704ac14dbc36"
+  "built_at_commit": "c0db9931e4857f752de8921bcc41609d262a879d"
 }

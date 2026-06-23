@@ -57,6 +57,11 @@ summary rows, telemetry, Jira/Xray handoff, retries, fail-fast skips, linked
 issue skips, setup/teardown failure reporting, and soft-verification failures
 that fail the JUnit run.
 
+JUnit retries use the same SHAFT flag as TestNG retries:
+`retryMaximumNumberOfAttempts`. Configure it in `custom.properties`, pass it as
+`-DretryMaximumNumberOfAttempts=2`, or update it at runtime with
+`SHAFT.Properties.flags.set().retryMaximumNumberOfAttempts(2)`.
+
 :::note
 TestNG remains supported. TestNG XML suite shaping and TestNG retry analyzer
 binding are still TestNG runner features. For JUnit cross-browser coverage, use
