@@ -48,7 +48,8 @@ result and troubleshooting; it is not an alternative migration path.
 3. Compiles the unchanged project first. A broken baseline stops the migration
    before any file is changed.
 4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
-   the legacy `SHAFT_ENGINE` dependency.
+   the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
+   metadata onto runtime dependencies.
 5. Adds only the optional modules supported by project evidence.
 6. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
    the local Maven repository and both main and test source are compiled.
@@ -173,11 +174,17 @@ The script supports projects when it detects one of these shapes:
 | Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
 | Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
 | Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
-| Native REST Assured | REST Assured dependency/import plus TestNG or JUnit dependency/import. |
+| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
 | Cucumber | Cucumber dependency/import. |
 
 For multi-module builds, POMs that directly declare SHAFT or a supported native
-stack/runner pair are updated. Other reactor POMs are left unchanged.
+stack/runner pair are updated. A child module with a supported native stack is
+also updated when the test runner is declared in a parent POM or detected from
+source imports. Other reactor POMs are left unchanged.
+
+JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
+or imports, including suite-style projects that depend on
+`org.junit.platform:junit-platform-suite-api`.
 
 ## Optional-module scan
 
@@ -186,6 +193,12 @@ from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
 are not printed; the report records only paths and detection reasons. Native
 projects receive `shaft-engine` only because native third-party integrations do
 not prove that the corresponding SHAFT provider API is used.
+
+POM evidence is read as Maven dependency coordinates, so compact XML and
+formatted XML are treated the same. For example, a legacy project that already
+declares `com.browserstack:browserstack-java-sdk`,
+`com.automation-remarks:video-recorder-*`, or `org.openpnp:opencv` selects the
+matching SHAFT optional module during migration.
 
 ```mermaid
 flowchart LR
@@ -210,6 +223,10 @@ The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
 ordinary remote sessions. Evidence includes:
 
 - `com.browserstack:browserstack-java-sdk`.
+- `SHAFT.Properties.browserStack.set().platformsList(...)`.
+- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
+- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
+- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
 - `browserStack.platformsList`.
 - `browserStack.parallelsPerPlatform`.
 - `browserStack.browserstackAutomation`.
@@ -217,7 +234,9 @@ ordinary remote sessions. Evidence includes:
 - A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
 
 Direct BrowserStack WebDriver/Appium execution still requires only
-`shaft-engine`.
+`shaft-engine`. Direct settings such as
+`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
+`shaft-browserstack` by themselves.
 
 ### Visual evidence
 
@@ -240,6 +259,8 @@ not select `shaft-visual`.
 The video module is selected for local desktop recording:
 
 - `videoParamsRecordVideo=true`.
+- `videoParams_recordVideo=true`.
+- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
 - A zero-argument `startVideoRecording()` call.
 - Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
 
@@ -359,6 +380,30 @@ Each request is constrained as follows:
 
 Use `--no-ai` to force deterministic rollback even when the environment already
 contains an API key.
+
+## Selenium source migration
+
+The upgrader intentionally does not rewrite standard Selenium Java statements
+such as `driver.findElement(locator).click()` into SHAFT actions. That kind of
+source migration is possible only as a separate, opt-in refactoring because
+Selenium calls can encode project-specific timing, JavaScript fallbacks,
+assertion style, element lifetime, exception handling, and reporting behavior.
+
+Use the dependency upgrader first, then migrate Selenium actions incrementally:
+
+```java
+// Selenium
+driver.findElement(By.id("login")).click();
+
+// SHAFT
+driver.element().click(By.id("login"));
+```
+
+Good candidates for a future source rewriter are simple one-statement actions:
+`click`, `type`/`sendKeys`, `getText`, `isDisplayed`, and navigation calls.
+Risky candidates should remain manual: chained `Actions`, JavaScript execution,
+custom waits, reused `WebElement` instances, exception-driven control flow, and
+assertions whose message or soft/hard behavior matters.
 
 ## Manual migration reference
 
