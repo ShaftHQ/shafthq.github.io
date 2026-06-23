@@ -494,9 +494,12 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
   /** get **/
   var elementIdentificationTimeout = SHAFT.Properties.timeouts.defaultElementIdentificationTimeout();
+  var uiStateTimeout = SHAFT.Properties.timeouts.waitForUiStateTimeout();
 
   /** set **/
-  SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(5);
+  SHAFT.Properties.timeouts.set()
+    .defaultElementIdentificationTimeout(5)
+    .waitForUiStateTimeout(600);
   ```
   
   </TabItem>
@@ -511,6 +514,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pageLoadTimeout                     | `30`          | (seconds)       | Timeout in seconds for page load.                                                  |
 | scriptExecutionTimeout              | `30`          | (seconds)       | Timeout in seconds for script execution.                                           |
 | defaultElementIdentificationTimeout | `10`          | (seconds)       | Default timeout in seconds for element identification.                             |
+| waitForUiStateTimeout               | `600`         | (seconds)       | Default timeout in seconds for UI state waits such as `waitUntil()`.               |
 | apiSocketTimeout                    | `30`          | (seconds)       | Timeout in seconds for API socket connections.                                     |
 | apiConnectionTimeout                | `30`          | (seconds)       | Timeout in seconds for API connections.                                            |
 | apiConnectionManagerTimeout         | `30`          | (seconds)       | Timeout in seconds for API connection manager.                                     |
@@ -522,7 +526,6 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | waitForRemoteServerToBeUp           | `false`       | `true`, `false` | Wait for remote server to be up before execution.                                  |
 | timeoutForRemoteServerToBeUp        | `1`           | (seconds)       | Timeout in seconds for remote server to be up.                                     |
 | remoteServerInstanceCreationTimeout | `5`           | (seconds)       | Timeout in seconds for remote server instance creation.                            |
-| waitUntilTimeout                    | `60`          | (seconds)       | Timeout in seconds for wait.until operations.                                      |
 
   </TabItem>
 </Tabs>

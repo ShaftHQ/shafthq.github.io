@@ -44,6 +44,9 @@ baseURL=https://staging.example.com
 # Time (seconds) SHAFT will retry finding an element before failing
 defaultElementIdentificationTimeout=30
 
+# Time (seconds) for default UI state waits such as driver.element().waitUntil(...)
+waitForUiStateTimeout=600
+
 # Time (seconds) to wait for a page navigation to complete
 browserNavigationTimeout=60
 

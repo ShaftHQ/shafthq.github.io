@@ -35,6 +35,7 @@ SHAFT.Properties.web.set()
 // Configure timeouts (values in seconds)
 SHAFT.Properties.timeouts.set()
     .defaultElementIdentificationTimeout(30)
+    .waitForUiStateTimeout(600)
     .browserNavigationTimeout(60);
 ```
 
@@ -98,6 +99,7 @@ public class ProgrammaticConfigTest {
 
         SHAFT.Properties.timeouts.set()
             .defaultElementIdentificationTimeout(30)
+            .waitForUiStateTimeout(600)
             .browserNavigationTimeout(60);
 
         SHAFT.Properties.visuals.set()
