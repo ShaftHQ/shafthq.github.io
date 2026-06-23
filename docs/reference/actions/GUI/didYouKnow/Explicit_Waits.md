@@ -10,8 +10,8 @@ tags: [web, waits, synchronization, element-actions]
 SHAFT Engine handles **implicit waits** automatically using the `defaultElementIdentificationTimeout` property, so most element interactions will retry until the element is available. For scenarios requiring **condition-specific synchronization**, SHAFT exposes a rich set of explicit wait methods on both `driver.element()` and `driver.browser()`.
 
 :::info
-Configure the default element identification timeout via
-`SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(30)`.
+Configure default custom UI condition waits via
+`SHAFT.Properties.timeouts.set().waitForUiStateTimeout(600)`.
 See [Programmatic Configuration](/docs/reference/properties/Programmatic_Config).
 :::
 
@@ -144,7 +144,7 @@ public class ExplicitWaitsTest {
 
 ## Custom Condition Wait (Lambda)
 
-`driver.element().waitUntil()` accepts any Selenium `ExpectedCondition<Boolean>` — including lambda expressions — for cases not covered by the named wait methods above.
+`driver.element().waitUntil()` accepts any Selenium `ExpectedCondition<Boolean>` — including lambda expressions — for cases not covered by the named wait methods above. Without an explicit `Duration`, it uses `waitForUiStateTimeout`, which defaults to 600 seconds.
 
 ```java title="CustomConditionWait.java"
 import org.openqa.selenium.support.ui.ExpectedConditions;
