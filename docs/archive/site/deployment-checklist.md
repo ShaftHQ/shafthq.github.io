@@ -105,7 +105,7 @@ All items below have been completed and verified:
 
 **Instructions:**
 1. Wait for GitHub Actions to complete (~3-5 minutes)
-2. Visit: https://shafthq.github.io
+2. Visit: https://shaft-engine.automatest.org
 3. Click chatbot button (bottom-right, robot icon)
 4. Type: "what is SHAFT?"
 5. Verify bot responds with relevant SHAFT information

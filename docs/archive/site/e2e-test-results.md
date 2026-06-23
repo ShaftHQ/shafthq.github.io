@@ -189,7 +189,7 @@ All UI/UX tests passed successfully. The chatbot:
    - Deploy to production
 
 2. **For End Users (Once Deployed):**
-   - Click chatbot button on https://shafthq.github.io
+   - Click chatbot button on https://shaft-engine.automatest.org
    - Ask questions about SHAFT
    - Get intelligent, relevant responses powered by Gemini AI
 
