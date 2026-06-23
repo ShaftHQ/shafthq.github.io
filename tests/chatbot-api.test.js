@@ -54,7 +54,7 @@ If you cannot find the answer in the provided documentation, you must state:
 - GitHub Repository: https://github.com/shafthq/SHAFT_ENGINE
 - GitHub Issues: https://github.com/shafthq/SHAFT_ENGINE/issues
 - GitHub Discussions: https://github.com/shafthq/SHAFT_ENGINE/discussions
-- User Guide: https://shaft-engine.automatest.org/"
+- User Guide: https://shafthq.github.io/"
 
 RESPONSE GUIDELINES
 When answering questions:

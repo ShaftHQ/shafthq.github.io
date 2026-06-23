@@ -2,7 +2,7 @@
 
 This repository contains the canonical Docusaurus documentation site for
 [SHAFT Engine](https://github.com/ShaftHQ/SHAFT_ENGINE), published at
-[shaft-engine.automatest.org](https://shaft-engine.automatest.org).
+[shafthq.github.io](https://shafthq.github.io).
 
 The engine source of truth is
 [ShaftHQ/SHAFT_ENGINE](https://github.com/ShaftHQ/SHAFT_ENGINE). This site owns
@@ -44,6 +44,6 @@ validation, content, and pull request checklist.
 Public SHAFT behavior changes should update this repository in the same delivery
 as the engine change and link the engine pull request.
 
-Cloudflare Workers Builds runs `yarn build`, uploads `build/` as static assets,
-and serves `/api/gemini-proxy` for AutoBot. GitHub Pages can publish the same
-static output as a fallback; Netlify can still host preview/static mirrors.
+GitHub Pages publishes the public guide at `https://shafthq.github.io/`.
+Cloudflare Workers hosts the AutoBot backend API and can serve the same static
+build as a mirror; Netlify can still host preview/static mirrors.

@@ -494,7 +494,7 @@ export default function ProjectGenerator(): JSX.Element {
               <h2>Project Generated Successfully</h2>
               <p>Your SHAFT project has been generated and the download should start automatically.</p>
               <div className={styles.infoBox}>
-                Learn more at <a href="/" target="_blank" rel="noopener noreferrer">shaft-engine.automatest.org</a>.
+                Learn more at <a href="/" target="_blank" rel="noopener noreferrer">shafthq.github.io</a>.
                 For advanced settings, use the{' '}
                 <a href="/docs/reference/properties/PropertiesList" target="_blank" rel="noopener noreferrer">properties guide</a>.
               </div>
