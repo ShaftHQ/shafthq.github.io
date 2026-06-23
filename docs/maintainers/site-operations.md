@@ -30,7 +30,8 @@ yarn start
 
 Cloudflare Pages uses `wrangler.toml`, builds with `yarn build`, publishes
 `build/`, and serves `functions/api/gemini-proxy.js` at `/api/gemini-proxy`.
-Set `GEMINI_API_KEY` in Cloudflare Pages environment variables; do not commit it.
+Set `YARN_VERSION=1.22.22` and `GEMINI_API_KEY` in Cloudflare Pages environment
+variables; do not commit secrets.
 
 Netlify uses `yarn build`, publishes `build/`, and serves functions from
 `netlify/functions/`. `GEMINI_API_KEY` belongs in the Netlify environment; it
