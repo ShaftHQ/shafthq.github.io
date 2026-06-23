@@ -185,11 +185,139 @@
   },
   {
     "section": "Playwright",
+    "key": "playwright.browserName",
+    "targetFile": "custom.properties",
+    "defaultValue": "",
+    "possibleValues": "chrome, chromium, firefox, safari, webkit, edge",
+    "description": "Optional Playwright browser engine override. When empty, SHAFT uses the device descriptor browser type or falls back to targetBrowserName."
+  },
+  {
+    "section": "Playwright",
     "key": "playwright.deviceName",
     "targetFile": "custom.properties",
     "defaultValue": "",
     "possibleValues": "Any Microsoft Playwright device descriptor name, Galaxy S26 Ultra, iPhone 17 Pro Max",
     "description": "Playwright backend device descriptor applied to new browser contexts. Reads Playwright's descriptor registry and SHAFT-provided current-device aliases."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.connectionMode",
+    "targetFile": "custom.properties",
+    "defaultValue": "local",
+    "possibleValues": "local, connect, connectOverCDP",
+    "description": "Controls whether SHAFT launches a local Playwright browser, connects over the Playwright protocol, or connects over CDP."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.endpoint",
+    "targetFile": "custom.properties",
+    "defaultValue": "",
+    "possibleValues": "WebSocket or CDP endpoint",
+    "description": "Remote Playwright or CDP endpoint used when connectionMode is connect or connectOverCDP."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.channel",
+    "targetFile": "custom.properties",
+    "defaultValue": "",
+    "possibleValues": "chrome, msedge, chrome-beta, msedge-beta, ...",
+    "description": "Optional Chromium channel passed to Playwright launch options."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.slowMo",
+    "targetFile": "custom.properties",
+    "defaultValue": "0",
+    "possibleValues": "milliseconds",
+    "description": "Playwright slow motion delay in milliseconds for local launch or remote connection actions."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.launchTimeoutMilliseconds",
+    "targetFile": "custom.properties",
+    "defaultValue": "30000",
+    "possibleValues": "milliseconds",
+    "description": "Timeout for launching or connecting to a Playwright browser."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.defaultTimeoutMilliseconds",
+    "targetFile": "custom.properties",
+    "defaultValue": "30000",
+    "possibleValues": "milliseconds",
+    "description": "Default timeout applied to Playwright page actions."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.navigationTimeoutMilliseconds",
+    "targetFile": "custom.properties",
+    "defaultValue": "30000",
+    "possibleValues": "milliseconds",
+    "description": "Default timeout applied to Playwright page navigation."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.artifactsDirectory",
+    "targetFile": "custom.properties",
+    "defaultValue": "target/playwright-artifacts",
+    "possibleValues": "relative or absolute path",
+    "description": "Directory where Playwright traces and other Playwright artifacts are written."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.downloadsDirectory",
+    "targetFile": "custom.properties",
+    "defaultValue": "",
+    "possibleValues": "relative or absolute path",
+    "description": "Optional downloads directory passed to Playwright launch options. Empty uses Playwright defaults."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.acceptDownloads",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Allow Playwright browser contexts to accept downloads."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.tracing.enabled",
+    "targetFile": "custom.properties",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Start Playwright tracing for the session."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.tracing.onRetryOnly",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Enable Playwright tracing automatically only during SHAFT retry evidence capture."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.tracing.screenshots",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include screenshots in Playwright trace artifacts."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.tracing.snapshots",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include DOM snapshots in Playwright trace artifacts."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.tracing.sources",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include source files in Playwright trace artifacts."
   },
   {
     "section": "Mobile",
@@ -227,7 +355,7 @@
     "section": "Mobile",
     "key": "mobile_automationName",
     "targetFile": "custom.properties",
-    "defaultValue": "",
+    "defaultValue": "UiAutomator2",
     "possibleValues": "",
     "description": "Mobile automation Name setting."
   },
@@ -766,6 +894,14 @@
     "defaultValue": "30",
     "possibleValues": "(seconds)",
     "description": "Timeout in seconds for shell session."
+  },
+  {
+    "section": "Timeouts",
+    "key": "sshServerAliveInterval",
+    "targetFile": "custom.properties",
+    "defaultValue": "60",
+    "possibleValues": "seconds; <= 0 disables keep-alive packets",
+    "description": "JSch ServerAliveInterval in seconds for remote SSH sessions."
   },
   {
     "section": "Timeouts",
@@ -1481,6 +1617,135 @@
     "defaultValue": "",
     "possibleValues": "",
     "description": "Tinkey kms server Type setting."
+  },
+  {
+    "section": "Internal",
+    "key": "shaftEngineVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "10.2.20260622",
+    "possibleValues": "",
+    "description": "Engine version used by update checks, telemetry metadata, and internal tooling."
+  },
+  {
+    "section": "Internal",
+    "key": "watermarkImagePath",
+    "targetFile": "internal.properties",
+    "defaultValue": "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-engine/src/main/resources/images/shaft_white_bg.png",
+    "possibleValues": "URL or file path",
+    "description": "Default watermark image used by screenshot processing."
+  },
+  {
+    "section": "Internal",
+    "key": "allure3Version",
+    "targetFile": "internal.properties",
+    "defaultValue": "3.12.0",
+    "possibleValues": "Allure 3 npm package version",
+    "description": "Allure 3 CLI package version used when SHAFT resolves the CLI through npx."
+  },
+  {
+    "section": "Internal",
+    "key": "nodeLtsVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "24.17.0",
+    "possibleValues": "Node.js version",
+    "description": "Portable Node.js version downloaded when neither allure nor npx is available on PATH."
+  },
+  {
+    "section": "Internal",
+    "key": "appiumServerVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "3.5.2",
+    "possibleValues": "Appium npm package version",
+    "description": "Appium server version used by SHAFT MCP local mobile bootstrap."
+  },
+  {
+    "section": "Internal",
+    "key": "appiumInspectorPluginVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "2026.5.1",
+    "possibleValues": "Appium Inspector plugin version",
+    "description": "Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording."
+  },
+  {
+    "section": "Internal",
+    "key": "appiumUiAutomator2DriverVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "7.6.2",
+    "possibleValues": "Appium driver version",
+    "description": "Appium UiAutomator2 driver version used by SHAFT MCP for Android."
+  },
+  {
+    "section": "Internal",
+    "key": "appiumXcuitestDriverVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "11.12.2",
+    "possibleValues": "Appium driver version",
+    "description": "Appium XCUITest driver version used by SHAFT MCP for iOS."
+  },
+  {
+    "section": "Internal",
+    "key": "androidCommandLineToolsVersion",
+    "targetFile": "internal.properties",
+    "defaultValue": "14742923",
+    "possibleValues": "Android command-line tools build number",
+    "description": "Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools."
+  },
+  {
+    "section": "Internal",
+    "key": "androidEmulatorApiLevel",
+    "targetFile": "internal.properties",
+    "defaultValue": "36",
+    "possibleValues": "Android API level",
+    "description": "Default Android API level proposed for SHAFT-managed emulator creation."
+  },
+  {
+    "section": "Internal",
+    "key": "androidEmulatorDeviceProfile",
+    "targetFile": "internal.properties",
+    "defaultValue": "pixel_8",
+    "possibleValues": "Android virtual device profile",
+    "description": "Default Android virtual device profile proposed for SHAFT-managed emulators."
+  },
+  {
+    "section": "Internal",
+    "key": "androidEmulatorImageTag",
+    "targetFile": "internal.properties",
+    "defaultValue": "google_apis",
+    "possibleValues": "Android system image tag",
+    "description": "Default Android system image tag proposed for SHAFT-managed emulators."
+  },
+  {
+    "section": "Internal",
+    "key": "androidEmulatorRamMb",
+    "targetFile": "internal.properties",
+    "defaultValue": "4096",
+    "possibleValues": "megabytes",
+    "description": "Default Android emulator RAM size in MB."
+  },
+  {
+    "section": "Internal",
+    "key": "androidEmulatorCores",
+    "targetFile": "internal.properties",
+    "defaultValue": "2",
+    "possibleValues": "CPU core count",
+    "description": "Default Android emulator CPU core count."
+  },
+  {
+    "section": "Internal",
+    "key": "ga4MeasurementId",
+    "targetFile": "internal.properties",
+    "defaultValue": "G-4L9L79WZBV",
+    "possibleValues": "GA4 Measurement ID",
+    "description": "Google Analytics 4 Measurement ID used for anonymous telemetry."
+  },
+  {
+    "section": "Internal",
+    "key": "ga4ApiSecret",
+    "targetFile": "internal.properties",
+    "defaultValue": "",
+    "possibleValues": "GA4 API secret",
+    "description": "Google Analytics 4 Measurement Protocol API secret. Override privately through internal.properties; do not commit real secrets.",
+    "sensitive": true
   },
   {
     "section": "BrowserStack",

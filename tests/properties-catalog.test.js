@@ -6,6 +6,7 @@ function assert(condition, message) {
 
 const allowedTargets = new Set([
   'custom.properties',
+  'internal.properties',
   'cucumber.properties',
   'TestNG.properties',
   'log4j2.properties',
