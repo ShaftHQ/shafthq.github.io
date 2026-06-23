@@ -3,4 +3,4 @@ Allow: /
 
 Disallow: /assets/
 
-Sitemap: https://shaft-engine.automatest.org/sitemap.xml
+Sitemap: https://shafthq.github.io/sitemap.xml
