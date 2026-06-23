@@ -20,7 +20,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "demo_autobot_approach",
-      "community": 7,
+      "community": 217,
       "norm_label": "demo-autobot-approach.mjs"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "demo_autobot_approach_starttime",
-      "community": 7,
+      "community": 217,
       "norm_label": "starttime"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "demo_autobot_approach_documentation",
-      "community": 7,
+      "community": 217,
       "norm_label": "documentation"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "demo_autobot_approach_githubcontext",
-      "community": 7,
+      "community": 217,
       "norm_label": "githubcontext"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "demo_autobot_approach_keytopics",
-      "community": 7,
+      "community": 217,
       "norm_label": "keytopics"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "demo_autobot_approach_apidocstart",
-      "community": 7,
+      "community": 217,
       "norm_label": "apidocstart"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "demo_autobot_approach_samplequestions",
-      "community": 7,
+      "community": 217,
       "norm_label": "samplequestions"
     },
     {
@@ -124,43 +124,43 @@
       "norm_label": "config"
     },
     {
-      "label": "gemini-proxy.mjs",
+      "label": "gemini-proxy.js",
       "file_type": "code",
-      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_file": "functions/api/gemini-proxy.js",
       "source_location": "L1",
       "_origin": "ast",
       "id": "api_gemini_proxy",
-      "community": 7,
-      "norm_label": "gemini-proxy.mjs"
+      "community": 216,
+      "norm_label": "gemini-proxy.js"
     },
     {
       "label": "loadIndex()",
       "file_type": "code",
-      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_file": "functions/api/gemini-proxy.js",
       "source_location": "L8",
       "_origin": "ast",
       "id": "api_gemini_proxy_loadindex",
-      "community": 7,
+      "community": 216,
       "norm_label": "loadindex()"
     },
     {
       "label": "getDocumentationContext()",
       "file_type": "code",
-      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_file": "functions/api/gemini-proxy.js",
       "source_location": "L22",
       "_origin": "ast",
       "id": "api_gemini_proxy_getdocumentationcontext",
-      "community": 7,
+      "community": 216,
       "norm_label": "getdocumentationcontext()"
     },
     {
       "label": "onRequest()",
       "file_type": "code",
-      "source_file": "functions/api/gemini-proxy.mjs",
+      "source_file": "functions/api/gemini-proxy.js",
       "source_location": "L34",
       "_origin": "ast",
       "id": "api_gemini_proxy_onrequest",
-      "community": 7,
+      "community": 216,
       "norm_label": "onrequest()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_autobot_core",
-      "community": 7,
+      "community": 214,
       "norm_label": "autobot-core.mjs"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "functions_autobot_core_modelstotry",
-      "community": 7,
+      "community": 214,
       "norm_label": "modelstotry"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "functions_autobot_core_jsonresponse",
-      "community": 7,
+      "community": 214,
       "norm_label": "jsonresponse()"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "functions_autobot_core_messageformodelfailure",
-      "community": 7,
+      "community": 214,
       "norm_label": "messageformodelfailure()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "functions_autobot_core_createautobotresponse",
-      "community": 7,
+      "community": 214,
       "norm_label": "createautobotresponse()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_constants",
-      "community": 7,
+      "community": 214,
       "norm_label": "constants.mjs"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_docs_retrieval",
-      "community": 7,
+      "community": 215,
       "norm_label": "docs-retrieval.mjs"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "functions_docs_retrieval_stop_words",
-      "community": 7,
+      "community": 215,
       "norm_label": "stop_words"
     },
     {
@@ -360,7 +360,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "functions_docs_retrieval_tokenize",
-      "community": 7,
+      "community": 215,
       "norm_label": "tokenize()"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "functions_docs_retrieval_scorechunk",
-      "community": 7,
+      "community": 215,
       "norm_label": "scorechunk()"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "functions_docs_retrieval_retrievefromindex",
-      "community": 7,
+      "community": 215,
       "norm_label": "retrievefromindex()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "functions_docs_retrieval_loaddocumentationfromindex",
-      "community": 7,
+      "community": 215,
       "norm_label": "loaddocumentationfromindex()"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_gemini_proxy",
-      "community": 7,
+      "community": 214,
       "norm_label": "gemini-proxy.mjs"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "functions_gemini_proxy_getdocumentationcontext",
-      "community": 7,
+      "community": 214,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_github_context",
-      "community": 7,
+      "community": 214,
       "norm_label": "github-context.mjs"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "functions_github_context_getgithubrepositorycontext",
-      "community": 7,
+      "community": 214,
       "norm_label": "getgithubrepositorycontext()"
     },
     {
@@ -484,10 +484,20 @@
       "norm_label": "license"
     },
     {
-      "label": "scripts",
+      "label": "packageManager",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L6",
+      "_origin": "ast",
+      "id": "package_packagemanager",
+      "community": 63,
+      "norm_label": "packagemanager"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "package_scripts",
       "community": 23,
@@ -497,7 +507,7 @@
       "label": "docusaurus",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L7",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "package_scripts_docusaurus",
       "community": 23,
@@ -507,7 +517,7 @@
       "label": "start",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "package_scripts_start",
       "community": 23,
@@ -517,7 +527,7 @@
       "label": "build",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "package_scripts_build",
       "community": 23,
@@ -527,7 +537,7 @@
       "label": "swizzle",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "package_scripts_swizzle",
       "community": 23,
@@ -537,7 +547,7 @@
       "label": "deploy",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "package_scripts_deploy",
       "community": 23,
@@ -547,7 +557,7 @@
       "label": "clear",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "package_scripts_clear",
       "community": 23,
@@ -557,7 +567,7 @@
       "label": "serve",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "package_scripts_serve",
       "community": 23,
@@ -567,7 +577,7 @@
       "label": "write-translations",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "package_scripts_write_translations",
       "community": 23,
@@ -577,7 +587,7 @@
       "label": "write-heading-ids",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "package_scripts_write_heading_ids",
       "community": 23,
@@ -587,7 +597,7 @@
       "label": "typecheck",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_scripts_typecheck",
       "community": 23,
@@ -597,7 +607,7 @@
       "label": "test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "package_scripts_test",
       "community": 23,
@@ -607,7 +617,7 @@
       "label": "test:history",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_scripts_test_history",
       "community": 23,
@@ -617,7 +627,7 @@
       "label": "test:homepage",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_scripts_test_homepage",
       "community": 23,
@@ -627,7 +637,7 @@
       "label": "test:docs",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_scripts_test_docs",
       "community": 23,
@@ -637,7 +647,7 @@
       "label": "test:api",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_scripts_test_api",
       "community": 23,
@@ -647,7 +657,7 @@
       "label": "test:e2e",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_scripts_test_e2e",
       "community": 23,
@@ -657,7 +667,7 @@
       "label": "test:playwright",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_scripts_test_playwright",
       "community": 23,
@@ -667,7 +677,7 @@
       "label": "test:release-template",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_scripts_test_release_template",
       "community": 23,
@@ -677,7 +687,7 @@
       "label": "test:shaft",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_scripts_test_shaft",
       "community": 23,
@@ -687,7 +697,7 @@
       "label": "verify-models",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_scripts_verify_models",
       "community": 23,
@@ -697,7 +707,7 @@
       "label": "dependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_dependencies",
       "community": 28,
@@ -707,7 +717,7 @@
       "label": "@cmfcmf/docusaurus-search-local",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_dependencies_cmfcmf_docusaurus_search_local",
       "community": 28,
@@ -717,7 +727,7 @@
       "label": "@docusaurus/core",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_dependencies_docusaurus_core",
       "community": 28,
@@ -727,7 +737,7 @@
       "label": "@docusaurus/preset-classic",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_dependencies_docusaurus_preset_classic",
       "community": 28,
@@ -737,7 +747,7 @@
       "label": "@docusaurus/theme-mermaid",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_dependencies_docusaurus_theme_mermaid",
       "community": 28,
@@ -747,7 +757,7 @@
       "label": "@fortawesome/fontawesome-svg-core",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_dependencies_fortawesome_fontawesome_svg_core",
       "community": 28,
@@ -757,7 +767,7 @@
       "label": "@fortawesome/free-brands-svg-icons",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_dependencies_fortawesome_free_brands_svg_icons",
       "community": 28,
@@ -767,7 +777,7 @@
       "label": "@fortawesome/free-regular-svg-icons",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_dependencies_fortawesome_free_regular_svg_icons",
       "community": 28,
@@ -777,7 +787,7 @@
       "label": "@fortawesome/free-solid-svg-icons",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast",
       "id": "package_dependencies_fortawesome_free_solid_svg_icons",
       "community": 28,
@@ -787,7 +797,7 @@
       "label": "@fortawesome/react-fontawesome",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_dependencies_fortawesome_react_fontawesome",
       "community": 28,
@@ -797,7 +807,7 @@
       "label": "@google/genai",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_dependencies_google_genai",
       "community": 28,
@@ -807,7 +817,7 @@
       "label": "@mdx-js/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_dependencies_mdx_js_react",
       "community": 28,
@@ -817,7 +827,7 @@
       "label": "prism-react-renderer",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_dependencies_prism_react_renderer",
       "community": 28,
@@ -827,7 +837,7 @@
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 28,
@@ -837,7 +847,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 28,
@@ -847,7 +857,7 @@
       "label": "react-markdown",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "package_dependencies_react_markdown",
       "community": 28,
@@ -857,7 +867,7 @@
       "label": "remark-gfm",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "package_dependencies_remark_gfm",
       "community": 28,
@@ -867,7 +877,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L46",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 88,
@@ -877,7 +887,7 @@
       "label": "@docusaurus/module-type-aliases",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L47",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "package_devdependencies_docusaurus_module_type_aliases",
       "community": 88,
@@ -887,7 +897,7 @@
       "label": "@docusaurus/tsconfig",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L48",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "package_devdependencies_docusaurus_tsconfig",
       "community": 88,
@@ -897,7 +907,7 @@
       "label": "@docusaurus/types",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L49",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "package_devdependencies_docusaurus_types",
       "community": 88,
@@ -907,7 +917,7 @@
       "label": "@playwright/test",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L50",
+      "source_location": "L51",
       "_origin": "ast",
       "id": "package_devdependencies_playwright_test",
       "community": 88,
@@ -917,7 +927,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L51",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 88,
@@ -927,7 +937,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L52",
+      "source_location": "L53",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 88,
@@ -937,7 +947,7 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L53",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 88,
@@ -947,7 +957,7 @@
       "label": "resolutions",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L55",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "package_resolutions",
       "community": 174,
@@ -957,7 +967,7 @@
       "label": "serialize-javascript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L56",
+      "source_location": "L57",
       "_origin": "ast",
       "id": "package_resolutions_serialize_javascript",
       "community": 174,
@@ -967,7 +977,7 @@
       "label": "minimatch",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "package_resolutions_minimatch",
       "community": 174,
@@ -977,7 +987,7 @@
       "label": "node-forge",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L58",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "package_resolutions_node_forge",
       "community": 174,
@@ -987,7 +997,7 @@
       "label": "overrides",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L60",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "package_overrides",
       "community": 63,
@@ -997,7 +1007,7 @@
       "label": "serialize-javascript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L61",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "package_overrides_serialize_javascript",
       "community": 63,
@@ -1007,7 +1017,7 @@
       "label": "minimatch",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L62",
+      "source_location": "L63",
       "_origin": "ast",
       "id": "package_overrides_minimatch",
       "community": 63,
@@ -1017,7 +1027,7 @@
       "label": "node-forge",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L63",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "package_overrides_node_forge",
       "community": 63,
@@ -1027,37 +1037,37 @@
       "label": "browserslist",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L65",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "package_browserslist",
-      "community": 63,
+      "community": 218,
       "norm_label": "browserslist"
     },
     {
       "label": "production",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L66",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "package_browserslist_production",
-      "community": 63,
+      "community": 218,
       "norm_label": "production"
     },
     {
       "label": "development",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L71",
+      "source_location": "L72",
       "_origin": "ast",
       "id": "package_browserslist_development",
-      "community": 63,
+      "community": 218,
       "norm_label": "development"
     },
     {
       "label": "engines",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L77",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "package_engines",
       "community": 63,
@@ -1067,7 +1077,7 @@
       "label": "node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L78",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "package_engines_node",
       "community": 63,
@@ -1387,7 +1397,7 @@
       "label": "AutoBot()",
       "file_type": "code",
       "source_file": "src/components/AutoBot/index.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "autobot_index_autobot",
       "community": 96,
@@ -2580,7 +2590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cloudflare_autobot_test",
-      "community": 7,
+      "community": 216,
       "norm_label": "cloudflare-autobot.test.js"
     },
     {
@@ -2590,7 +2600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_docs_loader_test",
-      "community": 7,
+      "community": 215,
       "norm_label": "docs-loader.test.js"
     },
     {
@@ -2600,7 +2610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_docs_loader_test_assert",
-      "community": 7,
+      "community": 215,
       "norm_label": "assert()"
     },
     {
@@ -2610,7 +2620,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_docs_loader_test_index",
-      "community": 7,
+      "community": 215,
       "norm_label": "index"
     },
     {
@@ -2620,7 +2630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_docs_loader_test_cases",
-      "community": 7,
+      "community": 215,
       "norm_label": "cases"
     },
     {
@@ -2630,7 +2640,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_docs_loader_test_mcpselection",
-      "community": 7,
+      "community": 215,
       "norm_label": "mcpselection"
     },
     {
@@ -2640,7 +2650,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_docs_loader_test_staticindexcontext",
-      "community": 7,
+      "community": 215,
       "norm_label": "staticindexcontext"
     },
     {
@@ -2650,7 +2660,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_docs_loader_test_selected",
-      "community": 7,
+      "community": 215,
       "norm_label": "selected"
     },
     {
@@ -2730,7 +2740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test",
-      "community": 7,
+      "community": 214,
       "norm_label": "enhanced-instruction.test.js"
     },
     {
@@ -2740,7 +2750,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_documentation",
-      "community": 7,
+      "community": 214,
       "norm_label": "documentation"
     },
     {
@@ -2750,7 +2760,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_githubcontext",
-      "community": 7,
+      "community": 214,
       "norm_label": "githubcontext"
     },
     {
@@ -3632,6 +3642,76 @@
       "id": "tsconfig_exclude",
       "community": 92,
       "norm_label": "exclude"
+    },
+    {
+      "label": "index.js",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "worker_index",
+      "community": 216,
+      "norm_label": "index.js"
+    },
+    {
+      "label": "allowedOrigins",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "worker_index_allowedorigins",
+      "community": 216,
+      "norm_label": "allowedorigins"
+    },
+    {
+      "label": "corsHeaders",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "worker_index_corsheaders",
+      "community": 216,
+      "norm_label": "corsheaders"
+    },
+    {
+      "label": "allowedOrigin()",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "worker_index_allowedorigin",
+      "community": 216,
+      "norm_label": "allowedorigin()"
+    },
+    {
+      "label": "withCors()",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "worker_index_withcors",
+      "community": 216,
+      "norm_label": "withcors()"
+    },
+    {
+      "label": "preflight()",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "worker_index_preflight",
+      "community": 216,
+      "norm_label": "preflight()"
+    },
+    {
+      "label": "fetch()",
+      "file_type": "code",
+      "source_file": "worker/index.js",
+      "source_location": "L42",
+      "_origin": "ast",
+      "id": "worker_index_fetch",
+      "community": 216,
+      "norm_label": "fetch()"
     },
     {
       "label": "copilot-instructions.md",
@@ -10667,7 +10747,7 @@
       "label": "Egypt accessibility",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "maintainers_site_operations_egypt_accessibility",
       "community": 139,
@@ -10677,7 +10757,7 @@
       "label": "Validation",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L58",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "maintainers_site_operations_validation",
       "community": 139,
@@ -10687,7 +10767,7 @@
       "label": "Search and AutoBot",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L71",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "maintainers_site_operations_search_and_autobot",
       "community": 139,
@@ -10697,7 +10777,7 @@
       "label": "Content changes",
       "file_type": "document",
       "source_file": "docs/maintainers/site-operations.md",
-      "source_location": "L84",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "maintainers_site_operations_content_changes",
       "community": 139,
@@ -23074,9 +23154,9 @@
       "source_file": "demo-autobot-approach.mjs",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "demo_autobot_approach",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "contains",
@@ -23094,9 +23174,9 @@
       "source_file": "docusaurus.config.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docusaurus_config",
-      "target": "docusaurus_config_siteasset",
-      "confidence_score": 1.0
+      "target": "docusaurus_config_siteasset"
     },
     {
       "relation": "contains",
@@ -23114,9 +23194,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "api_gemini_proxy_getdocumentationcontext",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy_getdocumentationcontext"
     },
     {
       "relation": "contains",
@@ -23124,9 +23204,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "api_gemini_proxy_loadindex",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy_loadindex"
     },
     {
       "relation": "contains",
@@ -23134,9 +23214,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "api_gemini_proxy_onrequest",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy_onrequest"
     },
     {
       "relation": "imports_from",
@@ -23145,9 +23225,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_autobot_core",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core"
     },
     {
       "relation": "imports",
@@ -23156,9 +23236,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_autobot_core_createautobotresponse",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_createautobotresponse"
     },
     {
       "relation": "imports_from",
@@ -23167,9 +23247,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_docs_retrieval",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval"
     },
     {
       "relation": "imports",
@@ -23178,9 +23258,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_docs_retrieval_loaddocumentationfromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "imports_from",
@@ -23189,9 +23269,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_github_context",
-      "confidence_score": 1.0
+      "target": "functions_github_context"
     },
     {
       "relation": "imports",
@@ -23200,9 +23280,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "imports_from",
@@ -23211,7 +23291,18 @@
       "source_file": "tests/cloudflare-autobot.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_cloudflare_autobot_test",
+      "target": "api_gemini_proxy"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "worker_index",
       "target": "api_gemini_proxy",
       "confidence_score": 1.0
     },
@@ -23222,9 +23313,20 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy_getdocumentationcontext",
-      "target": "api_gemini_proxy_loadindex",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy_loadindex"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "functions/api/gemini-proxy.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "api_gemini_proxy_loadindex",
+      "target": "worker_index_fetch"
     },
     {
       "relation": "calls",
@@ -23233,9 +23335,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy_getdocumentationcontext",
-      "target": "functions_docs_retrieval_loaddocumentationfromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "calls",
@@ -23244,9 +23346,9 @@
       "source_file": "functions/api/gemini-proxy.mjs",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "api_gemini_proxy_getdocumentationcontext",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "calls",
@@ -23266,7 +23368,18 @@
       "source_file": "tests/cloudflare-autobot.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_cloudflare_autobot_test",
+      "target": "api_gemini_proxy_onrequest"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "worker_index",
       "target": "api_gemini_proxy_onrequest",
       "confidence_score": 1.0
     },
@@ -23276,9 +23389,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core",
-      "target": "functions_autobot_core_createautobotresponse",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_createautobotresponse"
     },
     {
       "relation": "contains",
@@ -23286,9 +23399,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core",
-      "target": "functions_autobot_core_jsonresponse",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_jsonresponse"
     },
     {
       "relation": "contains",
@@ -23296,9 +23409,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core",
-      "target": "functions_autobot_core_messageformodelfailure",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_messageformodelfailure"
     },
     {
       "relation": "contains",
@@ -23306,9 +23419,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core",
-      "target": "functions_autobot_core_modelstotry",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_modelstotry"
     },
     {
       "relation": "imports_from",
@@ -23317,9 +23430,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core",
-      "target": "functions_constants",
-      "confidence_score": 1.0
+      "target": "functions_constants"
     },
     {
       "relation": "imports_from",
@@ -23328,9 +23441,9 @@
       "source_file": "netlify/functions/gemini-proxy.mjs",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_gemini_proxy",
-      "target": "functions_autobot_core",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core"
     },
     {
       "relation": "calls",
@@ -23339,9 +23452,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core_createautobotresponse",
-      "target": "functions_autobot_core_jsonresponse",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_jsonresponse"
     },
     {
       "relation": "calls",
@@ -23350,9 +23463,9 @@
       "source_file": "netlify/functions/autobot-core.mjs",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_autobot_core_createautobotresponse",
-      "target": "functions_autobot_core_messageformodelfailure",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_messageformodelfailure"
     },
     {
       "relation": "imports",
@@ -23361,9 +23474,9 @@
       "source_file": "netlify/functions/gemini-proxy.mjs",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_gemini_proxy",
-      "target": "functions_autobot_core_createautobotresponse",
-      "confidence_score": 1.0
+      "target": "functions_autobot_core_createautobotresponse"
     },
     {
       "relation": "imports_from",
@@ -23405,9 +23518,9 @@
       "source_file": "netlify/functions/github-context.mjs",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_github_context",
-      "target": "functions_constants",
-      "confidence_score": 1.0
+      "target": "functions_constants"
     },
     {
       "relation": "contains",
@@ -23516,9 +23629,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_docs_retrieval",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval"
     },
     {
       "relation": "imports",
@@ -23527,9 +23640,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_docs_retrieval_loaddocumentationfromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "imports",
@@ -23538,9 +23651,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_docs_retrieval_retrievefromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_retrievefromindex"
     },
     {
       "relation": "imports_from",
@@ -23560,9 +23673,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_github_context",
-      "confidence_score": 1.0
+      "target": "functions_github_context"
     },
     {
       "relation": "re_exports",
@@ -23571,9 +23684,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "imports_from",
@@ -23604,9 +23717,9 @@
       "source_file": "scripts/build-autobot-index.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_build_autobot_index",
-      "target": "functions_docs_loader",
-      "confidence_score": 1.0
+      "target": "functions_docs_loader"
     },
     {
       "relation": "calls",
@@ -23659,9 +23772,9 @@
       "source_file": "netlify/functions/docs-loader.mjs",
       "source_location": "L117",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_loader_loaddocumentation",
-      "target": "functions_docs_loader_builddocumentationindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_loader_builddocumentationindex"
     },
     {
       "relation": "imports",
@@ -23670,9 +23783,9 @@
       "source_file": "scripts/build-autobot-index.mjs",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_build_autobot_index",
-      "target": "functions_docs_loader_builddocumentationindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_loader_builddocumentationindex"
     },
     {
       "relation": "calls",
@@ -23768,9 +23881,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval",
-      "target": "functions_docs_retrieval_loaddocumentationfromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "contains",
@@ -23778,9 +23891,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval",
-      "target": "functions_docs_retrieval_retrievefromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_retrievefromindex"
     },
     {
       "relation": "contains",
@@ -23788,9 +23901,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval",
-      "target": "functions_docs_retrieval_scorechunk",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_scorechunk"
     },
     {
       "relation": "contains",
@@ -23798,9 +23911,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval",
-      "target": "functions_docs_retrieval_stop_words",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_stop_words"
     },
     {
       "relation": "contains",
@@ -23808,9 +23921,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval",
-      "target": "functions_docs_retrieval_tokenize",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_tokenize"
     },
     {
       "relation": "imports_from",
@@ -23819,9 +23932,9 @@
       "source_file": "tests/docs-loader.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_loader_test",
-      "target": "functions_docs_retrieval",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval"
     },
     {
       "relation": "calls",
@@ -23830,9 +23943,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval_retrievefromindex",
-      "target": "functions_docs_retrieval_tokenize",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_tokenize"
     },
     {
       "relation": "calls",
@@ -23841,9 +23954,9 @@
       "source_file": "netlify/functions/docs-retrieval.mjs",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_docs_retrieval_loaddocumentationfromindex",
-      "target": "functions_docs_retrieval_retrievefromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_retrievefromindex"
     },
     {
       "relation": "imports",
@@ -23852,9 +23965,9 @@
       "source_file": "tests/docs-loader.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_loader_test",
-      "target": "functions_docs_retrieval_loaddocumentationfromindex",
-      "confidence_score": 1.0
+      "target": "functions_docs_retrieval_loaddocumentationfromindex"
     },
     {
       "relation": "contains",
@@ -23873,9 +23986,9 @@
       "source_file": "netlify/functions/gemini-proxy.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_gemini_proxy",
-      "target": "functions_github_context",
-      "confidence_score": 1.0
+      "target": "functions_github_context"
     },
     {
       "relation": "imports",
@@ -23884,9 +23997,9 @@
       "source_file": "netlify/functions/gemini-proxy.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_gemini_proxy",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "calls",
@@ -23895,9 +24008,9 @@
       "source_file": "netlify/functions/gemini-proxy.mjs",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_gemini_proxy_getdocumentationcontext",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "contains",
@@ -23905,9 +24018,9 @@
       "source_file": "netlify/functions/github-context.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "functions_github_context",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "imports",
@@ -23916,9 +24029,9 @@
       "source_file": "tests/enhanced-instruction.test.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_enhanced_instruction_test",
-      "target": "functions_github_context_getgithubrepositorycontext",
-      "confidence_score": 1.0
+      "target": "functions_github_context_getgithubrepositorycontext"
     },
     {
       "relation": "contains",
@@ -23989,6 +24102,16 @@
       "confidence_score": 1.0,
       "source": "package",
       "target": "package_overrides"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_packagemanager",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -24577,9 +24700,9 @@
       "source_file": "scripts/build-autobot-index.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_build_autobot_index",
-      "target": "scripts_build_autobot_index_index",
-      "confidence_score": 1.0
+      "target": "scripts_build_autobot_index_index"
     },
     {
       "relation": "contains",
@@ -24587,9 +24710,9 @@
       "source_file": "scripts/build-autobot-index.mjs",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_build_autobot_index",
-      "target": "scripts_build_autobot_index_outputpath",
-      "confidence_score": 1.0
+      "target": "scripts_build_autobot_index_outputpath"
     },
     {
       "relation": "contains",
@@ -24597,9 +24720,9 @@
       "source_file": "scripts/build-autobot-index.mjs",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "scripts_build_autobot_index",
-      "target": "scripts_build_autobot_index_root",
-      "confidence_score": 1.0
+      "target": "scripts_build_autobot_index_root"
     },
     {
       "relation": "contains",
@@ -24782,6 +24905,17 @@
       "confidence_score": 1.0,
       "source": "scripts_run_shaft_tests_issiteavailable",
       "target": "scripts_run_shaft_tests_waitforsite"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "scripts/run-shaft-tests.mjs",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "scripts_run_shaft_tests_issiteavailable",
+      "target": "worker_index_fetch"
     },
     {
       "relation": "contains",
@@ -25885,6 +26019,17 @@
     {
       "relation": "calls",
       "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/project-generator.tsx",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "pages_project_generator_fetchjson",
+      "target": "worker_index_fetch"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/project-generator.tsx",
       "source_location": "L143",
@@ -25892,6 +26037,17 @@
       "confidence_score": 1.0,
       "source": "pages_project_generator_fetchdirectorycontents",
       "target": "pages_project_generator_fetchtext"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/project-generator.tsx",
+      "source_location": "L102",
+      "weight": 1.0,
+      "source": "pages_project_generator_fetchtext",
+      "target": "worker_index_fetch"
     },
     {
       "relation": "contains",
@@ -26067,6 +26223,17 @@
       "target": "tests_chatbot_api_test_testresponserelevance"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/cloudflare-autobot.test.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "tests_cloudflare_autobot_test",
+      "target": "worker_index",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/docs-loader.test.js",
@@ -26122,9 +26289,9 @@
       "source_file": "tests/docs-loader.test.js",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_loader_test",
-      "target": "tests_docs_loader_test_staticindexcontext",
-      "confidence_score": 1.0
+      "target": "tests_docs_loader_test_staticindexcontext"
     },
     {
       "relation": "contains",
@@ -28398,6 +28565,110 @@
       "confidence_score": 1.0,
       "source": "tsconfig_compileroptions",
       "target": "tsconfig_compileroptions_noemit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_allowedorigin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_allowedorigins",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_corsheaders",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_fetch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_preflight",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "worker_index",
+      "target": "worker_index_withcors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "worker_index_preflight",
+      "target": "worker_index_allowedorigin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "worker_index_withcors",
+      "target": "worker_index_allowedorigin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "worker_index_fetch",
+      "target": "worker_index_withcors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "worker/index.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "source": "worker_index_fetch",
+      "target": "worker_index_preflight",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -32275,9 +32546,9 @@
       "source_file": "docs/archive/site/deployment-checklist.md",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "site_deployment_checklist_deployment_checklist",
-      "target": "site_deployment_checklist_historical_deployment_status_netlify_migration",
-      "confidence_score": 1.0
+      "target": "site_deployment_checklist_historical_deployment_status_netlify_migration"
     },
     {
       "relation": "contains",
@@ -32345,9 +32616,9 @@
       "source_file": "docs/archive/site/deployment-checklist.md",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "site_deployment_checklist_historical_deployment_status_netlify_migration",
-      "target": "site_deployment_checklist_deployment_architecture",
-      "confidence_score": 1.0
+      "target": "site_deployment_checklist_deployment_architecture"
     },
     {
       "relation": "contains",
@@ -32355,9 +32626,9 @@
       "source_file": "docs/archive/site/deployment-checklist.md",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "site_deployment_checklist_historical_deployment_status_netlify_migration",
-      "target": "site_deployment_checklist_migration_completed",
-      "confidence_score": 1.0
+      "target": "site_deployment_checklist_migration_completed"
     },
     {
       "relation": "contains",
@@ -34685,9 +34956,9 @@
       "source_file": "docs/maintainers/site-operations.md",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "maintainers_site_operations_documentation_site_operations",
-      "target": "maintainers_site_operations_egypt_accessibility",
-      "confidence_score": 1.0
+      "target": "maintainers_site_operations_egypt_accessibility"
     },
     {
       "relation": "contains",
@@ -46131,5 +46402,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "de36d8ff4e0e93fe7cec21cdc8d65eb462b56ea8"
+  "built_at_commit": "03c4aa414eb36f7114113bcabf505a2dbde5c014"
 }

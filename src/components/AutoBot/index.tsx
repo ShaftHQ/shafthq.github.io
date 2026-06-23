@@ -16,7 +16,8 @@ interface Message {
 // Constants
 const MOBILE_BREAKPOINT = 768;
 const MOBILE_KEYBOARD_DELAY = 300;
-const USER_GUIDE_URL = 'https://shaft-engine.automatest.org/';
+const USER_GUIDE_URL = 'https://shafthq.github.io/';
+const AUTOBOT_API_URL = 'https://shaft-engine.mohab-mohieeldeen.workers.dev/api/gemini-proxy';
 
 const AutoBot: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -156,11 +157,8 @@ Focus on helping users with:
         parts: [{ text: msg.content }],
       }));
 
-      // Call the Netlify Function proxy endpoint
-      // Note: For local development, you need to run Netlify CLI with:
-      // netlify dev (or) npx netlify-cli dev
-      // This will make Netlify Functions available at /.netlify/functions/*
-      const response = await fetch('/api/gemini-proxy', {
+      // Call the Cloudflare Worker proxy endpoint so GitHub Pages can remain static.
+      const response = await fetch(AUTOBOT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

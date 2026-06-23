@@ -4,7 +4,7 @@
 const {themes} = require('prism-react-renderer');
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
-const siteUrl = 'https://shaft-engine.automatest.org';
+const siteUrl = 'https://shafthq.github.io';
 const siteAsset = (path) => new URL(path, siteUrl).toString();
 
 /** @type {import('@docusaurus/types').Config} */
@@ -17,8 +17,7 @@ const config = {
   favicon: 'img/shaft.ico',
   deploymentBranch: 'gh-pages',
 
-  // GitHub pages deployment config (GitHub Pages now redirects to Netlify).
-  // Primary deployment is now on Netlify.
+  // GitHub Pages deployment config for the canonical public guide URL.
   organizationName: 'ShaftHQ', // Usually your GitHub org/user name.
   projectName: 'shafthq.github.io', // Usually your repo name.
 
@@ -356,11 +355,8 @@ const config = {
                 to: '/blog',
               },
               {
-                html: `
-                <a href="https://www.netlify.com" target="_blank" rel="noreferrer noopener" aria-label="Deploys by Netlify">
-                  <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="Deploys by Netlify" width="114" height="51" />
-                </a>
-              `,
+                label: 'GitHub Pages',
+                href: 'https://shafthq.github.io/',
               },
             ],
           },
@@ -373,7 +369,7 @@ const config = {
           src: '/img/shaft.svg',
           href: 'https://github.com/ShaftHQ',
         },
-        copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus and GitHub Pages.`,
       },
       prism: {
         theme: lightTheme,

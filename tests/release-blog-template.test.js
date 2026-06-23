@@ -103,7 +103,7 @@ try {
 
   const expectedResourceLinks = [
     'https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/10.2.20260501',
-    'https://shaft-engine.automatest.org/',
+    'https://shafthq.github.io/',
     'https://github.com/ShaftHQ/SHAFT_ENGINE/discussions',
     'https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new',
   ];
@@ -186,7 +186,7 @@ try {
     assert(
       generatedLinks.some(
         (url) => url.protocol === 'https:'
-          && url.hostname === 'shaft-engine.automatest.org'
+          && url.hostname === 'shafthq.github.io'
           && url.pathname === '/docs/start/overview',
       ),
       'Generated releases must link to the canonical documentation site.',

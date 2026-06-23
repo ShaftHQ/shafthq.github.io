@@ -28,8 +28,8 @@ jobs:
       - name: Build
         run: yarn build
 
-      # Publish the full static guide to GitHub Pages as a static-only fallback.
-      # AutoBot still requires the Cloudflare Pages Function on the canonical domain.
+      # Publish the full static guide to GitHub Pages for the canonical public URL.
+      # AutoBot calls the Cloudflare Worker API because GitHub Pages is static-only.
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Release
         uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
