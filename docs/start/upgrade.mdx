@@ -21,13 +21,17 @@ script. It upgrades:
 - Projects already using modular SHAFT.
 - Legacy projects using `io.github.shafthq:SHAFT_ENGINE`.
 
-For native projects, the script preserves the existing Selenium, Appium, REST
-Assured, Cucumber, TestNG, and JUnit source and dependencies. It adds modular
-SHAFT so the project can adopt the SHAFT API incrementally; it does not
-mechanically rewrite all native test code. Native projects start with
-`shaft-engine` only; their existing third-party BrowserStack, OpenCV, or video
-dependencies are preserved without being reinterpreted as SHAFT optional-module
-usage.
+For native projects, the default `basic` upgrade preserves existing Selenium,
+Appium, REST Assured, Cucumber, TestNG, and JUnit source and dependencies. It
+adds modular SHAFT so the project can adopt the SHAFT API incrementally. Native
+projects start with `shaft-engine` only; their existing third-party
+BrowserStack, OpenCV, or video dependencies are preserved without being
+reinterpreted as SHAFT optional-module usage.
+
+Selenium and Appium projects can opt into deeper source migration with
+`--upgrade-type session` or `--upgrade-type full`. These modes stay inside the
+same compile-validated transaction and roll back POM and source changes
+together when validation fails.
 
 For legacy SHAFT projects, Java imports remain under `com.shaft`. The script
 replaces the old Maven coordinate, imports the BOM, scans source and
@@ -48,13 +52,16 @@ result and troubleshooting; it is not an alternative migration path.
 3. Compiles the unchanged project first. A broken baseline stops the migration
    before any file is changed.
 4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
-   the legacy `SHAFT_ENGINE` dependency.
+   the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
+   metadata onto runtime dependencies.
 5. Adds only the optional modules supported by project evidence.
-6. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
+6. For Selenium/Appium source upgrades, applies conservative Java rewrites in
+   the same transaction as the POM migration.
+7. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
    the local Maven repository and both main and test source are compiled.
-7. Commits the file transaction only after compilation passes.
-8. Restores every touched file byte-for-byte when validation fails.
-9. Optionally uses the OpenAI Responses API for exactly three repair attempts
+8. Commits the file transaction only after compilation passes.
+9. Restores every touched file byte-for-byte when validation fails.
+10. Optionally uses the OpenAI Responses API for exactly three repair attempts
    before rollback.
 
 ```mermaid
@@ -67,7 +74,7 @@ flowchart TD
     Baseline --> BaselinePass{"Baseline passes?"}
     BaselinePass -- No --> Stop
     BaselinePass -- Yes --> Snapshot["Open file transaction"]
-    Snapshot --> Upgrade["Update POM and select optional modules"]
+    Snapshot --> Upgrade["Update POM and optional source rewrites"]
     Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
     Compile --> Pass{"Compilation passes?"}
     Pass -- Yes --> Commit["Commit upgraded files"]
@@ -125,13 +132,50 @@ The script prints:
 
 Review the plan and answer `y` to start the transaction.
 
+### Choose an upgrade type
+
+Agents and humans should choose one of three upgrade depths:
+
+| Upgrade type | Risk | Supported projects | What changes |
+| --- | --- | --- | --- |
+| `basic` | Low | Legacy SHAFT, modular SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven projects | Updates selected POMs to modular SHAFT and leaves existing test source intact. Existing tests keep using their current APIs; new tests can use SHAFT and Allure reporting. |
+| `session` | Medium | Selenium/Appium projects only | Runs `basic`, then rewrites supported driver/session creation to `SHAFT.GUI.WebDriver`, wraps existing Selenium/Appium driver constructors, and rewrites `driver.close()` termination calls to `driver.quit()` where the driver variable was migrated. |
+| `full` | High | Selenium/Appium projects only | Runs `session`, then rewrites simple browser and element actions such as `get`, `navigate().to`, `findElement(...).click()`, `sendKeys`, `getText`, `isDisplayed`, and `getAttribute` to SHAFT engine calls. Element and browser assertions remain manual. |
+
+`basic` is the default:
+
+```bash
+python3 upgrade_to_modular_shaft.py --project . --upgrade-type basic
+```
+
+For Selenium/Appium projects, opt into session or action migration explicitly:
+
+```bash
+python3 upgrade_to_modular_shaft.py --project . --upgrade-type session
+python3 upgrade_to_modular_shaft.py --project . --upgrade-type full
+```
+
+AI agents that use SHAFT MCP, Codex, Claude, or another automation shell should
+ask for the user's preferred risk level before applying changes. The script can
+print the same decision menu as JSON without writing files or running Maven:
+
+```bash
+python3 upgrade_to_modular_shaft.py --project . --agent-plan
+```
+
+The JSON response contains `basic`, `session`, and `full` entries with risk,
+eligibility, reason, description, detected stacks/runners, candidate POMs, and
+a recommended command. `session` and `full` are marked ineligible unless the
+project is detected as Selenium or Appium.
+
 ### Preview without changing files
 
 ```bash
 python3 upgrade_to_modular_shaft.py --project . --dry-run
 ```
 
-Dry-run prints unified POM diffs. It does not write files or run Maven.
+Dry-run prints unified POM and optional source diffs for the selected
+`--upgrade-type`. It does not write files or run Maven.
 
 ### Non-interactive usage
 
@@ -143,8 +187,9 @@ python3 upgrade_to_modular_shaft.py \
 ```
 
 `--yes` is required when standard input is not interactive. The optional report
-records the selected version, POMs, detected modules, evidence, compile count,
-AI attempt count, and rollback status. It never contains the API key.
+records the selected upgrade type, version, POMs, detected modules, evidence,
+source files changed by the selected upgrade type, compile count, AI attempt
+count, and rollback status. It never contains the API key.
 
 ### Command reference
 
@@ -154,8 +199,10 @@ AI attempt count, and rollback status. It never contains the API key.
 | `--shaft-version VERSION` | Use a controlled version instead of Maven Central's latest release. Useful for local/offline repositories. |
 | `--compile-command COMMAND` | Override the default Maven `dependency:go-offline test-compile -DskipTests -Dgpg.skip` command. |
 | `--compile-timeout SECONDS` | Set the timeout for each compile invocation. Default: 900 seconds. |
+| `--upgrade-type TYPE` | Select `basic`, `session`, or `full`. `basic` is the default; `session` and `full` require Selenium/Appium. |
+| `--agent-plan` | Print the three upgrade choices as JSON for AI agents, then exit without writing or compiling. |
 | `--skip-baseline-compile` | Skip the unchanged-project compile. This weakens failure attribution and is not recommended. |
-| `--dry-run` | Print POM diffs without writing or compiling. |
+| `--dry-run` | Print POM and optional source diffs without writing or compiling. |
 | `--yes` | Do not prompt before applying changes. |
 | `--report PATH` | Write an optional JSON result report. |
 | `--prompt-for-openai-key` | Securely prompt for an optional API key. |
@@ -173,11 +220,17 @@ The script supports projects when it detects one of these shapes:
 | Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
 | Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
 | Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
-| Native REST Assured | REST Assured dependency/import plus TestNG or JUnit dependency/import. |
+| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
 | Cucumber | Cucumber dependency/import. |
 
 For multi-module builds, POMs that directly declare SHAFT or a supported native
-stack/runner pair are updated. Other reactor POMs are left unchanged.
+stack/runner pair are updated. A child module with a supported native stack is
+also updated when the test runner is declared in a parent POM or detected from
+source imports. Other reactor POMs are left unchanged.
+
+JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
+or imports, including suite-style projects that depend on
+`org.junit.platform:junit-platform-suite-api`.
 
 ## Optional-module scan
 
@@ -186,6 +239,12 @@ from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
 are not printed; the report records only paths and detection reasons. Native
 projects receive `shaft-engine` only because native third-party integrations do
 not prove that the corresponding SHAFT provider API is used.
+
+POM evidence is read as Maven dependency coordinates, so compact XML and
+formatted XML are treated the same. For example, a legacy project that already
+declares `com.browserstack:browserstack-java-sdk`,
+`com.automation-remarks:video-recorder-*`, or `org.openpnp:opencv` selects the
+matching SHAFT optional module during migration.
 
 ```mermaid
 flowchart LR
@@ -210,6 +269,10 @@ The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
 ordinary remote sessions. Evidence includes:
 
 - `com.browserstack:browserstack-java-sdk`.
+- `SHAFT.Properties.browserStack.set().platformsList(...)`.
+- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
+- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
+- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
 - `browserStack.platformsList`.
 - `browserStack.parallelsPerPlatform`.
 - `browserStack.browserstackAutomation`.
@@ -217,7 +280,9 @@ ordinary remote sessions. Evidence includes:
 - A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
 
 Direct BrowserStack WebDriver/Appium execution still requires only
-`shaft-engine`.
+`shaft-engine`. Direct settings such as
+`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
+`shaft-browserstack` by themselves.
 
 ### Visual evidence
 
@@ -240,6 +305,8 @@ not select `shaft-visual`.
 The video module is selected for local desktop recording:
 
 - `videoParamsRecordVideo=true`.
+- `videoParams_recordVideo=true`.
+- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
 - A zero-argument `startVideoRecording()` call.
 - Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
 
@@ -278,7 +345,7 @@ sequenceDiagram
     Script->>Maven: Compile unchanged project
     Maven-->>Script: Success
     Script->>Files: Remember original bytes
-    Script->>Files: Write modular POM
+    Script->>Files: Write modular POM and optional source rewrites
     Script->>Maven: Compile upgraded project
     alt Compilation succeeds
         Maven-->>Script: Success
@@ -299,7 +366,7 @@ sequenceDiagram
         alt A repair compiles
             Script->>Files: Commit transaction
         else All attempts fail
-            Script->>Files: Restore POM and all AI-edited files
+            Script->>Files: Restore POM, source, and all AI-edited files
         end
     end
 ```
@@ -359,6 +426,99 @@ Each request is constrained as follows:
 
 Use `--no-ai` to force deterministic rollback even when the environment already
 contains an API key.
+
+## Selenium source migration
+
+Source migration is opt-in and compile-validated. `basic` keeps source intact.
+`session` and `full` are rejected for REST Assured-only, Cucumber-only, and
+other non-Selenium/Appium projects.
+
+### Session upgrade rewrites
+
+`--upgrade-type session` performs the POM upgrade, then rewrites supported
+driver session code:
+
+- `WebDriver` type declarations, simple return types, parameters, and
+  `ThreadLocal<WebDriver>` holders become `SHAFT.GUI.WebDriver`.
+- `new ChromeDriver(...)`, `new FirefoxDriver(...)`, `new EdgeDriver(...)`,
+  `new SafariDriver(...)`, `new RemoteWebDriver(...)`, `new AndroidDriver(...)`,
+  `new IOSDriver(...)`, and `new AppiumDriver(...)` are wrapped as
+  `new SHAFT.GUI.WebDriver(new ...Driver(...))`.
+- `driver.close()` becomes `driver.quit()` when the variable was migrated to
+  `SHAFT.GUI.WebDriver`.
+
+Example:
+
+```java
+// Selenium before
+private WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+    driver = new ChromeDriver();
+}
+
+@AfterMethod
+public void stopDriver() {
+    driver.close();
+}
+
+// SHAFT after session upgrade
+private SHAFT.GUI.WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+    driver = new SHAFT.GUI.WebDriver(new ChromeDriver());
+}
+
+@AfterMethod
+public void stopDriver() {
+    driver.quit();
+}
+```
+
+### Full upgrade rewrites
+
+`--upgrade-type full` runs the session upgrade, then rewrites simple
+one-statement browser and element actions:
+
+```java
+// Selenium
+driver.get("https://example.com");
+driver.findElement(By.id("login")).click();
+driver.findElement(By.id("username")).sendKeys("demo");
+
+// SHAFT
+driver.browser().navigateToURL("https://example.com");
+driver.element().click(By.id("login"));
+driver.element().type(By.id("username"), "demo");
+```
+
+The automatic full upgrade currently targets:
+
+- `driver.get(url)` and `driver.navigate().to(url)`.
+- `driver.findElement(locator).click()`.
+- `driver.findElement(locator).sendKeys(text)`.
+- `driver.findElement(locator).getText()`.
+- `driver.findElement(locator).isDisplayed()`.
+- `driver.findElement(locator).getAttribute(name)`.
+
+The report lists files changed by source migration and records unsupported
+patterns that need manual review. Risky cases remain manual: chained Selenium
+`Actions`, JavaScript execution, custom waits, reused `WebElement` instances,
+`findElements` collection handling, exception-driven control flow, and
+assertions whose message or soft/hard behavior matters.
+
+After a full upgrade, migrate element and browser assertions manually so their
+intent remains clear:
+
+```java
+// Selenium/TestNG assertion
+Assert.assertTrue(driver.findElement(By.id("banner")).isDisplayed());
+
+// SHAFT assertion
+driver.element().assertThat(By.id("banner")).isVisible();
+```
 
 ## Manual migration reference
 
