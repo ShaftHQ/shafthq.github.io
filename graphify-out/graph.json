@@ -22017,7 +22017,7 @@
       "label": "Upgrade an existing project",
       "file_type": "document",
       "source_file": "docs/start/installation.mdx",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "start_installation_upgrade_an_existing_project",
       "community": 160,
@@ -22027,7 +22027,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/start/installation.mdx",
-      "source_location": "L60",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "start_installation_related",
       "community": 160,
@@ -22197,7 +22197,7 @@
       "label": "Optional modular integrations",
       "file_type": "document",
       "source_file": "docs/start/quick-start.md",
-      "source_location": "L305",
+      "source_location": "L303",
       "_origin": "ast",
       "id": "start_quick_start_optional_modular_integrations",
       "community": 57,
@@ -22207,7 +22207,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/start/quick-start.md",
-      "source_location": "L352",
+      "source_location": "L350",
       "_origin": "ast",
       "id": "start_quick_start_related",
       "community": 57,
@@ -23302,9 +23302,9 @@
       "source_file": "worker/index.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "api_gemini_proxy",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy"
     },
     {
       "relation": "calls",
@@ -23379,9 +23379,9 @@
       "source_file": "worker/index.js",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "api_gemini_proxy_onrequest",
-      "confidence_score": 1.0
+      "target": "api_gemini_proxy_onrequest"
     },
     {
       "relation": "contains",
@@ -24109,9 +24109,9 @@
       "source_file": "package.json",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_packagemanager",
-      "confidence_score": 1.0
+      "target": "package_packagemanager"
     },
     {
       "relation": "contains",
@@ -26229,9 +26229,9 @@
       "source_file": "tests/cloudflare-autobot.test.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_cloudflare_autobot_test",
-      "target": "worker_index",
-      "confidence_score": 1.0
+      "target": "worker_index"
     },
     {
       "relation": "contains",
@@ -28572,9 +28572,9 @@
       "source_file": "worker/index.js",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_allowedorigin",
-      "confidence_score": 1.0
+      "target": "worker_index_allowedorigin"
     },
     {
       "relation": "contains",
@@ -28582,9 +28582,9 @@
       "source_file": "worker/index.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_allowedorigins",
-      "confidence_score": 1.0
+      "target": "worker_index_allowedorigins"
     },
     {
       "relation": "contains",
@@ -28592,9 +28592,9 @@
       "source_file": "worker/index.js",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_corsheaders",
-      "confidence_score": 1.0
+      "target": "worker_index_corsheaders"
     },
     {
       "relation": "contains",
@@ -28602,9 +28602,9 @@
       "source_file": "worker/index.js",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_fetch",
-      "confidence_score": 1.0
+      "target": "worker_index_fetch"
     },
     {
       "relation": "contains",
@@ -28612,9 +28612,9 @@
       "source_file": "worker/index.js",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_preflight",
-      "confidence_score": 1.0
+      "target": "worker_index_preflight"
     },
     {
       "relation": "contains",
@@ -28622,9 +28622,9 @@
       "source_file": "worker/index.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index",
-      "target": "worker_index_withcors",
-      "confidence_score": 1.0
+      "target": "worker_index_withcors"
     },
     {
       "relation": "calls",
@@ -28633,9 +28633,9 @@
       "source_file": "worker/index.js",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_preflight",
-      "target": "worker_index_allowedorigin",
-      "confidence_score": 1.0
+      "target": "worker_index_allowedorigin"
     },
     {
       "relation": "calls",
@@ -28644,9 +28644,9 @@
       "source_file": "worker/index.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_withcors",
-      "target": "worker_index_allowedorigin",
-      "confidence_score": 1.0
+      "target": "worker_index_allowedorigin"
     },
     {
       "relation": "calls",
@@ -28655,9 +28655,9 @@
       "source_file": "worker/index.js",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_fetch",
-      "target": "worker_index_withcors",
-      "confidence_score": 1.0
+      "target": "worker_index_withcors"
     },
     {
       "relation": "calls",
@@ -28666,9 +28666,9 @@
       "source_file": "worker/index.js",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "worker_index_fetch",
-      "target": "worker_index_preflight",
-      "confidence_score": 1.0
+      "target": "worker_index_preflight"
     },
     {
       "relation": "contains",
@@ -46402,5 +46402,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "03c4aa414eb36f7114113bcabf505a2dbde5c014"
+  "built_at_commit": "f0664bf786eeefdc71419f1c25556734b2f57e88"
 }
