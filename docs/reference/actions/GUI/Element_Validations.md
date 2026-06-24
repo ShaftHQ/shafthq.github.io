@@ -129,6 +129,11 @@ driver.assertThat(locator).doesNotMatchReferenceImage();
 
 Baseline images are saved in `src/test/resources/DynamicObjectRepository/`. See [Visual Testing →](./didYouKnow/Visual_Testing) for engine options.
 
+`SHAFT.GUI.Playwright` supports the same element visual assertions when
+`shaft-visual` is on the runtime classpath. Playwright captures
+`Locator.screenshot()` bytes; the no-argument overload uses OpenCV, while
+explicit OpenCV and Applitools Eyes engines use the selected visual provider.
+
 ---
 
 ## Custom Report Messages

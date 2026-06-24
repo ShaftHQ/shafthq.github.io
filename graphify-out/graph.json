@@ -20,7 +20,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "demo_autobot_approach",
-      "community": 220,
+      "community": 7,
       "norm_label": "demo-autobot-approach.mjs"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "demo_autobot_approach_starttime",
-      "community": 220,
+      "community": 7,
       "norm_label": "starttime"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "demo_autobot_approach_documentation",
-      "community": 220,
+      "community": 7,
       "norm_label": "documentation"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "demo_autobot_approach_githubcontext",
-      "community": 220,
+      "community": 7,
       "norm_label": "githubcontext"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "demo_autobot_approach_keytopics",
-      "community": 220,
+      "community": 7,
       "norm_label": "keytopics"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "demo_autobot_approach_apidocstart",
-      "community": 220,
+      "community": 7,
       "norm_label": "apidocstart"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "demo_autobot_approach_samplequestions",
-      "community": 220,
+      "community": 7,
       "norm_label": "samplequestions"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "api_gemini_proxy",
-      "community": 215,
+      "community": 7,
       "norm_label": "gemini-proxy.js"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "api_gemini_proxy_loadindex",
-      "community": 215,
+      "community": 7,
       "norm_label": "loadindex()"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "api_gemini_proxy_getdocumentationcontext",
-      "community": 215,
+      "community": 7,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "api_gemini_proxy_onrequest",
-      "community": 215,
+      "community": 7,
       "norm_label": "onrequest()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_autobot_core",
-      "community": 192,
+      "community": 7,
       "norm_label": "autobot-core.mjs"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "functions_autobot_core_modelstotry",
-      "community": 192,
+      "community": 7,
       "norm_label": "modelstotry"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "functions_autobot_core_jsonresponse",
-      "community": 192,
+      "community": 7,
       "norm_label": "jsonresponse()"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "functions_autobot_core_messageformodelfailure",
-      "community": 192,
+      "community": 7,
       "norm_label": "messageformodelfailure()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "functions_autobot_core_createautobotresponse",
-      "community": 192,
+      "community": 7,
       "norm_label": "createautobotresponse()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_constants",
-      "community": 192,
+      "community": 7,
       "norm_label": "constants.mjs"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_docs_retrieval",
-      "community": 214,
+      "community": 7,
       "norm_label": "docs-retrieval.mjs"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "functions_docs_retrieval_stop_words",
-      "community": 214,
+      "community": 7,
       "norm_label": "stop_words"
     },
     {
@@ -360,7 +360,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "functions_docs_retrieval_tokenize",
-      "community": 214,
+      "community": 7,
       "norm_label": "tokenize()"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "functions_docs_retrieval_scorechunk",
-      "community": 214,
+      "community": 7,
       "norm_label": "scorechunk()"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "functions_docs_retrieval_retrievefromindex",
-      "community": 214,
+      "community": 7,
       "norm_label": "retrievefromindex()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "functions_docs_retrieval_loaddocumentationfromindex",
-      "community": 214,
+      "community": 7,
       "norm_label": "loaddocumentationfromindex()"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_gemini_proxy",
-      "community": 192,
+      "community": 7,
       "norm_label": "gemini-proxy.mjs"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "functions_gemini_proxy_getdocumentationcontext",
-      "community": 192,
+      "community": 7,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_github_context",
-      "community": 192,
+      "community": 7,
       "norm_label": "github-context.mjs"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "functions_github_context_getgithubrepositorycontext",
-      "community": 192,
+      "community": 7,
       "norm_label": "getgithubrepositorycontext()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests",
-      "community": 217,
+      "community": 7,
       "norm_label": "run-shaft-tests.mjs"
     },
     {
@@ -1270,7 +1270,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_reporoot",
-      "community": 217,
+      "community": 7,
       "norm_label": "reporoot"
     },
     {
@@ -1280,7 +1280,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_releases",
-      "community": 217,
+      "community": 7,
       "norm_label": "releases"
     },
     {
@@ -1290,7 +1290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_findavailableport",
-      "community": 217,
+      "community": 7,
       "norm_label": "findavailableport()"
     },
     {
@@ -1300,7 +1300,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_isportavailable",
-      "community": 217,
+      "community": 7,
       "norm_label": "isportavailable()"
     },
     {
@@ -1310,7 +1310,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_issiteavailable",
-      "community": 217,
+      "community": 7,
       "norm_label": "issiteavailable()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_waitforsite",
-      "community": 217,
+      "community": 7,
       "norm_label": "waitforsite()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_commandinvocation",
-      "community": 217,
+      "community": 7,
       "norm_label": "commandinvocation()"
     },
     {
@@ -2590,7 +2590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cloudflare_autobot_test",
-      "community": 215,
+      "community": 7,
       "norm_label": "cloudflare-autobot.test.js"
     },
     {
@@ -2600,7 +2600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_docs_loader_test",
-      "community": 214,
+      "community": 7,
       "norm_label": "docs-loader.test.js"
     },
     {
@@ -2610,7 +2610,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_docs_loader_test_assert",
-      "community": 214,
+      "community": 7,
       "norm_label": "assert()"
     },
     {
@@ -2620,7 +2620,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_docs_loader_test_index",
-      "community": 214,
+      "community": 7,
       "norm_label": "index"
     },
     {
@@ -2630,7 +2630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_docs_loader_test_cases",
-      "community": 214,
+      "community": 7,
       "norm_label": "cases"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_docs_loader_test_mcpselection",
-      "community": 214,
+      "community": 7,
       "norm_label": "mcpselection"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_docs_loader_test_staticindexcontext",
-      "community": 214,
+      "community": 7,
       "norm_label": "staticindexcontext"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_docs_loader_test_selected",
-      "community": 214,
+      "community": 7,
       "norm_label": "selected"
     },
     {
@@ -2684,10 +2684,20 @@
       "norm_label": "docsroot"
     },
     {
-      "label": "publicDirectories",
+      "label": "sidebarsPath",
       "file_type": "code",
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L6",
+      "_origin": "ast",
+      "id": "tests_docs_quality_test_sidebarspath",
+      "community": 205,
+      "norm_label": "sidebarspath"
+    },
+    {
+      "label": "publicDirectories",
+      "file_type": "code",
+      "source_file": "tests/docs-quality.test.js",
+      "source_location": "L7",
       "_origin": "ast",
       "id": "tests_docs_quality_test_publicdirectories",
       "community": 205,
@@ -2697,7 +2707,7 @@
       "label": "assert()",
       "file_type": "code",
       "source_file": "tests/docs-quality.test.js",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "tests_docs_quality_test_assert",
       "community": 205,
@@ -2707,11 +2717,31 @@
       "label": "publicDocs()",
       "file_type": "code",
       "source_file": "tests/docs-quality.test.js",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "tests_docs_quality_test_publicdocs",
       "community": 205,
       "norm_label": "publicdocs()"
+    },
+    {
+      "label": "pillarsGuide",
+      "file_type": "code",
+      "source_file": "tests/docs-quality.test.js",
+      "source_location": "L59",
+      "_origin": "ast",
+      "id": "tests_docs_quality_test_pillarsguide",
+      "community": 205,
+      "norm_label": "pillarsguide"
+    },
+    {
+      "label": "sidebars",
+      "file_type": "code",
+      "source_file": "tests/docs-quality.test.js",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "tests_docs_quality_test_sidebars",
+      "community": 205,
+      "norm_label": "sidebars"
     },
     {
       "label": "homepage.spec.js",
@@ -2740,7 +2770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test",
-      "community": 192,
+      "community": 7,
       "norm_label": "enhanced-instruction.test.js"
     },
     {
@@ -2750,7 +2780,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_documentation",
-      "community": 192,
+      "community": 7,
       "norm_label": "documentation"
     },
     {
@@ -2760,7 +2790,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_githubcontext",
-      "community": 192,
+      "community": 7,
       "norm_label": "githubcontext"
     },
     {
@@ -3650,7 +3680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "worker_index",
-      "community": 215,
+      "community": 7,
       "norm_label": "index.js"
     },
     {
@@ -3660,7 +3690,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "worker_index_allowedorigins",
-      "community": 215,
+      "community": 7,
       "norm_label": "allowedorigins"
     },
     {
@@ -3670,7 +3700,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "worker_index_corsheaders",
-      "community": 215,
+      "community": 7,
       "norm_label": "corsheaders"
     },
     {
@@ -3680,7 +3710,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "worker_index_allowedorigin",
-      "community": 215,
+      "community": 7,
       "norm_label": "allowedorigin()"
     },
     {
@@ -3690,7 +3720,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "worker_index_withcors",
-      "community": 215,
+      "community": 7,
       "norm_label": "withcors()"
     },
     {
@@ -3700,7 +3730,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "worker_index_preflight",
-      "community": 215,
+      "community": 7,
       "norm_label": "preflight()"
     },
     {
@@ -3710,7 +3740,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "worker_index_fetch",
-      "community": 215,
+      "community": 7,
       "norm_label": "fetch()"
     },
     {
@@ -5837,7 +5867,7 @@
       "label": "Format",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L106",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "agentic_capture_format",
       "community": 94,
@@ -5847,7 +5877,7 @@
       "label": "Privacy boundary",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L133",
+      "source_location": "L137",
       "_origin": "ast",
       "id": "agentic_capture_privacy_boundary",
       "community": 94,
@@ -5857,7 +5887,7 @@
       "label": "Lifecycle",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L150",
+      "source_location": "L154",
       "_origin": "ast",
       "id": "agentic_capture_lifecycle",
       "community": 94,
@@ -5867,7 +5897,7 @@
       "label": "Deterministic TestNG generation",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L171",
+      "source_location": "L175",
       "_origin": "ast",
       "id": "agentic_capture_deterministic_testng_generation",
       "community": 94,
@@ -5877,7 +5907,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L265",
+      "source_location": "L269",
       "_origin": "ast",
       "id": "agentic_capture_related",
       "community": 94,
@@ -6377,7 +6407,7 @@
       "label": "Healing failed Selenium or Playwright tests",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L240",
+      "source_location": "L242",
       "_origin": "ast",
       "id": "agentic_mcp_healing_failed_selenium_or_playwright_tests",
       "community": 66,
@@ -6387,7 +6417,7 @@
       "label": "Authentication boundary",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L284",
+      "source_location": "L286",
       "_origin": "ast",
       "id": "agentic_mcp_authentication_boundary",
       "community": 66,
@@ -6397,7 +6427,7 @@
       "label": "What the installer configures",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L300",
+      "source_location": "L302",
       "_origin": "ast",
       "id": "agentic_mcp_what_the_installer_configures",
       "community": 66,
@@ -6407,7 +6437,7 @@
       "label": "Remote clients",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L343",
+      "source_location": "L345",
       "_origin": "ast",
       "id": "agentic_mcp_remote_clients",
       "community": 66,
@@ -6417,7 +6447,7 @@
       "label": "Distribution identity",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L372",
+      "source_location": "L374",
       "_origin": "ast",
       "id": "agentic_mcp_distribution_identity",
       "community": 66,
@@ -6427,7 +6457,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L386",
+      "source_location": "L388",
       "_origin": "ast",
       "id": "agentic_mcp_related",
       "community": 66,
@@ -9924,40 +9954,10 @@
       "norm_label": "smart features"
     },
     {
-      "label": "Scalability",
-      "file_type": "document",
-      "source_file": "docs/features/modules.md",
-      "source_location": "L67",
-      "_origin": "ast",
-      "id": "features_modules_scalability",
-      "community": 49,
-      "norm_label": "scalability"
-    },
-    {
-      "label": "Reliability",
-      "file_type": "document",
-      "source_file": "docs/features/modules.md",
-      "source_location": "L73",
-      "_origin": "ast",
-      "id": "features_modules_reliability",
-      "community": 49,
-      "norm_label": "reliability"
-    },
-    {
-      "label": "Maintainability",
-      "file_type": "document",
-      "source_file": "docs/features/modules.md",
-      "source_location": "L79",
-      "_origin": "ast",
-      "id": "features_modules_maintainability",
-      "community": 49,
-      "norm_label": "maintainability"
-    },
-    {
       "label": "Supported Platforms",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L85",
+      "source_location": "L65",
       "_origin": "ast",
       "id": "features_modules_supported_platforms",
       "community": 49,
@@ -9967,7 +9967,7 @@
       "label": "Browsers",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L87",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "features_modules_browsers",
       "community": 49,
@@ -9977,7 +9977,7 @@
       "label": "Apps",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L96",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "features_modules_apps",
       "community": 49,
@@ -9987,7 +9987,7 @@
       "label": "Other",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L105",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "features_modules_other",
       "community": 49,
@@ -9997,7 +9997,7 @@
       "label": "Test Orchestration",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L111",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "features_modules_test_orchestration",
       "community": 49,
@@ -10007,7 +10007,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/features/modules.md",
-      "source_location": "L119",
+      "source_location": "L99",
       "_origin": "ast",
       "id": "features_modules_related",
       "community": 49,
@@ -10131,6 +10131,76 @@
       "_origin": "ast",
       "id": "features_technology_related",
       "community": 187,
+      "norm_label": "related"
+    },
+    {
+      "label": "test-automation-pillars.mdx",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars",
+      "community": 192,
+      "norm_label": "test-automation-pillars.mdx"
+    },
+    {
+      "label": "Pillars of successful test automation",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "community": 192,
+      "norm_label": "pillars of successful test automation"
+    },
+    {
+      "label": "Scalability",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_scalability",
+      "community": 192,
+      "norm_label": "scalability"
+    },
+    {
+      "label": "Reliability",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_reliability",
+      "community": 192,
+      "norm_label": "reliability"
+    },
+    {
+      "label": "Maintainability",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L117",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_maintainability",
+      "community": 192,
+      "norm_label": "maintainability"
+    },
+    {
+      "label": "Choosing Features By Pillar",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L163",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_choosing_features_by_pillar",
+      "community": 192,
+      "norm_label": "choosing features by pillar"
+    },
+    {
+      "label": "Related",
+      "file_type": "document",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L175",
+      "_origin": "ast",
+      "id": "features_test_automation_pillars_related",
+      "community": 192,
       "norm_label": "related"
     },
     {
@@ -10277,7 +10347,7 @@
       "label": "Remains in `shaft-engine`",
       "file_type": "document",
       "source_file": "docs/integrations/visual.md",
-      "source_location": "L87",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "integrations_visual_remains_in_shaft_engine",
       "community": 135,
@@ -10287,7 +10357,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/integrations/visual.md",
-      "source_location": "L104",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "integrations_visual_related",
       "community": 135,
@@ -15377,7 +15447,7 @@
       "label": "Custom Report Messages",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Element_Validations.md",
-      "source_location": "L134",
+      "source_location": "L139",
       "_origin": "ast",
       "id": "gui_element_validations_custom_report_messages",
       "community": 19,
@@ -15387,7 +15457,7 @@
       "label": "Complete Example",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Element_Validations.md",
-      "source_location": "L146",
+      "source_location": "L151",
       "_origin": "ast",
       "id": "gui_element_validations_complete_example",
       "community": 19,
@@ -15397,7 +15467,7 @@
       "label": "See Also",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Element_Validations.md",
-      "source_location": "L201",
+      "source_location": "L206",
       "_origin": "ast",
       "id": "gui_element_validations_see_also",
       "community": 19,
@@ -15557,7 +15627,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
-      "source_location": "L257",
+      "source_location": "L270",
       "_origin": "ast",
       "id": "gui_playwright_backend_related",
       "community": 210,
@@ -22774,6 +22844,56 @@
       "norm_label": "task 1: add the guide"
     },
     {
+      "label": "2026-06-24-test-automation-pillars-guide.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "plans_2026_06_24_test_automation_pillars_guide",
+      "community": 214,
+      "norm_label": "2026-06-24-test-automation-pillars-guide.md"
+    },
+    {
+      "label": "Test Automation Pillars Guide Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "plans_2026_06_24_test_automation_pillars_guide_test_automation_pillars_guide_implementation_plan",
+      "community": 214,
+      "norm_label": "test automation pillars guide implementation plan"
+    },
+    {
+      "label": "Task 1: Guard The Requested Page",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "plans_2026_06_24_test_automation_pillars_guide_task_1_guard_the_requested_page",
+      "community": 214,
+      "norm_label": "task 1: guard the requested page"
+    },
+    {
+      "label": "Task 2: Add The Guide",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "plans_2026_06_24_test_automation_pillars_guide_task_2_add_the_guide",
+      "community": 214,
+      "norm_label": "task 2: add the guide"
+    },
+    {
+      "label": "Task 3: Validate And Publish",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "plans_2026_06_24_test_automation_pillars_guide_task_3_validate_and_publish",
+      "community": 214,
+      "norm_label": "task 3: validate and publish"
+    },
+    {
       "label": "api.mdx",
       "file_type": "document",
       "source_file": "docs/testing/api.mdx",
@@ -22977,7 +23097,7 @@
       "label": "Flutter applications",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L51",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "testing_mobile_flutter_applications",
       "community": 9,
@@ -22987,7 +23107,7 @@
       "label": "Prerequisites",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L55",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "testing_mobile_prerequisites",
       "community": 9,
@@ -22997,7 +23117,7 @@
       "label": "1. Install Appium Server",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "testing_mobile_1_install_appium_server",
       "community": 9,
@@ -23007,7 +23127,7 @@
       "label": "2. Verify Installation",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L68",
+      "source_location": "L69",
       "_origin": "ast",
       "id": "testing_mobile_2_verify_installation",
       "community": 9,
@@ -23017,7 +23137,7 @@
       "label": "3. Prepare Your Flutter App",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L77",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "testing_mobile_3_prepare_your_flutter_app",
       "community": 9,
@@ -23027,7 +23147,7 @@
       "label": "Usage in SHAFT Engine",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L104",
+      "source_location": "L105",
       "_origin": "ast",
       "id": "testing_mobile_usage_in_shaft_engine",
       "community": 9,
@@ -23037,7 +23157,7 @@
       "label": "Basic Setup",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L106",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "testing_mobile_basic_setup",
       "community": 9,
@@ -23047,7 +23167,7 @@
       "label": "Example Test Class",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L114",
+      "source_location": "L115",
       "_origin": "ast",
       "id": "testing_mobile_example_test_class",
       "community": 9,
@@ -23057,7 +23177,7 @@
       "label": "Configuration Properties",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L177",
+      "source_location": "L178",
       "_origin": "ast",
       "id": "testing_mobile_configuration_properties",
       "community": 9,
@@ -23067,7 +23187,7 @@
       "label": "Properties File (custom.properties)",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L181",
+      "source_location": "L182",
       "_origin": "ast",
       "id": "testing_mobile_properties_file_custom_properties",
       "community": 9,
@@ -23077,7 +23197,7 @@
       "label": "Programmatic Configuration",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L200",
+      "source_location": "L201",
       "_origin": "ast",
       "id": "testing_mobile_programmatic_configuration",
       "community": 9,
@@ -23087,7 +23207,7 @@
       "label": "Locating Flutter Elements",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L217",
+      "source_location": "L218",
       "_origin": "ast",
       "id": "testing_mobile_locating_flutter_elements",
       "community": 9,
@@ -23097,7 +23217,7 @@
       "label": "Common Flutter Locator Strategies",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L221",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "testing_mobile_common_flutter_locator_strategies",
       "community": 9,
@@ -23107,7 +23227,7 @@
       "label": "Working with FlutterFinder Elements",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L253",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "testing_mobile_working_with_flutterfinder_elements",
       "community": 9,
@@ -23117,7 +23237,7 @@
       "label": "Using with SHAFT's Fluent API",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L276",
+      "source_location": "L277",
       "_origin": "ast",
       "id": "testing_mobile_using_with_shaft_s_fluent_api",
       "community": 9,
@@ -23127,7 +23247,7 @@
       "label": "Working with Flutter Widgets",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L291",
+      "source_location": "L292",
       "_origin": "ast",
       "id": "testing_mobile_working_with_flutter_widgets",
       "community": 9,
@@ -23137,7 +23257,7 @@
       "label": "Text Input",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L293",
+      "source_location": "L294",
       "_origin": "ast",
       "id": "testing_mobile_text_input",
       "community": 9,
@@ -23147,7 +23267,7 @@
       "label": "Button Clicks",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L299",
+      "source_location": "L300",
       "_origin": "ast",
       "id": "testing_mobile_button_clicks",
       "community": 9,
@@ -23157,7 +23277,7 @@
       "label": "Scrolling",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L305",
+      "source_location": "L306",
       "_origin": "ast",
       "id": "testing_mobile_scrolling",
       "community": 9,
@@ -23167,7 +23287,7 @@
       "label": "Assertions",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L315",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "testing_mobile_assertions",
       "community": 9,
@@ -23177,7 +23297,7 @@
       "label": "Cloud Execution",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L329",
+      "source_location": "L330",
       "_origin": "ast",
       "id": "testing_mobile_cloud_execution",
       "community": 9,
@@ -23187,7 +23307,7 @@
       "label": "BrowserStack",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L333",
+      "source_location": "L334",
       "_origin": "ast",
       "id": "testing_mobile_browserstack",
       "community": 9,
@@ -23197,7 +23317,7 @@
       "label": "LambdaTest",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L347",
+      "source_location": "L348",
       "_origin": "ast",
       "id": "testing_mobile_lambdatest",
       "community": 9,
@@ -23207,7 +23327,7 @@
       "label": "Troubleshooting",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L355",
+      "source_location": "L356",
       "_origin": "ast",
       "id": "testing_mobile_troubleshooting",
       "community": 9,
@@ -23217,7 +23337,7 @@
       "label": "Common Issues",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L357",
+      "source_location": "L358",
       "_origin": "ast",
       "id": "testing_mobile_common_issues",
       "community": 9,
@@ -23227,7 +23347,7 @@
       "label": "Debug Mode",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L377",
+      "source_location": "L378",
       "_origin": "ast",
       "id": "testing_mobile_debug_mode",
       "community": 9,
@@ -23237,7 +23357,7 @@
       "label": "Best Practices",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L391",
+      "source_location": "L392",
       "_origin": "ast",
       "id": "testing_mobile_best_practices",
       "community": 9,
@@ -23247,7 +23367,7 @@
       "label": "Example Test Suite",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L432",
+      "source_location": "L433",
       "_origin": "ast",
       "id": "testing_mobile_example_test_suite",
       "community": 9,
@@ -23257,7 +23377,7 @@
       "label": "Additional Resources",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L521",
+      "source_location": "L522",
       "_origin": "ast",
       "id": "testing_mobile_additional_resources",
       "community": 9,
@@ -23267,7 +23387,7 @@
       "label": "Support",
       "file_type": "document",
       "source_file": "docs/testing/mobile.md",
-      "source_location": "L528",
+      "source_location": "L529",
       "_origin": "ast",
       "id": "testing_mobile_support",
       "community": 9,
@@ -26567,6 +26687,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/docs-quality.test.js",
+      "source_location": "L59",
+      "weight": 1.0,
+      "source": "tests_docs_quality_test",
+      "target": "tests_docs_quality_test_pillarsguide",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/docs-quality.test.js",
       "source_location": "L6",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26582,6 +26712,26 @@
       "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
       "target": "tests_docs_quality_test_publicdocs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/docs-quality.test.js",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "tests_docs_quality_test",
+      "target": "tests_docs_quality_test_sidebars",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/docs-quality.test.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "tests_docs_quality_test",
+      "target": "tests_docs_quality_test_sidebarspath",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -34544,36 +34694,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/features/modules.md",
-      "source_location": "L52",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "features_modules_smart_features",
-      "target": "features_modules_maintainability"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/features/modules.md",
-      "source_location": "L46",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "features_modules_smart_features",
-      "target": "features_modules_reliability"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/features/modules.md",
-      "source_location": "L40",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "features_modules_smart_features",
-      "target": "features_modules_scalability"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/features/modules.md",
       "source_location": "L69",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -34699,6 +34819,66 @@
       "confidence_score": 1.0,
       "source": "features_technology_technology",
       "target": "features_technology_related"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars",
+      "target": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L163",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "target": "features_test_automation_pillars_choosing_features_by_pillar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L117",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "target": "features_test_automation_pillars_maintainability",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L175",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "target": "features_test_automation_pillars_related",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "target": "features_test_automation_pillars_reliability",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/test-automation-pillars.mdx",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "features_test_automation_pillars_pillars_of_successful_test_automation",
+      "target": "features_test_automation_pillars_scalability",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -46393,6 +46573,46 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "plans_2026_06_24_test_automation_pillars_guide",
+      "target": "plans_2026_06_24_test_automation_pillars_guide_test_automation_pillars_guide_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "plans_2026_06_24_test_automation_pillars_guide_test_automation_pillars_guide_implementation_plan",
+      "target": "plans_2026_06_24_test_automation_pillars_guide_task_1_guard_the_requested_page",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "plans_2026_06_24_test_automation_pillars_guide_test_automation_pillars_guide_implementation_plan",
+      "target": "plans_2026_06_24_test_automation_pillars_guide_task_2_add_the_guide",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "plans_2026_06_24_test_automation_pillars_guide_test_automation_pillars_guide_implementation_plan",
+      "target": "plans_2026_06_24_test_automation_pillars_guide_task_3_validate_and_publish",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/testing/api.mdx",
       "source_location": "L10",
       "weight": 1.0,
@@ -46872,5 +47092,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a12aec820e01823a2f10d46ba06b6a744ef1bd21"
+  "built_at_commit": "bd7e367fd7bf6b5e2a833984221e3305ee991e55"
 }

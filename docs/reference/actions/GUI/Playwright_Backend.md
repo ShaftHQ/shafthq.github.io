@@ -251,8 +251,21 @@ validation metadata are preserved.
 | Element `attribute()` / `domAttribute()` / `domProperty()` / `property()` | Supported |
 | Element `text()` / `textTrimmed()` / `cssProperty()` | Supported |
 | Element state checks: selected, checked, visible, enabled, hidden, disabled | Supported |
-| Element visual reference assertions | WebDriver-only in the first Playwright backend |
+| Element visual reference assertions | Supported with `shaft-visual`; captures `Locator.screenshot()` bytes |
 | Standalone object/file/number/API assertions | Unchanged |
+
+Playwright visual reference assertions use the same fluent element API:
+
+```java title="PlaywrightVisualAssertion.java"
+driver.assertThat().element(By.id("logo")).matchesReferenceImage();
+driver.verifyThat().element(By.id("logo"))
+      .doesNotMatchReferenceImage(ValidationEnums.VisualValidationEngine.EXACT_OPENCV);
+```
+
+The no-argument Playwright overload uses OpenCV because Selenium Shutterbug
+requires a WebDriver session. Explicit OpenCV and Applitools Eyes engines compare
+the Playwright screenshot bytes through `shaft-visual`; explicit Shutterbug
+requests fall back to OpenCV for Playwright.
 
 ## Related
 
