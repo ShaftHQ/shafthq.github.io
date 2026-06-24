@@ -6367,7 +6367,7 @@
       "label": "Build from source",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L147",
+      "source_location": "L151",
       "_origin": "ast",
       "id": "agentic_mcp_build_from_source",
       "community": 66,
@@ -6377,7 +6377,7 @@
       "label": "Healing failed Selenium or Playwright tests",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L236",
+      "source_location": "L240",
       "_origin": "ast",
       "id": "agentic_mcp_healing_failed_selenium_or_playwright_tests",
       "community": 66,
@@ -6387,7 +6387,7 @@
       "label": "Authentication boundary",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L280",
+      "source_location": "L284",
       "_origin": "ast",
       "id": "agentic_mcp_authentication_boundary",
       "community": 66,
@@ -6397,7 +6397,7 @@
       "label": "What the installer configures",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L296",
+      "source_location": "L300",
       "_origin": "ast",
       "id": "agentic_mcp_what_the_installer_configures",
       "community": 66,
@@ -6407,7 +6407,7 @@
       "label": "Remote clients",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L339",
+      "source_location": "L343",
       "_origin": "ast",
       "id": "agentic_mcp_remote_clients",
       "community": 66,
@@ -6417,7 +6417,7 @@
       "label": "Distribution identity",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L368",
+      "source_location": "L372",
       "_origin": "ast",
       "id": "agentic_mcp_distribution_identity",
       "community": 66,
@@ -6427,7 +6427,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/agentic/mcp.mdx",
-      "source_location": "L382",
+      "source_location": "L386",
       "_origin": "ast",
       "id": "agentic_mcp_related",
       "community": 66,
@@ -30656,9 +30656,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_changelog",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_changelog"
     },
     {
       "relation": "contains",
@@ -30666,9 +30666,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623"
     },
     {
       "relation": "contains",
@@ -30676,9 +30676,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_what_changed",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_what_changed"
     },
     {
       "relation": "contains",
@@ -30686,9 +30686,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_community_spotlight",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_community_spotlight"
     },
     {
       "relation": "contains",
@@ -30696,9 +30696,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_get_started_in_seconds",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_get_started_in_seconds"
     },
     {
       "relation": "contains",
@@ -30706,9 +30706,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L139",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_join_the_conversation",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_join_the_conversation"
     },
     {
       "relation": "contains",
@@ -30716,9 +30716,9 @@
       "source_file": "blog/2026-06-23-release-10.2.20260623.md",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "blog_2026_06_23_release_10_2_20260623_shaft_10_2_20260623",
-      "target": "blog_2026_06_23_release_10_2_20260623_what_s_changed",
-      "confidence_score": 1.0
+      "target": "blog_2026_06_23_release_10_2_20260623_what_s_changed"
     },
     {
       "relation": "contains",
@@ -46146,9 +46146,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L430",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade_upgrade_to_modular_shaft",
-      "target": "start_upgrade_selenium_source_migration",
-      "confidence_score": 1.0
+      "target": "start_upgrade_selenium_source_migration"
     },
     {
       "relation": "contains",
@@ -46206,9 +46206,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade_automated_upgrade",
-      "target": "start_upgrade_choose_an_upgrade_type",
-      "confidence_score": 1.0
+      "target": "start_upgrade_choose_an_upgrade_type"
     },
     {
       "relation": "contains",
@@ -46306,9 +46306,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L480",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade_selenium_source_migration",
-      "target": "start_upgrade_full_upgrade_rewrites",
-      "confidence_score": 1.0
+      "target": "start_upgrade_full_upgrade_rewrites"
     },
     {
       "relation": "contains",
@@ -46316,9 +46316,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L436",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade_selenium_source_migration",
-      "target": "start_upgrade_session_upgrade_rewrites",
-      "confidence_score": 1.0
+      "target": "start_upgrade_session_upgrade_rewrites"
     },
     {
       "relation": "contains",
@@ -46376,9 +46376,9 @@
       "source_file": "docs/superpowers/plans/2026-06-24-flakiness-guide.md",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_24_flakiness_guide",
-      "target": "plans_2026_06_24_flakiness_guide_flakiness_guide_implementation_plan",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_24_flakiness_guide_flakiness_guide_implementation_plan"
     },
     {
       "relation": "contains",
@@ -46386,9 +46386,9 @@
       "source_file": "docs/superpowers/plans/2026-06-24-flakiness-guide.md",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_24_flakiness_guide_flakiness_guide_implementation_plan",
-      "target": "plans_2026_06_24_flakiness_guide_task_1_add_the_guide",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_24_flakiness_guide_task_1_add_the_guide"
     },
     {
       "relation": "contains",
@@ -46456,9 +46456,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness",
-      "target": "testing_flakiness_how_shaft_reduces_flakiness",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_how_shaft_reduces_flakiness"
     },
     {
       "relation": "contains",
@@ -46466,9 +46466,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_automatic_synchronization",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_automatic_synchronization"
     },
     {
       "relation": "contains",
@@ -46476,9 +46476,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_optional_self_healing",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_optional_self_healing"
     },
     {
       "relation": "contains",
@@ -46486,9 +46486,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_related",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_related"
     },
     {
       "relation": "contains",
@@ -46496,9 +46496,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_retry_with_evidence",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_retry_with_evidence"
     },
     {
       "relation": "contains",
@@ -46506,9 +46506,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_semantic_locators",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_semantic_locators"
     },
     {
       "relation": "contains",
@@ -46516,9 +46516,9 @@
       "source_file": "docs/testing/flakiness.mdx",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "testing_flakiness_how_shaft_reduces_flakiness",
-      "target": "testing_flakiness_what_to_use_first",
-      "confidence_score": 1.0
+      "target": "testing_flakiness_what_to_use_first"
     },
     {
       "relation": "contains",
@@ -46872,5 +46872,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6aafe251084706082fd7c3b730f6721403515c98"
+  "built_at_commit": "a12aec820e01823a2f10d46ba06b6a744ef1bd21"
 }
