@@ -82,6 +82,19 @@ api.post("serviceName").perform();
 api.addCookie("session_id", "1234");
 ```
 
+You can also copy browser cookies into an API session when a test starts in the UI and continues through API calls:
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://app.example.com");
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+api.importCookiesFrom(driver.browser());
+api.get("/account").perform();
+```
+
+Use `api.importCookiesFrom(driver.browser(), "example.com", "/app")` when you only want cookies from one domain and path. When moving API cookies into a browser, host-only response cookies stay scoped to the API host; cross-subdomain browser reuse requires cookies issued with a shared domain.
+
 ### Set Target Status Code
 Sets the expected target status code for the API request that you're currently building. By default, this value is set to 200, but you can change it by calling the **setTargetStatusCode** method.
 ```java
@@ -122,6 +135,15 @@ You can also use it directly without a request method to set the header for all 
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.post("serviceName").perform();
 api.addHeader("Accept-Language", "en");
+```
+
+For UI flows that keep a bearer token in browser storage, copy only the selected header:
+
+```java
+api.addHeader("Authorization", "Bearer " + token);
+driver.browser()
+      .navigateToURL("https://app.example.com")
+      .importHeaderToLocalStorage(api, "Authorization", "authToken");
 ```
 
 ### Set Request Body
