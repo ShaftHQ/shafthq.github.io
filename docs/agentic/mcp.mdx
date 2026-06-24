@@ -78,13 +78,16 @@ properties, downloads, videos, services files, dynamic object repository files,
 test data, Extent reports, execution summaries, and performance reports.
 Explicit absolute path overrides remain absolute.
 
-The element action tools stay explicit and locator-based. Use `element_click`
-and `element_type` with a locator strategy and locator value for default
-WebDriver sessions; use `playwright_element_click`,
-`playwright_element_type`, and the other `playwright_*` browser or element
-tools for SHAFT Playwright sessions. The older semantic click/type aliases are
-not exposed to MCP clients; for approved natural-language execution, use
-`natural_act`.
+Element action tools support both explicit locators and semantic names. Use
+`element_click` and `element_type` with a locator strategy and locator value for
+default WebDriver sessions, or `element_click_semantic` and
+`element_type_semantic` when the client has a human-readable element name such
+as a visible label, placeholder, or accessible name. For SHAFT Playwright
+sessions, use `playwright_element_click`, `playwright_element_type`, and the
+semantic `playwright_element_click_semantic` and
+`playwright_element_type_semantic` tools. Type tools keep generated recording
+snippets redacted unless the recording flow explicitly includes sensitive
+values. For approved natural-language execution, use `natural_act`.
 
 ## Guide search for agents
 
@@ -185,7 +188,8 @@ The packaged server supports:
   tokenized Maven validation commands, analyze fresh Allure evidence through
   Doctor, and return review-only fixes plus an agent replay handoff;
 - explicit browser element actions through `element_click` and `element_type`,
-  using locator strategy and locator value arguments;
+  using locator strategy and locator value arguments, plus semantic
+  WebDriver/Playwright click and type tools for human-readable element names;
 - official guide search through `shaft_guide_search`, so agents can retrieve
   cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
   guidance, and troubleshooting steps before writing code;
