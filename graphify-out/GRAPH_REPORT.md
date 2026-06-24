@@ -1,7 +1,7 @@
-# Graph Report - codex-flakiness-docs  (2026-06-24)
+# Graph Report - issue-3032-mcp-guardrails-docs  (2026-06-24)
 
 ## Corpus Check
-- 221 files · ~215,018 words
+- 221 files · ~215,059 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6aafe251`
+- Built from commit: `a12aec82`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
