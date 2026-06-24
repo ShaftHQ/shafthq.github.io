@@ -1,16 +1,16 @@
-# Graph Report - issue-3030-playwright-visual-docs  (2026-06-24)
+# Graph Report - auth-cookie-bridge-3053-docs  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~216,734 words
+- 223 files · ~217,206 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2343 nodes · 2343 edges · 220 communities (188 shown, 32 thin omitted)
+- 2346 nodes · 2346 edges · 220 communities (189 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bd7e367f`
+- Built from commit: `04c84cac`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -259,7 +259,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (220 total, 32 thin omitted)
+## Communities (220 total, 31 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -295,7 +295,7 @@ Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, do
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
-Nodes (32): Additional Resources, Best Practices, Browser Not Found, Combining Grid with Parallel Execution, Configuring SHAFT for Local Grid, Enable VNC for Visual Debugging, Environment Variables for Docker Grid, Example: High Capacity Node Configuration (+24 more)
+Nodes (33): Additional Resources, Best Practices, Browser Not Found, Combining Grid with Parallel Execution, Configuring SHAFT for Local Grid, Enable VNC for Visual Debugging, Environment Variables for Docker Grid, Example: High Capacity Node Configuration (+25 more)
 
 ### Community 9 - "docs/testing (33)"
 Cohesion: 0.06
@@ -937,6 +937,10 @@ Nodes (4): attribute(), Related, Validate Browser Title, Validate Browser URL
 Cohesion: 0.50
 Nodes (3): Execution logs, Related, Reporting and evidence
 
+### Community 184 - "docs/reference (2)"
+Cohesion: 0.40
+Nodes (4): API login to browser session, Browser login to API session, Manual cookie reuse, Related
+
 ### Community 192 - "Community 192"
 Cohesion: 0.29
 Nodes (6): Choosing Features By Pillar, Maintainability, Pillars of successful test automation, Related, Reliability, Scalability
@@ -998,9 +1002,9 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1529 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1524 more)
+- **1532 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1527 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
@@ -1010,7 +1014,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1529 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1532 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

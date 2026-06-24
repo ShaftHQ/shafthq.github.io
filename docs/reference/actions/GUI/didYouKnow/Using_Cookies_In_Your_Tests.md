@@ -9,7 +9,36 @@ tags: [web, cookies, authentication]
 
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
 
-#### Example
+#### API login to browser session
+```java
+import com.shaft.driver.SHAFT;
+import io.restassured.http.ContentType;
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+api.post("/auth/login")
+   .setRequestBody(credentials)
+   .setContentType(ContentType.JSON)
+   .perform();
+
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser()
+      .navigateToURL("https://app.example.com")
+      .importCookiesFrom(api);
+```
+
+The browser must already be on an HTTP or HTTPS page whose domain is compatible with the imported cookies. Host-only API cookies are imported only on their original host; cross-subdomain browser reuse requires cookies issued with a shared domain such as `example.com`. Use `importCookiesFrom(api, "example.com", "/app")` to import only matching cookie domains and paths.
+
+#### Browser login to API session
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://app.example.com");
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+api.importCookiesFrom(driver.browser());
+api.get("/account").perform();
+```
+
+#### Manual cookie reuse
 ```java
 import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
