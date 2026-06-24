@@ -20,6 +20,7 @@ const sidebars = {
       collapsed: false,
       items: [
         'testing/web',
+        'testing/flakiness',
         'testing/mobile',
         'testing/api',
         'testing/cli',
