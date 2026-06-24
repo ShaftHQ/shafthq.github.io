@@ -3,6 +3,7 @@ import {extname, join, relative} from 'path';
 import {fileURLToPath} from 'url';
 
 const docsRoot = fileURLToPath(new URL('../docs/', import.meta.url));
+const sidebarsPath = fileURLToPath(new URL('../sidebars.js', import.meta.url));
 const publicDirectories = new Set(['start', 'testing', 'agentic', 'features', 'integrations', 'reference']);
 const relatedHeading =
   /^##\s+(Related|Related Pages|Related Documentation|Related Locator Pages|Additional Resources|Next Steps|See Also|Continue|Learn More)\b/im;
@@ -54,5 +55,21 @@ for (const {fullPath, relativePath} of publicDocs()) {
     }
   }
 }
+
+const pillarsGuide = readFileSync(join(docsRoot, 'features/test-automation-pillars.mdx'), 'utf8');
+const sidebars = readFileSync(sidebarsPath, 'utf8');
+
+assert(
+  pillarsGuide.includes('Pillars of successful test automation'),
+  'features/test-automation-pillars.mdx must name the Pillars of successful test automation.',
+);
+assert(
+  /```mermaid[\s\S]*Scalability[\s\S]*Reliability[\s\S]*Maintainability[\s\S]*```/.test(pillarsGuide),
+  'features/test-automation-pillars.mdx must include a Mermaid visual for the three pillars.',
+);
+assert(
+  sidebars.includes("'features/test-automation-pillars'"),
+  'sidebars.js must list features/test-automation-pillars in the Features section.',
+);
 
 console.log('Documentation quality checks passed.');
