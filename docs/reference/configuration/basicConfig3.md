@@ -66,9 +66,15 @@ swagger.validation.enabled=true
 
 # URL or file path to your Swagger / OpenAPI specification
 swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+
+# Include an end-of-run operation coverage report
+openapi.coverage.report.enabled=true
+
+# Optional minimum operation coverage percentage; 0 disables threshold enforcement
+openapi.coverage.threshold=80
 ```
 
-When enabled, every request and response is validated against the schema automatically — no extra code needed in your tests.
+When validation is enabled, every request and response is validated against the schema automatically. When coverage reporting is enabled, SHAFT also summarizes exercised operations, untested operations, unmatched requests, and validation failures by operation ID at the end of the run.
 
 ---
 
