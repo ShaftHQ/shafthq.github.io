@@ -49,6 +49,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'features/architecture',
+        'features/test-automation-pillars',
         'features/modules',
         'features/reporting',
         'features/technology',
