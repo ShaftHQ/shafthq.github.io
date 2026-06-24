@@ -200,9 +200,11 @@ The packaged server supports:
 - wrapped Appium Inspector mobile recording through
   `mobile_toolchain_status`, `mobile_inspector_record_prepare`,
   `mobile_inspector_record_start`, `mobile_inspector_record_control`, and
-  `mobile_inspector_record_stop`. The prepare step reports `adb devices -l`,
-  cached Android AVDs, missing local dependencies, suggested capabilities, and
-  any Android emulator creation proposal before the user confirms startup;
+  `mobile_inspector_record_stop`. `mobile_toolchain_status` returns structured
+  dependency diagnostics with availability, detected path or version, failure
+  cause, and repair guidance. The prepare step reports `adb devices -l`, cached
+  Android AVDs, relevant diagnostic warnings, suggested capabilities, and any
+  Android emulator creation proposal before the user confirms startup;
 - trust-gated natural-language browser, element, and touch execution through
   `natural_act`, using the active SHAFT driver and the same
   `driver.act(...)` planner rules;
