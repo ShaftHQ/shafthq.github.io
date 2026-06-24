@@ -29,13 +29,13 @@
 <h1>SHAFT 10.2.20260623</h1>
 <p>Auto-generated release notes are included below. Users upgrading from
 <code>SHAFT_ENGINE</code> should read the
-<a href="https://shaftengine.netlify.app/docs/start/upgrade" target="_blank" rel="noopener noreferrer" class="">modular SHAFT upgrade guide</a>.</p>
+<a href="https://shafthq.github.io/docs/start/upgrade" target="_blank" rel="noopener noreferrer" class="">modular SHAFT upgrade guide</a>.</p>
 <p>SHAFT Pilot adds deterministic Capture, TestNG generation, Doctor diagnosis,
 reviewed repair proposals, and MCP interoperability. AI is optional, disabled
 by default, and direct OpenAI, Anthropic, Gemini, or Ollama access requires
 explicit enablement and consent. Microsoft/GitHub Copilot integrates through
 MCP rather than a generic provider API-key adapter.</p>
-<p>See the <a href="https://shaftengine.netlify.app/docs/agentic/pilot" target="_blank" rel="noopener noreferrer" class="">SHAFT Pilot guide</a>
+<p>See the <a href="https://shafthq.github.io/docs/agentic/pilot" target="_blank" rel="noopener noreferrer" class="">SHAFT Pilot guide</a>
 for installation, configuration, privacy, troubleshooting, and usage examples.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-changed">What's Changed<a href="https://shafthq.github.io/blog/release-10.2.20260623#whats-changed" class="hash-link" aria-label="Direct link to What's Changed" title="Direct link to What's Changed" translate="no">​</a></h2>
 <ul>
