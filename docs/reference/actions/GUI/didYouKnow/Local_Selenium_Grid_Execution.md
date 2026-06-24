@@ -204,6 +204,10 @@ targetBrowserName=chrome
 
 # Optional: Enable headless mode for faster execution
 headlessExecution=true
+
+# Optional: inspect Grid capacity before creating remote sessions
+remotePreflightEnabled=true
+remoteAdaptiveSessionThrottling=true
 ```
 
   </TabItem>
@@ -229,7 +233,9 @@ import org.openqa.selenium.remote.Browser;
 public void beforeClass() {
     SHAFT.Properties.platform.set()
         .executionAddress("localhost:4444")
-        .targetPlatform(Platform.LINUX.name());
+        .targetPlatform(Platform.LINUX.name())
+        .remotePreflightEnabled(true)
+        .remoteAdaptiveSessionThrottling(true);
         
     SHAFT.Properties.web.set()
         .targetBrowserName(Browser.CHROME.browserName())
@@ -261,6 +267,19 @@ Or using the full WebDriver endpoint:
 ```properties
 executionAddress=http://192.168.1.100:4444/wd/hub
 ```
+
+### Remote Grid Preflight
+
+For Selenium Grid 4, SHAFT can query `/status` and `/graphql` before remote session creation. The preflight summary is attached to the report and includes detected slots, matching browser slots, available matching slots, and queue depth when Grid exposes it.
+
+```properties
+remotePreflightEnabled=true
+remoteAdaptiveSessionThrottling=true
+remotePreflightFailFast=false
+remotePreflightTimeoutSeconds=5
+```
+
+Use `remoteAdaptiveSessionThrottling=true` when local TestNG/JUnit parallelism can exceed Grid capacity. SHAFT limits concurrent local session creation to the matching Grid slot count it detects. Set `remotePreflightFailFast=true` when a missing browser slot or exhausted capacity should fail before WebDriver retries.
 
 ## Grid Configuration Options
 
