@@ -57,8 +57,8 @@ flowchart TD
 
 | API                                                            | Functionality                                                |
 |----------------------------------------------------------------|--------------------------------------------------------------|
-| `matchesReferenceImage()`                                      | Shutterbug reference-image comparison.                       |
-| `matchesReferenceImage(VisualValidationEngine)`                | OpenCV, Shutterbug, or Eyes comparison selected by the enum. |
+| `matchesReferenceImage()`                                      | Reference-image comparison. WebDriver/Appium default to Shutterbug; Playwright uses OpenCV screenshot-byte comparison. |
+| `matchesReferenceImage(VisualValidationEngine)`                | OpenCV, Shutterbug, or Eyes comparison selected by the enum. Playwright routes `Locator.screenshot()` bytes through the provider; Shutterbug requests fall back to OpenCV because Shutterbug is Selenium-backed. |
 | `doesNotMatchReferenceImage()` and its overload                | Negative OpenCV/visual-engine comparison.                    |
 | `TouchActions.tap(String)`                                     | Finds and taps an image inside the current screen.           |
 | `TouchActions.waitUntilElementIsVisible(String)`               | Waits for an image match.                                    |
@@ -83,6 +83,19 @@ Then I Assert that the element found by "xpath": "//div[contains(@class,'contain
 ```
 
 Both styles require `shaft-visual`.
+
+`SHAFT.GUI.Playwright` supports the same element visual assertion surface. The
+Playwright backend captures `Locator.screenshot()` bytes and compares them
+through `shaft-visual`:
+
+```java title="PlaywrightVisualValidation.java"
+driver.assertThat().element(By.id("logo"))
+      .matchesReferenceImage(ValidationEnums.VisualValidationEngine.EXACT_OPENCV);
+```
+
+The no-argument Playwright overload uses `EXACT_OPENCV`. Applitools Eyes engines
+also receive Playwright screenshot bytes. Selenium Shutterbug remains available
+for WebDriver/Appium visual checks.
 
 ## Remains in `shaft-engine`
 

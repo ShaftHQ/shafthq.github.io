@@ -1,16 +1,16 @@
-# Graph Report - issue-3032-mcp-guardrails-docs  (2026-06-24)
+# Graph Report - issue-3030-playwright-visual-docs  (2026-06-24)
 
 ## Corpus Check
-- 221 files · ~215,059 words
+- 223 files · ~216,734 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2331 nodes · 2333 edges · 223 communities (190 shown, 33 thin omitted)
+- 2343 nodes · 2343 edges · 220 communities (188 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a12aec82`
+- Built from commit: `bd7e367f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -227,12 +227,9 @@
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
 - [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
 - [[_COMMUNITY_Community 216|Community 216]]
-- [[_COMMUNITY_Community 217|Community 217]]
 - [[_COMMUNITY_Community 218|Community 218]]
 - [[_COMMUNITY_Community 219|Community 219]]
-- [[_COMMUNITY_Community 220|Community 220]]
 - [[_COMMUNITY_Community 221|Community 221]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -248,21 +245,21 @@
 10. `Mobile and Flutter testing` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `fetchText()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `loadIndex()` --calls--> `fetch()`  [INFERRED]
   functions/api/gemini-proxy.js → worker/index.js
+- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
+  scripts/run-shaft-tests.mjs → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
   functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (223 total, 33 thin omitted)
+## Communities (220 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -293,8 +290,8 @@ Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.19
-Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
+Cohesion: 0.05
+Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+43 more)
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -453,8 +450,8 @@ Cohesion: 0.15
 Nodes (11): Available Builder Methods, Basic Syntax, By Any Tag Containing Text, By Class and Tag, By Tag and Attribute Value, By Tag and Text Content, Chain Multiple Conditions, Complete Page Object Example (+3 more)
 
 ### Community 49 - "docs/features (12)"
-Cohesion: 0.15
-Nodes (12): Apps, Browsers, Feature-to-module map, Features and modules, Maintainability, Other, Related, Reliability (+4 more)
+Cohesion: 0.20
+Nodes (9): Apps, Browsers, Feature-to-module map, Features and modules, Other, Related, Smart Features, Supported Platforms (+1 more)
 
 ### Community 50 - "docs/reference (12)"
 Cohesion: 0.15
@@ -941,8 +938,8 @@ Cohesion: 0.50
 Nodes (3): Execution logs, Related, Reporting and evidence
 
 ### Community 192 - "Community 192"
-Cohesion: 0.26
-Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
+Cohesion: 0.29
+Nodes (6): Choosing Features By Pillar, Maintainability, Pillars of successful test automation, Related, Reliability, Scalability
 
 ### Community 199 - "docs/testing (2)"
 Cohesion: 0.50
@@ -959,6 +956,10 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 ### Community 204 - "demo-output.txt (1)"
 Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
+
+### Community 205 - "static/examples (1)"
+Cohesion: 0.25
+Nodes (5): docsRoot, pillarsGuide, publicDirectories, sidebars, sidebarsPath
 
 ### Community 209 - "Community 209"
 Cohesion: 0.25
@@ -981,20 +982,12 @@ Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
 
 ### Community 214 - "Community 214"
-Cohesion: 0.19
-Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
-
-### Community 215 - "Community 215"
-Cohesion: 0.30
-Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
+Cohesion: 0.40
+Nodes (4): Task 1: Guard The Requested Page, Task 2: Add The Guide, Task 3: Validate And Publish, Test Automation Pillars Guide Implementation Plan
 
 ### Community 216 - "Community 216"
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
-
-### Community 217 - "Community 217"
-Cohesion: 0.32
-Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
 
 ### Community 218 - "Community 218"
 Cohesion: 0.67
@@ -1004,22 +997,20 @@ Nodes (3): browserslist, development, production
 Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
-### Community 220 - "Community 220"
-Cohesion: 0.29
-Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
-
 ## Knowledge Gaps
-- **1520 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1515 more)
+- **1529 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1524 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **33 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `fetch()` connect `Community 215` to `Community 217`, `static/img (5)`?**
+- **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1520 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1529 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -1028,5 +1019,3 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (38)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
