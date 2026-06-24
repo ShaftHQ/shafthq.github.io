@@ -97,6 +97,10 @@ including imports, locator fields, setup, SHAFT actions, and teardown.
 Insertion mode should inspect the repository and move locators and actions
 into existing Page Object classes when that pattern already exists, or create
 the smallest matching page/test classes when it does not.
+The returned code blocks include deterministic Page Object insertion guidance
+for WebDriver and Playwright captures, including locator inventory, action
+sequence, and fallback manual-mapping warnings when the generated source has no
+extractable candidates.
 
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
