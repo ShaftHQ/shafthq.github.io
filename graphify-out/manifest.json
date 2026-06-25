@@ -115,8 +115,8 @@
     "semantic_hash": ""
   },
   "src/components/ParticleBackground/index.tsx": {
-    "mtime": 1782398534.829012,
-    "ast_hash": "fbda0ca165ae9892ff4d42dc00760f8a",
+    "mtime": 1782399979.8150022,
+    "ast_hash": "58beb489f6b7aa550d3b266cf3a020c7",
     "semantic_hash": ""
   },
   "src/components/ParticleBackground/particleWorker.ts": {
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "src/pages/index.tsx": {
-    "mtime": 1782398927.8767993,
-    "ast_hash": "f4aefa393f7ce4601261ce74d742f6ae",
+    "mtime": 1782399979.8189971,
+    "ast_hash": "72d6e56b7cfca65069706c812ec29e64",
     "semantic_hash": ""
   },
   "src/pages/project-generator.tsx": {
@@ -620,7 +620,7 @@
     "semantic_hash": ""
   },
   "docs/features/reporting.md": {
-    "mtime": 1782398097.0374002,
+    "mtime": 1782399979.7939963,
     "ast_hash": "7ce86f4f71041e387dd70181ccacfead",
     "semantic_hash": ""
   },
@@ -1020,7 +1020,7 @@
     "semantic_hash": ""
   },
   "docs/reference/guides/Test_Artifacts.md": {
-    "mtime": 1782374589.648253,
+    "mtime": 1782399979.7949982,
     "ast_hash": "b4105f1ba6b4a950dcfa822f2e5cffa7",
     "semantic_hash": ""
   },
@@ -1087,11 +1087,6 @@
   "docs/start/overview.mdx": {
     "mtime": 1782192587.1497855,
     "ast_hash": "442b54b8ad5b1c6f646d626c979c03d6",
-    "semantic_hash": ""
-  },
-  "docs/start/quick-start.md": {
-    "mtime": 1782366323.9663088,
-    "ast_hash": "9ea9fbef3c21a2baad34045d1a0da202",
     "semantic_hash": ""
   },
   "docs/start/upgrade.mdx": {
@@ -1297,6 +1292,11 @@
   "static/img/pr/userguide-landing-ux-mobile.png": {
     "mtime": 1782378821.8653283,
     "ast_hash": "2a54041852a20e679d6577f475d45308",
+    "semantic_hash": ""
+  },
+  "docs/start/quick-start.mdx": {
+    "mtime": 1782400760.3183463,
+    "ast_hash": "d0a0c070a33e29401b2dc7c01e3e9e68",
     "semantic_hash": ""
   }
 }

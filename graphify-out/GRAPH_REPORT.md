@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~246,923 words
+- 223 files · ~246,968 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2355 nodes · 2355 edges · 220 communities (189 shown, 31 thin omitted)
+- 2356 nodes · 2356 edges · 220 communities (189 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `09456df4`
+- Built from commit: `9afe5088`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -482,8 +482,8 @@ Cohesion: 0.09
 Nodes (12): comparisonRows, decisionPoints, guidePaths, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails (+4 more)
 
 ### Community 57 - "docs/start (11)"
-Cohesion: 0.17
-Nodes (11): Create a new project, Create your first tests, Cucumber, JUnit, Manage test data, Optional modular integrations, Quick start, Related (+3 more)
+Cohesion: 0.15
+Nodes (12): Add SHAFT dependencies, Choose your path, Create the test skeleton, Existing project upgrade, Manual creation, MCP integration, New project generation, Optional modular integrations (+4 more)
 
 ### Community 58 - "docs/agentic (10)"
 Cohesion: 0.18
@@ -1002,7 +1002,7 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1540 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1535 more)
+- **1541 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1536 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1014,7 +1014,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1540 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1541 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
