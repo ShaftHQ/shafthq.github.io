@@ -1,199 +1,29 @@
 ---
 id: mcp-manual
-title: Configure shaft-mcp manually
-description: Configure Codex, Claude, or GitHub Copilot with a local shaft-mcp Java argfile.
+title: Manual shaft-mcp configuration moved
+description: Manual shaft-mcp configuration now lives on the canonical MCP setup page.
 slug: /agentic/mcp/manual
 sidebar_position: 3
 tags: [mcp, codex, copilot, claude, manual]
 ---
 
-# Configure shaft-mcp manually
+# Manual shaft-mcp configuration moved
 
-Use this page when the [standalone installer](/docs/agentic/mcp) cannot update
-your MCP client. The automatic path is preferred: it bootstraps Python and Java
-only when needed, downloads `shaft-mcp` directly from Maven Central, verifies
-checksums, shows progress for long downloads, probes stdio, and writes the
-selected client configuration. Manual setup requires Java 25, the selected
-client, the thin JAR, its runtime dependencies, a writable runtime workspace,
-and absolute paths for both the Java executable and an argfile.
+Manual MCP configuration is now part of the canonical
+[Connect shaft-mcp guide](/docs/agentic/mcp#manual-configuration). Use that
+page for installer commands, Java argfile setup, Codex, Claude, GitHub Copilot,
+and Streamable HTTP configuration.
 
-## Prepare the JAR, dependencies, and argfile
-
-Open [`io.github.shafthq:shaft-mcp` on Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-mcp),
-select the newest published version, and download its thin JAR plus runtime
-dependencies. Store them in a stable per-user application-data directory, not
-in a project checkout or temporary directory.
-
-Find the absolute Java 25 executable path:
-
-```powershell
-(Get-Command java).Source
-```
-
-```bash
-command -v java
-```
-
-Create a writable runtime workspace, then create
-`/absolute/path/to/shaft-mcp.args`:
+For Codex, the canonical page links to the official Codex MCP documentation
+beside the local stdio and Streamable HTTP configuration examples.
 
 ```text
-"-Duser.dir=/absolute/path/to/shaft-mcp-work"
-"-Dshaft.mcp.workspaceRoot=/absolute/path/to/shaft-mcp-work"
--cp
-"/absolute/path/to/shaft-mcp.jar:/absolute/path/to/lib/*"
-com.shaft.mcp.ShaftMcpApplication
+/docs/agentic/mcp#manual-configuration
 ```
-
-Use `;` instead of `:` in the classpath on Windows. The JVM property paths may
-use forward slashes on every operating system. In the examples below, replace
-`/absolute/path/to/java` and `/absolute/path/to/shaft-mcp.args` with those
-absolute paths.
-
-## Runtime workspace
-
-Manual configuration uses the same runtime workspace behavior as the installer.
-`shaft-mcp` no longer depends on the MCP client's launch directory for engine
-artifacts.
-
-Prefer the `-Dshaft.mcp.workspaceRoot=<runtime-root>` JVM property in the Java
-argfile because it works the same way for Codex, Claude Desktop, GitHub
-Copilot, and other local MCP clients. You can also set
-`SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment. If neither is set,
-`shaft-mcp` uses the process current directory only when that directory is
-writable and, on Windows, not under a protected system directory. Otherwise it
-falls back to:
-
-- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-mcp\work`
-- macOS: `~/Library/Application Support/ShaftHQ/shaft-mcp/work`
-- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-mcp/work`
-
-During MCP runs, generated Allure results and reports, downloaded properties,
-downloads, videos, services files, dynamic object repository files, test data,
-Extent reports, execution summaries, and performance reports are resolved under
-the runtime root when their SHAFT property paths are relative. Explicit absolute
-path overrides stay absolute.
-
-Use `element_click` and `element_type` with explicit locator strategy and
-locator value arguments for default WebDriver sessions, or
-`element_click_semantic` and `element_type_semantic` when the client has a
-human-readable element name such as a visible label, placeholder, or accessible
-name. Use the `playwright_*` browser, element, recording, playback, Doctor, and
-healer tools when the project uses `SHAFT.GUI.Playwright`; Playwright also
-exposes `playwright_element_click_semantic` and
-`playwright_element_type_semantic`. Type tools keep generated recording
-snippets redacted unless the recording flow explicitly includes sensitive
-values. Use `natural_act` when a workflow needs approved natural-language
-execution.
-
-If an older setup fails with `AccessDeniedException` under
-`C:\Windows\system32`, the MCP host launched from a protected Windows directory.
-Set `SHAFT_MCP_WORKSPACE_ROOT` or upgrade and rely on the app-data fallback.
-
-## Codex CLI and IDE extension
-
-Codex surfaces share `~/.codex/config.toml`. Follow the
-[official Codex MCP documentation](https://developers.openai.com/codex/mcp)
-and add:
-
-```toml
-[mcp_servers.shaft-mcp]
-command = "/absolute/path/to/java"
-args = ["@/absolute/path/to/shaft-mcp.args"]
-```
-
-Start a new Codex session after changing the file.
-
-## Claude Code
-
-Follow the [official Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)
-and create the user-scope entry:
-
-```bash
-claude mcp remove shaft-mcp -s user
-claude mcp add -s user shaft-mcp -- "/absolute/path/to/java" "@/absolute/path/to/shaft-mcp.args"
-```
-
-The remove command can report that the server does not exist during first-time
-setup.
-
-## Claude Desktop
-
-Claude Desktop supports local MCP servers on Windows and macOS. Follow
-[Anthropic's local MCP server guide](https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop)
-and add this entry to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "shaft-mcp": {
-      "command": "/absolute/path/to/java",
-      "args": ["@/absolute/path/to/shaft-mcp.args"]
-    }
-  }
-}
-```
-
-The file is under `%APPDATA%\Claude` on Windows and
-`~/Library/Application Support/Claude` on macOS. Merge the `shaft-mcp` member
-into any existing `mcpServers` object, then restart Claude Desktop.
-
-## GitHub Copilot CLI
-
-Follow the
-[official Copilot CLI MCP documentation](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers)
-and add this entry to `~/.copilot/mcp-config.json`:
-
-```json
-{
-  "mcpServers": {
-    "shaft-mcp": {
-      "type": "local",
-      "command": "/absolute/path/to/java",
-      "args": ["@/absolute/path/to/shaft-mcp.args"],
-      "tools": ["*"]
-    }
-  }
-}
-```
-
-## GitHub Copilot in IntelliJ IDEA
-
-Open GitHub Copilot Chat in IntelliJ IDEA, switch to Agent mode, and use the
-tools menu to open the MCP configuration. Follow the
-[official GitHub Copilot MCP documentation](https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp-in-your-ide/extend-copilot-chat-with-mcp#configuring-mcp-servers-manually-2)
-and add this entry to the `servers` object:
-
-```json
-{
-  "servers": {
-    "shaft-mcp": {
-      "type": "stdio",
-      "command": "/absolute/path/to/java",
-      "args": ["@/absolute/path/to/shaft-mcp.args"]
-    }
-  }
-}
-```
-
-On Windows the file is under
-`%LOCALAPPDATA%\github-copilot\intellij\mcp.json`. On macOS and Linux the
-Copilot JetBrains plugin commonly uses
-`~/.config/github-copilot/intellij/mcp.json`. Restart IntelliJ IDEA or reload
-Copilot Chat if the tools do not appear immediately.
-
-## Verify and recover
-
-Start a new client session and confirm that `shaft-mcp` exposes its tools. If a
-manual edit fails, restore the configuration backup before trying again. Never
-keep both project-level and per-user entries named `shaft-mcp`; the project
-entry can override the installed user configuration. If a client still lists
-removed semantic click/type tools, restart the client so it refreshes the MCP
-tool manifest.
 
 ## Related
 
-- [Overview](/docs/agentic/overview)
 - [MCP](/docs/agentic/mcp)
+- [Overview](/docs/agentic/overview)
 - [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)

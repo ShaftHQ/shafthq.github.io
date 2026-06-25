@@ -1,7 +1,5 @@
 import React from 'react';
 import CodeBlock from '@theme/CodeBlock';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 import releases from '@site/src/data/releases.json';
 import snippets from '@site/src/data/snippets.json';
 export {McpApplications} from './McpApplications';
@@ -41,23 +39,6 @@ export function MigrationDependencies(): JSX.Element {
       <p>After:</p>
       <EngineDependencies />
     </>
-  );
-}
-
-export function DoctorCommand(): JSX.Element {
-  return (
-    <Tabs groupId="shell">
-      <TabItem value="posix" label="macOS / Linux" default>
-        <CodeBlock language="bash">
-          {snippets.doctor}
-        </CodeBlock>
-      </TabItem>
-      <TabItem value="powershell" label="PowerShell">
-        <CodeBlock language="powershell">
-          {snippets.doctor}
-        </CodeBlock>
-      </TabItem>
-    </Tabs>
   );
 }
 

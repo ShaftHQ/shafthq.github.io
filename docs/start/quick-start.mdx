@@ -46,8 +46,8 @@ flowchart TD
     Goal --> Agent["Agent or MCP workflow"]
     Goal --> Manual["Constrained manual setup"]
     New --> Generator["Project Generator"]
-    Existing --> Upgrade["upgrade_to_modular_shaft.py"]
-    Agent --> MCP["shaft-mcp installer or manual client config"]
+    Existing --> Upgrade["Upgrade guide"]
+    Agent --> MCP["MCP guide"]
     Manual --> Dependencies["Add BOM and shaft-engine"]
     Generator --> Run["mvn test"]
     Upgrade --> Run
@@ -89,20 +89,10 @@ The [automated upgrade tool](/docs/start/upgrade) updates Maven dependencies,
 validates the result, and rolls changes back if compilation fails.
 :::
 
-Run the upgrader from the existing project:
-
-```bash
-python3 upgrade_to_modular_shaft.py --project .
-```
-
-The script resolves the latest modular SHAFT release, imports `shaft-bom`, adds
-`shaft-engine`, scans for optional BrowserStack, visual, and desktop-video
-modules, and runs Maven `test-compile`. If compilation fails, it restores all
-changed files. An optional `OPENAI_API_KEY` enables up to three constrained
-repair-and-recompile attempts before rollback.
-
-Read the complete [automated upgrade and rollback guide](/docs/start/upgrade)
-before running it on a production repository.
+Open the [automated upgrade and rollback guide](/docs/start/upgrade#download-and-run)
+from the existing project and run its canonical upgrade command. That page owns
+the script download, OS-neutral invocation, flags, rollback behavior, and
+optional repair flow.
 
 ## MCP integration
 
@@ -110,29 +100,16 @@ Use this after a generated, upgraded, or manual project already compiles. MCP is
 for agent operations around a working SHAFT project, not a replacement for
 project setup.
 
-1. Connect your client from the [SHAFT MCP guide](/docs/agentic/mcp).
+1. Connect your client from the [SHAFT MCP guide](/docs/agentic/mcp#applications).
 2. Keep model credentials in the MCP client or provider configuration, not in
    source files.
 3. Use Capture and Doctor output as evidence, then review generated code before
    committing it.
 
-For a no-AI browser-recording workflow, use the `shaft-mcp` installer or put the
-thin JAR and runtime dependencies on `MCP_CP`, then run:
-
-```bash
-MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
-java -cp "$MCP_CP" "$MCP_MAIN" capture start \
-  --url https://example.test --browser chrome \
-  --output recordings/example.json --headless
-java -cp "$MCP_CP" "$MCP_MAIN" capture stop
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json \
-  --output-dir generated-tests --replay
-```
-
-See the [SHAFT Pilot guide](/docs/agentic/pilot) for Doctor analysis, reviewed
-repairs, MCP clients, optional provider configuration, privacy controls, and
-troubleshooting.
+Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for
+Capture, Doctor, and remote-server commands. Use the
+[manual configuration section](/docs/agentic/mcp#manual-configuration) only
+when the installer cannot update your selected client.
 
 ## Manual creation
 

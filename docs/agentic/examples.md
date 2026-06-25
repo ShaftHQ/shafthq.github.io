@@ -9,49 +9,40 @@ tags: [pilot, examples]
 
 # Pilot examples
 
-These examples contain no credentials and assume the thin `shaft-mcp` JAR and
-runtime dependencies are on `MCP_CP`, with `MCP_MAIN` set to
-`com.shaft.mcp.ShaftMcpApplication`.
+Use the canonical [MCP command reference](/docs/agentic/mcp#mcp-command-reference)
+for Capture, Doctor, repair, and Streamable HTTP commands. This page keeps the
+example assets and review boundaries in one place without duplicating runnable
+MCP commands.
+
+```text
+MCP commands live on /docs/agentic/mcp#mcp-command-reference
+```
 
 ## No-AI Capture to TestNG
 
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" capture start \
-  --url https://example.test --browser chrome \
-  --output recordings/example.json --headless
-java -cp "$MCP_CP" "$MCP_MAIN" capture status
-java -cp "$MCP_CP" "$MCP_MAIN" capture stop
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json \
-  --output-dir generated-tests --replay
-```
+Follow the Capture commands on [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference),
+then review the generated Java source, externalized data, and generation
+report before committing anything.
 
 ## No-AI Doctor analysis
 
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
-  --input allure-results --allowed-root "$PWD" \
-  --output-dir target/shaft-doctor
-```
+Use the Doctor command on [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+The output remains credential-free and deterministic unless a provider is
+explicitly enabled.
 
 ## Optional local Ollama advisory
 
 Load [`providers/ollama.properties`](/examples/shaft-pilot/providers/ollama.properties)
-as SHAFT properties, start Ollama locally,
-and add `--ai` to the Doctor command. The deterministic diagnosis remains the
-baseline if Ollama is unavailable or returns invalid output.
+as SHAFT properties and enable provider analysis only after reviewing the
+[provider controls](/docs/agentic/providers). The deterministic diagnosis
+remains the baseline if Ollama is unavailable or returns invalid output.
 
 ## Reviewed repair proposal
 
 Use [`doctor/repair-input.json`](/examples/shaft-pilot/doctor/repair-input.json)
-only after replacing its paths and content with a
-reviewed change. `doctor propose-fix` creates an isolated worktree and does not
-publish to GitHub. Publishing requires a second command with the exact approval
-token returned by the proposal.
-
-Use the matching application installer in
-[Connect shaft-mcp](/docs/agentic/mcp) instead of editing a client
-configuration manually.
+only after replacing its paths and content with a reviewed change. Doctor repair
+creates an isolated worktree and does not publish to GitHub without a separate
+approval token.
 
 Download the credential-free Doctor example:
 

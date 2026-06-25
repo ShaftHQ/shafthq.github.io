@@ -28,26 +28,9 @@ navigation, browsing-context, prompt, and preload-script signals when
 available. A JavaScript listener drained through ordinary WebDriver provides
 deterministic interaction capture and remains the compatibility fallback.
 
-Build the thin MCP JAR and runtime dependency directory, then use its `capture`
-subcommand. Use `;` instead of `:` in `MCP_CP` on Windows:
-
-```bash
-mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
-mvn -pl shaft-mcp dependency:copy-dependencies -DincludeScope=runtime \
-  '-DoutputDirectory=${maven.multiModuleProjectDirectory}/shaft-mcp/target/dependency' \
-  -DskipTests -Dgpg.skip
-MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
-MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
-java -cp "$MCP_CP" "$MCP_MAIN" capture start \
-  --url https://example.test --browser chrome \
-  --output recordings/example.json --headless \
-  --viewport-size 1280,720 \
-  --test-id-attribute data-testid
-java -cp "$MCP_CP" "$MCP_MAIN" capture status
-java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
-  --description "Checkout ready"
-java -cp "$MCP_CP" "$MCP_MAIN" capture stop
-```
+Use the Capture commands on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). That page owns
+the runnable MCP command reference and classpath notes.
 
 Use `--runtime-dir <path>` on every command to isolate control files. `stop`
 also accepts `--discard`. Only one recorder may own a runtime directory at a
@@ -174,13 +157,9 @@ store.stop(Instant.now());
 
 ## Deterministic TestNG generation
 
-Generate a test, SHAFT JSON test data, and a deterministic report:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json \
-  --output-dir generated-tests
-```
+Generate a test, SHAFT JSON test data, and a deterministic report with the
+Capture generation command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
 
 The default output layout is:
 
@@ -224,20 +203,10 @@ unless `--overwrite` is supplied. MCP replay code follows the selected backend:
 WebDriver tools keep `SHAFT.GUI.WebDriver` and Playwright tools generate
 `SHAFT.GUI.Playwright`.
 
-AI enrichment is optional and uses two phases for native CLI users:
-
-```bash
-# Calls the enabled provider only with explicit processing approval.
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json --output-dir generated-tests \
-  --ai-preview --allow-local-ai
-
-# Apply the reviewed, fingerprinted preview.
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json --output-dir generated-tests-enriched \
-  --apply-enrichment generated-tests/target/shaft-capture/enrichment-preview.json \
-  --approve-enrichment --replay
-```
+AI enrichment is optional and uses two phases for native CLI users: preview
+with explicit processing approval, then apply the reviewed fingerprinted
+preview. Use the canonical Capture command reference on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference) when running it.
 
 The provider may suggest Java names and captured-state assertions only. It
 cannot replace deterministic locators. Preview output is schema-validated and

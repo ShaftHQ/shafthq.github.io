@@ -7,8 +7,6 @@ sidebar_position: 5
 tags: [doctor, diagnosis, allure, mcp]
 ---
 
-import {DoctorCommand} from '@site/src/components/DocSnippets';
-
 # Diagnose failures with Doctor
 
 `io.github.shafthq:shaft-doctor` collects explicitly selected local test
@@ -44,7 +42,9 @@ analysis of identical inputs is byte stable.
 
 ## Run Doctor
 
-<DoctorCommand />
+Use the Doctor command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). The canonical
+`doctor analyze` command and its `--allowed-root` option live there.
 
 The command writes `doctor-evidence.json`, `doctor-report.json`,
 `doctor-report.md`, `doctor-triage.*`, and `execution-intelligence.*` under
@@ -58,19 +58,10 @@ From an MCP chat:
 
 ## CLI reference
 
-The MCP main class exposes Doctor as a local command. Use `;` instead of `:` in
-`MCP_CP` on Windows:
-
-```bash
-MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
-MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
-java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
-  --input allure-results \
-  --input target/shaft-logs \
-  --allowed-root "$PWD" \
-  --output-dir target/shaft-doctor \
-  --minimum-results 1
-```
+The MCP main class exposes Doctor as a local command. Keep runnable MCP
+commands on the [MCP command reference](/docs/agentic/mcp#mcp-command-reference)
+so classpath, Windows separator, and local/remote setup guidance stay in one
+place.
 
 Every readable input must resolve under an explicit allowed root. Symlink
 targets are resolved before collection. The output directory must also be
@@ -78,16 +69,8 @@ inside a declared root. Add repeated `--history` options to correlate recurring
 signatures from older `doctor-evidence.json` files.
 
 Screenshots and page snapshots are excluded by default. Retain them only with
-explicit approval:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
-  --input allure-results \
-  --allowed-root "$PWD" \
-  --output-dir target/shaft-doctor \
-  --include-screenshots \
-  --include-page-snapshots
-```
+explicit approval through the Doctor command options documented on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
 
 Use `--max-item-bytes` and `--max-bundle-bytes` to lower the conservative
 retention limits. Use `--minimum-results` when the expected run size is known;
@@ -102,21 +85,8 @@ Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
 must independently enable the provider, processing location, model, and every
 submitted evidence category.
 
-Local Ollama example:
-
-```bash
-java \
-  -Dpilot.ai.enabled=true \
-  -Dpilot.ai.provider=ollama \
-  -Dpilot.ai.consent.local=true \
-  -Dpilot.ai.allowedEvidenceCategories=TEXT,LOG,CONFIGURATION \
-  -Dpilot.ai.ollama.model=<local-model> \
-  -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
-  --input allure-results \
-  --allowed-root "$PWD" \
-  --output-dir target/shaft-doctor \
-  --ai
-```
+Local Ollama follows the same Doctor command path after Pilot properties enable
+local advisory analysis.
 
 Ollama defaults to `http://127.0.0.1:11434/api/chat`. Changing the endpoint does
 not weaken consent, redaction, minimization, schema validation, or evidence-ID
@@ -223,17 +193,9 @@ Example `repair-input.json`:
 }
 ```
 
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor propose-fix \
-  --repository "$PWD" \
-  --base-sha <full-approved-sha> \
-  --diagnosis target/shaft-doctor/doctor-report.json \
-  --evidence-bundle target/shaft-doctor/doctor-evidence.json \
-  --issue 2857 \
-  --allowed-path src/test/java/example/CheckoutTest.java \
-  --repair-input repair-input.json \
-  --output-dir target/shaft-doctor/repairs
-```
+Run the reviewed repair command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference) after preparing
+the reviewed input.
 
 Only Maven compile, test, package, install, verification, Surefire/Failsafe, and
 JavaDoc goals are accepted. Commands are executed as argument arrays without a
@@ -252,14 +214,8 @@ protected workflows, generated paths, and secret-like material are rejected.
 Provider, consent, timeout, or schema failure returns no patch and does not
 create a worktree.
 
-Publishing is always a later explicit action:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor publish-draft-pr \
-  --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
-  --approval-token <token-from-reviewed-proposal> \
-  --approve
-```
+Publishing is always a later explicit action using the matching command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
 
 Failed validation blocks publication by default. An explicit
 `--override-failed-validation` also requires `--override-rationale`, which is

@@ -3,9 +3,6 @@ const path = require('path');
 
 const index = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.tsx'), 'utf8');
 const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.module.css'), 'utf8');
-const snippets = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'snippets.json'), 'utf8'),
-);
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -18,21 +15,18 @@ assert(index.includes('width="1200"') && index.includes('height="676"'), 'Homepa
 assert(index.includes('decoding="async"'), 'Homepage hero image decoding must be async.');
 assert(index.includes('fetchPriority="high"'), 'Homepage hero image must prioritize the first-viewport image.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
+assert(index.includes('/docs/start/quick-start#new-project-generation'), 'Homepage must link to the new-project quick-start anchor.');
+assert(index.includes('/docs/start/quick-start#existing-project-upgrade'), 'Homepage must link to the upgrade quick-start anchor.');
+assert(index.includes('/docs/start/quick-start#mcp-integration'), 'Homepage must link to the MCP quick-start anchor.');
 assert(index.includes('/docs/agentic/mcp'), 'Homepage must expose MCP setup.');
 assert(
-  index.includes('data-testid="landing-cta-agent"') && index.includes('href="#connect-ai-agent"'),
-  'Homepage AI-agent CTA must scroll to the landing-page agent section.',
+  index.includes('data-testid="landing-cta-agent"') && index.includes('to="/docs/start/quick-start#mcp-integration"'),
+  'Homepage AI-agent CTA must point to the quick-start MCP anchor.',
 );
 assert(index.includes('id="connect-ai-agent"'), 'Homepage must expose a stable agent-section anchor.');
-assert(index.includes('<McpApplications />'), 'Homepage must render the shared MCP applications.');
 assert(
-  snippets.mcpInstaller.commandTemplates.windows.includes('Install-ShaftMcp -Client {client}')
-    && snippets.mcpInstaller.commandTemplates.macos.includes('install-shaft-mcp.sh')
-    && snippets.mcpInstaller.commandTemplates.linux.includes('sh -s -- {agentFlag}')
-    && snippets.mcpInstaller.applications.length === 5
-    && snippets.mcpInstaller.applications.some((application) => application.id === 'copilot-intellij')
-    && snippets.mcpInstaller.applications.every((application) => application.logo?.startsWith('/img/mcp-clients/')),
-  'MCP installer data must expose OS-specific standalone commands for every supported application.',
+  !index.includes('<McpApplications />') && !index.includes('data-testid="landing-agent-commands"'),
+  'Homepage must link to the canonical MCP page instead of rendering MCP commands.',
 );
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');

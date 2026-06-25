@@ -74,6 +74,36 @@ URL query values are masked before the JSON is attached. Disable the bundle
 with `shaft.diagnostics.enabled=false` or lower the ZIP entry cap with
 `shaft.diagnostics.maxArtifactMb`.
 
+## Failure briefs and attachment manifest
+
+Failed and broken tests also attach a compact failure brief beside the
+diagnostics bundle:
+
+- `SHAFT Failure Brief.html` opens first in the Allure report and summarizes the
+  failure category, message, top project stack frame, and the first artifacts to
+  inspect.
+- `shaft-failure-brief.json` exposes the same triage data for CI bots and
+  local tooling.
+- `shaft-attachments-manifest.json` lists SHAFT-owned evidence such as
+  screenshots, videos, traces, page snapshots, API request/response artifacts,
+  accessibility reports, performance reports, and logs.
+
+The brief uses the same redaction rules as the diagnostics bundle, so common
+headers, cookies, token/password assignments, and sensitive URL query values are
+masked before the JSON and HTML are attached. API request labels omit query
+strings and include the method, path, status code, and response time when
+available.
+
+Allure 3 runs also receive a `categories.json` file in `allure-results/` with
+SHAFT's default failure groups for assertion, stale element, timeout, locator,
+API, accessibility, visual, and infrastructure failures. These categories are
+plain Allure metadata and do not require a custom Allure plugin.
+
+The attachment manifest is built from SHAFT's common attachment path and API
+filter. Specialized Allure-native attachments, such as visual comparison diffs,
+can still appear directly in the Allure report before they are routed through
+the central manifest path.
+
 ## Locator health reports
 
 Enable locator health reporting when you want a run-level view of slow or flaky

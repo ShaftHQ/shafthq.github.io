@@ -6,7 +6,6 @@ import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookOpen, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import ParticleBackground from '@site/src/components/ParticleBackground';
-import {McpApplications} from '@site/src/components/DocSnippets';
 import styles from './index.module.css';
 
 const testSurfaces = [
@@ -98,11 +97,11 @@ const heroEngines = [
 const onboardingSteps = [
   {
     testId: 'hero-onboarding-step-1',
-    label: 'Generate a project from installation docs.',
+    label: 'Choose the new-project path in the quick start.',
   },
   {
     testId: 'hero-onboarding-step-2',
-    label: 'Run the quick start and validate one passing web flow.',
+    label: 'Run the generated project and validate one passing web flow.',
   },
   {
     testId: 'hero-onboarding-step-3',
@@ -110,24 +109,24 @@ const onboardingSteps = [
   },
   {
     testId: 'hero-onboarding-step-4',
-    label: 'Enable MCP only after evidence review, then tighten prompts and approval policy.',
+    label: 'Connect MCP from the quick start after the suite compiles.',
   },
 ];
 
 const guidePaths = [
   {
     audience: 'First run',
-    title: 'Generate a runnable project',
-    description: 'Install SHAFT, create a Maven project, and run one passing web flow.',
-    label: 'Open installation',
-    to: '/docs/start/installation',
+    title: 'Start a new SHAFT project',
+    description: 'Choose the new-project path, then use the canonical Project Generator page.',
+    label: 'Open new-project path',
+    to: '/docs/start/quick-start#new-project-generation',
   },
   {
     audience: 'Migration',
-    title: 'Compare native-engine fit',
-    description: 'Keep Selenium, Appium, Playwright browser, REST Assured, TestNG, JUnit, and Cucumber choices visible while evaluating framework tradeoffs.',
-    label: 'Open technology map',
-    to: '/docs/features/technology',
+    title: 'Upgrade an existing project',
+    description: 'Route Selenium, Appium, REST Assured, Cucumber, or older SHAFT projects to the upgrade guide.',
+    label: 'Open upgrade path',
+    to: '/docs/start/quick-start#existing-project-upgrade',
   },
   {
     audience: 'Expansion',
@@ -140,8 +139,8 @@ const guidePaths = [
     audience: 'Agentic',
     title: 'Connect MCP after the basics',
     description: 'Expose browser, Capture, Doctor, and Heal tools to agents after the suite has deterministic evidence.',
-    label: 'Set up MCP',
-    to: '/docs/agentic/mcp',
+    label: 'Open MCP path',
+    to: '/docs/start/quick-start#mcp-integration',
   },
 ];
 
@@ -259,11 +258,11 @@ function Hero(): JSX.Element {
             API, database/CLI checks, and shared evidence.
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
-            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/installation">
+            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/quick-start#new-project-generation">
               <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
               Generate a runnable project
             </Link>
-            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start">
+            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start#choose-your-path">
               <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
               Read quick start
             </Link>
@@ -493,16 +492,13 @@ function AgentSection(): JSX.Element {
             the client retains its own model credentials and approval policy.
             The agent gets real automation tools; the framework keeps deterministic evidence.
           </p>
-          <div className={styles.featureLinks}>
+          <div className={styles.featureLinks} data-testid="landing-agent-links">
             <Link to="/docs/agentic/mcp">MCP setup</Link>
             <Link to="/docs/agentic/doctor">Diagnose with Doctor</Link>
             <Link to="/docs/agentic/heal">Recover with Heal</Link>
+            <Link data-testid="landing-agent-mcp-link" to="/docs/agentic/mcp">MCP commands and configuration</Link>
           </div>
         </div>
-        <details className={styles.agentDetails} data-testid="landing-agent-commands">
-          <summary data-testid="landing-agent-commands-summary">Show install commands</summary>
-          <McpApplications />
-        </details>
       </div>
     </section>
   );
@@ -565,17 +561,17 @@ function FinalCta(): JSX.Element {
         <h2>Start with native Selenium power. Keep the suite maintainable.</h2>
         <p>Fastest path: install, generate a runnable project, run the quick start, then wire MCP only if you need AI-agent operations.</p>
         <div className={styles.actions}>
-          <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/installation">
+          <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/quick-start#new-project-generation">
             <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
             Generate a runnable project
           </Link>
-          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start#choose-your-path">
             <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
             Read quick start
           </Link>
-          <a className="button button--secondary button--lg" data-testid="landing-cta-agent" href="#connect-ai-agent">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-agent" to="/docs/start/quick-start#mcp-integration">
             Connect your AI agent
-          </a>
+          </Link>
         </div>
       </div>
     </section>

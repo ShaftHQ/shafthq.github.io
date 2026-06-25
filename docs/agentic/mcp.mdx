@@ -217,6 +217,8 @@ The packaged server supports:
 The HTTP port defaults to `8081` and can be overridden with `PORT` or
 `--server.port`.
 
+## MCP command reference
+
 The same main class also provides local SHAFT Capture and Doctor CLIs. Use `;`
 instead of `:` in `MCP_CP` on Windows:
 
@@ -233,6 +235,19 @@ java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
 java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor
+java -cp "$MCP_CP" "$MCP_MAIN" doctor propose-fix \
+  --repository "$PWD" \
+  --base-sha <full-approved-sha> \
+  --diagnosis target/shaft-doctor/doctor-report.json \
+  --evidence-bundle target/shaft-doctor/doctor-evidence.json \
+  --issue <issue-or-session> \
+  --allowed-path src/test/java/example/CheckoutTest.java \
+  --repair-input repair-input.json \
+  --output-dir target/shaft-doctor/repairs
+java -cp "$MCP_CP" "$MCP_MAIN" doctor publish-draft-pr \
+  --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
+  --approval-token <token-from-reviewed-proposal> \
+  --approve
 ```
 
 See [SHAFT Capture](/docs/agentic/capture) for checkpoint, runtime-directory,
@@ -337,6 +352,72 @@ and this user guide link.
 
 The MCP client remains responsible for tool approvals and model
 authentication.
+
+## Manual configuration
+
+Use manual configuration only when the installer cannot update your MCP client.
+You need Java 25, the selected client, the thin `shaft-mcp` JAR, its runtime
+dependencies, a writable runtime workspace, and absolute paths for both the Java
+executable and an argfile.
+
+Create `/absolute/path/to/shaft-mcp.args`:
+
+```text
+"-Duser.dir=/absolute/path/to/shaft-mcp-work"
+"-Dshaft.mcp.workspaceRoot=/absolute/path/to/shaft-mcp-work"
+-cp
+"/absolute/path/to/shaft-mcp.jar:/absolute/path/to/lib/*"
+com.shaft.mcp.ShaftMcpApplication
+```
+
+Use `;` instead of `:` in the classpath on Windows. The JVM property paths may
+use forward slashes on every operating system.
+
+Codex local stdio configuration:
+
+Follow the [official Codex MCP documentation](https://developers.openai.com/codex/mcp)
+for client-specific settings and approval policy.
+
+```toml
+[mcp_servers.shaft-mcp]
+command = "/absolute/path/to/java"
+args = ["@/absolute/path/to/shaft-mcp.args"]
+```
+
+Claude Code user-scope configuration:
+
+```bash
+claude mcp remove shaft-mcp -s user
+claude mcp add -s user shaft-mcp -- "/absolute/path/to/java" "@/absolute/path/to/shaft-mcp.args"
+```
+
+Claude Desktop configuration:
+
+```json
+{
+  "mcpServers": {
+    "shaft-mcp": {
+      "command": "/absolute/path/to/java",
+      "args": ["@/absolute/path/to/shaft-mcp.args"]
+    }
+  }
+}
+```
+
+GitHub Copilot local configuration:
+
+```json
+{
+  "mcpServers": {
+    "shaft-mcp": {
+      "type": "local",
+      "command": "/absolute/path/to/java",
+      "args": ["@/absolute/path/to/shaft-mcp.args"],
+      "tools": ["*"]
+    }
+  }
+}
+```
 
 Codex also supports direct Streamable HTTP:
 
