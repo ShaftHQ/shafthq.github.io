@@ -1,7 +1,9 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
+import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import ParticleBackground from '@site/src/components/ParticleBackground';
 import {McpApplications} from '@site/src/components/DocSnippets';
 import styles from './index.module.css';
 
@@ -123,6 +125,39 @@ const stackPills = [
   'MCP agents',
 ];
 
+const heroSignals = [
+  {
+    label: 'Suite model',
+    value: 'TestNG / JUnit / Cucumber',
+  },
+  {
+    label: 'Evidence',
+    value: 'Allure screenshots + logs',
+  },
+  {
+    label: 'Scope',
+    value: 'Web + mobile + API + DB + CLI',
+  },
+];
+
+const telemetryRows = [
+  {
+    label: 'Intent',
+    value: 'navigateToURL',
+    state: 'queued',
+  },
+  {
+    label: 'Locator',
+    value: 'By.name("q")',
+    state: 'healthy',
+  },
+  {
+    label: 'Evidence',
+    value: 'screenshot + log',
+    state: 'attached',
+  },
+];
+
 const surfaceMap = [
   {
     label: 'Web GUI',
@@ -181,10 +216,21 @@ const workflowSteps = [
 function Hero(): JSX.Element {
   return (
     <header className={styles.hero} data-testid="landing-hero">
+      <BrowserOnly fallback={<div aria-hidden="true" />}>
+        {() => (
+          <ParticleBackground
+            className={styles.heroParticles}
+            particleCount={42}
+            connectionDistance={135}
+            motionScale={0.38}
+            heroMode
+          />
+        )}
+      </BrowserOnly>
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <span className={styles.eyebrow}>Native Selenium, Playwright, Appium, REST Assured, CLI, database, and reporting support</span>
-          <h1>One Java engine for web, mobile, API, database, and CLI automation.</h1>
+          <h1>One Java engine for multi-surface automation.</h1>
           <p>
             Keep direct Selenium WebDriver, Microsoft Playwright, Appium, and REST Assured control.
             If your stack is browser-only, a focused Playwright path can be best.
@@ -210,8 +256,16 @@ function Hero(): JSX.Element {
         </div>
         <div className={styles.heroProof} aria-label="SHAFT quick proof">
           <div className={styles.proofHeader}>
-            <span>Native engines, one suite</span>
+            <span><i aria-hidden="true" />Native engines, one suite</span>
             <Link to="#testing-surfaces">Compare surfaces</Link>
+          </div>
+          <div className={styles.heroSignalBar} aria-label="SHAFT suite signals">
+            {heroSignals.map((signal) => (
+              <div key={signal.label}>
+                <small>{signal.label}</small>
+                <strong>{signal.value}</strong>
+              </div>
+            ))}
           </div>
           <div className={styles.heroEngineStrip} aria-label="Native engines available through SHAFT">
             {heroEngines.map((engine) => (
@@ -221,13 +275,24 @@ function Hero(): JSX.Element {
               </Link>
             ))}
           </div>
-          <pre>
-            <code>{`SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+          <div className={styles.heroConsole}>
+            <pre>
+              <code>{`SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 
 driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().element().type(By.name("q"), "SHAFT Engine")
   .and().assertThat().title().contains("DuckDuckGo");`}</code>
-          </pre>
+            </pre>
+            <div className={styles.telemetryList} aria-label="Live execution states">
+              {telemetryRows.map((row) => (
+                <div key={row.label}>
+                  <span>{row.label}</span>
+                  <strong>{row.value}</strong>
+                  <small>{row.state}</small>
+                </div>
+              ))}
+            </div>
+          </div>
           <ol aria-label="SHAFT onboarding sequence" className={styles.heroChecklist}>
             {onboardingSteps.map((step) => (
               <li data-testid={step.testId} key={step.testId}>
@@ -408,7 +473,12 @@ function WorkflowSection(): JSX.Element {
           </p>
         </div>
         <div className={styles.workflow} aria-label="SHAFT test workflow">
-          {workflowSteps.map((step) => <span key={step}>{step}</span>)}
+          {workflowSteps.map((step, index) => (
+            <span key={step}>
+              <small>{String(index + 1).padStart(2, '0')}</small>
+              {step}
+            </span>
+          ))}
         </div>
         <div className={styles.evidenceGrid}>
           <article>
