@@ -112,4 +112,4 @@ Acceptance criteria:
 - [x] Add or update tests that assert growth CTAs, no properties WIP text, and important guide routes.
 - [x] Run docs, typecheck, build, and rendered browser verification.
 - [x] Capture screenshot evidence for all 10 stories.
-- [ ] Open a PR whose description lists these 10 stories, acceptance criteria, and screenshot evidence.
+- [x] Open a PR whose description lists these 10 stories, acceptance criteria, and screenshot evidence.
