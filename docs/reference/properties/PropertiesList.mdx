@@ -1189,16 +1189,65 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### Performance
 
 <Tabs groupId="PropertyTypes" queryString="Performance">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  boolean lighthouseEnabled = SHAFT.Properties.performance.isEnabled();
+  int lighthousePort = SHAFT.Properties.performance.port();
+  boolean generateReport = SHAFT.Properties.performance.isEnablePerformanceReport();
+  String apiBudgets = SHAFT.Properties.performance.apiEndpointPerformanceBudgets();
+  boolean failApiBudgets = SHAFT.Properties.performance.failOnApiPerformanceBudgetViolation();
+  String browserActionBudgets = SHAFT.Properties.performance.browserActionPerformanceBudgets();
+  String pageLoadBudgets = SHAFT.Properties.performance.pageLoadPerformanceBudgets();
+  boolean failBrowserBudgets = SHAFT.Properties.performance.failOnBrowserPerformanceBudgetViolation();
+
+  /** set **/
+  SHAFT.Properties.performance.set()
+    .generatePerformanceReport(true)
+    .apiEndpointPerformanceBudgets("users=500,orders/{id}=750")
+    .failOnApiPerformanceBudgetViolation(true)
+    .browserActionPerformanceBudgets("playwright.element.click=750,*=1000")
+    .pageLoadPerformanceBudgets("https://example.com/checkout=3000,*=5000")
+    .failOnBrowserPerformanceBudgetViolation(false);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```powershell
+  mvn -e test "-DgeneratePerformanceReport=true" "-DapiEndpointPerformanceBudgets=users=500" "-DbrowserActionPerformanceBudgets=playwright.element.click=750"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  lightHouseExecution=false
+  lightHouseExecution.port=8888
+  generatePerformanceReport=true
+  apiEndpointPerformanceBudgets=users=500,orders/{id}=750
+  failOnApiPerformanceBudgetViolation=false
+  browserActionPerformanceBudgets=playwright.element.click=750,*=1000
+  pageLoadPerformanceBudgets=https://example.com/checkout=3000,*=5000
+  failOnBrowserPerformanceBudgetViolation=false
+  ```
+
+  </TabItem>
   <TabItem value="defaults" label="Default Values">
 
-| Property Name            | Default Value | Possible Values | Description |
-| ------------------------ | ------------- | --------------- | ----------- |
-| lightHouseExecution        | `false`       | `true`, `false` | Enable Lighthouse performance testing execution.     |
-| lightHouseExecution.port   | `8888`        |                 | Port to use for Lighthouse performance testing.      |
-| generatePerformanceReport  | `true`        | `true`, `false` | Generate a performance report after Lighthouse execution. |
+| Property Name                            | Default Value | Possible Values | Description |
+| ---------------------------------------- | ------------- | --------------- | ----------- |
+| lightHouseExecution                      | `false`       | `true`, `false` | Enable WebDriver Lighthouse performance testing execution. |
+| lightHouseExecution.port                 | `8888`        | port number | Port to use for Lighthouse performance testing. |
+| generatePerformanceReport                | `true`        | `true`, `false` | Generate API and browser performance report files when timing data exists. |
+| apiEndpointPerformanceBudgets            | ` `           | `endpoint=milliseconds` list | Optional p95 API endpoint budgets using normalized endpoint names, separated by commas, semicolons, or new lines. |
+| failOnApiPerformanceBudgetViolation      | `false`       | `true`, `false` | Fail the run when an API endpoint p95 budget is exceeded; otherwise log a warning. |
+| browserActionPerformanceBudgets          | ` `           | `metric=milliseconds` list | Optional p95 Playwright browser action budgets, such as `playwright.element.click=750` or `*=1000`. |
+| pageLoadPerformanceBudgets               | ` `           | `page=milliseconds` list | Optional p95 Playwright page-load budgets using navigated URLs or `*` as a default budget. |
+| failOnBrowserPerformanceBudgetViolation  | `false`       | `true`, `false` | Fail the run when a Playwright browser action or page-load p95 budget is exceeded; otherwise log a warning. |
 
   </TabItem>
 </Tabs>

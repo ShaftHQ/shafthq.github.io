@@ -2074,10 +2074,20 @@
       "norm_label": "onboardingsteps"
     },
     {
-      "label": "stackPills",
+      "label": "guidePaths",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
       "source_location": "L115",
+      "_origin": "ast",
+      "id": "pages_index_guidepaths",
+      "community": 56,
+      "norm_label": "guidepaths"
+    },
+    {
+      "label": "stackPills",
+      "file_type": "code",
+      "source_file": "src/pages/index.tsx",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "pages_index_stackpills",
       "community": 56,
@@ -2087,7 +2097,7 @@
       "label": "heroSignals",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L128",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "pages_index_herosignals",
       "community": 56,
@@ -2097,7 +2107,7 @@
       "label": "telemetryRows",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L143",
+      "source_location": "L174",
       "_origin": "ast",
       "id": "pages_index_telemetryrows",
       "community": 56,
@@ -2107,7 +2117,7 @@
       "label": "surfaceMap",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L161",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "pages_index_surfacemap",
       "community": 56,
@@ -2117,7 +2127,7 @@
       "label": "sharedRails",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L182",
+      "source_location": "L213",
       "_origin": "ast",
       "id": "pages_index_sharedrails",
       "community": 56,
@@ -2127,7 +2137,7 @@
       "label": "comparisonRows",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L189",
+      "source_location": "L220",
       "_origin": "ast",
       "id": "pages_index_comparisonrows",
       "community": 56,
@@ -2137,7 +2147,7 @@
       "label": "workflowSteps",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L207",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "pages_index_workflowsteps",
       "community": 56,
@@ -2147,17 +2157,27 @@
       "label": "Hero()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L216",
+      "source_location": "L247",
       "_origin": "ast",
       "id": "pages_index_hero",
       "community": 56,
       "norm_label": "hero()"
     },
     {
+      "label": "GuidePathSection()",
+      "file_type": "code",
+      "source_file": "src/pages/index.tsx",
+      "source_location": "L353",
+      "_origin": "ast",
+      "id": "pages_index_guidepathsection",
+      "community": 56,
+      "norm_label": "guidepathsection()"
+    },
+    {
       "label": "ProofSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L322",
+      "source_location": "L380",
       "_origin": "ast",
       "id": "pages_index_proofsection",
       "community": 56,
@@ -2167,7 +2187,7 @@
       "label": "SurfaceSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L356",
+      "source_location": "L414",
       "_origin": "ast",
       "id": "pages_index_surfacesection",
       "community": 56,
@@ -2177,7 +2197,7 @@
       "label": "ComparisonSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L403",
+      "source_location": "L461",
       "_origin": "ast",
       "id": "pages_index_comparisonsection",
       "community": 56,
@@ -2187,7 +2207,7 @@
       "label": "AgentSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L436",
+      "source_location": "L494",
       "_origin": "ast",
       "id": "pages_index_agentsection",
       "community": 56,
@@ -2197,7 +2217,7 @@
       "label": "WorkflowSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L463",
+      "source_location": "L521",
       "_origin": "ast",
       "id": "pages_index_workflowsection",
       "community": 56,
@@ -2207,7 +2227,7 @@
       "label": "FinalCta()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L502",
+      "source_location": "L560",
       "_origin": "ast",
       "id": "pages_index_finalcta",
       "community": 56,
@@ -2217,7 +2237,7 @@
       "label": "Home()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L524",
+      "source_location": "L582",
       "_origin": "ast",
       "id": "pages_index_home",
       "community": 56,
@@ -15589,7 +15609,7 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_gui_playwright_backend_md",
+      "id": "gui_playwright_backend",
       "community": 210,
       "norm_label": "playwright_backend.md"
     },
@@ -15664,10 +15684,30 @@
       "norm_label": "assertions and verifications"
     },
     {
-      "label": "Related",
+      "label": "Accessibility And Network Parity",
       "file_type": "document",
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L270",
+      "_origin": "ast",
+      "id": "gui_playwright_backend_accessibility_and_network_parity",
+      "community": 210,
+      "norm_label": "accessibility and network parity"
+    },
+    {
+      "label": "Performance Budgets",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
+      "source_location": "L298",
+      "_origin": "ast",
+      "id": "gui_playwright_backend_performance_budgets",
+      "community": 210,
+      "norm_label": "performance budgets"
+    },
+    {
+      "label": "Related",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
+      "source_location": "L325",
       "_origin": "ast",
       "id": "gui_playwright_backend_related",
       "community": 210,
@@ -21747,7 +21787,7 @@
       "label": "TestNG",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1206",
+      "source_location": "L1255",
       "_origin": "ast",
       "id": "properties_propertieslist_testng",
       "community": 17,
@@ -21757,7 +21797,7 @@
       "label": "Log4j",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1244",
+      "source_location": "L1293",
       "_origin": "ast",
       "id": "properties_propertieslist_log4j",
       "community": 17,
@@ -21767,7 +21807,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1295",
+      "source_location": "L1344",
       "_origin": "ast",
       "id": "properties_propertieslist_related",
       "community": 17,
@@ -26153,6 +26193,26 @@
       "confidence_score": 1.0,
       "source": "pages_index",
       "target": "pages_index_finalcta"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.tsx",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "pages_index",
+      "target": "pages_index_guidepaths",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/index.tsx",
+      "source_location": "L353",
+      "weight": 1.0,
+      "source": "pages_index",
+      "target": "pages_index_guidepathsection",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -40026,9 +40086,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L42",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_gui_playwright_backend_md",
-      "target": "gui_playwright_backend_configuration"
+      "source": "gui_playwright_backend",
+      "target": "gui_playwright_backend_configuration",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -40036,9 +40096,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L164",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_gui_playwright_backend_md",
-      "target": "gui_playwright_backend_mapping_tree"
+      "source": "gui_playwright_backend",
+      "target": "gui_playwright_backend_mapping_tree",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -40046,9 +40106,19 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L131",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_gui_playwright_backend_md",
-      "target": "gui_playwright_backend_native_access"
+      "source": "gui_playwright_backend",
+      "target": "gui_playwright_backend_native_access",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
+      "source_location": "L325",
+      "weight": 1.0,
+      "source": "gui_playwright_backend",
+      "target": "gui_playwright_backend_related",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -40056,9 +40126,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L270",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_gui_playwright_backend_md",
-      "target": "gui_playwright_backend_related"
+      "source": "gui_playwright_backend_mapping_tree",
+      "target": "gui_playwright_backend_accessibility_and_network_parity",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -40099,6 +40169,16 @@
       "confidence_score": 1.0,
       "source": "gui_playwright_backend_mapping_tree",
       "target": "gui_playwright_backend_element_actions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
+      "source_location": "L298",
+      "weight": 1.0,
+      "source": "gui_playwright_backend_mapping_tree",
+      "target": "gui_playwright_backend_performance_budgets",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -47272,5 +47352,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "3b9fb8b5a130a66d9210f5b48eed63dd93c30d96"
+  "built_at_commit": "7efa20cd2e62ab5f432a40ac9e71024e59d7f235"
 }

@@ -168,7 +168,7 @@ Legend:
 - `Supported`: implemented for Playwright.
 - `Native`: available through a native Playwright overload or native context.
 - `WebDriver-only`: intentionally remains on Selenium/Appium because the feature
-  depends on Selenium, Appium, CDP wrappers, Lighthouse, or axe integration.
+  depends on Selenium, Appium, CDP wrappers, or Lighthouse.
 
 ### Driver
 
@@ -184,7 +184,7 @@ Legend:
 | WebDriver native object | `getNativeContext()` returns `BrowserContext`; `getPlaywright()` returns runtime |
 | `touch()` | WebDriver-only/Appium-only |
 | `async()` | WebDriver-only |
-| `act(...)` natural GUI actions | WebDriver-only in the first Playwright backend |
+| `act(...)` natural GUI actions | Supported through the trust-gated natural-action planner; Appium touch intents still return an unsupported touch-action reason |
 
 ### Browser Actions
 
@@ -209,9 +209,9 @@ Legend:
 | `capturePageSnapshot()` / `captureSnapshot()` | Supported as HTML attachment |
 | `waitForLazyLoading()` | Supported through Playwright load state |
 | `getContext()` / `setContext()` / `getContextHandles()` | Supported for the Playwright page context |
-| `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` | WebDriver-only for SHAFT's Selenium HTTP contract; use native Playwright routing from `getDriver()` |
+| `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` | Supported through Playwright `BrowserContext` routing while preserving SHAFT's Selenium HTTP request/response contract |
 | `generateLightHouseReport()` | WebDriver-only |
-| `accessibility()` | WebDriver-only axe integration |
+| `accessibility()` | Supported through bundled axe-core injection into the active Playwright page |
 
 ### Element Actions
 
@@ -266,6 +266,61 @@ The no-argument Playwright overload uses OpenCV because Selenium Shutterbug
 requires a WebDriver session. Explicit OpenCV and Applitools Eyes engines compare
 the Playwright screenshot bytes through `shaft-visual`; explicit Shutterbug
 requests fall back to OpenCV for Playwright.
+
+### Accessibility And Network Parity
+
+Playwright browser actions expose the same network mocking and validation entry
+points as WebDriver:
+
+```java title="PlaywrightNetwork.java"
+driver.browser()
+      .mock(request -> request.getUri().contains("/inventory"), response)
+      .and()
+      .clearNetworkInterceptors();
+```
+
+`interceptRequest()` supports response assertions/verifications through the
+existing SHAFT validation callbacks. Routes are scoped to the active Playwright
+browser context and can be cleared with `clearNetworkInterceptors()`.
+
+Accessibility scans run axe-core in the active Playwright page and attach the
+same SHAFT accessibility artifacts used by WebDriver checks:
+
+```java title="PlaywrightAccessibility.java"
+driver.browser()
+      .accessibility()
+      .setPageName("checkout")
+      .assertNoCriticalViolations()
+      .backToBrowserContract()
+      .captureScreenshot();
+```
+
+### Performance Budgets
+
+API performance reports now include p50, p90, p95, and p99 endpoint latency
+columns plus a JSON export beside the HTML report. API endpoint budgets use the
+normalized endpoint names shown in the report:
+
+```properties title="src/main/resources/properties/custom.properties"
+apiEndpointPerformanceBudgets=users=500,orders/{id}=750
+failOnApiPerformanceBudgetViolation=true
+```
+
+Playwright browser action timings are recorded for browser actions, element
+actions, and Playwright-backed validations when performance reporting or browser
+budgets are enabled. Page-load timings are recorded for Playwright navigation
+and load-state waits.
+
+```properties title="src/main/resources/properties/custom.properties"
+browserActionPerformanceBudgets=playwright.element.click=750,playwright.validation.elementVisible=1000
+pageLoadPerformanceBudgets=https://example.com/checkout=3000,*=5000
+failOnBrowserPerformanceBudgetViolation=false
+```
+
+The browser budget report is written as `BrowserPerformanceReport_*.html` and
+`BrowserPerformanceReport_*.json` in `PerformanceReportFolderPath`. Budget
+metrics use p95. Set the fail flag to `true` when CI should fail on violations;
+leave it `false` to report warnings only.
 
 ## Related
 
