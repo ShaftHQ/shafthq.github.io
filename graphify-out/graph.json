@@ -2027,7 +2027,7 @@
       "label": "testSurfaces",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L10",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "pages_index_testsurfaces",
       "community": 56,
@@ -2037,7 +2037,7 @@
       "label": "proofPoints",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "pages_index_proofpoints",
       "community": 56,
@@ -2047,7 +2047,7 @@
       "label": "decisionPoints",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L59",
+      "source_location": "L61",
       "_origin": "ast",
       "id": "pages_index_decisionpoints",
       "community": 56,
@@ -2057,7 +2057,7 @@
       "label": "heroEngines",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L78",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "pages_index_heroengines",
       "community": 56,
@@ -2067,7 +2067,7 @@
       "label": "onboardingSteps",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L96",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "pages_index_onboardingsteps",
       "community": 56,
@@ -2077,27 +2077,17 @@
       "label": "guidePaths",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L115",
+      "source_location": "L117",
       "_origin": "ast",
       "id": "pages_index_guidepaths",
       "community": 56,
       "norm_label": "guidepaths"
     },
     {
-      "label": "stackPills",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L146",
-      "_origin": "ast",
-      "id": "pages_index_stackpills",
-      "community": 56,
-      "norm_label": "stackpills"
-    },
-    {
       "label": "heroSignals",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L159",
+      "source_location": "L148",
       "_origin": "ast",
       "id": "pages_index_herosignals",
       "community": 56,
@@ -2107,7 +2097,7 @@
       "label": "telemetryRows",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L174",
+      "source_location": "L163",
       "_origin": "ast",
       "id": "pages_index_telemetryrows",
       "community": 56,
@@ -2117,7 +2107,7 @@
       "label": "surfaceMap",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L192",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "pages_index_surfacemap",
       "community": 56,
@@ -2127,7 +2117,7 @@
       "label": "sharedRails",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L213",
+      "source_location": "L202",
       "_origin": "ast",
       "id": "pages_index_sharedrails",
       "community": 56,
@@ -2137,7 +2127,7 @@
       "label": "comparisonRows",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L220",
+      "source_location": "L209",
       "_origin": "ast",
       "id": "pages_index_comparisonrows",
       "community": 56,
@@ -2147,7 +2137,7 @@
       "label": "workflowSteps",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L238",
+      "source_location": "L227",
       "_origin": "ast",
       "id": "pages_index_workflowsteps",
       "community": 56,
@@ -2157,7 +2147,7 @@
       "label": "Hero()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L247",
+      "source_location": "L236",
       "_origin": "ast",
       "id": "pages_index_hero",
       "community": 56,
@@ -2167,7 +2157,7 @@
       "label": "GuidePathSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L353",
+      "source_location": "L331",
       "_origin": "ast",
       "id": "pages_index_guidepathsection",
       "community": 56,
@@ -2177,7 +2167,7 @@
       "label": "ProofSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L380",
+      "source_location": "L365",
       "_origin": "ast",
       "id": "pages_index_proofsection",
       "community": 56,
@@ -2187,7 +2177,7 @@
       "label": "SurfaceSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L414",
+      "source_location": "L404",
       "_origin": "ast",
       "id": "pages_index_surfacesection",
       "community": 56,
@@ -2197,7 +2187,7 @@
       "label": "ComparisonSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L461",
+      "source_location": "L451",
       "_origin": "ast",
       "id": "pages_index_comparisonsection",
       "community": 56,
@@ -2207,7 +2197,7 @@
       "label": "AgentSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L494",
+      "source_location": "L484",
       "_origin": "ast",
       "id": "pages_index_agentsection",
       "community": 56,
@@ -2217,7 +2207,7 @@
       "label": "WorkflowSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L521",
+      "source_location": "L511",
       "_origin": "ast",
       "id": "pages_index_workflowsection",
       "community": 56,
@@ -2227,7 +2217,7 @@
       "label": "FinalCta()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L560",
+      "source_location": "L550",
       "_origin": "ast",
       "id": "pages_index_finalcta",
       "community": 56,
@@ -2237,7 +2227,7 @@
       "label": "Home()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L582",
+      "source_location": "L585",
       "_origin": "ast",
       "id": "pages_index_home",
       "community": 56,
@@ -26200,9 +26190,9 @@
       "source_file": "src/pages/index.tsx",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_index",
-      "target": "pages_index_guidepaths",
-      "confidence_score": 1.0
+      "target": "pages_index_guidepaths"
     },
     {
       "relation": "contains",
@@ -26210,9 +26200,9 @@
       "source_file": "src/pages/index.tsx",
       "source_location": "L353",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_index",
-      "target": "pages_index_guidepathsection",
-      "confidence_score": 1.0
+      "target": "pages_index_guidepathsection"
     },
     {
       "relation": "contains",
@@ -26293,16 +26283,6 @@
       "confidence_score": 1.0,
       "source": "pages_index",
       "target": "pages_index_sharedrails"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L94",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_stackpills"
     },
     {
       "relation": "contains",
@@ -40086,9 +40066,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_configuration",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_configuration"
     },
     {
       "relation": "contains",
@@ -40096,9 +40076,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L164",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_mapping_tree",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_mapping_tree"
     },
     {
       "relation": "contains",
@@ -40106,9 +40086,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L131",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_native_access",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_native_access"
     },
     {
       "relation": "contains",
@@ -40116,9 +40096,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L325",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_related",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_related"
     },
     {
       "relation": "contains",
@@ -40126,9 +40106,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend_mapping_tree",
-      "target": "gui_playwright_backend_accessibility_and_network_parity",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_accessibility_and_network_parity"
     },
     {
       "relation": "contains",
@@ -40176,9 +40156,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L298",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend_mapping_tree",
-      "target": "gui_playwright_backend_performance_budgets",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_performance_budgets"
     },
     {
       "relation": "contains",
@@ -47352,5 +47332,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7efa20cd2e62ab5f432a40ac9e71024e59d7f235"
+  "built_at_commit": "09456df42184140ae1d59032d43ed408aaa87ba5"
 }

@@ -3,6 +3,8 @@ import Link from '@docusaurus/Link';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faBookOpen, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import ParticleBackground from '@site/src/components/ParticleBackground';
 import {McpApplications} from '@site/src/components/DocSnippets';
 import styles from './index.module.css';
@@ -143,19 +145,6 @@ const guidePaths = [
   },
 ];
 
-const stackPills = [
-  'Selenium WebDriver',
-  'Playwright browser',
-  'Appium native mobile',
-  'REST Assured API',
-  'Database / CLI',
-  'Selenium Grid',
-  'Allure + visual reports',
-  'TestNG / JUnit',
-  'Cucumber BDD',
-  'MCP agents',
-];
-
 const heroSignals = [
   {
     label: 'Suite model',
@@ -260,6 +249,7 @@ function Hero(): JSX.Element {
       </BrowserOnly>
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
+          <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
           <span className={styles.eyebrow}>Native Selenium, Playwright, Appium, REST Assured, CLI, database, and reporting support</span>
           <h1>One Java engine for multi-surface automation.</h1>
           <p>
@@ -270,19 +260,13 @@ function Hero(): JSX.Element {
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
             <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/installation">
+              <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
               Generate a runnable project
             </Link>
             <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start">
+              <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
               Read quick start
             </Link>
-          </div>
-          <div className={styles.stackPills} aria-label="Native SHAFT integrations">
-            {stackPills.map((pill) => <span key={pill}>{pill}</span>)}
-          </div>
-          <div className={styles.proofLinks} aria-label="Project evidence">
-            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
-            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
-            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
           </div>
         </div>
         <div className={styles.heroProof} aria-label="SHAFT quick proof">
@@ -308,7 +292,8 @@ function Hero(): JSX.Element {
           </div>
           <div className={styles.heroConsole}>
             <pre>
-              <code>{`SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+              <code>{`SHAFT.GUI.WebDriver driver =
+  new SHAFT.GUI.WebDriver();
 
 driver.browser().navigateToURL("https://duckduckgo.com/")
   .and().element().type(By.name("q"), "SHAFT Engine")
@@ -324,13 +309,6 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
               ))}
             </div>
           </div>
-          <ol aria-label="SHAFT onboarding sequence" className={styles.heroChecklist}>
-            {onboardingSteps.map((step) => (
-              <li data-testid={step.testId} key={step.testId}>
-                {step.label}
-              </li>
-            ))}
-          </ol>
           <picture>
             <source media="(max-width: 620px)" srcSet="data:image/gif;base64,R0lGODlhAQABAAAAACw=" />
             <source media="(min-width: 621px)" srcSet="/img/shaft-automation-hero.webp" type="image/webp" />
@@ -372,6 +350,13 @@ function GuidePathSection(): JSX.Element {
             </Link>
           ))}
         </div>
+        <ol aria-label="SHAFT onboarding sequence" className={styles.pathChecklist}>
+          {onboardingSteps.map((step) => (
+            <li data-testid={step.testId} key={step.testId}>
+              {step.label}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -388,6 +373,11 @@ function ProofSection(): JSX.Element {
             It keeps the battle-tested engines underneath and removes the repeated work
             that makes large Selenium suites expensive to maintain.
           </p>
+          <div className={`${styles.proofLinks} ${styles.sectionProofLinks}`} aria-label="Project evidence">
+            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
+            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
+            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
+          </div>
         </div>
         <div className={styles.decisionGrid} aria-label="When to choose SHAFT">
           {decisionPoints.map((point) => (
@@ -560,14 +550,27 @@ function WorkflowSection(): JSX.Element {
 function FinalCta(): JSX.Element {
   return (
     <section className={styles.finalCta} data-testid="landing-final" id="get-started">
-      <div className="container">
+      <BrowserOnly fallback={<div aria-hidden="true" />}>
+        {() => (
+          <ParticleBackground
+            className={styles.finalParticles}
+            particleCount={28}
+            connectionDistance={118}
+            motionScale={0.28}
+            heroMode
+          />
+        )}
+      </BrowserOnly>
+      <div className={`container ${styles.finalCtaInner}`}>
         <h2>Start with native Selenium power. Keep the suite maintainable.</h2>
         <p>Fastest path: install, generate a runnable project, run the quick start, then wire MCP only if you need AI-agent operations.</p>
         <div className={styles.actions}>
           <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/installation">
+            <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
             Generate a runnable project
           </Link>
           <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start">
+            <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
             Read quick start
           </Link>
           <a className="button button--secondary button--lg" data-testid="landing-cta-agent" href="#connect-ai-agent">
