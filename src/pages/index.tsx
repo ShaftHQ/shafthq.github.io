@@ -112,6 +112,37 @@ const onboardingSteps = [
   },
 ];
 
+const guidePaths = [
+  {
+    audience: 'First run',
+    title: 'Generate a runnable project',
+    description: 'Install SHAFT, create a Maven project, and run one passing web flow.',
+    label: 'Open installation',
+    to: '/docs/start/installation',
+  },
+  {
+    audience: 'Migration',
+    title: 'Compare native-engine fit',
+    description: 'Keep Selenium, Appium, Playwright browser, REST Assured, TestNG, JUnit, and Cucumber choices visible while evaluating framework tradeoffs.',
+    label: 'Open technology map',
+    to: '/docs/features/technology',
+  },
+  {
+    audience: 'Expansion',
+    title: 'Add coverage beyond the browser',
+    description: 'Connect mobile, API, database, CLI, Grid, and reporting guides around one evidence model.',
+    label: 'Review surfaces',
+    to: '#testing-surfaces',
+  },
+  {
+    audience: 'Agentic',
+    title: 'Connect MCP after the basics',
+    description: 'Expose browser, Capture, Doctor, and Heal tools to agents after the suite has deterministic evidence.',
+    label: 'Set up MCP',
+    to: '/docs/agentic/mcp',
+  },
+];
+
 const stackPills = [
   'Selenium WebDriver',
   'Playwright browser',
@@ -316,6 +347,33 @@ driver.browser().navigateToURL("https://duckduckgo.com/")
         </div>
       </div>
     </header>
+  );
+}
+
+function GuidePathSection(): JSX.Element {
+  return (
+    <section className={`${styles.section} ${styles.pathSection}`} data-testid="landing-pathfinder" id="guide-paths">
+      <div className="container">
+        <div className={styles.sectionHeading}>
+          <span className={styles.eyebrow}>Pick the work in front of you</span>
+          <Heading as="h2" id="guide-paths-heading">Land on the guide path that matches your suite.</Heading>
+          <p>
+            Choose the next decision: first run, migration research, broader coverage,
+            or AI-assisted triage.
+          </p>
+        </div>
+        <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
+          {guidePaths.map((path) => (
+            <Link className={styles.pathCard} to={path.to} key={path.title}>
+              <small>{path.audience}</small>
+              <strong>{path.title}</strong>
+              <span>{path.description}</span>
+              <em>{path.label}</em>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -529,6 +587,7 @@ export default function Home(): JSX.Element {
     >
       <Hero />
       <main data-testid="landing-main">
+        <GuidePathSection />
         <ProofSection />
         <SurfaceSection />
         <ComparisonSection />
