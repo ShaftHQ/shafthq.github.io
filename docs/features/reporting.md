@@ -58,6 +58,22 @@ the Allure report after execution. The attachment is streamed from a temporary
 deduplicated snapshot so the live `target/logs/log4j.log` file remains available
 for retry diagnostics, local investigation, and CI artifact collection.
 
+## Failure diagnostics bundle
+
+Failed and broken tests attach `shaft-diagnostics.zip` to Allure by default.
+The ZIP contains `diagnostics.json`, a sanitized handoff file for humans,
+SHAFT Doctor, and MCP clients. It includes stable test metadata, failure type,
+message, stacktrace, root-cause chain, the top project stack frame, bounded
+logs, referenced artifacts such as videos, GIFs, and trace viewer files,
+selected runtime/configuration metadata, redaction rules applied, size limits,
+and suggested Doctor/MCP commands.
+
+The bundle references existing artifacts instead of copying every raw file.
+Secrets in common headers, cookies, token/password assignments, and sensitive
+URL query values are masked before the JSON is attached. Disable the bundle
+with `shaft.diagnostics.enabled=false` or lower the ZIP entry cap with
+`shaft.diagnostics.maxArtifactMb`.
+
 ## Locator health reports
 
 Enable locator health reporting when you want a run-level view of slow or flaky

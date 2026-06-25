@@ -499,6 +499,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   /** get **/
   var captureElementName = SHAFT.Properties.reporting.captureElementName();
   var locatorHealthReportEnabled = SHAFT.Properties.reporting.locatorHealthReportEnabled();
+  var diagnosticsBundleEnabled = SHAFT.Properties.reporting.diagnosticsBundleEnabled();
   var traceMode = SHAFT.Properties.reporting.traceMode();
 
   /** set **/
@@ -507,6 +508,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
       .locatorHealthReportEnabled(true)
       .slowLocatorThresholdMillis(750)
       .failOnLocatorHealthWarnings(false)
+      .diagnosticsBundleEnabled(true)
+      .diagnosticsMaxArtifactMb(50)
       .traceEnabled(true)
       .traceMode("failure");
   ```
@@ -530,6 +533,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | locatorHealthReportEnabled                    | `false`       | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
 | slowLocatorThresholdMillis                    | `750`         | Integer milliseconds | • Mark locator lookups at or above this duration as slow warnings. |
 | failOnLocatorHealthWarnings                   | `false`       | `true`, `false` | • Fail the run when locator health warnings are present. |
+| shaft.diagnostics.enabled                     | `true`        | `true`, `false` | • Attach `shaft-diagnostics.zip` with sanitized `diagnostics.json` for failed and broken tests. |
+| shaft.diagnostics.maxArtifactMb               | `50`          | Integer megabytes | • Maximum size for a single diagnostics ZIP entry. |
 | shaft.trace.enabled                           | `true`        | `true`, `false` | • Attach SHAFT failure trace viewer artifacts to Allure. |
 | shaft.trace.mode                              | `failure`     | `failure`, `retry`, `always` | • Control whether traces are generated on failures, retry attempts, or every test. |
 | shaft.trace.includeCodeContext                | `true`        | `true`, `false` | • Include the best matching project source-code frame and snippet. |
