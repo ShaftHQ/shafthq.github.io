@@ -424,6 +424,22 @@
     "description": "URL or file path to the OpenAPI schema for validation."
   },
   {
+    "section": "API",
+    "key": "openapi.coverage.report.enabled",
+    "targetFile": "custom.properties",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Generates an end-of-run OpenAPI operation coverage report using swagger.validation.url as the spec source."
+  },
+  {
+    "section": "API",
+    "key": "openapi.coverage.threshold",
+    "targetFile": "custom.properties",
+    "defaultValue": "0",
+    "possibleValues": "0-100",
+    "description": "Minimum covered OpenAPI operation percentage required for a passing run; 0 disables threshold enforcement."
+  },
+  {
     "section": "Flags",
     "key": "attemptToClickBeforeTyping",
     "targetFile": "custom.properties",

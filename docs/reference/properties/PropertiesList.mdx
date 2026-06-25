@@ -376,7 +376,7 @@ You can use these tab groups to navigate and get information about how to manage
 
 ### API
 
-This section lists all configurable properties related to Swagger/OpenAPI contract validation for SHAFT API testing.
+This section lists all configurable properties related to Swagger/OpenAPI contract validation and operation coverage reporting for SHAFT API testing.
 
 <Tabs groupId="PropertyTypes" queryString="API">
 
@@ -388,21 +388,36 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   /** get **/
   boolean swaggerValidationEnabled = SHAFT.Properties.api.swaggerValidationEnabled();
   String swaggerValidationUrl = SHAFT.Properties.api.swaggerValidationUrl();
+  boolean openApiCoverageReportEnabled = SHAFT.Properties.api.openApiCoverageReportEnabled();
+  int openApiCoverageThreshold = SHAFT.Properties.api.openApiCoverageThreshold();
 
   /** set **/
   SHAFT.Properties.api.set()
     .swaggerValidationEnabled(true)
-    .swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json");
+    .swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json")
+    .openApiCoverageReportEnabled(true)
+    .openApiCoverageThreshold(80);
   ```
   </TabItem>
 
-<TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```bash showLineNumbers
+  mvn test \
+    -Dswagger.validation.enabled=true \
+    -Dswagger.validation.url=https://petstore.swagger.io/v2/swagger.json \
+    -Dopenapi.coverage.report.enabled=true \
+    -Dopenapi.coverage.threshold=80
+  ```
+  </TabItem>
 
   <TabItem value="file-based" label="File-based">
 
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   swagger.validation.enabled=true
   swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+  openapi.coverage.report.enabled=true
+  openapi.coverage.threshold=80
   ```
   </TabItem>
 
@@ -412,6 +427,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   |------------------------------|----------------|-----------------------------------------------------------------------------|
   | `swagger.validation.enabled` | `false`        | Enables or disables Swagger/OpenAPI contract validation for API testing.   |
   | `swagger.validation.url`     | *(empty)*      | URL or file path to the OpenAPI schema for validation.                     |
+  | `openapi.coverage.report.enabled` | `false`   | Generates an end-of-run OpenAPI operation coverage report using `swagger.validation.url` as the spec source. |
+  | `openapi.coverage.threshold`  | `0`            | Minimum covered operation percentage required for a passing run; `0` disables threshold enforcement. |
 
   </TabItem>
 
