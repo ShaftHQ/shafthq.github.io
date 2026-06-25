@@ -7,7 +7,12 @@ sidebar_position: 3
 tags: [api, rest-assured, example]
 ---
 
+import {AllureReportPath, FirstRunCommand} from '@site/src/components/DocSnippets';
+
 # API testing
+
+Start here when you want one REST call, one assertion, and request/response
+evidence in the same report as your browser and mobile tests.
 
 ```java
 import com.shaft.driver.SHAFT;
@@ -36,6 +41,26 @@ flowchart LR
 Continue with [request building](/docs/reference/actions/API/Request_Builder),
 [authentication](/docs/reference/actions/API/API_Authentication), and
 [response assertions](/docs/reference/actions/API/Response_Validations).
+
+## Run and inspect evidence
+
+Run the test from the project root:
+
+<FirstRunCommand />
+
+SHAFT attaches request, response, status, headers, body, and assertion evidence
+under <AllureReportPath />. If the request fails before assertions, check the
+base URI, proxy settings, authentication, and whether automatic `2xx` status
+assertion is appropriate for the scenario.
+
+## First useful next steps
+
+| Need | Start with |
+|---|---|
+| Add headers, query parameters, or body | [Request Builder](/docs/reference/actions/API/Request_Builder) |
+| Reuse tokens or basic auth | [API Authentication](/docs/reference/actions/API/API_Authentication) |
+| Validate JSON fields or schemas | [Response Validations](/docs/reference/actions/API/Response_Validations) |
+| Track OpenAPI coverage | [API configuration](/docs/reference/configuration/basicConfig3) |
 
 ## Related
 

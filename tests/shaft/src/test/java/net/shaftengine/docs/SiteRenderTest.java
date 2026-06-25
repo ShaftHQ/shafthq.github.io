@@ -111,8 +111,10 @@ public class SiteRenderTest {
 
         shaft.assertThat().browser().title().contains("SHAFT");
         visible(By.xpath("//h1[normalize-space()='One Java test suite for web, mobile, API, DB, and CLI.']"));
-        SHAFT.Validations.assertThat().object(attribute(link("Start a new project"), "href"))
+        SHAFT.Validations.assertThat().object(attribute(link("Create your first SHAFT project"), "href"))
                 .contains("/docs/start/quick-start#new-project-generation");
+        SHAFT.Validations.assertThat().object(attribute(link("Star on GitHub"), "href"))
+                .contains("github.com/ShaftHQ/SHAFT_ENGINE");
         SHAFT.Validations.assertThat().object(attribute(link("Read quick start"), "href"))
                 .contains("/docs/start/quick-start#choose-your-path");
         SHAFT.Validations.assertThat().object(attribute(cardLink("Start a new SHAFT project"), "href"))

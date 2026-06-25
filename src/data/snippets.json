@@ -1,4 +1,9 @@
 {
+  "firstRunCommand": "mvn test",
+  "firstRunNoOpenCommand": "mvn test -Dallure.automaticallyOpen=false -Dallure.open=false",
+  "allureReportPath": "allure-results and the generated Allure report under the project target output",
+  "browserSelectionProperties": "targetBrowserName=CHROME\nheadlessExecution=true\ncreateAnimatedGif=true\nallure.singleFile=true",
+  "githubRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
   "mcpInstaller": {
     "commandTemplates": {
       "windows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client {client}\"",

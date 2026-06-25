@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-25)
+# Graph Report - shafthq.github.io_codex_userguide_growth  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~245,278 words
+- 224 files · ~308,168 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2345 nodes · 2348 edges · 225 communities (193 shown, 32 thin omitted)
+- 2377 nodes · 2379 edges · 221 communities (193 shown, 28 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a2ed9f7a`
+- Built from commit: `8ba42eb0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -214,6 +214,7 @@
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
 - [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
+- [[_COMMUNITY_blog2023-04-27-bingAI.md (1)|blog/2023-04-27-bingAI.md (1)]]
 - [[_COMMUNITY_blogauthors.yml (1)|blog/authors.yml (1)]]
 - [[_COMMUNITY_srcdata (1)|src/data (1)]]
 - [[_COMMUNITY_demo-output.txt (1)|demo-output.txt (1)]]
@@ -227,22 +228,17 @@
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
 - [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
 - [[_COMMUNITY_Community 216|Community 216]]
-- [[_COMMUNITY_Community 217|Community 217]]
 - [[_COMMUNITY_Community 218|Community 218]]
 - [[_COMMUNITY_Community 219|Community 219]]
-- [[_COMMUNITY_Community 220|Community 220]]
 - [[_COMMUNITY_Community 221|Community 221]]
-- [[_COMMUNITY_Community 222|Community 222]]
-- [[_COMMUNITY_Community 223|Community 223]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 37 edges
-2. `Upgrade to modular SHAFT` - 25 edges
+2. `Upgrade to modular SHAFT` - 26 edges
 3. `scripts` - 21 edges
 4. `String` - 18 edges
-5. `Request Builder` - 16 edges
+5. `Request Builder` - 17 edges
 6. `Test` - 15 edges
 7. `Connect shaft-mcp` - 14 edges
 8. `Diagnose failures with Doctor` - 13 edges
@@ -250,21 +246,21 @@
 10. `SHAFT API Response Validations` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `fetchText()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `loadIndex()` --calls--> `fetch()`  [INFERRED]
   functions/api/gemini-proxy.js → worker/index.js
+- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
+  scripts/run-shaft-tests.mjs → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
   functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (225 total, 32 thin omitted)
+## Communities (221 total, 28 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -280,7 +276,7 @@ Nodes (43): Accessibility Testing, Add Cookie, Capture Screenshot, Close Current
 
 ### Community 3 - "docs/reference (39)"
 Cohesion: 0.05
-Nodes (39): Add Config, Add Cookie, Add Header, Append Default Content Charset To Content Type If Undefined, Authentication Type BASIC, Authentication Type FORM, Body as Hash Map, Body as JSONObject (+31 more)
+Nodes (40): Add Config, Add Cookie, Add Header, Append Default Content Charset To Content Type If Undefined, Authentication Type BASIC, Authentication Type FORM, Body as Hash Map, Body as JSONObject (+32 more)
 
 ### Community 4 - "docs/reference (38)"
 Cohesion: 0.05
@@ -288,15 +284,15 @@ Nodes (38): Basic Connection, Basic Connection, Basic Connection, Basic Connecti
 
 ### Community 5 - "docs/start (38)"
 Cohesion: 0.05
-Nodes (42): Automated upgrade, BrowserStack dependency boundary, BrowserStack evidence, Capture dependency boundary, Choose an upgrade type, CI and cache migration, Command reference, Compilation and rollback (+34 more)
+Nodes (43): Automated upgrade, BrowserStack dependency boundary, BrowserStack evidence, Capture dependency boundary, Choose an upgrade type, CI and cache migration, Command reference, Compilation and rollback (+35 more)
 
 ### Community 6 - "docs/reference (37)"
 Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.19
-Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
+Cohesion: 0.05
+Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+43 more)
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -415,7 +411,7 @@ Cohesion: 0.13
 Nodes (14): Browser-Level Waits, Complete Example, Custom Condition Wait (Lambda), Element-Level Waits, Related, waitForLazyLoading, waitUntilAttributeContains, waitUntilElementTextToBe (+6 more)
 
 ### Community 38 - "src/components (13)"
-Cohesion: 0.18
+Cohesion: 0.12
 Nodes (4): Application, CommandTemplates, McpApplications(), OperatingSystem
 
 ### Community 39 - "src/components (13)"
@@ -487,8 +483,8 @@ Cohesion: 0.15
 Nodes (5): guidePaths, heroEngines, heroSignals, proofPoints, testSurfaces
 
 ### Community 57 - "docs/start (11)"
-Cohesion: 0.15
-Nodes (12): Add SHAFT dependencies, Choose your path, Create the test skeleton, Existing project upgrade, Manual creation, MCP integration, New project generation, Optional modular integrations (+4 more)
+Cohesion: 0.14
+Nodes (13): Add SHAFT dependencies, Choose your path, Create the test skeleton, Existing project upgrade, Manual creation, MCP integration, New project generation, Optional modular integrations (+5 more)
 
 ### Community 59 - "blog/2025-03-27-swagger-validation.md (10)"
 Cohesion: 0.20
@@ -946,9 +942,29 @@ Nodes (4): API login to browser session, Browser login to API session, Manual co
 Cohesion: 0.29
 Nodes (6): Choosing Features By Pillar, Maintainability, Pillars of successful test automation, Related, Reliability, Scalability
 
+### Community 193 - "docs/reference (2)"
+Cohesion: 0.40
+Nodes (4): I want to..., Reference, Reference areas, Related
+
+### Community 196 - "docs/testing (2)"
+Cohesion: 0.40
+Nodes (4): API testing, First useful next steps, Related, Run and inspect evidence
+
+### Community 197 - "docs/testing (2)"
+Cohesion: 0.40
+Nodes (4): CLI testing, First useful command test, Related, Troubleshooting
+
+### Community 198 - "docs/testing (2)"
+Cohesion: 0.40
+Nodes (4): Choose the next reference, Database testing, First useful query test, Related
+
 ### Community 199 - "docs/testing (2)"
-Cohesion: 0.50
-Nodes (3): Playwright backend, Related, Web testing
+Cohesion: 0.33
+Nodes (5): Locator strategy, Playwright backend, Related, Run and inspect evidence, Web testing
+
+### Community 201 - "blog/2023-04-27-bingAI.md (1)"
+Cohesion: 0.14
+Nodes (13): Implementation Tasks, Story 10: Add a Star-Worthy Quick Win Path, Story 1: Complete the Properties Reference, Story 2: Improve the First-Run Path, Story 3: Expand Thin Task Guides, Story 4: Refactor the Upgrade Guide for Scanning, Story 5: Turn Reference Overview Into a Real Hub, Story 6: Source-Verify Java and Version Wording (+5 more)
 
 ### Community 202 - "blog/authors.yml (1)"
 Cohesion: 0.31
@@ -990,17 +1006,9 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 Cohesion: 0.40
 Nodes (4): Task 1: Guard The Requested Page, Task 2: Add The Guide, Task 3: Validate And Publish, Test Automation Pillars Guide Implementation Plan
 
-### Community 215 - "Community 215"
-Cohesion: 0.26
-Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
-
 ### Community 216 - "Community 216"
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
-
-### Community 217 - "Community 217"
-Cohesion: 0.19
-Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
 
 ### Community 218 - "Community 218"
 Cohesion: 0.67
@@ -1010,30 +1018,20 @@ Nodes (3): browserslist, development, production
 Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
-### Community 220 - "Community 220"
-Cohesion: 0.30
-Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
-
-### Community 222 - "Community 222"
-Cohesion: 0.32
-Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
-
-### Community 223 - "Community 223"
-Cohesion: 0.29
-Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
-
 ## Knowledge Gaps
-- **1530 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1525 more)
+- **1554 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1549 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `fetch()` connect `Community 220` to `static/img (5)`, `Community 222`?**
+- **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1530 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1554 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -1041,6 +1039,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `docs/reference (47)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (38)` be split into smaller, more focused modules?**
-  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._

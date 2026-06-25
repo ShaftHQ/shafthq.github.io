@@ -46,6 +46,34 @@ export function HealCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.heal}</CodeBlock>;
 }
 
+export function FirstRunCommand(): JSX.Element {
+  return <CodeBlock language="bash">{snippets.firstRunCommand}</CodeBlock>;
+}
+
+export function FirstRunNoOpenCommand(): JSX.Element {
+  return <CodeBlock language="bash">{snippets.firstRunNoOpenCommand}</CodeBlock>;
+}
+
+export function BrowserSelectionProperties(): JSX.Element {
+  return (
+    <CodeBlock language="properties" title="src/main/resources/properties/custom.properties">
+      {snippets.browserSelectionProperties}
+    </CodeBlock>
+  );
+}
+
+export function AllureReportPath(): JSX.Element {
+  return <code>{snippets.allureReportPath}</code>;
+}
+
+export function GitHubStarLink(): JSX.Element {
+  return (
+    <a href={snippets.githubRepository} target="_blank" rel="noreferrer">
+      Star SHAFT on GitHub
+    </a>
+  );
+}
+
 export function ReleaseFacts(): JSX.Element {
   return (
     <ul>

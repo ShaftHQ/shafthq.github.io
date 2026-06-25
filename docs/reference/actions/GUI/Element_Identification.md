@@ -11,6 +11,10 @@ tags: [web, element, locators, xpath, css]
 
 Element identification is the foundation of GUI test automation. This guide covers all the methods available in SHAFT Engine to locate and interact with web elements, including traditional locators, the SHAFT Locator Builder, relative locators, shadow DOM elements, and elements within iframes.
 
+If you are choosing a locator strategy for a new test, start with the
+[web locator strategy](/docs/testing/web#locator-strategy), then use this page
+for exact locator syntax.
+
 ## Supported Locator Types
 
 SHAFT Engine supports all standard Selenium locator strategies through the `By` class:
@@ -782,6 +786,7 @@ Smart locators are the most resilient option for forms: they target semantic mea
 
 ## Additional Resources
 
+- [Web locator strategy](/docs/testing/web#locator-strategy)
 - [SHAFT Locator Builder guide](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder)
 - [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java)
 - [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java)

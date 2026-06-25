@@ -7,7 +7,12 @@ sidebar_position: 1
 tags: [web, selenium, example]
 ---
 
+import {AllureReportPath, FirstRunCommand} from '@site/src/components/DocSnippets';
+
 # Web testing
+
+Start here when you want one browser test that opens a page, performs an
+action, asserts a result, and leaves screenshot/report evidence.
 
 ```java
 import com.shaft.driver.SHAFT;
@@ -51,6 +56,28 @@ sequenceDiagram
 Use the [GUI actions reference](/docs/reference/actions/GUI/Browser_Actions) for
 locators, browser actions, elements, waits, validations, accessibility, and
 network mocking.
+
+## Run and inspect evidence
+
+Run the generated or copied test from the project root:
+
+<FirstRunCommand />
+
+The report includes browser steps, screenshots, logs, and assertion results
+under <AllureReportPath />. If the browser never opens, check Java/Maven first,
+then browser installation, then `targetBrowserName` and `headlessExecution`.
+
+## Locator strategy
+
+Use the most user-facing locator that is stable enough for the product:
+
+1. Prefer semantic locators such as visible text, labels, placeholders, and ARIA
+   names.
+2. Use `SHAFT.GUI.Locator` when you need a precise composed locator.
+3. Keep waits and retries as evidence-backed safety nets, not as a substitute
+   for a stable locator.
+4. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
+   strategies cannot survive expected UI changes.
 
 ## Playwright backend
 

@@ -169,7 +169,7 @@ You can use these tab groups to navigate and get information about how to manage
 | Property Name                  | Default Value | Possible Values                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Description                            |
 | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
 | targetBrowserName              | `chrome`      | `chrome`, `firefox`, `safari`, `edge`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | • The target web browser for test execution.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| forceBrowserDownload           | `false`       | `true`, `false`                                                                                                       | • This only works for Chrome and Firefox.<br/>• Allows you to use Selenium Manager to download the latest version from <a href="https://developer.chrome.com/blog/chrome-for-testing">CfT</a> which promises better performance and reliability.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| forceBrowserDownload           | `false`       | `true`, `false`                                                                                                       | • This only works for Chrome and Firefox.<br/>• Allows Selenium Manager to download a Chrome for Testing browser build compatible with the current Selenium/browser resolution flow.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | headlessExecution              | `false`       | `true`, `false`                                                                                                       | • This only works for Chrome, Firefox and Edge.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | incognitoMode                  | `false`       | `true`, `false`                                                                                                       | • Enable browser incognito/private mode.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | isMobileEmulation              | `false`       | `true`, `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • This only works for Chrome and Edge. |
@@ -365,7 +365,7 @@ You can use these tab groups to navigate and get information about how to manage
 | mobile_automationName        | `UiAutomator2` | `UiAutomator2`, `Espresso`, `XCUITest`                                               | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_udid                  | ` `            | example: `RQ3005TAQP`                                                                | • Unique device identifier of the connected physical device (leave empty if not applicable).<br/>• You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                  |  |
 | browserName                 | ` `            | `chrome`, `Chromium`, `Browser`, `Safari`, `samsung`                                 | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
-| MobileBrowserVersion         | ` `            | example: `83.0.4103.39`                                                              | • The latest version of the WebDriver executable that is compatible with the target browser. You can get it from <a href="https://www.selenium.dev/documentation/en/webdriver/driver_requirements/#quick-reference">here</a>.<br/>• You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |  |
+| MobileBrowserVersion         | ` `            | example: `83.0.4103.39`                                                              | • The WebDriver executable version compatible with the target mobile browser. Check Selenium driver requirements for browser-specific compatibility.<br/>• You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |  |
 | mobile_app                   | ` `            | `relativePath/to/myApp.apk`, `absolutePath/to/myApp.apk`, `http://myapp.com/app.ipa` | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appPackage            | ` `            | example: `com.example.android.myApp`                                                 | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appActivity           | ` `            | example: `.MainActivity`                                                             | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
@@ -452,8 +452,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                               | Default Value | Possible Values                          | Description                                                                                                                                                                                                                                            |
@@ -524,8 +524,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                                 | Default Value | Possible Values | Description                                              |
@@ -606,7 +606,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
   <TabItem value="file-based" label="File-based">
 
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
@@ -666,8 +666,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
   
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
   
 | Property Name                       | Default Value | Possible Values | Description                                                                        |
@@ -712,8 +712,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
 
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                                  | Default Value          | Possible Values                              | Description                                                            |
@@ -754,8 +754,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```
   
   </TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
   
 | Property Name              | Default Value                                | Possible Values | Description                                                     |
@@ -784,7 +784,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 <Tabs groupId="PropertyTypes" queryString="Cucumber">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
   <TabItem value="file-based" label="File-based">
   
 ```properties showLineNumbers title="src/main/resources/properties/cucumber.properties"
@@ -837,9 +837,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### Healenium
 
 <Tabs groupId="PropertyTypes" queryString="Healenium">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name  | Default Value | Possible Values | Description |
@@ -976,9 +976,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### Paths
 
 <Tabs groupId="PropertyTypes" queryString="Paths">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                    | Default Value                                 | Possible Values | Description |
@@ -1003,9 +1003,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### Pattern
 
 <Tabs groupId="PropertyTypes" queryString="Pattern">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
@@ -1019,9 +1019,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### Tinkey
 
 <Tabs groupId="PropertyTypes" queryString="Tinkey">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name             | Default Value | Possible Values | Description |
@@ -1114,9 +1114,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 - You can find all supported Native Mobile App execution properties & values in BrowserStack's [Appium Capability Generator](https://www.browserstack.com/app-automate/capabilities?tag=w3c)
 
 <Tabs groupId="PropertyTypes" queryString="Browserstack">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                    | Default Value | Possible Values | Description                                                                                           |
@@ -1151,9 +1151,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 ### LambdaTest
 
 <Tabs groupId="PropertyTypes" queryString="LambdaTest">
-  <TabItem value="code-based" label="Code-based">*(Work In Progress)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
-  <TabItem value="file-based" label="File-based">*(Work In Progress)*</TabItem>
+  <TabItem value="code-based" label="Code-based">No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above.</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
+  <TabItem value="file-based" label="File-based">Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below.</TabItem>
   <TabItem value="defaults" label="Default Values">
 
 | Property Name                   | Default Value  | Possible Values | Description                                                              |
@@ -1268,7 +1268,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 <Tabs groupId="PropertyTypes" queryString="TestNG">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
   <TabItem value="file-based" label="File-based">
   
   ```properties showLineNumbers title="src/main/resources/properties/TestNG.properties"
@@ -1306,7 +1306,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 <Tabs groupId="PropertyTypes" queryString="Log4j">
   <TabItem value="code-based" label="Code-based">*(N/A)*</TabItem>
-  <TabItem value="cli-based" label="CLI-based">*(Work In Progress)*</TabItem>
+  <TabItem value="cli-based" label="CLI-based">Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below.</TabItem>
   <TabItem value="file-based" label="File-based">
   
   ```properties showLineNumbers title="src/main/resources/properties/log4j2.properties"

@@ -7,7 +7,12 @@ sidebar_position: 2
 tags: [installation, maven, java-25]
 ---
 
-import {ReleaseFacts} from '@site/src/components/DocSnippets';
+import {
+  AllureReportPath,
+  FirstRunCommand,
+  GitHubStarLink,
+  ReleaseFacts,
+} from '@site/src/components/DocSnippets';
 
 # Install SHAFT
 
@@ -39,9 +44,33 @@ configuration templates that use `@argFiles` for direct IDE runs.
 
 Run the generated project from its root:
 
+<FirstRunCommand />
+
+Copyable shell form:
+
 ```bash
 mvn test
 ```
+
+Expected first-run outcome:
+
+- Maven downloads the selected SHAFT modules and test runner dependencies.
+- The generated sample test runs with its default local configuration.
+- SHAFT creates or refreshes runtime configuration under
+  `src/main/resources/properties`.
+- Evidence is written to <AllureReportPath />.
+
+If that works, <GitHubStarLink /> before moving on. It is the shortest way to
+find the framework again when your team starts expanding the suite.
+
+Common first-run blockers:
+
+| Symptom | Check |
+|---|---|
+| Java version error | Install the Java version listed in Requirements above. |
+| Maven cannot resolve SHAFT | Check proxy settings, repository access, and Maven Central connectivity. |
+| Browser session does not start | Confirm the selected browser is installed or use the generated headless defaults. |
+| Report does not open automatically | Open the generated report from the project target output or rerun from an interactive desktop session. |
 
 ## Upgrade an existing project
 
