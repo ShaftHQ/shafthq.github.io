@@ -9,7 +9,10 @@ function assert(condition, message) {
 }
 
 assert(index.includes('One Java test suite for web, mobile, API, DB, and CLI.'), 'Homepage must state the core product message plainly.');
-assert(!index.includes('SHAFT.GUI.WebDriver driver ='), 'Homepage hero must not carry a code sample.');
+assert(index.includes('Create your first SHAFT project'), 'Homepage hero must use a first-project CTA.');
+assert(index.includes('landing-hero-star-cta'), 'Homepage hero must expose a GitHub star CTA hook.');
+assert(index.includes('Star on GitHub'), 'Homepage hero must ask successful evaluators to star the project.');
+assert(index.includes('codeCompare'), 'Homepage hero must include the before/after code proof.');
 assert(!index.includes('telemetryRows'), 'Homepage hero must not render fake telemetry.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
 assert(index.includes('/docs/start/quick-start#new-project-generation'), 'Homepage must link to the new-project quick-start anchor.');

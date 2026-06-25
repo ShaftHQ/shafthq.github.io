@@ -8,7 +8,11 @@ tags: [overview, web, mobile, api, cli, database]
 ---
 
 import Link from '@docusaurus/Link';
-import {ReleaseFacts} from '@site/src/components/DocSnippets';
+import {
+  FirstRunCommand,
+  GitHubStarLink,
+  ReleaseFacts,
+} from '@site/src/components/DocSnippets';
 
 # One engine. Every test surface.
 
@@ -42,11 +46,18 @@ flowchart LR
 Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
 runner and testing surfaces, then download a ready-to-run project.
 
+<FirstRunCommand />
+
+Copyable shell form:
+
 ```bash
 mvn test
 ```
 
 <ReleaseFacts />
+
+If the generated sample runs and the report gives you the evidence you expected,
+<GitHubStarLink /> before you leave the guide.
 
 ## Why teams use SHAFT
 

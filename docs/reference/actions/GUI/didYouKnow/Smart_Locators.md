@@ -9,6 +9,9 @@ tags: [web, locator, smart-locators, accessibility]
 
 SHAFT Engine provides **Smart Locators** that find elements by their **user-facing meaning** — labels, placeholders, button text — rather than technical attributes like IDs or CSS classes. This produces tests that are easier to read, more resilient to implementation changes, and naturally aligned with how users interact with the application.
 
+For the order of locator choices in a new web test, start with the
+[web locator strategy](/docs/testing/web#locator-strategy).
+
 ---
 
 ## inputField(label)
@@ -113,4 +116,5 @@ When multiple elements match the same label or text, Smart Locators will return 
 - [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Web locator strategy](/docs/testing/web#locator-strategy)
 - [Web](/docs/testing/web)

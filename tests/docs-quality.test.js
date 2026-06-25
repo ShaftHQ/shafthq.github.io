@@ -38,6 +38,7 @@ for (const {fullPath, relativePath} of docs) {
   const content = readFileSync(fullPath, 'utf8');
   const fences = content.match(/```/g) ?? [];
   assert(fences.length % 2 === 0, `${relativePath} has an unbalanced fenced code block.`);
+  assert(!/Work In Progress/i.test(content), `${relativePath} must not publish Work In Progress placeholders.`);
   assert(exampleFence.test(content), `${relativePath} needs a fenced usage example.`);
   assert(relatedHeading.test(content), `${relativePath} needs a dedicated related-links section.`);
 

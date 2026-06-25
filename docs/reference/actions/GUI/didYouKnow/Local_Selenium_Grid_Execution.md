@@ -25,7 +25,9 @@ Selenium Grid is a server that allows you to run your tests on different machine
 
 Before setting up Selenium Grid, ensure you have:
 
-- Java 11 or higher installed
+- Java 25 for the SHAFT test project. Selenium Grid containers or standalone
+  Grid processes may have their own Java/runtime requirements; follow the
+  Selenium image or Grid release notes for those processes.
 - Network connectivity between Hub and Node machines (if using separate machines)
 - Sufficient disk space and memory for browser instances
 

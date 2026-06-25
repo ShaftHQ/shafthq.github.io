@@ -13,6 +13,21 @@ Use this section after completing the [quick start](/docs/start/quick-start).
 It contains the detailed action, property, validation, reporting, and design
 guides.
 
+## I want to...
+
+| Task | Start here |
+|---|---|
+| Open a browser, click, type, wait, and assert | [Web testing](/docs/testing/web) |
+| Choose resilient web locators | [Web locator strategy](/docs/testing/web#locator-strategy) |
+| Send REST requests and validate responses | [API testing](/docs/testing/api) |
+| Configure browser, API, mobile, retry, or reporting behavior | [Property types](/docs/reference/properties/PropertyTypes) |
+| Generate a custom `.properties` file | [Properties Generator](/docs/reference/properties/custom-properties-generator) |
+| Attach evidence and understand reports | [Reporting](/docs/reference/reporting/) |
+| Diagnose flaky or failed runs | [How SHAFT reduces flakiness](/docs/testing/flakiness) |
+| Query a database or run a terminal command | [Database testing](/docs/testing/database) and [CLI testing](/docs/testing/cli) |
+
+## Reference areas
+
 | Area | Reference |
 |---|---|
 | Browser and element actions | [GUI actions](/docs/reference/actions/GUI/Browser_Actions) |

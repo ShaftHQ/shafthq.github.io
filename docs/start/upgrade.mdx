@@ -41,6 +41,24 @@ every changed file if compilation does not pass.
 The manual dependency reference remains below only for reviewing the automated
 result and troubleshooting; it is not an alternative migration path.
 
+## Scan-first upgrade path
+
+Use this section when you only need to decide what to run.
+
+| Starting point | Recommended path | Why |
+|---|---|---|
+| Old `SHAFT_ENGINE` dependency | Run the automated upgrader in `basic` mode | Replaces coordinates, imports the BOM, infers optional modules, and keeps Java imports under `com.shaft`. |
+| Selenium, Appium, REST Assured, or Cucumber Maven project | Run the automated upgrader in `basic` mode first | Adds `shaft-engine` without rewriting working tests. |
+| Selenium/Appium project ready for source migration | Use `--upgrade-type session` or `--upgrade-type full` after a clean baseline | Rewrites source only inside the same rollback-protected transaction. |
+| Broken compile before migration | Fix the baseline before upgrading | The upgrader stops before touching files when the unchanged project does not compile. |
+
+The safe first command is the one in [Download and run](#download-and-run).
+Review the generated diff, run your normal tests, then use the module map below
+only when you need to explain why an optional module was added.
+
+Rollback rule: if validation fails, every touched file is restored byte-for-byte
+unless an allowed repair succeeds inside the same transaction.
+
 ## Automated upgrade
 
 ### What the script guarantees

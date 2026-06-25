@@ -4,8 +4,9 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faBookOpen, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import ParticleBackground from '@site/src/components/ParticleBackground';
+import snippets from '@site/src/data/snippets.json';
 import styles from './index.module.css';
 
 const testSurfaces = [
@@ -147,12 +148,21 @@ function Hero(): JSX.Element {
           <div className={styles.actions} data-testid="landing-hero-actions">
             <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/quick-start#new-project-generation">
               <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
-              Start a new project
+              Create your first SHAFT project
             </Link>
+            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" href={snippets.githubRepository} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faStar} aria-hidden="true" />
+              Star on GitHub
+            </a>
             <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start#choose-your-path">
               <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
               Read quick start
             </Link>
+          </div>
+          <div className={styles.heroTrustLinks} aria-label="Project trust signals">
+            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
+            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
+            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
           </div>
         </div>
         <div className={styles.heroProof} aria-label="SHAFT quick proof">
@@ -175,6 +185,16 @@ function Hero(): JSX.Element {
                 <strong>{engine.engine}</strong>
               </Link>
             ))}
+          </div>
+          <div className={styles.codeCompare} aria-label="Before and after SHAFT code comparison">
+            <div>
+              <small>Plain stack</small>
+              <code>new ChromeDriver(); wait.until(...); attachScreenshots();</code>
+            </div>
+            <div>
+              <small>With SHAFT</small>
+              <code>driver.browser().navigateToURL("/").and().element().type(...)</code>
+            </div>
           </div>
         </div>
       </div>

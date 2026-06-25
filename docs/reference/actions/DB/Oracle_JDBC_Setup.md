@@ -25,7 +25,10 @@ Oracle JDBC drivers are not available in Maven Central Repository due to Oracle'
 
 2. Select the appropriate JDBC driver version based on your:
    - **Oracle Database version** (e.g., 19c, 21c, 23c)
-   - **Java version** (e.g., Java 8, 11, 17, 21)
+   - **Java runtime for this project**. SHAFT projects use the Java baseline
+     listed in [Install SHAFT](/docs/start/installation); Oracle's driver
+     compatibility matrix may mention older Java runtimes for non-SHAFT
+     projects.
 
 3. Common driver files:
    - `ojdbc8.jar` - For Java 8
@@ -248,7 +251,7 @@ SHAFT.DB db = new SHAFT.DB(
 
 ### Oracle JDBC Driver Versions
 
-| JDBC Driver | Java Version | Oracle DB Support |
+| JDBC Driver | Driver Java Compatibility | Oracle DB Support |
 |-------------|--------------|-------------------|
 | ojdbc8.jar | Java 8, 11 | 12.2.0.1+ |
 | ojdbc10.jar | Java 10, 11 | 19c, 21c |
@@ -256,7 +259,8 @@ SHAFT.DB db = new SHAFT.DB(
 
 ### Choosing the Right Version
 
-- Use the latest driver version compatible with your Java version
+- For SHAFT projects, choose a driver compatible with the Java baseline listed
+  in [Install SHAFT](/docs/start/installation).
 - The driver is backward compatible with older Oracle Database versions
 - Check [Oracle JDBC Compatibility](https://www.oracle.com/database/technologies/jdbc-drivers-12c-downloads.html) for specific version support
 

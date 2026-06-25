@@ -7,7 +7,13 @@ sidebar_position: 3
 tags: [quick-start, example]
 ---
 
-import {EngineDependencies} from '@site/src/components/DocSnippets';
+import {
+  AllureReportPath,
+  BrowserSelectionProperties,
+  EngineDependencies,
+  FirstRunCommand,
+  GitHubStarLink,
+} from '@site/src/components/DocSnippets';
 
 # Quick start
 
@@ -56,6 +62,26 @@ flowchart TD
     Sample --> Run
 ```
 
+## Three-minute useful test
+
+The fastest useful evaluation is: generate a project, run the included sample,
+open the evidence, then decide whether SHAFT removed enough setup work to keep.
+
+1. Create a generated project from [Installation](/docs/start/installation).
+2. Run the project from its root:
+
+<FirstRunCommand />
+
+3. Confirm Maven reports passing tests.
+4. Open the generated evidence under <AllureReportPath />.
+5. If the sample test, screenshots, logs, and report match what you expected,
+   <GitHubStarLink /> so you can find the project again and track releases.
+
+For a browser-first smoke run, keep the generated defaults or use this minimal
+configuration:
+
+<BrowserSelectionProperties />
+
 ## New project generation
 
 Use this when you are creating a SHAFT project from scratch.
@@ -71,9 +97,7 @@ to create a new project.
 4. Download and extract the generated project.
 5. Run the first build from the project root:
 
-```bash
-mvn test
-```
+<FirstRunCommand />
 
 Generated projects include matching sample tests, reporting setup, optional
 GitHub Actions and Dependabot files, and shared IntelliJ IDEA run templates
