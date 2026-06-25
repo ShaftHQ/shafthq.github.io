@@ -47,3 +47,36 @@ test('landing page links to the canonical MCP command page', async ({page}) => {
   await expect(page.getByTestId('landing-agent-mcp-link')).toHaveAttribute('href', '/docs/agentic/mcp');
   await expect(page.locator('[data-testid^="mcp-app-"]')).toHaveCount(0);
 });
+
+test('landing page keeps mobile motion and CTAs inside the viewport', async ({page}) => {
+  await page.setViewportSize({width: 375, height: 844});
+  await page.goto('/');
+
+  await expect(page.getByTestId('landing-hero')).toBeVisible();
+  await expect(page.locator('canvas[aria-hidden="true"]')).toHaveCount(2);
+
+  const overflowingButtons = await page.evaluate(() => {
+    const viewportWidth = document.documentElement.clientWidth;
+    return Array.from(document.querySelectorAll('[data-testid="landing-hero-actions"] a'))
+      .map((link) => {
+        const rect = link.getBoundingClientRect();
+        const parentRect = link.parentElement.getBoundingClientRect();
+        return {
+          text: link.textContent.trim().replace(/\s+/g, ' '),
+          width: rect.width,
+          parentWidth: parentRect.width,
+          overflows: rect.left < parentRect.left - 1 ||
+            rect.right > parentRect.right + 1 ||
+            rect.left < -1 ||
+            rect.right > viewportWidth + 1,
+        };
+      })
+      .filter((button) => button.overflows || button.width > button.parentWidth + 1);
+  });
+  expect(overflowingButtons).toEqual([]);
+
+  const pathfinderAnimation = await page.getByTestId('landing-pathfinder').evaluate((section) => {
+    return getComputedStyle(section).animationName;
+  });
+  expect(pathfinderAnimation).not.toBe('none');
+});

@@ -51,6 +51,7 @@
 .heroCopy {
   position: relative;
   z-index: 2;
+  min-width: 0;
 }
 
 .heroBrand {
@@ -103,6 +104,19 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.85rem;
+  min-width: 0;
+}
+
+.actions :global(.button) {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.actions :global(.button svg) {
+  flex: 0 0 auto;
 }
 
 .hero .actions :global(.button) {
@@ -161,6 +175,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  min-width: 0;
   gap: 0.72rem;
   padding: 0.9rem;
   border: 1px solid rgba(var(--site-color-muted-rgb), 0.24);
@@ -373,6 +388,7 @@
 .pathCard {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 215px;
   flex-direction: column;
   padding: 1.25rem;
@@ -453,6 +469,7 @@
 
 .proofCard {
   display: flex;
+  min-width: 0;
   min-height: 255px;
   flex-direction: column;
   padding: 1.4rem;
@@ -504,6 +521,7 @@
 .surfaceCard {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 195px;
   flex-direction: column;
   padding: 1.4rem;
@@ -671,7 +689,8 @@
   }
 
   .heroCopy h1 {
-    font-size: var(--site-font-display-small);
+    font-size: 2rem;
+    text-wrap: balance;
   }
 
   .proofLinks {
@@ -735,12 +754,34 @@
   }
 
   .actions {
+    width: 100%;
     align-items: stretch;
     flex-direction: column;
   }
 
+  .actions :global(.button) {
+    width: 100%;
+  }
+
   .actions a {
     text-align: center;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .section,
+  .finalCta {
+    animation: landingScrollReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+  }
+
+  .pathCard,
+  .proofCard,
+  .surfaceCard {
+    animation: landingScrollReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 22%;
   }
 }
 
@@ -749,10 +790,13 @@
     animation: none;
   }
 
+  .section,
+  .finalCta,
   .surfaceCard,
   .proofCard,
   .pathCard,
   .heroEngineStrip a {
+    animation: none;
     transition: none;
   }
 
@@ -761,6 +805,18 @@
   .pathCard:hover,
   .heroEngineStrip a:hover {
     transform: none;
+  }
+}
+
+@keyframes landingScrollReveal {
+  from {
+    opacity: 0.64;
+    transform: translateY(1.6rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
