@@ -35,6 +35,34 @@ The **Allure Report** is the primary report in SHAFT. It opens automatically in 
 - Test history and trend graphs across multiple runs
 - Environment information and categories
 
+### Failure Trace Viewer
+
+When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
+The viewer collects the failure timeline, exception and stacktrace, source-code
+frame fallback, available page or native source snapshot, and related artifacts
+without generating heavy trace artifacts for passing tests.
+
+Allure receives these attachments on failed tests:
+
+- `SHAFT Trace Report.html`
+- `shaft-trace.json`
+- `shaft-trace.zip`
+- Native Playwright trace ZIP, when Playwright tracing is enabled and available
+
+Use `shaft.trace.mode=failure` for normal runs. Switch to `retry` or `always`
+only while actively debugging.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.trace.enabled=true
+shaft.trace.mode=failure
+shaft.trace.includeCodeContext=true
+shaft.trace.includeFullPageSnapshots=true
+shaft.trace.includeNativePageSource=true
+shaft.trace.includeNetwork=true
+shaft.trace.includeConsole=true
+shaft.trace.maxArtifactMb=50
+```
+
 ### Open Allure Report Manually
 
 SHAFT writes convenience scripts to your project root during the first run. Use them to regenerate and serve the Allure report at any time:
@@ -532,6 +560,14 @@ Key properties quick reference:
 | `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
 | `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |
 | `failOnLocatorHealthWarnings` | `false` | Fail the run when locator health warnings are present |
+| `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
+| `shaft.trace.mode` | `failure` | Trace mode: `failure`, `retry`, or `always` |
+| `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
+| `shaft.trace.includeFullPageSnapshots` | `true` | Include web snapshots when available |
+| `shaft.trace.includeNativePageSource` | `true` | Include Appium/native page source when available |
+| `shaft.trace.includeNetwork` | `true` | Reserve network evidence in the trace metadata |
+| `shaft.trace.includeConsole` | `true` | Reserve console evidence in the trace metadata |
+| `shaft.trace.maxArtifactMb` | `50` | Maximum size for a single trace bundle entry |
 | `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
 | `videoParams_scope` | `DriverSession` | Scope of video recording |
 | `createAnimatedGif` | `false` | Create an animated GIF; retries can enable it automatically |
