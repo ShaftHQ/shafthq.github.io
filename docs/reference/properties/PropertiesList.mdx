@@ -498,9 +498,14 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
   /** get **/
   var captureElementName = SHAFT.Properties.reporting.captureElementName();
+  var locatorHealthReportEnabled = SHAFT.Properties.reporting.locatorHealthReportEnabled();
 
   /** set **/
-  SHAFT.Properties.reporting.set().captureElementName(false);
+  SHAFT.Properties.reporting.set()
+      .captureElementName(false)
+      .locatorHealthReportEnabled(true)
+      .slowLocatorThresholdMillis(750)
+      .failOnLocatorHealthWarnings(false);
   ```
 
   </TabItem>
@@ -519,6 +524,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | openExecutionSummaryReportAfterExecution      | `false`       | `true`, `false` | • Open execution summary report after test execution.    |
 | disableLogging                                | `false`       | `true`, `false` | • Disable all logging output.                            |
 | attachFullLog                                 | `false`       | `true`, `false` | • Attach a streamed, deduplicated snapshot of the full engine log to the Allure report after test execution without deleting the live log file. |
+| locatorHealthReportEnabled                    | `false`       | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
+| slowLocatorThresholdMillis                    | `750`         | Integer milliseconds | • Mark locator lookups at or above this duration as slow warnings. |
+| failOnLocatorHealthWarnings                   | `false`       | `true`, `false` | • Fail the run when locator health warnings are present. |
 
   </TabItem>
 </Tabs>

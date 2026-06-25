@@ -1,16 +1,16 @@
-# Graph Report - openapi-coverage-docs-3050  (2026-06-25)
+# Graph Report - locator-health-reporting-3055-docs  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~217,399 words
+- 223 files · ~217,741 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2346 nodes · 2346 edges · 220 communities (189 shown, 31 thin omitted)
+- 2348 nodes · 2348 edges · 220 communities (189 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7dc836da`
+- Built from commit: `479dc34b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -342,8 +342,8 @@ Cohesion: 0.09
 Nodes (9): assertThat vs verifyThat, Attribute & CSS Validations, Complete Example, Custom Report Messages, Element State, Existence & Visibility, See Also, Text Validations (+1 more)
 
 ### Community 20 - "docs/reference (22)"
-Cohesion: 0.09
-Nodes (22): Accumulate History and Reports Across Runs, Active Debugging (rich visuals), All Reporting Properties, Allure Report, Animated GIFs, CI/CD Pipeline (archive report as artifact), Control Video Recording Scope, Customize the Allure Report (+14 more)
+Cohesion: 0.08
+Nodes (23): Accumulate History and Reports Across Runs, Active Debugging (rich visuals), All Reporting Properties, Allure Report, Animated GIFs, CI/CD Pipeline (archive report as artifact), Control Video Recording Scope, Customize the Allure Report (+15 more)
 
 ### Community 21 - "docs/reference (20)"
 Cohesion: 0.10
@@ -934,8 +934,8 @@ Cohesion: 0.40
 Nodes (4): attribute(), Related, Validate Browser Title, Validate Browser URL
 
 ### Community 180 - "docs/features (3)"
-Cohesion: 0.50
-Nodes (3): Execution logs, Related, Reporting and evidence
+Cohesion: 0.40
+Nodes (4): Execution logs, Locator health reports, Related, Reporting and evidence
 
 ### Community 184 - "docs/reference (2)"
 Cohesion: 0.40
@@ -1002,7 +1002,7 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1532 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1527 more)
+- **1534 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1529 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1014,7 +1014,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1532 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1534 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
