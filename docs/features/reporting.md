@@ -80,17 +80,28 @@ Enable locator health reporting when you want a run-level view of slow or flaky
 web locators without changing test code.
 
 ```properties title="src/main/resources/properties/custom.properties"
-locatorHealthReportEnabled=true
+shaft.locatorHealth.enabled=true
+shaft.locatorHealth.warnBelowScore=70
+shaft.locatorHealth.attachDashboard=true
+shaft.locatorHealth.failBelowScore=-1
 slowLocatorThresholdMillis=750
-failOnLocatorHealthWarnings=false
 ```
 
-When enabled, SHAFT records lookup counts, average and p95 lookup time, polling
-attempts, timeouts, stale-element retries, multiple matches, slow lookups, and
-SHAFT Heal recovery attempts. At the end of the run it writes HTML and JSON
-reports under `execution-summary/locator-health/` and attaches them to Allure.
-Set `failOnLocatorHealthWarnings=true` only when locator health warnings should
-fail the build.
+When enabled, SHAFT records lookup counts, unique/no-match/multi-match/stale
+rates, average and p95 lookup time, polling attempts, timeouts, slow lookups,
+SHAFT Heal attempts, accepted recoveries, confidence, and selected replacement
+locators when available. It scores each locator, flags selector smells such as
+absolute XPath, index-heavy XPath, generated IDs, text-only selectors, and deep
+CSS chains, then adds plain-language recommendations.
+
+At the end of the run it writes HTML and JSON reports under
+`execution-summary/locator-health/` and attaches the JSON export to Allure. The
+HTML dashboard is attached when `shaft.locatorHealth.attachDashboard=true`. Keep
+`shaft.locatorHealth.failBelowScore=-1` while introducing the report; set it to
+a score threshold only after the suite has a stable baseline. The older
+`locatorHealthReportEnabled=true` key remains supported. When the failure trace
+viewer is enabled, failed-test trace JSON also includes the current locator
+health snapshot.
 
 ## Related
 

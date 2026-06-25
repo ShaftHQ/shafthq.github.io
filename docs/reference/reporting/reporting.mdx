@@ -339,28 +339,36 @@ SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(true);
 
 The **Locator Health Report** is disabled by default. Enable it when you want to
 find slow, flaky, ambiguous, stale, or healed web locators across a full run.
-SHAFT records lightweight metrics during element identification and writes both
-HTML and JSON reports under `execution-summary/locator-health/`. The same report
-is attached to Allure when locator health reporting is enabled.
+SHAFT records lightweight metrics during element identification and writes HTML
+and JSON reports under `execution-summary/locator-health/`. The JSON export is
+attached to Allure, and the HTML dashboard is attached when
+`shaft.locatorHealth.attachDashboard=true`.
 
-Recorded metrics include lookup count, average and p95 lookup time, polling
-attempts, timeout count, stale-element retries, multiple-element matches, slow
-lookups, SHAFT Heal attempts, accepted recoveries, and rejected recoveries.
+Recorded metrics include lookup count, unique-match, no-match, multi-match, and
+stale rates, average and p95 lookup time, polling attempts, timeout count, slow
+lookups, SHAFT Heal attempts, accepted recoveries, selected replacement locator,
+and confidence when the provider exposes it. Each locator also gets a health
+score, selector-smell labels, and plain-language recommendations for risky
+patterns such as absolute XPath, index-heavy XPath, generated IDs, text-only
+selectors, and deep CSS chains. When the failure trace viewer is enabled,
+failed-test trace JSON also includes the current locator health snapshot.
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
-locatorHealthReportEnabled=true
+shaft.locatorHealth.enabled=true
+shaft.locatorHealth.warnBelowScore=70
+shaft.locatorHealth.attachDashboard=true
+shaft.locatorHealth.failBelowScore=-1
 slowLocatorThresholdMillis=750
-failOnLocatorHealthWarnings=false
 ```
 
   </TabItem>
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DlocatorHealthReportEnabled=true -DslowLocatorThresholdMillis=750 -DfailOnLocatorHealthWarnings=false
+mvn test -Dshaft.locatorHealth.enabled=true -Dshaft.locatorHealth.warnBelowScore=70 -Dshaft.locatorHealth.failBelowScore=-1 -DslowLocatorThresholdMillis=750
 ```
 
   </TabItem>
@@ -370,7 +378,10 @@ mvn test -DlocatorHealthReportEnabled=true -DslowLocatorThresholdMillis=750 -Dfa
 import com.shaft.driver.SHAFT;
 
 SHAFT.Properties.reporting.set()
-    .locatorHealthReportEnabled(true)
+    .locatorHealthEnabled(true)
+    .locatorHealthWarnBelowScore(70)
+    .locatorHealthAttachDashboard(true)
+    .locatorHealthFailBelowScore(-1)
     .slowLocatorThresholdMillis(750)
     .failOnLocatorHealthWarnings(false);
 ```
@@ -378,8 +389,10 @@ SHAFT.Properties.reporting.set()
   </TabItem>
 </Tabs>
 
-Keep `failOnLocatorHealthWarnings=false` while introducing the report. Set it to
-`true` only after the suite has a stable locator-health baseline.
+Keep `shaft.locatorHealth.failBelowScore=-1` while introducing the report. Set
+it to a score threshold only after the suite has a stable locator-health
+baseline. The legacy `locatorHealthReportEnabled=true` and
+`failOnLocatorHealthWarnings=false` keys remain supported.
 
 ---
 
@@ -558,6 +571,10 @@ Key properties quick reference:
 | `allure.groupBy` | `package,testClass` | Comma-separated label hierarchy for the Allure 3 report tree |
 | `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
 | `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
+| `shaft.locatorHealth.enabled` | `false` | Generate end-of-run locator health reports |
+| `shaft.locatorHealth.warnBelowScore` | `70` | Mark locators below this health score as risky |
+| `shaft.locatorHealth.attachDashboard` | `true` | Attach the HTML locator health dashboard to Allure |
+| `shaft.locatorHealth.failBelowScore` | `-1` | Fail the run when any locator score is below this threshold; `-1` disables score-based failure |
 | `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |
 | `failOnLocatorHealthWarnings` | `false` | Fail the run when locator health warnings are present |
 | `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
