@@ -58,6 +58,24 @@ the Allure report after execution. The attachment is streamed from a temporary
 deduplicated snapshot so the live `target/logs/log4j.log` file remains available
 for retry diagnostics, local investigation, and CI artifact collection.
 
+## Locator health reports
+
+Enable locator health reporting when you want a run-level view of slow or flaky
+web locators without changing test code.
+
+```properties title="src/main/resources/properties/custom.properties"
+locatorHealthReportEnabled=true
+slowLocatorThresholdMillis=750
+failOnLocatorHealthWarnings=false
+```
+
+When enabled, SHAFT records lookup counts, average and p95 lookup time, polling
+attempts, timeouts, stale-element retries, multiple matches, slow lookups, and
+SHAFT Heal recovery attempts. At the end of the run it writes HTML and JSON
+reports under `execution-summary/locator-health/` and attaches them to Allure.
+Set `failOnLocatorHealthWarnings=true` only when locator health warnings should
+fail the build.
+
 ## Related
 
 - [Architecture](/docs/features/architecture)
