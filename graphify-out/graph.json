@@ -10144,10 +10144,20 @@
       "norm_label": "failure diagnostics bundle"
     },
     {
-      "label": "Locator health reports",
+      "label": "Failure briefs and attachment manifest",
       "file_type": "document",
       "source_file": "docs/features/reporting.md",
       "source_location": "L77",
+      "_origin": "ast",
+      "id": "features_reporting_failure_briefs_and_attachment_manifest",
+      "community": 180,
+      "norm_label": "failure briefs and attachment manifest"
+    },
+    {
+      "label": "Locator health reports",
+      "file_type": "document",
+      "source_file": "docs/features/reporting.md",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "features_reporting_locator_health_reports",
       "community": 180,
@@ -10157,7 +10167,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/features/reporting.md",
-      "source_location": "L106",
+      "source_location": "L136",
       "_origin": "ast",
       "id": "features_reporting_related",
       "community": 180,
@@ -20877,7 +20887,7 @@
       "label": "Allure Report",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "guides_test_artifacts_allure_report",
       "community": 61,
@@ -20887,7 +20897,7 @@
       "label": "Generating the Report Locally",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L44",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "guides_test_artifacts_generating_the_report_locally",
       "community": 61,
@@ -20897,7 +20907,7 @@
       "label": "Generating a Portable Archive for CI/CD",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L56",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "guides_test_artifacts_generating_a_portable_archive_for_ci_cd",
       "community": 61,
@@ -20907,7 +20917,7 @@
       "label": "Execution Summary",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L69",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "guides_test_artifacts_execution_summary",
       "community": 61,
@@ -20917,7 +20927,7 @@
       "label": "Publishing Artifacts in CI/CD",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L81",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "guides_test_artifacts_publishing_artifacts_in_ci_cd",
       "community": 61,
@@ -20927,7 +20937,7 @@
       "label": "GitHub Actions",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L83",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "guides_test_artifacts_github_actions",
       "community": 61,
@@ -20937,7 +20947,7 @@
       "label": "Jenkins",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L101",
+      "source_location": "L103",
       "_origin": "ast",
       "id": "guides_test_artifacts_jenkins",
       "community": 61,
@@ -20947,7 +20957,7 @@
       "label": "Controlling What Gets Captured",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L118",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "guides_test_artifacts_controlling_what_gets_captured",
       "community": 61,
@@ -20957,7 +20967,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/guides/Test_Artifacts.md",
-      "source_location": "L131",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "guides_test_artifacts_related",
       "community": 61,
@@ -26200,9 +26210,9 @@
       "source_file": "src/pages/index.tsx",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_index",
-      "target": "pages_index_guidepaths",
-      "confidence_score": 1.0
+      "target": "pages_index_guidepaths"
     },
     {
       "relation": "contains",
@@ -26210,9 +26220,9 @@
       "source_file": "src/pages/index.tsx",
       "source_location": "L353",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "pages_index",
-      "target": "pages_index_guidepathsection",
-      "confidence_score": 1.0
+      "target": "pages_index_guidepathsection"
     },
     {
       "relation": "contains",
@@ -34964,6 +34974,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/features/reporting.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "source": "features_reporting_reporting_and_evidence",
+      "target": "features_reporting_failure_briefs_and_attachment_manifest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/features/reporting.md",
       "source_location": "L61",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -40086,9 +40106,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_configuration",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_configuration"
     },
     {
       "relation": "contains",
@@ -40096,9 +40116,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L164",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_mapping_tree",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_mapping_tree"
     },
     {
       "relation": "contains",
@@ -40106,9 +40126,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L131",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_native_access",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_native_access"
     },
     {
       "relation": "contains",
@@ -40116,9 +40136,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L325",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend",
-      "target": "gui_playwright_backend_related",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_related"
     },
     {
       "relation": "contains",
@@ -40126,9 +40146,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend_mapping_tree",
-      "target": "gui_playwright_backend_accessibility_and_network_parity",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_accessibility_and_network_parity"
     },
     {
       "relation": "contains",
@@ -40176,9 +40196,9 @@
       "source_file": "docs/reference/actions/GUI/Playwright_Backend.md",
       "source_location": "L298",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "gui_playwright_backend_mapping_tree",
-      "target": "gui_playwright_backend_performance_budgets",
-      "confidence_score": 1.0
+      "target": "gui_playwright_backend_performance_budgets"
     },
     {
       "relation": "contains",
@@ -47352,5 +47372,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7efa20cd2e62ab5f432a40ac9e71024e59d7f235"
+  "built_at_commit": "09456df42184140ae1d59032d43ed408aaa87ba5"
 }

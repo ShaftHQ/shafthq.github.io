@@ -115,7 +115,7 @@
     "semantic_hash": ""
   },
   "src/components/ParticleBackground/index.tsx": {
-    "mtime": 1781588115.73886,
+    "mtime": 1782399576.198777,
     "ast_hash": "92fc3034da7c24b20fe4ab48cf99c914",
     "semantic_hash": ""
   },
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "src/pages/index.tsx": {
-    "mtime": 1782390326.7569478,
-    "ast_hash": "3674b3be5cd0d480dac0fb3c508bd871",
+    "mtime": 1782399576.2007797,
+    "ast_hash": "02d2dbd159a70eddbf2c6d1546cae423",
     "semantic_hash": ""
   },
   "src/pages/project-generator.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1782390349.1414864,
-    "ast_hash": "bc551ddd8325db5329359d3d0abb1ff8",
+    "mtime": 1782398097.0544035,
+    "ast_hash": "0c6f148b6877160b60ebc32fd18ef6bb",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "tests/homepage-performance.test.js": {
-    "mtime": 1782390326.758948,
-    "ast_hash": "6ad7b787a42bfae674b43776f42abc61",
+    "mtime": 1782398097.0554037,
+    "ast_hash": "416cba79ecb3e071c8b5d3fcfdfb5b71",
     "semantic_hash": ""
   },
   "tests/properties-catalog.test.js": {
@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "docs/features/reporting.md": {
-    "mtime": 1782388333.9456935,
-    "ast_hash": "9b926b2cb24adccd237ed71d28d3309e",
+    "mtime": 1782399598.5721767,
+    "ast_hash": "cc42d74e89ee8d3fcfaa02040199152b",
     "semantic_hash": ""
   },
   "docs/features/technology.md": {
@@ -795,8 +795,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Playwright_Backend.md": {
-    "mtime": 1782392009.406393,
-    "ast_hash": "96b180dfb8ecee51084da2ee2995efce",
+    "mtime": 1782398097.0383973,
+    "ast_hash": "6a6e1e82f5f91fd358d55ac47572374d",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Touch_Actions.md": {
@@ -1020,8 +1020,8 @@
     "semantic_hash": ""
   },
   "docs/reference/guides/Test_Artifacts.md": {
-    "mtime": 1782374589.648253,
-    "ast_hash": "b4105f1ba6b4a950dcfa822f2e5cffa7",
+    "mtime": 1782399605.311855,
+    "ast_hash": "9cb25256e43df58ca4175d06c40e08b4",
     "semantic_hash": ""
   },
   "docs/reference/guides/Test_Structure.md": {
@@ -1055,8 +1055,8 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertiesList.mdx": {
-    "mtime": 1782392036.2375262,
-    "ast_hash": "272eb79085c5dd97cee7d6263e349f52",
+    "mtime": 1782398097.0393972,
+    "ast_hash": "0fa299d47d35660ea5a84db58f20b8df",
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertyTypes.md": {
@@ -1075,8 +1075,8 @@
     "semantic_hash": ""
   },
   "docs/reference/reporting/reporting.mdx": {
-    "mtime": 1782388333.9466934,
-    "ast_hash": "302c964170abb4ad7be27720b8e5aa89",
+    "mtime": 1782398097.0403938,
+    "ast_hash": "64d227f6859b5d181635759280a9b46a",
     "semantic_hash": ""
   },
   "docs/start/installation.mdx": {
