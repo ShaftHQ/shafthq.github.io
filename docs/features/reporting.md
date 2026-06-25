@@ -133,6 +133,30 @@ a score threshold only after the suite has a stable baseline. The older
 viewer is enabled, failed-test trace JSON also includes the current locator
 health snapshot.
 
+## Flake and auto-wait profiler
+
+Enable the flake profiler when you need action-level timing in Allure without
+turning every wait into custom test code.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+When enabled, SHAFT attaches `flake-profile.json` and `Flake Profile` HTML to
+Allure for tests that produce profiler signals. The profile records element
+actions, assertions, verifications, retry attempts, locator lookup counts,
+match counts, wait polling loops, stale/healing signals, and slow or wait-heavy
+actions. Screenshot capture, page snapshots, and report attachment time are
+tracked as evidence costs so element action duration is not inflated by report
+generation.
+
+Keep `shaft.flakeProfiler.failOnSevereFlakeRisk=false` while establishing a
+baseline. Turn it on only after the suite has known thresholds for slow,
+wait-heavy, stale, healed, or failing actions.
+
 ## Related
 
 - [Architecture](/docs/features/architecture)
