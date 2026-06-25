@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "src/pages/index.tsx": {
-    "mtime": 1782378821.8613298,
-    "ast_hash": "9a0229f85492d19808c46036067406f1",
+    "mtime": 1782390326.7569478,
+    "ast_hash": "3674b3be5cd0d480dac0fb3c508bd871",
     "semantic_hash": ""
   },
   "src/pages/project-generator.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1782108603.7770696,
-    "ast_hash": "b1900d6c3f5a9afd6d59d284487ab0cd",
+    "mtime": 1782390349.1414864,
+    "ast_hash": "bc551ddd8325db5329359d3d0abb1ff8",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "tests/homepage-performance.test.js": {
-    "mtime": 1782366324.0073285,
-    "ast_hash": "116f17ea94452c8039a95b4465300a85",
+    "mtime": 1782390326.758948,
+    "ast_hash": "6ad7b787a42bfae674b43776f42abc61",
     "semantic_hash": ""
   },
   "tests/properties-catalog.test.js": {
@@ -795,8 +795,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Playwright_Backend.md": {
-    "mtime": 1782366323.9563146,
-    "ast_hash": "ccfe191d76c9b4313c2a76747334b203",
+    "mtime": 1782392009.406393,
+    "ast_hash": "96b180dfb8ecee51084da2ee2995efce",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Touch_Actions.md": {
@@ -1055,8 +1055,8 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertiesList.mdx": {
-    "mtime": 1782387941.738113,
-    "ast_hash": "5984a721136306a8e4d90cc839408e7c",
+    "mtime": 1782392036.2375262,
+    "ast_hash": "272eb79085c5dd97cee7d6263e349f52",
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertyTypes.md": {

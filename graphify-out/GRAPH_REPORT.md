@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~246,272 words
+- 223 files · ~246,916 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2352 nodes · 2352 edges · 220 communities (189 shown, 31 thin omitted)
+- 2356 nodes · 2356 edges · 220 communities (189 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3b9fb8b5`
+- Built from commit: `7efa20cd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -478,8 +478,8 @@ Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
 ### Community 56 - "src/pages (11)"
-Cohesion: 0.10
-Nodes (12): comparisonRows, decisionPoints, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails, stackPills (+4 more)
+Cohesion: 0.09
+Nodes (13): comparisonRows, decisionPoints, guidePaths, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails (+5 more)
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.17
@@ -970,8 +970,8 @@ Cohesion: 0.25
 Nodes (7): 1. Check Out The Code, 2. Install The Toolchain, 3. Run The Site Locally, 4. Make The Change, 5. Validate The Change, 6. Open The Pull Request, Contributing To The SHAFT User Guide
 
 ### Community 210 - "Community 210"
-Cohesion: 0.22
-Nodes (8): Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access, Related
+Cohesion: 0.18
+Nodes (10): Accessibility And Network Parity, Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access (+2 more)
 
 ### Community 211 - "Community 211"
 Cohesion: 0.25
@@ -1002,7 +1002,7 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1538 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1533 more)
+- **1541 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1536 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1014,7 +1014,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1538 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1541 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
