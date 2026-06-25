@@ -135,7 +135,7 @@ SHAFT.Properties.allure.set()
 
 ### Tune Allure 3 Awesome Report Output
 
-When SHAFT generates an Allure 3 report, it writes the corresponding `allurerc.yaml` file for the Allure Awesome plugin. In addition to the title, output directory, logo, and history settings, you can now control the Awesome plugin options that affect packaging, language, browser opening, and the hierarchy shown in the report tree.
+When SHAFT generates an Allure 3 report, it writes the corresponding `allurerc.yaml` file for the Allure Awesome plugin. In addition to the title, output directory, logo, and history settings, you can control the Awesome plugin options that affect packaging, theme mode, language, browser opening, and the hierarchy shown in the report tree. SHAFT-generated Allure 3 reports use the same light and dark color tokens as this user guide. Allure 2 reports keep their existing UI.
 
 :::note
 These options apply to Allure 3 report generation. `allure.automaticallyOpen` controls whether SHAFT opens the final report after test execution, while `allure.open` is passed to the Allure CLI configuration itself.
@@ -148,14 +148,17 @@ These options apply to Allure 3 report generation. `allure.automaticallyOpen` co
 # Generate a self-contained HTML report file (default: true)
 allure.singleFile=true
 
+# Allure 3 color mode (default: auto)
+allure.theme=auto
+
 # Allure UI language code (default: en)
 allure.reportLanguage=en
 
 # Let the Allure CLI open the report after generation (default: false)
 allure.open=false
 
-# Comma-separated Allure label hierarchy (default: parentSuite,suite,subSuite)
-allure.groupBy=parentSuite,suite,subSuite
+# Comma-separated Allure label hierarchy (default: package,testClass)
+allure.groupBy=package,testClass
 ```
 
   </TabItem>
@@ -164,9 +167,10 @@ allure.groupBy=parentSuite,suite,subSuite
 ```bash
 mvn test \
   -Dallure.singleFile=false \
+  -Dallure.theme=auto \
   -Dallure.reportLanguage=fr \
   -Dallure.open=false \
-  -Dallure.groupBy=package,class,method
+  -Dallure.groupBy=package,testClass
 ```
 
   </TabItem>
@@ -177,9 +181,10 @@ import com.shaft.driver.SHAFT;
 
 SHAFT.Properties.allure.set()
     .singleFile(false)
+    .theme("auto")
     .reportLanguage("fr")
     .open(false)
-    .groupBy("package,class,method");
+    .groupBy("package,testClass");
 ```
 
   </TabItem>
@@ -219,10 +224,12 @@ Common `allure.groupBy` presets include:
 
 | Preset | Value | Best For |
 |---|---|---|
-| Suite hierarchy | `parentSuite,suite,subSuite` | Default TestNG or suite-based organization |
+| Code hierarchy | `package,testClass` | Default Java package and class navigation |
+| Suite hierarchy | `parentSuite,suite,subSuite` | TestNG or suite-based organization |
 | BDD hierarchy | `epic,feature,story` | Business-readable Allure annotation reports |
-| Code hierarchy | `package,class,method` | Developer-oriented navigation by Java structure |
 | Module hierarchy | `module,parentSuite,suite,subSuite` | Multi-module projects |
+
+Full-page image attachments open at the available modal width in SHAFT-generated Allure 3 reports. Use the modal scrollbar to inspect the rest of tall screenshots.
 
 ### Troubleshoot Allure CLI Generation
 
@@ -517,9 +524,10 @@ Key properties quick reference:
 | `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
 | `allure.realtimeMonitoring` | `false` | Start native Allure 3 `allure watch` while tests run |
 | `allure.singleFile` | `true` | Generate an Allure 3 Awesome report as a self-contained HTML file |
+| `allure.theme` | `auto` | Default Allure 3 Awesome color mode: `auto`, `light`, or `dark` |
 | `allure.reportLanguage` | `en` | Language code used by the Allure 3 Awesome report UI |
 | `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
-| `allure.groupBy` | `parentSuite,suite,subSuite` | Comma-separated label hierarchy for the Allure 3 report tree |
+| `allure.groupBy` | `package,testClass` | Comma-separated label hierarchy for the Allure 3 report tree |
 | `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
 | `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
 | `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |

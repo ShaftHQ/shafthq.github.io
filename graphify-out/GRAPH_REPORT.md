@@ -1,7 +1,7 @@
-# Graph Report - locator-health-reporting-3055-docs  (2026-06-25)
+# Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~217,741 words
+- 223 files · ~217,856 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `479dc34b`
+- Built from commit: `d842254a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
