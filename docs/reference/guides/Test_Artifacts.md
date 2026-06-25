@@ -23,6 +23,7 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `videoParams_recordVideo=true` |
 | **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `createAnimatedGif=true` |
 | **Failure trace viewer** | Attached inside `allure-results/` | `SHAFT Trace Report.html`, `shaft-trace.json`, and `shaft-trace.zip` on failed tests by default |
+| **Failure brief** | Attached inside `allure-results/` | `SHAFT Failure Brief.html`, `shaft-failure-brief.json`, and `shaft-attachments-manifest.json` on failed or broken tests |
 
 :::info
 All paths are relative to your project root directory.
@@ -38,6 +39,7 @@ The Allure report is the **primary artifact** from every SHAFT test run. It cont
 - Screenshots attached at each validation point
 - Video recordings and animated GIFs (when enabled)
 - Failure trace viewer attachments for failed tests
+- Failure brief and attachment manifest for first-pass triage
 - Test history and trend graphs across multiple runs
 - Environment metadata
 
