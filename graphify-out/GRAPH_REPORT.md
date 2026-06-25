@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~217,856 words
+- 223 files · ~245,977 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2348 nodes · 2348 edges · 220 communities (189 shown, 31 thin omitted)
+- 2352 nodes · 2352 edges · 220 communities (189 shown, 31 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d842254a`
+- Built from commit: `76b30cf2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -343,7 +343,7 @@ Nodes (9): assertThat vs verifyThat, Attribute & CSS Validations, Complete Examp
 
 ### Community 20 - "docs/reference (22)"
 Cohesion: 0.08
-Nodes (23): Accumulate History and Reports Across Runs, Active Debugging (rich visuals), All Reporting Properties, Allure Report, Animated GIFs, CI/CD Pipeline (archive report as artifact), Control Video Recording Scope, Customize the Allure Report (+15 more)
+Nodes (24): Accumulate History and Reports Across Runs, Active Debugging (rich visuals), All Reporting Properties, Allure Report, Animated GIFs, CI/CD Pipeline (archive report as artifact), Control Video Recording Scope, Customize the Allure Report (+16 more)
 
 ### Community 21 - "docs/reference (20)"
 Cohesion: 0.10
@@ -478,8 +478,8 @@ Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
 ### Community 56 - "src/pages (11)"
-Cohesion: 0.11
-Nodes (10): comparisonRows, decisionPoints, heroEngines, onboardingSteps, proofPoints, sharedRails, stackPills, surfaceMap (+2 more)
+Cohesion: 0.10
+Nodes (12): comparisonRows, decisionPoints, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails, stackPills (+4 more)
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.17
@@ -934,8 +934,8 @@ Cohesion: 0.40
 Nodes (4): attribute(), Related, Validate Browser Title, Validate Browser URL
 
 ### Community 180 - "docs/features (3)"
-Cohesion: 0.40
-Nodes (4): Execution logs, Locator health reports, Related, Reporting and evidence
+Cohesion: 0.33
+Nodes (5): Execution logs, Failure diagnostics bundle, Locator health reports, Related, Reporting and evidence
 
 ### Community 184 - "docs/reference (2)"
 Cohesion: 0.40
@@ -1002,7 +1002,7 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1534 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1529 more)
+- **1538 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1533 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1011,10 +1011,10 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
+- **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1534 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1538 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

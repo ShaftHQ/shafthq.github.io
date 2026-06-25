@@ -278,11 +278,14 @@ boolean and exact proposal token.
 
 The collector recognizes populated Allure `*-result.json`, normalized exception
 chains, SHAFT logs/action history, environment metadata, dependency/build
-metadata, configuration summaries, screenshots, and page snapshots. Text and
-structured JSON are redacted before retention or hashing. Password fields,
-authorization and cookie headers, tokens, private keys, common credential
-fields, and configured sensitive names are replaced without retaining their
-original values.
+metadata, configuration summaries, `shaft-diagnostics.zip` attachments,
+screenshots, and page snapshots. When a failed SHAFT test attaches
+`shaft-diagnostics.zip`, Doctor reads only `diagnostics.json` from the archive
+and treats it as sanitized SHAFT log evidence for deterministic rules and MCP
+handoff. Text and structured JSON are redacted before retention or hashing.
+Password fields, authorization and cookie headers, tokens, private keys, common
+credential fields, and configured sensitive names are replaced without
+retaining their original values.
 
 Allure attempts are grouped by history ID and ordered by their recorded start
 time. Non-final failed, broken, and skipped attempts remain visible even when
