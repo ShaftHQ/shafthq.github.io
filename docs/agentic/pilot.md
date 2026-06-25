@@ -58,51 +58,18 @@ own authentication.
 
 ## Install the MCP server
 
-Use [Connect shaft-mcp](/docs/agentic/mcp) for normal installation. To build
-and run from the monorepo:
-
-```bash
-mvn -pl shaft-mcp -am install -DskipTests -Dgpg.skip
-mvn -pl shaft-mcp dependency:copy-dependencies -DincludeScope=runtime \
-  '-DoutputDirectory=${maven.multiModuleProjectDirectory}/shaft-mcp/target/dependency' \
-  -DskipTests -Dgpg.skip
-MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
-MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
-java -cp "$MCP_CP" "$MCP_MAIN"
-```
-
-Use `;` instead of `:` in `MCP_CP` on Windows. The default process is an MCP
-stdio server. The same main class dispatches `capture` and `doctor`
-subcommands.
+Use [Connect shaft-mcp](/docs/agentic/mcp) for installer, client
+configuration, local command, and Streamable HTTP setup. The
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference) is the only
+page that carries runnable MCP command examples.
 
 ## Capture example
 
-Start a privacy-filtered recording. This example is headless for CI or scripted
-use; omit `--headless` when a person will drive the browser locally:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" capture start \
-  --url https://example.test \
-  --browser chrome \
-  --output recordings/example.json \
-  --headless
-java -cp "$MCP_CP" "$MCP_MAIN" capture status
-```
-
-Drive the visible browser or the automation controlling the headless session,
-optionally add a checkpoint, then stop and generate:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
-  --description "Checkout confirmation is visible" --kind ASSERTION
-java -cp "$MCP_CP" "$MCP_MAIN" capture stop
-java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json \
-  --output-dir generated-tests \
-  --package generated.capture \
-  --class-name CheckoutJourneyTest \
-  --replay
-```
+Start a privacy-filtered recording from the
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference). Omit
+`--headless` when a person will drive the browser locally. Drive the visible
+browser or the automation controlling the headless session, optionally add a
+checkpoint, then stop and generate from the same canonical command page.
 
 Generation writes Java source, externalized ordinary test data, and
 `target/shaft-capture/generation-report.json`. Passwords, configured sensitive
@@ -112,14 +79,8 @@ compiles, passes, and produces populated Allure result JSON.
 
 ## Doctor example
 
-Analyze only explicitly allowed evidence:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
-  --input allure-results \
-  --allowed-root "$PWD" \
-  --output-dir target/shaft-doctor
-```
+Analyze only explicitly allowed evidence with the Doctor command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
 
 Outputs include `doctor-evidence.json`, `doctor-report.json`, and
 `doctor-report.md`. The deterministic rules classify product, test, locator,
@@ -130,30 +91,12 @@ being converted into a false success.
 ## Reviewed repair example
 
 Create a complete reviewed input based on
-`examples/shaft-pilot/doctor/repair-input.json`, then run:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor propose-fix \
-  --repository "$PWD" \
-  --base-sha <40-character-commit> \
-  --diagnosis target/shaft-doctor/doctor-report.json \
-  --evidence-bundle target/shaft-doctor/doctor-evidence.json \
-  --issue <issue-or-session> \
-  --allowed-path src/test/java/example/CheckoutTest.java \
-  --repair-input examples/shaft-pilot/doctor/repair-input.json \
-  --output-dir target/shaft-doctor/repairs
-```
+`examples/shaft-pilot/doctor/repair-input.json`, then use the reviewed repair
+commands from [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
 
 Doctor creates and validates a temporary isolated worktree. It does not modify
 the current branch or write to GitHub. After reviewing the diff and validation
-result, publish only a draft pull request with the exact returned token:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" doctor publish-draft-pr \
-  --manifest target/shaft-doctor/repairs/repair-proposal-<id>.json \
-  --approval-token <exact-token> \
-  --approve
-```
+result, publish only a draft pull request with the exact returned token.
 
 The MCP equivalents are `doctor_propose_fix` and
 `doctor_publish_draft_pr`. Publication cannot merge, bypass branch protection,
@@ -166,16 +109,11 @@ in [Connect shaft-mcp](/docs/agentic/mcp). The installer resolves the latest
 Maven Central release, verifies the JAR, and updates the per-user local stdio
 configuration without requiring you to edit a client configuration file.
 
-Start Streamable HTTP for clients that need a reachable HTTPS endpoint:
-
-```bash
-java -cp "$MCP_CP" "$MCP_MAIN" --spring.profiles.active=http
-```
-
-The endpoint is `/mcp` and the default port is `8081`. ChatGPT developer
-mode/apps and cloud agents cannot launch a local JAR, so deploy the container
-and expose `/mcp` over HTTPS. GitHub Copilot is an MCP client integration; it is
-not a direct provider API-key adapter.
+Use the [remote-client section](/docs/agentic/mcp#remote-clients) for
+Streamable HTTP setup. The endpoint is `/mcp` and the default port is `8081`.
+ChatGPT developer mode/apps and cloud agents cannot launch a local JAR, so
+deploy the container and expose `/mcp` over HTTPS. GitHub Copilot is an MCP
+client integration; it is not a direct provider API-key adapter.
 
 External client capabilities were verified against official documentation on
 June 12, 2026:

@@ -106,8 +106,8 @@ export default function ParticleBackground({
       let nodeColor: string;
       let lineColor: string;
       if (heroMode) {
-        nodeColor = 'rgba(255, 255, 255';
-        lineColor = 'rgba(255, 255, 255';
+        nodeColor = 'rgba(76, 194, 255';
+        lineColor = 'rgba(76, 194, 255';
       } else {
         const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
         nodeColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';

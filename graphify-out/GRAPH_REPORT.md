@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~247,153 words
+- 223 files · ~245,172 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2357 nodes · 2357 edges · 220 communities (189 shown, 31 thin omitted)
+- 2343 nodes · 2346 edges · 220 communities (188 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `09456df4`
+- Built from commit: `9ab06894`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -233,16 +233,16 @@
 - [[_COMMUNITY_Community 221|Community 221]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `SiteRenderTest` - 36 edges
+1. `SiteRenderTest` - 37 edges
 2. `Upgrade to modular SHAFT` - 25 edges
 3. `scripts` - 21 edges
-4. `String` - 17 edges
+4. `String` - 18 edges
 5. `Request Builder` - 16 edges
 6. `Test` - 15 edges
-7. `Diagnose failures with Doctor` - 13 edges
-8. `Security Fix Summary` - 13 edges
-9. `SHAFT API Response Validations` - 13 edges
-10. `Mobile and Flutter testing` - 13 edges
+7. `Connect shaft-mcp` - 14 edges
+8. `Diagnose failures with Doctor` - 13 edges
+9. `Security Fix Summary` - 13 edges
+10. `SHAFT API Response Validations` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
@@ -259,7 +259,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (220 total, 31 thin omitted)
+## Communities (220 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -410,7 +410,7 @@ Cohesion: 0.13
 Nodes (14): Browser-Level Waits, Complete Example, Custom Condition Wait (Lambda), Element-Level Waits, Related, waitForLazyLoading, waitUntilAttributeContains, waitUntilElementTextToBe (+6 more)
 
 ### Community 38 - "src/components (13)"
-Cohesion: 0.17
+Cohesion: 0.18
 Nodes (4): Application, CommandTemplates, McpApplications(), OperatingSystem
 
 ### Community 39 - "src/components (13)"
@@ -478,16 +478,12 @@ Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
 ### Community 56 - "src/pages (11)"
-Cohesion: 0.09
-Nodes (13): comparisonRows, decisionPoints, guidePaths, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails (+5 more)
+Cohesion: 0.15
+Nodes (5): guidePaths, heroEngines, heroSignals, proofPoints, testSurfaces
 
 ### Community 57 - "docs/start (11)"
-Cohesion: 0.17
-Nodes (11): Create a new project, Create your first tests, Cucumber, JUnit, Manage test data, Optional modular integrations, Quick start, Related (+3 more)
-
-### Community 58 - "docs/agentic (10)"
-Cohesion: 0.18
-Nodes (10): Claude Code, Claude Desktop, Codex CLI and IDE extension, Configure shaft-mcp manually, GitHub Copilot CLI, GitHub Copilot in IntelliJ IDEA, Prepare the JAR, dependencies, and argfile, Related (+2 more)
+Cohesion: 0.15
+Nodes (12): Add SHAFT dependencies, Choose your path, Create the test skeleton, Existing project upgrade, Manual creation, MCP integration, New project generation, Optional modular integrations (+4 more)
 
 ### Community 59 - "blog/2025-03-27-swagger-validation.md (10)"
 Cohesion: 0.20
@@ -518,8 +514,8 @@ Cohesion: 0.20
 Nodes (9): Add and enable the module, Deterministic decision policy, History and reports, Privacy and optional providers, Recover locators with Heal, Related, Source changes and limits, Strategy and Healenium coexistence (+1 more)
 
 ### Community 66 - "docs/agentic (9)"
-Cohesion: 0.15
-Nodes (12): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium or Playwright tests, Related (+4 more)
+Cohesion: 0.13
+Nodes (14): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium or Playwright tests, Manual configuration (+6 more)
 
 ### Community 67 - "docs/reference (9)"
 Cohesion: 0.22
@@ -702,8 +698,8 @@ Cohesion: 0.38
 Nodes (6): { GoogleGenAI }, MODELS_TO_TEST, runTests(), TEST_QUERIES, testModelAvailability(), testResponseRelevance()
 
 ### Community 114 - "tests/homepage-performance.test.js (7)"
-Cohesion: 0.29
-Nodes (5): fs, index, path, snippets, styles
+Cohesion: 0.33
+Nodes (4): fs, index, path, styles
 
 ### Community 115 - "docs/reference (7)"
 Cohesion: 0.25
@@ -962,8 +958,8 @@ Cohesion: 0.40
 Nodes (3): allowedTargets, catalog, seen
 
 ### Community 205 - "static/examples (1)"
-Cohesion: 0.25
-Nodes (5): docsRoot, pillarsGuide, publicDirectories, sidebars, sidebarsPath
+Cohesion: 0.20
+Nodes (6): docs, docsRoot, pillarsGuide, publicDirectories, sidebars, sidebarsPath
 
 ### Community 209 - "Community 209"
 Cohesion: 0.25
@@ -1002,19 +998,19 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1542 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1537 more)
+- **1529 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1524 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
+- **Why does `Relative (Location-Based) Locators` connect `docs/reference (6)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1542 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1529 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

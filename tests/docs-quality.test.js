@@ -32,7 +32,9 @@ function publicDocs(directory = docsRoot, files = []) {
   return files;
 }
 
-for (const {fullPath, relativePath} of publicDocs()) {
+const docs = publicDocs();
+
+for (const {fullPath, relativePath} of docs) {
   const content = readFileSync(fullPath, 'utf8');
   const fences = content.match(/```/g) ?? [];
   assert(fences.length % 2 === 0, `${relativePath} has an unbalanced fenced code block.`);
@@ -55,6 +57,25 @@ for (const {fullPath, relativePath} of publicDocs()) {
     }
   }
 }
+
+function docsContaining(pattern) {
+  return docs
+    .filter(({fullPath}) => pattern.test(readFileSync(fullPath, 'utf8')))
+    .map(({relativePath}) => relativePath);
+}
+
+assert(
+  docsContaining(/\b(?:MCP_CP|MCP_MAIN)\b/).every((relativePath) => relativePath === 'agentic/mcp.mdx'),
+  'Only agentic/mcp.mdx may contain runnable MCP classpath command snippets.',
+);
+assert(
+  docsContaining(/upgrade_to_modular_shaft\.py/).every((relativePath) => relativePath === 'start/upgrade.mdx'),
+  'Only start/upgrade.mdx may contain the upgrade script name or commands.',
+);
+assert(
+  docsContaining(/\/project-generator/).every((relativePath) => relativePath === 'start/installation.mdx'),
+  'Only start/installation.mdx may embed or link directly to the Project Generator route.',
+);
 
 const pillarsGuide = readFileSync(join(docsRoot, 'features/test-automation-pillars.mdx'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');

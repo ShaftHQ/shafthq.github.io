@@ -107,7 +107,7 @@ export function McpApplications(): JSX.Element {
       </div>
       <p className={styles.manualLink}>
         Need to inspect or edit the configuration yourself?{' '}
-        <Link to="/docs/agentic/mcp/manual">Open the manual configuration guide.</Link>
+        <Link to="/docs/agentic/mcp#manual-configuration">Open the manual configuration guide.</Link>
       </p>
     </div>
   );

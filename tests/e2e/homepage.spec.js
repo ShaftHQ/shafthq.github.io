@@ -4,67 +4,43 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
+  await expect(page.getByRole('heading', {name: /One Java test suite for web, mobile, API, DB, and CLI/})).toBeVisible();
   await expect(page.getByTestId('landing-hero-actions')).toBeVisible();
-  await expect(page.getByTestId('hero-onboarding-step-1')).toHaveText(
-    'Generate a project from installation docs.',
-  );
-  const onboardingSteps = page.locator('[data-testid^="hero-onboarding-step-"]');
-  await expect(onboardingSteps).toHaveText([
-    'Generate a project from installation docs.',
-    'Run the quick start and validate one passing web flow.',
-    'Add native mobile, API, DB, and CLI checks using the same framework controls.',
-    'Enable MCP only after evidence review, then tighten prompts and approval policy.',
-  ]);
 
   await Promise.all([
-    page.waitForURL('**/docs/start/installation*'),
+    page.waitForURL('**/docs/start/quick-start#new-project-generation'),
     page.getByTestId('landing-hero-install-cta').click(),
   ]);
-  await expect(page).toHaveURL(/\/docs\/start\/installation/);
+  await expect(page).toHaveURL(/\/docs\/start\/quick-start#new-project-generation/);
 
   await page.goto('/');
   await Promise.all([
-    page.waitForURL('**/docs/start/quick-start*'),
+    page.waitForURL('**/docs/start/quick-start#choose-your-path'),
     page.getByTestId('landing-hero-quickstart-cta').click(),
   ]);
-  await expect(page).toHaveURL(/\/docs\/start\/quick-start/);
+  await expect(page).toHaveURL(/\/docs\/start\/quick-start#choose-your-path/);
 
   await page.goto('/');
-  await expect(onboardingSteps).toHaveCount(4);
   const pathfinder = page.getByTestId('landing-pathfinder');
   await expect(pathfinder).toBeVisible();
-  await expect(pathfinder.getByRole('link', {name: /Generate a runnable project/})).toHaveAttribute('href', '/docs/start/installation');
-  await expect(pathfinder.getByRole('link', {name: /Review surfaces/})).toHaveAttribute('href', '#testing-surfaces');
-  await expect(page.getByTestId('hero-onboarding-step-3')).toBeVisible();
-  await expect(page.getByTestId('hero-onboarding-step-4')).toBeVisible();
-  await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/installation');
-  await expect(page.getByTestId('landing-cta-quickstart')).toHaveAttribute('href', '/docs/start/quick-start');
-  await page.getByTestId('landing-cta-agent').click();
-  await expect(page).toHaveURL('/#connect-ai-agent');
+  await expect(pathfinder.getByRole('link', {name: /Start a new SHAFT project/})).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
+  await expect(pathfinder.getByRole('link', {name: /Upgrade an existing project/})).toHaveAttribute('href', '/docs/start/quick-start#existing-project-upgrade');
+  await expect(pathfinder.getByRole('link', {name: /Connect MCP after the basics/})).toHaveAttribute('href', '/docs/start/quick-start#mcp-integration');
+  await expect(pathfinder.getByRole('link', {name: /Add coverage beyond the browser/})).toHaveAttribute('href', '#testing-surfaces');
+  await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
+  await expect(page.getByTestId('landing-cta-quickstart')).toHaveAttribute('href', '/docs/start/quick-start#choose-your-path');
 
   await page.goto('/');
   await expect(page.locator('#proof-section')).toBeVisible();
-  await expect(page.locator('#comparison-section')).toBeVisible();
-  await expect(page.locator('#workflow-section')).toBeVisible();
+  await expect(page.locator('#comparison-section')).toHaveCount(0);
+  await expect(page.locator('#workflow-section')).toHaveCount(0);
   await expect(page.locator('#get-started')).toBeVisible();
 });
 
-test('landing page exposes deterministic MCP action rows', async ({page}) => {
+test('landing page links to the canonical MCP command page', async ({page}) => {
   await page.goto('/');
 
   await page.getByTestId('landing-agent').scrollIntoViewIfNeeded();
-  await page.getByTestId('landing-agent-commands-summary').click();
-  await expect(page.getByTestId('landing-agent-commands')).toHaveAttribute('open', '');
-
-  const visibleApplications = page.locator('[data-testid^="mcp-app-"]');
-  const visibleCount = await visibleApplications.count();
-  expect(visibleCount).toBeGreaterThan(0);
-
-  for (let i = 0; i < visibleCount; i += 1) {
-    const row = visibleApplications.nth(i);
-    const command = row.locator('code[data-testid^="mcp-command-"]');
-    const copyButton = row.locator('button[data-testid^="mcp-copy-"]');
-    await expect(command).toBeVisible();
-    await expect(copyButton).toBeVisible();
-  }
+  await expect(page.getByTestId('landing-agent-mcp-link')).toHaveAttribute('href', '/docs/agentic/mcp');
+  await expect(page.locator('[data-testid^="mcp-app-"]')).toHaveCount(0);
 });

@@ -93,7 +93,8 @@ flowchart TD
 ### Prerequisites
 
 - A Maven project with at least one `pom.xml`.
-- Python 3.9 or newer. The script uses only the Python standard library.
+- Python 3.9 or newer available as `python`. The script uses only the Python
+  standard library.
 - Maven on `PATH`, or a project Maven wrapper (`mvnw`/`mvnw.cmd`).
 - A JDK compatible with the latest SHAFT release. Current SHAFT builds require
   JDK 25.
@@ -105,21 +106,8 @@ flowchart TD
 
 From the project that should be upgraded:
 
-Linux/macOS:
-
-```bash
-curl -fsSLo upgrade_to_modular_shaft.py \
-  https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py
-python3 upgrade_to_modular_shaft.py --project .
-```
-
-Windows PowerShell:
-
-```powershell
-Invoke-WebRequest `
-  https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py `
-  -OutFile upgrade_to_modular_shaft.py
-python .\upgrade_to_modular_shaft.py --project .
+```shell
+python -c "import runpy,sys,urllib.request as u;p='upgrade_to_modular_shaft.py';u.urlretrieve('https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py',p);sys.argv=[p,'--project','.'];runpy.run_path(p,run_name='__main__')"
 ```
 
 The script prints:
@@ -145,14 +133,14 @@ Agents and humans should choose one of three upgrade depths:
 `basic` is the default:
 
 ```bash
-python3 upgrade_to_modular_shaft.py --project . --upgrade-type basic
+python upgrade_to_modular_shaft.py --project . --upgrade-type basic
 ```
 
 For Selenium/Appium projects, opt into session or action migration explicitly:
 
 ```bash
-python3 upgrade_to_modular_shaft.py --project . --upgrade-type session
-python3 upgrade_to_modular_shaft.py --project . --upgrade-type full
+python upgrade_to_modular_shaft.py --project . --upgrade-type session
+python upgrade_to_modular_shaft.py --project . --upgrade-type full
 ```
 
 AI agents that use SHAFT MCP, Codex, Claude, or another automation shell should
@@ -160,7 +148,7 @@ ask for the user's preferred risk level before applying changes. The script can
 print the same decision menu as JSON without writing files or running Maven:
 
 ```bash
-python3 upgrade_to_modular_shaft.py --project . --agent-plan
+python upgrade_to_modular_shaft.py --project . --agent-plan
 ```
 
 The JSON response contains `basic`, `session`, and `full` entries with risk,
@@ -171,7 +159,7 @@ project is detected as Selenium or Appium.
 ### Preview without changing files
 
 ```bash
-python3 upgrade_to_modular_shaft.py --project . --dry-run
+python upgrade_to_modular_shaft.py --project . --dry-run
 ```
 
 Dry-run prints unified POM and optional source diffs for the selected
@@ -180,7 +168,7 @@ Dry-run prints unified POM and optional source diffs for the selected
 ### Non-interactive usage
 
 ```bash
-python3 upgrade_to_modular_shaft.py \
+python upgrade_to_modular_shaft.py \
   --project . \
   --yes \
   --report target/shaft-upgrade-report.json
@@ -381,7 +369,7 @@ OpenAI repair is disabled unless a key is supplied. The safest interactive
 setup avoids shell history:
 
 ```bash
-python3 upgrade_to_modular_shaft.py \
+python upgrade_to_modular_shaft.py \
   --project . \
   --prompt-for-openai-key
 ```
@@ -391,14 +379,7 @@ command:
 
 ```bash
 export OPENAI_API_KEY="..."
-python3 upgrade_to_modular_shaft.py --project . --yes
-```
-
-PowerShell:
-
-```powershell
-$env:OPENAI_API_KEY = "..."
-python .\upgrade_to_modular_shaft.py --project . --yes
+python upgrade_to_modular_shaft.py --project . --yes
 ```
 
 Do not paste a real API key into the script, `pom.xml`, source code, or a
