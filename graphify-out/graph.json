@@ -20,7 +20,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "demo_autobot_approach",
-      "community": 7,
+      "community": 223,
       "norm_label": "demo-autobot-approach.mjs"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "demo_autobot_approach_starttime",
-      "community": 7,
+      "community": 223,
       "norm_label": "starttime"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "demo_autobot_approach_documentation",
-      "community": 7,
+      "community": 223,
       "norm_label": "documentation"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "demo_autobot_approach_githubcontext",
-      "community": 7,
+      "community": 223,
       "norm_label": "githubcontext"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "demo_autobot_approach_keytopics",
-      "community": 7,
+      "community": 223,
       "norm_label": "keytopics"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "demo_autobot_approach_apidocstart",
-      "community": 7,
+      "community": 223,
       "norm_label": "apidocstart"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "demo_autobot_approach_samplequestions",
-      "community": 7,
+      "community": 223,
       "norm_label": "samplequestions"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "api_gemini_proxy",
-      "community": 7,
+      "community": 220,
       "norm_label": "gemini-proxy.js"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "api_gemini_proxy_loadindex",
-      "community": 7,
+      "community": 220,
       "norm_label": "loadindex()"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "api_gemini_proxy_getdocumentationcontext",
-      "community": 7,
+      "community": 220,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "api_gemini_proxy_onrequest",
-      "community": 7,
+      "community": 220,
       "norm_label": "onrequest()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_autobot_core",
-      "community": 7,
+      "community": 215,
       "norm_label": "autobot-core.mjs"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "functions_autobot_core_modelstotry",
-      "community": 7,
+      "community": 215,
       "norm_label": "modelstotry"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "functions_autobot_core_jsonresponse",
-      "community": 7,
+      "community": 215,
       "norm_label": "jsonresponse()"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "functions_autobot_core_messageformodelfailure",
-      "community": 7,
+      "community": 215,
       "norm_label": "messageformodelfailure()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "functions_autobot_core_createautobotresponse",
-      "community": 7,
+      "community": 215,
       "norm_label": "createautobotresponse()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_constants",
-      "community": 7,
+      "community": 215,
       "norm_label": "constants.mjs"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_docs_retrieval",
-      "community": 7,
+      "community": 217,
       "norm_label": "docs-retrieval.mjs"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "functions_docs_retrieval_stop_words",
-      "community": 7,
+      "community": 217,
       "norm_label": "stop_words"
     },
     {
@@ -360,7 +360,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "functions_docs_retrieval_tokenize",
-      "community": 7,
+      "community": 217,
       "norm_label": "tokenize()"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "functions_docs_retrieval_scorechunk",
-      "community": 7,
+      "community": 217,
       "norm_label": "scorechunk()"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "functions_docs_retrieval_retrievefromindex",
-      "community": 7,
+      "community": 217,
       "norm_label": "retrievefromindex()"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "functions_docs_retrieval_loaddocumentationfromindex",
-      "community": 7,
+      "community": 217,
       "norm_label": "loaddocumentationfromindex()"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_gemini_proxy",
-      "community": 7,
+      "community": 215,
       "norm_label": "gemini-proxy.mjs"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "functions_gemini_proxy_getdocumentationcontext",
-      "community": 7,
+      "community": 215,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_github_context",
-      "community": 7,
+      "community": 215,
       "norm_label": "github-context.mjs"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "functions_github_context_getgithubrepositorycontext",
-      "community": 7,
+      "community": 215,
       "norm_label": "getgithubrepositorycontext()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests",
-      "community": 7,
+      "community": 222,
       "norm_label": "run-shaft-tests.mjs"
     },
     {
@@ -1270,7 +1270,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_reporoot",
-      "community": 7,
+      "community": 222,
       "norm_label": "reporoot"
     },
     {
@@ -1280,7 +1280,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_releases",
-      "community": 7,
+      "community": 222,
       "norm_label": "releases"
     },
     {
@@ -1290,7 +1290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_findavailableport",
-      "community": 7,
+      "community": 222,
       "norm_label": "findavailableport()"
     },
     {
@@ -1300,7 +1300,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_isportavailable",
-      "community": 7,
+      "community": 222,
       "norm_label": "isportavailable()"
     },
     {
@@ -1310,7 +1310,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_issiteavailable",
-      "community": 7,
+      "community": 222,
       "norm_label": "issiteavailable()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_waitforsite",
-      "community": 7,
+      "community": 222,
       "norm_label": "waitforsite()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_commandinvocation",
-      "community": 7,
+      "community": 222,
       "norm_label": "commandinvocation()"
     },
     {
@@ -2520,7 +2520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cloudflare_autobot_test",
-      "community": 7,
+      "community": 220,
       "norm_label": "cloudflare-autobot.test.js"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_docs_loader_test",
-      "community": 7,
+      "community": 217,
       "norm_label": "docs-loader.test.js"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_docs_loader_test_assert",
-      "community": 7,
+      "community": 217,
       "norm_label": "assert()"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_docs_loader_test_index",
-      "community": 7,
+      "community": 217,
       "norm_label": "index"
     },
     {
@@ -2560,7 +2560,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_docs_loader_test_cases",
-      "community": 7,
+      "community": 217,
       "norm_label": "cases"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_docs_loader_test_mcpselection",
-      "community": 7,
+      "community": 217,
       "norm_label": "mcpselection"
     },
     {
@@ -2580,7 +2580,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_docs_loader_test_staticindexcontext",
-      "community": 7,
+      "community": 217,
       "norm_label": "staticindexcontext"
     },
     {
@@ -2590,7 +2590,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_docs_loader_test_selected",
-      "community": 7,
+      "community": 217,
       "norm_label": "selected"
     },
     {
@@ -2720,7 +2720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test",
-      "community": 7,
+      "community": 215,
       "norm_label": "enhanced-instruction.test.js"
     },
     {
@@ -2730,7 +2730,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_documentation",
-      "community": 7,
+      "community": 215,
       "norm_label": "documentation"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_githubcontext",
-      "community": 7,
+      "community": 215,
       "norm_label": "githubcontext"
     },
     {
@@ -3630,7 +3630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "worker_index",
-      "community": 7,
+      "community": 220,
       "norm_label": "index.js"
     },
     {
@@ -3640,7 +3640,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "worker_index_allowedorigins",
-      "community": 7,
+      "community": 220,
       "norm_label": "allowedorigins"
     },
     {
@@ -3650,7 +3650,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "worker_index_corsheaders",
-      "community": 7,
+      "community": 220,
       "norm_label": "corsheaders"
     },
     {
@@ -3660,7 +3660,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "worker_index_allowedorigin",
-      "community": 7,
+      "community": 220,
       "norm_label": "allowedorigin()"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "worker_index_withcors",
-      "community": 7,
+      "community": 220,
       "norm_label": "withcors()"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "worker_index_preflight",
-      "community": 7,
+      "community": 220,
       "norm_label": "preflight()"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "worker_index_fetch",
-      "community": 7,
+      "community": 220,
       "norm_label": "fetch()"
     },
     {
@@ -11499,7 +11499,7 @@
       "source_file": "docs/reference/actions/API/Response_Getters.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_api_response_getters_md",
+      "id": "api_response_getters",
       "community": 34,
       "norm_label": "response_getters.md"
     },
@@ -11534,10 +11534,30 @@
       "norm_label": "usage"
     },
     {
-      "label": "Get Response Status Code",
+      "label": "Map JSON Response To Types",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
       "source_location": "L27",
+      "_origin": "ast",
+      "id": "api_response_getters_map_json_response_to_types",
+      "community": 34,
+      "norm_label": "map json response to types"
+    },
+    {
+      "label": "Usage",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/API/Response_Getters.md",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "api_response_getters_usage_36",
+      "community": 34,
+      "norm_label": "usage"
+    },
+    {
+      "label": "Get Response Status Code",
+      "file_type": "document",
+      "source_file": "docs/reference/actions/API/Response_Getters.md",
+      "source_location": "L59",
       "_origin": "ast",
       "id": "api_response_getters_get_response_status_code",
       "community": 34,
@@ -11547,9 +11567,9 @@
       "label": "Usage",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L33",
+      "source_location": "L65",
       "_origin": "ast",
-      "id": "api_response_getters_usage_33",
+      "id": "api_response_getters_usage_65",
       "community": 34,
       "norm_label": "usage"
     },
@@ -11557,7 +11577,7 @@
       "label": "Get Response Time",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L41",
+      "source_location": "L73",
       "_origin": "ast",
       "id": "api_response_getters_get_response_time",
       "community": 34,
@@ -11567,9 +11587,9 @@
       "label": "Usage",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L47",
+      "source_location": "L79",
       "_origin": "ast",
-      "id": "api_response_getters_usage_47",
+      "id": "api_response_getters_usage_79",
       "community": 34,
       "norm_label": "usage"
     },
@@ -11577,7 +11597,7 @@
       "label": "Get Response JSON Value",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L56",
+      "source_location": "L88",
       "_origin": "ast",
       "id": "api_response_getters_get_response_json_value",
       "community": 34,
@@ -11587,9 +11607,9 @@
       "label": "Usage",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L64",
+      "source_location": "L96",
       "_origin": "ast",
-      "id": "api_response_getters_usage_64",
+      "id": "api_response_getters_usage_96",
       "community": 34,
       "norm_label": "usage"
     },
@@ -11597,7 +11617,7 @@
       "label": "Get Response JSON Value As List",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L72",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "api_response_getters_get_response_json_value_as_list",
       "community": 34,
@@ -11607,9 +11627,9 @@
       "label": "Usage",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L77",
+      "source_location": "L109",
       "_origin": "ast",
-      "id": "api_response_getters_usage_77",
+      "id": "api_response_getters_usage_109",
       "community": 34,
       "norm_label": "usage"
     },
@@ -11617,7 +11637,7 @@
       "label": "Get Response XML Value",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L87",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "api_response_getters_get_response_xml_value",
       "community": 34,
@@ -11627,7 +11647,7 @@
       "label": "Get Response XML Value As List",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L92",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "api_response_getters_get_response_xml_value_as_list",
       "community": 34,
@@ -11637,7 +11657,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L97",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "api_response_getters_related",
       "community": 34,
@@ -36047,10 +36067,10 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L97",
+      "source_location": "L127",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_api_response_getters_md",
+      "source": "api_response_getters",
       "target": "api_response_getters_related"
     },
     {
@@ -36060,7 +36080,7 @@
       "source_location": "L10",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "c_users_mohab_appdata_local_temp_shaft_graphify_296d0974617c4a82be15489de85d7b02_shafthq_github_io_docs_reference_actions_api_response_getters_md",
+      "source": "api_response_getters",
       "target": "api_response_getters_shaft_api_getters"
     },
     {
@@ -36137,6 +36157,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "api_response_getters_shaft_api_getters",
+      "target": "api_response_getters_map_json_response_to_types"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/API/Response_Getters.md",
       "source_location": "L19",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -36147,41 +36177,51 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L33",
+      "source_location": "L36",
       "weight": 1.0,
       "confidence_score": 1.0,
+      "source": "api_response_getters_map_json_response_to_types",
+      "target": "api_response_getters_usage_36"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/actions/API/Response_Getters.md",
+      "source_location": "L65",
+      "weight": 1.0,
       "source": "api_response_getters_get_response_status_code",
-      "target": "api_response_getters_usage_33"
+      "target": "api_response_getters_usage_65",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L47",
+      "source_location": "L79",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "api_response_getters_get_response_time",
-      "target": "api_response_getters_usage_47"
+      "target": "api_response_getters_usage_79",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L64",
+      "source_location": "L96",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "api_response_getters_get_response_json_value",
-      "target": "api_response_getters_usage_64"
+      "target": "api_response_getters_usage_96",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/actions/API/Response_Getters.md",
-      "source_location": "L77",
+      "source_location": "L109",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "api_response_getters_get_response_json_value_as_list",
-      "target": "api_response_getters_usage_77"
+      "target": "api_response_getters_usage_109",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -47125,5 +47165,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9ab068947b74096e36a8e09add5ec12a3f096c89"
+  "built_at_commit": "a2ed9f7a7bb6328167242e6577b94809a301b922"
 }
