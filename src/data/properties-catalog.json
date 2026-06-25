@@ -739,7 +739,7 @@
     "section": "Allure",
     "key": "allure.customLogo",
     "targetFile": "custom.properties",
-    "defaultValue": "https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/images/shaft.png?raw=true",
+    "defaultValue": "https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/images/shaft_report_logo.png?raw=true",
     "possibleValues": "URL or local file path",
     "description": "URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report."
   },
@@ -750,6 +750,14 @@
     "defaultValue": "SHAFT-powered test report",
     "possibleValues": "Any string",
     "description": "Custom title displayed in the header of the generated Allure report."
+  },
+  {
+    "section": "Allure",
+    "key": "allure.theme",
+    "targetFile": "custom.properties",
+    "defaultValue": "auto",
+    "possibleValues": "auto, light, dark",
+    "description": "Controls the default Allure 3 Awesome report color mode. SHAFT also applies its official guide color tokens to generated Allure 3 reports."
   },
   {
     "section": "Allure",
@@ -771,9 +779,9 @@
     "section": "Allure",
     "key": "allure.groupBy",
     "targetFile": "custom.properties",
-    "defaultValue": "parentSuite,suite,subSuite",
+    "defaultValue": "package,testClass",
     "possibleValues": "Comma-separated Allure label names",
-    "description": "Controls the Allure 3 Awesome plugin groupBy hierarchy. Common values include epic,feature,story and package,class,method."
+    "description": "Controls the Allure 3 Awesome plugin groupBy hierarchy. Common values include epic,feature,story and parentSuite,suite,subSuite."
   },
   {
     "section": "Allure",

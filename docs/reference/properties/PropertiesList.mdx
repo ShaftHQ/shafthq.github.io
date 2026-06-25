@@ -569,7 +569,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
     .singleFile(true)
     .reportLanguage("en")
     .open(false)
-    .groupBy("parentSuite,suite,subSuite");
+    .groupBy("package,testClass");
   ```
 
   </TabItem>
@@ -588,7 +588,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   allure.singleFile=true
   allure.reportLanguage=en
   allure.open=false
-  allure.groupBy=parentSuite,suite,subSuite
+  allure.groupBy=package,testClass
   ```
 
   </TabItem>
@@ -607,7 +607,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.singleFile             | `true`                                                                                                                                           | `true`, `false`                                              | • Controls the Allure 3 Awesome plugin `singleFile` option. When `true`, the report is generated as a self-contained HTML file.                                      |
 | allure.reportLanguage         | `en`                                                                                                                                             | Language code, such as `en`, `fr`, or `ru`                   | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI.                                                                     |
 | allure.open                   | `false`                                                                                                                                          | `true`, `false`                                              | • Controls the Allure 3 Awesome plugin `open` option passed to Allure CLI report generation.                                                                        |
-| allure.groupBy                | `parentSuite,suite,subSuite`                                                                                                                     | Comma-separated Allure label names                           | • Controls the Allure 3 Awesome plugin `groupBy` hierarchy. Common values include `epic,feature,story` and `package,class,method`.                                  |
+| allure.groupBy                | `package,testClass`                                                                                                                              | Comma-separated Allure label names                           | • Controls the Allure 3 Awesome plugin `groupBy` hierarchy. Common values include `epic,feature,story` and `parentSuite,suite,subSuite`.                             |
 
   </TabItem>
 </Tabs>
