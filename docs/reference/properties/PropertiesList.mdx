@@ -499,13 +499,16 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   /** get **/
   var captureElementName = SHAFT.Properties.reporting.captureElementName();
   var locatorHealthReportEnabled = SHAFT.Properties.reporting.locatorHealthReportEnabled();
+  var traceMode = SHAFT.Properties.reporting.traceMode();
 
   /** set **/
   SHAFT.Properties.reporting.set()
       .captureElementName(false)
       .locatorHealthReportEnabled(true)
       .slowLocatorThresholdMillis(750)
-      .failOnLocatorHealthWarnings(false);
+      .failOnLocatorHealthWarnings(false)
+      .traceEnabled(true)
+      .traceMode("failure");
   ```
 
   </TabItem>
@@ -527,6 +530,14 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | locatorHealthReportEnabled                    | `false`       | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
 | slowLocatorThresholdMillis                    | `750`         | Integer milliseconds | • Mark locator lookups at or above this duration as slow warnings. |
 | failOnLocatorHealthWarnings                   | `false`       | `true`, `false` | • Fail the run when locator health warnings are present. |
+| shaft.trace.enabled                           | `true`        | `true`, `false` | • Attach SHAFT failure trace viewer artifacts to Allure. |
+| shaft.trace.mode                              | `failure`     | `failure`, `retry`, `always` | • Control whether traces are generated on failures, retry attempts, or every test. |
+| shaft.trace.includeCodeContext                | `true`        | `true`, `false` | • Include the best matching project source-code frame and snippet. |
+| shaft.trace.includeFullPageSnapshots          | `true`        | `true`, `false` | • Include web page snapshots when available. |
+| shaft.trace.includeNativePageSource           | `true`        | `true`, `false` | • Include native mobile page source when available. |
+| shaft.trace.includeNetwork                    | `true`        | `true`, `false` | • Reserve network evidence in the trace metadata. |
+| shaft.trace.includeConsole                    | `true`        | `true`, `false` | • Reserve console evidence in the trace metadata. |
+| shaft.trace.maxArtifactMb                     | `50`          | Integer megabytes | • Maximum size for a single trace bundle entry. |
 
   </TabItem>
 </Tabs>

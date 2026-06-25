@@ -704,6 +704,70 @@
     "description": "Open Lighthouse performance report during execution."
   },
   {
+    "section": "Reporting",
+    "key": "shaft.trace.enabled",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Attach SHAFT failure trace viewer artifacts to Allure."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.mode",
+    "targetFile": "custom.properties",
+    "defaultValue": "failure",
+    "possibleValues": "failure, retry, always",
+    "description": "Control whether traces are generated on failures, retry attempts, or every test."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.includeCodeContext",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include the best matching project source-code frame and snippet."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.includeFullPageSnapshots",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include web page snapshots when available."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.includeNativePageSource",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Include native mobile page source when available."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.includeNetwork",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Reserve network evidence in the trace metadata."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.includeConsole",
+    "targetFile": "custom.properties",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Reserve console evidence in the trace metadata."
+  },
+  {
+    "section": "Reporting",
+    "key": "shaft.trace.maxArtifactMb",
+    "targetFile": "custom.properties",
+    "defaultValue": "50",
+    "possibleValues": "integer megabytes",
+    "description": "Maximum size for a single trace bundle entry."
+  },
+  {
     "section": "Allure",
     "key": "allure.accumulateHistory",
     "targetFile": "custom.properties",

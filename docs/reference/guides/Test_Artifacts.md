@@ -22,6 +22,7 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Screenshots** | Attached inside `allure-results/` | Automatically captured on validation and failure |
 | **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `videoParams_recordVideo=true` |
 | **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `createAnimatedGif=true` |
+| **Failure trace viewer** | Attached inside `allure-results/` | `SHAFT Trace Report.html`, `shaft-trace.json`, and `shaft-trace.zip` on failed tests by default |
 
 :::info
 All paths are relative to your project root directory.
@@ -36,6 +37,7 @@ The Allure report is the **primary artifact** from every SHAFT test run. It cont
 - Step-by-step action logs
 - Screenshots attached at each validation point
 - Video recordings and animated GIFs (when enabled)
+- Failure trace viewer attachments for failed tests
 - Test history and trend graphs across multiple runs
 - Environment metadata
 
@@ -121,6 +123,7 @@ Always use `if: always()` (GitHub Actions) or `post { always { } }` (Jenkins) so
 | `videoParams_recordVideo` | `false` | Record video of each test session |
 | `createAnimatedGif` | `false` | Create an animated GIF; retry attempts can enable it automatically |
 | `allure.generateArchive` | `false` | Generate a portable ZIP archive of the report |
+| `shaft.trace.mode` | `failure` | Attach failure trace viewer artifacts on `failure`, `retry`, or `always` |
 
 For the full list of reporting properties, see the
 [Properties List](/docs/reference/properties/PropertiesList).
