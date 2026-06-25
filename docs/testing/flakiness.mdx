@@ -117,6 +117,29 @@ Keep the retry budget small. A pass-after-retry is still a flaky signal that
 should be reviewed; the value is that the retry attempt carries enough evidence
 to tell timing, locator, environment, and product failures apart.
 
+## Flake Profiler
+
+The flake profiler is disabled by default. Enable it when you need a run-level
+and per-test view of where time is going during element actions, assertions,
+wait polling, retries, and evidence capture.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+The Allure attachments show slow actions, wait-heavy actions, locator lookup
+counts, match counts, stale element retries, healing attempts, retry history,
+and evidence costs. Element action duration excludes screenshot capture and
+report attachment time, while assertion and verification duration is measured
+around the validation step itself.
+
+Leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` during investigation.
+Use the JSON profile to set a realistic `shaft.flakeProfiler.slowActionThresholdMs`
+before making severe flake risk fail the run.
+
 ## Optional Self Healing
 
 For web locator churn that survives the locator strategy above, SHAFT Heal can
@@ -147,6 +170,7 @@ show why a candidate was accepted or rejected.
 | --- | --- | --- |
 | Generated IDs, wrapper markup, or CSS churn | Smart Locators and ARIA locators | Tests follow user-facing meaning instead of DOM implementation. |
 | Clicks before render, XHR, or framework settling | Built-in synchronization and explicit waits | Timing policy lives in one engine path. |
+| Unknown action or assertion slowdown | Flake profiler | Allure shows action, wait, retry, and evidence timings separately. |
 | Intermittent CI browser or infrastructure blips | Small retry budget with retry evidence | The suite can classify a transient failure without losing the original signal. |
 | A known web locator changed after a release | SHAFT Heal | Recovery is bounded, trust-gated, and reported. |
 | Hard-to-triage failures | Allure evidence, Doctor, and retry diagnostics | The failure carries screenshots, logs, source snapshots, and retry context. |

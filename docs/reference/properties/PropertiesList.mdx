@@ -500,6 +500,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   var captureElementName = SHAFT.Properties.reporting.captureElementName();
   var locatorHealthEnabled = SHAFT.Properties.reporting.locatorHealthEnabled();
   var locatorHealthWarnBelowScore = SHAFT.Properties.reporting.locatorHealthWarnBelowScore();
+  var flakeProfilerEnabled = SHAFT.Properties.reporting.flakeProfilerEnabled();
   var diagnosticsBundleEnabled = SHAFT.Properties.reporting.diagnosticsBundleEnabled();
   var traceMode = SHAFT.Properties.reporting.traceMode();
 
@@ -512,6 +513,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
       .locatorHealthFailBelowScore(-1)
       .slowLocatorThresholdMillis(750)
       .failOnLocatorHealthWarnings(false)
+      .flakeProfilerEnabled(true)
+      .flakeProfilerAttachPerTest(true)
+      .flakeProfilerFailOnSevereFlakeRisk(false)
+      .flakeProfilerSlowActionThresholdMs(2000)
       .diagnosticsBundleEnabled(true)
       .diagnosticsMaxArtifactMb(50)
       .traceEnabled(true)
@@ -541,6 +546,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | shaft.locatorHealth.failBelowScore            | `-1`          | `-1` or `0` to `100` | • Fail the run when any locator score is below this threshold; `-1` disables score-based failure. |
 | slowLocatorThresholdMillis                    | `750`         | Integer milliseconds | • Mark locator lookups at or above this duration as slow warnings. |
 | failOnLocatorHealthWarnings                   | `false`       | `true`, `false` | • Fail the run when locator health warnings are present. |
+| shaft.flakeProfiler.enabled                   | `false`       | `true`, `false` | • Attach opt-in flake and auto-wait timing profiles to Allure. |
+| shaft.flakeProfiler.attachPerTest             | `true`        | `true`, `false` | • Attach each test's JSON/HTML profile when profiler signals exist. |
+| shaft.flakeProfiler.failOnSevereFlakeRisk     | `false`       | `true`, `false` | • Fail the run when severe flake-risk actions are found. |
+| shaft.flakeProfiler.slowActionThresholdMs     | `2000`        | Integer milliseconds | • Duration threshold used to flag slow and severe-risk actions. |
 | shaft.diagnostics.enabled                     | `true`        | `true`, `false` | • Attach `shaft-diagnostics.zip` with sanitized `diagnostics.json` for failed and broken tests. |
 | shaft.diagnostics.maxArtifactMb               | `50`          | Integer megabytes | • Maximum size for a single diagnostics ZIP entry. |
 | shaft.trace.enabled                           | `true`        | `true`, `false` | • Attach SHAFT failure trace viewer artifacts to Allure. |

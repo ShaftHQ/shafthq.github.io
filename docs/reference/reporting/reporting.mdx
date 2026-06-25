@@ -396,6 +396,58 @@ baseline. The legacy `locatorHealthReportEnabled=true` and
 
 ---
 
+## Flake and Auto-Wait Profiler
+
+The **Flake and Auto-Wait Profiler** is disabled by default. Enable it when you
+want Allure attachments that explain slow element actions, assertions, retries,
+wait polling, locator churn, and evidence overhead.
+
+SHAFT attaches `flake-profile.json` and `Flake Profile` HTML for tests that
+produce profiler signals. The suite-level profile is attached during engine
+tear down. Element action duration excludes screenshot capture and report
+attachment time; those costs are recorded separately as screenshot, page
+snapshot, and report attachment evidence. Assertion and verification duration
+is measured around the validation step itself.
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -Dshaft.flakeProfiler.enabled=true -Dshaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.reporting.set()
+    .flakeProfilerEnabled(true)
+    .flakeProfilerAttachPerTest(true)
+    .flakeProfilerFailOnSevereFlakeRisk(false)
+    .flakeProfilerSlowActionThresholdMs(2000);
+```
+
+  </TabItem>
+</Tabs>
+
+Keep `shaft.flakeProfiler.failOnSevereFlakeRisk=false` while collecting a
+baseline. Turn it on only after the suite has a realistic slow-action
+threshold.
+
+---
+
 ## Video Recording
 
 SHAFT can record a video of every test session and automatically attach it to the Allure report. There is no code change required — it is purely a property:
@@ -577,6 +629,10 @@ Key properties quick reference:
 | `shaft.locatorHealth.failBelowScore` | `-1` | Fail the run when any locator score is below this threshold; `-1` disables score-based failure |
 | `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |
 | `failOnLocatorHealthWarnings` | `false` | Fail the run when locator health warnings are present |
+| `shaft.flakeProfiler.enabled` | `false` | Attach opt-in flake and auto-wait timing profiles to Allure |
+| `shaft.flakeProfiler.attachPerTest` | `true` | Attach each test's JSON/HTML profile when profiler signals exist |
+| `shaft.flakeProfiler.failOnSevereFlakeRisk` | `false` | Fail the run when severe flake-risk actions are found |
+| `shaft.flakeProfiler.slowActionThresholdMs` | `2000` | Duration threshold used to flag slow and severe-risk actions |
 | `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
 | `shaft.trace.mode` | `failure` | Trace mode: `failure`, `retry`, or `always` |
 | `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
