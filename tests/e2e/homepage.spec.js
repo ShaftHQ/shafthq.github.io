@@ -31,6 +31,10 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
 
   await page.goto('/');
   await expect(onboardingSteps).toHaveCount(4);
+  const pathfinder = page.getByTestId('landing-pathfinder');
+  await expect(pathfinder).toBeVisible();
+  await expect(pathfinder.getByRole('link', {name: /Generate a runnable project/})).toHaveAttribute('href', '/docs/start/installation');
+  await expect(pathfinder.getByRole('link', {name: /Review surfaces/})).toHaveAttribute('href', '#testing-surfaces');
   await expect(page.getByTestId('hero-onboarding-step-3')).toBeVisible();
   await expect(page.getByTestId('hero-onboarding-step-4')).toBeVisible();
   await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/installation');

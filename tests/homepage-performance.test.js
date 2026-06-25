@@ -37,6 +37,7 @@ assert(
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');
 assert(index.includes('data-testid="landing-hero"'), 'Homepage must expose a stable hero test hook.');
+assert(index.includes('data-testid="landing-pathfinder"'), 'Homepage must expose a guide pathfinder hook.');
 assert(index.includes('data-testid="landing-comparison"'), 'Homepage must expose comparison-section test hooks.');
 assert(index.includes('data-testid="landing-agent"'), 'Homepage must expose an agent-section test hook.');
 assert(index.includes('data-testid="landing-final"'), 'Homepage must expose final CTA test hook.');
@@ -50,6 +51,7 @@ assert(index.includes('hero-onboarding-step-2'), 'Landing hero should expose onb
 assert(index.includes('hero-onboarding-step-3'), 'Landing hero should expose onboarding step 3 hook.');
 assert(index.includes('hero-onboarding-step-4'), 'Landing hero should expose onboarding step 4 hook.');
 assert(index.includes('id="proof-section"'), 'Landing proof section must expose a stable anchor.');
+assert(index.includes('id="guide-paths"'), 'Landing guide path section must expose a stable anchor.');
 assert(index.includes('id="surface-section"'), 'Landing surface section must expose a stable anchor.');
 assert(index.includes('id="comparison-section"'), 'Landing comparison section must expose a stable anchor.');
 assert(index.includes('id="workflow-section"'), 'Landing workflow section must expose a stable anchor.');
