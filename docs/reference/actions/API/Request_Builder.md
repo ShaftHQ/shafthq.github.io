@@ -2,8 +2,8 @@
 id: Request_Builder
 title: Request Builder
 sidebar_label: Request Builder
-description: "Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, and body configuration."
-keywords: [SHAFT, API testing, request builder, REST API, GET, POST, PUT, PATCH, DELETE, authentication, REST Assured]
+description: "Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, body configuration, and request-level retries."
+keywords: [SHAFT, API testing, request builder, REST API, GET, POST, PUT, PATCH, DELETE, authentication, REST Assured, retry, backoff]
 tags: [api, request, rest-assured, http]
 ---
 
@@ -101,6 +101,37 @@ Sets the expected target status code for the API request that you're currently b
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/users").setTargetStatusCode(200).perform();
 ```
+
+### Retry Policy
+`perform()` sends a request once unless you add an opt-in retry policy. Retries are useful for transient network failures, timeouts, rate limits, and temporary upstream errors without rerunning the whole test method.
+
+```java
+import com.shaft.api.RetryPolicy;
+import java.time.Duration;
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.get("/users")
+   .withRetry(RetryPolicy.transientFailures()
+       .maxAttempts(3)
+       .exponentialBackoff(Duration.ofMillis(200), Duration.ofSeconds(2)))
+   .perform();
+```
+
+`RetryPolicy.transientFailures()` retries network, connection, and read-timeout failures plus HTTP `408`, `429`, `500`, `502`, `503`, and `504`. Use `RetryPolicy.statusCodes(503, 504)` when you only want specific statuses.
+
+By default, SHAFT retries only idempotent requests: `GET`, `PUT`, and `DELETE`. For `POST` or `PATCH`, opt in only when the endpoint is safe to repeat:
+
+```java
+api.post("/orders")
+   .withRetry(RetryPolicy.statusCodes(503)
+       .maxAttempts(2)
+       .fixedBackoff(Duration.ofMillis(500))
+       .allowNonIdempotentRequests())
+   .perform();
+```
+
+Backoff can be fixed, exponential, or jittered. SHAFT reports include the retry attempt count and final outcome for requests that use a retry policy.
 
 ### Set Content Type
 Sets the content type for the API request that you're currently building.
