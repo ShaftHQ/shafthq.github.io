@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~245,172 words
+- 223 files · ~245,278 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2343 nodes · 2346 edges · 220 communities (188 shown, 32 thin omitted)
+- 2345 nodes · 2348 edges · 225 communities (193 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9ab06894`
+- Built from commit: `a2ed9f7a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -227,10 +227,15 @@
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
 - [[_COMMUNITY_Community 214|Community 214]]
+- [[_COMMUNITY_Community 215|Community 215]]
 - [[_COMMUNITY_Community 216|Community 216]]
+- [[_COMMUNITY_Community 217|Community 217]]
 - [[_COMMUNITY_Community 218|Community 218]]
 - [[_COMMUNITY_Community 219|Community 219]]
+- [[_COMMUNITY_Community 220|Community 220]]
 - [[_COMMUNITY_Community 221|Community 221]]
+- [[_COMMUNITY_Community 222|Community 222]]
+- [[_COMMUNITY_Community 223|Community 223]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 37 edges
@@ -245,21 +250,21 @@
 10. `SHAFT API Response Validations` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
+  scripts/run-shaft-tests.mjs → worker/index.js
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `fetchText()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `loadIndex()` --calls--> `fetch()`  [INFERRED]
   functions/api/gemini-proxy.js → worker/index.js
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
   functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (220 total, 32 thin omitted)
+## Communities (225 total, 32 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -290,8 +295,8 @@ Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.05
-Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+43 more)
+Cohesion: 0.19
+Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -394,8 +399,8 @@ Cohesion: 0.23
 Nodes (14): addTestResult(), documentE2ETests(), { execSync }, fs, generateReport(), isApiKeyError(), main(), path (+6 more)
 
 ### Community 34 - "docs/reference (14)"
-Cohesion: 0.13
-Nodes (14): Get Response Body, Get Response JSON Value, Get Response JSON Value As List, Get Response Status Code, Get Response Time, Get Response XML Value, Get Response XML Value As List, Related (+6 more)
+Cohesion: 0.12
+Nodes (16): Get Response Body, Get Response JSON Value, Get Response JSON Value As List, Get Response Status Code, Get Response Time, Get Response XML Value, Get Response XML Value As List, Map JSON Response To Types (+8 more)
 
 ### Community 35 - "docs/reference (14)"
 Cohesion: 0.14
@@ -985,9 +990,17 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 Cohesion: 0.40
 Nodes (4): Task 1: Guard The Requested Page, Task 2: Add The Guide, Task 3: Validate And Publish, Test Automation Pillars Guide Implementation Plan
 
+### Community 215 - "Community 215"
+Cohesion: 0.26
+Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
+
 ### Community 216 - "Community 216"
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
+
+### Community 217 - "Community 217"
+Cohesion: 0.19
+Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
 
 ### Community 218 - "Community 218"
 Cohesion: 0.67
@@ -997,20 +1010,30 @@ Nodes (3): browserslist, development, production
 Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
+### Community 220 - "Community 220"
+Cohesion: 0.30
+Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
+
+### Community 222 - "Community 222"
+Cohesion: 0.32
+Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
+
+### Community 223 - "Community 223"
+Cohesion: 0.29
+Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
+
 ## Knowledge Gaps
-- **1529 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1524 more)
+- **1530 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1525 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Relative (Location-Based) Locators` connect `docs/reference (6)` to `docs/reference (7)`?**
+- **Why does `fetch()` connect `Community 220` to `static/img (5)`, `Community 222`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1529 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1530 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -1019,3 +1042,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+- **Should `docs/reference (38)` be split into smaller, more focused modules?**
+  _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._

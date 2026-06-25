@@ -2,8 +2,8 @@
 id: Response_Getters
 title: Response Getters
 sidebar_label: Response Parsing
-description: "Extract and parse API response data — body, status code, response time, JSON values, and XML values using SHAFT Engine."
-keywords: [SHAFT, API response, response parsing, JSONPath, XML, status code, response time, REST API]
+description: "Extract and parse API response data — body, typed JSON objects, status code, response time, JSON values, and XML values using SHAFT Engine."
+keywords: [SHAFT, API response, response parsing, typed response, JSONPath, XML, status code, response time, REST API]
 tags: [api, response, parsing, json]
 ---
 
@@ -23,6 +23,38 @@ api.get("us/90210").perform();
 String body = api.getResponseBody();
 SHAFT.Validations.assertThat().object(body).contains("Beverly Hills");
 ```
+
+### Map JSON Response To Types
+Maps the latest JSON response body to a Java class, record, list, or generic `TypeReference`.
+
+```java
+User user = api.getResponseAs(User.class);
+List<User> users = api.getResponseAsList(User.class);
+List<User> usersByType = api.getResponseAs(new TypeReference<List<User>>() {});
+```
+
+#### Usage
+```java
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+record User(int id, String name) {}
+
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+
+api.get("/users/1").setTargetStatusCode(200).perform();
+User user = api.getResponseAs(User.class);
+
+api.get("/users").setTargetStatusCode(200).perform();
+List<User> users = api.getResponseAsList(User.class);
+
+List<User> usersByType = api.getResponseAs(new TypeReference<List<User>>() {});
+```
+
+Typed mapping expects a JSON response content type and a non-empty body. SHAFT throws clear exceptions for empty bodies, non-JSON responses, and mapping failures.
 
 ### Get Response Status Code
 Extracts the response status code as integer
