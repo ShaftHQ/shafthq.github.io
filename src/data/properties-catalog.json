@@ -2291,7 +2291,7 @@
     "section": "TestNG",
     "key": "setVerbose",
     "targetFile": "TestNG.properties",
-    "defaultValue": "1",
+    "defaultValue": "0",
     "possibleValues": "",
     "description": "Set Verbose setting."
   },
