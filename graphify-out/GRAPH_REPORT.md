@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-25)
 
 ## Corpus Check
-- 223 files · ~246,220 words
+- 223 files · ~245,172 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2352 nodes · 2355 edges · 220 communities (188 shown, 32 thin omitted)
+- 2343 nodes · 2346 edges · 220 communities (188 shown, 32 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `7befc187`
+- Built from commit: `9ab06894`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -478,8 +478,8 @@ Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
 ### Community 56 - "src/pages (11)"
-Cohesion: 0.09
-Nodes (12): comparisonRows, decisionPoints, guidePaths, heroEngines, heroSignals, onboardingSteps, proofPoints, sharedRails (+4 more)
+Cohesion: 0.15
+Nodes (5): guidePaths, heroEngines, heroSignals, proofPoints, testSurfaces
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.15
@@ -998,7 +998,7 @@ Cohesion: 0.25
 Nodes (7): Automatic Synchronization, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
 ## Knowledge Gaps
-- **1536 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1531 more)
+- **1529 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1524 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1007,10 +1007,10 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Traditional Locators vs. SHAFT Locator Builder` connect `docs/reference (4)` to `docs/reference (7)`?**
+- **Why does `Relative (Location-Based) Locators` connect `docs/reference (6)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1536 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1529 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

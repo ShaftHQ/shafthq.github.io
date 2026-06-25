@@ -4,17 +4,8 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
+  await expect(page.getByRole('heading', {name: /One Java test suite for web, mobile, API, DB, and CLI/})).toBeVisible();
   await expect(page.getByTestId('landing-hero-actions')).toBeVisible();
-  await expect(page.getByTestId('hero-onboarding-step-1')).toHaveText(
-    'Choose the new-project path in the quick start.',
-  );
-  const onboardingSteps = page.locator('[data-testid^="hero-onboarding-step-"]');
-  await expect(onboardingSteps).toHaveText([
-    'Choose the new-project path in the quick start.',
-    'Run the generated project and validate one passing web flow.',
-    'Add native mobile, API, DB, and CLI checks using the same framework controls.',
-    'Connect MCP from the quick start after the suite compiles.',
-  ]);
 
   await Promise.all([
     page.waitForURL('**/docs/start/quick-start#new-project-generation'),
@@ -30,24 +21,19 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await expect(page).toHaveURL(/\/docs\/start\/quick-start#choose-your-path/);
 
   await page.goto('/');
-  await expect(onboardingSteps).toHaveCount(4);
   const pathfinder = page.getByTestId('landing-pathfinder');
   await expect(pathfinder).toBeVisible();
   await expect(pathfinder.getByRole('link', {name: /Start a new SHAFT project/})).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
   await expect(pathfinder.getByRole('link', {name: /Upgrade an existing project/})).toHaveAttribute('href', '/docs/start/quick-start#existing-project-upgrade');
   await expect(pathfinder.getByRole('link', {name: /Connect MCP after the basics/})).toHaveAttribute('href', '/docs/start/quick-start#mcp-integration');
-  await expect(pathfinder.getByRole('link', {name: /Review surfaces/})).toHaveAttribute('href', '#testing-surfaces');
-  await expect(page.getByTestId('hero-onboarding-step-3')).toBeVisible();
-  await expect(page.getByTestId('hero-onboarding-step-4')).toBeVisible();
+  await expect(pathfinder.getByRole('link', {name: /Add coverage beyond the browser/})).toHaveAttribute('href', '#testing-surfaces');
   await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
   await expect(page.getByTestId('landing-cta-quickstart')).toHaveAttribute('href', '/docs/start/quick-start#choose-your-path');
-  await page.getByTestId('landing-cta-agent').click();
-  await expect(page).toHaveURL(/\/docs\/start\/quick-start#mcp-integration/);
 
   await page.goto('/');
   await expect(page.locator('#proof-section')).toBeVisible();
-  await expect(page.locator('#comparison-section')).toBeVisible();
-  await expect(page.locator('#workflow-section')).toBeVisible();
+  await expect(page.locator('#comparison-section')).toHaveCount(0);
+  await expect(page.locator('#workflow-section')).toHaveCount(0);
   await expect(page.locator('#get-started')).toBeVisible();
 });
 

@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "src/pages/index.tsx": {
-    "mtime": 1782401678.6155233,
-    "ast_hash": "dd07ca8eb0ed4f3b3c9b55590ec10f44",
+    "mtime": 1782408473.2995434,
+    "ast_hash": "1dcad9979e40687076d87d690aede188",
     "semantic_hash": ""
   },
   "src/pages/project-generator.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1782401718.6868708,
-    "ast_hash": "534a3e3dbd4469106f77871f6369a627",
+    "mtime": 1782408654.3679948,
+    "ast_hash": "561b0d57afb0aa244074ff46602ab073",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "tests/homepage-performance.test.js": {
-    "mtime": 1782401694.393115,
-    "ast_hash": "e1154103972422b52b05ece4e3178bfa",
+    "mtime": 1782408732.785215,
+    "ast_hash": "225d3dfa09baf718ce73d44deb471707",
     "semantic_hash": ""
   },
   "tests/properties-catalog.test.js": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java": {
-    "mtime": 1782402664.805102,
-    "ast_hash": "73f78b682f620a29d23acdfb821e1465",
+    "mtime": 1782408696.2638326,
+    "ast_hash": "553aa2650b714dfa476147ab97698e45",
     "semantic_hash": ""
   },
   "tsconfig.json": {

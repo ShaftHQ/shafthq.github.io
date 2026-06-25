@@ -2034,40 +2034,20 @@
       "norm_label": "proofpoints"
     },
     {
-      "label": "decisionPoints",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L60",
-      "_origin": "ast",
-      "id": "pages_index_decisionpoints",
-      "community": 56,
-      "norm_label": "decisionpoints"
-    },
-    {
       "label": "heroEngines",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L79",
+      "source_location": "L60",
       "_origin": "ast",
       "id": "pages_index_heroengines",
       "community": 56,
       "norm_label": "heroengines"
     },
     {
-      "label": "onboardingSteps",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L97",
-      "_origin": "ast",
-      "id": "pages_index_onboardingsteps",
-      "community": 56,
-      "norm_label": "onboardingsteps"
-    },
-    {
       "label": "guidePaths",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L116",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "pages_index_guidepaths",
       "community": 56,
@@ -2077,67 +2057,17 @@
       "label": "heroSignals",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L147",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "pages_index_herosignals",
       "community": 56,
       "norm_label": "herosignals"
     },
     {
-      "label": "telemetryRows",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L162",
-      "_origin": "ast",
-      "id": "pages_index_telemetryrows",
-      "community": 56,
-      "norm_label": "telemetryrows"
-    },
-    {
-      "label": "surfaceMap",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L180",
-      "_origin": "ast",
-      "id": "pages_index_surfacemap",
-      "community": 56,
-      "norm_label": "surfacemap"
-    },
-    {
-      "label": "sharedRails",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L201",
-      "_origin": "ast",
-      "id": "pages_index_sharedrails",
-      "community": 56,
-      "norm_label": "sharedrails"
-    },
-    {
-      "label": "comparisonRows",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L208",
-      "_origin": "ast",
-      "id": "pages_index_comparisonrows",
-      "community": 56,
-      "norm_label": "comparisonrows"
-    },
-    {
-      "label": "workflowSteps",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L226",
-      "_origin": "ast",
-      "id": "pages_index_workflowsteps",
-      "community": 56,
-      "norm_label": "workflowsteps"
-    },
-    {
       "label": "Hero()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L235",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "pages_index_hero",
       "community": 56,
@@ -2147,7 +2077,7 @@
       "label": "GuidePathSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L330",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "pages_index_guidepathsection",
       "community": 56,
@@ -2157,7 +2087,7 @@
       "label": "ProofSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L364",
+      "source_location": "L209",
       "_origin": "ast",
       "id": "pages_index_proofsection",
       "community": 56,
@@ -2167,47 +2097,27 @@
       "label": "SurfaceSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L403",
+      "source_location": "L240",
       "_origin": "ast",
       "id": "pages_index_surfacesection",
       "community": 56,
       "norm_label": "surfacesection()"
     },
     {
-      "label": "ComparisonSection()",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L450",
-      "_origin": "ast",
-      "id": "pages_index_comparisonsection",
-      "community": 56,
-      "norm_label": "comparisonsection()"
-    },
-    {
       "label": "AgentSection()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L483",
+      "source_location": "L263",
       "_origin": "ast",
       "id": "pages_index_agentsection",
       "community": 56,
       "norm_label": "agentsection()"
     },
     {
-      "label": "WorkflowSection()",
-      "file_type": "code",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L507",
-      "_origin": "ast",
-      "id": "pages_index_workflowsection",
-      "community": 56,
-      "norm_label": "workflowsection()"
-    },
-    {
       "label": "FinalCta()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L546",
+      "source_location": "L285",
       "_origin": "ast",
       "id": "pages_index_finalcta",
       "community": 56,
@@ -2217,7 +2127,7 @@
       "label": "Home()",
       "file_type": "code",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L581",
+      "source_location": "L317",
       "_origin": "ast",
       "id": "pages_index_home",
       "community": 56,
@@ -26108,36 +26018,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L133",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_comparisonrows"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L309",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_comparisonsection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L57",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_decisionpoints"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
       "source_location": "L159",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26208,16 +26088,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L94",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_onboardingsteps"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
       "source_location": "L36",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26238,26 +26108,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L126",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_sharedrails"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L105",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_surfacemap"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
       "source_location": "L74",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -26268,41 +26118,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/pages/index.tsx",
-      "source_location": "L143",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_telemetryrows"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
       "source_location": "L8",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "pages_index",
       "target": "pages_index_testsurfaces"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L121",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_workflowsection"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/pages/index.tsx",
-      "source_location": "L151",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "pages_index",
-      "target": "pages_index_workflowsteps"
     },
     {
       "relation": "contains",
@@ -26789,9 +26609,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_docs",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_docs"
     },
     {
       "relation": "contains",
@@ -26799,9 +26619,9 @@
       "source_file": "tests/docs-quality.test.js",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_docs_quality_test",
-      "target": "tests_docs_quality_test_docscontaining",
-      "confidence_score": 1.0
+      "target": "tests_docs_quality_test_docscontaining"
     },
     {
       "relation": "contains",
@@ -27321,9 +27141,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "aftermethod",
-      "confidence_score": 1.0
+      "target": "aftermethod"
     },
     {
       "relation": "imports",
@@ -27332,9 +27152,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "beforemethod",
-      "confidence_score": 1.0
+      "target": "beforemethod"
     },
     {
       "relation": "imports",
@@ -27343,9 +27163,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "imports",
@@ -27354,9 +27174,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "dataprovider",
-      "confidence_score": 1.0
+      "target": "dataprovider"
     },
     {
       "relation": "contains",
@@ -27364,9 +27184,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "docs_siterendertest_siterendertest",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest"
     },
     {
       "relation": "imports",
@@ -27375,9 +27195,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "test",
-      "confidence_score": 1.0
+      "target": "test"
     },
     {
       "relation": "imports",
@@ -27386,9 +27206,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest",
-      "target": "webelement",
-      "confidence_score": 1.0
+      "target": "webelement"
     },
     {
       "relation": "method",
@@ -27426,9 +27246,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L325",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest",
-      "target": "docs_siterendertest_siterendertest_cardlink",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_cardlink"
     },
     {
       "relation": "method",
@@ -27900,9 +27720,9 @@
       "source_file": "tests/shaft/src/test/java/net/shaftengine/docs/SiteRenderTest.java",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_homepageexposesprimaryproductpaths",
-      "target": "docs_siterendertest_siterendertest_cardlink",
-      "confidence_score": 1.0
+      "target": "docs_siterendertest_siterendertest_cardlink"
     },
     {
       "relation": "calls",
@@ -28175,9 +27995,9 @@
       "source_location": "L325",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_cardlink",
-      "target": "string",
-      "confidence_score": 1.0
+      "target": "string"
     },
     {
       "relation": "references",
@@ -28923,9 +28743,9 @@
       "source_location": "L325",
       "weight": 1.0,
       "context": "return_type",
+      "confidence_score": 1.0,
       "source": "docs_siterendertest_siterendertest_cardlink",
-      "target": "by",
-      "confidence_score": 1.0
+      "target": "by"
     },
     {
       "relation": "references",
@@ -31039,9 +30859,9 @@
       "source_file": "docs/agentic/capture.md",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_capture",
-      "target": "agentic_capture_record_tests_with_capture",
-      "confidence_score": 1.0
+      "target": "agentic_capture_record_tests_with_capture"
     },
     {
       "relation": "contains",
@@ -31239,9 +31059,9 @@
       "source_file": "docs/agentic/examples.md",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_examples",
-      "target": "agentic_examples_pilot_examples",
-      "confidence_score": 1.0
+      "target": "agentic_examples_pilot_examples"
     },
     {
       "relation": "contains",
@@ -31389,9 +31209,9 @@
       "source_file": "docs/agentic/mcp-manual.mdx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_manual",
-      "target": "agentic_mcp_manual_manual_shaft_mcp_configuration_moved",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_manual_manual_shaft_mcp_configuration_moved"
     },
     {
       "relation": "contains",
@@ -31399,9 +31219,9 @@
       "source_file": "docs/agentic/mcp-manual.mdx",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_manual_manual_shaft_mcp_configuration_moved",
-      "target": "agentic_mcp_manual_related",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_manual_related"
     },
     {
       "relation": "contains",
@@ -31409,9 +31229,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp",
-      "target": "agentic_mcp_connect_shaft_mcp",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_connect_shaft_mcp"
     },
     {
       "relation": "contains",
@@ -31479,9 +31299,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L356",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_manual_configuration",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_manual_configuration"
     },
     {
       "relation": "contains",
@@ -31489,9 +31309,9 @@
       "source_file": "docs/agentic/mcp.mdx",
       "source_location": "L220",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_mcp_connect_shaft_mcp",
-      "target": "agentic_mcp_mcp_command_reference",
-      "confidence_score": 1.0
+      "target": "agentic_mcp_mcp_command_reference"
     },
     {
       "relation": "contains",
@@ -31549,9 +31369,9 @@
       "source_file": "docs/agentic/overview.mdx",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_overview",
-      "target": "agentic_overview_agentic_testing_without_hidden_automation",
-      "confidence_score": 1.0
+      "target": "agentic_overview_agentic_testing_without_hidden_automation"
     },
     {
       "relation": "contains",
@@ -31569,9 +31389,9 @@
       "source_file": "docs/agentic/pilot.md",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agentic_pilot",
-      "target": "agentic_pilot_shaft_pilot",
-      "confidence_score": 1.0
+      "target": "agentic_pilot_shaft_pilot"
     },
     {
       "relation": "contains",
@@ -46229,9 +46049,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start",
-      "target": "start_quick_start_quick_start",
-      "confidence_score": 1.0
+      "target": "start_quick_start_quick_start"
     },
     {
       "relation": "contains",
@@ -46239,9 +46059,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_choose_your_path",
-      "confidence_score": 1.0
+      "target": "start_quick_start_choose_your_path"
     },
     {
       "relation": "contains",
@@ -46249,9 +46069,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_existing_project_upgrade",
-      "confidence_score": 1.0
+      "target": "start_quick_start_existing_project_upgrade"
     },
     {
       "relation": "contains",
@@ -46259,9 +46079,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_manual_creation",
-      "confidence_score": 1.0
+      "target": "start_quick_start_manual_creation"
     },
     {
       "relation": "contains",
@@ -46269,9 +46089,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_mcp_integration",
-      "confidence_score": 1.0
+      "target": "start_quick_start_mcp_integration"
     },
     {
       "relation": "contains",
@@ -46279,9 +46099,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_new_project_generation",
-      "confidence_score": 1.0
+      "target": "start_quick_start_new_project_generation"
     },
     {
       "relation": "contains",
@@ -46309,9 +46129,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_quick_start",
-      "target": "start_quick_start_workflow_map",
-      "confidence_score": 1.0
+      "target": "start_quick_start_workflow_map"
     },
     {
       "relation": "contains",
@@ -46319,9 +46139,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L119",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_manual_creation",
-      "target": "start_quick_start_add_shaft_dependencies",
-      "confidence_score": 1.0
+      "target": "start_quick_start_add_shaft_dependencies"
     },
     {
       "relation": "contains",
@@ -46329,9 +46149,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_manual_creation",
-      "target": "start_quick_start_create_the_test_skeleton",
-      "confidence_score": 1.0
+      "target": "start_quick_start_create_the_test_skeleton"
     },
     {
       "relation": "contains",
@@ -46339,9 +46159,9 @@
       "source_file": "docs/start/quick-start.mdx",
       "source_location": "L377",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_quick_start_manual_creation",
-      "target": "start_quick_start_run_and_configure",
-      "confidence_score": 1.0
+      "target": "start_quick_start_run_and_configure"
     },
     {
       "relation": "contains",
@@ -46349,9 +46169,9 @@
       "source_file": "docs/start/upgrade.mdx",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "start_upgrade",
-      "target": "start_upgrade_upgrade_to_modular_shaft",
-      "confidence_score": 1.0
+      "target": "start_upgrade_upgrade_to_modular_shaft"
     },
     {
       "relation": "contains",
@@ -47305,5 +47125,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "7befc187a53ae1fd8d657155b888fcf09ce43dde"
+  "built_at_commit": "9ab068947b74096e36a8e09add5ec12a3f096c89"
 }
