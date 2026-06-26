@@ -348,6 +348,33 @@ driver.browser()
 
 Use `clearNetworkInterceptors()` to remove active browser network rules before the driver session ends.
 
+### Record, Replay, and Validate Contracts
+
+Contract methods capture matching browser traffic into the same deterministic
+contract file used by `SHAFT.API`. Replay turns captured responses into browser
+network mocks. Assert and verify modes compare live traffic with the stored
+contract and attach readable Allure diffs for mismatches.
+
+```java title="BrowserContractActions.java"
+driver.browser().startContractRecording(
+        "src/test/resources/contracts/search.json",
+        "/api/search");
+
+driver.browser().navigateToURL("https://example.com/search");
+SHAFT.Contracts.stopRecording();
+
+driver.browser().assertContract(
+        "src/test/resources/contracts/search.json",
+        "/api/search");
+driver.browser().navigateToURL("https://example.com/search");
+SHAFT.Contracts.stopValidation();
+
+driver.browser().replayContract("src/test/resources/contracts/search.json");
+```
+
+See [UI and API contract replay](/docs/testing/contracts) for combined browser
+and API examples.
+
 ### Browser Network Profiles
 
 DevTools-capable Selenium drivers can switch the active browser session offline,

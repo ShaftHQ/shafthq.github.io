@@ -1,0 +1,136 @@
+---
+id: contracts
+title: UI and API contract replay
+description: Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
+slug: /testing/contracts
+sidebar_position: 2
+tags: [web, api, contracts, replay]
+---
+
+import {AllureReportPath} from '@site/src/components/DocSnippets';
+
+# UI and API contract replay
+
+Use contract replay when a journey crosses the browser and backend and you want
+repeatable evidence without hand-writing every mock. SHAFT records matching
+browser traffic and `SHAFT.API` calls into a deterministic JSON contract, masks
+sensitive fields, and can later replay or validate the same exchanges.
+
+Contract mode is opt-in. Existing browser interception, API calls, and reporting
+behave the same until a test starts recording, replay, assert, or verify mode.
+
+## Record a contract
+
+Start recording before the browser navigation or API calls that should be kept.
+Use URL filters to avoid analytics, static assets, or unrelated backend calls.
+
+```java title="RecordCheckoutContract.java"
+import com.shaft.driver.SHAFT;
+import org.testng.annotations.Test;
+
+public class CheckoutContractTest {
+    @Test
+    public void recordCheckoutContract() {
+        SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+        SHAFT.API api = new SHAFT.API("https://shop.example.test");
+
+        driver.browser().startContractRecording(
+                "src/test/resources/contracts/checkout.json",
+                "/api/");
+
+        driver.browser().navigateToURL("https://shop.example.test/checkout");
+        api.get("/api/cart").perform();
+
+        SHAFT.Contracts.stopRecording();
+        driver.quit();
+    }
+}
+```
+
+For API-only flows, use the facade directly:
+
+```java title="RecordApiContract.java"
+SHAFT.Contracts.startRecording(
+        "src/test/resources/contracts/catalog.json",
+        "/api/catalog");
+
+new SHAFT.API("https://shop.example.test")
+        .get("/api/catalog")
+        .perform();
+
+SHAFT.Contracts.stopRecording();
+```
+
+## Replay browser responses
+
+Replay mode loads the recorded HTTP interactions as browser network mocks.
+Matching uses the request method, path, query parameters, and normalized request
+body when a body was captured.
+
+```java title="ReplayBrowserContract.java"
+import org.openqa.selenium.By;
+
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+driver.browser().replayContract("src/test/resources/contracts/checkout.json");
+driver.browser().navigateToURL("https://shop.example.test/checkout");
+
+driver.assertThat(By.id("order-summary")).exists();
+driver.quit();
+```
+
+## Assert or verify live traffic
+
+Use assert mode when a contract mismatch should fail the test immediately. Use
+verify mode when the test should continue and collect all mismatches as report
+evidence.
+
+```java title="AssertLiveContract.java"
+driver.browser().assertContract(
+        "src/test/resources/contracts/checkout.json",
+        "/api/");
+
+driver.browser().navigateToURL("https://shop.example.test/checkout");
+new SHAFT.API("https://shop.example.test").get("/api/cart").perform();
+
+SHAFT.Contracts.stopValidation();
+```
+
+```java title="VerifyLiveContract.java"
+driver.browser().verifyContract(
+        "src/test/resources/contracts/checkout.json",
+        "/api/");
+
+driver.browser().navigateToURL("https://shop.example.test/checkout");
+
+SHAFT.Contracts.stopValidation();
+```
+
+When live traffic differs from the contract, SHAFT attaches a readable
+`HTTP Contract Diff - METHOD path` artifact under <AllureReportPath />. If the
+request belongs to a recorded trace action, the contract entry includes the
+trace action id so the mismatch can be correlated with `shaft-trace.json`.
+
+## Redaction and normalization
+
+Contracts redact sensitive request and response headers, query parameters, and
+JSON body fields before writing to disk. Volatile values such as timestamps,
+request ids, trace ids, UUIDs, and configured volatile keys are normalized so
+stable behavior produces stable JSON.
+
+```java title="ContractPrivacy.java"
+SHAFT.Properties.api.set()
+        .contractSensitiveKeys("authorization,cookie,password,token,api-key")
+        .contractVolatileKeys("requestId,traceId,timestamp,etag");
+```
+
+Keep recorded contracts in test resources or a dedicated fixtures directory.
+Do not commit production secrets, session-specific personal data, or contracts
+captured from environments that do not allow test evidence retention.
+
+## Related
+
+- [Web testing](/docs/testing/web)
+- [API testing](/docs/testing/api)
+- [Network Mocking](/docs/reference/actions/GUI/didYouKnow/Network_Mocking)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)

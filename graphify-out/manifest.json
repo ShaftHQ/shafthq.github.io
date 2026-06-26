@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "sidebars.js": {
-    "mtime": 1782366323.9913204,
-    "ast_hash": "3450125d6061c8415633189050e5443e",
+    "mtime": 1782501019.419154,
+    "ast_hash": "bece36e97b2941909d02ba6e8562bddb",
     "semantic_hash": ""
   },
   "src/components/AutoBot/index.tsx": {
@@ -765,8 +765,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Browser_Actions.md": {
-    "mtime": 1782497408.3731067,
-    "ast_hash": "af3f9aa5eaf1531444610a51adf9f80e",
+    "mtime": 1782501019.4221542,
+    "ast_hash": "5d66e3578d90c2aeafca994eed465d4b",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Did_You_Know.md": {
@@ -795,8 +795,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Playwright_Backend.md": {
-    "mtime": 1782398097.0383973,
-    "ast_hash": "6a6e1e82f5f91fd358d55ac47572374d",
+    "mtime": 1782501019.4221542,
+    "ast_hash": "7a474798520d86c07b64d44ff88350d1",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Touch_Actions.md": {
@@ -860,8 +860,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md": {
-    "mtime": 1782497408.3731067,
-    "ast_hash": "48b68c40460ada22a8365199f85051b7",
+    "mtime": 1782501019.4211555,
+    "ast_hash": "ce146e995d65a54e05974a098146f318",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators.md": {
@@ -1095,8 +1095,8 @@
     "semantic_hash": ""
   },
   "docs/testing/api.mdx": {
-    "mtime": 1782421894.192994,
-    "ast_hash": "32e811bcf571879363c755a1a74983a6",
+    "mtime": 1782501019.4201553,
+    "ast_hash": "45ed7087a36568d369b89daee7a0c666",
     "semantic_hash": ""
   },
   "docs/testing/cli.md": {
@@ -1115,8 +1115,8 @@
     "semantic_hash": ""
   },
   "docs/testing/web.mdx": {
-    "mtime": 1782421894.1959963,
-    "ast_hash": "ef7a914a2e0adba13aaa2cc21bc479f7",
+    "mtime": 1782501019.4201553,
+    "ast_hash": "bc10317f602ae8e45ac497ef38dbba3d",
     "semantic_hash": ""
   },
   "static/google7a9ed995e574e7e9.html": {
@@ -1357,6 +1357,11 @@
   "static/img/pr/userguide-growth/story-10-quick-win-star.png": {
     "mtime": 1782421894.2445223,
     "ast_hash": "f841d1b686f2bcdffec2b1b8f77f85ea",
+    "semantic_hash": ""
+  },
+  "docs/testing/contracts.mdx": {
+    "mtime": 1782502075.7377326,
+    "ast_hash": "64fcc2fbbcd3a5a60cfda2eb0ea2574d",
     "semantic_hash": ""
   }
 }

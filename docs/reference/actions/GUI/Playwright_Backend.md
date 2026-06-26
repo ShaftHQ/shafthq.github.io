@@ -209,7 +209,7 @@ Legend:
 | `capturePageSnapshot()` / `captureSnapshot()` | Supported as HTML attachment |
 | `waitForLazyLoading()` | Supported through Playwright load state |
 | `getContext()` / `setContext()` / `getContextHandles()` | Supported for the Playwright page context |
-| `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` | Supported through Playwright `BrowserContext` routing while preserving SHAFT's Selenium HTTP request/response contract |
+| `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` / contract recording and replay | Supported through Playwright `BrowserContext` routing while preserving SHAFT's Selenium HTTP request/response contract |
 | `generateLightHouseReport()` | WebDriver-only |
 | `accessibility()` | Supported through bundled axe-core injection into the active Playwright page |
 
@@ -282,6 +282,19 @@ driver.browser()
 `interceptRequest()` supports response assertions/verifications through the
 existing SHAFT validation callbacks. Routes are scoped to the active Playwright
 browser context and can be cleared with `clearNetworkInterceptors()`.
+
+Contract replay uses the same route owner, so Playwright-backed tests can record
+or validate live browser traffic and replay captured responses:
+
+```java title="PlaywrightContractReplay.java"
+driver.browser().startContractRecording(
+        "src/test/resources/contracts/inventory.json",
+        "/inventory");
+driver.browser().navigateToURL("https://example.com/inventory");
+SHAFT.Contracts.stopRecording();
+
+driver.browser().replayContract("src/test/resources/contracts/inventory.json");
+```
 
 Accessibility scans run axe-core in the active Playwright page and attach the
 same SHAFT accessibility artifacts used by WebDriver checks:

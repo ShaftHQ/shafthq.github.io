@@ -40,7 +40,10 @@ flowchart LR
 
 Continue with [request building](/docs/reference/actions/API/Request_Builder),
 [authentication](/docs/reference/actions/API/API_Authentication), and
-[response assertions](/docs/reference/actions/API/Response_Validations).
+[response assertions](/docs/reference/actions/API/Response_Validations). When
+the API is part of a browser journey, use
+[UI and API contract replay](/docs/testing/contracts) to record the exchanged
+traffic once and assert or replay it later.
 
 ## Run and inspect evidence
 
@@ -60,6 +63,7 @@ assertion is appropriate for the scenario.
 | Add headers, query parameters, or body | [Request Builder](/docs/reference/actions/API/Request_Builder) |
 | Reuse tokens or basic auth | [API Authentication](/docs/reference/actions/API/API_Authentication) |
 | Validate JSON fields or schemas | [Response Validations](/docs/reference/actions/API/Response_Validations) |
+| Record and replay UI/API traffic | [UI and API contract replay](/docs/testing/contracts) |
 | Track OpenAPI coverage | [API configuration](/docs/reference/configuration/basicConfig3) |
 
 ## Related
@@ -67,3 +71,4 @@ assertion is appropriate for the scenario.
 - [Request Builder](/docs/reference/actions/API/Request_Builder)
 - [Response Validations](/docs/reference/actions/API/Response_Validations)
 - [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [UI and API contract replay](/docs/testing/contracts)
