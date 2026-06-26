@@ -197,6 +197,9 @@ The packaged server supports:
   plus generated-code guardrail checks through `test_code_guardrails_check`;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
+  web-emulation results include a `deviceProfile` object with resolved
+  viewport, user agent, device scale factor, and touch/mobile flags when SHAFT
+  can determine them;
 - mobile inspection through `mobile_take_screenshot`,
   `mobile_get_accessibility_tree`, context switching, and action tools for
   tapping, typing, swiping, rotation, keyboard, backgrounding, app activation,

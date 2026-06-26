@@ -93,6 +93,35 @@ best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
 only for failed traced actions and applies the same redaction rules used by the
 trace JSON.
 
+For failed Appium touch actions, the same `actions` array includes mobile
+session metadata when the driver exposes it:
+
+```json
+{
+  "category": "touch",
+  "name": "swipeElementIntoView",
+  "status": "failed",
+  "locator": "By.id: checkout_list",
+  "metadata": {
+    "gestureParameters": "targetText=Pay now, movement=VERTICAL",
+    "platformName": "Android",
+    "automationName": "UiAutomator2",
+    "appPackage": "com.example.checkout",
+    "appActivity": ".CheckoutActivity",
+    "context": "NATIVE_APP",
+    "orientation": "PORTRAIT",
+    "windowSize": "1080x1920",
+    "nativePageSourceExcerpt": "<hierarchy password=\"********\">..."
+  }
+}
+```
+
+Context changes from `driver.browser().setContext(...)` and MCP
+`mobile_switch_context` are also recorded as `mobile-context` trace events with
+`contextBefore`, `contextAfter`, and `requestedContext`. Unsupported Appium
+metadata fields use deterministic fallback text instead of surfacing raw
+provider errors in the trace.
+
 When `shaft.trace.includeNetwork=true`, Selenium browser sessions also add
 redacted `network` entries to `shaft-trace.json` and a HAR-like
 `shaft-network.har` file to the archive. The trace viewer exposes Network,
