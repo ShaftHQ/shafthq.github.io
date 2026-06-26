@@ -67,7 +67,10 @@ English while the user clicks, types, selects, uploads, or navigates. Its
 controls pause or resume action capture, add a user checkpoint, edit the visible
 action text by recording an edit checkpoint, and stop the recording. Pressing
 stop from the panel requests a normal SHAFT stop, closes the managed browser,
-and leaves the session in `COMPLETED` status for generation.
+and leaves the session in `COMPLETED` status for generation. The browser panel
+and generated capture workbench follow the same SHAFT report visual language as
+Allure-attached HTML reports, including status chips and wrapping layouts that
+avoid horizontal scrolling during review.
 
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
