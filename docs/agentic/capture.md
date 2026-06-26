@@ -180,11 +180,29 @@ ID/name, CSS, then XPath family. The report records the score contribution from
 uniqueness, visibility, interactability, semantic match, volatility,
 frame/shadow context, and replay evidence, plus ranked fallbacks. Stable
 user-provided locators can outrank volatile semantic evidence. The review file
-summarizes deterministic readiness, blockers, risks, and next suggestions; MCP
-generation results expose the same path as `reviewPath`. The workbench HTML is
-a local review UI for building record/checkpoint commands, editing generated
-source through the browser file picker or download fallback, and reviewing the
+summarizes deterministic readiness, blockers, risks, typed findings, and next
+suggestions; MCP generation results expose the same path as `reviewPath` and
+return the deterministic review warnings in the tool result. Static review
+findings cover brittle absolute or index-heavy locators, missing post-navigation
+or post-submit assertions, fixed-duration waits, and sensitive JSON-backed test
+data. When replay fails and a SHAFT trace exists, Capture maps the failure back
+to the generated step and failed trace action, and flags failing network/API
+calls as candidates for HTTP contract replay. The workbench HTML is a local
+review UI for building record/checkpoint commands, editing generated source
+through the browser file picker or download fallback, and reviewing the
 Playwright codegen feature map beside the generated code.
+
+Example review finding:
+
+```json
+{
+  "category": "LOCATOR",
+  "severity": "WARNING",
+  "summary": "Brittle XPATH locator selected for pay-button: /html/body/div[3]/form/button[2].",
+  "evidenceIds": ["event-4"],
+  "recommendation": "Prefer semantic locator text \"Pay now\" when unique."
+}
+```
 
 Ordinary values are copied from the recording's external JSON into the
 generated test-data file. Secret and sensitive references become required
