@@ -38,16 +38,47 @@ The **Allure Report** is the primary report in SHAFT. It opens automatically in 
 ### Failure Trace Viewer
 
 When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
-The viewer collects the failure timeline, exception and stacktrace, source-code
-frame fallback, available page or native source snapshot, and related artifacts
-without generating heavy trace artifacts for passing tests.
+The viewer collects the ordered Selenium action timeline, exception and
+stacktrace, source-code frame fallback, available page or native source
+snapshot, locator health summary, and related artifacts without generating
+heavy trace artifacts for passing tests.
 
-Allure receives these attachments on failed tests:
+Allure receives one SHAFT trace-report attachment on failed tests:
 
-- `SHAFT Trace Report.html`
-- `shaft-trace.json`
+- `shaft-trace.zip`, which contains `shaft-trace.json`, `SHAFT Trace Report.html`,
+  and the native Playwright trace ZIP when Playwright tracing is enabled and
+  available
+
+The archived `shaft-trace.json` includes an `actions` array with stable fields
+for automation agents:
+
+```json
+{
+  "id": "action-3",
+  "category": "element",
+  "name": "CLICK",
+  "status": "failed",
+  "startTime": "2026-06-26T10:13:13.000Z",
+  "durationMs": 184,
+  "locator": "By.id: pay",
+  "url": "https://shop.example/checkout",
+  "message": "Click \"Pay\"",
+  "exception": {
+    "type": "org.openqa.selenium.ElementClickInterceptedException",
+    "message": "element click intercepted"
+  },
+  "attachments": ["screenshot - Click (48213 bytes)"],
+  "metadata": {
+    "elementName": "Pay"
+  }
+}
+```
+
+SHAFT also persists the archive and a local index under
+`target/shaft-traces/<safe-test-id>/`:
+
 - `shaft-trace.zip`
-- Native Playwright trace ZIP, when Playwright tracing is enabled and available
+- `index.json`
 
 Use `shaft.trace.mode=failure` for normal runs. Switch to `retry` or `always`
 only while actively debugging.

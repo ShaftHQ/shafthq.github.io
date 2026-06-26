@@ -67,9 +67,15 @@ Failed and broken tests attach `shaft-diagnostics.zip` to Allure by default.
 The ZIP contains `diagnostics.json`, a sanitized handoff file for humans,
 SHAFT Doctor, and MCP clients. It includes stable test metadata, failure type,
 message, stacktrace, root-cause chain, the top project stack frame, bounded
-logs, referenced artifacts such as videos, GIFs, and trace viewer files,
+logs, referenced artifacts such as videos, GIFs, and the trace viewer archive,
 selected runtime/configuration metadata, redaction rules applied, size limits,
 and suggested Doctor/MCP commands.
+
+The single trace archive includes `shaft-trace.json` and `SHAFT Trace Report.html`.
+The JSON `actions` array records ordered Selenium browser, element, touch, and
+validation events with status, duration, locator, URL, exception summary,
+attachment summaries, and redacted metadata. SHAFT also writes the archive under
+`target/shaft-traces/<safe-test-id>/` with an `index.json` for local tooling.
 
 The bundle references existing artifacts instead of copying every raw file.
 Secrets in common headers, cookies, token/password assignments, and sensitive

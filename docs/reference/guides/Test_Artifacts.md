@@ -22,7 +22,7 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Screenshots** | Attached inside `allure-results/` | Captured on failures by default; validation and every-action screenshots depend on `evidenceLevel` or granular screenshot policy |
 | **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `videoParams_recordVideo=true`, or when `evidenceLevel=FULL` |
 | **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, when `evidenceLevel=FULL`, or on retry evidence capture |
-| **Failure trace viewer** | Attached inside `allure-results/` | `SHAFT Trace Report.html`, `shaft-trace.json`, and `shaft-trace.zip` on failed tests by default |
+| **Failure trace viewer** | Attached inside `allure-results/` | `shaft-trace.zip` on failed tests by default; the archive contains `SHAFT Trace Report.html` and `shaft-trace.json` |
 | **Failure brief** | Attached inside `allure-results/` | `SHAFT Failure Brief.html`, `shaft-failure-brief.json`, and `shaft-attachments-manifest.json` on failed or broken tests |
 
 :::info
