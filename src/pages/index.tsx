@@ -122,6 +122,42 @@ const heroSignals = [
   },
 ];
 
+function useScrollReveal(): void {
+  React.useEffect(() => {
+    const root = document.documentElement;
+    const revealElements = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
+    root.dataset.revealReady = 'true';
+
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)
+    ) {
+      revealElements.forEach((element) => element.classList.add(styles.revealVisible));
+      return () => {
+        delete root.dataset.revealReady;
+      };
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add(styles.revealVisible);
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+    );
+
+    revealElements.forEach((element) => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+      delete root.dataset.revealReady;
+    };
+  }, []);
+}
+
 function Hero(): JSX.Element {
   return (
     <header className={styles.hero} data-testid="landing-hero">
@@ -186,16 +222,6 @@ function Hero(): JSX.Element {
               </Link>
             ))}
           </div>
-          <div className={styles.codeCompare} aria-label="Before and after SHAFT code comparison">
-            <div>
-              <small>Plain stack</small>
-              <code>new ChromeDriver(); wait.until(...); attachScreenshots();</code>
-            </div>
-            <div>
-              <small>With SHAFT</small>
-              <code>driver.browser().navigateToURL("/").and().element().type(...)</code>
-            </div>
-          </div>
         </div>
       </div>
     </header>
@@ -204,7 +230,7 @@ function Hero(): JSX.Element {
 
 function GuidePathSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.pathSection}`} data-testid="landing-pathfinder" id="guide-paths">
+    <section className={`${styles.section} ${styles.pathSection} ${styles.reveal}`} data-testid="landing-pathfinder" id="guide-paths" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>Pick the work in front of you</span>
@@ -213,7 +239,7 @@ function GuidePathSection(): JSX.Element {
         </div>
         <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
           {guidePaths.map((path) => (
-            <Link className={styles.pathCard} to={path.to} key={path.title}>
+            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal>
               <small>{path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
@@ -228,7 +254,7 @@ function GuidePathSection(): JSX.Element {
 
 function ProofSection(): JSX.Element {
   return (
-    <section className={styles.section} data-testid="landing-proof" id="proof-section">
+    <section className={`${styles.section} ${styles.reveal}`} data-testid="landing-proof" id="proof-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>Why SHAFT</span>
@@ -245,7 +271,7 @@ function ProofSection(): JSX.Element {
         </div>
         <div className={styles.proofGrid}>
           {proofPoints.map((point) => (
-            <Link className={styles.proofCard} to={point.to} key={point.title}>
+            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal>
               <strong>{point.title}</strong>
               <span>{point.description}</span>
               <small>{point.label}</small>
@@ -259,7 +285,7 @@ function ProofSection(): JSX.Element {
 
 function SurfaceSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.compactSection}`} data-testid="landing-surfaces" id="surface-section">
+    <section className={`${styles.section} ${styles.compactSection} ${styles.reveal}`} data-testid="landing-surfaces" id="surface-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
           <span className={styles.eyebrow}>Start narrow, keep the expansion path</span>
@@ -268,7 +294,7 @@ function SurfaceSection(): JSX.Element {
         </div>
         <div className={styles.surfaceGrid}>
           {testSurfaces.map((surface) => (
-            <Link className={styles.surfaceCard} to={surface.to} key={surface.title}>
+            <Link className={`${styles.surfaceCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal>
               <strong>{surface.title}</strong>
               <span>{surface.description}</span>
               <small>Open guide</small>
@@ -282,7 +308,7 @@ function SurfaceSection(): JSX.Element {
 
 function AgentSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.agentBand}`} data-testid="landing-agent" id="connect-ai-agent">
+    <section className={`${styles.section} ${styles.agentBand} ${styles.reveal}`} data-testid="landing-agent" id="connect-ai-agent" data-reveal>
       <div className={`container ${styles.agentSection}`}>
         <div className={styles.agentIntro}>
           <span className={styles.eyebrow}>Agentic only after the suite runs</span>
@@ -304,7 +330,7 @@ function AgentSection(): JSX.Element {
 
 function FinalCta(): JSX.Element {
   return (
-    <section className={styles.finalCta} data-testid="landing-final" id="get-started">
+    <section className={`${styles.finalCta} ${styles.reveal}`} data-testid="landing-final" id="get-started" data-reveal>
       <BrowserOnly fallback={<div aria-hidden="true" />}>
         {() => (
           <ParticleBackground
@@ -335,6 +361,8 @@ function FinalCta(): JSX.Element {
 }
 
 export default function Home(): JSX.Element {
+  useScrollReveal();
+
   return (
     <Layout
       title="Unified Web, Mobile, API, Database, and CLI Test Automation"

@@ -115,8 +115,8 @@
     "semantic_hash": ""
   },
   "src/components/ParticleBackground/index.tsx": {
-    "mtime": 1782410953.2724423,
-    "ast_hash": "58beb489f6b7aa550d3b266cf3a020c7",
+    "mtime": 1782451473.241716,
+    "ast_hash": "8d64ede54f27c3a194f7aeb69c9196ba",
     "semantic_hash": ""
   },
   "src/components/ParticleBackground/particleWorker.ts": {
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "src/pages/index.tsx": {
-    "mtime": 1782421894.222003,
-    "ast_hash": "f87d68708e80f054c653c3c93c457f72",
+    "mtime": 1782451434.8414955,
+    "ast_hash": "5eaa34e01f465e159d045c8f2088cc48",
     "semantic_hash": ""
   },
   "src/pages/project-generator.tsx": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1782422565.1265366,
-    "ast_hash": "43175252d5242c7be56a33b996db5c3b",
+    "mtime": 1782451549.147506,
+    "ast_hash": "e9c4ffe68b24657da834e8bb3e764c74",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {

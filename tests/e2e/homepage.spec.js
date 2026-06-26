@@ -7,8 +7,8 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await expect(page.getByRole('heading', {name: /One Java test suite for web, mobile, API, DB, and CLI/})).toBeVisible();
   await expect(page.getByTestId('landing-hero-actions')).toBeVisible();
   await expect(page.getByTestId('landing-hero-star-cta')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
-  await expect(page.getByText(/Plain stack/)).toBeVisible();
-  await expect(page.getByText(/With SHAFT/)).toBeVisible();
+  await expect(page.getByText(/Plain stack/)).toHaveCount(0);
+  await expect(page.getByText(/With SHAFT/)).toHaveCount(0);
 
   await Promise.all([
     page.waitForURL('**/docs/start/quick-start#new-project-generation'),
@@ -54,6 +54,17 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
   await expect(page.locator('canvas[aria-hidden="true"]')).toHaveCount(2);
+  await expect.poll(async () => {
+    return page.locator('canvas[aria-hidden="true"]').first().evaluate((canvas) => {
+      const context = canvas.getContext('2d');
+      if (!context || canvas.width === 0 || canvas.height === 0) return false;
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      for (let index = 3; index < pixels.length; index += 40) {
+        if (pixels[index] > 0) return true;
+      }
+      return false;
+    });
+  }).toBe(true);
 
   const overflowingButtons = await page.evaluate(() => {
     const viewportWidth = document.documentElement.clientWidth;
@@ -75,8 +86,18 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
   });
   expect(overflowingButtons).toEqual([]);
 
-  const pathfinderAnimation = await page.getByTestId('landing-pathfinder').evaluate((section) => {
-    return getComputedStyle(section).animationName;
+  const pathfinderReveal = await page.getByTestId('landing-pathfinder').evaluate((section) => {
+    const style = getComputedStyle(section);
+    return {
+      ready: document.documentElement.dataset.revealReady,
+      transitionProperty: style.transitionProperty,
+    };
   });
-  expect(pathfinderAnimation).not.toBe('none');
+  expect(pathfinderReveal.ready).toBe('true');
+  expect(pathfinderReveal.transitionProperty).toContain('opacity');
+
+  await page.getByTestId('landing-surfaces').scrollIntoViewIfNeeded();
+  await expect.poll(async () => {
+    return page.getByTestId('landing-surfaces').evaluate((section) => getComputedStyle(section).opacity);
+  }).toBe('1');
 });
