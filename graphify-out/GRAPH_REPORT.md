@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-06-26)
 
 ## Corpus Check
-- 224 files · ~310,682 words
+- 225 files · ~311,385 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2388 nodes · 2391 edges · 232 communities (203 shown, 29 thin omitted)
+- 2397 nodes · 2399 edges · 233 communities (204 shown, 29 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4b8d5834`
+- Built from commit: `b39867e5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -243,6 +243,7 @@
 - [[_COMMUNITY_Community 228|Community 228]]
 - [[_COMMUNITY_Community 229|Community 229]]
 - [[_COMMUNITY_Community 230|Community 230]]
+- [[_COMMUNITY_Community 232|Community 232]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 37 edges
@@ -271,7 +272,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (232 total, 29 thin omitted)
+## Communities (233 total, 29 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -834,8 +835,8 @@ Cohesion: 0.13
 Nodes (12): fallbackProjects, fetchDirectoryContents(), fetchJson(), fetchText(), GitHubItem, loadProjectData(), OptionalModule, optionalModules (+4 more)
 
 ### Community 147 - "docs/reference (5)"
-Cohesion: 0.20
-Nodes (9): Advanced Predicate API, Complete Example, Failure Trace Observability, Mock Responses, Network Profiles, Related, Request Matchers, Use Cases (+1 more)
+Cohesion: 0.18
+Nodes (10): Advanced Predicate API, Complete Example, Failure Trace Observability, Mock Responses, Network Profiles, Record and Replay Contracts, Related, Request Matchers (+2 more)
 
 ### Community 148 - "docs/reference (5)"
 Cohesion: 0.33
@@ -1046,8 +1047,8 @@ Cohesion: 0.40
 Nodes (5): Wait Actions, Wait for Lazy Loading, Wait Until Number of Windows, Wait Until Title Is, Wait Until URL Matches
 
 ### Community 224 - "Community 224"
-Cohesion: 0.50
-Nodes (4): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Validate Intercepted Responses
+Cohesion: 0.40
+Nodes (5): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Record, Replay, and Validate Contracts, Validate Intercepted Responses
 
 ### Community 225 - "Community 225"
 Cohesion: 0.26
@@ -1069,8 +1070,12 @@ Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, 
 Cohesion: 0.29
 Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
 
+### Community 232 - "Community 232"
+Cohesion: 0.29
+Nodes (6): Assert or verify live traffic, Record a contract, Redaction and normalization, Related, Replay browser responses, UI and API contract replay
+
 ## Knowledge Gaps
-- **1564 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1559 more)
+- **1571 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1566 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1082,7 +1087,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1564 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1571 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**

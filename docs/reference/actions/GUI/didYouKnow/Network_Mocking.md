@@ -70,6 +70,32 @@ driver.browser()
 
 ---
 
+## Record and Replay Contracts
+
+Use contract recording when the same browser/API journey should be replayed
+from captured traffic or compared against live traffic later. The browser
+methods share the same contract mode used by `SHAFT.API`, so a single contract
+can contain UI-triggered requests and direct API setup calls.
+
+```java title="ContractReplay.java"
+driver.browser().startContractRecording(
+        "src/test/resources/contracts/users.json",
+        "/api/users");
+
+driver.browser().navigateToURL("https://example.com/users");
+new SHAFT.API("https://example.com").get("/api/users").perform();
+SHAFT.Contracts.stopRecording();
+
+driver.browser().replayContract("src/test/resources/contracts/users.json");
+driver.browser().navigateToURL("https://example.com/users");
+```
+
+Use `assertContract(...)` for hard live-traffic validation or
+`verifyContract(...)` to attach readable Allure diffs without failing at the
+first mismatch. See [UI and API contract replay](/docs/testing/contracts).
+
+---
+
 ## Request Matchers
 
 Use the built-in matchers for common request fields:
@@ -209,3 +235,4 @@ the archive is attached.
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [Web](/docs/testing/web)
+- [UI and API contract replay](/docs/testing/contracts)
