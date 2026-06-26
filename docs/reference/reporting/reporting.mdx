@@ -23,6 +23,12 @@ using [properties](/docs/reference/properties/PropertyTypes).
 | **Allure Report** | Deep debugging — step-by-step logs, screenshots, videos | ✅ Opens automatically after execution |
 | **Execution Summary** | Quick supplemental feedback — fast, portable, no setup | ⚙️ Opt-in via property |
 
+SHAFT-generated HTML report attachments use a shared SHAFT report theme across
+execution summaries, performance reports, accessibility reports, locator health,
+failure briefs, failure traces, and flake profiles. The same theme gives each
+surface consistent headers, status chips, metric cards, table wrapping, and
+dark-mode behavior whether opened directly or from Allure.
+
 ---
 
 ## Allure Report
@@ -398,6 +404,11 @@ Common `allure.groupBy` presets include:
 | Module hierarchy | `module,parentSuite,suite,subSuite` | Multi-module projects |
 
 Full-page image attachments open at the available modal width in SHAFT-generated Allure 3 reports. Use the modal scrollbar to inspect the rest of tall screenshots.
+
+HTML attachments created through SHAFT's attachment reporter are also fitted to
+the available Allure preview width. SHAFT injects lightweight containment rules
+so wide tables, preformatted blocks, and long values wrap instead of forcing a
+horizontal page scroll.
 
 ### Troubleshoot Allure CLI Generation
 
