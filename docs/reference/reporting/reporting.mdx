@@ -70,9 +70,27 @@ for automation agents:
   "attachments": ["screenshot - Click (48213 bytes)"],
   "metadata": {
     "elementName": "Pay"
+  },
+  "actionability": {
+    "matchCount": 1,
+    "displayed": true,
+    "enabled": true,
+    "rect": {"x": 42, "y": 318, "width": 120, "height": 36},
+    "centerPoint": {"x": 102, "y": 336},
+    "css": {"display": "block", "visibility": "visible", "pointerEvents": "auto"},
+    "obscuringElement": {"selector": "div.modal-backdrop"},
+    "recommendation": "Wait for or close the blocking element before retrying the action."
   }
 }
 ```
+
+For failed Selenium element actions, the optional `actionability` object explains
+why the target was not actionable. It includes locator match count, element
+state, rectangle and center point, viewport/CSS details, any center-point
+blocking element found with `document.elementFromPoint`, warnings from
+best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
+only for failed traced actions and applies the same redaction rules used by the
+trace JSON.
 
 SHAFT also persists the archive and a local index under
 `target/shaft-traces/<safe-test-id>/`:
