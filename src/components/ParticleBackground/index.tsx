@@ -114,23 +114,55 @@ export default function ParticleBackground({
         lineColor = isDark ? 'rgba(37, 194, 160' : 'rgba(0, 110, 192';
       }
 
+      const pointer = pointerRef.current;
+      const framePulse = performance.now() * 0.003;
+
       for (const p of particles) {
+        const pulse = (Math.sin(framePulse + p.x * 0.021 + p.y * 0.017) + 1) * 0.5;
+        let reactiveBoost = 0;
+        if (pointer.active && connectionDistance > 0) {
+          const dx = pointer.x - p.x;
+          const dy = pointer.y - p.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < connectionDistance) {
+            reactiveBoost = (1 - distance / connectionDistance) * 1.35;
+          }
+        }
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `${nodeColor}, ${p.opacity})`;
+        ctx.arc(p.x, p.y, p.radius + pulse * 0.42 + reactiveBoost, 0, Math.PI * 2);
+        ctx.fillStyle = `${nodeColor}, ${Math.min(0.88, p.opacity + pulse * 0.12 + reactiveBoost * 0.16)})`;
         ctx.fill();
       }
 
       for (const line of connections) {
+        const pulse = heroMode
+          ? (Math.sin(framePulse + (line.x1 + line.x2) * 0.01) + 1) * 0.04
+          : 0;
         ctx.beginPath();
         ctx.moveTo(line.x1, line.y1);
         ctx.lineTo(line.x2, line.y2);
-        ctx.strokeStyle = `${lineColor}, ${line.opacity})`;
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = `${lineColor}, ${Math.min(0.42, line.opacity + pulse)})`;
+        ctx.lineWidth = heroMode ? 1 : 0.8;
         ctx.stroke();
       }
+
+      if (pointer.active && connectionDistance > 0) {
+        for (const p of particles) {
+          const dx = pointer.x - p.x;
+          const dy = pointer.y - p.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance >= connectionDistance * 0.72) continue;
+          ctx.beginPath();
+          ctx.moveTo(pointer.x, pointer.y);
+          ctx.lineTo(p.x, p.y);
+          ctx.strokeStyle = `${lineColor}, ${(1 - distance / (connectionDistance * 0.72)) * 0.2})`;
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
     },
-    [heroMode],
+    [connectionDistance, heroMode],
   );
 
   useEffect(() => {

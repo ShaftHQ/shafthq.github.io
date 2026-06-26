@@ -51,6 +51,7 @@
 .heroCopy {
   position: relative;
   z-index: 2;
+  min-width: 0;
 }
 
 .heroBrand {
@@ -103,6 +104,19 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.85rem;
+  min-width: 0;
+}
+
+.actions :global(.button) {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.actions :global(.button svg) {
+  flex: 0 0 auto;
 }
 
 .hero .actions :global(.button) {
@@ -161,6 +175,7 @@
   position: relative;
   z-index: 1;
   display: grid;
+  min-width: 0;
   gap: 0.72rem;
   padding: 0.9rem;
   border: 1px solid rgba(var(--site-color-muted-rgb), 0.24);
@@ -289,41 +304,6 @@
   overflow-wrap: anywhere;
 }
 
-.codeCompare {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
-}
-
-.codeCompare div {
-  min-width: 0;
-  padding: 0.78rem;
-  border: 1px solid rgba(var(--site-color-muted-rgb), 0.18);
-  border-radius: 8px;
-  background: rgba(var(--site-color-deep-rgb), 0.42);
-}
-
-.codeCompare small {
-  display: block;
-  margin-bottom: 0.45rem;
-  color: var(--site-color-primary);
-  font-size: var(--site-font-caption);
-  font-weight: var(--site-font-weight-bold);
-  text-transform: uppercase;
-}
-
-.codeCompare code {
-  display: block;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--site-color-on-dark);
-  font-size: 0.78rem;
-  line-height: 1.45;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
 .compactSection {
   padding-top: clamp(3rem, 6vw, 5rem);
 }
@@ -373,6 +353,7 @@
 .pathCard {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 215px;
   flex-direction: column;
   padding: 1.25rem;
@@ -453,6 +434,7 @@
 
 .proofCard {
   display: flex;
+  min-width: 0;
   min-height: 255px;
   flex-direction: column;
   padding: 1.4rem;
@@ -504,6 +486,7 @@
 .surfaceCard {
   position: relative;
   display: flex;
+  min-width: 0;
   min-height: 195px;
   flex-direction: column;
   padding: 1.4rem;
@@ -613,6 +596,27 @@
   border-radius: 8px;
 }
 
+.reveal {
+  --reveal-distance: 1.35rem;
+}
+
+:global(html[data-reveal-ready='true']) .reveal {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate3d(0, var(--reveal-distance), 0);
+  transition:
+    opacity 520ms ease,
+    filter 520ms ease,
+    transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, filter, transform;
+}
+
+:global(html[data-reveal-ready='true']) .revealVisible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+
 @media (max-width: 1100px) {
   .pathGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -671,7 +675,12 @@
   }
 
   .heroCopy h1 {
-    font-size: var(--site-font-display-small);
+    font-size: 2rem;
+    text-wrap: balance;
+  }
+
+  .reveal {
+    --reveal-distance: 0.85rem;
   }
 
   .proofLinks {
@@ -710,8 +719,7 @@
   }
 
   .heroEngineStrip,
-  .heroSignalBar,
-  .codeCompare {
+  .heroSignalBar {
     grid-template-columns: 1fr;
   }
 
@@ -735,8 +743,13 @@
   }
 
   .actions {
+    width: 100%;
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .actions :global(.button) {
+    width: 100%;
   }
 
   .actions a {
@@ -749,11 +762,17 @@
     animation: none;
   }
 
+  :global(html[data-reveal-ready='true']) .reveal,
+  :global(html[data-reveal-ready='true']) .revealVisible,
   .surfaceCard,
   .proofCard,
   .pathCard,
   .heroEngineStrip a {
+    opacity: 1;
+    filter: none;
+    transform: none;
     transition: none;
+    will-change: auto;
   }
 
   .surfaceCard:hover,
