@@ -62,6 +62,14 @@ JUnit retries use the same SHAFT flag as TestNG retries:
 `-DretryMaximumNumberOfAttempts=2`, or update it at runtime with
 `SHAFT.Properties.flags.set().retryMaximumNumberOfAttempts(2)`.
 
+The value is the number of additional attempts after the first failure. For
+example, `retryMaximumNumberOfAttempts=1` runs the original attempt plus one
+retry. In JUnit, SHAFT schedules the retry after the failed attempt's
+`@AfterEach` lifecycle has completed and executes the retry through JUnit again,
+so the retry receives a fresh `@BeforeEach` setup. Put browser creation in
+`@BeforeEach` and driver cleanup in `@AfterEach` when retries need independent
+browser sessions.
+
 :::note
 TestNG remains supported. TestNG XML suite shaping and TestNG retry analyzer
 binding are still TestNG runner features. For JUnit cross-browser coverage, use

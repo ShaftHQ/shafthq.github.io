@@ -158,7 +158,7 @@ This lets you run the same test suite against staging, production, or different 
 1. **Always use headless mode** in pipelines — there is no display server.
 2. **Disable auto-opening reports** — set `allure.automaticallyOpen=false`.
 3. **Generate report archives** — use `allure.generateArchive=true` and publish them as pipeline artifacts.
-4. **Set retry attempts** — `retryMaximumNumberOfAttempts=2` helps with flaky tests in CI environments.
+4. **Set retry attempts** — `retryMaximumNumberOfAttempts=2` allows two retries after the first failure. Keep the budget small; JUnit retries still run setup and teardown for isolated attempts.
 5. **Parameterize everything** — use CLI properties so the same test suite works across environments.
 6. **Archive test artifacts** — always upload reports and logs, even on failure (use `if: always()` in GitHub Actions or `post { always { } }` in Jenkins).
 
