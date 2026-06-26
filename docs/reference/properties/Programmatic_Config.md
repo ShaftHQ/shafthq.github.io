@@ -62,6 +62,10 @@ SHAFT.Properties.flags.set()
     .forceCheckForElementVisibility(true);
 ```
 
+`retryMaximumNumberOfAttempts(2)` allows two retry attempts after the first
+failure. In JUnit, each retry is launched after `@AfterEach` cleanup and gets a
+fresh `@BeforeEach` setup.
+
 ---
 
 ## Reading Current Values

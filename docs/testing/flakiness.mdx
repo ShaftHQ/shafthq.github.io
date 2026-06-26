@@ -107,6 +107,14 @@ the retry attempt turns on richer evidence such as video, animated GIF,
 WebDriver logs, page source on failure, and Playwright tracing when retry-only
 tracing is enabled.
 
+`retryMaximumNumberOfAttempts` means additional attempts after the original
+failure: `1` allows one retry, for two executions total. TestNG delegates this
+to its retry analyzer. JUnit schedules the retry after the failed attempt's
+`@AfterEach` lifecycle has finished, then runs the retry through JUnit again so
+`@BeforeEach` setup is executed for the retry attempt. Keep browser/session
+creation in setup and cleanup in teardown so each retry starts from isolated
+state.
+
 ```properties title="src/main/resources/properties/custom.properties"
 retryMaximumNumberOfAttempts=1
 forceCaptureSupportingEvidenceOnRetry=true

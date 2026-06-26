@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io_codex_3094_mobile_trace_docs  (2026-06-26)
+# Graph Report - shafthq.github.io_codex_3100_junit_retry_docs  (2026-06-26)
 
 ## Corpus Check
-- 224 files · ~310,336 words
+- 224 files · ~310,544 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ec103f0d`
+- Built from commit: `bb4878bb`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

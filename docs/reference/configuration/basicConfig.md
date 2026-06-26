@@ -83,6 +83,9 @@ allure.groupBy=package,testClass
 # Automatically retry failed tests up to N times
 retryMaximumNumberOfAttempts=3
 
+# Retries are additional attempts after the first failure; JUnit retries run
+# after @AfterEach cleanup and execute @BeforeEach again
+
 # Loosen the built-in pre-action checks if your app has unusual rendering
 forceCheckForElementVisibility=false
 forceCheckElementLocatorIsUnique=false
