@@ -24,6 +24,7 @@ Network interception relies on Selenium DevTools support. Use a DevTools-capable
 | Block analytics / tracking calls | Match the analytics URL and return a 204 response |
 | Validate real API responses from the browser | `.assertResponse(...)` or `.verifyResponse(...)` |
 | Inject controlled test data | Match the request and return a fixed JSON payload |
+| Reproduce offline or slow-network paths | `goOffline()`, `throttleNetwork(...)`, then `restoreNetwork()` |
 
 ---
 
@@ -166,6 +167,41 @@ driver.browser().mock(
 :::note
 Interception rules are scoped to the current browser session. They are cleared automatically when the driver is quit, or explicitly with `driver.browser().clearNetworkInterceptors()`. If multiple rules match the same request, the latest registered rule wins.
 :::
+
+## Network Profiles
+
+Use network profiles to validate client behavior under offline, slow, or
+resource-blocked browser conditions. These methods use Selenium DevTools when
+the active driver supports it; otherwise SHAFT keeps the test running and
+records an observability warning in the failure trace metadata.
+
+```java title="NetworkProfiles.java"
+driver.browser()
+        .throttleNetwork(300, 128, 64)
+        .and().navigateToURL("https://example.com/reports");
+
+driver.assertThat(By.id("loadingIndicator")).exists();
+
+driver.browser().restoreNetwork();
+```
+
+```java title="OfflineAndBlockedResources.java"
+driver.browser()
+        .blockNetworkResources("*.png", "*.webp")
+        .and().goOffline();
+
+driver.browser().restoreNetwork();
+```
+
+## Failure Trace Observability
+
+When `shaft.trace.includeNetwork=true`, SHAFT passively records browser
+network exchanges through the same Selenium interception owner used by
+`interceptRequest()`. Failed tests attach `shaft-trace.zip`, including the
+trace viewer, `shaft-trace.json`, and `shaft-network.har`. The trace JSON also
+includes `network`, `console`, and `browserObservability` sections. Common
+headers, cookies, passwords, tokens, and sensitive URL values are masked before
+the archive is attached.
 
 ## Related
 

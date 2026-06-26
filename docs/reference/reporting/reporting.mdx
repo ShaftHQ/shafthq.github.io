@@ -46,6 +46,7 @@ heavy trace artifacts for passing tests.
 Allure receives one SHAFT trace-report attachment on failed tests:
 
 - `shaft-trace.zip`, which contains `shaft-trace.json`, `SHAFT Trace Report.html`,
+  `shaft-network.har`,
   and the native Playwright trace ZIP when Playwright tracing is enabled and
   available
 
@@ -91,6 +92,14 @@ blocking element found with `document.elementFromPoint`, warnings from
 best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
 only for failed traced actions and applies the same redaction rules used by the
 trace JSON.
+
+When `shaft.trace.includeNetwork=true`, Selenium browser sessions also add
+redacted `network` entries to `shaft-trace.json` and a HAR-like
+`shaft-network.har` file to the archive. The trace viewer exposes Network,
+Console, and Observability tabs so you can inspect HTTP method, URL, status,
+duration, bounded body preview, browser console logs, and unsupported-driver
+warnings. Common headers, cookies, passwords, tokens, and sensitive URL values
+are masked before attachment.
 
 SHAFT also persists the archive and a local index under
 `target/shaft-traces/<safe-test-id>/`:
@@ -753,8 +762,8 @@ Key properties quick reference:
 | `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
 | `shaft.trace.includeFullPageSnapshots` | `true` | Include web snapshots when available |
 | `shaft.trace.includeNativePageSource` | `true` | Include Appium/native page source when available |
-| `shaft.trace.includeNetwork` | `true` | Reserve network evidence in the trace metadata |
-| `shaft.trace.includeConsole` | `true` | Reserve console evidence in the trace metadata |
+| `shaft.trace.includeNetwork` | `true` | Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export |
+| `shaft.trace.includeConsole` | `true` | Capture browser console evidence in the trace metadata when the driver exposes browser logs |
 | `shaft.trace.maxArtifactMb` | `50` | Maximum size for a single trace bundle entry |
 | `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
 | `videoParams_scope` | `DriverSession` | Scope of video recording |

@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io  (2026-06-26)
+# Graph Report - shafthq.github.io_codex_3054_browser_observability_docs  (2026-06-26)
 
 ## Corpus Check
-- 224 files · ~309,778 words
+- 224 files · ~310,130 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2382 nodes · 2385 edges · 221 communities (193 shown, 28 thin omitted)
+- 2386 nodes · 2389 edges · 227 communities (198 shown, 29 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a8ea4f08`
+- Built from commit: `44b7098d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -228,10 +228,16 @@
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
 - [[_COMMUNITY_Community 214|Community 214]]
+- [[_COMMUNITY_Community 215|Community 215]]
 - [[_COMMUNITY_Community 216|Community 216]]
+- [[_COMMUNITY_Community 217|Community 217]]
 - [[_COMMUNITY_Community 218|Community 218]]
 - [[_COMMUNITY_Community 219|Community 219]]
+- [[_COMMUNITY_Community 220|Community 220]]
 - [[_COMMUNITY_Community 221|Community 221]]
+- [[_COMMUNITY_Community 222|Community 222]]
+- [[_COMMUNITY_Community 223|Community 223]]
+- [[_COMMUNITY_Community 224|Community 224]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 37 edges
@@ -260,7 +266,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (221 total, 28 thin omitted)
+## Communities (227 total, 29 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -271,8 +277,8 @@ Cohesion: 0.04
 Nodes (19): Clicking, Clipboard Actions, Drag and Drop, Drag by Offset, Drag to a Position, Drag to Another Element, Dropdowns, Element Information (+11 more)
 
 ### Community 2 - "docs/reference (47)"
-Cohesion: 0.04
-Nodes (43): Accessibility Testing, Add Cookie, Capture Screenshot, Close Current Window, Cookies, Delete All Cookies, Delete Cookie, Fluent Chaining (+35 more)
+Cohesion: 0.22
+Nodes (9): Add Cookie, Cookies, Delete All Cookies, Delete Cookie, Get All Cookies, Get Cookie, Get Cookie Domain, Get Cookie Path (+1 more)
 
 ### Community 3 - "docs/reference (39)"
 Cohesion: 0.05
@@ -823,8 +829,8 @@ Cohesion: 0.13
 Nodes (12): fallbackProjects, fetchDirectoryContents(), fetchJson(), fetchText(), GitHubItem, loadProjectData(), OptionalModule, optionalModules (+4 more)
 
 ### Community 147 - "docs/reference (5)"
-Cohesion: 0.25
-Nodes (7): Advanced Predicate API, Complete Example, Mock Responses, Related, Request Matchers, Use Cases, Validate Real Responses
+Cohesion: 0.20
+Nodes (9): Advanced Predicate API, Complete Example, Failure Trace Observability, Mock Responses, Network Profiles, Related, Request Matchers, Use Cases (+1 more)
 
 ### Community 148 - "docs/reference (5)"
 Cohesion: 0.33
@@ -1006,9 +1012,17 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 Cohesion: 0.40
 Nodes (4): Task 1: Guard The Requested Page, Task 2: Add The Guide, Task 3: Validate And Publish, Test Automation Pillars Guide Implementation Plan
 
+### Community 215 - "Community 215"
+Cohesion: 0.22
+Nodes (8): Accessibility Testing, Fluent Chaining, Get and Set Context, Get Context Handles, Getting Started, Mobile Context, Related, Storage State
+
 ### Community 216 - "Community 216"
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
+
+### Community 217 - "Community 217"
+Cohesion: 0.22
+Nodes (9): Close Current Window, Full Screen Window, Get Page Source, Get Window Size, Get Window Title, Maximize Window, Resize Window, Switch Windows or Tabs (+1 more)
 
 ### Community 218 - "Community 218"
 Cohesion: 0.67
@@ -1018,24 +1032,36 @@ Nodes (3): browserslist, development, production
 Cohesion: 0.22
 Nodes (8): Automatic Synchronization, Flake Profiler, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
 
+### Community 220 - "Community 220"
+Cohesion: 0.25
+Nodes (8): Get Current URL, Navigate Back, Navigate Forward, Navigate to URL, Navigate to URL in a New Tab or Window, Navigate to URL with Basic Authentication, Navigation, Refresh Page
+
+### Community 223 - "Community 223"
+Cohesion: 0.40
+Nodes (5): Wait Actions, Wait for Lazy Loading, Wait Until Number of Windows, Wait Until Title Is, Wait Until URL Matches
+
+### Community 224 - "Community 224"
+Cohesion: 0.50
+Nodes (4): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Validate Intercepted Responses
+
 ## Knowledge Gaps
-- **1558 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1553 more)
+- **1562 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1557 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **28 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `fetch()` connect `netlify/functions (34)` to `static/img (5)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1558 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1562 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (47)` be split into smaller, more focused modules?**
-  _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (39)` be split into smaller, more focused modules?**
   _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**

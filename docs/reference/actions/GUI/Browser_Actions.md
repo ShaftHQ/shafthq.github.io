@@ -214,6 +214,28 @@ driver.browser().deleteCookie("cookieName");
 driver.browser().deleteAllCookies();
 ```
 
+## Storage State
+
+Use storage state when a test needs to reuse an authenticated browser session
+without repeating the login flow. SHAFT saves cookies, `localStorage`, and
+`sessionStorage` to a JSON file.
+
+```java title="SaveStorageState.java"
+driver.browser()
+        .navigateToURL("https://app.example.com")
+        .and().saveStorageState("target/auth-state.json");
+```
+
+Load storage state after navigating to a compatible origin so browser cookie
+domain rules can apply.
+
+```java title="LoadStorageState.java"
+driver.browser()
+        .navigateToURL("https://app.example.com")
+        .and().loadStorageState("target/auth-state.json")
+        .and().refreshCurrentPage();
+```
+
 ## Screenshots and Snapshots
 
 ### Capture Screenshot
@@ -325,6 +347,24 @@ driver.browser()
 ```
 
 Use `clearNetworkInterceptors()` to remove active browser network rules before the driver session ends.
+
+### Browser Network Profiles
+
+DevTools-capable Selenium drivers can switch the active browser session offline,
+throttle throughput, block resource patterns, and restore the default network
+state. Unsupported drivers keep the test running and add a deterministic
+observability warning to the trace metadata.
+
+```java title="NetworkProfiles.java"
+driver.browser()
+        .goOffline()
+        .and().restoreNetwork()
+        .and().throttleNetwork(250, 64, 32)
+        .and().blockNetworkResources("*.png", "*.jpg");
+```
+
+Call `restoreNetwork()` after a profile-specific assertion when later steps
+need normal connectivity.
 
 ## Mobile Context
 
