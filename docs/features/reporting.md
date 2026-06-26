@@ -41,8 +41,9 @@ Use [reporting configuration](/docs/reference/reporting) and
 detailed controls.
 
 ```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
 screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
-reporting.attachFullLog=true
+attachFullLog=true
 createAnimatedGif=false
 ```
 
@@ -53,10 +54,12 @@ normal test actions do not wait on file I/O. The console shows the concise
 INFO-level story, while diagnostic entries and engine internals are written at
 DEBUG level to the log file.
 
-Set `reporting.attachFullLog=true` when you want the full engine log attached to
-the Allure report after execution. The attachment is streamed from a temporary
-deduplicated snapshot so the live `target/logs/log4j.log` file remains available
-for retry diagnostics, local investigation, and CI artifact collection.
+Set `evidenceLevel=CUSTOM` before granular evidence controls such as
+`attachFullLog=true` when you want the control to override the default
+`FAILURE_ONLY` profile. The full-log attachment is streamed from a temporary
+deduplicated snapshot so the live `target/logs/log4j.log` file remains
+available for retry diagnostics, local investigation, and CI artifact
+collection.
 
 ## Failure diagnostics bundle
 

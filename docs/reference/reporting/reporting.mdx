@@ -29,7 +29,7 @@ using [properties](/docs/reference/properties/PropertyTypes).
 
 The **Allure Report** is the primary report in SHAFT. It opens automatically in your default browser at the end of every test run and provides a rich, single-file HTML report with:
 
-- Step-by-step action logs with screenshots attached
+- Step-by-step action logs with failure screenshots attached by default
 - Video recordings (when enabled)
 - Animated GIFs of browser sessions
 - Test history and trend graphs across multiple runs
@@ -62,6 +62,59 @@ shaft.trace.includeNetwork=true
 shaft.trace.includeConsole=true
 shaft.trace.maxArtifactMb=50
 ```
+
+### Evidence Level Profiles
+
+`evidenceLevel` is the profile-level evidence switch. Its default is
+`FAILURE_ONLY`, so passing tests keep reports small while failed and broken
+tests still get failure screenshots, page source, diagnostics, and trace
+artifacts.
+
+Profiles are applied after file, CLI, and default granular evidence properties
+are loaded. The code-based setter also applies the selected profile
+immediately. For `FAILURE_ONLY`, `BALANCED`, `FAST`, and `FULL`, the profile
+overrides granular controls such as `screenshotParams_whenToTakeAScreenshot`,
+`whenToTakePageSourceSnapshot`, `createAnimatedGif`,
+`videoParams_recordVideo`, `captureWebDriverLogs`, `attachFullLog`,
+`shaft.diagnostics.enabled`, and `shaft.trace.mode`. Set
+`evidenceLevel=CUSTOM` when you want those granular controls to win.
+In code, call `evidenceLevel(...)` after granular setters when you want a
+profile to win; call `evidenceLevel("CUSTOM")` before granular setters when you
+want custom values to win.
+
+| Level | Effect |
+|---|---|
+| `FAILURE_ONLY` | Default. Screenshots and page source only on failures; GIF, video, WebDriver logs, and full log off; diagnostics and trace enabled for failures. |
+| `BALANCED` | Validation screenshots plus failure page source, diagnostics, and trace; GIF, video, WebDriver logs, and full log off. |
+| `FAST` | Minimal evidence: screenshots, page source, GIF, video, WebDriver logs, full log, diagnostics, and trace off. |
+| `FULL` | Rich evidence: screenshots and page source always, GIF and video on, WebDriver logs and full log on, diagnostics on, and trace mode `always`. |
+| `CUSTOM` | No profile override. Use this before setting granular evidence controls directly. |
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=FAILURE_ONLY
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DevidenceLevel=FAST
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.reporting.set().evidenceLevel("FULL");
+```
+
+  </TabItem>
+</Tabs>
 
 ### Open Allure Report Manually
 
@@ -450,12 +503,16 @@ threshold.
 
 ## Video Recording
 
-SHAFT can record a video of every test session and automatically attach it to the Allure report. There is no code change required — it is purely a property:
+SHAFT can record a video of every test session and automatically attach it to
+the Allure report. Because `evidenceLevel=FAILURE_ONLY` is the default, set
+`evidenceLevel=CUSTOM` before enabling video directly, or set
+`evidenceLevel=FULL` to enable the full rich-evidence profile.
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
 videoParams_recordVideo=true
 ```
 
@@ -463,7 +520,7 @@ videoParams_recordVideo=true
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DvideoParams_recordVideo=true
+mvn test -DevidenceLevel=CUSTOM -DvideoParams_recordVideo=true
 ```
 
   </TabItem>
@@ -472,6 +529,7 @@ mvn test -DvideoParams_recordVideo=true
 ```java
 import com.shaft.driver.SHAFT;
 
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
 SHAFT.Properties.visuals.set().videoParamsRecordVideo(true);
 ```
 
@@ -500,6 +558,7 @@ You can control which part of the session is recorded:
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
 videoParams_recordVideo=true
 # Scope options: DriverSession | TestMethod
 videoParams_scope=DriverSession
@@ -509,7 +568,7 @@ videoParams_scope=DriverSession
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DvideoParams_recordVideo=true -DvideoParams_scope=DriverSession
+mvn test -DevidenceLevel=CUSTOM -DvideoParams_recordVideo=true -DvideoParams_scope=DriverSession
 ```
 
   </TabItem>
@@ -518,6 +577,7 @@ mvn test -DvideoParams_recordVideo=true -DvideoParams_scope=DriverSession
 ```java
 import com.shaft.driver.SHAFT;
 
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
 SHAFT.Properties.visuals.set()
     .videoParamsRecordVideo(true)
     .videoParamsScope("DriverSession");
@@ -535,12 +595,19 @@ SHAFT.Properties.visuals.set()
 
 ## Animated GIFs
 
-Animated GIFs are disabled by default. SHAFT creates them when you explicitly set `createAnimatedGif=true`, and also enables them automatically for retry attempts when `forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the background and do not force every action screenshot to be attached to the report. Generated GIF files are written under `video.folder` before they are attached to Allure:
+Animated GIFs are disabled by default. SHAFT creates them when you explicitly
+set `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, and also enables them
+automatically for retry attempts when
+`forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the
+background and do not force every action screenshot to be attached to the
+report. Generated GIF files are written under `video.folder` before they are
+attached to Allure:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
 createAnimatedGif=true
 # Delay between frames in milliseconds (default: 500)
 animatedGif_frameDelay=500
@@ -550,7 +617,7 @@ animatedGif_frameDelay=500
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DcreateAnimatedGif=true -DanimatedGif_frameDelay=500
+mvn test -DevidenceLevel=CUSTOM -DcreateAnimatedGif=true -DanimatedGif_frameDelay=500
 ```
 
   </TabItem>
@@ -559,6 +626,7 @@ mvn test -DcreateAnimatedGif=true -DanimatedGif_frameDelay=500
 ```java
 import com.shaft.driver.SHAFT;
 
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
 SHAFT.Properties.visuals.set()
     .createAnimatedGif(true)
     .animatedGifFrameDelay(500);
@@ -583,11 +651,8 @@ allure.generateArchive=true
 ### Active Debugging (rich visuals)
 
 ```properties title="src/main/resources/properties/custom.properties"
-# Allure opens automatically by default — add visual evidence
-videoParams_recordVideo=true
-createAnimatedGif=true
-# Attach every action screenshot while actively debugging
-screenshotParams_whenToTakeAScreenshot=Always
+# Allure opens automatically by default; add rich evidence
+evidenceLevel=FULL
 ```
 
 ### Quick Pass/Fail Summary
@@ -622,6 +687,7 @@ Key properties quick reference:
 | `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
 | `allure.groupBy` | `package,testClass` | Comma-separated label hierarchy for the Allure 3 report tree |
 | `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
+| `evidenceLevel` | `FAILURE_ONLY` | Evidence profile: `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, or `CUSTOM` |
 | `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
 | `shaft.locatorHealth.enabled` | `false` | Generate end-of-run locator health reports |
 | `shaft.locatorHealth.warnBelowScore` | `70` | Mark locators below this health score as risky |
@@ -645,7 +711,8 @@ Key properties quick reference:
 | `videoParams_scope` | `DriverSession` | Scope of video recording |
 | `createAnimatedGif` | `false` | Create an animated GIF; retries can enable it automatically |
 | `animatedGif_frameDelay` | `500` | Delay between GIF frames (milliseconds) |
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | When to attach screenshots; failed element actions always attach evidence, highlight found elements red, and fall back to a page screenshot when the locator is missing |
+| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | Granular screenshot policy; profile levels except `CUSTOM` override it |
+| `whenToTakePageSourceSnapshot` | `failuresOnly` | Granular page-source policy; profile levels except `CUSTOM` override it |
 
 ## Related
 

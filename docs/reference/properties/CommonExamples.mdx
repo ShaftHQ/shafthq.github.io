@@ -462,6 +462,8 @@ Configure when and how to capture screenshots and videos:
   <TabItem value="file" label="File-based">
 
 ```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
+
 # Screenshot configuration
 screenshotParams_whenToTakeAScreenshot=Always
 screenshotParams_screenshotType=FullPage
@@ -481,7 +483,7 @@ animatedGif_frameDelay=500
   <TabItem value="cli" label="CLI-based">
 
 ```bash
-mvn test -DscreenshotParams_whenToTakeAScreenshot=Always -DvideoParams_recordVideo=true -DcreateAnimatedGif=true
+mvn test -DevidenceLevel=CUSTOM -DscreenshotParams_whenToTakeAScreenshot=Always -DvideoParams_recordVideo=true -DcreateAnimatedGif=true
 ```
 
   </TabItem>
@@ -490,6 +492,7 @@ mvn test -DscreenshotParams_whenToTakeAScreenshot=Always -DvideoParams_recordVid
 ```java
 import com.shaft.driver.SHAFT;
 
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
 SHAFT.Properties.visuals.set()
     .screenshotParamsWhenToTakeAScreenshot("Always")
     .screenshotParamsScreenshotType("FullPage")

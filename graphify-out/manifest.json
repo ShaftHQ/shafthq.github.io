@@ -620,8 +620,8 @@
     "semantic_hash": ""
   },
   "docs/features/reporting.md": {
-    "mtime": 1782421894.1789968,
-    "ast_hash": "cdd35e7ea7dd57fe11ae35d7454ae80e",
+    "mtime": 1782450866.2138815,
+    "ast_hash": "d2b92751c79d20be62baa8034ca33b2d",
     "semantic_hash": ""
   },
   "docs/features/technology.md": {
@@ -955,8 +955,8 @@
     "semantic_hash": ""
   },
   "docs/reference/configuration/basicConfig.md": {
-    "mtime": 1782374589.6472523,
-    "ast_hash": "2c169139949cf928816a5c90788c0353",
+    "mtime": 1782450866.2168827,
+    "ast_hash": "08734f3ef73492550ff9e7692cd29eb7",
     "semantic_hash": ""
   },
   "docs/reference/configuration/basicConfig2.md": {
@@ -1020,8 +1020,8 @@
     "semantic_hash": ""
   },
   "docs/reference/guides/Test_Artifacts.md": {
-    "mtime": 1782410953.2349224,
-    "ast_hash": "862aa01aa12faa6fb31015680535dea3",
+    "mtime": 1782450866.218883,
+    "ast_hash": "27d24b9ad93c18c5e12bbd44cea0e6d2",
     "semantic_hash": ""
   },
   "docs/reference/guides/Test_Structure.md": {
@@ -1045,8 +1045,8 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/CommonExamples.mdx": {
-    "mtime": 1782366323.9623134,
-    "ast_hash": "16943a75741e2de8f98b44c053b6e02a",
+    "mtime": 1782450866.219891,
+    "ast_hash": "5dfe069a48fa36e5198d31bd33be51c4",
     "semantic_hash": ""
   },
   "docs/reference/properties/Programmatic_Config.md": {
@@ -1055,13 +1055,13 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertiesList.mdx": {
-    "mtime": 1782421894.1859934,
-    "ast_hash": "547e405bc235f070c8bc6ccdb5df72b3",
+    "mtime": 1782450866.2228904,
+    "ast_hash": "f93919bee5a7e428ce328343bd1ad984",
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertyTypes.md": {
-    "mtime": 1781964191.7205777,
-    "ast_hash": "46c016df870b6dcb449e6cfa53776f1c",
+    "mtime": 1782450866.223885,
+    "ast_hash": "b1107ffb2638546976fc7335a33a99b9",
     "semantic_hash": ""
   },
   "docs/reference/properties/custom-properties-generator.mdx": {
@@ -1075,8 +1075,8 @@
     "semantic_hash": ""
   },
   "docs/reference/reporting/reporting.mdx": {
-    "mtime": 1782421894.186993,
-    "ast_hash": "3ee8f3d341937eea4332e0051719befb",
+    "mtime": 1782450866.225883,
+    "ast_hash": "1c92becb575bcfc243b9fd205cb9b965",
     "semantic_hash": ""
   },
   "docs/start/installation.mdx": {
@@ -1275,8 +1275,8 @@
     "semantic_hash": ""
   },
   "docs/features/test-automation-pillars.mdx": {
-    "mtime": 1782366323.9523084,
-    "ast_hash": "8dc65d94af27c2e3b544de7f11eda5b3",
+    "mtime": 1782450866.2158833,
+    "ast_hash": "4a9359c91b22d69c1e1e67a47cd4bd23",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-06-24-test-automation-pillars-guide.md": {

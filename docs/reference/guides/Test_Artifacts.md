@@ -19,9 +19,9 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Allure report** | `allure-report/` | Generated HTML report (after `generate_allure_report.sh`) |
 | **Allure archive** | `allure-report-archive/` | Portable ZIP when `allure.generateArchive=true` |
 | **Execution summary** | `execution-summary/` | Lightweight HTML summary report |
-| **Screenshots** | Attached inside `allure-results/` | Automatically captured on validation and failure |
-| **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `videoParams_recordVideo=true` |
-| **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `createAnimatedGif=true` |
+| **Screenshots** | Attached inside `allure-results/` | Captured on failures by default; validation and every-action screenshots depend on `evidenceLevel` or granular screenshot policy |
+| **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `videoParams_recordVideo=true`, or when `evidenceLevel=FULL` |
+| **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, when `evidenceLevel=FULL`, or on retry evidence capture |
 | **Failure trace viewer** | Attached inside `allure-results/` | `SHAFT Trace Report.html`, `shaft-trace.json`, and `shaft-trace.zip` on failed tests by default |
 | **Failure brief** | Attached inside `allure-results/` | `SHAFT Failure Brief.html`, `shaft-failure-brief.json`, and `shaft-attachments-manifest.json` on failed or broken tests |
 
@@ -36,7 +36,7 @@ All paths are relative to your project root directory.
 The Allure report is the **primary artifact** from every SHAFT test run. It contains:
 
 - Step-by-step action logs
-- Screenshots attached at each validation point
+- Screenshots according to the selected evidence profile
 - Video recordings and animated GIFs (when enabled)
 - Failure trace viewer attachments for failed tests
 - Failure brief and attachment manifest for first-pass triage
@@ -121,9 +121,10 @@ Always use `if: always()` (GitHub Actions) or `post { always { } }` (Jenkins) so
 
 | Property | Default | Description |
 |---|---|---|
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, `FailuresOnly`, or `Never`; default attaches validation checkpoint screenshots only |
-| `videoParams_recordVideo` | `false` | Record video of each test session |
-| `createAnimatedGif` | `false` | Create an animated GIF; retry attempts can enable it automatically |
+| `evidenceLevel` | `FAILURE_ONLY` | Profile-level evidence control. Profiles except `CUSTOM` override the granular controls below. |
+| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | Granular screenshot policy: `Always`, `ValidationPointsOnly`, `FailuresOnly`, or `Never` |
+| `videoParams_recordVideo` | `false` | Granular video policy |
+| `createAnimatedGif` | `false` | Granular GIF policy; retry attempts can enable GIFs automatically |
 | `allure.generateArchive` | `false` | Generate a portable ZIP archive of the report |
 | `shaft.trace.mode` | `failure` | Attach failure trace viewer artifacts on `failure`, `retry`, or `always` |
 
