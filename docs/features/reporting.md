@@ -71,11 +71,15 @@ logs, referenced artifacts such as videos, GIFs, and the trace viewer archive,
 selected runtime/configuration metadata, redaction rules applied, size limits,
 and suggested Doctor/MCP commands.
 
-The single trace archive includes `shaft-trace.json` and `SHAFT Trace Report.html`.
-The JSON `actions` array records ordered Selenium browser, element, touch, and
-validation events with status, duration, locator, URL, exception summary,
-attachment summaries, and redacted metadata. SHAFT also writes the archive under
-`target/shaft-traces/<safe-test-id>/` with an `index.json` for local tooling.
+The single trace archive includes `shaft-trace.json`,
+`shaft-network.har`, and `SHAFT Trace Report.html`. The JSON `actions` array
+records ordered Selenium browser, element, touch, and validation events with
+status, duration, locator, URL, exception summary, attachment summaries, and
+redacted metadata. When enabled, the trace JSON also includes `network`,
+`console`, and `browserObservability` sections for browser HTTP exchanges,
+console messages, and unsupported-capability warnings. SHAFT also writes the
+archive under `target/shaft-traces/<safe-test-id>/` with an `index.json` for
+local tooling.
 
 The bundle references existing artifacts instead of copying every raw file.
 Secrets in common headers, cookies, token/password assignments, and sensitive
