@@ -59,6 +59,9 @@ pageLoadTimeout=60
 ## Visual Reporting
 
 ```properties title="src/main/resources/properties/custom.properties"
+# Let the granular visual reporting controls below override the default profile
+evidenceLevel=CUSTOM
+
 # Generate an animated GIF of each test in the Allure report
 createAnimatedGif=true
 

@@ -32,6 +32,7 @@ executionAddress=local
 targetOperatingSystem=WINDOWS
 targetBrowserName=firefox
 headlessExecution=true
+evidenceLevel=CUSTOM
 createAnimatedGif=true
 videoParams_recordVideo=true
 ```
