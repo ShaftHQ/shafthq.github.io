@@ -131,6 +131,7 @@ Common catalog entries include:
 | `web-playwright-record-replay` | Record Playwright MCP actions, generate replay snippets, and move stable actions into Playwright page methods. | The replay code is reviewed, guarded, and inserted into Playwright classes. |
 | `mobile-native-appium` | Inspect contexts and accessibility trees, prefer accessibility ids/Appium locators, and create mobile page objects plus TestNG tests. | The native mobile test compiles; any unavailable device/cloud run is reported. |
 | `mobile-record-replay` | Record mobile actions through MCP, generate code blocks, and move them into mobile page methods. | The replay code is reviewed, guarded, and inserted into the right classes. |
+| `failure-trace-first-analysis` | Read `target/shaft-traces` with `trace_latest`, summarize the failed structured action, and use `doctor_analyze_trace` before opening raw Allure evidence. | The failed action, locator, exception, source context, and next MCP tool or code-change category are reported. |
 | `failure-doctor-analysis` | Analyze Allure results with Doctor and separate product defects, test defects, and infrastructure issues. | The first actionable failure and next validation step are reported. |
 | `failure-healer-loop` | Rerun a guarded failing Selenium or Playwright test, analyze fresh evidence, and propose review-only fixes. | The failure is fixed by validation or reported as blocked/product behavior. |
 | `report-generate-and-summarize` | Generate the report and summarize SHAFT/Allure evidence. | The report path and high-signal pass/fail summary are returned. |
@@ -146,6 +147,25 @@ direct `System.getProperty()`, and PageFactory usage. Prefer SHAFT
 waits/actions/assertions and the locator order from the catalog: smart/semantic
 locators, ARIA locators, `SHAFT.GUI.Locator`, stable `By`/`AppiumBy`, then
 non-absolute XPath only when nothing better exists.
+
+## Trace-first failure workflow
+
+When a SHAFT WebDriver run writes persisted trace artifacts under
+`target/shaft-traces`, agents can diagnose the latest failure without manually
+opening Allure attachments:
+
+```json
+{"tool": "trace_latest", "arguments": {"maxResults": 3}}
+{"tool": "trace_summarize", "arguments": {"tracePath": "target/shaft-traces/CheckoutTest.pay/index.json"}}
+{"tool": "doctor_analyze_trace", "arguments": {"tracePath": "target/shaft-traces/CheckoutTest.pay/index.json", "backend": "webdriver"}}
+```
+
+Use `trace_read` only when the summary is not enough. Its output is redacted,
+bounded by `maxCharacters`, and reports whether truncation occurred:
+
+```json
+{"tool": "trace_read", "arguments": {"tracePath": "target/shaft-traces/CheckoutTest.pay/index.json", "maxCharacters": 12000}}
+```
 
 If you see an `AccessDeniedException` under `C:\Windows\system32`, the MCP host
 launched from a protected Windows directory. Upgrade to a release with the
@@ -183,6 +203,9 @@ The packaged server supports:
   Playwright remediation, restricted to explicit input paths and allowed roots,
   with an optional separately identified provider advisory when Pilot AI is
   explicitly enabled;
+- persisted trace discovery and deterministic trace analysis through
+  `trace_latest`, `trace_read`, `trace_summarize`, and `doctor_analyze_trace`,
+  restricted to the MCP workspace and bounded for raw trace reads;
 - guarded test healing through `healer_run_failed_test` for Selenium/WebDriver
   and `playwright_healer_run_failed_test` for SHAFT Playwright, which rerun
   tokenized Maven validation commands, analyze fresh Allure evidence through
