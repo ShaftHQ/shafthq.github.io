@@ -49,6 +49,30 @@ flowchart LR
 
 For native execution, either connect a real Appium target or let the Inspector prepare step guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `mobile_record_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
 
+## Mobile failure trace evidence
+
+Failed Appium touch actions are included in `shaft-trace.json` as `touch`
+events. When available, SHAFT records the action name, locator or text target,
+gesture parameters, platform, automation name, app package/activity or bundle
+id, current context, orientation, and window size. If
+`shaft.trace.includeNativePageSource=true`, failed native actions also include a
+bounded, redacted native page-source excerpt.
+
+```java
+SHAFT.Properties.reporting.set()
+        .traceEnabled(true)
+        .traceIncludeNativePageSource(true);
+
+driver.touch()
+        .swipeElementIntoView("Pay now", TouchActions.SwipeMovement.VERTICAL)
+        .rotate(ScreenOrientation.LANDSCAPE);
+```
+
+Context transitions are trace events too. A call such as
+`driver.browser().setContext("WEBVIEW_checkout")` records the previous context,
+requested context, and resulting context when the Appium provider supports
+context inspection.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration allows you to seamlessly test Flutter apps on both Android and iOS platforms.

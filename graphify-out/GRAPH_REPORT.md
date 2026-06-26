@@ -1,16 +1,16 @@
-# Graph Report - shafthq.github.io_codex_3054_browser_observability_docs  (2026-06-26)
+# Graph Report - shafthq.github.io_codex_3094_mobile_trace_docs  (2026-06-26)
 
 ## Corpus Check
-- 224 files · ~310,130 words
+- 224 files · ~310,336 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2386 nodes · 2389 edges · 227 communities (198 shown, 29 thin omitted)
+- 2387 nodes · 2390 edges · 227 communities (198 shown, 29 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `44b7098d`
+- Built from commit: `ec103f0d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -247,9 +247,9 @@
 5. `Request Builder` - 17 edges
 6. `Test` - 15 edges
 7. `Connect shaft-mcp` - 14 edges
-8. `Diagnose failures with Doctor` - 13 edges
-9. `Security Fix Summary` - 13 edges
-10. `SHAFT API Response Validations` - 13 edges
+8. `Mobile and Flutter testing` - 14 edges
+9. `Diagnose failures with Doctor` - 13 edges
+10. `Security Fix Summary` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
@@ -306,7 +306,7 @@ Nodes (33): Additional Resources, Best Practices, Browser Not Found, Combining G
 
 ### Community 9 - "docs/testing (33)"
 Cohesion: 0.06
-Nodes (32): 1. Install Appium Server, 2. Verify Installation, 3. Prepare Your Flutter App, Additional Resources, Assertions, Basic Setup, Best Practices, BrowserStack (+24 more)
+Nodes (33): 1. Install Appium Server, 2. Verify Installation, 3. Prepare Your Flutter App, Additional Resources, Assertions, Basic Setup, Best Practices, BrowserStack (+25 more)
 
 ### Community 10 - "docs/archive (30)"
 Cohesion: 0.07
@@ -1045,7 +1045,7 @@ Cohesion: 0.50
 Nodes (4): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Validate Intercepted Responses
 
 ## Knowledge Gaps
-- **1562 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1557 more)
+- **1563 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1558 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -1057,7 +1057,7 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1562 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1563 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
