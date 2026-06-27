@@ -55,30 +55,6 @@ html {
   --site-font-weight-regular: 500;
   --site-font-weight-medium: 600;
   --site-font-weight-bold: 700;
-  --landing-color-primary: var(--site-color-primary);
-  --landing-color-primary-rgb: var(--site-color-primary-rgb);
-  --landing-color-deep: var(--site-color-deep);
-  --landing-color-deep-alt: var(--site-color-deep-alt);
-  --landing-color-muted: var(--site-color-muted);
-  --landing-color-muted-rgb: var(--site-color-muted-rgb);
-  --landing-color-on-dark: var(--site-color-on-dark);
-  --landing-font-display: var(--site-font-display);
-  --landing-font-display-small: var(--site-font-display-small);
-  --landing-font-heading: var(--site-font-heading);
-  --landing-font-body-large: var(--site-font-body-large);
-  --landing-font-body: var(--site-font-body);
-  --landing-font-small: var(--site-font-small);
-  --landing-font-label: var(--site-font-label);
-  --landing-font-caption: var(--site-font-caption);
-  --landing-font-code: var(--site-font-code);
-  --landing-font-code-small: var(--site-font-code-small);
-  --landing-font-card-title-lg: var(--site-font-card-title-lg);
-  --landing-font-card-title: var(--site-font-card-title);
-  --landing-font-card-title-md: var(--site-font-card-title-md);
-  --landing-font-card-title-sm: var(--site-font-card-title-sm);
-  --landing-font-weight-regular: var(--site-font-weight-regular);
-  --landing-font-weight-medium: var(--site-font-weight-medium);
-  --landing-font-weight-bold: var(--site-font-weight-bold);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -104,30 +80,6 @@ body.dark {
   --site-color-muted: #dff5f4;
   --site-color-muted-rgb: 223, 245, 244;
   --site-color-on-dark: #f5fdff;
-  --landing-color-primary: var(--site-color-primary);
-  --landing-color-primary-rgb: var(--site-color-primary-rgb);
-  --landing-color-deep: var(--site-color-deep);
-  --landing-color-deep-alt: var(--site-color-deep-alt);
-  --landing-color-muted: var(--site-color-muted);
-  --landing-color-muted-rgb: var(--site-color-muted-rgb);
-  --landing-color-on-dark: var(--site-color-on-dark);
-  --landing-font-display: var(--site-font-display);
-  --landing-font-display-small: var(--site-font-display-small);
-  --landing-font-heading: var(--site-font-heading);
-  --landing-font-body-large: var(--site-font-body-large);
-  --landing-font-body: var(--site-font-body);
-  --landing-font-small: var(--site-font-small);
-  --landing-font-label: var(--site-font-label);
-  --landing-font-caption: var(--site-font-caption);
-  --landing-font-code: var(--site-font-code);
-  --landing-font-code-small: var(--site-font-code-small);
-  --landing-font-card-title-lg: var(--site-font-card-title-lg);
-  --landing-font-card-title: var(--site-font-card-title);
-  --landing-font-card-title-md: var(--site-font-card-title-md);
-  --landing-font-card-title-sm: var(--site-font-card-title-sm);
-  --landing-font-weight-regular: var(--site-font-weight-regular);
-  --landing-font-weight-medium: var(--site-font-weight-medium);
-  --landing-font-weight-bold: var(--site-font-weight-bold);
 }
 table {
   table-layout: fixed;

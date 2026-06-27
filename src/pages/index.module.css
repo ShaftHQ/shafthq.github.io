@@ -7,7 +7,7 @@
     linear-gradient(90deg, rgba(var(--site-color-muted-rgb), 0.055) 1px, transparent 1px) 0 0 / 72px 72px,
     linear-gradient(0deg, rgba(var(--site-color-muted-rgb), 0.045) 1px, transparent 1px) 0 0 / 72px 72px,
     radial-gradient(circle at 50% 10%, rgba(var(--site-color-primary-rgb), 0.2), transparent 36%),
-    linear-gradient(145deg, var(--site-color-deep-alt) 0%, #061b22 46%, var(--site-color-deep) 100%);
+    linear-gradient(145deg, var(--site-color-deep-alt) 0%, rgba(var(--site-color-deep-rgb), 0.96) 46%, var(--site-color-deep) 100%);
   color: var(--site-color-on-dark);
   isolation: isolate;
 }
@@ -59,8 +59,8 @@
   width: max-content;
   margin: 0 auto 1.2rem;
   color: var(--site-color-primary);
-  font-size: 1.55rem;
-  font-weight: 800;
+  font-size: var(--site-font-card-title-lg);
+  font-weight: var(--site-font-weight-bold);
   line-height: 1;
   letter-spacing: 0;
   text-decoration: none;
@@ -75,9 +75,9 @@
   max-width: 980px;
   margin: 0 auto 1.25rem;
   color: var(--site-color-on-dark);
-  font-size: clamp(2.75rem, 4.65vw, 4.75rem);
-  line-height: 0.98;
-  font-weight: 800;
+  font-size: var(--site-font-display);
+  line-height: 1.02;
+  font-weight: var(--site-font-weight-bold);
   letter-spacing: 0;
   text-wrap: balance;
 }
@@ -113,7 +113,7 @@
   white-space: normal;
   line-height: 1.2;
   text-wrap: balance;
-  font-size: 1rem;
+  font-size: var(--site-font-body);
   font-weight: var(--site-font-weight-bold);
 }
 
@@ -321,7 +321,7 @@
 }
 
 .codeString {
-  color: #f7d47b;
+  color: color-mix(in srgb, var(--site-color-primary) 34%, var(--site-color-on-dark));
 }
 
 .codeCompare ul {
@@ -823,7 +823,7 @@
 :global(html[data-theme='light']) .agentBand {
   background:
     linear-gradient(90deg, rgba(var(--site-color-primary-rgb), 0.055), transparent 62%),
-    linear-gradient(180deg, #f8fbfe, var(--ifm-background-color));
+    linear-gradient(180deg, rgba(var(--site-color-primary-rgb), 0.035), var(--ifm-background-color));
 }
 
 :global(html[data-theme='light']) .pathGrid,
@@ -970,15 +970,15 @@
 
   .heroBrand {
     margin-bottom: 0.9rem;
-    font-size: 1.2rem;
+    font-size: var(--site-font-card-title-md);
   }
 
   .heroCopy h1 {
-    font-size: 2.35rem;
+    font-size: var(--site-font-display-small);
   }
 
   .heroCopy > p {
-    font-size: 1rem;
+    font-size: var(--site-font-body);
   }
 
   .codeCompare {
@@ -1027,7 +1027,7 @@
   }
 
   .heroCopy h1 {
-    font-size: 2rem;
+    font-size: var(--site-font-heading);
   }
 
   .pathCard,

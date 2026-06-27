@@ -1,16 +1,16 @@
-# Graph Report - shaft-docs-graphify-3114-f7972b9a5db54d48ac76ddfa69de62f3  (2026-06-27)
+# Graph Report - shafthq.github.io-landing-consistency  (2026-06-27)
 
 ## Corpus Check
-- 225 files · ~315,693 words
+- 225 files · ~319,209 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2398 nodes · 2400 edges · 228 communities (199 shown, 29 thin omitted)
+- 2407 nodes · 2410 edges · 233 communities (204 shown, 29 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `65c4b840`
+- Built from commit: `ee3e6a7f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,6 +22,7 @@
 - [[_COMMUNITY_docsreference (38)|docs/reference (38)]]
 - [[_COMMUNITY_docsstart (38)|docs/start (38)]]
 - [[_COMMUNITY_docsreference (37)|docs/reference (37)]]
+- [[_COMMUNITY_Community 7|Community 7]]
 - [[_COMMUNITY_docsreference (33)|docs/reference (33)]]
 - [[_COMMUNITY_docstesting (33)|docs/testing (33)]]
 - [[_COMMUNITY_docsarchive (30)|docs/archive (30)]]
@@ -237,7 +238,11 @@
 - [[_COMMUNITY_Community 222|Community 222]]
 - [[_COMMUNITY_Community 223|Community 223]]
 - [[_COMMUNITY_Community 224|Community 224]]
+- [[_COMMUNITY_Community 225|Community 225]]
 - [[_COMMUNITY_Community 227|Community 227]]
+- [[_COMMUNITY_Community 228|Community 228]]
+- [[_COMMUNITY_Community 229|Community 229]]
+- [[_COMMUNITY_Community 230|Community 230]]
 - [[_COMMUNITY_Community 232|Community 232]]
 
 ## God Nodes (most connected - your core abstractions)
@@ -253,21 +258,21 @@
 10. `Security Fix Summary` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
+  scripts/run-shaft-tests.mjs → worker/index.js
 - `fetchJson()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `fetchText()` --calls--> `fetch()`  [INFERRED]
   src/pages/project-generator.tsx → worker/index.js
 - `loadIndex()` --calls--> `fetch()`  [INFERRED]
   functions/api/gemini-proxy.js → worker/index.js
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
   functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (228 total, 29 thin omitted)
+## Communities (233 total, 29 thin omitted)
 
 ### Community 0 - "docs/reference (48)"
 Cohesion: 0.04
@@ -296,6 +301,10 @@ Nodes (43): Automated upgrade, BrowserStack dependency boundary, BrowserStack ev
 ### Community 6 - "docs/reference (37)"
 Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
+
+### Community 7 - "Community 7"
+Cohesion: 0.26
+Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -482,8 +491,8 @@ Cohesion: 0.17
 Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
 
 ### Community 56 - "src/pages (11)"
-Cohesion: 0.15
-Nodes (7): guidePaths, heroEngines, heroSignals, Home(), proofPoints, testSurfaces, useScrollReveal()
+Cohesion: 0.10
+Nodes (11): audienceLanes, codeCompare, coverageColumns, evidenceLoop, footerBadges, guidePaths, Home(), proofPoints (+3 more)
 
 ### Community 57 - "docs/start (11)"
 Cohesion: 0.14
@@ -702,8 +711,8 @@ Cohesion: 0.38
 Nodes (6): { GoogleGenAI }, MODELS_TO_TEST, runTests(), TEST_QUERIES, testModelAvailability(), testResponseRelevance()
 
 ### Community 114 - "tests/homepage-performance.test.js (7)"
-Cohesion: 0.33
-Nodes (4): fs, index, path, styles
+Cohesion: 0.29
+Nodes (5): customStyles, fs, index, path, styles
 
 ### Community 115 - "docs/reference (7)"
 Cohesion: 0.25
@@ -1041,28 +1050,42 @@ Nodes (5): Wait Actions, Wait for Lazy Loading, Wait Until Number of Windows, Wa
 Cohesion: 0.40
 Nodes (5): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Record, Replay, and Validate Contracts, Validate Intercepted Responses
 
+### Community 225 - "Community 225"
+Cohesion: 0.19
+Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
+
 ### Community 227 - "Community 227"
-Cohesion: 0.05
-Nodes (51): getDocumentationContext(), loadIndex(), onRequest(), apiDocStart, documentation, githubContext, keyTopics, sampleQuestions (+43 more)
+Cohesion: 0.19
+Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
+
+### Community 228 - "Community 228"
+Cohesion: 0.30
+Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
+
+### Community 229 - "Community 229"
+Cohesion: 0.32
+Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
+
+### Community 230 - "Community 230"
+Cohesion: 0.29
+Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
 
 ### Community 232 - "Community 232"
 Cohesion: 0.29
 Nodes (6): Assert or verify live traffic, Record a contract, Redaction and normalization, Related, Replay browser responses, UI and API contract replay
 
 ## Knowledge Gaps
-- **1572 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1567 more)
+- **1576 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1571 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **29 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `fetch()` connect `Community 227` to `static/img (5)`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
-- **Why does `Supported Locator Types` connect `docs/reference (9)` to `docs/reference (7)`?**
+- **Why does `fetch()` connect `Community 228` to `static/img (5)`, `Community 229`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1572 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1576 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (48)` be split into smaller, more focused modules?**
@@ -1071,3 +1094,5 @@ _Questions this graph is uniquely positioned to answer:_
   _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
 - **Should `docs/reference (38)` be split into smaller, more focused modules?**
   _Cohesion score 0.05128205128205128 - nodes in this community are weakly interconnected._
+- **Should `docs/start (38)` be split into smaller, more focused modules?**
+  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
