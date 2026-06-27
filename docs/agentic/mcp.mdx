@@ -257,6 +257,10 @@ MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
 java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome --output recordings/example.json
 java -cp "$MCP_CP" "$MCP_MAIN" capture status
+java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
+  --kind FLOW_START --description "login as admin"
+java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
+  --kind FLOW_END --description "login as admin"
 java -cp "$MCP_CP" "$MCP_MAIN" capture stop
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \

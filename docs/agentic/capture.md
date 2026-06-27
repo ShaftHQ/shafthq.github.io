@@ -117,6 +117,32 @@ for WebDriver and Playwright captures, including locator inventory, action
 sequence, and fallback manual-mapping warnings when the generated source has no
 extractable candidates.
 
+Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
+inside a recording. The checkpoint description becomes the generated helper
+method name, so a segment marked as `login as admin` generates a
+`loginAsAdmin()` method and the replay test calls that method at the original
+point in the journey:
+
+```bash
+capture checkpoint --kind FLOW_START --description "login as admin"
+# perform the login steps in the managed browser
+capture checkpoint --kind FLOW_END --description "login as admin"
+```
+
+```java
+@Test
+public void replayCheckout() throws Exception {
+    driver.browser().navigateToURL("https://shop.example/login");
+    loginAsAdmin();
+    driver.element().click(CHECKOUT_BUTTON_LOCATOR);
+}
+
+private void loginAsAdmin() throws Exception {
+    driver.element().click(USERNAME_INPUT_LOCATOR);
+    driver.element().type(USERNAME_INPUT_LOCATOR, requiredData("username"));
+}
+```
+
 For a record-at-target flow, provide the existing Java source and insertion
 anchor when generating snippets. The CLI accepts
 `--target-source src/test/java/.../CheckoutTest.java --insert-after replayCheckout`
@@ -277,7 +303,9 @@ Every generated class creates a fresh driver in `@BeforeMethod` and calls
 `driver.quit()` from `@AfterMethod(alwaysRun = true)`. Only explicit
 `VerificationEvent` records become assertions. An `ASSERTION` checkpoint must
 point at a verification event; unsupported steps fail generation with their
-event IDs and remediation.
+event IDs and remediation. A matched `FLOW_START`/`FLOW_END` pair does not
+infer abstractions from similar steps; only the explicitly marked events move
+into a reusable helper method.
 
 Compilation is enabled by default. Add `--replay` to run the compiled TestNG
 class in an isolated process and require populated, passing Allure result
