@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/capture.md": {
-    "mtime": 1782539001.3890283,
-    "ast_hash": "49d096ca180d5e630f22080acb7dd132",
+    "mtime": 1782540142.5423045,
+    "ast_hash": "f0f6f01c4cdb999eb67b4f5762d4f069",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -1365,8 +1365,13 @@
     "semantic_hash": ""
   },
   "static/img/capture-assertion-mode.png": {
-    "mtime": 1782538490.4373674,
+    "mtime": 1782539981.6423092,
     "ast_hash": "914057cc72caee261a428e4438a3c3e1",
+    "semantic_hash": ""
+  },
+  "static/img/capture-locator-picker.png": {
+    "mtime": 1782540125.4969487,
+    "ast_hash": "3e67ec63a9d923d30720d6f92501592c",
     "semantic_hash": ""
   }
 }
