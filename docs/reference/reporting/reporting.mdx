@@ -251,6 +251,36 @@ SHAFT.Properties.allure.set().automaticallyOpen(false);
   </TabItem>
 </Tabs>
 
+### Skip Allure Report Generation
+
+If you only need raw `allure-results` and do not want SHAFT to create the HTML report, helper script, archive, or live watch process, disable report generation:
+
+<Tabs groupId="configMethod">
+  <TabItem value="file" label="File-based">
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.generateReport=false
+```
+
+  </TabItem>
+  <TabItem value="cli" label="CLI-based">
+
+```bash
+mvn test -DheadlessExecution=true -Dallure.generateReport=false
+```
+
+  </TabItem>
+  <TabItem value="code" label="Code-based">
+
+```java
+import com.shaft.driver.SHAFT;
+
+SHAFT.Properties.allure.set().generateReport(false);
+```
+
+  </TabItem>
+</Tabs>
+
 ### Generate an Allure Report Archive (for CI/CD)
 
 To generate a portable ZIP archive of the Allure report that you can publish as a CI/CD artifact:
@@ -772,6 +802,7 @@ Key properties quick reference:
 | Property | Default | Description |
 |---|---|---|
 | `allure.automaticallyOpen` | `true` | Open the Allure report in the browser automatically after the run |
+| `allure.generateReport` | `true` | Generate the Allure HTML report, helper script, archive, and live watch process |
 | `allure.generateArchive` | `false` | Generate a portable ZIP archive of the Allure report |
 | `allure.accumulateHistory` | `true` | Accumulate history across runs for trend graphs |
 | `allure.accumulateReports` | `true` | Keep previous Allure HTML report files |
