@@ -258,7 +258,8 @@ java -cp "$MCP_CP" "$MCP_MAIN" capture start \
 java -cp "$MCP_CP" "$MCP_MAIN" capture status
 java -cp "$MCP_CP" "$MCP_MAIN" capture stop
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
-  --session recordings/example.json --output-dir generated-tests
+  --session recordings/example.json --output-dir generated-tests \
+  --enable-fallback-locators
 java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor

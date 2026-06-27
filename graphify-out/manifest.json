@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/capture.md": {
-    "mtime": 1782542675.838752,
-    "ast_hash": "7407f2f2f9a9d45561c89a6bd55e8ab5",
+    "mtime": 1782550840.2334871,
+    "ast_hash": "256b2622b04d34c63f3613cb1daf2586",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/mcp.mdx": {
-    "mtime": 1782506040.3224719,
-    "ast_hash": "e4f0d0e20ec5dfd633a88b4d1854ecd0",
+    "mtime": 1782550822.096588,
+    "ast_hash": "6f4fd210878253b6f5d871b9e2523ef9",
     "semantic_hash": ""
   },
   "docs/agentic/overview.mdx": {
@@ -1055,8 +1055,8 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertiesList.mdx": {
-    "mtime": 1782544608.886577,
-    "ast_hash": "a8b3f31217601e998507ef7f72ba7612",
+    "mtime": 1782550789.0583596,
+    "ast_hash": "9bdfaa9c7af9c6ccdbf65a81690cfe65",
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertyTypes.md": {
@@ -1075,8 +1075,8 @@
     "semantic_hash": ""
   },
   "docs/reference/reporting/reporting.mdx": {
-    "mtime": 1782544608.884948,
-    "ast_hash": "6f7654e5f79484fe6da2ae1ea884a1a4",
+    "mtime": 1782550789.0593598,
+    "ast_hash": "b79e60b161691fef814f61f29ecce666",
     "semantic_hash": ""
   },
   "docs/start/installation.mdx": {
