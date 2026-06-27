@@ -72,6 +72,15 @@ and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
 avoid horizontal scrolling during review.
 
+Use the assertion control to toggle assertion mode, then click an element and choose
+one of the deterministic verification types: visible, enabled, selected, text
+equals or contains, attribute equals, URL equals or contains, or title equals.
+The recorder stores these as `VerificationEvent` records. Expected text, URL,
+title, and attribute values are externalized through the same privacy classifier
+used for typed data, so generated assertions do not embed captured secrets.
+
+![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
+
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call

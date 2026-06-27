@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "sidebars.js": {
-    "mtime": 1782501019.419154,
-    "ast_hash": "bece36e97b2941909d02ba6e8562bddb",
+    "mtime": 1782506007.1758084,
+    "ast_hash": "01b3102d9517dbfc8febf5c00426639e",
     "semantic_hash": ""
   },
   "src/components/AutoBot/index.tsx": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/capture.md": {
-    "mtime": 1782410953.2259126,
-    "ast_hash": "0c44bb969e4debac4621276560226486",
+    "mtime": 1782539001.3890283,
+    "ast_hash": "49d096ca180d5e630f22080acb7dd132",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/mcp.mdx": {
-    "mtime": 1782497446.7568865,
-    "ast_hash": "d6082261d797b670d4579a78c3046c22",
+    "mtime": 1782506040.3224719,
+    "ast_hash": "e4f0d0e20ec5dfd633a88b4d1854ecd0",
     "semantic_hash": ""
   },
   "docs/agentic/overview.mdx": {
@@ -765,8 +765,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Browser_Actions.md": {
-    "mtime": 1782501019.4221542,
-    "ast_hash": "5d66e3578d90c2aeafca994eed465d4b",
+    "mtime": 1782506007.1568089,
+    "ast_hash": "213e330a739fb82f1c176b65ec245ccf",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Did_You_Know.md": {
@@ -795,8 +795,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Playwright_Backend.md": {
-    "mtime": 1782501019.4221542,
-    "ast_hash": "7a474798520d86c07b64d44ff88350d1",
+    "mtime": 1782506007.1578085,
+    "ast_hash": "2e5cc466c3b8eda259b124f9eb7adfdc",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/Touch_Actions.md": {
@@ -860,8 +860,8 @@
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/didYouKnow/Network_Mocking.md": {
-    "mtime": 1782501019.4211555,
-    "ast_hash": "ce146e995d65a54e05974a098146f318",
+    "mtime": 1782506007.158808,
+    "ast_hash": "e1e05129a8a669a301465b9e922fc9b0",
     "semantic_hash": ""
   },
   "docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators.md": {
@@ -1075,8 +1075,8 @@
     "semantic_hash": ""
   },
   "docs/reference/reporting/reporting.mdx": {
-    "mtime": 1782497408.3791063,
-    "ast_hash": "a2b958281b9249648aa4d7ff04384261",
+    "mtime": 1782506007.158808,
+    "ast_hash": "c3b4fb792630e9ed61b38d233c5c77e9",
     "semantic_hash": ""
   },
   "docs/start/installation.mdx": {
@@ -1095,8 +1095,8 @@
     "semantic_hash": ""
   },
   "docs/testing/api.mdx": {
-    "mtime": 1782501019.4201553,
-    "ast_hash": "45ed7087a36568d369b89daee7a0c666",
+    "mtime": 1782506007.1598086,
+    "ast_hash": "47bb0628a2c29beee12e51c5b4df96c3",
     "semantic_hash": ""
   },
   "docs/testing/cli.md": {
@@ -1115,8 +1115,8 @@
     "semantic_hash": ""
   },
   "docs/testing/web.mdx": {
-    "mtime": 1782501019.4201553,
-    "ast_hash": "bc10317f602ae8e45ac497ef38dbba3d",
+    "mtime": 1782506007.160808,
+    "ast_hash": "eb5a0122118a012991dc78483787dc03",
     "semantic_hash": ""
   },
   "static/google7a9ed995e574e7e9.html": {
@@ -1360,8 +1360,13 @@
     "semantic_hash": ""
   },
   "docs/testing/contracts.mdx": {
-    "mtime": 1782502075.7377326,
-    "ast_hash": "64fcc2fbbcd3a5a60cfda2eb0ea2574d",
+    "mtime": 1782506007.1598086,
+    "ast_hash": "c60626cdf71092ed6103abb3598bf824",
+    "semantic_hash": ""
+  },
+  "static/img/capture-assertion-mode.png": {
+    "mtime": 1782538490.4373674,
+    "ast_hash": "914057cc72caee261a428e4438a3c3e1",
     "semantic_hash": ""
   }
 }

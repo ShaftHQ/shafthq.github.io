@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io  (2026-06-26)
+# Graph Report - shafthq.github.io  (2026-06-27)
 
 ## Corpus Check
-- 225 files · ~311,385 words
+- 225 files · ~312,830 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b39867e5`
+- Built from commit: `5cbc7831`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -303,8 +303,8 @@ Cohesion: 0.05
 Nodes (37): Additional Dependencies, Basic Oracle Connection, Best Practices, Choosing the Right Version, ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Gradle Setup, Maven Setup, Method 1: Add to Local Repository (+29 more)
 
 ### Community 7 - "netlify/functions (34)"
-Cohesion: 0.19
-Nodes (13): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+5 more)
+Cohesion: 0.50
+Nodes (3): index, outputPath, root
 
 ### Community 8 - "docs/reference (33)"
 Cohesion: 0.06
@@ -1055,8 +1055,8 @@ Cohesion: 0.26
 Nodes (8): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, getDocumentationContext(), getGitHubRepositoryContext(), documentation, githubContext
 
 ### Community 227 - "Community 227"
-Cohesion: 0.19
-Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
+Cohesion: 0.14
+Nodes (19): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+11 more)
 
 ### Community 228 - "Community 228"
 Cohesion: 0.30
