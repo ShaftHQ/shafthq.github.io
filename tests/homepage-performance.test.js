@@ -78,6 +78,8 @@ assert(!styles.includes('font-weight: 800'), 'Landing styles must use approved f
 assert(styles.includes('font-weight: var(--site-font-weight-bold)'), 'Landing styles must use the shared bold weight token.');
 assert(!styles.includes('#061b22') && !styles.includes('#f7d47b') && !styles.includes('#f8fbfe'), 'Landing reusable colors must use site tokens instead of raw hex values.');
 assert(!customStyles.includes('--landing-'), 'Unused landing token aliases should not duplicate the site token system.');
+assert(customStyles.includes('--site-anchor-offset: calc(var(--ifm-navbar-height) + 1rem)'), 'Anchor offset must track the sticky navbar height.');
+assert(customStyles.includes('scroll-margin-top: var(--site-anchor-offset)'), 'Doc anchor targets must stay visible below the sticky navbar.');
 assert(styles.includes('max-width: 780px'), 'Landing CTA buttons must use a compact shared grid width.');
 assert(styles.includes('grid-column: 2'), 'Landing project CTA must keep the same width as the other CTA buttons.');
 assert(styles.includes('grid-template-rows: 1.8rem 3rem 1fr'), 'Evidence loop cards must align number, title, and body rows.');

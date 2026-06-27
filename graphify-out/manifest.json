@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "src/theme/Root.tsx": {
-    "mtime": 1782562830.767623,
-    "ast_hash": "0d17733de18030f7568816e94d93771c",
+    "mtime": 1782563952.0122705,
+    "ast_hash": "96eb26001ee6d0e4a51615b2102322a7",
     "semantic_hash": ""
   },
   "src/types/jsx-namespace.d.ts": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1782562830.8216226,
-    "ast_hash": "2aaec9dae0faa73f64584fa59d046712",
+    "mtime": 1782563793.6083474,
+    "ast_hash": "4a00bde01ce122f0584b19bdd991b0c2",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "tests/homepage-performance.test.js": {
-    "mtime": 1782562912.958601,
-    "ast_hash": "864d598533a6bcc6b9b755e253e51858",
+    "mtime": 1782563705.3786373,
+    "ast_hash": "a0a527e2412e256dde7c10ae5a5a2cc7",
     "semantic_hash": ""
   },
   "tests/properties-catalog.test.js": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/capture.md": {
-    "mtime": 1782562830.6695504,
-    "ast_hash": "9c248b2a061898ee81527e3f15809f2a",
+    "mtime": 1782563538.9867816,
+    "ast_hash": "88d381f41e39341a795d74bb1070cc25",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/mcp.mdx": {
-    "mtime": 1782562830.671551,
-    "ast_hash": "fd0161d9fd97116b9d1df7d6620becb3",
+    "mtime": 1782563538.9877815,
+    "ast_hash": "34fb6b2792f1a4a587ae063fcfd87c80",
     "semantic_hash": ""
   },
   "docs/agentic/overview.mdx": {

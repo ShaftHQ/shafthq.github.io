@@ -55,6 +55,12 @@ html {
   --site-font-weight-regular: 500;
   --site-font-weight-medium: 600;
   --site-font-weight-bold: 700;
+  --site-anchor-offset: calc(var(--ifm-navbar-height) + 1rem);
+}
+
+/* Keep hash-linked doc targets visible below the sticky navbar. */
+:where(.theme-doc-markdown, .markdown) [id] {
+  scroll-margin-top: var(--site-anchor-offset);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */

@@ -40,14 +40,31 @@ profiles are temporary and removed after normal stop or interruption unless
 `--user-data-dir <path>` is supplied.
 
 `capture start` also accepts Playwright-codegen-shaped options where SHAFT can
-map them safely: `--viewport-size`, `--test-id-attribute`, `--lang`,
+map them safely: `--viewport-size`, `--device`, `--color-scheme`,
+`--geolocation`, `--timezone`, `--block-service-workers`, `--load-storage`,
+`--save-storage`, `--save-har`, `--test-id-attribute`, `--lang`,
 `--user-agent`, `--user-data-dir`, `--proxy-server`, `--proxy-bypass`,
-`--ignore-https-errors`, and `--timeout`. Other Playwright options such as
-`--target`, `--device`, `--color-scheme`, `--geolocation`, `--timezone`,
-`--load-storage`, `--save-storage`, `--save-har`, and `--save-har-glob` are
-retained as metadata and warnings when they cannot be enforced portably through
-Selenium. Use `capture features` to list the current Playwright codegen feature
-map.
+`--ignore-https-errors`, and `--timeout`. Device presets use bundled
+Chrome/Edge mobile-emulation profiles when available; color scheme,
+geolocation, timezone, and service-worker bypass use browser protocol support;
+storage state uses SHAFT's browser storage-state JSON; and HAR output uses the
+same redacted observability entries as SHAFT failure traces. Unsupported
+drivers or unmapped device names produce deterministic warnings instead of raw
+protocol failures. `--save-har-glob` is accepted with a warning; Capture writes
+all observed network entries. Use `capture features` to list the current
+Playwright codegen feature map.
+
+```bash
+capture start \
+  --url https://example.test \
+  --device "Pixel 7" \
+  --geolocation "30.0444,31.2357" \
+  --timezone Africa/Cairo \
+  --color-scheme dark \
+  --load-storage target/auth-state.json \
+  --save-storage target/auth-state-out.json \
+  --save-har target/capture.har
+```
 
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_status`, and `capture_stop` MCP tools. Generation is exposed by

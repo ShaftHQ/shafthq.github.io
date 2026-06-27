@@ -260,6 +260,10 @@ MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
 
 java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome --output recordings/example.json
+java -cp "$MCP_CP" "$MCP_MAIN" capture start \
+  --url https://example.test --browser chrome --output recordings/mobile.json \
+  --device "Pixel 7" --geolocation "30.0444,31.2357" \
+  --timezone Africa/Cairo --color-scheme dark --save-har target/capture.har
 java -cp "$MCP_CP" "$MCP_MAIN" capture status
 java -cp "$MCP_CP" "$MCP_MAIN" capture checkpoint \
   --kind FLOW_START --description "login as admin"

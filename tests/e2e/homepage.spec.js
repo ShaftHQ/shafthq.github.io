@@ -1,5 +1,28 @@
 const {expect, test} = require('@playwright/test');
 
+async function expectAnchorBelowNavbar(page, targetId) {
+  await expect.poll(async () => {
+    return page.evaluate((id) => {
+      const target = document.getElementById(id);
+      const navbar = document.querySelector('.navbar');
+      if (!target || !navbar) return false;
+
+      const gap = Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
+      return gap >= 8 && gap <= 120;
+    }, targetId);
+  }).toBe(true);
+
+  const gap = await page.evaluate((id) => {
+    const target = document.getElementById(id);
+    const navbar = document.querySelector('.navbar');
+
+    return Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
+  }, targetId);
+
+  expect(gap).toBeGreaterThanOrEqual(8);
+  expect(gap).toBeLessThanOrEqual(120);
+}
+
 test('landing page exposes clear onboarding links with stable hooks', async ({page}) => {
   await page.goto('/');
 
@@ -19,6 +42,7 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
     page.getByTestId('landing-hero-install-cta').click(),
   ]);
   await expect(page).toHaveURL(/\/docs\/start\/quick-start#new-project-generation/);
+  await expectAnchorBelowNavbar(page, 'new-project-generation');
 
   await page.goto('/');
   await Promise.all([
