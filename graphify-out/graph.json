@@ -20,7 +20,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "demo_autobot_approach",
-      "community": 230,
+      "community": 227,
       "norm_label": "demo-autobot-approach.mjs"
     },
     {
@@ -30,7 +30,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "demo_autobot_approach_starttime",
-      "community": 230,
+      "community": 227,
       "norm_label": "starttime"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "demo_autobot_approach_documentation",
-      "community": 230,
+      "community": 227,
       "norm_label": "documentation"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "demo_autobot_approach_githubcontext",
-      "community": 230,
+      "community": 227,
       "norm_label": "githubcontext"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "demo_autobot_approach_keytopics",
-      "community": 230,
+      "community": 227,
       "norm_label": "keytopics"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "demo_autobot_approach_apidocstart",
-      "community": 230,
+      "community": 227,
       "norm_label": "apidocstart"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "demo_autobot_approach_samplequestions",
-      "community": 230,
+      "community": 227,
       "norm_label": "samplequestions"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "api_gemini_proxy",
-      "community": 228,
+      "community": 227,
       "norm_label": "gemini-proxy.js"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "api_gemini_proxy_loadindex",
-      "community": 228,
+      "community": 227,
       "norm_label": "loadindex()"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "api_gemini_proxy_getdocumentationcontext",
-      "community": 228,
+      "community": 227,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "api_gemini_proxy_onrequest",
-      "community": 228,
+      "community": 227,
       "norm_label": "onrequest()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_autobot_core",
-      "community": 225,
+      "community": 227,
       "norm_label": "autobot-core.mjs"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "functions_autobot_core_modelstotry",
-      "community": 225,
+      "community": 227,
       "norm_label": "modelstotry"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "functions_autobot_core_jsonresponse",
-      "community": 225,
+      "community": 227,
       "norm_label": "jsonresponse()"
     },
     {
@@ -200,7 +200,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "functions_autobot_core_messageformodelfailure",
-      "community": 225,
+      "community": 227,
       "norm_label": "messageformodelfailure()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "functions_autobot_core_createautobotresponse",
-      "community": 225,
+      "community": 227,
       "norm_label": "createautobotresponse()"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_constants",
-      "community": 225,
+      "community": 227,
       "norm_label": "constants.mjs"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_gemini_proxy",
-      "community": 225,
+      "community": 227,
       "norm_label": "gemini-proxy.mjs"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "functions_gemini_proxy_getdocumentationcontext",
-      "community": 225,
+      "community": 227,
       "norm_label": "getdocumentationcontext()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "functions_github_context",
-      "community": 225,
+      "community": 227,
       "norm_label": "github-context.mjs"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "functions_github_context_getgithubrepositorycontext",
-      "community": 225,
+      "community": 227,
       "norm_label": "getgithubrepositorycontext()"
     },
     {
@@ -1110,7 +1110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_build_autobot_index",
-      "community": 7,
+      "community": 227,
       "norm_label": "build-autobot-index.mjs"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "scripts_build_autobot_index_root",
-      "community": 7,
+      "community": 227,
       "norm_label": "root"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "scripts_build_autobot_index_outputpath",
-      "community": 7,
+      "community": 227,
       "norm_label": "outputpath"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "scripts_build_autobot_index_index",
-      "community": 7,
+      "community": 227,
       "norm_label": "index"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests",
-      "community": 229,
+      "community": 227,
       "norm_label": "run-shaft-tests.mjs"
     },
     {
@@ -1270,7 +1270,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_reporoot",
-      "community": 229,
+      "community": 227,
       "norm_label": "reporoot"
     },
     {
@@ -1280,7 +1280,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_releases",
-      "community": 229,
+      "community": 227,
       "norm_label": "releases"
     },
     {
@@ -1290,7 +1290,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_findavailableport",
-      "community": 229,
+      "community": 227,
       "norm_label": "findavailableport()"
     },
     {
@@ -1300,7 +1300,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_isportavailable",
-      "community": 229,
+      "community": 227,
       "norm_label": "isportavailable()"
     },
     {
@@ -1310,7 +1310,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_issiteavailable",
-      "community": 229,
+      "community": 227,
       "norm_label": "issiteavailable()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_waitforsite",
-      "community": 229,
+      "community": 227,
       "norm_label": "waitforsite()"
     },
     {
@@ -1330,7 +1330,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "scripts_run_shaft_tests_commandinvocation",
-      "community": 229,
+      "community": 227,
       "norm_label": "commandinvocation()"
     },
     {
@@ -2580,7 +2580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_cloudflare_autobot_test",
-      "community": 228,
+      "community": 227,
       "norm_label": "cloudflare-autobot.test.js"
     },
     {
@@ -2780,7 +2780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test",
-      "community": 225,
+      "community": 227,
       "norm_label": "enhanced-instruction.test.js"
     },
     {
@@ -2790,7 +2790,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_documentation",
-      "community": 225,
+      "community": 227,
       "norm_label": "documentation"
     },
     {
@@ -2800,7 +2800,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "tests_enhanced_instruction_test_githubcontext",
-      "community": 225,
+      "community": 227,
       "norm_label": "githubcontext"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "worker_index",
-      "community": 228,
+      "community": 227,
       "norm_label": "index.js"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "worker_index_allowedorigins",
-      "community": 228,
+      "community": 227,
       "norm_label": "allowedorigins"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "worker_index_corsheaders",
-      "community": 228,
+      "community": 227,
       "norm_label": "corsheaders"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "worker_index_allowedorigin",
-      "community": 228,
+      "community": 227,
       "norm_label": "allowedorigin()"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "worker_index_withcors",
-      "community": 228,
+      "community": 227,
       "norm_label": "withcors()"
     },
     {
@@ -3740,7 +3740,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "worker_index_preflight",
-      "community": 228,
+      "community": 227,
       "norm_label": "preflight()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "worker_index_fetch",
-      "community": 228,
+      "community": 227,
       "norm_label": "fetch()"
     },
     {
@@ -5877,7 +5877,7 @@
       "label": "Format",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L116",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "agentic_capture_format",
       "community": 94,
@@ -5887,7 +5887,7 @@
       "label": "Privacy boundary",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L143",
+      "source_location": "L152",
       "_origin": "ast",
       "id": "agentic_capture_privacy_boundary",
       "community": 94,
@@ -5897,7 +5897,7 @@
       "label": "Lifecycle",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L160",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "agentic_capture_lifecycle",
       "community": 94,
@@ -5907,7 +5907,7 @@
       "label": "Deterministic TestNG generation",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L181",
+      "source_location": "L190",
       "_origin": "ast",
       "id": "agentic_capture_deterministic_testng_generation",
       "community": 94,
@@ -5917,7 +5917,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/agentic/capture.md",
-      "source_location": "L280",
+      "source_location": "L300",
       "_origin": "ast",
       "id": "agentic_capture_related",
       "community": 94,
@@ -21697,7 +21697,7 @@
       "label": "Timeouts",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L651",
+      "source_location": "L655",
       "_origin": "ast",
       "id": "properties_propertieslist_timeouts",
       "community": 17,
@@ -21707,7 +21707,7 @@
       "label": "Visuals",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L700",
+      "source_location": "L704",
       "_origin": "ast",
       "id": "properties_propertieslist_visuals",
       "community": 17,
@@ -21717,7 +21717,7 @@
       "label": "Jira",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L742",
+      "source_location": "L746",
       "_origin": "ast",
       "id": "properties_propertieslist_jira",
       "community": 17,
@@ -21727,7 +21727,7 @@
       "label": "Cucumber",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L783",
+      "source_location": "L787",
       "_origin": "ast",
       "id": "properties_propertieslist_cucumber",
       "community": 17,
@@ -21737,7 +21737,7 @@
       "label": "Healenium",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L840",
+      "source_location": "L844",
       "_origin": "ast",
       "id": "properties_propertieslist_healenium",
       "community": 17,
@@ -21747,7 +21747,7 @@
       "label": "Healing",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L860",
+      "source_location": "L864",
       "_origin": "ast",
       "id": "properties_propertieslist_healing",
       "community": 17,
@@ -21757,7 +21757,7 @@
       "label": "Natural Actions",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L930",
+      "source_location": "L934",
       "_origin": "ast",
       "id": "properties_propertieslist_natural_actions",
       "community": 17,
@@ -21767,7 +21767,7 @@
       "label": "Paths",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L979",
+      "source_location": "L983",
       "_origin": "ast",
       "id": "properties_propertieslist_paths",
       "community": 17,
@@ -21777,7 +21777,7 @@
       "label": "Pattern",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1006",
+      "source_location": "L1010",
       "_origin": "ast",
       "id": "properties_propertieslist_pattern",
       "community": 17,
@@ -21787,7 +21787,7 @@
       "label": "Tinkey",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1022",
+      "source_location": "L1026",
       "_origin": "ast",
       "id": "properties_propertieslist_tinkey",
       "community": 17,
@@ -21797,7 +21797,7 @@
       "label": "Internal",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1040",
+      "source_location": "L1044",
       "_origin": "ast",
       "id": "properties_propertieslist_internal",
       "community": 17,
@@ -21807,7 +21807,7 @@
       "label": "BrowserStack",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1111",
+      "source_location": "L1115",
       "_origin": "ast",
       "id": "properties_propertieslist_browserstack",
       "community": 17,
@@ -21817,7 +21817,7 @@
       "label": "LambdaTest",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1154",
+      "source_location": "L1158",
       "_origin": "ast",
       "id": "properties_propertieslist_lambdatest",
       "community": 17,
@@ -21827,7 +21827,7 @@
       "label": "Performance",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1201",
+      "source_location": "L1205",
       "_origin": "ast",
       "id": "properties_propertieslist_performance",
       "community": 17,
@@ -21837,7 +21837,7 @@
       "label": "TestNG",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1267",
+      "source_location": "L1271",
       "_origin": "ast",
       "id": "properties_propertieslist_testng",
       "community": 17,
@@ -21847,7 +21847,7 @@
       "label": "Log4j",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1305",
+      "source_location": "L1309",
       "_origin": "ast",
       "id": "properties_propertieslist_log4j",
       "community": 17,
@@ -21857,7 +21857,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/properties/PropertiesList.mdx",
-      "source_location": "L1356",
+      "source_location": "L1360",
       "_origin": "ast",
       "id": "properties_propertieslist_related",
       "community": 17,
@@ -22144,10 +22144,20 @@
       "norm_label": "disable auto-opening the allure report"
     },
     {
-      "label": "Generate an Allure Report Archive (for CI/CD)",
+      "label": "Skip Allure Report Generation",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
       "source_location": "L254",
+      "_origin": "ast",
+      "id": "reporting_reporting_skip_allure_report_generation",
+      "community": 20,
+      "norm_label": "skip allure report generation"
+    },
+    {
+      "label": "Generate an Allure Report Archive (for CI/CD)",
+      "file_type": "document",
+      "source_file": "docs/reference/reporting/reporting.mdx",
+      "source_location": "L284",
       "_origin": "ast",
       "id": "reporting_reporting_generate_an_allure_report_archive_for_ci_cd",
       "community": 20,
@@ -22157,7 +22167,7 @@
       "label": "Customize the Allure Report",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L284",
+      "source_location": "L314",
       "_origin": "ast",
       "id": "reporting_reporting_customize_the_allure_report",
       "community": 20,
@@ -22167,7 +22177,7 @@
       "label": "Tune Allure 3 Awesome Report Output",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L310",
+      "source_location": "L340",
       "_origin": "ast",
       "id": "reporting_reporting_tune_allure_3_awesome_report_output",
       "community": 20,
@@ -22177,7 +22187,7 @@
       "label": "Monitor Allure 3 Results While Tests Run",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L367",
+      "source_location": "L397",
       "_origin": "ast",
       "id": "reporting_reporting_monitor_allure_3_results_while_tests_run",
       "community": 20,
@@ -22187,7 +22197,7 @@
       "label": "Troubleshoot Allure CLI Generation",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L413",
+      "source_location": "L443",
       "_origin": "ast",
       "id": "reporting_reporting_troubleshoot_allure_cli_generation",
       "community": 20,
@@ -22197,7 +22207,7 @@
       "label": "Accumulate History and Reports Across Runs",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L417",
+      "source_location": "L447",
       "_origin": "ast",
       "id": "reporting_reporting_accumulate_history_and_reports_across_runs",
       "community": 20,
@@ -22207,7 +22217,7 @@
       "label": "Execution Summary Report",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L452",
+      "source_location": "L482",
       "_origin": "ast",
       "id": "reporting_reporting_execution_summary_report",
       "community": 20,
@@ -22217,7 +22227,7 @@
       "label": "Enable the Execution Summary Report",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L459",
+      "source_location": "L489",
       "_origin": "ast",
       "id": "reporting_reporting_enable_the_execution_summary_report",
       "community": 20,
@@ -22227,7 +22237,7 @@
       "label": "Locator Health Report",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L489",
+      "source_location": "L519",
       "_origin": "ast",
       "id": "reporting_reporting_locator_health_report",
       "community": 20,
@@ -22237,7 +22247,7 @@
       "label": "Flake and Auto-Wait Profiler",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L550",
+      "source_location": "L580",
       "_origin": "ast",
       "id": "reporting_reporting_flake_and_auto_wait_profiler",
       "community": 20,
@@ -22247,7 +22257,7 @@
       "label": "Video Recording",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L602",
+      "source_location": "L632",
       "_origin": "ast",
       "id": "reporting_reporting_video_recording",
       "community": 20,
@@ -22257,7 +22267,7 @@
       "label": "Where to Put Your Properties File",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L637",
+      "source_location": "L667",
       "_origin": "ast",
       "id": "reporting_reporting_where_to_put_your_properties_file",
       "community": 20,
@@ -22267,7 +22277,7 @@
       "label": "Control Video Recording Scope",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L651",
+      "source_location": "L681",
       "_origin": "ast",
       "id": "reporting_reporting_control_video_recording_scope",
       "community": 20,
@@ -22277,7 +22287,7 @@
       "label": "Animated GIFs",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L694",
+      "source_location": "L724",
       "_origin": "ast",
       "id": "reporting_reporting_animated_gifs",
       "community": 20,
@@ -22287,7 +22297,7 @@
       "label": "Recommended Configurations by Use Case",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L738",
+      "source_location": "L768",
       "_origin": "ast",
       "id": "reporting_reporting_recommended_configurations_by_use_case",
       "community": 20,
@@ -22297,7 +22307,7 @@
       "label": "CI/CD Pipeline (archive report as artifact)",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L740",
+      "source_location": "L770",
       "_origin": "ast",
       "id": "reporting_reporting_ci_cd_pipeline_archive_report_as_artifact",
       "community": 20,
@@ -22307,7 +22317,7 @@
       "label": "Active Debugging (rich visuals)",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L749",
+      "source_location": "L779",
       "_origin": "ast",
       "id": "reporting_reporting_active_debugging_rich_visuals",
       "community": 20,
@@ -22317,7 +22327,7 @@
       "label": "Quick Pass/Fail Summary",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L756",
+      "source_location": "L786",
       "_origin": "ast",
       "id": "reporting_reporting_quick_pass_fail_summary",
       "community": 20,
@@ -22327,7 +22337,7 @@
       "label": "All Reporting Properties",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L765",
+      "source_location": "L795",
       "_origin": "ast",
       "id": "reporting_reporting_all_reporting_properties",
       "community": 20,
@@ -22337,7 +22347,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/reporting/reporting.mdx",
-      "source_location": "L815",
+      "source_location": "L846",
       "_origin": "ast",
       "id": "reporting_reporting_related",
       "community": 20,
@@ -46628,6 +46638,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/reference/reporting/reporting.mdx",
+      "source_location": "L254",
+      "weight": 1.0,
+      "source": "reporting_reporting_allure_report",
+      "target": "reporting_reporting_skip_allure_report_generation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/reference/reporting/reporting.mdx",
       "source_location": "L227",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -48196,5 +48216,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "dcfac95c5ce2403cb4c5657e644f48a3a148873a"
+  "built_at_commit": "5ad6eb9ca23c14f32220401e035b0cc3f04fbb1a"
 }

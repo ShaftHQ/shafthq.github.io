@@ -52,7 +52,10 @@ map.
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_status`, and `capture_stop` MCP tools. Generation is exposed by
 `capture_generate`; `capture_codegen_features` returns the feature map. Status
-contains safe metadata and counts, never typed values.
+contains safe metadata, counts, readiness, and warnings, never typed values.
+Readiness is `READY`, `RISKY`, or `BLOCKED`; risky steps keep recording, while
+blocked readiness means generated replay will need user action such as a stable
+locator or required secret input.
 
 WebDriver code generation remains the default through `capture_generate`,
 `capture_generate_replay`, and `capture_code_blocks`. Use
@@ -71,6 +74,12 @@ and leaves the session in `COMPLETED` status for generation. The browser panel
 and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
 avoid horizontal scrolling during review.
+
+The panel also shows a live readiness chip next to the event count. It is
+computed from deterministic recorder evidence such as unsupported actions,
+missing locator candidates, positional or multi-match locators, missing
+post-navigation or post-submit assertions, redacted required inputs, and
+collector warnings. The chip reports issues only; it does not block recording.
 
 Use the assertion control to toggle assertion mode, then click an element and choose
 one of the deterministic verification types: visible, enabled, selected, text
@@ -222,6 +231,17 @@ Example review finding:
   "summary": "Brittle XPATH locator selected for pay-button: /html/body/div[3]/form/button[2].",
   "evidenceIds": ["event-4"],
   "recommendation": "Prefer semantic locator text \"Pay now\" when unique."
+}
+```
+
+Example status payload:
+
+```json
+{
+  "state": "ACTIVE",
+  "eventCount": 12,
+  "readiness": "RISKY",
+  "warnings": ["Step 7 uses generated positional CSS locator for pay-button."]
 }
 ```
 
