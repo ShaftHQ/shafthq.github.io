@@ -77,12 +77,18 @@ Most flaky UI tests fail because they click before the browser is ready. SHAFT
 element actions use a configured fluent wait, poll for retriable Selenium
 states, scroll the element into view, and then perform the action. Browser and
 element actions also call lazy-loading synchronization where applicable: SHAFT
-waits for document readiness, active `fetch`/XHR quiet time, jQuery activity,
-and Angular readiness when those signals exist on the page.
+waits for document readiness, active `fetch`/XHR quiet time, resource timing
+changes, jQuery activity, and Angular readiness when those signals exist on the
+page. For native user actions, SHAFT re-locates the element after this
+synchronization and verifies that the final target is displayed and enabled
+before acting on it.
 
 The default element lookup budget comes from
 `defaultElementIdentificationTimeout`; condition-specific waits use
-`waitForUiStateTimeout` unless you pass a shorter `Duration`.
+`waitForUiStateTimeout` unless you pass a shorter `Duration`. Lazy-loading
+synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
+be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
+`lazyLoadingNetworkIdleQuietWindowMillis`.
 
 ```java title="ExplicitStateWait.java"
 driver.browser().navigateToURL("https://example.test/orders")

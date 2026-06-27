@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io-landing-consistency  (2026-06-27)
+# Graph Report - codex-readiness-network-idle-docs  (2026-06-27)
 
 ## Corpus Check
-- 225 files · ~319,506 words
+- 225 files · ~319,598 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `855e7d4e`
+- Built from commit: `71f73bd4`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

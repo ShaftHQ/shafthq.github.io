@@ -47,6 +47,18 @@ defaultElementIdentificationTimeout=30
 # Time (seconds) for default UI state waits such as driver.element().waitUntil(...)
 waitForUiStateTimeout=600
 
+# Enable SHAFT's browser readiness wait before browser and element actions
+waitForLazyLoading=true
+
+# Time (seconds) to wait for document, JS framework, and network readiness
+waitForLazyLoadingTimeout=30
+
+# Initial network quiet window when no activity has been observed yet
+lazyLoadingNetworkIdleInitialObservationMillis=200
+
+# Required network quiet window after observed XHR/fetch/resource activity
+lazyLoadingNetworkIdleQuietWindowMillis=500
+
 # Time (seconds) to wait for a page navigation to complete
 browserNavigationTimeout=60
 
