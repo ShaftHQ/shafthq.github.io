@@ -4,11 +4,15 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
-  await expect(page.getByRole('heading', {name: /One Java test suite for web, mobile, API, DB, and CLI/})).toBeVisible();
+  await expect(page.getByRole('heading', {name: /Ship automation evidence, not boilerplate code/})).toBeVisible();
+  await expect(page.getByTestId('landing-command-center')).toHaveCount(0);
+  await expect(page.getByTestId('landing-hero-signals')).toHaveCount(0);
+  await expect(page.getByTestId('landing-audience-split')).toBeVisible();
   await expect(page.getByTestId('landing-hero-actions')).toBeVisible();
   await expect(page.getByTestId('landing-hero-star-cta')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
   await expect(page.getByText(/Plain stack/)).toHaveCount(0);
   await expect(page.getByText(/With SHAFT/)).toHaveCount(0);
+  await expect(page.getByText('mvn test')).toHaveCount(0);
 
   await Promise.all([
     page.waitForURL('**/docs/start/quick-start#new-project-generation'),
@@ -32,12 +36,38 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await expect(pathfinder.getByRole('link', {name: /Add coverage beyond the browser/})).toHaveAttribute('href', '#testing-surfaces');
   await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
   await expect(page.getByTestId('landing-cta-quickstart')).toHaveAttribute('href', '/docs/start/quick-start#choose-your-path');
+  await expect(page.getByTestId('landing-cta-slack')).toHaveAttribute('href', /join\.slack\.com\/t\/shaft-engine/);
 
   await page.goto('/');
   await expect(page.locator('#proof-section')).toBeVisible();
+  await page.getByTestId('landing-code-proof').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('landing-code-proof')).toBeVisible();
+  await expect(page.getByTestId('landing-code-proof').locator('pre.language-java')).toBeVisible();
+  await expect(page.getByTestId('landing-java-code')).toBeVisible();
+  await expect(page.getByText('.and().click(checkout)')).toBeVisible();
+  const codeProofVisuals = await page.getByTestId('landing-code-proof').evaluate((root) => {
+    const codePanel = root.children[0];
+    const handledPanel = root.children[1];
+    const figcaption = codePanel.querySelector('figcaption');
+    const handledTitle = handledPanel.querySelector('span');
+    const tokenColors = Array.from(root.querySelectorAll('[data-testid="landing-java-code"] code span span'))
+      .map((span) => getComputedStyle(span).color);
+
+    return {
+      copyButtons: root.querySelectorAll('button').length,
+      titleTopDiff: Math.abs(figcaption.getBoundingClientRect().top - handledTitle.getBoundingClientRect().top),
+      uniqueTokenColors: Array.from(new Set(tokenColors)).length,
+    };
+  });
+  expect(codeProofVisuals.copyButtons).toBe(0);
+  expect(codeProofVisuals.titleTopDiff).toBeLessThanOrEqual(2);
+  expect(codeProofVisuals.uniqueTokenColors).toBeGreaterThanOrEqual(3);
+  await page.getByTestId('landing-allure-evidence').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('landing-allure-evidence').getByRole('img', {name: /Official Allure 3 demo report screenshot/})).toBeVisible();
   await expect(page.locator('#comparison-section')).toHaveCount(0);
   await expect(page.locator('#workflow-section')).toHaveCount(0);
   await expect(page.locator('#get-started')).toBeVisible();
+  await expect(page.getByTestId('landing-footer')).toBeVisible();
 });
 
 test('landing page links to the canonical MCP command page', async ({page}) => {
@@ -46,6 +76,19 @@ test('landing page links to the canonical MCP command page', async ({page}) => {
   await page.getByTestId('landing-agent').scrollIntoViewIfNeeded();
   await expect(page.getByTestId('landing-agent-mcp-link')).toHaveAttribute('href', '/docs/agentic/mcp');
   await expect(page.locator('[data-testid^="mcp-app-"]')).toHaveCount(0);
+  const loopAlignment = await page.getByTestId('landing-evidence-loop').evaluate((loop) => {
+    const spread = (values) => Math.max(...values) - Math.min(...values);
+    const cards = Array.from(loop.children);
+
+    return {
+      numbers: spread(cards.map((card) => card.querySelector('small').getBoundingClientRect().top)),
+      titles: spread(cards.map((card) => card.querySelector('strong').getBoundingClientRect().top)),
+      bodies: spread(cards.map((card) => card.querySelector('span').getBoundingClientRect().top)),
+    };
+  });
+  expect(loopAlignment.numbers).toBeLessThanOrEqual(2);
+  expect(loopAlignment.titles).toBeLessThanOrEqual(2);
+  expect(loopAlignment.bodies).toBeLessThanOrEqual(2);
 });
 
 test('landing page keeps mobile motion and CTAs inside the viewport', async ({page}) => {
@@ -100,4 +143,12 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
   await expect.poll(async () => {
     return page.getByTestId('landing-surfaces').evaluate((section) => getComputedStyle(section).opacity);
   }).toBe('1');
+
+  await page.evaluate(() => window.scrollTo({top: 0, behavior: 'instant'}));
+  await expect.poll(async () => {
+    return page.getByTestId('landing-surfaces').evaluate((section) => ({
+      opacity: getComputedStyle(section).opacity,
+      state: section.getAttribute('data-reveal-state'),
+    }));
+  }).toEqual({opacity: '0', state: 'rolled-back'});
 });

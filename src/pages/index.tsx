@@ -4,6 +4,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSlack} from '@fortawesome/free-brands-svg-icons';
 import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import ParticleBackground from '@site/src/components/ParticleBackground';
 import snippets from '@site/src/data/snippets.json';
@@ -12,67 +13,54 @@ import styles from './index.module.css';
 const testSurfaces = [
   {
     title: 'Web GUI',
-    description: 'Selenium and Playwright browser checks with synchronization, smart locators, and evidence.',
+    stack: 'Selenium + Playwright',
+    description: 'Browser checks with synchronization, smart locators, screenshots, logs, and Allure steps.',
     to: '/docs/testing/web',
   },
   {
     title: 'Mobile GUI',
-    description: 'Appium flows for Android, iOS, mobile web, Flutter, real devices, emulators, and cloud devices.',
+    stack: 'Appium',
+    description: 'Android, iOS, mobile web, Flutter, real device, emulator, and cloud-device flows.',
     to: '/docs/testing/mobile',
   },
   {
     title: 'API',
-    description: 'REST Assured requests, extraction, schemas, auth, and assertions in the same report.',
+    stack: 'REST Assured',
+    description: 'Requests, extraction, schemas, auth, and assertions attached to the same evidence trail.',
     to: '/docs/testing/api',
-  },
-  {
-    title: 'CLI',
-    description: 'Local, Docker, SSH, and file-system actions with attached evidence.',
-    to: '/docs/testing/cli',
   },
   {
     title: 'Database',
-    description: 'JDBC connections, queries, updates, and result validation.',
+    stack: 'JDBC',
+    description: 'Connections, queries, updates, and result validation beside the product action that needed them.',
     to: '/docs/testing/database',
   },
-];
-
-const proofPoints = [
   {
-    title: 'Native engines stay native',
-    description: 'Use Selenium, Playwright, Appium, REST Assured, TestNG, JUnit, and Cucumber directly when control matters.',
-    label: 'Technology map',
-    to: '/docs/features/technology',
-  },
-  {
-    title: 'Suite plumbing moves out of tests',
-    description: 'Synchronization, configuration, smart locators, screenshots, logs, and Allure steps live in the framework.',
-    label: 'Feature map',
-    to: '/docs/features/modules',
-  },
-  {
-    title: 'Failures start with evidence',
-    description: 'Web, mobile, API, CLI, and DB actions attach evidence that Doctor and Heal can use for recovery.',
-    label: 'Reporting guide',
-    to: '/docs/features/reporting',
+    title: 'CLI',
+    stack: 'Local, Docker, SSH',
+    description: 'Terminal, container, SSH, and file-system actions with logs preserved in the run report.',
+    to: '/docs/testing/cli',
   },
 ];
 
-const heroEngines = [
+const audienceLanes = [
   {
-    label: 'Web GUI',
-    engine: 'Selenium WebDriver',
-    to: '/docs/testing/web',
+    title: 'For engineers',
+    description: 'Keep native Java control while SHAFT standardizes the repeatable suite work.',
+    points: [
+      'Selenium, Playwright, Appium, REST Assured, JDBC, and CLI stay visible.',
+      'Waits, retries, reporting, screenshots, and logs move out of test code.',
+      'Evidence is readable when the next failure interrupts real delivery work.',
+    ],
   },
   {
-    label: 'Native mobile GUI',
-    engine: 'Appium',
-    to: '/docs/testing/mobile',
-  },
-  {
-    label: 'API testing',
-    engine: 'REST Assured',
-    to: '/docs/testing/api',
+    title: 'For leaders',
+    description: 'Turn automation from a hidden maintenance cost into release evidence people can inspect.',
+    points: [
+      'One guide path helps new projects, migrations, and cross-surface expansion.',
+      'Failures start with artifacts that explain what changed and where to look.',
+      'The star prompt waits until evaluators have a successful first run to remember.',
+    ],
   },
 ];
 
@@ -80,7 +68,7 @@ const guidePaths = [
   {
     audience: 'First run',
     title: 'Start a new SHAFT project',
-    description: 'Generate a ready Maven project.',
+    description: 'Generate a ready Maven project, run it, then open the evidence.',
     label: 'Generate project',
     to: '/docs/start/quick-start#new-project-generation',
   },
@@ -94,7 +82,7 @@ const guidePaths = [
   {
     audience: 'Expansion',
     title: 'Add coverage beyond the browser',
-    description: 'Add mobile, API, CLI, DB, or Grid checks when the product needs them.',
+    description: 'Add mobile, API, CLI, DB, or Grid checks only when the product needs them.',
     label: 'Compare surfaces',
     to: '#testing-surfaces',
   },
@@ -105,21 +93,78 @@ const guidePaths = [
     label: 'Connect MCP',
     to: '/docs/start/quick-start#mcp-integration',
   },
+  {
+    audience: 'Review',
+    title: 'Inspect Allure and star SHAFT',
+    description: 'Open the report, confirm the evidence, then keep the repository close.',
+    label: 'Star after success',
+    to: snippets.githubRepository,
+  },
 ];
 
-const heroSignals = [
+const proofPoints = [
   {
-    label: 'Control',
-    value: 'Native APIs stay visible',
+    title: 'Native engines stay native',
+    description: 'Use Selenium, Playwright, Appium, REST Assured, TestNG, JUnit, and Cucumber directly when control matters.',
+    label: 'Technology map',
+    to: '/docs/features/technology',
   },
   {
-    label: 'Evidence',
-    value: 'Allure screenshots, logs, and steps',
+    title: 'Boilerplate code moves out of tests',
+    description: 'Synchronization, configuration, smart locators, screenshots, logs, and Allure steps live in the framework.',
+    label: 'Feature map',
+    to: '/docs/features/modules',
   },
   {
-    label: 'Scope',
-    value: 'Web, mobile, API, DB, and CLI',
+    title: 'Failures start with evidence',
+    description: 'Web, mobile, API, CLI, and DB actions attach evidence that Doctor and Heal can use for recovery.',
+    label: 'Reporting guide',
+    to: '/docs/features/reporting',
   },
+];
+
+const coverageColumns = ['Test', 'Validate', 'Data', 'State', 'Observe', 'Evidence'];
+const slackInviteUrl = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
+
+const codeCompare = {
+  handled: [
+    'SHAFT handles the repeatable work:',
+    'driver lifecycle, waits, retries, and sync',
+    'screenshots, logs, steps, and attachments',
+    'configuration and data isolation',
+    'Allure evidence that Doctor and Heal can read',
+  ],
+};
+
+const evidenceLoop = [
+  {
+    title: 'Execute',
+    description: 'Run web, mobile, API, DB, and CLI checks from one Java project.',
+  },
+  {
+    title: 'Collect',
+    description: 'Capture screenshots, logs, requests, responses, and data facts.',
+  },
+  {
+    title: 'Allure',
+    description: 'Centralize the timeline, screenshots, and attachments for review.',
+  },
+  {
+    title: 'Diagnose',
+    description: 'Use reports and Doctor to understand the failure path.',
+  },
+  {
+    title: 'Improve',
+    description: 'Apply deterministic fixes first, then Heal when evidence supports it.',
+  },
+];
+
+const footerBadges = [
+  ['Java 25', 'Built for the future'],
+  ['MIT licensed', 'Open source'],
+  ['Allure native', 'Evidence first'],
+  ['Self-healing', 'Less flaky'],
+  ['CI/CD ready', 'Built in'],
 ];
 
 function useScrollReveal(): void {
@@ -141,15 +186,24 @@ function useScrollReveal(): void {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add(styles.revealVisible);
-          observer.unobserve(entry.target);
+          const element = entry.target as HTMLElement;
+          const isAboveViewport = entry.boundingClientRect.top < 0;
+          if (entry.isIntersecting || isAboveViewport) {
+            element.classList.add(styles.revealVisible);
+            element.dataset.revealState = 'revealed';
+            return;
+          }
+          element.classList.remove(styles.revealVisible);
+          element.dataset.revealState = 'rolled-back';
         });
       },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+      { rootMargin: '-8% 0px -10% 0px', threshold: [0, 0.12, 0.24] },
     );
 
-    revealElements.forEach((element) => observer.observe(element));
+    revealElements.forEach((element, index) => {
+      element.style.setProperty('--reveal-delay', `${Math.min(index * 34, 240)}ms`);
+      observer.observe(element);
+    });
 
     return () => {
       observer.disconnect();
@@ -158,16 +212,88 @@ function useScrollReveal(): void {
   }, []);
 }
 
+function useHoverGlow(): void {
+  React.useEffect(() => {
+    const glowTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-hover-glow]'));
+
+    const updatePointer = (event: PointerEvent) => {
+      const target = event.currentTarget as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      target.style.setProperty('--hover-x', `${event.clientX - rect.left}px`);
+      target.style.setProperty('--hover-y', `${event.clientY - rect.top}px`);
+    };
+
+    glowTargets.forEach((target) => {
+      target.addEventListener('pointermove', updatePointer, { passive: true });
+    });
+
+    return () => {
+      glowTargets.forEach((target) => {
+        target.removeEventListener('pointermove', updatePointer);
+      });
+    };
+  }, []);
+}
+
+function JavaCodeExample(): JSX.Element {
+  return (
+    <pre className="language-java" data-testid="landing-java-code">
+      <code className="language-java">
+        <span className={styles.codeLine}>
+          <span className={styles.codeAnnotation}>@Test</span>
+        </span>
+        <span className={styles.codeLine}>
+          <span className={styles.codeKeyword}>public</span>{' '}
+          <span className={styles.codeKeyword}>void</span>{' '}
+          <span className={styles.codeFunction}>checkout_happy_path</span>() {'{'}
+        </span>
+        <span className={styles.codeLine}>
+          {'  '}driver.<span className={styles.codeCall}>element</span>().<span className={styles.codeCall}>click</span>(addToCart)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>and</span>().<span className={styles.codeCall}>click</span>(checkout)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>and</span>().<span className={styles.codeCall}>assertThat</span>(orderStatus)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>text</span>().<span className={styles.codeCall}>contains</span>(<span className={styles.codeString}>"Success"</span>);
+        </span>
+        <span className={styles.codeLine}>{'}'}</span>
+      </code>
+    </pre>
+  );
+}
+
+function CodeCompare(): JSX.Element {
+  return (
+    <div className={styles.codeCompare} data-testid="landing-code-proof" aria-label="SHAFT test code proof">
+      <figure className={styles.codePanel}>
+        <figcaption>SHAFT test</figcaption>
+        <JavaCodeExample />
+      </figure>
+      <div className={styles.handledPanel}>
+        <span>SHAFT handles</span>
+        <ul>
+          {codeCompare.handled.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 function Hero(): JSX.Element {
   return (
-    <header className={styles.hero} data-testid="landing-hero">
+    <header className={styles.hero} data-testid="landing-hero" id="top">
       <BrowserOnly fallback={<div aria-hidden="true" />}>
         {() => (
           <ParticleBackground
             className={styles.heroParticles}
-            particleCount={42}
-            connectionDistance={135}
-            motionScale={0.38}
+            particleCount={96}
+            connectionDistance={168}
+            motionScale={0.78}
             heroMode
           />
         )}
@@ -175,52 +301,34 @@ function Hero(): JSX.Element {
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
-          <span className={styles.eyebrow}>Java automation across real product surfaces</span>
-          <h1>One Java test suite for web, mobile, API, DB, and CLI.</h1>
+          <h1>Ship automation evidence, not boilerplate code.</h1>
           <p>
-            SHAFT keeps Selenium, Playwright, Appium, and REST Assured visible while
+            <strong>One Java test suite for web, mobile, API, DB, and CLI.</strong>
+            {' '}SHAFT keeps Selenium, Playwright, Appium, and REST Assured visible while
             moving synchronization, configuration, evidence, and recovery into the framework.
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
-            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/quick-start#new-project-generation">
-              <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
-              Create your first SHAFT project
+            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
+              <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
+              Read quick start
             </Link>
-            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" href={snippets.githubRepository} target="_blank" rel="noreferrer">
+            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
               <FontAwesomeIcon icon={faStar} aria-hidden="true" />
               Star on GitHub
             </a>
-            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start#choose-your-path">
-              <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
-              Read quick start
+            <a className="button button--secondary button--lg" data-testid="landing-hero-slack-cta" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+              Join Slack
+            </a>
+            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+              <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
+              Start a new project
             </Link>
           </div>
           <div className={styles.heroTrustLinks} aria-label="Project trust signals">
             <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
             <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
             <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
-          </div>
-        </div>
-        <div className={styles.heroProof} aria-label="SHAFT quick proof">
-          <div className={styles.proofHeader}>
-            <span><i aria-hidden="true" />What SHAFT standardizes</span>
-            <Link to="#testing-surfaces">Compare surfaces</Link>
-          </div>
-          <div className={styles.heroSignalBar} aria-label="SHAFT suite signals">
-            {heroSignals.map((signal) => (
-              <div key={signal.label}>
-                <small>{signal.label}</small>
-                <strong>{signal.value}</strong>
-              </div>
-            ))}
-          </div>
-          <div className={styles.heroEngineStrip} aria-label="Native engines available through SHAFT">
-            {heroEngines.map((engine) => (
-              <Link to={engine.to} key={engine.label}>
-                <small>{engine.label}</small>
-                <strong>{engine.engine}</strong>
-              </Link>
-            ))}
           </div>
         </div>
       </div>
@@ -232,18 +340,66 @@ function GuidePathSection(): JSX.Element {
   return (
     <section className={`${styles.section} ${styles.pathSection} ${styles.reveal}`} data-testid="landing-pathfinder" id="guide-paths" data-reveal>
       <div className="container">
-        <div className={styles.sectionHeading}>
-          <span className={styles.eyebrow}>Pick the work in front of you</span>
-          <Heading as="h2" id="guide-paths-heading">Choose the setup path that matches your repo.</Heading>
-          <p>New project, upgrade, MCP, and manual setup all start in the quick start.</p>
+        <div className={`${styles.sectionHeading} ${styles.centerHeading}`}>
+          <Heading as="h2" id="guide-paths-heading">Get started in minutes.</Heading>
+          <p>Install, configure, write a readable test, run it headlessly, and review the evidence before starring the repository.</p>
         </div>
         <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
-          {guidePaths.map((path) => (
-            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal>
-              <small>{path.audience}</small>
+          {guidePaths.map((path, index) => (
+            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal data-hover-glow>
+              <small>{index + 1}. {path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
               <em>{path.label}</em>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AudienceSection(): JSX.Element {
+  return (
+    <section className={`${styles.section} ${styles.audienceSection} ${styles.reveal}`} data-testid="landing-audience-split" data-reveal>
+      <div className={`container ${styles.audienceGrid}`}>
+        {audienceLanes.map((lane) => (
+          <section key={lane.title} className={styles.audienceLane} data-hover-glow>
+            <h2>{lane.title}</h2>
+            <p>{lane.description}</p>
+            <ul>
+              {lane.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SurfaceSection(): JSX.Element {
+  return (
+    <section className={`${styles.section} ${styles.surfaceSection} ${styles.reveal}`} data-testid="landing-surfaces" id="surface-section" data-reveal>
+      <div className="container">
+        <div className={styles.sectionHeading}>
+          <Heading as="h2" id="testing-surfaces">One framework. Full surface coverage.</Heading>
+          <p>Start with the layer in front of you, then expand without changing the reporting and lifecycle model.</p>
+        </div>
+        <div className={styles.surfaceMatrix} data-testid="landing-surface-matrix" aria-label="SHAFT surface coverage matrix">
+          <div className={styles.matrixHeader}>
+            <strong>Surface</strong>
+            {coverageColumns.map((column) => (
+              <span key={column}>{column}</span>
+            ))}
+          </div>
+          {testSurfaces.map((surface) => (
+            <Link className={styles.matrixRow} to={surface.to} key={surface.title} data-hover-glow>
+              <strong>{surface.title}</strong>
+              {coverageColumns.map((column) => (
+                <span key={column}>{column}</span>
+              ))}
             </Link>
           ))}
         </div>
@@ -257,21 +413,13 @@ function ProofSection(): JSX.Element {
     <section className={`${styles.section} ${styles.reveal}`} data-testid="landing-proof" id="proof-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
-          <span className={styles.eyebrow}>Why SHAFT</span>
-          <Heading as="h2" id="why-shaft">Use native engines without rebuilding suite plumbing.</Heading>
-          <p>
-            Keep direct API control; standardize waits, reporting, configuration,
-            and recovery in one Java framework.
-          </p>
-          <div className={`${styles.proofLinks} ${styles.sectionProofLinks}`} aria-label="Project evidence">
-            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
-            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
-            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
-          </div>
+          <Heading as="h2" id="why-shaft">Boilerplate code removed from tests.</Heading>
+          <p>Clean tests that read like documentation. Let SHAFT own the repeatable mechanics that make evidence reliable.</p>
         </div>
+        <CodeCompare />
         <div className={styles.proofGrid}>
           {proofPoints.map((point) => (
-            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal>
+            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal data-hover-glow>
               <strong>{point.title}</strong>
               <span>{point.description}</span>
               <small>{point.label}</small>
@@ -283,24 +431,29 @@ function ProofSection(): JSX.Element {
   );
 }
 
-function SurfaceSection(): JSX.Element {
+function AllureEvidenceSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.compactSection} ${styles.reveal}`} data-testid="landing-surfaces" id="surface-section" data-reveal>
-      <div className="container">
+    <section className={`${styles.section} ${styles.allureSection} ${styles.reveal}`} data-testid="landing-allure-evidence" id="allure-evidence" data-reveal>
+      <div className={`container ${styles.allureGrid}`}>
         <div className={styles.sectionHeading}>
-          <span className={styles.eyebrow}>Start narrow, keep the expansion path</span>
-          <Heading as="h2" id="testing-surfaces">Start with web. Add the surfaces your product needs.</Heading>
-          <p>Each guide uses the same lifecycle, configuration, validations, and Allure evidence.</p>
+          <Heading as="h2" id="allure-evidence-heading">Allure evidence people can inspect.</Heading>
+          <p>SHAFT turns each checkout action into report evidence: steps, screenshots, logs, and diagnostics stay attached to the run instead of scattered across CI output.</p>
+          <Link className={styles.inlineCta} to="/docs/reference/reporting">
+            Open reporting guide
+          </Link>
         </div>
-        <div className={styles.surfaceGrid}>
-          {testSurfaces.map((surface) => (
-            <Link className={`${styles.surfaceCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal>
-              <strong>{surface.title}</strong>
-              <span>{surface.description}</span>
-              <small>Open guide</small>
-            </Link>
-          ))}
-        </div>
+        <figure className={styles.allureFrame}>
+          <img
+            src="/img/allure3_main_light.png"
+            alt="Official Allure 3 demo report screenshot showing grouped test results and status trends"
+          />
+          <figcaption>
+            Official Allure 3 report screenshot from{' '}
+            <a href="https://allurereport.org/images/allure3_main_light.png" target="_blank" rel="noreferrer">
+              allurereport.org
+            </a>.
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
@@ -310,18 +463,23 @@ function AgentSection(): JSX.Element {
   return (
     <section className={`${styles.section} ${styles.agentBand} ${styles.reveal}`} data-testid="landing-agent" id="connect-ai-agent" data-reveal>
       <div className={`container ${styles.agentSection}`}>
-        <div className={styles.agentIntro}>
-          <span className={styles.eyebrow}>Agentic only after the suite runs</span>
-          <Heading as="h2">Connect MCP when automation has evidence.</Heading>
-          <p>
-            SHAFT MCP gives agents browser, Capture, Doctor, and Heal tools while
-            your client keeps model credentials and approval policy.
-          </p>
-          <div className={styles.featureLinks} data-testid="landing-agent-links">
-            <Link data-testid="landing-agent-mcp-link" to="/docs/agentic/mcp">MCP setup and commands</Link>
-            <Link to="/docs/agentic/doctor">Diagnose with Doctor</Link>
-            <Link to="/docs/agentic/heal">Recover with Heal</Link>
-          </div>
+        <div className={styles.sectionHeading}>
+          <Heading as="h2">The evidence loop makes failures explainable.</Heading>
+          <p>Run the suite, collect the artifacts, diagnose the path, and improve the checks with the same evidence trail.</p>
+        </div>
+        <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" aria-label="SHAFT evidence loop">
+          {evidenceLoop.map((step, index) => (
+            <div className={styles.loopStep} key={step.title} data-hover-glow>
+              <small>{index + 1}</small>
+              <strong>{step.title}</strong>
+              <span>{step.description}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.featureLinks} data-testid="landing-agent-links">
+          <Link data-testid="landing-agent-mcp-link" to="/docs/agentic/mcp">MCP setup and commands</Link>
+          <Link to="/docs/agentic/doctor">Diagnose with Doctor</Link>
+          <Link to="/docs/agentic/heal">Recover with Heal</Link>
         </div>
       </div>
     </section>
@@ -335,24 +493,33 @@ function FinalCta(): JSX.Element {
         {() => (
           <ParticleBackground
             className={styles.finalParticles}
-            particleCount={28}
-            connectionDistance={118}
-            motionScale={0.28}
+            particleCount={64}
+            connectionDistance={146}
+            motionScale={0.6}
             heroMode
           />
         )}
       </BrowserOnly>
       <div className={`container ${styles.finalCtaInner}`}>
-        <h2>Start with the path in front of you.</h2>
-        <p>Generate a new project, upgrade an existing suite, connect MCP, or build manually from the quick start.</p>
+        <p className={styles.finalKicker}>You shipped evidence. We captured it.</p>
+        <h2>Star SHAFT on GitHub.</h2>
+        <p>Start with the quick path. After the sample test produces evidence, star the repository so releases stay visible.</p>
         <div className={styles.actions}>
-          <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/quick-start#new-project-generation">
-            <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
-            Start a new project
-          </Link>
-          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start#choose-your-path">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" data-hover-glow to="/docs/start/quick-start#choose-your-path">
             <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
             Read quick start
+          </Link>
+          <a className="button button--secondary button--lg" data-testid="landing-cta-star" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faStar} aria-hidden="true" />
+            Star on GitHub
+          </a>
+          <a className="button button--secondary button--lg" data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+            Join Slack
+          </a>
+          <Link className="button button--primary button--lg" data-testid="landing-cta-install" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+            <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
+            Start a new project
           </Link>
         </div>
       </div>
@@ -360,23 +527,49 @@ function FinalCta(): JSX.Element {
   );
 }
 
+function LandingFooter(): JSX.Element {
+  return (
+    <footer className={styles.landingFooter} data-testid="landing-footer">
+      <div className={`container ${styles.footerBadges}`} aria-label="SHAFT project facts">
+        {footerBadges.map(([title, detail]) => (
+          <span key={title}>
+            <strong>{title}</strong>
+            <small>{detail}</small>
+          </span>
+        ))}
+      </div>
+      <div className={`container ${styles.footerLinks}`}>
+        <small>© 2026 SHAFT Engine.</small>
+        <a href={snippets.githubRepository}>GitHub</a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions">Discussions</a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE">License</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+  );
+}
+
 export default function Home(): JSX.Element {
   useScrollReveal();
+  useHoverGlow();
 
   return (
     <Layout
       title="Unified Web, Mobile, API, Database, and CLI Test Automation"
-      description="SHAFT keeps native Selenium, Playwright, Appium, and REST Assured access while standardizing synchronization, configuration, evidence, and recovery across Java test suites."
+      description="SHAFT turns Java automation into clear evidence across web, mobile, API, database, and CLI checks while preserving native tool control."
+      noFooter
     >
       <Hero />
       <main data-testid="landing-main">
-        <GuidePathSection />
-        <ProofSection />
+        <AudienceSection />
         <SurfaceSection />
+        <ProofSection />
+        <AllureEvidenceSection />
         <AgentSection />
+        <GuidePathSection />
         <FinalCta />
       </main>
+      <LandingFooter />
     </Layout>
   );
 }
-
