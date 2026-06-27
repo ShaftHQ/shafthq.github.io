@@ -81,6 +81,17 @@ used for typed data, so generated assertions do not embed captured secrets.
 
 ![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
 
+Use the locator picker control to inspect the target before recording or
+verifying it. Picker mode highlights the hovered element, opens a ranked
+candidate list on click, and shows each candidate's strategy, expression,
+uniqueness count, stability, score rationale, and live probe result (`unique`,
+`multi-match`, `no match`, or `failed`). Pin a candidate when the deterministic
+default is not the locator intent; the next captured event for that logical
+element stores the selected candidate with the `USER_PROVIDED` locator signal,
+so generation can prefer it without editing generated source.
+
+![SHAFT Capture locator picker](/img/capture-locator-picker.png)
+
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call
@@ -188,7 +199,8 @@ Generation selects locators in the accessibility, label, test-ID, stable
 ID/name, CSS, then XPath family. The report records the score contribution from
 uniqueness, visibility, interactability, semantic match, volatility,
 frame/shadow context, and replay evidence, plus ranked fallbacks. Stable
-user-provided locators can outrank volatile semantic evidence. The review file
+user-provided locators pinned from the recorder overlay can outrank the
+deterministic default. The review file
 summarizes deterministic readiness, blockers, risks, typed findings, and next
 suggestions; MCP generation results expose the same path as `reviewPath` and
 return the deterministic review warnings in the tool result. Static review
