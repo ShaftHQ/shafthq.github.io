@@ -222,6 +222,17 @@ review UI for building record/checkpoint commands, editing generated source
 through the browser file picker or download fallback, and reviewing the
 Playwright codegen feature map beside the generated code.
 
+Add `--enable-fallback-locators` when generating WebDriver replay code to make
+the generated test try ranked captured alternatives before failing a target
+lookup. The selected locator remains the first candidate; fallback candidates
+are accepted only when they resolve to one matching element with the recorded
+tag and accessible name, and interaction fallbacks must be visible and enabled.
+When a fallback is used, the generated helper writes a SHAFT report log entry:
+
+```text
+Capture fallback locator used for username-input: By.cssSelector: #username -> By.cssSelector: [name="username"]
+```
+
 Example review finding:
 
 ```json
