@@ -130,12 +130,13 @@ for either `capture_stop` or a browser-panel stop to complete, then call
 Playwright. The agent should show the generated result and ask whether the user
 wants the complete Java snippet or wants the agent to insert the code into the
 current repository. Snippet mode uses the returned Java full-class block,
-including imports, locator fields, setup, SHAFT actions, and teardown.
+including imports, setup, inline `SHAFT.GUI.Locator.*` locators, SHAFT
+actions/assertions, and teardown.
 Insertion mode should inspect the repository and move locators and actions
 into existing Page Object classes when that pattern already exists, or create
 the smallest matching page/test classes when it does not.
 The returned code blocks include deterministic Page Object insertion guidance
-for WebDriver and Playwright captures, including locator inventory, action
+for WebDriver and Playwright captures, including SHAFT locator inventory, action
 sequence, and fallback manual-mapping warnings when the generated source has no
 extractable candidates.
 
@@ -156,12 +157,12 @@ capture checkpoint --kind FLOW_END --description "login as admin"
 public void replayCheckout() throws Exception {
     driver.browser().navigateToURL("https://shop.example/login");
     loginAsAdmin();
-    driver.element().click(CHECKOUT_BUTTON_LOCATOR);
+    driver.element().click(SHAFT.GUI.Locator.clickableField("Checkout"));
 }
 
 private void loginAsAdmin() throws Exception {
-    driver.element().click(USERNAME_INPUT_LOCATOR);
-    driver.element().type(USERNAME_INPUT_LOCATOR, requiredData("username"));
+    driver.element().click(SHAFT.GUI.Locator.inputField("Username"));
+    driver.element().type(SHAFT.GUI.Locator.inputField("Username"), requiredData("username"));
 }
 ```
 
@@ -170,7 +171,8 @@ anchor when generating snippets. The CLI accepts
 `--target-source src/test/java/.../CheckoutTest.java --insert-after replayCheckout`
 and returns the normal generation result plus a focused insertion plan. MCP
 agents can call `capture_record_at_target_code_blocks` to receive separate
-blocks for locator fields/imports, action lines, and a no-edit insertion guide.
+blocks for SHAFT locator inventory/imports, action lines, and a no-edit
+insertion guide.
 SHAFT validates that the requested anchor is present when possible, but it never
 edits the source file until the calling agent performs a separately approved
 repository change.

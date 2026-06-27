@@ -16,10 +16,10 @@ then create the driver normally.
 ```java
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 
-driver.touch()
-        .tap(AppiumBy.accessibilityId("Views"))
+driver.element().touch()
+        .tap(SHAFT.GUI.Locator.accessibilityId("Views"))
         .and()
-        .assertThat(AppiumBy.accessibilityId("Expandable Lists"))
+        .assertThat(SHAFT.GUI.Locator.accessibilityId("Expandable Lists"))
         .exists();
 
 driver.quit();
@@ -47,6 +47,11 @@ flowchart LR
 - Use `mobile_toolchain_status` before Inspector setup when the agent needs exact readiness details. The response keeps the quick availability booleans and adds structured dependency diagnostics with a stable dependency id, detected path or version when available, a failure cause, and repair guidance for Node.js, npm, Appium, the Appium Inspector plugin, Android SDK tools, emulator support, and iOS host constraints.
 - Use `mobile_inspector_record_prepare` and `mobile_inspector_record_start` when the agent should launch a wrapped Appium Inspector recording session. The prepare step lists connected Android devices from `adb devices -l`, reports cached Android emulators, surfaces the relevant toolchain diagnostic warnings and fixes, returns suggested capabilities, and includes a confirmation token. Starting the confirmed plan opens a local Inspector wrapper with pause, resume, checkpoint, stop, and discard controls.
 
+Generated mobile snippets use only SHAFT facade syntax: locators are emitted as
+`SHAFT.GUI.Locator.*`, touch gestures are emitted through
+`driver.element().touch()`, and assertions are emitted through
+`driver.element().assertThat(...)`.
+
 For native execution, either connect a real Appium target or let the Inspector prepare step guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `mobile_record_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
 
 ## Mobile failure trace evidence
@@ -63,9 +68,9 @@ SHAFT.Properties.reporting.set()
         .traceEnabled(true)
         .traceIncludeNativePageSource(true);
 
-driver.touch()
-        .swipeElementIntoView("Pay now", TouchActions.SwipeMovement.VERTICAL)
-        .rotate(ScreenOrientation.LANDSCAPE);
+driver.element().touch()
+        .swipeElementIntoView("Pay now", "VERTICAL")
+        .rotate("LANDSCAPE");
 ```
 
 Context transitions are trace events too. A call such as
@@ -303,13 +308,14 @@ submitButton.click();
 You can integrate Flutter finders with SHAFT's fluent API:
 
 ```java
-// Convert FlutterFinder to By locator
-By loginButton = AppiumBy.accessibilityId("loginButton");
+// Build a SHAFT locator
+By loginButton = SHAFT.GUI.Locator.accessibilityId("loginButton");
+By welcomeMessage = SHAFT.GUI.Locator.accessibilityId("welcomeMessage");
 
 // Use with SHAFT's fluent element actions
 driver.element()
-      .type(loginButton, "username")
-      .and().click(submitButton)
+      .type(SHAFT.GUI.Locator.accessibilityId("usernameField"), "username")
+      .and().click(loginButton)
       .and().assertThat(welcomeMessage).text().contains("Welcome");
 ```
 
@@ -317,37 +323,35 @@ driver.element()
 
 ### Text Input
 ```java
-By usernameField = AppiumBy.accessibilityId("usernameField");
+By usernameField = SHAFT.GUI.Locator.accessibilityId("usernameField");
 driver.element().type(usernameField, "testuser");
 ```
 
 ### Button Clicks
 ```java
-By loginButton = AppiumBy.accessibilityId("loginButton");
+By loginButton = SHAFT.GUI.Locator.accessibilityId("loginButton");
 driver.element().click(loginButton);
 ```
 
 ### Scrolling
 ```java
-import com.shaft.gui.element.TouchActions;
-
-driver.touch().swipeElementIntoView(
-    AppiumBy.accessibilityId("targetWidget"),
-    TouchActions.SwipeDirection.DOWN
+driver.element().touch().swipeElementIntoView(
+    SHAFT.GUI.Locator.accessibilityId("targetWidget"),
+    "DOWN"
 );
 ```
 
 ### Assertions
 ```java
 // Text assertion
-driver.assertThat()
-      .element(AppiumBy.accessibilityId("statusMessage"))
+driver.element()
+      .assertThat(SHAFT.GUI.Locator.accessibilityId("statusMessage"))
       .text()
       .isEqualTo("Success");
 
 // Visibility assertion
-driver.assertThat()
-      .element(AppiumBy.accessibilityId("errorDialog"))
+driver.element()
+      .assertThat(SHAFT.GUI.Locator.accessibilityId("errorDialog"))
       .exists();
 ```
 
