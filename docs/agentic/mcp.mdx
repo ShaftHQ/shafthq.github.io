@@ -267,6 +267,12 @@ java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --enable-fallback-locators
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \
+  --control-flow-preview
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
+  --session recordings/example.json --output-dir generated-tests \
+  --apply-control-flow-preview generated-tests/target/shaft-capture/control-flow-preview.json
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
+  --session recordings/example.json --output-dir generated-tests \
   --target-source src/test/java/com/acme/CheckoutTest.java \
   --insert-after replayCheckout
 java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \

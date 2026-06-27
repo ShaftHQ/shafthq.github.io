@@ -238,6 +238,7 @@ generated-tests/
   target/shaft-capture/generation-report.json
   target/shaft-capture/capture-review.json
   target/shaft-capture/capture-workbench.html
+  target/shaft-capture/control-flow-preview.json
 ```
 
 Generation selects locators in the accessibility, label, test-ID, stable
@@ -268,6 +269,32 @@ When a fallback is used, the generated helper writes a SHAFT report log entry:
 ```text
 Capture fallback locator used for username-input: By.cssSelector: #username -> By.cssSelector: [name="username"]
 ```
+
+Use `--control-flow-preview` to write deterministic suggestions for common
+non-linear browser journeys without changing the generated replay. Capture
+flags adjacent identical action groups, likely optional modal or banner close
+actions, and recovery-like steps after failed or skipped recorded interactions.
+The same suggestions appear in `generation-report.json` under
+`controlFlowSuggestions` and in MCP warning results as `review/CONTROL_FLOW`
+findings.
+
+```bash
+capture generate --session recordings/checkout.json --control-flow-preview
+capture generate --session recordings/checkout.json \
+  --apply-control-flow-preview generated-tests/target/shaft-capture/control-flow-preview.json
+```
+
+Default generation stays linear. Applying a reviewed preview only changes
+approved optional close actions by adding an if-displayed guard:
+
+```java
+if (isCaptureElementDisplayed(COOKIE_CLOSE_BUTTON_LOCATOR)) {
+    driver.element().click(COOKIE_CLOSE_BUTTON_LOCATOR);
+}
+```
+
+Repeated groups and recovery paths remain review suggestions until the user
+marks explicit flow checkpoints or edits the generated test.
 
 Example review finding:
 
