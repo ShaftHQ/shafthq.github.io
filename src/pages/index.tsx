@@ -4,6 +4,7 @@ import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSlack} from '@fortawesome/free-brands-svg-icons';
 import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import ParticleBackground from '@site/src/components/ParticleBackground';
 import snippets from '@site/src/data/snippets.json';
@@ -42,31 +43,13 @@ const testSurfaces = [
   },
 ];
 
-const commandOutcomes = [
-  {
-    title: 'Allure evidence',
-    detail: 'Screenshots, logs, steps, and attachments stay close to each action.',
-    to: '/docs/features/reporting',
-  },
-  {
-    title: 'Doctor',
-    detail: 'Failure context is ready for diagnosis after the suite produces evidence.',
-    to: '/docs/agentic/doctor',
-  },
-  {
-    title: 'Heal',
-    detail: 'Recovery workflows start from captured facts instead of guesswork.',
-    to: '/docs/agentic/heal',
-  },
-];
-
 const audienceLanes = [
   {
     title: 'For engineers',
     description: 'Keep native Java control while SHAFT standardizes the repeatable suite work.',
     points: [
       'Selenium, Playwright, Appium, REST Assured, JDBC, and CLI stay visible.',
-      'Waits, retries, reporting, screenshots, and logs move into framework plumbing.',
+      'Waits, retries, reporting, screenshots, and logs move out of test code.',
       'Evidence is readable when the next failure interrupts real delivery work.',
     ],
   },
@@ -110,6 +93,13 @@ const guidePaths = [
     label: 'Connect MCP',
     to: '/docs/start/quick-start#mcp-integration',
   },
+  {
+    audience: 'Review',
+    title: 'Inspect Allure and star SHAFT',
+    description: 'Open the report, confirm the evidence, then keep the repository close.',
+    label: 'Star after success',
+    to: snippets.githubRepository,
+  },
 ];
 
 const proofPoints = [
@@ -120,7 +110,7 @@ const proofPoints = [
     to: '/docs/features/technology',
   },
   {
-    title: 'Suite plumbing moves out of tests',
+    title: 'Boilerplate code moves out of tests',
     description: 'Synchronization, configuration, smart locators, screenshots, logs, and Allure steps live in the framework.',
     label: 'Feature map',
     to: '/docs/features/modules',
@@ -134,20 +124,10 @@ const proofPoints = [
 ];
 
 const coverageColumns = ['Test', 'Validate', 'Data', 'State', 'Observe', 'Evidence'];
+const slackInviteUrl = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
 
 const codeCompare = {
-  test: [
-    '@Test',
-    'public void checkout_happy_path() {',
-    '  driver.element().click(addToCart);',
-    '  driver.element().click(checkout);',
-    '  driver.assertThat()',
-    '    .element(orderStatus)',
-    '    .text().contains("Success")',
-    '    .perform();',
-    '}',
-  ],
-  plumbing: [
+  handled: [
     'SHAFT handles the repeatable work:',
     'driver lifecycle, waits, retries, and sync',
     'screenshots, logs, steps, and attachments',
@@ -155,15 +135,6 @@ const codeCompare = {
     'Allure evidence that Doctor and Heal can read',
   ],
 };
-
-const plumbingItems = [
-  'Driver lifecycle',
-  'Smart waits and retries',
-  'Screenshots and logs',
-  'Allure steps and attachments',
-  'Configuration defaults',
-  'Recovery-ready evidence',
-];
 
 const evidenceLoop = [
   {
@@ -175,6 +146,10 @@ const evidenceLoop = [
     description: 'Capture screenshots, logs, requests, responses, and data facts.',
   },
   {
+    title: 'Allure',
+    description: 'Centralize the timeline, screenshots, and attachments for review.',
+  },
+  {
     title: 'Diagnose',
     description: 'Use reports and Doctor to understand the failure path.',
   },
@@ -182,6 +157,14 @@ const evidenceLoop = [
     title: 'Improve',
     description: 'Apply deterministic fixes first, then Heal when evidence supports it.',
   },
+];
+
+const footerBadges = [
+  ['Java 25', 'Built for the future'],
+  ['MIT licensed', 'Open source'],
+  ['Allure native', 'Evidence first'],
+  ['Self-healing', 'Less flaky'],
+  ['CI/CD ready', 'Built in'],
 ];
 
 function useScrollReveal(): void {
@@ -203,15 +186,24 @@ function useScrollReveal(): void {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add(styles.revealVisible);
-          observer.unobserve(entry.target);
+          const element = entry.target as HTMLElement;
+          const isAboveViewport = entry.boundingClientRect.top < 0;
+          if (entry.isIntersecting || isAboveViewport) {
+            element.classList.add(styles.revealVisible);
+            element.dataset.revealState = 'revealed';
+            return;
+          }
+          element.classList.remove(styles.revealVisible);
+          element.dataset.revealState = 'rolled-back';
         });
       },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+      { rootMargin: '-8% 0px -10% 0px', threshold: [0, 0.12, 0.24] },
     );
 
-    revealElements.forEach((element) => observer.observe(element));
+    revealElements.forEach((element, index) => {
+      element.style.setProperty('--reveal-delay', `${Math.min(index * 34, 240)}ms`);
+      observer.observe(element);
+    });
 
     return () => {
       observer.disconnect();
@@ -220,42 +212,70 @@ function useScrollReveal(): void {
   }, []);
 }
 
-function CodeCompare(): JSX.Element {
+function useHoverGlow(): void {
+  React.useEffect(() => {
+    const glowTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-hover-glow]'));
+
+    const updatePointer = (event: PointerEvent) => {
+      const target = event.currentTarget as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      target.style.setProperty('--hover-x', `${event.clientX - rect.left}px`);
+      target.style.setProperty('--hover-y', `${event.clientY - rect.top}px`);
+    };
+
+    glowTargets.forEach((target) => {
+      target.addEventListener('pointermove', updatePointer, { passive: true });
+    });
+
+    return () => {
+      glowTargets.forEach((target) => {
+        target.removeEventListener('pointermove', updatePointer);
+      });
+    };
+  }, []);
+}
+
+function JavaCodeExample(): JSX.Element {
   return (
-    <div className={styles.codeCompare} data-testid="landing-code-proof" aria-label="SHAFT test code proof">
-      <div>
-        <span>SHAFT test</span>
-        <pre>{codeCompare.test.join('\n')}</pre>
-      </div>
-      <div>
-        <span>SHAFT handles</span>
-        <ul>
-          {codeCompare.plumbing.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <pre className="language-java" data-testid="landing-java-code">
+      <code className="language-java">
+        <span className={styles.codeLine}>
+          <span className={styles.codeAnnotation}>@Test</span>
+        </span>
+        <span className={styles.codeLine}>
+          <span className={styles.codeKeyword}>public</span>{' '}
+          <span className={styles.codeKeyword}>void</span>{' '}
+          <span className={styles.codeFunction}>checkout_happy_path</span>() {'{'}
+        </span>
+        <span className={styles.codeLine}>
+          {'  '}driver.<span className={styles.codeCall}>element</span>().<span className={styles.codeCall}>click</span>(addToCart)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>and</span>().<span className={styles.codeCall}>click</span>(checkout)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>and</span>().<span className={styles.codeCall}>assertThat</span>(orderStatus)
+        </span>
+        <span className={styles.codeLine}>
+          {'        '}.<span className={styles.codeCall}>text</span>().<span className={styles.codeCall}>contains</span>(<span className={styles.codeString}>"Success"</span>);
+        </span>
+        <span className={styles.codeLine}>{'}'}</span>
+      </code>
+    </pre>
   );
 }
 
-function HeroCodeProof(): JSX.Element {
-  const heroCode = [
-    'click(checkout);',
-    'assert(orderStatus);',
-    'attach evidence;',
-  ];
-
+function CodeCompare(): JSX.Element {
   return (
-    <div className={`${styles.codeCompare} ${styles.heroCodeProof}`} data-testid="landing-code-proof" aria-label="SHAFT compact test code proof">
-      <div>
-        <span>SHAFT test</span>
-        <pre>{heroCode.join('\n')}</pre>
-      </div>
-      <div>
+    <div className={styles.codeCompare} data-testid="landing-code-proof" aria-label="SHAFT test code proof">
+      <figure className={styles.codePanel}>
+        <figcaption>SHAFT test</figcaption>
+        <JavaCodeExample />
+      </figure>
+      <div className={styles.handledPanel}>
         <span>SHAFT handles</span>
         <ul>
-          {codeCompare.plumbing.slice(1, 4).map((item) => (
+          {codeCompare.handled.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
@@ -266,14 +286,14 @@ function HeroCodeProof(): JSX.Element {
 
 function Hero(): JSX.Element {
   return (
-    <header className={styles.hero} data-testid="landing-hero">
+    <header className={styles.hero} data-testid="landing-hero" id="top">
       <BrowserOnly fallback={<div aria-hidden="true" />}>
         {() => (
           <ParticleBackground
             className={styles.heroParticles}
-            particleCount={58}
-            connectionDistance={150}
-            motionScale={0.42}
+            particleCount={96}
+            connectionDistance={168}
+            motionScale={0.78}
             heroMode
           />
         )}
@@ -281,25 +301,29 @@ function Hero(): JSX.Element {
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
-          <h1>Ship automation evidence, not test plumbing.</h1>
+          <h1>Ship automation evidence, not boilerplate code.</h1>
           <p>
             <strong>One Java test suite for web, mobile, API, DB, and CLI.</strong>
             {' '}SHAFT keeps Selenium, Playwright, Appium, and REST Assured visible while
             moving synchronization, configuration, evidence, and recovery into the framework.
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
-            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" to="/docs/start/quick-start#new-project-generation">
-              <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
-              Create your first SHAFT project
-            </Link>
-            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" to="/docs/start/quick-start#choose-your-path">
+            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
               <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
               Read quick start
             </Link>
-            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" href={snippets.githubRepository} target="_blank" rel="noreferrer">
+            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
               <FontAwesomeIcon icon={faStar} aria-hidden="true" />
               Star on GitHub
             </a>
+            <a className="button button--secondary button--lg" data-testid="landing-hero-slack-cta" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+              Join Slack
+            </a>
+            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+              <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
+              Start a new project
+            </Link>
           </div>
           <div className={styles.heroTrustLinks} aria-label="Project trust signals">
             <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
@@ -307,49 +331,6 @@ function Hero(): JSX.Element {
             <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
           </div>
         </div>
-        <div className={styles.heroProof} data-testid="landing-command-center" aria-label="SHAFT evidence command center">
-          <div className={styles.commandRail} aria-label="Test surfaces">
-            {testSurfaces.map((surface) => (
-              <Link to={surface.to} key={surface.title}>
-                <small>{surface.title}</small>
-                <strong>{surface.stack}</strong>
-              </Link>
-            ))}
-          </div>
-          <div className={styles.evidenceCore}>
-            <span>Evidence command center</span>
-            <strong>Allure evidence</strong>
-            <p>Unified, observable, actionable. Built for engines that ship.</p>
-            <div className={styles.signalBars} aria-hidden="true">
-              <i />
-              <i />
-              <i />
-              <i />
-            </div>
-            <HeroCodeProof />
-          </div>
-          <div className={styles.commandRail} aria-label="Evidence outcomes">
-            {commandOutcomes.map((outcome) => (
-              <Link to={outcome.to} key={outcome.title}>
-                <small>{outcome.title}</small>
-                <strong>{outcome.detail}</strong>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className={`container ${styles.audienceGrid}`} data-testid="landing-audience-split">
-        {audienceLanes.map((lane) => (
-          <section key={lane.title} className={styles.audienceLane}>
-            <h2>{lane.title}</h2>
-            <p>{lane.description}</p>
-            <ul>
-              {lane.points.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </section>
-        ))}
       </div>
     </header>
   );
@@ -359,20 +340,40 @@ function GuidePathSection(): JSX.Element {
   return (
     <section className={`${styles.section} ${styles.pathSection} ${styles.reveal}`} data-testid="landing-pathfinder" id="guide-paths" data-reveal>
       <div className="container">
-        <div className={styles.sectionHeading}>
-          <Heading as="h2" id="guide-paths-heading">Get started, then ask for the star.</Heading>
-          <p>Generate or upgrade, run the first useful test, inspect the report, and keep the repository close if the evidence helped.</p>
+        <div className={`${styles.sectionHeading} ${styles.centerHeading}`}>
+          <Heading as="h2" id="guide-paths-heading">Get started in minutes.</Heading>
+          <p>Install, configure, write a readable test, run it headlessly, and review the evidence before starring the repository.</p>
         </div>
         <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
-          {guidePaths.map((path) => (
-            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal>
-              <small>{path.audience}</small>
+          {guidePaths.map((path, index) => (
+            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal data-hover-glow>
+              <small>{index + 1}. {path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
               <em>{path.label}</em>
             </Link>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function AudienceSection(): JSX.Element {
+  return (
+    <section className={`${styles.section} ${styles.audienceSection} ${styles.reveal}`} data-testid="landing-audience-split" data-reveal>
+      <div className={`container ${styles.audienceGrid}`}>
+        {audienceLanes.map((lane) => (
+          <section key={lane.title} className={styles.audienceLane} data-hover-glow>
+            <h2>{lane.title}</h2>
+            <p>{lane.description}</p>
+            <ul>
+              {lane.points.map((point) => (
+                <li key={point}>{point}</li>
+              ))}
+            </ul>
+          </section>
+        ))}
       </div>
     </section>
   );
@@ -394,21 +395,11 @@ function SurfaceSection(): JSX.Element {
             ))}
           </div>
           {testSurfaces.map((surface) => (
-            <Link className={styles.matrixRow} to={surface.to} key={surface.title}>
+            <Link className={styles.matrixRow} to={surface.to} key={surface.title} data-hover-glow>
               <strong>{surface.title}</strong>
               {coverageColumns.map((column) => (
                 <span key={column}>{column}</span>
               ))}
-            </Link>
-          ))}
-        </div>
-        <div className={styles.surfaceGrid}>
-          {testSurfaces.map((surface) => (
-            <Link className={`${styles.surfaceCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal>
-              <small>{surface.stack}</small>
-              <strong>{surface.title}</strong>
-              <span>{surface.description}</span>
-              <em>Open guide</em>
             </Link>
           ))}
         </div>
@@ -422,31 +413,47 @@ function ProofSection(): JSX.Element {
     <section className={`${styles.section} ${styles.reveal}`} data-testid="landing-proof" id="proof-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
-          <Heading as="h2" id="why-shaft">Suite plumbing removed from tests.</Heading>
-          <p>Keep readable test intent in code. Let SHAFT own the repeatable mechanics that make evidence reliable.</p>
-          <div className={`${styles.proofLinks} ${styles.sectionProofLinks}`} aria-label="Project evidence">
-            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
-            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
-            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
-          </div>
+          <Heading as="h2" id="why-shaft">Boilerplate code removed from tests.</Heading>
+          <p>Clean tests that read like documentation. Let SHAFT own the repeatable mechanics that make evidence reliable.</p>
         </div>
-        <div className={styles.plumbingGrid}>
-          <CodeCompare />
-          <div className={styles.plumbingPanel} aria-label="Framework plumbing">
-            {plumbingItems.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
-        </div>
+        <CodeCompare />
         <div className={styles.proofGrid}>
           {proofPoints.map((point) => (
-            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal>
+            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal data-hover-glow>
               <strong>{point.title}</strong>
               <span>{point.description}</span>
               <small>{point.label}</small>
             </Link>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function AllureEvidenceSection(): JSX.Element {
+  return (
+    <section className={`${styles.section} ${styles.allureSection} ${styles.reveal}`} data-testid="landing-allure-evidence" id="allure-evidence" data-reveal>
+      <div className={`container ${styles.allureGrid}`}>
+        <div className={styles.sectionHeading}>
+          <Heading as="h2" id="allure-evidence-heading">Allure evidence people can inspect.</Heading>
+          <p>SHAFT turns each checkout action into report evidence: steps, screenshots, logs, and diagnostics stay attached to the run instead of scattered across CI output.</p>
+          <Link className={styles.inlineCta} to="/docs/reference/reporting">
+            Open reporting guide
+          </Link>
+        </div>
+        <figure className={styles.allureFrame}>
+          <img
+            src="/img/allure3_main_light.png"
+            alt="Official Allure 3 demo report screenshot showing grouped test results and status trends"
+          />
+          <figcaption>
+            Official Allure 3 report screenshot from{' '}
+            <a href="https://allurereport.org/images/allure3_main_light.png" target="_blank" rel="noreferrer">
+              allurereport.org
+            </a>.
+          </figcaption>
+        </figure>
       </div>
     </section>
   );
@@ -461,8 +468,9 @@ function AgentSection(): JSX.Element {
           <p>Run the suite, collect the artifacts, diagnose the path, and improve the checks with the same evidence trail.</p>
         </div>
         <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" aria-label="SHAFT evidence loop">
-          {evidenceLoop.map((step) => (
-            <div className={styles.loopStep} key={step.title}>
+          {evidenceLoop.map((step, index) => (
+            <div className={styles.loopStep} key={step.title} data-hover-glow>
+              <small>{index + 1}</small>
               <strong>{step.title}</strong>
               <span>{step.description}</span>
             </div>
@@ -485,51 +493,83 @@ function FinalCta(): JSX.Element {
         {() => (
           <ParticleBackground
             className={styles.finalParticles}
-            particleCount={34}
-            connectionDistance={126}
-            motionScale={0.32}
+            particleCount={64}
+            connectionDistance={146}
+            motionScale={0.6}
             heroMode
           />
         )}
       </BrowserOnly>
       <div className={`container ${styles.finalCtaInner}`}>
-        <h2>You shipped evidence. Star SHAFT on GitHub.</h2>
+        <p className={styles.finalKicker}>You shipped evidence. We captured it.</p>
+        <h2>Star SHAFT on GitHub.</h2>
         <p>Start with the quick path. After the sample test produces evidence, star the repository so releases stay visible.</p>
         <div className={styles.actions}>
-          <Link className="button button--primary button--lg" data-testid="landing-cta-install" to="/docs/start/quick-start#new-project-generation">
-            <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
-            Start a new project
-          </Link>
-          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" to="/docs/start/quick-start#choose-your-path">
+          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" data-hover-glow to="/docs/start/quick-start#choose-your-path">
             <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
             Read quick start
           </Link>
-          <a className="button button--secondary button--lg" data-testid="landing-cta-star" href={snippets.githubRepository} target="_blank" rel="noreferrer">
+          <a className="button button--secondary button--lg" data-testid="landing-cta-star" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
             <FontAwesomeIcon icon={faStar} aria-hidden="true" />
             Star on GitHub
           </a>
+          <a className="button button--secondary button--lg" data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+            Join Slack
+          </a>
+          <Link className="button button--primary button--lg" data-testid="landing-cta-install" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+            <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
+            Start a new project
+          </Link>
         </div>
       </div>
     </section>
   );
 }
 
+function LandingFooter(): JSX.Element {
+  return (
+    <footer className={styles.landingFooter} data-testid="landing-footer">
+      <div className={`container ${styles.footerBadges}`} aria-label="SHAFT project facts">
+        {footerBadges.map(([title, detail]) => (
+          <span key={title}>
+            <strong>{title}</strong>
+            <small>{detail}</small>
+          </span>
+        ))}
+      </div>
+      <div className={`container ${styles.footerLinks}`}>
+        <small>© 2026 SHAFT Engine.</small>
+        <a href={snippets.githubRepository}>GitHub</a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions">Discussions</a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE">License</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+  );
+}
+
 export default function Home(): JSX.Element {
   useScrollReveal();
+  useHoverGlow();
 
   return (
     <Layout
       title="Unified Web, Mobile, API, Database, and CLI Test Automation"
       description="SHAFT turns Java automation into clear evidence across web, mobile, API, database, and CLI checks while preserving native tool control."
+      noFooter
     >
       <Hero />
       <main data-testid="landing-main">
-        <GuidePathSection />
+        <AudienceSection />
         <SurfaceSection />
         <ProofSection />
+        <AllureEvidenceSection />
         <AgentSection />
+        <GuidePathSection />
         <FinalCta />
       </main>
+      <LandingFooter />
     </Layout>
   );
 }

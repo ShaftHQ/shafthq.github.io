@@ -52,8 +52,8 @@ let pointerX = 0;
 let pointerY = 0;
 let pointerActive = false;
 let motionScale = 1;
-const MIN_VELOCITY = 0.12;
-const BASE_MAX_VELOCITY = 0.65;
+const MIN_VELOCITY = 0.18;
+const BASE_MAX_VELOCITY = 0.92;
 const MIN_MOTION_SCALE = 0.25;
 const MAX_MOTION_SCALE = 1;
 
@@ -78,20 +78,20 @@ function stepParticles() {
       const dx = pointerX - p.x;
       const dy = pointerY - p.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < connectionDistance * 0.9 && distance > 0) {
-        const force = (1 - distance / (connectionDistance * 0.9)) * 0.012;
+      if (distance < connectionDistance * 0.95 && distance > 0) {
+        const force = (1 - distance / (connectionDistance * 0.95)) * 0.022;
         p.vx += (dx / distance) * force;
         p.vy += (dy / distance) * force;
       }
     }
 
-    const jitterStrength = 0.008 * motionScale;
+    const jitterStrength = 0.018 * motionScale;
     const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * motionScale);
 
     p.vx += (Math.random() - 0.5) * jitterStrength;
     p.vy += (Math.random() - 0.5) * jitterStrength;
-    p.vx = Math.max(-maxVelocity, Math.min(maxVelocity, p.vx * 0.995));
-    p.vy = Math.max(-maxVelocity, Math.min(maxVelocity, p.vy * 0.995));
+    p.vx = Math.max(-maxVelocity, Math.min(maxVelocity, p.vx * 0.988));
+    p.vy = Math.max(-maxVelocity, Math.min(maxVelocity, p.vy * 0.988));
 
     p.x += p.vx;
     p.y += p.vy;

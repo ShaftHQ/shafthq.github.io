@@ -45,11 +45,11 @@ interface ParticleBackgroundProps {
   heroMode?: boolean;
 }
 
-const MIN_VELOCITY = 0.12;
-const BASE_MAX_VELOCITY = 0.65;
+const MIN_VELOCITY = 0.18;
+const BASE_MAX_VELOCITY = 0.92;
 const MOBILE_MAX_WIDTH_MEDIA_QUERY = '(max-width: 768px)';
-const MOBILE_PARTICLE_MULTIPLIER = 1.4;
-const MOBILE_MIN_MOTION_SCALE = 0.5;
+const MOBILE_PARTICLE_MULTIPLIER = 1.55;
+const MOBILE_MIN_MOTION_SCALE = 0.62;
 const LIGHTHOUSE_USER_AGENT_PATTERN = /lighthouse/i;
 const ENABLE_PARTICLE_WORKERS = false;
 
@@ -335,19 +335,19 @@ export default function ParticleBackground({
               const dx = pointerRef.current.x - particle.x;
               const dy = pointerRef.current.y - particle.y;
               const distance = Math.sqrt(dx * dx + dy * dy);
-              if (distance < effectiveConnectionDistance * 0.9 && distance > 0) {
-                const force = (1 - distance / (effectiveConnectionDistance * 0.9)) * 0.012;
+              if (distance < effectiveConnectionDistance * 0.95 && distance > 0) {
+                const force = (1 - distance / (effectiveConnectionDistance * 0.95)) * 0.022;
                 velocity.vx += (dx / distance) * force;
                 velocity.vy += (dy / distance) * force;
               }
             }
-            const jitterStrength = 0.008 * tunedMotionScale;
+            const jitterStrength = 0.018 * tunedMotionScale;
             const maxVelocity = Math.max(MIN_VELOCITY, BASE_MAX_VELOCITY * tunedMotionScale);
 
             velocity.vx += (Math.random() - 0.5) * jitterStrength;
             velocity.vy += (Math.random() - 0.5) * jitterStrength;
-            velocity.vx = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vx * 0.995));
-            velocity.vy = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vy * 0.995));
+            velocity.vx = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vx * 0.988));
+            velocity.vy = Math.max(-maxVelocity, Math.min(maxVelocity, velocity.vy * 0.988));
             particle.x += velocity.vx;
             particle.y += velocity.vy;
             if (particle.x < 0 || particle.x > canvas.width) velocity.vx *= -1;
