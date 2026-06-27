@@ -45,7 +45,7 @@ level locator vocabulary:
   submit inputs, ARIA-labelled controls, role-based controls, and visible text.
 - `driver.element().type("Email", value)` and
   `driver.element().click("Sign in")` are intent-shaped overloads that route
-  through those Smart Locators.
+  through those Smart Locators in both WebDriver and Playwright sessions.
 - ARIA role locators let tests target semantic roles and text instead of
   brittle markup structure.
 - `driver.act(...)` can express a guarded workflow intent, then SHAFT plans it
@@ -102,6 +102,11 @@ finishing, a toast disappearing, a calculated value appearing, or a backend job
 reaching a terminal state. Do not add sleeps around SHAFT actions by default;
 that duplicates the engine wait and makes failures slower without making them
 more accurate.
+
+For strict WebDriver form-entry checks, enable
+`forceCheckTextWasTypedCorrectly=true`. SHAFT then verifies the final value
+after `type`, `typeSecure`, and `typeAppend`; special key sequences are skipped
+because they do not map to a stable literal field value.
 
 ## Retry With Evidence
 
