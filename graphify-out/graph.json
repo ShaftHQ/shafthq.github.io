@@ -19587,7 +19587,7 @@
       "label": "Visual Reporting",
       "file_type": "document",
       "source_file": "docs/reference/configuration/basicConfig.md",
-      "source_location": "L59",
+      "source_location": "L71",
       "_origin": "ast",
       "id": "configuration_basicconfig_visual_reporting",
       "community": 125,
@@ -19597,7 +19597,7 @@
       "label": "Reliability & Retries",
       "file_type": "document",
       "source_file": "docs/reference/configuration/basicConfig.md",
-      "source_location": "L80",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "configuration_basicconfig_reliability_retries",
       "community": 125,
@@ -19607,7 +19607,7 @@
       "label": "Proxy",
       "file_type": "document",
       "source_file": "docs/reference/configuration/basicConfig.md",
-      "source_location": "L101",
+      "source_location": "L113",
       "_origin": "ast",
       "id": "configuration_basicconfig_proxy",
       "community": 125,
@@ -19617,7 +19617,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/reference/configuration/basicConfig.md",
-      "source_location": "L114",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "configuration_basicconfig_related",
       "community": 125,
@@ -23657,7 +23657,7 @@
       "label": "Retry With Evidence",
       "file_type": "document",
       "source_file": "docs/testing/flakiness.mdx",
-      "source_location": "L100",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "testing_flakiness_retry_with_evidence",
       "community": 219,
@@ -23667,7 +23667,7 @@
       "label": "Flake Profiler",
       "file_type": "document",
       "source_file": "docs/testing/flakiness.mdx",
-      "source_location": "L128",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "testing_flakiness_flake_profiler",
       "community": 219,
@@ -23677,7 +23677,7 @@
       "label": "Optional Self Healing",
       "file_type": "document",
       "source_file": "docs/testing/flakiness.mdx",
-      "source_location": "L151",
+      "source_location": "L157",
       "_origin": "ast",
       "id": "testing_flakiness_optional_self_healing",
       "community": 219,
@@ -23687,7 +23687,7 @@
       "label": "What To Use First",
       "file_type": "document",
       "source_file": "docs/testing/flakiness.mdx",
-      "source_location": "L175",
+      "source_location": "L181",
       "_origin": "ast",
       "id": "testing_flakiness_what_to_use_first",
       "community": 219,
@@ -23697,7 +23697,7 @@
       "label": "Related",
       "file_type": "document",
       "source_file": "docs/testing/flakiness.mdx",
-      "source_location": "L186",
+      "source_location": "L192",
       "_origin": "ast",
       "id": "testing_flakiness_related",
       "community": 219,
@@ -27207,9 +27207,9 @@
       "source_file": "src/theme/Root.tsx",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "theme_root",
-      "target": "theme_root_hash_scroll_retry_delays_ms",
-      "confidence_score": 1.0
+      "target": "theme_root_hash_scroll_retry_delays_ms"
     },
     {
       "relation": "contains",
@@ -27217,9 +27217,9 @@
       "source_file": "src/theme/Root.tsx",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "theme_root",
-      "target": "theme_root_hashtargetscrollsync",
-      "confidence_score": 1.0
+      "target": "theme_root_hashtargetscrollsync"
     },
     {
       "relation": "contains",
@@ -27551,9 +27551,9 @@
       "source_file": "tests/e2e/homepage.spec.js",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "e2e_homepage_spec",
-      "target": "e2e_homepage_spec_expectanchorbelownavbar",
-      "confidence_score": 1.0
+      "target": "e2e_homepage_spec_expectanchorbelownavbar"
     },
     {
       "relation": "imports_from",
@@ -27602,9 +27602,9 @@
       "source_file": "tests/homepage-performance.test.js",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_homepage_performance_test",
-      "target": "tests_homepage_performance_test_customstyles",
-      "confidence_score": 1.0
+      "target": "tests_homepage_performance_test_customstyles"
     },
     {
       "relation": "contains",
@@ -48467,5 +48467,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "855e7d4ef46d17730d69b82619d5a7533947888a"
+  "built_at_commit": "71f73bd486e644f8287f2463a1c99ae8e8674a57"
 }
