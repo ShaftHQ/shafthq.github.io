@@ -42,7 +42,7 @@ flowchart LR
 - Use `mobile_initialize_web_emulation` for mobile web checks in a resized desktop browser.
 - Use `mobile_initialize_native` for Appium-backed native Android or iOS execution. Configure `executionAddress`, `targetOperatingSystem`, `mobile_automationName`, `mobile_deviceName`, and either `mobile_app`, Android `mobile_appPackage`/`mobile_appActivity`, or iOS `mobile_bundleId`.
 - Use `mobile_get_contexts`, `mobile_switch_context`, `mobile_take_screenshot`, and `mobile_get_accessibility_tree` to inspect the live device screen before deciding what action to take.
-- Use `mobile_tap`, `mobile_type`, `mobile_swipe_by_offset`, `mobile_swipe_element_into_view`, `mobile_tap_coordinates`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs.
+- Use `mobile_tap`, `mobile_type`, `mobile_swipe_by_offset`, `mobile_swipe_element_into_view`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs. `mobile_tap_coordinates` and `mobile_swipe_coordinates` are fallback-only actions; generated recordings warn that coordinate replay will probably fail when a locator cannot be resolved.
 - Use `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, and `mobile_recording_code_blocks` to record, replay, and generate Java snippets that can be pasted into a SHAFT test or page object.
 - Use `mobile_toolchain_status` before Inspector setup when the agent needs exact readiness details. The response keeps the quick availability booleans and adds structured dependency diagnostics with a stable dependency id, detected path or version when available, a failure cause, and repair guidance for Node.js, npm, Appium, the Appium Inspector plugin, Android SDK tools, emulator support, and iOS host constraints.
 - Use `mobile_inspector_record_prepare` and `mobile_inspector_record_start` when the agent should launch a wrapped Appium Inspector recording session. The prepare step lists connected Android devices from `adb devices -l`, reports cached Android emulators, surfaces the relevant toolchain diagnostic warnings and fixes, returns suggested capabilities, and includes a confirmation token. Starting the confirmed plan opens a local Inspector wrapper with pause, resume, checkpoint, stop, and discard controls.
@@ -50,7 +50,10 @@ flowchart LR
 Generated mobile snippets use only SHAFT facade syntax: locators are emitted as
 `SHAFT.GUI.Locator.*`, touch gestures are emitted through
 `driver.element().touch()`, and assertions are emitted through
-`driver.element().assertThat(...)`.
+`driver.element().assertThat(...)`. The wrapped Appium Inspector recorder reads
+the current accessibility tree/source and prefers Appium-style locators such as
+accessibility id, id/resource-id, Android UiAutomator, and XPath before falling
+back to coordinates.
 
 For native execution, either connect a real Appium target or let the Inspector prepare step guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `mobile_record_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
 
