@@ -231,8 +231,8 @@ The packaged server supports:
   can determine them;
 - mobile inspection through `mobile_take_screenshot`,
   `mobile_get_accessibility_tree`, context switching, and action tools for
-  tapping, typing, swiping, rotation, keyboard, backgrounding, app activation,
-  recording, playback, and copy-pasteable Java action blocks;
+  locator-based tapping, typing, swiping, rotation, keyboard, backgrounding,
+  app activation, recording, playback, and copy-pasteable Java action blocks;
 - wrapped Appium Inspector mobile recording through
   `mobile_toolchain_status`, `mobile_inspector_record_prepare`,
   `mobile_inspector_record_start`, `mobile_inspector_record_control`, and
@@ -240,7 +240,10 @@ The packaged server supports:
   dependency diagnostics with availability, detected path or version, failure
   cause, and repair guidance. The prepare step reports `adb devices -l`, cached
   Android AVDs, relevant diagnostic warnings, suggested capabilities, and any
-  Android emulator creation proposal before the user confirms startup;
+  Android emulator creation proposal before the user confirms startup. Recorded
+  Inspector gestures are matched against the current accessibility tree/source
+  and converted to locator actions where possible; coordinate actions are kept
+  only as warned fallbacks;
 - trust-gated natural-language browser, element, and touch execution through
   `natural_act`, using the active SHAFT driver and the same
   `driver.act(...)` planner rules;
