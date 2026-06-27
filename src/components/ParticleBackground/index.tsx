@@ -235,6 +235,7 @@ export default function ParticleBackground({
 
     resize();
     window.addEventListener('resize', resize);
+    window.addEventListener('pointerdown', handlePointerMove, { passive: true });
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     window.addEventListener('pointerout', handlePointerLeave, { passive: true });
 
@@ -386,6 +387,7 @@ export default function ParticleBackground({
 
     return () => {
       window.removeEventListener('resize', resize);
+      window.removeEventListener('pointerdown', handlePointerMove);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerout', handlePointerLeave);
       cancelAnimationFrame(animationRef.current);

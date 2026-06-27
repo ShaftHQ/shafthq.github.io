@@ -4,7 +4,9 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
-  await expect(page.getByRole('heading', {name: /One Java test suite for web, mobile, API, DB, and CLI/})).toBeVisible();
+  await expect(page.getByRole('heading', {name: /Ship automation evidence, not test plumbing/})).toBeVisible();
+  await expect(page.getByTestId('landing-command-center')).toBeVisible();
+  await expect(page.getByTestId('landing-code-proof').first()).toBeVisible();
   await expect(page.getByTestId('landing-hero-actions')).toBeVisible();
   await expect(page.getByTestId('landing-hero-star-cta')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
   await expect(page.getByText(/Plain stack/)).toHaveCount(0);

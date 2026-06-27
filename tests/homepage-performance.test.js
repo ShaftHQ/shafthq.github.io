@@ -9,9 +9,13 @@ function assert(condition, message) {
 }
 
 assert(index.includes('One Java test suite for web, mobile, API, DB, and CLI.'), 'Homepage must state the core product message plainly.');
+assert(index.includes('Ship automation evidence, not test plumbing.'), 'Homepage must use the evidence-command-center hero message.');
 assert(index.includes('Create your first SHAFT project'), 'Homepage hero must use a first-project CTA.');
 assert(index.includes('landing-hero-star-cta'), 'Homepage hero must expose a GitHub star CTA hook.');
 assert(index.includes('Star on GitHub'), 'Homepage hero must ask successful evaluators to star the project.');
+assert(index.includes('landing-command-center'), 'Homepage hero must expose the evidence command center.');
+assert(index.includes('landing-surface-matrix'), 'Homepage must expose the surface coverage matrix.');
+assert(index.includes('landing-evidence-loop'), 'Homepage must expose the evidence loop chart.');
 assert(index.includes('codeCompare'), 'Homepage hero must include the before/after code proof.');
 assert(!index.includes('telemetryRows'), 'Homepage hero must not render fake telemetry.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
@@ -38,6 +42,7 @@ assert(index.includes('data-testid="landing-main"'), 'Homepage must expose a mai
 assert(index.includes('landing-hero-quickstart-cta'), 'Landing hero should expose quick-start CTA hook.');
 assert(index.includes('data-testid="landing-cta-install"'), 'Landing final CTA should expose install hook.');
 assert(index.includes('data-testid="landing-cta-quickstart"'), 'Landing final CTA should expose quick-start hook.');
+assert(index.includes('data-testid="landing-cta-star"'), 'Landing final CTA should ask successful evaluators to star the project.');
 assert(!index.includes('data-testid="landing-cta-agent"'), 'Landing final CTA should not duplicate the MCP path.');
 assert(!index.includes('hero-onboarding-step-'), 'Landing page should not duplicate the quick-start workflow as an onboarding checklist.');
 assert(index.includes('id="proof-section"'), 'Landing proof section must expose a stable anchor.');
