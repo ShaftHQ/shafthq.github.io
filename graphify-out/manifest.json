@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "docs/agentic/capture.md": {
-    "mtime": 1782540142.5423045,
-    "ast_hash": "f0f6f01c4cdb999eb67b4f5762d4f069",
+    "mtime": 1782542675.838752,
+    "ast_hash": "7407f2f2f9a9d45561c89a6bd55e8ab5",
     "semantic_hash": ""
   },
   "docs/agentic/doctor.mdx": {
@@ -1055,8 +1055,8 @@
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertiesList.mdx": {
-    "mtime": 1782497408.3781056,
-    "ast_hash": "7711668ed0929ab26a0721d4ec7ad6c6",
+    "mtime": 1782544608.886577,
+    "ast_hash": "a8b3f31217601e998507ef7f72ba7612",
     "semantic_hash": ""
   },
   "docs/reference/properties/PropertyTypes.md": {
@@ -1075,8 +1075,8 @@
     "semantic_hash": ""
   },
   "docs/reference/reporting/reporting.mdx": {
-    "mtime": 1782506007.158808,
-    "ast_hash": "c3b4fb792630e9ed61b38d233c5c77e9",
+    "mtime": 1782544608.884948,
+    "ast_hash": "6f7654e5f79484fe6da2ae1ea884a1a4",
     "semantic_hash": ""
   },
   "docs/start/installation.mdx": {
@@ -1370,8 +1370,8 @@
     "semantic_hash": ""
   },
   "static/img/capture-locator-picker.png": {
-    "mtime": 1782540125.4969487,
-    "ast_hash": "3e67ec63a9d923d30720d6f92501592c",
+    "mtime": 1782542649.8824635,
+    "ast_hash": "4a40cbc52c67685521ae022733a12b0e",
     "semantic_hash": ""
   }
 }

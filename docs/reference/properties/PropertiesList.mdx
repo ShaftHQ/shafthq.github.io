@@ -584,6 +584,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   boolean accumulateReports = SHAFT.Properties.allure.accumulateReports();
   boolean cleanResultsDirectory = SHAFT.Properties.allure.cleanResultsDirectory();
   boolean generateArchive = SHAFT.Properties.allure.generateArchive();
+  boolean generateReport = SHAFT.Properties.allure.generateReport();
   String customLogo = SHAFT.Properties.allure.customLogo();
   String customTitle = SHAFT.Properties.allure.customTitle();
   boolean realtimeMonitoring = SHAFT.Properties.allure.realtimeMonitoring();
@@ -599,6 +600,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
     .accumulateReports(true)
     .cleanResultsDirectory(true)
     .generateArchive(false)
+    .generateReport(true)
     .customLogo("https://example.com/logo.png")
     .customTitle("My Test Suite Report")
     .realtimeMonitoring(false)
@@ -618,6 +620,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   allure.accumulateReports=true
   allure.cleanResultsDirectory=true
   allure.generateArchive=false
+  allure.generateReport=true
   allure.customLogo=https://example.com/logo.png
   allure.customTitle=My Test Suite Report
   allure.realtimeMonitoring=false
@@ -637,6 +640,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.accumulateReports      | `true`                                                                                                                                           | `true`, `false`                                              | • When `true`, keeps previous Allure HTML report files in the report directory. When `false`, only the latest run report is retained.                               |
 | allure.cleanResultsDirectory  | `true`                                                                                                                                           | `true`, `false`                                              | • Clean the Allure results directory before each test run. Disable when merging results from multiple partial runs.                                                 |
 | allure.generateArchive        | `false`                                                                                                                                          | `true`, `false`                                              | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: `generateAllureReportArchive`)* |
+| allure.generateReport         | `true`                                                                                                                                           | `true`, `false`                                              | • Generate the Allure HTML report, convenience script, archive, and live watch process after test execution. Set to `false` to keep raw `allure-results` only.       |
 | allure.customLogo             | *(SHAFT default logo URL)*                                                                                                                       | URL or local file path                                       | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report.                                                                  |
 | allure.customTitle            | `Test run report`                                                                                                                                | Any string                                                   | • Custom title displayed in the header of the generated Allure report.                                                                                              |
 | allure.realtimeMonitoring     | `false`                                                                                                                                          | `true`, `false`                                              | • Enables SHAFT-managed Allure 3 native real-time monitoring via `allure watch` while tests run. Ignored for Allure 2 or when the Allure CLI cannot be resolved.    |
