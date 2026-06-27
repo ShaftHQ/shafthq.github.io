@@ -191,9 +191,10 @@ The packaged server supports:
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
 - deterministic WebDriver TestNG generation through `capture_generate`,
-  `capture_generate_replay`, and `capture_code_blocks`, with compile,
-  optional replay, local deterministic code-review warnings, and review-only
-  AI enrichment phases;
+  `capture_generate_replay`, `capture_code_blocks`, and
+  `capture_record_at_target_code_blocks`, with compile, optional replay, local
+  deterministic code-review warnings, focused source-anchor insertion snippets,
+  and review-only AI enrichment phases;
 - deterministic Playwright TestNG generation through
   `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
   when the target repository uses `SHAFT.GUI.Playwright`;
@@ -260,6 +261,10 @@ java -cp "$MCP_CP" "$MCP_MAIN" capture stop
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \
   --enable-fallback-locators
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
+  --session recordings/example.json --output-dir generated-tests \
+  --target-source src/test/java/com/acme/CheckoutTest.java \
+  --insert-after replayCheckout
 java -cp "$MCP_CP" "$MCP_MAIN" doctor analyze \
   --input allure-results --allowed-root "$PWD" \
   --output-dir target/shaft-doctor

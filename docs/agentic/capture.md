@@ -117,6 +117,16 @@ for WebDriver and Playwright captures, including locator inventory, action
 sequence, and fallback manual-mapping warnings when the generated source has no
 extractable candidates.
 
+For a record-at-target flow, provide the existing Java source and insertion
+anchor when generating snippets. The CLI accepts
+`--target-source src/test/java/.../CheckoutTest.java --insert-after replayCheckout`
+and returns the normal generation result plus a focused insertion plan. MCP
+agents can call `capture_record_at_target_code_blocks` to receive separate
+blocks for locator fields/imports, action lines, and a no-edit insertion guide.
+SHAFT validates that the requested anchor is present when possible, but it never
+edits the source file until the calling agent performs a separately approved
+repository change.
+
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
 separator is assumed; restrictive POSIX permissions are applied when supported
