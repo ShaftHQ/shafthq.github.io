@@ -1,7 +1,7 @@
-# Graph Report - shafthq.github.io  (2026-06-27)
+# Graph Report - shaft-docs-graphify-3114-f7972b9a5db54d48ac76ddfa69de62f3  (2026-06-27)
 
 ## Corpus Check
-- 225 files · ~315,613 words
+- 225 files · ~315,693 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `4ba2bbd0`
+- Built from commit: `65c4b840`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
