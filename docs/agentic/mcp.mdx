@@ -128,7 +128,7 @@ Common catalog entries include:
 | `web-locator-refactor` | Replace brittle locators with SHAFT smart locators, ARIA locators, `SHAFT.GUI.Locator`, or stable Selenium `By` locators. | Affected tests pass without `@FindBy`, PageFactory, or absolute XPath. |
 | `web-capture-to-pom` | Record with Capture, generate WebDriver or Playwright replay snippets, then use the returned deterministic POM guidance to move stable locators and actions into existing page objects. | Replay-derived code is integrated instead of pasted as a generic generated class. |
 | `web-playwright-pom-fluent-test` | Use `playwright_*` browser and element tools to inspect the page, then write fluent `SHAFT.GUI.Playwright` page objects and tests. | The Playwright test compiles and follows the existing project backend. |
-| `web-playwright-record-replay` | Record Playwright MCP actions, generate replay snippets, and move stable actions into Playwright page methods. | The replay code is reviewed, guarded, and inserted into Playwright classes. |
+| `web-playwright-record-replay` | Record Playwright MCP actions, generate replay snippets, review the returned Capture report/review metadata, and move stable actions into Playwright page methods. | The replay code is reviewed, guarded, and inserted into Playwright classes. |
 | `mobile-native-appium` | Inspect contexts and accessibility trees, prefer accessibility ids/Appium locators, and create mobile page objects plus TestNG tests. | The native mobile test compiles; any unavailable device/cloud run is reported. |
 | `mobile-record-replay` | Record mobile actions through MCP, generate code blocks, and move them into mobile page methods. | The replay code is reviewed, guarded, and inserted into the right classes. |
 | `failure-trace-first-analysis` | Read `target/shaft-traces` with `trace_latest`, summarize the failed structured action, and use `doctor_analyze_trace` before opening raw Allure evidence. | The failed action, locator, exception, source context, and next MCP tool or code-change category are reported. |
@@ -199,7 +199,11 @@ The packaged server supports:
   `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
   when the target repository uses `SHAFT.GUI.Playwright`;
 - explicit Playwright browser, element, screenshot, DOM, action recording,
-  playback, and copy-paste replay tools through the `playwright_*` tool family;
+  playback, and copy-paste replay tools through the `playwright_*` tool family.
+  `playwright_recording_code_blocks` keeps the direct replay method and also
+  returns Capture-compatible `captureSessionPath`, generated `sourcePath`,
+  `testDataPath`, `reportPath`, `reviewPath`, and report metadata when the
+  recorded actions map to the Capture schema;
 - deterministic diagnosis through `doctor_analyze_failed_allure` for
   WebDriver remediation and `playwright_doctor_analyze_failed_allure` for
   Playwright remediation, restricted to explicit input paths and allowed roots,

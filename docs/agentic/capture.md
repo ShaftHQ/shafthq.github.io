@@ -63,6 +63,11 @@ WebDriver code generation remains the default through `capture_generate`,
 when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
 Playwright output. Those Playwright tools read the same Capture session format
 but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+MCP Playwright action recordings created with `playwright_record_start` remain
+available through the same Playwright tool names; `playwright_recording_code_blocks`
+now adapts supported recorded actions into a Capture session, returns the
+generated source/test-data/report/review paths, and keeps the direct replay
+method for actions that do not yet have a Capture equivalent.
 
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
