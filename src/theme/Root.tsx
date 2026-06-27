@@ -1,5 +1,8 @@
+import { useLocation } from '@docusaurus/router';
 import React, { Suspense, useEffect, useState } from 'react';
 const LazyAutoBot = React.lazy(() => import('@site/src/components/AutoBot'));
+
+const HASH_SCROLL_RETRY_DELAYS_MS = [0, 150, 450, 900];
 
 function DeferredAutoBot(): JSX.Element | null {
   const AUTOBOT_DEFER_TIMEOUT_MS = 5000;
@@ -56,10 +59,47 @@ function DeferredAutoBot(): JSX.Element | null {
   );
 }
 
+function HashTargetScrollSync(): JSX.Element | null {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) return;
+
+    let targetId: string;
+    try {
+      targetId = decodeURIComponent(location.hash.slice(1));
+    } catch {
+      targetId = location.hash.slice(1);
+    }
+
+    if (!targetId) return;
+
+    const frameIds: number[] = [];
+    const scrollToTarget = () => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      target.scrollIntoView({ block: 'start', inline: 'nearest' });
+    };
+
+    const timeoutIds = HASH_SCROLL_RETRY_DELAYS_MS.map((delay) => window.setTimeout(() => {
+      frameIds.push(window.requestAnimationFrame(scrollToTarget));
+    }, delay));
+
+    return () => {
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+      frameIds.forEach((frameId) => window.cancelAnimationFrame(frameId));
+    };
+  }, [location.hash, location.pathname]);
+
+  return null;
+}
+
 // Default implementation, that you can customize
 export default function Root({ children }: React.PropsWithChildren) {
   return (
     <>
+      <HashTargetScrollSync />
       {children}
       <DeferredAutoBot />
     </>
