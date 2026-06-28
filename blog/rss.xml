@@ -4,10 +4,180 @@
         <title>SHAFT User Guide Blog</title>
         <link>https://shafthq.github.io/blog</link>
         <description>SHAFT User Guide Blog</description>
-        <lastBuildDate>Tue, 23 Jun 2026 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 28 Jun 2026 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[🚀 SHAFT 10.2.20260627: What's New and Why You Should Upgrade Today]]></title>
+            <link>https://shafthq.github.io/blog/release-10.2.20260627</link>
+            <guid>https://shafthq.github.io/blog/release-10.2.20260627</guid>
+            <pubDate>Sun, 28 Jun 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Hey there, SHAFT community! 👋]]></description>
+            <content:encoded><![CDATA[<p>Hey there, SHAFT community! 👋</p>
+<p>A fresh release just dropped and it's packed with improvements you don't want to miss. <strong>SHAFT 10.2.20260627</strong> is here, and whether you're a seasoned SHAFT user or just getting started, there's something in this release for you.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-what-changed">⚡ What Changed?<a href="https://shafthq.github.io/blog/release-10.2.20260627#-what-changed" class="hash-link" aria-label="Direct link to ⚡ What Changed?" title="Direct link to ⚡ What Changed?" translate="no">​</a></h2>
+<ul>
+<li class="">Auto-generated release notes are included below. Users upgrading from</li>
+<li class="">SHAFTENGINE should read the</li>
+<li class="">modular SHAFT upgrade guide.</li>
+<li class="">SHAFT Pilot adds deterministic Capture, TestNG generation, Doctor diagnosis,</li>
+<li class="">reviewed repair proposals, and MCP interoperability. AI is optional, disabled</li>
+</ul>
+<p>👉 <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/10.2.20260627" target="_blank" rel="noopener noreferrer" class="">View the full release on GitHub</a></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-changelog">📋 Changelog<a href="https://shafthq.github.io/blog/release-10.2.20260627#-changelog" class="hash-link" aria-label="Direct link to 📋 Changelog" title="Direct link to 📋 Changelog" translate="no">​</a></h2>
+<h1>SHAFT 10.2.20260627</h1>
+<p>Auto-generated release notes are included below. Users upgrading from
+<code>SHAFT_ENGINE</code> should read the
+<a href="https://shafthq.github.io/docs/start/upgrade" target="_blank" rel="noopener noreferrer" class="">modular SHAFT upgrade guide</a>.</p>
+<p>SHAFT Pilot adds deterministic Capture, TestNG generation, Doctor diagnosis,
+reviewed repair proposals, and MCP interoperability. AI is optional, disabled
+by default, and direct OpenAI, Anthropic, Gemini, or Ollama access requires
+explicit enablement and consent. Microsoft/GitHub Copilot integrates through
+MCP rather than a generic provider API-key adapter.</p>
+<p>See the <a href="https://shafthq.github.io/docs/agentic/pilot" target="_blank" rel="noopener noreferrer" class="">SHAFT Pilot guide</a>
+for installation, configuration, privacy, troubleshooting, and usage examples.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="whats-changed">What's Changed<a href="https://shafthq.github.io/blog/release-10.2.20260627#whats-changed" class="hash-link" aria-label="Direct link to What's Changed" title="Direct link to What's Changed" translate="no">​</a></h2>
+<ul>
+<li class="">Enhance modular upgrader project coverage by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3023" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3023</a></li>
+<li class="">[codex] Strengthen MCP generated-code guardrails by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3037" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3037</a></li>
+<li class="">chore: use GitHub Pages user guide URL by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3039" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3039</a></li>
+<li class="">Fix Allure steps for upgraded projects by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3041" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3041</a></li>
+<li class="">[codex] Reduce redundant element metadata lookups by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3042" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3042</a></li>
+<li class="">[codex] Add mobile toolchain diagnostics by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3043" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3043</a></li>
+<li class="">[codex] Add capture-to-POM guidance blocks by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3044" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3044</a></li>
+<li class="">[codex] Add Playwright visual validation by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3045" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3045</a></li>
+<li class="">[codex] Expose semantic MCP element tools by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3046" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3046</a></li>
+<li class="">Fix E2E workflow failures by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3047" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3047</a></li>
+<li class="">Add Selenium Grid preflight by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3058" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3058</a></li>
+<li class="">feat: bridge API and browser auth state by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3059" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3059</a></li>
+<li class="">feat: add OpenAPI contract coverage reporting by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3060" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3060</a></li>
+<li class="">[codex] add locator health reporting by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3061" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3061</a></li>
+<li class="">[codex] Suppress AspectJ Unsafe warnings in samples by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3069" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3069</a></li>
+<li class="">Update user guide URL references in tests by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3070" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3070</a></li>
+<li class="">Fix Allure report text and visual comparison attachments by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3071" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3071</a></li>
+<li class="">[codex] tighten release guard version checks by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3072" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3072</a></li>
+<li class="">Improve console summary and progress styling by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3073" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3073</a></li>
+<li class="">Improve Allure 3 report usability by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3076" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3076</a></li>
+<li class="">[codex] Gate pilot release on SHAFT version changes by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3075" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3075</a></li>
+<li class="">[codex] Delete General Validations workflow by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3077" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3077</a></li>
+<li class="">[codex] Add SHAFT failure trace viewer by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3079" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3079</a></li>
+<li class="">[codex] Apply SHAFT theme to Allure 3 reports by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3078" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3078</a></li>
+<li class="">[codex] Add failure diagnostics bundle by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3080" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3080</a></li>
+<li class="">Add locator health dashboard scoring by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3081" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3081</a></li>
+<li class="">[codex] Add Playwright parity pack by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3083" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3083</a></li>
+<li class="">codex: add Allure failure briefs by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3084" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3084</a></li>
+<li class="">[codex] Add typed API response mapping helpers by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3085" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3085</a></li>
+<li class="">[codex] Add API request retry policies by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3086" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3086</a></li>
+<li class="">Add flake profiler reporting by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3087" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3087</a></li>
+<li class="">feat: add evidence level profiles by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3090" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3090</a></li>
+<li class="">feat: add structured Selenium trace archive by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3097" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3097</a></li>
+<li class="">[codex] Add Selenium actionability diagnostics by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3098" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3098</a></li>
+<li class="">[codex] Add trace-ready browser observability by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3099" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3099</a></li>
+<li class="">[codex] Add mobile trace enrichment by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3101" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3101</a></li>
+<li class="">[codex] Fix JUnit retry lifecycle isolation by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3102" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3102</a></li>
+<li class="">[codex] Add MCP trace tools by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3103" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3103</a></li>
+<li class="">feat: standardize generated HTML report UI by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3105" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3105</a></li>
+<li class="">Add HTTP contract recording and replay by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3104" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3104</a></li>
+<li class="">Add deterministic Capture generated-code review by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3106" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3106</a></li>
+<li class="">feat: add capture assertion mode by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3117" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3117</a></li>
+<li class="">Add SHAFT UI design skill by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3118" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3118</a></li>
+<li class="">[codex] Respect disabled Allure auto-open by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3119" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3119</a></li>
+<li class="">[codex] Add live Capture locator picker by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3120" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3120</a></li>
+<li class="">feat: add capture readiness scoring by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3121" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3121</a></li>
+<li class="">Delete shaft-engine/src/main/resources/images/shaft.png by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3122" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3122</a></li>
+<li class="">feat: add capture fallback locator replay by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3123" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3123</a></li>
+<li class="">[codex] Add Capture record-at-target snippets by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3124" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3124</a></li>
+<li class="">feat: add Capture flow segmentation by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3125" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3125</a></li>
+<li class="">[codex] Add Capture control-flow suggestions by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3126" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3126</a></li>
+<li class="">[codex] Unify MCP Playwright recording with Capture metadata by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3127" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3127</a></li>
+<li class="">[codex] Support native Capture emulation options by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3128" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3128</a></li>
+<li class="">[codex] Close Capture backlog tracking catalog gaps by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3129" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3129</a></li>
+<li class="">Improve lazy-loading readiness waits by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3134" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3134</a></li>
+<li class="">fix: translate XPath predicates to valid CSS when inside Shadow DOM by @ammaralfaqi11 in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3136" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3136</a></li>
+<li class="">Generate recorder code with SHAFT syntax by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3137" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3137</a></li>
+<li class="">[codex] Improve click and type actions by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3138" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3138</a></li>
+<li class="">test: cover locator builder css and xpath modes by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3139" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3139</a></li>
+<li class="">docs: add modular era feature catalog by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3140" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3140</a></li>
+<li class="">Prefer locators in mobile inspector recordings by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3141" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3141</a></li>
+<li class="">feat: add MCP browser intent orientation by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3142" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3142</a></li>
+<li class="">Prepare SHAFT Engine release 10.2.20260627 by @MohabMohie in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3143" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3143</a></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="new-contributors">New Contributors<a href="https://shafthq.github.io/blog/release-10.2.20260627#new-contributors" class="hash-link" aria-label="Direct link to New Contributors" title="Direct link to New Contributors" translate="no">​</a></h2>
+<ul>
+<li class="">@ammaralfaqi11 made their first contribution in <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3136" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/pull/3136</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/compare/10.2.20260623...10.2.20260627" target="_blank" rel="noopener noreferrer" class="">https://github.com/ShaftHQ/SHAFT_ENGINE/compare/10.2.20260623...10.2.20260627</a></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-community-spotlight">🏆 Community Spotlight<a href="https://shafthq.github.io/blog/release-10.2.20260627#-community-spotlight" class="hash-link" aria-label="Direct link to 🏆 Community Spotlight" title="Direct link to 🏆 Community Spotlight" translate="no">​</a></h2>
+<p>This release was made possible by <strong>46 amazing contributors</strong> who have poured their time and expertise into making SHAFT better for everyone. Among them, <strong>1</strong> contributed for the very first time!</p>
+<p>Open source thrives because of people like these. Every bug fix, every feature, every review — it all counts.</p>
+<ul>
+<li class=""><img src="https://github.com/MohabMohie.png" width="32" height="32" alt="@MohabMohie"> <a href="https://github.com/MohabMohie" target="_blank" rel="noopener noreferrer" class="">@MohabMohie</a></li>
+<li class=""><img src="https://github.com/MahmoudElSharkawy.png" width="32" height="32" alt="@MahmoudElSharkawy"> <a href="https://github.com/MahmoudElSharkawy" target="_blank" rel="noopener noreferrer" class="">@MahmoudElSharkawy</a></li>
+<li class=""><img src="https://github.com/MennaMagedm.png" width="32" height="32" alt="@MennaMagedm"> <a href="https://github.com/MennaMagedm" target="_blank" rel="noopener noreferrer" class="">@MennaMagedm</a></li>
+<li class=""><img src="https://github.com/AhmdZanoon.png" width="32" height="32" alt="@AhmdZanoon"> <a href="https://github.com/AhmdZanoon" target="_blank" rel="noopener noreferrer" class="">@AhmdZanoon</a></li>
+<li class=""><img src="https://github.com/MustafaAgamy.png" width="32" height="32" alt="@MustafaAgamy"> <a href="https://github.com/MustafaAgamy" target="_blank" rel="noopener noreferrer" class="">@MustafaAgamy</a></li>
+<li class=""><img src="https://github.com/magdyheiba.png" width="32" height="32" alt="@magdyheiba"> <a href="https://github.com/magdyheiba" target="_blank" rel="noopener noreferrer" class="">@magdyheiba</a></li>
+<li class=""><img src="https://github.com/Mochxd.png" width="32" height="32" alt="@Mochxd"> <a href="https://github.com/Mochxd" target="_blank" rel="noopener noreferrer" class="">@Mochxd</a></li>
+<li class=""><img src="https://github.com/KyrillosNageh.png" width="32" height="32" alt="@KyrillosNageh"> <a href="https://github.com/KyrillosNageh" target="_blank" rel="noopener noreferrer" class="">@KyrillosNageh</a></li>
+<li class=""><img src="https://github.com/amfarid.png" width="32" height="32" alt="@amfarid"> <a href="https://github.com/amfarid" target="_blank" rel="noopener noreferrer" class="">@amfarid</a></li>
+<li class=""><img src="https://github.com/Mohab-Osama.png" width="32" height="32" alt="@Mohab-Osama"> <a href="https://github.com/Mohab-Osama" target="_blank" rel="noopener noreferrer" class="">@Mohab-Osama</a></li>
+<li class=""><img src="https://github.com/RihamMostafa.png" width="32" height="32" alt="@RihamMostafa"> <a href="https://github.com/RihamMostafa" target="_blank" rel="noopener noreferrer" class="">@RihamMostafa</a></li>
+<li class=""><img src="https://github.com/MhmdElGazzar.png" width="32" height="32" alt="@MhmdElGazzar"> <a href="https://github.com/MhmdElGazzar" target="_blank" rel="noopener noreferrer" class="">@MhmdElGazzar</a></li>
+<li class=""><img src="https://github.com/MohamedHazem95.png" width="32" height="32" alt="@MohamedHazem95"> <a href="https://github.com/MohamedHazem95" target="_blank" rel="noopener noreferrer" class="">@MohamedHazem95</a></li>
+<li class=""><img src="https://github.com/mohamedtawfek05354.png" width="32" height="32" alt="@mohamedtawfek05354"> <a href="https://github.com/mohamedtawfek05354" target="_blank" rel="noopener noreferrer" class="">@mohamedtawfek05354</a></li>
+<li class=""><img src="https://github.com/samiir95.png" width="32" height="32" alt="@samiir95"> <a href="https://github.com/samiir95" target="_blank" rel="noopener noreferrer" class="">@samiir95</a></li>
+<li class=""><img src="https://github.com/MamdouhMansour.png" width="32" height="32" alt="@MamdouhMansour"> <a href="https://github.com/MamdouhMansour" target="_blank" rel="noopener noreferrer" class="">@MamdouhMansour</a></li>
+<li class=""><img src="https://github.com/Kinasr.png" width="32" height="32" alt="@Kinasr"> <a href="https://github.com/Kinasr" target="_blank" rel="noopener noreferrer" class="">@Kinasr</a></li>
+<li class=""><img src="https://github.com/MahmoudMabrok.png" width="32" height="32" alt="@MahmoudMabrok"> <a href="https://github.com/MahmoudMabrok" target="_blank" rel="noopener noreferrer" class="">@MahmoudMabrok</a></li>
+<li class=""><img src="https://github.com/hammad101088.png" width="32" height="32" alt="@hammad101088"> <a href="https://github.com/hammad101088" target="_blank" rel="noopener noreferrer" class="">@hammad101088</a></li>
+<li class=""><img src="https://github.com/ieZaky.png" width="32" height="32" alt="@ieZaky"> <a href="https://github.com/ieZaky" target="_blank" rel="noopener noreferrer" class="">@ieZaky</a></li>
+<li class=""><img src="https://github.com/sys123-data.png" width="32" height="32" alt="@sys123-data"> <a href="https://github.com/sys123-data" target="_blank" rel="noopener noreferrer" class="">@sys123-data</a></li>
+<li class=""><img src="https://github.com/georgii-musikhin.png" width="32" height="32" alt="@georgii-musikhin"> <a href="https://github.com/georgii-musikhin" target="_blank" rel="noopener noreferrer" class="">@georgii-musikhin</a></li>
+<li class=""><img src="https://github.com/hjsblogger.png" width="32" height="32" alt="@hjsblogger"> <a href="https://github.com/hjsblogger" target="_blank" rel="noopener noreferrer" class="">@hjsblogger</a></li>
+<li class=""><img src="https://github.com/xValenciax.png" width="32" height="32" alt="@xValenciax"> <a href="https://github.com/xValenciax" target="_blank" rel="noopener noreferrer" class="">@xValenciax</a></li>
+<li class=""><img src="https://github.com/MarwaYoussef1.png" width="32" height="32" alt="@MarwaYoussef1"> <a href="https://github.com/MarwaYoussef1" target="_blank" rel="noopener noreferrer" class="">@MarwaYoussef1</a></li>
+<li class=""><img src="https://github.com/sultanpaymob.png" width="32" height="32" alt="@sultanpaymob"> <a href="https://github.com/sultanpaymob" target="_blank" rel="noopener noreferrer" class="">@sultanpaymob</a></li>
+<li class=""><img src="https://github.com/osamaayman1005.png" width="32" height="32" alt="@osamaayman1005"> <a href="https://github.com/osamaayman1005" target="_blank" rel="noopener noreferrer" class="">@osamaayman1005</a></li>
+<li class=""><img src="https://github.com/Salma2018170.png" width="32" height="32" alt="@Salma2018170"> <a href="https://github.com/Salma2018170" target="_blank" rel="noopener noreferrer" class="">@Salma2018170</a></li>
+<li class=""><img src="https://github.com/TarekGaafar.png" width="32" height="32" alt="@TarekGaafar"> <a href="https://github.com/TarekGaafar" target="_blank" rel="noopener noreferrer" class="">@TarekGaafar</a></li>
+<li class=""><img src="https://github.com/Waleedmohammed.png" width="32" height="32" alt="@Waleedmohammed"> <a href="https://github.com/Waleedmohammed" target="_blank" rel="noopener noreferrer" class="">@Waleedmohammed</a></li>
+<li class=""><img src="https://github.com/khaledskhamis.png" width="32" height="32" alt="@khaledskhamis"> <a href="https://github.com/khaledskhamis" target="_blank" rel="noopener noreferrer" class="">@khaledskhamis</a></li>
+<li class=""><img src="https://github.com/themosaeed.png" width="32" height="32" alt="@themosaeed"> <a href="https://github.com/themosaeed" target="_blank" rel="noopener noreferrer" class="">@themosaeed</a></li>
+<li class=""><img src="https://github.com/wesamhamed.png" width="32" height="32" alt="@wesamhamed"> <a href="https://github.com/wesamhamed" target="_blank" rel="noopener noreferrer" class="">@wesamhamed</a></li>
+<li class=""><img src="https://github.com/DavidIshakGorgy.png" width="32" height="32" alt="@DavidIshakGorgy"> <a href="https://github.com/DavidIshakGorgy" target="_blank" rel="noopener noreferrer" class="">@DavidIshakGorgy</a></li>
+<li class=""><img src="https://github.com/BojteTamas.png" width="32" height="32" alt="@BojteTamas"> <a href="https://github.com/BojteTamas" target="_blank" rel="noopener noreferrer" class="">@BojteTamas</a></li>
+<li class=""><img src="https://github.com/blacelle.png" width="32" height="32" alt="@blacelle"> <a href="https://github.com/blacelle" target="_blank" rel="noopener noreferrer" class="">@blacelle</a></li>
+<li class=""><img src="https://github.com/Ayanasrallah.png" width="32" height="32" alt="@Ayanasrallah"> <a href="https://github.com/Ayanasrallah" target="_blank" rel="noopener noreferrer" class="">@Ayanasrallah</a></li>
+<li class=""><img src="https://github.com/AmrAdelElkholy.png" width="32" height="32" alt="@AmrAdelElkholy"> <a href="https://github.com/AmrAdelElkholy" target="_blank" rel="noopener noreferrer" class="">@AmrAdelElkholy</a></li>
+<li class=""><img src="https://github.com/ammaralfaqi11.png" width="32" height="32" alt="@ammaralfaqi11"> <a href="https://github.com/ammaralfaqi11" target="_blank" rel="noopener noreferrer" class="">@ammaralfaqi11</a> 🌟 <strong>First-time contributor!</strong></li>
+<li class=""><img src="https://github.com/amlosman.png" width="32" height="32" alt="@amlosman"> <a href="https://github.com/amlosman" target="_blank" rel="noopener noreferrer" class="">@amlosman</a></li>
+<li class=""><img src="https://github.com/ahmednasr95.png" width="32" height="32" alt="@ahmednasr95"> <a href="https://github.com/ahmednasr95" target="_blank" rel="noopener noreferrer" class="">@ahmednasr95</a></li>
+<li class=""><img src="https://github.com/ahmed-madyan.png" width="32" height="32" alt="@ahmed-madyan"> <a href="https://github.com/ahmed-madyan" target="_blank" rel="noopener noreferrer" class="">@ahmed-madyan</a></li>
+<li class=""><img src="https://github.com/AhmedHelalyy.png" width="32" height="32" alt="@AhmedHelalyy"> <a href="https://github.com/AhmedHelalyy" target="_blank" rel="noopener noreferrer" class="">@AhmedHelalyy</a></li>
+<li class=""><img src="https://github.com/A-Alii.png" width="32" height="32" alt="@A-Alii"> <a href="https://github.com/A-Alii" target="_blank" rel="noopener noreferrer" class="">@A-Alii</a></li>
+<li class=""><img src="https://github.com/AbdelrahmanFahd.png" width="32" height="32" alt="@AbdelrahmanFahd"> <a href="https://github.com/AbdelrahmanFahd" target="_blank" rel="noopener noreferrer" class="">@AbdelrahmanFahd</a></li>
+<li class=""><img src="https://github.com/Abdelrhman-Ellithy.png" width="32" height="32" alt="@Abdelrhman-Ellithy"> <a href="https://github.com/Abdelrhman-Ellithy" target="_blank" rel="noopener noreferrer" class="">@Abdelrhman-Ellithy</a></li>
+</ul>
+<p>🎉 <strong>A warm welcome to our first-time contributors!</strong> <a href="https://github.com/ammaralfaqi11" target="_blank" rel="noopener noreferrer" class="">@ammaralfaqi11</a> — your first contribution is now part of SHAFT's story. We're thrilled to have you on board!</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-get-started-in-seconds">🚀 Get Started in Seconds<a href="https://shafthq.github.io/blog/release-10.2.20260627#-get-started-in-seconds" class="hash-link" aria-label="Direct link to 🚀 Get Started in Seconds" title="Direct link to 🚀 Get Started in Seconds" translate="no">​</a></h2>
+<p>Import the SHAFT BOM once, then use the modular engine:</p>
+<div class="language-xml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-xml codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">dependencyManagement</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">dependencies</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">dependency</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">groupId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">io.github.shafthq</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">groupId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">artifactId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">shaft-bom</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">artifactId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">version</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">10.2.20260627</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">version</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">type</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">pom</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">type</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">scope</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">import</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">scope</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">dependency</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">dependencies</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">dependencyManagement</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">dependencies</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">dependency</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">groupId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">io.github.shafthq</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">groupId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token tag punctuation" style="color:#393A34">&lt;</span><span class="token tag" style="color:#00009f">artifactId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain">shaft-engine</span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">artifactId</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  </span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">dependency</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token tag punctuation" style="color:#393A34">&lt;/</span><span class="token tag" style="color:#00009f">dependencies</span><span class="token tag punctuation" style="color:#393A34">&gt;</span><br></div></code></pre></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="-join-the-conversation">💬 Join the Conversation<a href="https://shafthq.github.io/blog/release-10.2.20260627#-join-the-conversation" class="hash-link" aria-label="Direct link to 💬 Join the Conversation" title="Direct link to 💬 Join the Conversation" translate="no">​</a></h2>
+<p>We'd love to hear what you think! Found a bug? Have an idea? Just want to say hi?</p>
+<ul>
+<li class="">⭐ <a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank" rel="noopener noreferrer" class="">Star SHAFT on GitHub</a> — it helps more than you think</li>
+<li class="">💡 <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions" target="_blank" rel="noopener noreferrer" class="">Start a Discussion</a> — share feedback or ideas</li>
+<li class="">🐛 <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new" target="_blank" rel="noopener noreferrer" class="">Report an Issue</a> — help us squash bugs faster</li>
+<li class="">📖 <a href="https://shafthq.github.io/docs/start/overview" target="_blank" rel="noopener noreferrer" class="">Read the Docs</a> — dive deeper into SHAFT</li>
+</ul>
+<p>Thanks for being part of the SHAFT journey. Until the next release — happy testing! 🎯</p>]]></content:encoded>
+            <category>shaft_engine</category>
+            <category>release</category>
+            <category>changelog</category>
+            <category>test-automation</category>
+            <category>open-source</category>
+        </item>
         <item>
             <title><![CDATA[🚀 SHAFT 10.2.20260623: What's New and Why You Should Upgrade Today]]></title>
             <link>https://shafthq.github.io/blog/release-10.2.20260623</link>
@@ -1897,49 +2067,6 @@ for installation, configuration, privacy, troubleshooting, and usage examples.</
             <category>selenium</category>
             <category>cypress</category>
             <category>playwright</category>
-        </item>
-        <item>
-            <title><![CDATA[New release announcement (7.1.20230309)]]></title>
-            <link>https://shafthq.github.io/blog/release_announcement_7.1.20230309</link>
-            <guid>https://shafthq.github.io/blog/release_announcement_7.1.20230309</guid>
-            <pubDate>Fri, 10 Mar 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[Release highlights:]]></description>
-            <content:encoded><![CDATA[<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="release-highlights">Release highlights:<a href="https://shafthq.github.io/blog/release_announcement_7.1.20230309#release-highlights" class="hash-link" aria-label="Direct link to Release highlights:" title="Direct link to Release highlights:" translate="no">​</a></h2>
-<ul>
-<li class="">Issue fix for <a href="https://github.com/SeleniumHQ/selenium/issues/11750" target="_blank" rel="noopener noreferrer" class="">chrome 111+ netty handler issue</a>.</li>
-<li class="">Major performance enhancement for the Type element action.</li>
-</ul>
-<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="technical-details">Technical Details:<a href="https://shafthq.github.io/blog/release_announcement_7.1.20230309#technical-details" class="hash-link" aria-label="Direct link to Technical Details:" title="Direct link to Technical Details:" translate="no">​</a></h2>
-<ul>
-<li class="">SHAFT has always boasted top-notch reliability, but this sometimes comes at the cost of performance. In this release we made a major change to the way we handle "Type" which is one of the most commonly used and also one of the slowest actions.</li>
-<li class="">Previously SHAFT would perform the following Selenium WebDriver calls:<!-- -->
-<ul>
-<li class="">Get Element Accessible Name (for reporting)</li>
-<li class="">Get Current Element Text (to learn how this element stores its text and to learn the initial text if any)</li>
-<li class="">Get Current Element textContent (to learn how this element stores its text and to learn the initial text if any)</li>
-<li class="">Get Current Element Value (to learn how this element stores its text and to learn the initial text if any)</li>
-<li class="">Clear (in case the element text wasn't empty)</li>
-<li class="">Send Keys (to do the actual typing)</li>
-<li class="">Get text using the successful text identification strategy (to validate that the text was typed correctly. if SHAFT ws able to find out which method out of the above three to use it will use it, else it will do all three calls again)</li>
-</ul>
-</li>
-<li class="">And inside each call, SHAFT would go into a fluent wait where it calls:<!-- -->
-<ul>
-<li class="">findElement</li>
-<li class="">findElements</li>
-</ul>
-</li>
-<li class="">This means that SHAFT did 21+ webdriver calls!</li>
-<li class="">Starting this version SHAFT will cut that number down to just 3 webdriver calls while maintaining the full functionality.</li>
-<li class="">Using <a href="https://mvnrepository.com/artifact/org.jsoup/jsoup" target="_blank" rel="noopener noreferrer" class="">jsoup</a> SHAFT will capture the entire HTML of the target webelement, and will then be able to uery it for the text/textContent/Value as need to clear and validate successfully typing.</li>
-<li class="">SHAFT will also grab all element information (including the WebElement object) once, and will use the WebElement object directly (which is much faster than finding the element again each time) but if the engine faces a WebDriverException (like StaleElementException) the engine will go into a fluent wait to find and update the element reference.</li>
-<li class="">We tested this major change thoroughly by running around <a href="https://www.linkedin.com/feed/update/urn:li:activity:7039702182392172544/" target="_blank" rel="noopener noreferrer" class="">1700 E2E Test scenarios</a> across different platforms, so we're confident it's stable.</li>
-<li class="">In following releases we will rollout this approach to all our element actions, and next on the list we have "Click()" which is the second most used action per our analysis.</li>
-</ul>]]></content:encoded>
-            <category>shaft_engine</category>
-            <category>chrome111</category>
-            <category>netty</category>
-            <category>typing</category>
         </item>
     </channel>
 </rss>
