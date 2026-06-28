@@ -1,10 +1,10 @@
 ---
 id: intellij
 title: IntelliJ IDEA plugin beta
-description: Use SHAFT MCP, Recorder, Doctor, Healer, Inspector, Guide search, and Autobot from IntelliJ IDEA.
+description: Use SHAFT MCP, Recorder, Doctor, Healer, Inspector, Projects, Guide search, and Autobot from IntelliJ IDEA.
 slug: /agentic/intellij
 sidebar_position: 3
-tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, autobot]
+tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, autobot]
 ---
 
 # IntelliJ IDEA plugin beta
@@ -33,6 +33,8 @@ tabs for:
 - Healer: guarded failing-test reruns and review-only locator proposals.
 - Inspector: mobile toolchain status, wrapped Appium Inspector recording, mobile
   screenshots, and accessibility trees.
+- Projects: create new SHAFT example projects and preview or apply the modular
+  SHAFT upgrader against the open Java project.
 - MCP: scenario catalog, generated-code guardrail checks, and local Autobot
   client discovery.
 - Guide: live official SHAFT guide search for agent-generated code.
@@ -40,6 +42,10 @@ tabs for:
 Each tab provides editable JSON arguments and calls the matching MCP tool. This
 keeps generated code and source edits reviewable in the IDE instead of hidden
 inside plugin code.
+
+```json
+{"tool": "shaft_project_upgrade", "arguments": {"projectRoot": ".", "upgradeType": "basic", "dryRun": true, "approve": false}}
+```
 
 ## Record in Java code
 

@@ -117,6 +117,17 @@ and `SHAFT.GUI.Locator.*` factory methods for GUI code, use
 `driver.element()` or `driver.browser()` scopes for generated web snippets,
 and say when the guide does not contain enough evidence for an answer.
 
+## Project creation and upgrade
+
+Use `shaft_project_create` to create a new SHAFT Maven project from the same
+example templates, runner/platform choices, optional module rules, GitHub
+Actions workflow templates, and Dependabot template used by the guide project
+generator.
+
+Use `shaft_project_upgrade` on an existing Java/Maven project to run the
+modular SHAFT upgrader script. Start with `dryRun: true`; applying changes
+requires `dryRun: false` and `approve: true`.
+
 ## Test automation scenario catalog
 
 Use `test_automation_scenarios` when the user asks an agent to create,
