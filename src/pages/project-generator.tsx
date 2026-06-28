@@ -1,20 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import Head from '@docusaurus/Head';
+import {
+  addOptionalDependencies,
+  checkedModules as selectedProjectModules,
+  defaultArtifactId,
+  escapeXml,
+  examplesApi,
+  fallbackProjects,
+  fetchJson,
+  fetchText,
+  labelForPlatform,
+  loadProjectData,
+  optionalModules,
+  rawExamples,
+  type ProjectData,
+} from '../lib/projectGenerator';
 import styles from './project-generator.module.css';
 
-type ProjectData = Record<string, Record<string, string>>;
-type GitHubItem = {
-  type: 'dir' | 'file';
-  name: string;
-  url?: string;
-  download_url?: string;
-};
-type OptionalModule = {
-  artifactId: string;
-  title: string;
-  description: string;
-  href: string;
-};
 type ZipFile = {
   async(type: 'string'): Promise<string>;
 };
@@ -32,97 +34,6 @@ declare global {
 }
 
 const totalSteps = 6;
-const examplesApi =
-  'https://api.github.com/repos/ShaftHQ/SHAFT_ENGINE/contents/shaft-engine/src/main/resources/examples';
-const rawExamples =
-  'https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/refs/heads/main/shaft-engine/src/main/resources/examples';
-const fallbackProjects: ProjectData = {
-  TestNG: {web: 'shaft-testng-web', mobile: 'shaft-testng-mobile', api: 'shaft-testng-api'},
-  JUnit: {web: 'shaft-junit-web', mobile: 'shaft-junit-mobile', api: 'shaft-junit-api'},
-  Cucumber: {web: 'shaft-cucumber-web'},
-};
-const optionalModules: OptionalModule[] = [
-  {
-    artifactId: 'shaft-capture',
-    title: 'SHAFT Capture',
-    description: 'Managed browser recording and deterministic test generation.',
-    href: '/docs/agentic/capture',
-  },
-  {
-    artifactId: 'shaft-doctor',
-    title: 'SHAFT Doctor',
-    description: 'Offline evidence collection, diagnosis, and reviewed repair inputs.',
-    href: '/docs/agentic/doctor',
-  },
-  {
-    artifactId: 'shaft-ai',
-    title: 'SHAFT AI',
-    description: 'Direct OpenAI, Anthropic, Gemini, and Ollama provider adapters.',
-    href: '/docs/agentic/providers',
-  },
-  {
-    artifactId: 'shaft-heal',
-    title: 'SHAFT Heal',
-    description: 'Deterministic web locator recovery with local history and reports.',
-    href: '/docs/agentic/heal',
-  },
-  {
-    artifactId: 'shaft-browserstack',
-    title: 'BrowserStack SDK',
-    description: 'BrowserStack Java SDK interception and YAML orchestration.',
-    href: '/docs/integrations/browserstack',
-  },
-  {
-    artifactId: 'shaft-video',
-    title: 'Desktop video',
-    description: 'Local non-headless desktop recording provider.',
-    href: '/docs/integrations/video',
-  },
-  {
-    artifactId: 'shaft-visual',
-    title: 'Visual testing',
-    description: 'Reference-image assertions and image-based touch lookup.',
-    href: '/docs/integrations/visual',
-  },
-  {
-    artifactId: 'shaft-mcp',
-    title: 'SHAFT MCP',
-    description: 'Executable MCP server plus Capture and Doctor CLI.',
-    href: '/docs/agentic/mcp',
-  },
-];
-
-async function fetchJson(url: string): Promise<GitHubItem[]> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${response.status} ${url}`);
-  return response.json();
-}
-
-async function fetchText(url: string): Promise<string> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`${response.status} ${url}`);
-  return response.text();
-}
-
-async function loadProjectData(): Promise<ProjectData> {
-  try {
-    const runners = await fetchJson(examplesApi);
-    const loaded: ProjectData = {};
-    for (const runner of runners) {
-      if (runner.type !== 'dir' || runner.name.startsWith('.') || !runner.url) continue;
-      loaded[runner.name] = {};
-      const projects = await fetchJson(runner.url);
-      for (const project of projects) {
-        if (project.type !== 'dir') continue;
-        loaded[runner.name][project.name.split('-').pop() as string] = project.name;
-      }
-    }
-    return Object.keys(loaded).length ? loaded : fallbackProjects;
-  } catch (error) {
-    console.warn('Using bundled generator options.', error);
-    return fallbackProjects;
-  }
-}
 
 function ensureJsZip(): Promise<void> {
   if (window.JSZip) return Promise.resolve();
@@ -145,33 +56,6 @@ async function fetchDirectoryContents(zip: Zip, projectName: string, url: string
       await fetchDirectoryContents(zip, projectName, item.url, itemPath);
     }
   }
-}
-
-function addOptionalDependencies(pom: string, modules: string[]): string {
-  const missing = modules.filter(module => !pom.includes(`<artifactId>${module}</artifactId>`));
-  if (!missing.length) return pom;
-  const block = missing.map(module => [
-    '        <dependency>',
-    '            <groupId>io.github.shafthq</groupId>',
-    `            <artifactId>${module}</artifactId>`,
-    '        </dependency>',
-  ].join('\n')).join('\n');
-  const marker = '\n    </dependencies>\n    <build>';
-  if (!pom.includes(marker)) throw new Error('Could not locate project dependency section in pom.xml');
-  return pom.replace(marker, `\n${block}${marker}`);
-}
-
-function escapeXml(value: string): string {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
-}
-
-function labelForPlatform(platform: string): string {
-  return platform.charAt(0).toUpperCase() + platform.slice(1);
 }
 
 export default function ProjectGenerator(): JSX.Element {
@@ -209,7 +93,7 @@ export default function ProjectGenerator(): JSX.Element {
 
   function selectPlatform(platform: string): void {
     setSelectedPlatform(platform);
-    setArtifactId(`shaft-${platform.toLowerCase()}-${selectedRunner.toLowerCase()}`);
+    setArtifactId(defaultArtifactId(selectedRunner, platform));
   }
 
   function nextStep(): void {
@@ -240,10 +124,7 @@ export default function ProjectGenerator(): JSX.Element {
   }
 
   function checkedModules(): string[] {
-    return Array.from(new Set([
-      ...selectedModules,
-      ...(selectedPlatform === 'web' ? ['shaft-visual'] : []),
-    ]));
+    return selectedProjectModules(selectedModules, selectedPlatform);
   }
 
   async function generateProject(): Promise<void> {
