@@ -1,10 +1,10 @@
 ---
 id: intellij
 title: IntelliJ IDEA plugin beta
-description: Use SHAFT MCP, Recorder, Doctor, Healer, Inspector, Projects, Guide search, and Autobot from IntelliJ IDEA.
+description: Use SHAFT Assistant, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 slug: /agentic/intellij
 sidebar_position: 3
-tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, autobot]
+tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, assistant]
 ---
 
 # IntelliJ IDEA plugin beta
@@ -22,8 +22,43 @@ model traffic itself.
 
 ## Tool window
 
-Open **Tools | SHAFT | Open SHAFT** to show the tool window. The beta exposes
-tabs for:
+Open **Tools | SHAFT | Open SHAFT** to show the tool window. The beta opens on
+the **Assistant** tab and keeps the MCP workflow templates under **Tools**.
+
+## Assistant
+
+The **Assistant** tab is a chat-style view with `ASK`, `PLAN`, and `AGENT`
+modes. It calls the MCP `autobot_local_agent_run` tool for normal prompts,
+which delegates to the engine-side local agent service in `shaft-pilot-core`.
+
+Supported local routes are:
+
+| Client | Default local command | API key required by SHAFT |
+| --- | --- | --- |
+| Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan; workspace-write only after Agent approval | No |
+| Claude Code | `claude --print`; Plan adds `--permission-mode plan` | No |
+| Copilot CLI | `copilot ask`, `copilot plan`, or `copilot agent` | No |
+
+Use `Ctrl+Enter` to send a prompt. Agent mode is blocked from source mutation
+until the user explicitly approves it for that request. A custom local agent
+command can be supplied for non-standard installations, but the request still
+flows through `shaft-mcp`.
+
+The Assistant also supports a small slash-command surface:
+
+| Command | MCP tool |
+| --- | --- |
+| `/guide <query>` | `shaft_guide_search` |
+| `/scenarios <intent>` | `test_automation_scenarios` |
+| `/guardrails <code>` | `test_code_guardrails_check` |
+| `/clients` | `autobot_local_agent_clients` |
+| `/help` | Local command help |
+
+Responses show the invoked MCP tool and can be copied from the transcript.
+
+## Tools
+
+The **Tools** tab exposes categories for:
 
 - Recorder: Capture start, status, checkpoints, stop, code blocks, and
   record-at-target snippets.
@@ -35,13 +70,13 @@ tabs for:
   screenshots, and accessibility trees.
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project.
-- MCP: scenario catalog, generated-code guardrail checks, and local Autobot
+- MCP: scenario catalog, generated-code guardrail checks, and local Assistant
   client discovery.
 - Guide: live official SHAFT guide search for agent-generated code.
 
-Each tab provides editable JSON arguments and calls the matching MCP tool. This
-keeps generated code and source edits reviewable in the IDE instead of hidden
-inside plugin code.
+Each category provides editable JSON arguments and calls the matching MCP tool.
+This keeps generated code and source edits reviewable in the IDE instead of
+hidden inside plugin code.
 
 ```json
 {"tool": "shaft_project_upgrade", "arguments": {"projectRoot": ".", "upgradeType": "basic", "dryRun": true, "approve": false}}
@@ -53,24 +88,6 @@ Use **Tools | SHAFT | Record SHAFT Flow Here** from a Java file to prepare a
 `capture_record_at_target_code_blocks` request for the caret's package, class,
 method, and source path. Replace the capture session path with a real recording
 before running it.
-
-## Autobot
-
-The optional **Autobot** tab is a chat-style view with `ASK`, `PLAN`, and
-`AGENT` modes. It calls the MCP `autobot_local_agent_run` tool, which delegates
-to the engine-side local agent service in `shaft-pilot-core`.
-
-Supported local routes are:
-
-| Client | Default local command | API key required by SHAFT |
-| --- | --- | --- |
-| Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan; workspace-write only after Agent approval | No |
-| Claude Code | `claude --print`; Plan adds `--permission-mode plan` | No |
-| Copilot CLI | `copilot ask`, `copilot plan`, or `copilot agent` | No |
-
-Agent mode is blocked until the user explicitly approves source mutation. A
-custom local agent command can be supplied for non-standard installations, but
-the request still flows through `shaft-mcp`.
 
 Optional OpenAI, Anthropic, and GitHub tokens are stored in IntelliJ Password
 Safe and can be passed as MCP process environment variables. Direct provider
