@@ -35,6 +35,7 @@ const sidebars = {
       items: [
         'agentic/overview',
         'agentic/mcp',
+        'agentic/intellij',
         'agentic/mcp-manual',
         'agentic/pilot',
         'agentic/capture',
