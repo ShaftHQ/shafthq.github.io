@@ -39,7 +39,7 @@ export const optionalModules: OptionalModule[] = [
   {
     artifactId: 'shaft-ai',
     title: 'SHAFT AI',
-    description: 'Direct OpenAI, Anthropic, Gemini, and Ollama provider adapters.',
+    description: 'Direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama provider adapters.',
     href: '/docs/agentic/providers',
   },
   {

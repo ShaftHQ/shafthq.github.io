@@ -19,7 +19,8 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 tool window:
 
 1. Click **Install / Update SHAFT MCP**.
-2. Select the Assistant provider: Codex, Claude Code, or Copilot CLI.
+2. Select the Assistant family and runtime: Codex, Claude, or Copilot with CLI,
+   IDE plugin, or desktop app where supported.
 3. Click **Test connection**.
 
 After the test succeeds, setup disappears and the tool window opens directly on
@@ -36,8 +37,10 @@ the **Assistant** tab and groups MCP workflows into **Recorder**,
 ## Assistant
 
 The **Assistant** tab is a chat-style view with `ASK`, `PLAN`, and `AGENT`
-modes. It calls the MCP `autobot_local_agent_run` tool for normal prompts,
-which delegates to the engine-side local agent service in `shaft-pilot-core`.
+modes in the bottom composer. Local CLI prompts call the MCP
+`autobot_local_agent_run` tool, which delegates to the engine-side local agent
+service in `shaft-pilot-core`. Cloud `ASK` and `PLAN` prompts call
+`autobot_provider_chat` with the selected provider and model.
 
 Supported local routes are:
 
@@ -47,10 +50,15 @@ Supported local routes are:
 | Claude Code | `claude --print`; Plan adds `--permission-mode plan` | No |
 | Copilot CLI | `copilot ask`, `copilot plan`, or `copilot agent` | No |
 
-Use `Ctrl+Enter` to send a prompt. Agent mode is blocked from source mutation
-until the user explicitly approves it for that request. A custom local agent
-command can be supplied for non-standard installations, but the request still
-flows through `shaft-mcp`.
+Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
+are stored in IntelliJ Password Safe; only the selected cloud provider key is
+passed to the MCP process. Cloud `AGENT` mode is disabled because direct
+provider chat cannot mutate the local workspace.
+
+Use `Ctrl+Enter` to send a prompt. Local Agent mode is blocked from source
+mutation until the user explicitly approves it for that request. A custom local
+agent command can be supplied for non-standard CLI installations, but the
+request still flows through `shaft-mcp`.
 
 The Assistant also supports a small slash-command surface:
 
@@ -99,15 +107,17 @@ method, and source path. Replace the capture session path with a real recording
 before running it.
 
 Use **Settings | SHAFT** later to install or update `shaft-mcp`, retest the MCP
-connection, change the default Assistant provider, configure GitHub Copilot for
-IntelliJ MCP, or edit the advanced stdio command manually.
+connection, change Assistant Local/Cloud routing, connect the selected local
+runtime MCP client, configure GitHub Copilot for IntelliJ MCP, or edit the
+advanced stdio command manually.
 
 Optional OpenAI, Anthropic, Gemini, and GitHub tokens are stored in IntelliJ
-Password Safe and can be passed as MCP process environment variables. Settings
-also lets you select the configured SHAFT AI provider and model used by MCP
-tools that explicitly request provider assistance. Direct provider calls remain
-controlled by `shaft-ai` and the [provider controls](/docs/agentic/providers);
-the plugin does not implement provider adapters.
+Password Safe and can be passed as MCP process environment variables for the
+selected provider. Settings also lets you select the configured SHAFT AI
+provider and model used by MCP tools that explicitly request provider
+assistance. Direct provider calls remain controlled by `shaft-ai` and the
+[provider controls](/docs/agentic/providers); the plugin only selects and
+passes the provider configuration.
 
 Settings show whether each provider key is stored, provide explicit clear
 buttons, and keep a **Test MCP** action for validating the current stdio command

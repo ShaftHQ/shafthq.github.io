@@ -22,7 +22,7 @@ API key, model, or network call.
 | `shaft-pilot-core` | Approval, redaction, budget, schema, audit, and deterministic fallback contracts. |
 | `shaft-capture` | Managed Chrome/Edge recording and deterministic TestNG generation. |
 | `shaft-doctor` | Portable evidence, deterministic diagnosis, and isolated reviewed repair proposals. |
-| `shaft-ai` | Optional direct OpenAI, Anthropic, Gemini, and Ollama adapters. |
+| `shaft-ai` | Optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama adapters. |
 | `shaft-mcp` | Executable stdio and Streamable HTTP server plus Capture and Doctor CLI. |
 
 Library consumers should import `shaft-bom` and add only the modules they use:
@@ -141,7 +141,8 @@ pilot.ai.allowedEvidenceCategories=
 Download the
 [OpenAI](/examples/shaft-pilot/providers/openai.properties),
 [Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
-[Gemini](/examples/shaft-pilot/providers/gemini.properties), or
+[Gemini](/examples/shaft-pilot/providers/gemini.properties),
+[GitHub Models](/examples/shaft-pilot/providers/github.properties), or
 [Ollama](/examples/shaft-pilot/providers/ollama.properties) example. Remote
 providers read credentials only from their configured environment variable
 names. Ollama needs no credential but still requires local consent.

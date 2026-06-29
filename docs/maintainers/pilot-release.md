@@ -21,7 +21,7 @@ to an unverified artifact.
 | No-AI path | `pilot.ai.enabled=false`, provider `none`, Capture generation/replay, Doctor diagnosis, and MCP tools pass without credentials. |
 | Browsers | Headless Chrome and Edge record the representative local fixture; generated Chrome replay compiles, passes, and populates Allure. |
 | Doctor | Product, test, locator, data, timing, environment, infrastructure, unknown, empty, and retry evidence fixtures pass. |
-| Providers | OpenAI, Anthropic, Gemini, and Ollama use local mock endpoints for success, timeout, rate-limit, authentication, malformed-response, schema, redaction, and fallback conformance. |
+| Providers | OpenAI, Anthropic, Gemini, GitHub Models, and Ollama use local mock endpoints for success, timeout, rate-limit, authentication, malformed-response, schema, redaction, and fallback conformance. |
 | MCP transports | Packaged stdio and Streamable HTTP `/mcp` initialization and tool discovery pass. |
 | Containers | The release Docker image starts in HTTP mode and completes MCP initialization. |
 | External agents | ChatGPT, Codex, Claude, Gemini, and GitHub Copilot setup is documented with current client limitations and credential ownership. |
