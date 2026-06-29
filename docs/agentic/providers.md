@@ -16,7 +16,8 @@ access:
   redaction policies, budgets, safe audit metadata, provider capabilities,
   `ServiceLoader` discovery, and deterministic fallback.
 - `shaft-ai` contains direct HTTP adapters for OpenAI, Anthropic, Google Gemini,
-  and local Ollama. It uses JDK `HttpClient`; no provider SDK type is exposed.
+  GitHub Models, and local Ollama. It uses JDK `HttpClient`; no provider SDK
+  type is exposed.
 - `shaft-engine` exposes only thread-local `SHAFT.Properties.pilot`
   configuration. It has no dependency on either Pilot module.
 
@@ -51,6 +52,7 @@ Credentials are read only from environment variables:
 | OpenAI | `OPENAI_API_KEY` |
 | Anthropic | `ANTHROPIC_API_KEY` |
 | Gemini | `GEMINI_API_KEY` |
+| GitHub Models | `GITHUB_TOKEN` |
 | Ollama | none |
 
 The environment variable names are configurable, but credential values are
@@ -117,11 +119,11 @@ setting per-thread Pilot properties.
 
 ## Direct providers and external agents
 
-Direct provider adapters are separate from MCP clients. OpenAI, Anthropic, and
-Gemini API credentials apply only to `shaft-ai` direct calls. GitHub/Microsoft
-Copilot is supported through SHAFT MCP and retains its own client
-authentication; SHAFT does not request or define a generic Copilot model API
-key.
+Direct provider adapters are separate from MCP clients. OpenAI, Anthropic,
+Gemini, and GitHub Models credentials apply only to `shaft-ai` direct calls.
+GitHub/Microsoft Copilot is supported through SHAFT MCP and retains its own
+client authentication; SHAFT does not request or define a generic Copilot model
+API key.
 
 Credential-free MCP configuration fixtures are under
 the [downloadable Pilot examples](/docs/agentic/examples). See
@@ -134,6 +136,7 @@ Provider request mappings follow the official
 [OpenAI structured output](https://developers.openai.com/api/docs/guides/structured-outputs),
 [Anthropic structured output](https://platform.claude.com/docs/en/build-with-claude/structured-outputs),
 [Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output),
+[GitHub Models](https://docs.github.com/en/rest/models/inference),
 and [Ollama chat](https://docs.ollama.com/api/chat) contracts.
 
 ## Related
