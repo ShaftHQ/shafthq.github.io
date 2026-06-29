@@ -15,8 +15,10 @@ local CLI agent routing, direct provider adapters, Doctor, Healer, Capture, and
 Inspector logic stay in the engine modules.
 
 Install the plugin from JetBrains Marketplace when it is published, then open
-**Tools | SHAFT | Open SHAFT**. First run shows a three-step setup inside the
-tool window:
+**Tools | SHAFT | Open SHAFT**. If you install a plugin ZIP from disk, restart
+IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
+actions are fully registered. First run shows a three-step setup inside the tool
+window:
 
 1. Click **Install / Update SHAFT MCP**.
 2. Select the Assistant family and runtime: Codex, Claude, or Copilot with CLI,
@@ -31,15 +33,18 @@ traffic itself.
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
-the **Assistant** tab and groups MCP workflows into **Recorder**,
-**Inspector**, **Evidence**, **Projects**, and **Advanced Tools** tabs.
+the **Assistant** workflow. Use the **Workflow** selector at the top of the tool
+window to switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
+**Evidence**, **Projects**, and **Advanced**. The selector is used instead of a
+crowded tab strip so the controls stay readable in the narrow right-side
+IntelliJ tool window.
 
 ## Assistant
 
-The **Assistant** tab is a chat-style view with `ASK`, `PLAN`, and `AGENT`
-modes in the bottom composer. Local CLI prompts call the MCP
+The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
+in the bottom composer. Local CLI prompts call the MCP
 `autobot_local_agent_run` tool, which delegates to the engine-side local agent
-service in `shaft-pilot-core`. Cloud `ASK` and `PLAN` prompts call
+service in `shaft-pilot-core`. Cloud Ask and Plan prompts call
 `autobot_provider_chat` with the selected provider and model.
 
 Supported local routes are:
@@ -70,11 +75,14 @@ The Assistant also supports a small slash-command surface:
 | `/clients` | `autobot_local_agent_clients` |
 | `/help` | Local command help |
 
-Responses show the invoked MCP tool and can be copied from the transcript.
+Responses render as Markdown. JSON payloads and Java snippets are shown in
+fenced code blocks, while standard MCP `content[].text` envelopes are unwrapped
+before display. Use **Copy response** for the rendered Markdown, **Copy raw** for
+support diagnostics, or **Copy all** for the full transcript.
 
-## Workflow tabs
+## Workflows
 
-The workflow tabs expose curated MCP requests for common automation jobs:
+The workflow selector exposes curated MCP requests for common automation jobs:
 
 - Recorder: Capture start, status, checkpoints, stop, code blocks,
   record-at-target snippets, Playwright recording controls, and replay code
@@ -121,7 +129,7 @@ passes the provider configuration.
 
 Settings show whether each provider key is stored, provide explicit clear
 buttons, and keep a **Test MCP** action for validating the current stdio command
-before using the Assistant or workflow tabs.
+before using the Assistant or workflows.
 
 ## Publishing
 
