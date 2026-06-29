@@ -23,7 +23,8 @@ model traffic itself.
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
-the **Assistant** tab and keeps the MCP workflow templates under **Tools**.
+the **Assistant** tab and groups MCP workflows into **Recorder**,
+**Inspector**, **Evidence**, **Projects**, and **Advanced Tools** tabs.
 
 ## Assistant
 
@@ -56,23 +57,24 @@ The Assistant also supports a small slash-command surface:
 
 Responses show the invoked MCP tool and can be copied from the transcript.
 
-## Tools
+## Workflow tabs
 
-The **Tools** tab exposes categories for:
+The workflow tabs expose curated MCP requests for common automation jobs:
 
-- Recorder: Capture start, status, checkpoints, stop, code blocks, and
-  record-at-target snippets.
-- Playback: WebDriver, Playwright, and mobile replay flows.
-- Doctor: failed Allure analysis, trace discovery, trace analysis, and report
-  remediation.
-- Healer: guarded failing-test reruns and review-only locator proposals.
-- Inspector: mobile toolchain status, wrapped Appium Inspector recording, mobile
-  screenshots, and accessibility trees.
+- Recorder: Capture start, status, checkpoints, stop, code blocks,
+  record-at-target snippets, Playwright recording controls, and replay code
+  generation.
+- Inspector: browser and Playwright DOM snapshots, screenshots, mobile
+  toolchain status, wrapped Appium Inspector recording, mobile screenshots, and
+  accessibility trees.
+- Evidence: failed Allure analysis, trace discovery, trace analysis, trace
+  summarization, report remediation, guarded reruns, and review-only locator
+  proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project.
-- MCP: scenario catalog, generated-code guardrail checks, and local Assistant
-  client discovery.
-- Guide: live official SHAFT guide search for agent-generated code.
+- Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
+  catalog prompts, generated-code guardrail checks, local Assistant client
+  discovery, and official SHAFT guide search.
 
 Each category provides editable JSON arguments and calls the matching MCP tool.
 This keeps generated code and source edits reviewable in the IDE instead of
@@ -93,6 +95,10 @@ Optional OpenAI, Anthropic, and GitHub tokens are stored in IntelliJ Password
 Safe and can be passed as MCP process environment variables. Direct provider
 calls remain controlled by `shaft-ai` and the [provider controls](/docs/agentic/providers);
 the plugin does not implement provider adapters.
+
+Settings show whether each provider key is stored, provide explicit clear
+buttons, and include a **Test MCP** action for validating the current stdio
+command before using the Assistant or workflow tabs.
 
 ## Publishing
 
