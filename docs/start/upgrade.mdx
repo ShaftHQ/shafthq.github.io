@@ -249,7 +249,8 @@ not prove that the corresponding SHAFT provider API is used.
 POM evidence is read as Maven dependency coordinates, so compact XML and
 formatted XML are treated the same. For example, a legacy project that already
 declares `com.browserstack:browserstack-java-sdk`,
-`com.automation-remarks:video-recorder-*`, or `org.openpnp:opencv` selects the
+`com.automation-remarks:video-recorder-*`, `org.openpnp:opencv`, or
+`com.sikulix:sikulixapi` selects the
 matching SHAFT optional module during migration.
 
 ```mermaid
@@ -257,6 +258,7 @@ flowchart LR
     Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion,<br/>visual engine, OpenCV/Eyes/Shutterbug,<br/>or image-path touch API?"}
     Scan --> Video{"videoParamsRecordVideo=true,<br/>zero-argument desktop recording,<br/>JAVE, or Automation Remarks?"}
     Scan --> BrowserStack{"BrowserStack SDK dependency,<br/>platformsList/parallelsPerPlatform,<br/>automation switch, or SDK YAML?"}
+    Scan --> SikuliX{"SikuliX dependency<br/>or SHAFT.GUI.SikuliX usage?"}
 
     Visual -- Yes --> AddVisual["Add shaft-visual"]
     Visual -- No --> CoreVisual["Keep visual module absent"]
@@ -264,6 +266,8 @@ flowchart LR
     Video -- No --> CoreVideo["Keep video module absent"]
     BrowserStack -- Yes --> AddBrowserStack["Add shaft-browserstack"]
     BrowserStack -- No --> Direct["Direct BrowserStack remains in shaft-engine"]
+    SikuliX -- Yes --> AddSikuliX["Add shaft-sikulix"]
+    SikuliX -- No --> CoreDesktop["Appium Windows stays in shaft-engine"]
 ```
 
 Existing modular optional dependencies are preserved even when no additional
@@ -318,6 +322,16 @@ The video module is selected for local desktop recording:
 
 Appium driver-native recording and cloud-provider video do not select
 `shaft-video`.
+
+### SikuliX evidence
+
+The SikuliX module is selected for image-based desktop automation:
+
+- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
+- Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
+
+Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
+`shaft-engine`.
 
 ## Compilation and rollback
 
@@ -559,10 +573,12 @@ flowchart LR
     Project -.->|"only for BrowserStack SDK runtime"| BrowserStack["shaft-browserstack"]
     Project -.->|"only for local desktop recording"| Video["shaft-video"]
     Project -.->|"only for image-engine operations"| Visual["shaft-visual"]
+    Project -.->|"only for SikuliX image matching"| SikuliX["shaft-sikulix"]
 
     BrowserStack --> Engine
     Video --> Engine
     Visual --> Engine
+    SikuliX --> Engine
     PilotCore --> Engine
     Capture --> PilotCore
     Doctor --> PilotCore
@@ -574,6 +590,7 @@ flowchart LR
     BrowserStack --> SDK["browserstack.yml orchestration<br/>SDK listeners/interception"]
     Video --> Desktop["local non-headless desktop video<br/>Automation Remarks + JAVE/FFmpeg"]
     Visual --> CV["reference-image assertions<br/>OpenCV + Eyes + Shutterbug"]
+    SikuliX --> DesktopImage["SikuliX desktop<br/>image matching"]
     Heal --> Recovery["action-scoped recovery<br/>history + structured reports"]
 ```
 
@@ -592,6 +609,7 @@ flowchart LR
 | BrowserStack SDK interception and `browserstack.yml` orchestration           | `shaft-browserstack` | Direct BrowserStack WebDriver/Appium sessions built by SHAFT                     |
 | Local, non-headless desktop recording managed by SHAFT                       | `shaft-video`        | Remote-provider video or Appium `startRecordingScreen()`                         |
 | Reference-image assertions and image-based touch lookup                      | `shaft-visual`       | Ordinary screenshots, screenshot highlighting, GIFs, or folder comparison        |
+| SikuliX image-based desktop automation                                       | `shaft-sikulix`      | Appium Windows desktop sessions through `shaft-engine`                           |
 
 Add optional modules beside `shaft-engine`; their versions come from the BOM:
 
@@ -603,8 +621,8 @@ Add optional modules beside `shaft-engine`; their versions come from the BOM:
 ```
 
 Use the same shape for `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`,
-`shaft-ai`, `shaft-heal`, `shaft-browserstack`, or `shaft-video`, but add only
-the artifacts selected by the tables below.
+`shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, or
+`shaft-sikulix`, but add only the artifacts selected by the tables below.
 
 ## SHAFT Heal dependency boundary
 
@@ -828,6 +846,7 @@ Allure summary as authoritative.
 | Direct BrowserStack session fails to start                                      | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
 | `platformsList` or `parallelsPerPlatform` has no effect                         | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`.                      |
 | Desktop recording reports no provider                                           | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves.                                            |
+| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing                     | Add `shaft-sikulix`; Appium Windows sessions do not require it.                                                                       |
 | `healing.strategy=shaft-heal` logs that the provider is absent                   | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`.                                                                      |
 | SHAFT Heal rejects every candidate                                               | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
 | Mobile recording changed unexpectedly                                           | Do not add `shaft-video`; verify the Appium driver supports native recording.                                                         |

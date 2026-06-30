@@ -16,7 +16,7 @@ relocation artifact that points consumers to the canonical JAR.
 
 - The root `pom.xml` is the `io.github.shafthq:shaft-parent` aggregator and build parent. It owns shared version properties, dependency management, and plugin management.
 - `shaft-engine/pom.xml` builds the engine JAR. All framework source, resources, tests, examples, and runtime support assets remain under `shaft-engine/src/`; Java packages remain under `com.shaft`.
-- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, and `shaft-mcp` versions without adding dependencies by itself.
+- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, `shaft-sikulix`, and `shaft-mcp` versions without adding dependencies by itself.
 - `shaft-pilot-core/pom.xml` builds provider-neutral Pilot contracts, security controls, configuration snapshots, and deterministic fallback. It depends on `shaft-engine`; the engine has no reverse dependency.
 - `shaft-capture/pom.xml` builds managed Chrome/Edge recording, versioned contracts, deterministic privacy classification, Java/TestNG generation, compile/replay validation, schema migration, and atomic JSON persistence. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
 - `shaft-doctor/pom.xml` builds allowlisted local evidence collection, redacted portable bundles, deterministic failure rules, JSON/Markdown reports, provider-neutral optional advisory integration, and isolated approval-gated repair proposals. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
@@ -28,12 +28,14 @@ relocation artifact that points consumers to the canonical JAR.
 - `shaft-video/pom.xml` builds the optional desktop video recording provider. Add it when local desktop screen recording is needed; Appium-native recording remains in `shaft-engine`.
 - `shaft-visual/pom.xml` builds the optional OpenCV, Applitools Eyes, and Shutterbug visual-processing provider and its
   focused visual tests.
+- `shaft-sikulix/pom.xml` builds the optional SikuliX desktop image automation module. Add it for image matching; Appium Windows desktop automation remains in `shaft-engine`.
 - `legacy-shaft-engine/pom.xml` publishes the legacy `SHAFT_ENGINE` coordinate as relocation metadata only; it contains no classes.
 
 API, Appium/mobile, database, and other retained core capabilities remain dependencies of the engine module. Optional
-SHAFT Heal, BrowserStack SDK, desktop video/FFmpeg, and OpenCV/Eyes/Shutterbug
-visual-processing support are provided by `shaft-heal`, `shaft-browserstack`,
-`shaft-video`, and `shaft-visual` respectively.
+SHAFT Heal, BrowserStack SDK, desktop video/FFmpeg, OpenCV/Eyes/Shutterbug
+visual-processing, and SikuliX desktop image support are provided by
+`shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, and
+`shaft-sikulix` respectively.
 
 ## Consumer usage
 
@@ -80,6 +82,7 @@ mvn -pl shaft-engine -am test -Dtest=TestClassName
 mvn -pl shaft-browserstack -am test -Dtest=BrowserStackHelperUnitTest
 mvn -pl shaft-video -am test -Dtest=DesktopVideoRecordingProviderRegistrationTest
 mvn -pl shaft-visual -am test -Dtest=ImageProcessingActionsUnitTest
+mvn -pl shaft-sikulix -am test -Dtest=SikuliWindowsDesktopE2ETest -DrunWindowsDesktopE2E=true
 mvn -pl shaft-heal -am test
 mvn -pl shaft-pilot-core,shaft-capture,shaft-doctor,shaft-ai -am test
 mvn -pl shaft-mcp -am test -Dtest=ShaftMcpApplicationTests
@@ -101,6 +104,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional BrowserStack SDK JAR: `shaft-browserstack/target/shaft-browserstack-<version>.jar`
 - Optional desktop video JAR: `shaft-video/target/shaft-video-<version>.jar`
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual-<version>.jar`
+- Optional SikuliX JAR: `shaft-sikulix/target/shaft-sikulix-<version>.jar`
 - MCP thin JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
 - Surefire reports: `<module>/target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
@@ -131,7 +135,7 @@ Workflow commands run from the repository root and select only the modules requi
 | Workflow | Reactor policy |
 | --- | --- |
 | `e2eTests.yml` | Engine and grid jobs use `-pl shaft-engine -am`; BrowserStack jobs use `-pl shaft-browserstack -am`; focused visual and desktop-video jobs use their respective optional modules; Moon runs from the engine module with the JUnit profile. |
-| `e2eLocalTests.yml`, `lambdatestTests.yml` | Local browser, local Cucumber, and LambdaTest jobs use `-pl shaft-engine -am`; ordinary browser/provider jobs do not resolve `shaft-video`. |
+| `e2eLocalTests.yml`, `lambdatestTests.yml` | Local browser, local Cucumber, Windows desktop Appium, and LambdaTest jobs use `-pl shaft-engine -am`; SikuliX uses `-pl shaft-sikulix -am`; ordinary browser/provider jobs do not resolve `shaft-video` or `shaft-sikulix`. |
 | `coverage-readiness.yml` | Runs focused engine tests, builds `report-aggregate`, gates `target/jacoco/jacoco.csv`, and uploads only `target/jacoco/jacoco.xml` to Codecov. |
 | `code-quality-scan.yml`, `codeql-analysis.yml`, `copilot-setup-steps.yml` | Select the code-bearing engine, optional integrations, and MCP module explicitly; BOM and relocation-only modules are excluded from compilation/analysis. |
 | `shaft-mcp.yml` | Runs manually and daily at 01:00 UTC with local E2E workflows; packages the executable and smokes stdio plus Streamable HTTP. |
@@ -145,7 +149,7 @@ The shared post-test action defaults to `shaft-engine` but accepts `module-direc
 
 ## Aggregate coverage continuity
 
-`report-aggregate` is a build-only module that depends on every Java-bearing module, including the Pilot modules and `shaft-mcp`, and writes JaCoCo XML, CSV, and HTML to root `target/jacoco`. It is skipped by Maven deploy and is not a published SHAFT artifact.
+`report-aggregate` is a build-only module that depends on every Java-bearing module, including the Pilot modules, `shaft-sikulix`, and `shaft-mcp`, and writes JaCoCo XML, CSV, and HTML to root `target/jacoco`. It is skipped by Maven deploy and is not a published SHAFT artifact.
 
 Use pre-reactor commit `570a83674b70477074621ea24d7cfa05517260c6` as the coverage-continuity reference. Run the same test selector on that commit and on the current branch, then compare the resulting CSV summaries with `scripts/ci/jacoco_coverage_gate.py`. The current reactor command is:
 

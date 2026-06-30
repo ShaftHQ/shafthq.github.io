@@ -67,6 +67,12 @@ export const optionalModules: OptionalModule[] = [
     href: '/docs/integrations/visual',
   },
   {
+    artifactId: 'shaft-sikulix',
+    title: 'SikuliX desktop',
+    description: 'Image-based Windows desktop automation through SikuliX.',
+    href: '/docs/integrations/sikulix',
+  },
+  {
     artifactId: 'shaft-mcp',
     title: 'SHAFT MCP',
     description: 'Executable MCP server plus Capture and Doctor CLI.',
