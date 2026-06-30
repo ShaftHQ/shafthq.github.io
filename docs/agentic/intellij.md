@@ -17,8 +17,9 @@ Inspector logic stay in the engine modules.
 Install the plugin from JetBrains Marketplace when it is published, then open
 **Tools | SHAFT | Open SHAFT**. If you install a plugin ZIP from disk, restart
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
-actions are fully registered. First run shows a three-step setup inside the tool
-window:
+actions are fully registered. The core Assistant tool window can load without
+IntelliJ's Java plugin; Java-specific actions are registered only when Java
+support is available. First run shows a three-step setup inside the tool window:
 
 1. Click **Install / Update SHAFT MCP**.
 2. Select the Assistant family and runtime: Codex, Claude, or Copilot with CLI,
@@ -26,9 +27,11 @@ window:
 3. Click **Test connection**.
 
 After the test succeeds, setup disappears and the tool window opens directly on
-the Assistant view. The plugin starts the configured stdio command when it
-invokes tools; it does not embed the SHAFT engine or manage provider model
-traffic itself.
+the Assistant view. The success message includes the effective MCP workspace,
+`user.dir`, `shaft.mcp.workspaceRoot`, and `SHAFT_MCP_WORKSPACE_ROOT`, so you can
+confirm that tools are scoped to the open IntelliJ project. The plugin starts
+the configured stdio command when it invokes tools; it does not embed the SHAFT
+engine or manage provider model traffic itself.
 
 ## Tool window
 
@@ -65,6 +68,10 @@ mutation until the user explicitly approves it for that request. A custom local
 agent command can be supplied for non-standard CLI installations, but the
 request still flows through `shaft-mcp`.
 
+Assistant chats are persisted per IntelliJ project. Use the chat selector to
+reopen recent contexts, **New chat** to start a separate context, and **Clear**
+to clear only the active chat.
+
 The Assistant also supports a small slash-command surface:
 
 | Command | MCP tool |
@@ -75,10 +82,14 @@ The Assistant also supports a small slash-command surface:
 | `/clients` | `autobot_local_agent_clients` |
 | `/help` | Local command help |
 
-Responses render as Markdown. JSON payloads and Java snippets are shown in
-fenced code blocks, while standard MCP `content[].text` envelopes are unwrapped
-before display. Use **Copy response** for the rendered Markdown, **Copy raw** for
-support diagnostics, or **Copy all** for the full transcript.
+Responses render as Markdown. Known SHAFT responses, including local agent runs,
+provider chat, local client discovery, MCP `content[].text` envelopes, JSON
+payloads, and Java snippets, are parsed into readable sections, tables, or
+fenced code blocks. Unknown structured responses are formatted through the
+selected Assistant route when possible; if no formatter is available, the plugin
+falls back to a local Markdown-safe JSON/code rendering. Use **Copy response**
+for the rendered Markdown, **Copy raw** for support diagnostics, or **Copy all**
+for the full transcript.
 
 ## Workflows
 
@@ -112,7 +123,8 @@ hidden inside plugin code.
 Use **Tools | SHAFT | Record SHAFT Flow Here** from a Java file to prepare a
 `capture_record_at_target_code_blocks` request for the caret's package, class,
 method, and source path. Replace the capture session path with a real recording
-before running it.
+before running it. This action is available only in IDE installations with Java
+support enabled.
 
 Use **Settings | SHAFT** later to install or update `shaft-mcp`, retest the MCP
 connection, change Assistant Local/Cloud routing, connect the selected local
