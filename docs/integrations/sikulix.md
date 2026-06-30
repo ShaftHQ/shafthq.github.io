@@ -42,7 +42,7 @@ desktop workflows that cannot be reached through DOM or Appium locators.
 ## Use image actions
 
 ```java
-new SikuliActions()
+new SHAFT.GUI.SikuliX().element()
         .click("src/test/resources/images/save-button.png")
         .type("src/test/resources/images/name-field.png", "SHAFT");
 ```
@@ -51,12 +51,16 @@ Attach actions to an already open application window when the match should be
 scoped to that desktop app:
 
 ```java
-SikuliDriver calculator = SikuliDriver.getInstance("Calculator");
+SHAFT.GUI.SikuliX calculator = SHAFT.GUI.SikuliX.getInstance("Calculator");
 calculator.element()
         .click("src/test/resources/images/one.png")
         .click("src/test/resources/images/plus.png");
 calculator.quit();
 ```
+
+If `shaft-sikulix` is missing, `SHAFT.GUI.SikuliX` reports the missing optional
+dependency and tells you to add it instead of surfacing a generic class loading
+error.
 
 Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add
 `shaft-sikulix` only for image matching.

@@ -258,7 +258,7 @@ flowchart LR
     Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion,<br/>visual engine, OpenCV/Eyes/Shutterbug,<br/>or image-path touch API?"}
     Scan --> Video{"videoParamsRecordVideo=true,<br/>zero-argument desktop recording,<br/>JAVE, or Automation Remarks?"}
     Scan --> BrowserStack{"BrowserStack SDK dependency,<br/>platformsList/parallelsPerPlatform,<br/>automation switch, or SDK YAML?"}
-    Scan --> SikuliX{"SikuliX dependency<br/>or SikuliActions usage?"}
+    Scan --> SikuliX{"SikuliX dependency<br/>or SHAFT.GUI.SikuliX usage?"}
 
     Visual -- Yes --> AddVisual["Add shaft-visual"]
     Visual -- No --> CoreVisual["Keep visual module absent"]
@@ -327,7 +327,7 @@ Appium driver-native recording and cloud-provider video do not select
 
 The SikuliX module is selected for image-based desktop automation:
 
-- `SikuliActions` or `SikuliDriver`.
+- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
 - Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
 
 Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
@@ -846,7 +846,7 @@ Allure summary as authoritative.
 | Direct BrowserStack session fails to start                                      | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
 | `platformsList` or `parallelsPerPlatform` has no effect                         | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`.                      |
 | Desktop recording reports no provider                                           | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves.                                            |
-| SikuliX classes are missing                                                      | Add `shaft-sikulix`; Appium Windows sessions do not require it.                                                                       |
+| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing                     | Add `shaft-sikulix`; Appium Windows sessions do not require it.                                                                       |
 | `healing.strategy=shaft-heal` logs that the provider is absent                   | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`.                                                                      |
 | SHAFT Heal rejects every candidate                                               | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
 | Mobile recording changed unexpectedly                                           | Do not add `shaft-video`; verify the Appium driver supports native recording.                                                         |
