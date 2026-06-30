@@ -61,6 +61,7 @@ flowchart TD
 | `matchesReferenceImage(VisualValidationEngine)`                | OpenCV, Shutterbug, or Eyes comparison selected by the enum. Playwright routes `Locator.screenshot()` bytes through the provider; Shutterbug requests fall back to OpenCV because Shutterbug is Selenium-backed. |
 | `doesNotMatchReferenceImage()` and its overload                | Negative OpenCV/visual-engine comparison.                    |
 | `TouchActions.tap(String)`                                     | Finds and taps an image inside the current screen.           |
+| `TouchActions.type(String, ...)`                               | Finds an image, taps it, then types into the active field.   |
 | `TouchActions.waitUntilElementIsVisible(String)`               | Waits for an image match.                                    |
 | `TouchActions.waitUntilElementIsNotVisible(String)`            | Waits until an image match disappears from the screen.       |
 | `TouchActions.swipeElementIntoView(String, ...)`               | Swipes until the reference image is found.                   |
@@ -68,6 +69,11 @@ flowchart TD
 | `ImageProcessingActions.compareAgainstBaseline(...)`           | Direct baseline comparison.                                  |
 | `ImageProcessingActions.loadOpenCV()`                          | Explicit provider/native-library loading.                    |
 | Built-in Cucumber OpenCV, Shutterbug, and Eyes assertion steps | Delegates to the same provider.                              |
+
+Image-path touch actions compare against viewport screenshots and return
+viewport-relative coordinates for Selenium/Appium pointer actions. OpenCV
+matching is scale-tolerant, so a cropped reference image can be captured at a
+different DPI or display scale than the current app screenshot.
 
 The bundled TestNG/JUnit web samples use:
 

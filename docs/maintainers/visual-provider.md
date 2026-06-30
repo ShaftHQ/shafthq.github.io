@@ -27,9 +27,15 @@ optional computer-vision behavior out of `shaft-engine` without moving screensho
 
 Public fluent APIs that reach the provider include
 `matchesReferenceImage(...)`, `doesNotMatchReferenceImage(...)`,
-`TouchActions.tap(String)`, `TouchActions.waitUntilElementIsVisible(String)`,
-and the image-path `swipeElementIntoView(...)` overloads. The focused
+`TouchActions.tap(String)`, `TouchActions.type(String, ...)`,
+`TouchActions.waitUntilElementIsVisible(String)`, and the image-path
+`swipeElementIntoView(...)` overloads. The focused
 [visual module guide](/docs/integrations/visual) is the consumer-facing reference.
+
+Image-path touch actions must pass viewport screenshot bytes into
+`findImageWithinCurrentPage`, because Selenium/Appium coordinate actions target
+the viewport. The OpenCV provider handles DPI/display-scale drift by matching
+scaled reference templates and returning the matched center point.
 
 `ScreenshotManager`, Selenium screenshot capture, and Healenium integration remain outside this provider boundary.
 
