@@ -24,6 +24,7 @@ SHAFT publishes the complete reactor as one Maven Central deployment. Publicatio
 | `io.github.shafthq:shaft-browserstack` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-video` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-visual` | JAR | sources, JavaDocs, signatures |
+| `io.github.shafthq:shaft-sikulix` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-mcp` | thin JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-bom` | POM | signature |
 | `io.github.shafthq:SHAFT_ENGINE` | relocation POM | signature |

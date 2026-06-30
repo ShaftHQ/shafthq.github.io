@@ -418,6 +418,7 @@ capability.
 | Reference-image assertions, negative reference-image assertions, image-path touch actions | `shaft-visual` |
 | BrowserStack SDK interception and YAML orchestration | `shaft-browserstack` |
 | Local non-headless desktop recording | `shaft-video` |
+| SikuliX image-based desktop automation | `shaft-sikulix` |
 | Deterministic web locator recovery | `shaft-heal` plus `healing.strategy=shaft-heal` |
 
 Reference-image assertions require `shaft-visual`:
@@ -430,6 +431,9 @@ driver.browser().navigateToURL(targetUrl)
 Ordinary screenshots, highlighted report screenshots, API tests, Appium locator
 actions, database tests, CLI tests, direct BrowserStack sessions, and
 Appium-native recording need only `shaft-engine`.
+
+Windows desktop Appium sessions also stay in `shaft-engine`; use
+`shaft-sikulix` only when the test needs SikuliX image matching.
 
 Use the [module selection and migration guide](/docs/start/upgrade) for the
 complete method matrix.

@@ -31,11 +31,13 @@ flowchart TB
     Consumer -.->|optional| BrowserStack["shaft-browserstack<br/>BrowserStack Java SDK"]
     Consumer -.->|optional| Video["shaft-video<br/>local desktop recording"]
     Consumer -.->|optional| Visual["shaft-visual<br/>OpenCV + Eyes + Shutterbug"]
+    Consumer -.->|optional| SikuliX["shaft-sikulix<br/>SikuliX desktop image automation"]
     Agent -.-> MCP["shaft-mcp<br/>executable MCP server"]
 
     BrowserStack --> Engine
     Video --> Engine
     Visual --> Engine
+    SikuliX --> Engine
     MCP --> Engine
     MCP --> Capture
     MCP --> Doctor
@@ -66,6 +68,7 @@ flowchart TB
 | `shaft-browserstack` | JAR            | BrowserStack SDK interception and `browserstack.yml` orchestration. Direct BrowserStack sessions stay in `shaft-engine`. |
 | `shaft-video`        | JAR            | Local non-headless desktop recording. Appium-native recording stays in `shaft-engine`.                                   |
 | `shaft-visual`       | JAR            | Reference-image assertions and image-based lookup through OpenCV, Eyes, and Shutterbug.                                  |
+| `shaft-sikulix`      | JAR            | SikuliX image matching for desktop workflows that cannot be reached through DOM or Appium locators.                      |
 | `shaft-mcp`          | thin JAR | Optional MCP server and CLI exposing browser automation, managed capture, Doctor analysis, and packaged direct adapters.  |
 | `shaft-bom`          | POM            | Aligns all SHAFT artifact versions; adds no runtime classes.                                                             |
 | `SHAFT_ENGINE`       | relocation POM | Temporary legacy-coordinate bridge to `shaft-engine`; adds no optional providers.                                        |
@@ -161,6 +164,9 @@ adds `browserstack-java-sdk`; SHAFT's core BrowserStack driver path also
 generates `browserstack.yml`, which the SDK consumes when the optional module is
 present.
 
+`shaft-sikulix` is a runtime action module. It adds the SikuliX API and a small
+desktop-image action facade without shadowing `shaft-engine` classes.
+
 ## Module guides
 
 - [Upgrade and module selection](/docs/start/upgrade)
@@ -168,6 +174,7 @@ present.
 - [BrowserStack SDK module](/docs/integrations/browserstack)
 - [Visual processing module](/docs/integrations/visual)
 - [Desktop video module](/docs/integrations/video)
+- [SikuliX desktop automation](/docs/integrations/sikulix)
 - [SHAFT Pilot](/docs/agentic/pilot)
 - [SHAFT Pilot release runbook](/docs/maintainers/pilot-release)
 - [SHAFT MCP](/docs/agentic/mcp)

@@ -35,6 +35,31 @@ flowchart LR
     SHAFT --> Report["Allure evidence"]
 ```
 
+## Windows desktop apps
+
+Windows desktop automation uses the existing Appium dependency in
+`shaft-engine`; no optional module is required for locator-based Appium
+sessions.
+
+```java
+SHAFT.Properties.platform.set()
+        .targetPlatform("Windows")
+        .executionAddress("http://127.0.0.1:4723");
+SHAFT.Properties.web.set()
+        .targetBrowserName("WindowsApp")
+        .headlessExecution(false);
+SHAFT.Properties.mobile.set()
+        .browserName("")
+        .automationName("Windows")
+        .app("C:\\Windows\\System32\\notepad.exe");
+
+new DriverFactory().getHelper(DriverFactory.DriverType.APPIUM_WINDOWS);
+```
+
+Install and start Appium with the Windows driver before running the test. Add
+`shaft-sikulix` only when the test needs SikuliX image matching instead of
+Appium locators.
+
 ## SHAFT MCP mobile automation
 
 `shaft-mcp` can drive mobile sessions when an MCP client needs browser-style automation over Android or iOS targets:

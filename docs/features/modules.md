@@ -10,7 +10,7 @@ tags: [features, modules, dependencies]
 # Features and modules
 
 The required `shaft-engine` artifact provides the public facade and core test
-automation capabilities. Three dependency-heavy integrations are optional.
+automation capabilities. Dependency-heavy integrations are optional.
 
 ## Feature-to-module map
 
@@ -22,6 +22,7 @@ automation capabilities. Three dependency-heavy integrations are optional.
 | Appium Android/iOS driver-native recording                                                       | `shaft-engine`       |
 | Local non-headless desktop recording                                                             | `shaft-video`        |
 | Reference-image assertions and image-path touch actions                                          | `shaft-visual`       |
+| SikuliX image-based desktop automation                                                           | `shaft-sikulix`      |
 | Deterministic explainable web element recovery                                                    | `shaft-heal`         |
 | Screenshot highlighting, animated GIFs, and `compareImageFolders(...)`                           | `shaft-engine`       |
 
@@ -51,6 +52,10 @@ Use the BOM to align the core engine with any optional modules you add:
   <dependency>
     <groupId>io.github.shafthq</groupId>
     <artifactId>shaft-visual</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>io.github.shafthq</groupId>
+    <artifactId>shaft-sikulix</artifactId>
   </dependency>
 </dependencies>
 ```
@@ -101,5 +106,6 @@ feature-to-pillar map; use this page for artifact and platform selection.
 - [Architecture](/docs/features/architecture)
 - [Upgrade and module selection](/docs/start/upgrade)
 - [Visual processing module](/docs/integrations/visual)
+- [SikuliX desktop automation](/docs/integrations/sikulix)
 - [Technology](/docs/features/technology)
 
