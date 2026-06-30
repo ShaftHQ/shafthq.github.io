@@ -24,6 +24,21 @@ By loginButton = By.id("login_btn");
 driver.touch().tap(loginButton);
 ```
 
+Reference-image taps use `shaft-visual` to find the image in the current
+viewport, then execute a Selenium/Appium pointer action at the matched center:
+
+```java title="ImageTapExample.java"
+driver.touch().tap("src/test/resources/dynamicObjectRepository/login-button.png");
+```
+
+### type()
+
+Taps a field found by reference image, then types into the focused field.
+
+```java title="ImageTypeExample.java"
+driver.touch().type("src/test/resources/dynamicObjectRepository/search-field.png", "SHAFT Engine");
+```
+
 ### doubleTap()
 
 Double-taps an element on a touch-enabled screen.
@@ -78,6 +93,16 @@ You can also specify a scrollable container:
 By scrollableContainer = By.id("list_view");
 By targetElement = By.id("item_50");
 driver.touch().swipeElementIntoView(scrollableContainer, targetElement, TouchActions.SwipeDirection.DOWN);
+```
+
+Image-path overloads scroll until the reference image is visible in the
+viewport. Selenium sessions use headless-safe page or element scrolling; Appium
+native sessions use Appium scroll gestures.
+
+```java title="ImageSwipeIntoViewExample.java"
+driver.touch().swipeElementIntoView(
+        "src/test/resources/dynamicObjectRepository/pay-now.png",
+        TouchActions.SwipeDirection.DOWN);
 ```
 
 ### swipeToEndOfView()
@@ -147,6 +172,10 @@ driver.touch().activateAppFromBackground("com.example.myapp");
 ```
 
 ## Visual Element Detection
+
+Image-path touch actions support cropped reference screenshots captured at a
+different DPI or display scale than the current app screenshot when
+`shaft-visual` is on the runtime classpath.
 
 ### waitUntilElementIsVisible()
 
