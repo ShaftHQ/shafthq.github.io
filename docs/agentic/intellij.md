@@ -54,9 +54,9 @@ Supported local routes are:
 
 | Client | Default local command | API key required by SHAFT |
 | --- | --- | --- |
-| Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan; workspace-write only after Agent approval | No |
-| Claude Code | `claude --print`; Plan adds `--permission-mode plan` | No |
-| Copilot CLI | `copilot ask`, `copilot plan`, or `copilot agent` | No |
+| Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan and no-source Agent; workspace-write only with `Allow source edits` | No |
+| Claude Code | `claude --print`; Plan and no-source Agent use `--permission-mode plan`; source-edit Agent uses `acceptEdits` | No |
+| Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
 Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
 are stored in IntelliJ Password Safe; only the selected cloud provider key is
@@ -64,9 +64,10 @@ passed to the MCP process. Cloud `AGENT` mode is disabled because direct
 provider chat cannot mutate the local workspace.
 
 Use `Ctrl+Enter` to send a prompt. Local Agent mode is blocked from source
-mutation until the user explicitly approves it for that request. A custom local
-agent command can be supplied for non-standard CLI installations, but the
-request still flows through `shaft-mcp`.
+mutation until the user explicitly approves it for that request. For browser-only
+tasks, leave `Allow source edits` off; enable it when the request requires applying
+code or source edits. A custom local agent command can be supplied for
+non-standard CLI installations, but the request still flows through `shaft-mcp`.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, **New chat** to start a separate context, and **Clear**
@@ -89,7 +90,24 @@ fenced code blocks. Unknown structured responses are formatted through the
 selected Assistant route when possible; if no formatter is available, the plugin
 falls back to a local Markdown-safe JSON/code rendering. Use **Copy response**
 for the rendered Markdown, **Copy raw** for support diagnostics, or **Copy all**
-for the full transcript.
+for the full transcript plus current-session tool evidence when exporting for
+issue review.
+
+## Onboarding recording notes
+
+Use this preferred launch path for the recording workflow:
+
+`gradle -p shaft-intellij runIde --args C:/Users/Mohab/IdeaProjects/SHAFT_ENGINE`
+
+Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
+`Allow source edits` stays off for DuckDuckGo/browser flow and is enabled when the run
+must change source files. If the step is expressed as "open the first result,"
+use the scoped 1-indexed XPath (`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for the first result.
+
+For recordings, dismiss sandbox-only low-memory or script-launcher warning balloons
+without suppressing normal production IDE warnings. IntelliJ Trust Project may
+preselect Windows Defender exclusions; leave them unchecked unless exclusions are
+explicitly required for that environment.
 
 ## Workflows
 
