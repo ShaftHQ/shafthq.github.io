@@ -26,6 +26,8 @@ support is available. First run shows a three-step setup inside the tool window:
    IDE plugin, or desktop app where supported.
 3. Click **Test connection**.
 
+![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
+
 After the test succeeds, setup disappears and the tool window opens directly on
 the Assistant view. The success message includes the effective MCP workspace,
 `user.dir`, `shaft.mcp.workspaceRoot`, and `SHAFT_MCP_WORKSPACE_ROOT`, so you can
@@ -69,8 +71,8 @@ Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
 requires applying code or source edits. A custom local agent command can be
-supplied for non-standard CLI installations, but the request still flows through
-`shaft-mcp`.
+supplied for non-standard CLI installations; broad Ask, Plan, and Agent prompts
+keep using the selected local route.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, **New chat** to start a separate context, and **Clear**
@@ -98,6 +100,13 @@ chat with command documentation.
 | Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
 | Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
 | Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/newshaft`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_create`, `shaft_project_upgrade`, explicit raw tool calls |
+
+`/assistant` and its aliases (`/agent`, `/ask`, `/plan`, `/clients`) discover
+Assistant routes and local clients. Broad local and cloud prompts stay on the
+selected Assistant route. Direct feature commands such as `/guide`, `/browser`,
+`/record`, `/doctor`, `/project`, and `/mcp` are MCP-backed; if MCP is not
+configured, the Assistant shows the SHAFT MCP setup prompt before it runs that
+feature command.
 
 Common examples:
 
