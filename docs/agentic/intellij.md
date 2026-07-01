@@ -65,8 +65,10 @@ are stored in IntelliJ Password Safe; only the selected cloud provider key is
 passed to the MCP process. Cloud `AGENT` mode is disabled because direct
 provider chat cannot mutate the local workspace.
 
-Use `Ctrl+Enter` to send a prompt. The submit control is icon-only, keeps a
-JetBrains-style send glyph, and retains the same accessible name and tooltip.
+Use `Ctrl+Enter` to send a prompt. Assistant controls are icon-only, keep
+JetBrains-style glyphs, and retain accessible names and tooltips. While a prompt
+runs, the submit icon becomes an animated spinner; hovering it changes the same
+square control into cancel.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -75,8 +77,8 @@ supplied for non-standard CLI installations; broad Ask, Plan, and Agent prompts
 keep using the selected local route.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
-reopen recent contexts, **New chat** to start a separate context, and **Clear**
-to clear only the active chat.
+reopen recent contexts, the New chat icon to start a separate context, and the
+Clear icon to clear only the active chat.
 
 The Assistant understands explicit feature intent and direct commands from the
 same chat box. For example, "start mobile recording" maps to
@@ -84,8 +86,8 @@ same chat box. For example, "start mobile recording" maps to
 the same feature deterministically. Browser control defaults to WebDriver; use
 `playwright` in the prompt or command when that backend is required.
 
-A single JetBrains-style `/` command hint appears in the composer. Hover it to
-view the available canonical commands, aliases, and examples without filling the
+A single JetBrains-style command-help icon appears in the composer. Hover it to
+view the `/commands` canonical command, aliases, and examples without filling the
 chat with command documentation.
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
