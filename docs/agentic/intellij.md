@@ -63,25 +63,57 @@ are stored in IntelliJ Password Safe; only the selected cloud provider key is
 passed to the MCP process. Cloud `AGENT` mode is disabled because direct
 provider chat cannot mutate the local workspace.
 
-Use `Ctrl+Enter` to send a prompt. Local Agent mode is blocked from source
-mutation until the user explicitly approves it for that request. For browser-only
-tasks, leave `Allow source edits` off; enable it when the request requires applying
-code or source edits. A custom local agent command can be supplied for
-non-standard CLI installations, but the request still flows through `shaft-mcp`.
+Use `Ctrl+Enter` to send a prompt. The submit control is icon-only, keeps a
+JetBrains-style send glyph, and retains the same accessible name and tooltip.
+Local Agent mode is blocked from
+source mutation until the user explicitly approves it for that request. For
+browser-only tasks, leave `Allow source edits` off; enable it when the request
+requires applying code or source edits. A custom local agent command can be
+supplied for non-standard CLI installations, but the request still flows through
+`shaft-mcp`.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, **New chat** to start a separate context, and **Clear**
 to clear only the active chat.
 
-The Assistant also supports a small slash-command surface:
+The Assistant understands explicit feature intent and direct commands from the
+same chat box. For example, "start mobile recording" maps to
+`mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
+the same feature deterministically. Browser control defaults to WebDriver; use
+`playwright` in the prompt or command when that backend is required.
 
-| Command | MCP tool |
-| --- | --- |
-| `/guide <query>` | `shaft_guide_search` |
-| `/scenarios <intent>` | `test_automation_scenarios` |
-| `/guardrails <code>` | `test_code_guardrails_check` |
-| `/clients` | `autobot_local_agent_clients` |
-| `/help` | Local command help |
+A single JetBrains-style `/` command hint appears in the composer. Hover it to
+view the available canonical commands, aliases, and examples without filling the
+chat with command documentation.
+
+![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
+
+| Feature | Canonical command | Synonyms | Primary MCP tools |
+| --- | --- | --- | --- |
+| Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
+| Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
+| Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
+| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `capture_code_blocks`, `playwright_record_start`, `playwright_recording_code_blocks` |
+| Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
+| Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
+| Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
+| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/newshaft`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_create`, `shaft_project_upgrade`, explicit raw tool calls |
+
+Common examples:
+
+```text
+/browser open https://example.com sign in
+/browser playwright open https://example.com
+/record https://example.com
+/codegen recordings/intellij-capture.json
+/mobile status Android
+/mobile native Android emulator-5554
+/mobile-record inspector Android recordings/inspector.json
+/mobile-codegen recordings/mobile.json
+/doctor target/allure-results
+/doctor fix target/shaft-doctor/doctor-report.json
+/mcp browser_get_title {}
+```
 
 Responses render as Markdown. Known SHAFT responses, including local agent runs,
 provider chat, local client discovery, MCP `content[].text` envelopes, JSON
