@@ -19,14 +19,23 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a three-step setup inside the tool window:
+support is available. First run shows a four-section setup inside the tool window:
 
-1. Click **Install / Update SHAFT MCP**.
-2. Select the Assistant family and runtime: Codex, Claude, or Copilot with CLI,
-   IDE plugin, or desktop app where supported.
-3. Click **Test connection**.
+1. Confirm the **Project** row is configured for the open IntelliJ project.
+2. In **MCP**, click **Install / Update SHAFT MCP**.
+3. In **Runtime**, select the Assistant family and runtime: Codex, Claude, or
+   Copilot with CLI, IDE plugin, or desktop app where supported.
+4. In **Assist**, click **Test connection and start chatting**.
 
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
+
+Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
+states for Project, MCP, Runtime, and Assist. Install and test failures stay
+inline with diagnostic output, and the retry action remains enabled.
+
+![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
+
+![SHAFT IntelliJ MCP setup error](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
 After the test succeeds, setup disappears and the tool window opens directly on
 the Assistant view. The success message includes the effective MCP workspace,
@@ -189,7 +198,9 @@ support enabled.
 Use **Settings | SHAFT** later to install or update `shaft-mcp`, retest the MCP
 connection, change Assistant Local/Cloud routing, connect the selected local
 runtime MCP client, configure GitHub Copilot for IntelliJ MCP, or edit the
-advanced stdio command manually.
+advanced stdio command manually. Settings are grouped by **Connection**,
+**Execution**, **Advanced**, and **Credentials** so setup, routing, provider,
+and key-storage controls stay separate.
 
 Optional OpenAI, Anthropic, Gemini, and GitHub tokens are stored in IntelliJ
 Password Safe and can be passed as MCP process environment variables for the
