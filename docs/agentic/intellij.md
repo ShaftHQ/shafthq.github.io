@@ -131,10 +131,9 @@ provider chat, local client discovery, MCP `content[].text` envelopes, JSON
 payloads, and Java snippets, are parsed into readable sections, tables, or
 fenced code blocks. Unknown structured responses are formatted through the
 selected Assistant route when possible; if no formatter is available, the plugin
-falls back to a local Markdown-safe JSON/code rendering. Use **Copy response**
-for the rendered Markdown, **Copy raw** for support diagnostics, or **Copy all**
-for the full transcript plus current-session tool evidence when exporting for
-issue review.
+falls back to a local Markdown-safe JSON/code rendering. Use the copy actions
+for rendered Markdown, raw support diagnostics, or the full transcript plus
+current-session tool evidence when exporting for issue review.
 
 ## Onboarding recording notes
 
@@ -201,8 +200,8 @@ assistance. Direct provider calls remain controlled by `shaft-ai` and the
 passes the provider configuration.
 
 Settings show whether each provider key is stored, provide explicit clear
-buttons, and keep a **Test MCP** action for validating the current stdio command
-before using the Assistant or workflows.
+controls, and keep a test action for validating the current stdio command before
+using the Assistant or workflows.
 
 ## Publishing
 
