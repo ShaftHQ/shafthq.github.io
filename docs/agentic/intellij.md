@@ -77,7 +77,8 @@ provider chat cannot mutate the local workspace.
 Use `Ctrl+Enter` to send a prompt. Assistant controls are icon-only, keep
 JetBrains-style glyphs, and retain accessible names and tooltips. While a prompt
 runs, the submit icon becomes an animated spinner; hovering it changes the same
-square control into cancel.
+square control into cancel. If you cancel, the request ends with a dedicated
+final transcript entry and no capture-generated output is finalized.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -94,6 +95,9 @@ same chat box. For example, "start mobile recording" maps to
 `mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
 the same feature deterministically. Browser control defaults to WebDriver; use
 `playwright` in the prompt or command when that backend is required.
+After capture approval, the local Agent run shows completion feedback in the
+final transcript so you can confirm generation status, outputs, and next
+workflow step before continuing.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the `/commands` canonical command, aliases, and examples without filling the
@@ -154,6 +158,8 @@ Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
 `Allow source edits` stays off for DuckDuckGo/browser flow and is enabled when the run
 must change source files. If the step is expressed as "open the first result,"
 use the scoped 1-indexed XPath (`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for the first result.
+For deterministic verification, finish with a final page title and page-specific
+text check after opening that result before approving generated capture output.
 
 For recordings, dismiss sandbox-only low-memory or script-launcher warning balloons
 without suppressing normal production IDE warnings. IntelliJ Trust Project may
@@ -192,8 +198,9 @@ hidden inside plugin code.
 Use **Tools | SHAFT | Record SHAFT Flow Here** from a Java file to prepare a
 `capture_record_at_target_code_blocks` request for the caret's package, class,
 method, and source path. Replace the capture session path with a real recording
-before running it. This action is available only in IDE installations with Java
-support enabled.
+before running it. After review approval, keep the same capture session path so
+generation preserves the reviewed browser journey instead of rerunning capture.
+This action is available only in IDE installations with Java support enabled.
 
 Use **Settings | SHAFT** later to install or update `shaft-mcp`, retest the MCP
 connection, change Assistant Local/Cloud routing, connect the selected local
