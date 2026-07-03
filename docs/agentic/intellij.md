@@ -19,25 +19,32 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a four-section setup inside the tool window:
+support is available. First run shows a wizard-like setup inside the tool window:
 
 1. Confirm the **Project** row is configured for the open IntelliJ project.
-2. Open the [SHAFT MCP guide](/docs/agentic/mcp), install the MCP integration,
-   and paste the generated stdio command into **MCP**.
-3. In **Runtime**, select the Assistant family and runtime: Codex, Claude, or
+2. In **Runtime**, select the Assistant family and runtime: Codex, Claude, or
    Copilot with CLI, IDE plugin, or desktop app where supported.
-4. In **Assist**, click **Test connection and start chatting**.
+3. In **Install**, select the target agent or **SHAFT IntelliJ plugin**, copy
+   the generated terminal command, and run it outside IntelliJ.
+4. In **MCP**, use the inferred installed stdio command, or paste one manually
+   from the [SHAFT MCP guide](/docs/agentic/mcp#manual-configuration).
+5. In **Assist**, click **Test connection and start chatting**.
 
 The Marketplace plugin does not download or execute installer scripts at
-runtime. It only stores and starts the local stdio command that you paste.
+runtime. It only helps you choose the installer target, copy the terminal
+installer command, infer the local stdio command from the installed
+`shaft-mcp.args`, then stores and starts that local command.
 After a command has passed setup, opening SHAFT redirects straight to the
-Assistant view. Without a configured MCP command, the landing view points you to
-the MCP guide before you paste and test the command.
+Assistant view. Without a configured MCP command, the landing view keeps the
+runtime, installer, inference, and test steps visible.
 
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
-states for Project, MCP, Runtime, and Assist. Test failures stay inline with
+states for Project, Runtime, MCP, and Assist. The Install step provides a
+target selector for Codex, Claude Code, Claude Desktop, GitHub Copilot,
+GitHub Copilot in IntelliJ, and the SHAFT IntelliJ plugin, then builds the
+matching terminal command and inference action. Test failures stay inline with
 categorized troubleshooting, client-specific next steps, copyable diagnostic
 command/output actions, and the retry action remains enabled.
 
@@ -56,16 +63,18 @@ it:
   MCP configuration file.
 - **Client runtime**: install the selected client CLI or add it to `PATH`, then
   retry.
-- **MCP command**: paste a local SHAFT MCP stdio command generated outside
-  IntelliJ.
+- **MCP command**: rerun the terminal installer, infer the installed stdio
+  command, or paste a local SHAFT MCP stdio command generated outside IntelliJ.
 - **MCP probe**: run the copied stdio command in a terminal to confirm it starts
   outside IntelliJ.
 
-The setup pane includes one-click copy actions for the diagnostic command and
-the formatted output. Codex users should verify `codex mcp list`, Claude users
-should verify `claude mcp list` or restart Claude Desktop after desktop config
-changes, and GitHub Copilot users should check the Copilot MCP configuration and
-organization MCP policy.
+The setup pane includes a command builder, one-click actions for copying the
+installer command, inferring the stdio command, and copying diagnostic
+command/output. Codex users should verify `codex mcp list`, Claude users should
+verify `claude mcp list` or restart Claude Desktop after desktop config changes,
+GitHub Copilot users should check the Copilot MCP configuration and
+organization MCP policy, and SHAFT IntelliJ plugin users should run the
+`intellij-plugin` target before using inference.
 
 After the test succeeds, setup disappears and the tool window opens directly on
 the Assistant view. The success message includes the effective MCP workspace,

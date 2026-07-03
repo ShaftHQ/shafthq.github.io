@@ -56,8 +56,10 @@ For an IDE-native experience in Java projects, see
 [IntelliJ IDEA plugin](/docs/agentic/intellij). The plugin calls the same
 MCP tools from an IntelliJ tool window and keeps engine, local agent, and
 provider behavior outside plugin code. It does not run installer scripts inside
-the IDE; use this guide to install the MCP integration, then paste the local
-`shaft-mcp` stdio command into the plugin setup or settings page.
+the IDE; its first-run setup lets you choose the target agent or SHAFT IntelliJ
+plugin, copy the matching installer command, then infer the local
+`java @shaft-mcp.args` stdio command after installation. Manual paste remains
+available in setup and settings.
 
 ## Runtime workspace
 
@@ -440,11 +442,11 @@ authentication.
 
 ## Manual configuration
 
-Use manual configuration when pasting a stdio command into the IntelliJ IDEA
-plugin, or when the installer cannot update your MCP client. You need Java 25,
-the selected client, the thin `shaft-mcp` JAR, its runtime dependencies, a
-writable runtime workspace, and absolute paths for both the Java executable and
-an argfile.
+Use manual configuration when the IntelliJ IDEA plugin cannot infer an installed
+stdio command, or when the installer cannot update your chosen target. You need
+Java 25, the selected client or plugin target, the thin `shaft-mcp` JAR, its
+runtime dependencies, a writable runtime workspace, and absolute paths for both
+the Java executable and an argfile.
 
 Create `/absolute/path/to/shaft-mcp.args`:
 

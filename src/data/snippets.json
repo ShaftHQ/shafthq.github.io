@@ -50,6 +50,14 @@
         "flag": "--copilot-intellij",
         "logo": "/img/mcp-clients/intellij-idea.svg",
         "platforms": ["windows", "macos", "linux"]
+      },
+      {
+        "id": "intellij-plugin",
+        "name": "SHAFT IntelliJ IDEA plugin",
+        "detail": "Install shaft-mcp for plugin inference",
+        "flag": "--intellij-plugin",
+        "logo": "/img/mcp-clients/intellij-idea.svg",
+        "platforms": ["windows", "macos", "linux"]
       }
     ]
   },
