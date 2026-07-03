@@ -31,11 +31,32 @@ support is available. First run shows a four-section setup inside the tool windo
 
 Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
 states for Project, MCP, Runtime, and Assist. Install and test failures stay
-inline with diagnostic output, and the retry action remains enabled.
+inline with categorized troubleshooting, client-specific next steps, copyable
+diagnostic command/output actions, and the retry action remains enabled.
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
 ![SHAFT IntelliJ MCP setup error](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+
+Troubleshooting details distinguish the failure type when the plugin can infer
+it:
+
+- **Java/runtime**: install or select a Java runtime that can run `shaft-mcp`,
+  then retry.
+- **Maven artifact resolution**: check Maven Central or proxy access for
+  `io.github.shafthq:shaft-mcp`, then retry.
+- **Client configuration**: confirm the selected client can write and read its
+  MCP configuration file.
+- **Client runtime**: install the selected client CLI or add it to `PATH`, then
+  retry.
+- **MCP probe**: run the copied stdio command in a terminal to confirm it starts
+  outside IntelliJ.
+
+The setup pane includes one-click copy actions for the diagnostic command and
+the formatted output. Codex users should verify `codex mcp list`, Claude users
+should verify `claude mcp list` or restart Claude Desktop after desktop config
+changes, and GitHub Copilot users should check the Copilot MCP configuration and
+organization MCP policy.
 
 After the test succeeds, setup disappears and the tool window opens directly on
 the Assistant view. The success message includes the effective MCP workspace,
