@@ -19,34 +19,34 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a wizard-like setup inside the tool window:
+support is available. First run shows a four-step setup inside the tool window:
 
-1. Confirm the **Project** row is configured for the open IntelliJ project.
-2. In **Runtime**, select the Assistant family and runtime: Codex, Claude, or
-   Copilot with CLI, IDE plugin, or desktop app where supported.
-3. In **Install**, select the target agent or **SHAFT IntelliJ plugin**, copy
-   the generated terminal command, and run it outside IntelliJ.
-4. In **MCP**, use the inferred installed stdio command, or paste one manually
-   from the [SHAFT MCP guide](/docs/agentic/mcp#manual-configuration).
-5. In **Assist**, click **Test connection and start chatting**.
+1. **Choose assistant** defaults to Codex CLI and shows
+   `Runtime: Codex CLI selected`.
+2. **Install MCP** shows a multi-line installer command. Copy the installer
+   command and run it in a terminal.
+3. **Detect command** infers the local stdio command from the installed
+   `shaft-mcp.args`. Manual setup stays behind **Show manual MCP install target**.
+4. **Test connection** verifies the stdio command. Success shows
+   `Runtime: Codex CLI verified` and reveals **Start chatting with SHAFT Assistant**.
 
 The Marketplace plugin does not download or execute installer scripts at
 runtime. It only helps you choose the installer target, copy the terminal
 installer command, infer the local stdio command from the installed
 `shaft-mcp.args`, then stores and starts that local command.
-After a command has passed setup, opening SHAFT redirects straight to the
-Assistant view. Without a configured MCP command, the landing view keeps the
-runtime, installer, inference, and test steps visible.
+After a command has passed setup, opening SHAFT shows the Assistant view.
+Without a configured MCP command, the landing view keeps the runtime,
+installer, inference, and test steps visible.
 
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
-states for Project, Runtime, MCP, and Assist. The Install step provides a
-target selector for Codex, Claude Code, Claude Desktop, GitHub Copilot,
-GitHub Copilot in IntelliJ, and the SHAFT IntelliJ plugin, then builds the
-matching terminal command and inference action. Test failures stay inline with
-categorized troubleshooting, client-specific next steps, copyable diagnostic
-command/output actions, and the retry action remains enabled.
+states for the runtime, MCP command, and connection test. The default Install
+step builds the Codex CLI terminal command and inference action; other manual
+targets remain hidden until **Show manual MCP install target** is selected.
+Test failures stay inline with categorized troubleshooting, client-specific
+next steps, copyable diagnostic command/output actions, and the retry action
+remains enabled.
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -76,15 +76,13 @@ GitHub Copilot users should check the Copilot MCP configuration and
 organization MCP policy, and SHAFT IntelliJ plugin users should run the
 `intellij-plugin` target before using inference.
 
-After the test succeeds, setup disappears and the tool window opens directly on
-the Assistant view. The success message includes the effective MCP workspace,
-`user.dir`, `shaft.mcp.workspaceRoot`, and `SHAFT_MCP_WORKSPACE_ROOT`, so you can
-confirm that tools are scoped to the open IntelliJ project. The plugin also
-pre-fills a one-time Assistant prompt that asks the selected agent to audit its
-guidance and memory files for SHAFT MCP tool usage that keeps generated code
-aligned with the official guide. The plugin starts the configured stdio command
-when it invokes tools; it does not embed the SHAFT engine or manage provider
-model traffic itself.
+After the test succeeds, setup stays visible long enough to show the verified
+runtime and **Start chatting with SHAFT Assistant** action. The success message
+includes the effective MCP workspace, `user.dir`, `shaft.mcp.workspaceRoot`, and
+`SHAFT_MCP_WORKSPACE_ROOT`, so you can confirm that tools are scoped to the open
+IntelliJ project. The plugin starts the configured stdio command when it invokes
+tools; it does not embed the SHAFT engine or manage provider model traffic
+itself.
 
 ## Tool window
 
@@ -118,9 +116,11 @@ provider chat cannot mutate the local workspace.
 
 Use `Ctrl+Enter` to send a prompt. Newly sent prompts scroll into view
 immediately, so the chat shows visible feedback before a long-running response
-finishes. Assistant controls are icon-only, keep JetBrains-style glyphs, use
-borderless button and chat-bubble surfaces, and retain accessible names and
-tooltips. While a prompt runs, the submit icon becomes an animated spinner;
+finishes. The selected local agent appears as compact text such as `Codex CLI`;
+hover it for the full route, for example `Agent: Local / Codex / CLI`.
+Assistant controls are icon-only, keep JetBrains-style glyphs, use borderless
+button and chat-bubble surfaces, and retain accessible names and tooltips.
+While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
 output is finalized.
@@ -145,10 +145,12 @@ After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
 
-The run timeline below the transcript shows the current prompt, selected tool,
-running, approval, completion, cancellation, or failure state. Type `@` in the
-prompt to insert supported workflow/tool/project starters, or `#` to insert the
-current file or known project artifacts when that context exists.
+An empty transcript suggests `/guide`, `/browser`, `/record`, and `/doctor`.
+The run timeline and action controls stay hidden until the current prompt,
+selected tool, running, approval, completion, cancellation, or failure state
+makes them useful. Type `@` in the prompt to insert supported
+workflow/tool/project starters, or `#` to insert the current file or known
+project artifacts when that context exists.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command
