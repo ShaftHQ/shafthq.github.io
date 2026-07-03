@@ -115,7 +115,8 @@ keep using the selected local route.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, the New chat icon to start a separate context, and the
-Clear icon to clear only the active chat.
+Clear icon to clear only the active chat. Persisted chats keep rendered
+messages only; raw MCP payloads and common token/key values are not stored.
 
 The Assistant understands explicit feature intent and direct commands from the
 same chat box. For example, "start mobile recording" maps to
@@ -126,9 +127,16 @@ After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
 
+The run timeline below the transcript shows the current prompt, selected tool,
+running, approval, completion, cancellation, or failure state. Type `@` in the
+prompt to insert supported workflow/tool/project starters, or `#` to insert the
+current file or known project artifacts when that context exists.
+
 A single JetBrains-style command-help icon appears in the composer. Hover it to
-view the `/commands` canonical command, aliases, and examples without filling the
-chat with command documentation.
+view the tested command families without filling the chat with command
+documentation. The visible palette includes `/codegen`, `/record-web`,
+`/record-mobile`, `/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`, and
+`/project`.
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
 
@@ -141,14 +149,16 @@ chat with command documentation.
 | Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
 | Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
-| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/newshaft`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_create`, `shaft_project_upgrade`, explicit raw tool calls |
+| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_upgrade` preview, explicit raw tool calls |
 
 `/assistant` and its aliases (`/agent`, `/ask`, `/plan`, `/clients`) discover
 Assistant routes and local clients. Broad local and cloud prompts stay on the
 selected Assistant route. Direct feature commands such as `/guide`, `/browser`,
-`/record`, `/doctor`, `/project`, and `/mcp` are MCP-backed; if MCP is not
-configured, the Assistant shows the SHAFT MCP setup prompt before it runs that
-feature command.
+`/record`, `/doctor`, `/project upgrade`, and `/mcp` are MCP-backed; if MCP is
+not configured, the Assistant shows the SHAFT MCP setup prompt before it runs
+that feature command. Project creation from chat returns a review instruction;
+run **Create SHAFT Project** from Projects or Guided so the confirmed workflow
+gate is used before files are written.
 
 Common examples:
 
@@ -216,6 +226,11 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project.
+- Guided: starter templates for recording a browser flow and generating Page
+  Object code, analyzing failed Allure results, converting Selenium snippets to
+  SHAFT syntax, creating a new SHAFT project, and inspecting current page
+  locators. Templates prefill MCP arguments only; they do not run tools or write
+  source by themselves.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, and official SHAFT guide search.
@@ -223,6 +238,8 @@ The workflow selector exposes curated MCP requests for common automation jobs:
 Each category provides editable JSON arguments and calls the matching MCP tool.
 This keeps generated code and source edits reviewable in the IDE instead of
 hidden inside plugin code.
+
+![SHAFT IntelliJ Guided workflow templates](/img/agentic/intellij-plugin-guided.png)
 
 ```json
 {"tool": "shaft_project_upgrade", "arguments": {"projectRoot": ".", "upgradeType": "basic", "dryRun": true, "approve": false}}
