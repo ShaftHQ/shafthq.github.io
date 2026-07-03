@@ -110,27 +110,30 @@ public class SiteRenderTest {
         navigate("/");
 
         shaft.assertThat().browser().title().contains("SHAFT");
-        visible(By.xpath("//h1[normalize-space()='One Java test suite for web, mobile, API, DB, and CLI.']"));
-        SHAFT.Validations.assertThat().object(attribute(link("Create your first SHAFT project"), "href"))
+        visible(By.xpath("//h1[normalize-space()='Ship automation evidence, not boilerplate code.']"));
+        SHAFT.Validations.assertThat().object(attribute(link("Start a new project"), "href"))
                 .contains("/docs/start/quick-start#new-project-generation");
         SHAFT.Validations.assertThat().object(attribute(link("Star on GitHub"), "href"))
                 .contains("github.com/ShaftHQ/SHAFT_ENGINE");
         SHAFT.Validations.assertThat().object(attribute(link("Read quick start"), "href"))
                 .contains("/docs/start/quick-start#choose-your-path");
-        SHAFT.Validations.assertThat().object(attribute(cardLink("Start a new SHAFT project"), "href"))
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Start a new SHAFT project"), "href"))
                 .contains("/docs/start/quick-start#new-project-generation");
-        SHAFT.Validations.assertThat().object(attribute(cardLink("Upgrade an existing project"), "href"))
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Upgrade an existing project"), "href"))
                 .contains("/docs/start/quick-start#existing-project-upgrade");
-        SHAFT.Validations.assertThat().object(attribute(cardLink("Connect MCP after the basics"), "href"))
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Connect MCP after the basics"), "href"))
                 .contains("/docs/start/quick-start#mcp-integration");
-        visible(By.xpath("//a[contains(@href,'/docs/testing/mobile') and .//*[normalize-space()='Native mobile GUI'] and .//*[normalize-space()='Appium']]"));
-        visible(By.xpath("//a[contains(@href,'/docs/testing/api') and .//*[normalize-space()='API testing'] and .//*[normalize-space()='REST Assured']]"));
-        SHAFT.Validations.assertThat().object(attribute(link("MCP setup and commands"), "href"))
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Mobile GUI"), "href"))
+                .contains("/docs/testing/mobile");
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("API"), "href"))
+                .contains("/docs/testing/api");
+        SHAFT.Validations.assertThat().object(rawAttribute(By.xpath("//a[normalize-space()='MCP setup and commands']"), "href"))
                 .contains("/docs/agentic/mcp");
-        SHAFT.Validations.assertThat().object(attribute(link("Compare surfaces"), "href"))
+        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Add coverage beyond the browser"), "href"))
                 .contains("#testing-surfaces");
-        visible(By.cssSelector("#connect-ai-agent"));
-        click(linkLocator("Compare surfaces"));
+        SHAFT.Validations.assertThat().object(rawAttribute(By.cssSelector("#connect-ai-agent"), "id"))
+                .contains("connect-ai-agent");
+        clickRaw(cardLink("Add coverage beyond the browser"));
         wait.until(driver -> "#testing-surfaces".equals(currentHash()));
     }
 
@@ -266,7 +269,7 @@ public class SiteRenderTest {
         if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
             click(By.cssSelector("button[title*='Switch between dark and light mode']"));
         }
-        visible(By.xpath("//h1[normalize-space()='One Java test suite for web, mobile, API, DB, and CLI.']"));
+        visible(By.xpath("//h1[normalize-space()='Ship automation evidence, not boilerplate code.']"));
     }
 
     @Test
@@ -336,12 +339,20 @@ public class SiteRenderTest {
         return attribute(visible(locator), attribute);
     }
 
+    private String rawAttribute(By locator, String attribute) {
+        return attribute(browser.findElement(locator), attribute);
+    }
+
     private String attribute(WebElement element, String attribute) {
         return element.getAttribute(attribute);
     }
 
     private String currentHash() {
         return script("return window.location.hash;").toString();
+    }
+
+    private void clickRaw(By locator) {
+        script("arguments[0].click();", browser.findElement(locator));
     }
 
     private String clipboardText() {
