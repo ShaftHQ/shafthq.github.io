@@ -40,10 +40,13 @@ installer, inference, and test steps visible.
 
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
-Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
-states for the runtime, MCP command, and connection test. The default Install
-step builds the Codex CLI terminal command and inference action; other manual
-targets remain hidden until **Show manual MCP install target** is selected.
+Setup opens with a **Connect SHAFT Assistant** summary and marks the path as
+`done`, `next`, `wait`, or `checking` while you move through the installer,
+command inference, and connection test. Setup rows still show **Configured**,
+**Not configured**, **Connecting**, or **Error** states for the runtime, MCP
+command, and connection test. The default Install step builds the Codex CLI
+terminal command and inference action; other manual targets remain hidden until
+**Show manual MCP install target** is selected.
 Test failures stay inline with categorized troubleshooting, client-specific
 next steps, copyable diagnostic command/output actions, and the retry action
 remains enabled.
@@ -145,20 +148,24 @@ After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
 
-An empty transcript suggests `/guide`, `/browser`, `/record`, and `/doctor`.
-The run timeline and action controls stay hidden until the current prompt,
-selected tool, running, approval, completion, cancellation, or failure state
-makes them useful. Type `@` in the prompt to insert supported
-workflow/tool/project starters, or `#` to insert the current file or known
-project artifacts when that context exists.
+An empty transcript suggests `/guide`, `/browser`, `/record`, and `/doctor` and
+shows starter insertions for common first tasks such as guide search, browser
+control, web recording, and failure analysis. The run timeline and action
+controls stay hidden until the current prompt, selected tool, running,
+approval, completion, cancellation, or failure state makes them useful. Type
+`@` in the prompt, or use the context icon, to insert supported workflow/tool
+starters. Type `#` when the current file or known project artifacts are
+available.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command
-documentation. The visible palette includes `/codegen`, `/record-web`,
-`/record-mobile`, `/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`, and
-`/project`.
+documentation. The command picker also shows each command summary and example.
+The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
+`/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`, and `/project`.
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
+
+![SHAFT IntelliJ Assistant empty chat starters](/img/agentic/intellij-plugin-assistant-empty.png)
 
 | Feature | Canonical command | Synonyms | Primary MCP tools |
 | --- | --- | --- | --- |
