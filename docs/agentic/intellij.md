@@ -77,11 +77,14 @@ are stored in IntelliJ Password Safe; only the selected cloud provider key is
 passed to the MCP process. Cloud `AGENT` mode is disabled because direct
 provider chat cannot mutate the local workspace.
 
-Use `Ctrl+Enter` to send a prompt. Assistant controls are icon-only, keep
-JetBrains-style glyphs, and retain accessible names and tooltips. While a prompt
-runs, the submit icon becomes an animated spinner; hovering it changes the same
-square control into cancel. If you cancel, the request ends with a dedicated
-final transcript entry and no capture-generated output is finalized.
+Use `Ctrl+Enter` to send a prompt. Newly sent prompts scroll into view
+immediately, so the chat shows visible feedback before a long-running response
+finishes. Assistant controls are icon-only, keep JetBrains-style glyphs, use
+borderless button and chat-bubble surfaces, and retain accessible names and
+tooltips. While a prompt runs, the submit icon becomes an animated spinner;
+hovering it changes the same square control into cancel. If you cancel, the
+request ends with a dedicated final transcript entry and no capture-generated
+output is finalized.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
