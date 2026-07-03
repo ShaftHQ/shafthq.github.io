@@ -58,8 +58,8 @@ IntelliJ tool window.
 
 ## Assistant
 
-The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
-in the bottom composer. Local CLI prompts call the MCP
+The **Assistant** workflow is a chat-style view with an Ask, Plan, and Agent
+switch in the bottom composer. Local CLI prompts call the MCP
 `autobot_local_agent_run` tool, which delegates to the engine-side local agent
 service in `shaft-pilot-core`. Cloud Ask and Plan prompts call
 `autobot_provider_chat` with the selected provider and model.
@@ -74,17 +74,20 @@ Supported local routes are:
 
 Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
 are stored in IntelliJ Password Safe; only the selected cloud provider key is
-passed to the MCP process. Cloud `AGENT` mode is disabled because direct
-provider chat cannot mutate the local workspace.
+passed to the MCP process. If Cloud routing is selected while the composer is in
+`AGENT` mode, the plugin switches back to `PLAN` because direct provider chat
+cannot mutate the local workspace.
 
-Use `Ctrl+Enter` to send a prompt. Newly sent prompts scroll into view
-immediately, so the chat shows visible feedback before a long-running response
-finishes. Assistant controls are icon-only, keep JetBrains-style glyphs, use
-borderless button and chat-bubble surfaces, and retain accessible names and
-tooltips. While a prompt runs, the submit icon becomes an animated spinner;
-hovering it changes the same square control into cancel. If you cancel, the
-request ends with a dedicated final transcript entry and no capture-generated
-output is finalized.
+Use `Ctrl+Enter` or Ctrl-click in the prompt box to send a prompt. The Send icon
+is anchored at the bottom-right of the composer and advertises both shortcuts in
+its tooltip. Newly sent prompts scroll into view immediately, so the chat shows
+visible feedback before a long-running response finishes. Assistant controls are
+icon-only, keep JetBrains-style glyphs, use borderless button and chat-bubble
+surfaces, and retain accessible names and tooltips. While a prompt runs, the
+submit icon becomes an animated spinner; hovering it changes the same square
+control into cancel. If you cancel, the Cancel action changes into Kill; click it
+again to terminate the active process immediately. A canceled request ends with a
+dedicated final transcript entry and no capture-generated output is finalized.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -92,57 +95,56 @@ requires applying code or source edits. A custom local agent command can be
 supplied for non-standard CLI installations; broad Ask, Plan, and Agent prompts
 keep using the selected local route.
 
+For code writing and conversion prompts, the Assistant gives the selected route
+only the currently open editor file as source context. In Ask mode, it recommends
+the migrated SHAFT-syntax code in the chat without IDE edits. In Agent mode, it
+can suggest changes directly inside the open class when source edits are
+approved. When the user asks for code that performs a site action, the prompt
+requires a confirmed target URL, a real WebDriver session, live page inspection,
+verified element actions, and final generated-code guardrails before returning
+locators or Java.
+
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, the New chat icon to start a separate context, and the
 Clear icon to clear only the active chat.
 
 The Assistant understands explicit feature intent and direct commands from the
 same chat box. For example, "start mobile recording" maps to
-`mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
-the same feature deterministically. Browser control defaults to WebDriver; use
-`playwright` in the prompt or command when that backend is required.
+`mobile_record_start`, while `/record-mobile start recordings/mobile.json` runs
+the same feature deterministically. Natural browser-control prompts default to
+WebDriver; use `playwright` in the prompt when that backend is required.
 After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
 
-A single JetBrains-style command-help icon appears in the composer. Hover it to
-view the `/commands` canonical command, aliases, and examples without filling the
-chat with command documentation.
+A JetBrains-style command info icon appears directly beside the command dropdown.
+Hover it to view the tested command families and examples without filling the
+chat with command documentation; click it to post the same help into the
+transcript. Dark-mode code blocks use a distinct panel color and border so
+generated Java stays readable under Darcula-style themes.
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
 
-| Feature | Canonical command | Synonyms | Primary MCP tools |
-| --- | --- | --- | --- |
-| Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
-| Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
-| Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
-| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `capture_code_blocks`, `playwright_record_start`, `playwright_recording_code_blocks` |
-| Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
-| Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
-| Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
-| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/newshaft`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_create`, `shaft_project_upgrade`, explicit raw tool calls |
+| Feature | Command | Primary MCP tools |
+| --- | --- | --- |
+| Code generation | `/codegen` | `capture_code_blocks`, `playwright_recording_code_blocks`, `mobile_recording_code_blocks`, `test_automation_scenarios` |
+| Web recording | `/record-web` | `capture_start`, `capture_stop`, `playwright_record_start`, `playwright_record_stop` |
+| Mobile recording | `/record-mobile` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_inspector_record_prepare` |
+| Failure analysis | `/doctor` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
 
-`/assistant` and its aliases (`/agent`, `/ask`, `/plan`, `/clients`) discover
-Assistant routes and local clients. Broad local and cloud prompts stay on the
-selected Assistant route. Direct feature commands such as `/guide`, `/browser`,
-`/record`, `/doctor`, `/project`, and `/mcp` are MCP-backed; if MCP is not
-configured, the Assistant shows the SHAFT MCP setup prompt before it runs that
-feature command.
+The visible command list intentionally starts with `/codegen`, `/record-web`,
+`/record-mobile`, and `/doctor`. Broad local and cloud prompts stay on the
+selected Assistant route, and supported natural feature intent still maps to MCP
+when configured. If MCP is not configured, these command families show the SHAFT
+MCP setup prompt before running.
 
 Common examples:
 
 ```text
-/browser open https://example.com sign in
-/browser playwright open https://example.com
-/record https://example.com
 /codegen recordings/intellij-capture.json
-/mobile status Android
-/mobile native Android emulator-5554
-/mobile-record inspector Android recordings/inspector.json
-/mobile-codegen recordings/mobile.json
+/record-web https://example.com
+/record-mobile inspector Android recordings/inspector.json
 /doctor target/allure-results
-/doctor fix target/shaft-doctor/doctor-report.json
-/mcp browser_get_title {}
 ```
 
 Responses render as Markdown. Known SHAFT responses, including local agent runs,
