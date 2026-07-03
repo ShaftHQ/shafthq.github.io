@@ -22,17 +22,24 @@ IntelliJ's Java plugin; Java-specific actions are registered only when Java
 support is available. First run shows a four-section setup inside the tool window:
 
 1. Confirm the **Project** row is configured for the open IntelliJ project.
-2. In **MCP**, click **Install / Update SHAFT MCP**.
+2. Open the [SHAFT MCP guide](/docs/agentic/mcp), install the MCP integration,
+   and paste the generated stdio command into **MCP**.
 3. In **Runtime**, select the Assistant family and runtime: Codex, Claude, or
    Copilot with CLI, IDE plugin, or desktop app where supported.
 4. In **Assist**, click **Test connection and start chatting**.
 
+The Marketplace plugin does not download or execute installer scripts at
+runtime. It only stores and starts the local stdio command that you paste.
+After a command has passed setup, opening SHAFT redirects straight to the
+Assistant view. Without a configured MCP command, the landing view points you to
+the MCP guide before you paste and test the command.
+
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup rows show **Configured**, **Not configured**, **Connecting**, or **Error**
-states for Project, MCP, Runtime, and Assist. Install and test failures stay
-inline with categorized troubleshooting, client-specific next steps, copyable
-diagnostic command/output actions, and the retry action remains enabled.
+states for Project, MCP, Runtime, and Assist. Test failures stay inline with
+categorized troubleshooting, client-specific next steps, copyable diagnostic
+command/output actions, and the retry action remains enabled.
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -49,6 +56,8 @@ it:
   MCP configuration file.
 - **Client runtime**: install the selected client CLI or add it to `PATH`, then
   retry.
+- **MCP command**: paste a local SHAFT MCP stdio command generated outside
+  IntelliJ.
 - **MCP probe**: run the copied stdio command in a terminal to confirm it starts
   outside IntelliJ.
 
@@ -254,10 +263,10 @@ before running it. After review approval, keep the same capture session path so
 generation preserves the reviewed browser journey instead of rerunning capture.
 This action is available only in IDE installations with Java support enabled.
 
-Use **Settings | SHAFT** later to install or update `shaft-mcp`, retest the MCP
-connection, change Assistant Local/Cloud routing, connect the selected local
-runtime MCP client, configure GitHub Copilot for IntelliJ MCP, or edit the
-advanced stdio command manually. Settings are grouped by **Connection**,
+Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
+MCP connection, or change Assistant Local/Cloud routing. Configure Codex,
+Claude, GitHub Copilot, and other MCP clients outside the plugin from the
+[SHAFT MCP guide](/docs/agentic/mcp). Settings are grouped by **Connection**,
 **Execution**, **Advanced**, and **Credentials** so setup, routing, provider,
 and key-storage controls stay separate.
 
