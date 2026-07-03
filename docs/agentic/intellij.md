@@ -40,9 +40,12 @@ inline with diagnostic output, and the retry action remains enabled.
 After the test succeeds, setup disappears and the tool window opens directly on
 the Assistant view. The success message includes the effective MCP workspace,
 `user.dir`, `shaft.mcp.workspaceRoot`, and `SHAFT_MCP_WORKSPACE_ROOT`, so you can
-confirm that tools are scoped to the open IntelliJ project. The plugin starts
-the configured stdio command when it invokes tools; it does not embed the SHAFT
-engine or manage provider model traffic itself.
+confirm that tools are scoped to the open IntelliJ project. The plugin also
+pre-fills a one-time Assistant prompt that asks the selected agent to audit its
+guidance and memory files for SHAFT MCP tool usage that keeps generated code
+aligned with the official guide. The plugin starts the configured stdio command
+when it invokes tools; it does not embed the SHAFT engine or manage provider
+model traffic itself.
 
 ## Tool window
 
