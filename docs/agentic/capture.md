@@ -33,11 +33,11 @@ Use the Capture commands on
 the runnable MCP command reference and classpath notes.
 
 Use `--runtime-dir <path>` on every command to isolate control files. `stop`
-also accepts `--discard`. Only one recorder may own a runtime directory at a
-time. The daemon control endpoint is bound to loopback, requires a generated
-bearer token, and removes its token and descriptor at shutdown. Browser
-profiles are temporary and removed after normal stop or interruption unless
-`--user-data-dir <path>` is supplied.
+also accepts `--discard` (same as `capture_stop` with `discard=true`). Only one
+recorder may own a runtime directory at a time. The daemon control endpoint is
+bound to loopback, requires a generated bearer token, and removes its token and
+descriptor at shutdown. Browser profiles are temporary and removed after normal
+stop or interruption unless `--user-data-dir <path>` is supplied.
 
 `capture start` also accepts Playwright-codegen-shaped options where SHAFT can
 map them safely: `--viewport-size`, `--device`, `--color-scheme`,
@@ -127,7 +127,9 @@ For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call
 `capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
-Playwright. The agent should show the generated result and ask whether the user
+Playwright. If a focus or click mistake pollutes the recording, the Assistant
+discard/re-record commands stop with `discard=true` before starting a fresh
+capture. The agent should show the generated result and ask whether the user
 wants the complete Java snippet or wants the agent to insert the code into the
 current repository. Snippet mode uses the returned Java full-class block,
 including imports, setup, inline `SHAFT.GUI.Locator.*` locators, SHAFT

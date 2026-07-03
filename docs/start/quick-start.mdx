@@ -161,7 +161,8 @@ database, CLI, screenshots, reporting, and test data workflows use
 {
   "searchQuery": "SHAFT_Engine",
   "expectedTitle": "DuckDuckGo",
-  "unexpectedInFirstResult": "Nope"
+  "expectedResultTitle": "SHAFT Engine",
+  "expectedResultText": "SHAFT Engine"
 }
 ```
 
@@ -206,7 +207,8 @@ public class TestClass {
 
   By logo = By.xpath("//div[contains(@class,'container_fullWidth__1H_L8')]//img");
   By searchBox = Locator.hasAnyTagName().hasAttribute("name", "q").build();
-  By firstSearchResult = Locator.hasTagName("article").isFirst().build();
+  By firstSearchResult = By.xpath(
+          "(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']");
 
   @Test
   public void navigateToDuckDuckGoAndAssertBrowserTitleIsDisplayedCorrectly() {
@@ -221,10 +223,12 @@ public class TestClass {
   }
 
   @Test
-  public void searchForQueryAndAssert() {
+  public void searchForQueryAndOpenFirstResultAndAssertTitleAndText() {
     driver.browser().navigateToURL(targetUrl)
             .and().element().type(searchBox, testData.get("searchQuery") + Keys.ENTER)
-            .and().assertThat(firstSearchResult).text().doesNotEqual(testData.get("unexpectedInFirstResult"));
+            .and().element().click(firstSearchResult)
+            .and().assertThat().title().contains(testData.get("expectedResultTitle"))
+            .and().element().assertThat(By.tagName("body")).text().contains(testData.get("expectedResultText"));
   }
 
   @BeforeClass
@@ -275,7 +279,8 @@ public class TestClass {
 
   By logo = By.xpath("//div[contains(@class,'container_fullWidth__1H_L8')]//img");
   By searchBox = Locator.hasAnyTagName().hasAttribute("name", "q").build();
-  By firstSearchResult = Locator.hasTagName("article").isFirst().build();
+  By firstSearchResult = By.xpath(
+          "(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']");
 
   @Test
   public void navigateToDuckDuckGoAndAssertBrowserTitleIsDisplayedCorrectly() {
@@ -290,10 +295,12 @@ public class TestClass {
   }
 
   @Test
-  public void searchForQueryAndAssert() {
+  public void searchForQueryAndOpenFirstResultAndAssertTitleAndText() {
     driver.browser().navigateToURL(targetUrl)
             .and().element().type(searchBox, testData.get("searchQuery") + Keys.ENTER)
-            .and().assertThat(firstSearchResult).text().doesNotEqual(testData.get("unexpectedInFirstResult"));
+            .and().element().click(firstSearchResult)
+            .and().assertThat().title().contains(testData.get("expectedResultTitle"))
+            .and().element().assertThat(By.tagName("body")).text().contains(testData.get("expectedResultText"));
   }
 
   @BeforeAll
@@ -369,6 +376,17 @@ public class StepDefinitions {
     driver.assertThat().browser().title().contains(expectedTitle);
   }
 
+  @Then("I open the first result")
+  public void i_open_the_first_result() {
+    driver.element().click(
+            By.xpath("(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']"));
+  }
+
+  @Then("I should see the page text contains {string}")
+  public void i_should_see_the_page_text_contains(String expectedText) {
+    driver.element().assertThat(By.tagName("body")).text().contains(expectedText);
+  }
+
   @Then("I close the browser")
   public void i_close_the_browser() {
     driver.quit();
@@ -386,6 +404,9 @@ Feature: Search functionality
     When I navigate to "https://duckduckgo.com/"
     Then I should see the page title contains "DuckDuckGo"
     When I search for "SHAFT_Engine"
+    Then I open the first result
+    Then I should see the page title contains "SHAFT Engine"
+    And I should see the page text contains "SHAFT Engine"
     Then I close the browser
 ```
 

@@ -153,9 +153,14 @@ current-session tool evidence when exporting for issue review.
 
 ## Onboarding recording notes
 
-Use this preferred launch path for the recording workflow:
+Use this preferred launch path for the recording workflow from a clean, disposable
+IntelliJ sandbox/profile so onboarding state stays isolated:
 
 `gradle -p shaft-intellij runIde --args C:/Users/Mohab/IdeaProjects/SHAFT_ENGINE`
+
+On Windows JDK21 onboarding, SHAFT now ensures `%JAVA_HOME%\Packages` exists
+before instrumentation starts. The flow shows explicit diagnostics for missing,
+invalid, or unwritable `JAVA_HOME` values instead of opaque startup failures.
 
 Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
 `Allow source edits` stays off for DuckDuckGo/browser flow and is enabled when the run
@@ -163,6 +168,9 @@ must change source files. If the step is expressed as "open the first result,"
 use the scoped 1-indexed XPath (`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for the first result.
 For deterministic verification, finish with a final page title and page-specific
 text check after opening that result before approving generated capture output.
+Use `discard recording` or `re-record` when a focus or click mistake pollutes
+the capture; the Assistant stops the current Capture session with
+`discard=true` before restarting.
 
 For recordings, dismiss sandbox-only low-memory or script-launcher warning balloons
 without suppressing normal production IDE warnings. IntelliJ Trust Project may

@@ -726,8 +726,10 @@ public void beforeMethod() {
 public void searchForQueryAndAssert() {
     driver.browser().navigateToURL(targetUrl)
             .and().element().type(searchBox, testData.get("searchQuery") + Keys.ENTER)
-            .and().assertThat(firstSearchResult).text()
-            .doesNotEqual(testData.get("unexpectedInFirstResult"));
+            .and().element().click(firstSearchResult)
+            .and().assertThat().title().contains(testData.get("expectedResultTitle"))
+            .and().element().assertThat(By.tagName("body")).text()
+            .contains(testData.get("expectedResultText"));
 }
 ```
 

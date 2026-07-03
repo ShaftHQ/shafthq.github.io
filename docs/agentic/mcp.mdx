@@ -120,9 +120,22 @@ and say when the guide does not contain enough evidence for an answer.
 ## Project creation and upgrade
 
 Use `shaft_project_create` to create a new SHAFT Maven project from the same
-example templates, runner/platform choices, optional module rules, GitHub
-Actions workflow templates, and Dependabot template used by the guide project
-generator.
+example templates, runner/platform choices, optional module rules, GitHub Actions
+workflow templates, and Dependabot template used by the guide project generator.
+
+`shaft_project_create` now accepts optional `shaftVersion`. Non-blank values
+override the generated `<shaft.version>` directly. Blank or null values default to
+the latest published stable `shaft-engine` from Maven Central. Bundled examples
+inside the SHAFT repository remain reactor-versioned; generated project POMs are
+rewritten during creation.
+
+```json
+{"tool": "shaft_project_create", "arguments": {"outputDirectory": "demo-web", "runner": "TestNG", "platform": "web", "shaftVersion": "10.3.0"}}
+```
+
+```json
+{"tool": "shaft_project_create", "arguments": {"outputDirectory": "demo-web", "runner": "TestNG", "platform": "web", "shaftVersion": ""}}
+```
 
 Use `shaft_project_upgrade` on an existing Java/Maven project to run the
 modular SHAFT upgrader script. Start with `dryRun: true`; applying changes
