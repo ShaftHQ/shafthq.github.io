@@ -195,7 +195,10 @@ anchor when generating snippets. The CLI accepts
 and returns the normal generation result plus a focused insertion plan. MCP
 agents can call `shaft_coding_partner_plan` or `capture_target_candidates` first, then
 `capture_record_at_target_code_blocks` to receive separate blocks for SHAFT
-locator inventory/imports, action lines, and a preview-only patch block.
+locator inventory/imports, action lines, and a preview-only patch block. The
+patch preview shows the apply order, reuses locator fields already present in
+the target source, and skips exact duplicate action lines before an agent patch
+is proposed.
 SHAFT validates that the requested anchor is present when possible, but it never
 edits the source file until the calling agent performs a separately approved
 repository change.
@@ -207,8 +210,8 @@ artifacts before any source file is edited.
 
 | Rank | Enhancement | User-facing result |
 | --- | --- | --- |
-| 1 | Patch preview for record-at-target | `capture_record_at_target_code_blocks` and mobile record-at-target flows return preview-only diff blocks before an agent applies source edits. |
-| 2 | Coding partner and target scanner | `shaft_coding_partner_plan` and `capture_target_candidates` suggest likely Page Objects, test classes, package names, driver variables, insertion anchors, locator summaries, and action summaries from the current repository. |
+| 1 | Patch preview for record-at-target | `capture_record_at_target_code_blocks` and mobile record-at-target flows return preview-only diff blocks with apply order before an agent applies source edits. |
+| 2 | Coding partner and target scanner | `shaft_coding_partner_plan` and `capture_target_candidates` suggest likely Page Objects, test classes, package names, driver variables, insertion anchors, locator summaries, action summaries, and the recommended target/anchor from the current repository. |
 | 3 | Assertion gap checklist | Generated review blocks list missing post-login, post-submit, navigation, and error-state assertions. |
 | 4 | Locator confidence queue | Weak XPath, multi-match, and coordinate fallback steps are grouped into a fix-first review list. |
 | 5 | Fixture and secret handoff | Required environment variables, test data, and upload fixtures remain summarized without exposing secret values. |
@@ -216,7 +219,7 @@ artifacts before any source file is edited.
 | 7 | Replay failure back-links | Validation review blocks point compile or replay failures back to recording step ids and generated code blocks. |
 | 8 | Backend comparison blocks | `capture_backend_comparison` returns WebDriver and Playwright code-block summaries for the same Capture session. |
 | 9 | PR evidence pack | `capture_evidence_pack` returns local screenshots, workbench HTML/review paths, generated source paths, and validation commands for review. |
-| 10 | Guided IDE action copy | IntelliJ Guided templates follow the real flow: plan partner work, record, review code, preview patch, apply, and verify. |
+| 10 | Guided IDE action copy | IntelliJ Guided templates follow the real flow: plan coding partner work, record, review code, preview patch, apply, and verify. |
 
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path

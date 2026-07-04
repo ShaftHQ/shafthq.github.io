@@ -169,8 +169,9 @@ view the tested command families without filling the chat with command
 documentation. The command picker also shows each command summary and example.
 Command-help output renders each example on its own line as a fenced command
 block, so the IDE copy button can copy one runnable command at a time.
-The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
-`/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`, and `/project`.
+The visible palette includes `/codegen`, `/partner`, `/record-web`,
+`/record-mobile`, `/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`,
+and `/project`.
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
 
@@ -180,6 +181,7 @@ The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
 | --- | --- | --- | --- |
 | Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
 | Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
+| Coding partner plan | `/partner` | `/coding-partner`, `/reuse` | `shaft_coding_partner_plan` |
 | Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
 | Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `shaft_coding_partner_plan`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_recording_code_blocks` |
 | Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
@@ -204,6 +206,7 @@ Common examples:
 /browser open https://example.com sign in
 /browser playwright open https://example.com
 /record https://example.com
+/partner log in then verify account menu
 /codegen recordings/intellij-capture.json
 review recording recordings/intellij-capture.json
 /mobile status Android
@@ -270,7 +273,7 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project.
-- Guided: a Partner section for planning repository-aware work from intent,
+- Guided: a Coding Partner section for planning repository-aware work from intent,
   current Java source, selected text, and evidence paths; starter templates for
   recording a browser flow and generating Page Object code, analyzing failed
   Allure results, converting Selenium snippets to SHAFT syntax, creating a new
@@ -310,17 +313,21 @@ This action is available only in IDE installations with Java support enabled.
 
 ## Coding partner plan
 
-Use **Guided | Partner | Plan partner work** before asking the plugin or an
-agent to create code. The action prepares `shaft_coding_partner_plan` with the
+Use **Guided | Coding Partner | Plan coding partner** or `/partner` before
+asking the plugin or an agent to create code. The action prepares
+`shaft_coding_partner_plan` with the
 repository path, intent, selected backend, current source path, selected text,
 optional evidence paths, and `maxResults=10`.
 
 The MCP response is preview-only. It returns a working-set summary, ranked
-reuse matches with existing locators/actions, missing code items, suggested MCP
-proof calls, a focused verification command, evidence paths, and approval
-warnings. Apply source edits only after reviewing the plan, using the
+reuse matches with existing locators/actions, a structured `stepPlan`,
+`recommendedTargetSourcePath`, `recommendedInsertionAnchor`, missing code items,
+suggested MCP proof calls, a focused verification command, evidence paths, and
+approval warnings. Apply source edits only after reviewing the plan, using the
 record-at-target patch preview when codegen is involved, and running the
-returned verification command.
+returned verification command. Record-at-target previews reuse existing locator
+fields, skip exact duplicate action lines, and show an apply order before any
+agent patch is accepted.
 
 Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
 MCP connection, or change Assistant Local/Cloud routing. Configure Codex,
