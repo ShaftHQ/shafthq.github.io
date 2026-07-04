@@ -114,6 +114,11 @@ Use the plugin as the default front door when you are already in IntelliJ:
 - Convert Selenium snippets or tests with `/partner` or Guided Coding Partner so
   the plan searches existing Page Objects, locator fields, and action methods
   before suggesting new code.
+- For generated GUI code, reuse existing project code first. If a needed action
+  or locator is missing, record the complete flow, then insert only the missing
+  locators/actions into the planned source anchor. Use Smart Locators and the
+  SHAFT locator builder before native `By.xpath(...)`; do not use
+  `SHAFT.GUI.Locator.xpath(...)`.
 - Start Doctor or Healer workflows with `/doctor` or Triage from failed Allure
   evidence; proposed fixes stay review-only until you apply and verify them.
 - Keep WebDriver as the default backend unless the project already uses

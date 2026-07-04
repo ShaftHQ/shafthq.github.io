@@ -189,8 +189,9 @@ passwords, and API keys. It warns on Selenium implicit waits, direct
 `driver.findElement`/`findElements` calls, hard-coded headed browser setup,
 direct `System.getProperty()`, and PageFactory usage. Prefer SHAFT
 waits/actions/assertions and the locator order from the catalog: smart/semantic
-locators, ARIA locators, `SHAFT.GUI.Locator.*`, then non-absolute XPath through
-`SHAFT.GUI.Locator.xpath(...)` only when nothing better exists.
+locators, ARIA locators, the `SHAFT.GUI.Locator` builder, then native
+`By.xpath(...)` only when nothing better exists. Generated code should not use
+`SHAFT.GUI.Locator.xpath(...)`.
 
 ## Playwright MCP and CLI coverage
 
