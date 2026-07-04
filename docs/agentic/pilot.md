@@ -77,6 +77,17 @@ fields, credential-shaped values, private paths, and unsafe locator evidence
 are excluded or redacted. Replay succeeds only when the generated project
 compiles, passes, and produces populated Allure result JSON.
 
+During recording, SHAFT writes actions incrementally so a cross-domain
+navigation does not discard earlier steps. Text entry is consolidated into a
+single type action until it is committed or followed by a special key, while
+keys such as Enter and Tab remain separate actions. The recorder overlay lets
+you edit or delete captured steps, and deleting a typed step also removes its
+externalized test-data reference. Each action keeps sanitized page context and a
+DOM snapshot so code generation can rank semantic, stable locators and honor a
+pinned locator preference. Stopping the recording closes the managed browser,
+saves the session, and returns the next `/codegen` command as a fenced command
+block.
+
 ## Doctor example
 
 Analyze only explicitly allowed evidence with the Doctor command on
