@@ -12,7 +12,7 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 # Connect shaft-mcp
 
 `shaft-mcp` is the Model Context Protocol server for SHAFT browser,
-mobile, Capture, Doctor, and healer automation. Web GUI tools default to
+mobile, Capture, coding-partner planning, Doctor, and healer automation. Web GUI tools default to
 SHAFT WebDriver; choose the `playwright_*` tools when the project already uses
 `SHAFT.GUI.Playwright` or the user explicitly asks for Playwright code. It is
 published to Maven Central as the thin `io.github.shafthq:shaft-mcp` JAR, built
@@ -187,6 +187,33 @@ waits/actions/assertions and the locator order from the catalog: smart/semantic
 locators, ARIA locators, `SHAFT.GUI.Locator.*`, then non-absolute XPath through
 `SHAFT.GUI.Locator.xpath(...)` only when nothing better exists.
 
+## Coding partner plan
+
+Use `shaft_coding_partner_plan` before generating or repairing repository code.
+It is a read-only planning tool for IntelliJ, Codex, Claude, Copilot, and other
+MCP clients that have SHAFT skills installed.
+
+```json
+{
+  "tool": "shaft_coding_partner_plan",
+  "arguments": {
+    "repositoryPath": ".",
+    "intent": "Add a login scenario and reuse the existing LoginPage",
+    "backend": "WebDriver",
+    "currentSourcePath": "src/test/java/pages/LoginPage.java",
+    "selectedText": "",
+    "artifactPaths": ["target/shaft-traces/latest"],
+    "maxResults": 10
+  }
+}
+```
+
+The response includes a working-set summary, ranked `reuseMatches`, existing
+locator/action summaries, `missingCodeItems`, suggested MCP proof calls, a
+focused verification command, evidence paths, and approval warnings. The tool
+does not edit source. After review, use Capture record-at-target tools or the
+calling agent's normal patch workflow to apply only the missing code.
+
 ## Trace-first failure workflow
 
 When a SHAFT WebDriver run writes persisted trace artifacts under
@@ -268,6 +295,7 @@ The packaged server supports:
   cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
   guidance, and troubleshooting steps before writing code;
 - structured test automation playbooks through `test_automation_scenarios`,
+  repository-aware coding partner plans through `shaft_coding_partner_plan`,
   plus generated-code guardrail checks through `test_code_guardrails_check`;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
