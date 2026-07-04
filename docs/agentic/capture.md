@@ -149,6 +149,12 @@ and flow methods when extractable candidates exist. Locator inventory blocks
 show the selected SHAFT locator expression and ranked alternatives from the
 generation report.
 
+For native mobile journeys, use the mobile MCP tools instead of browser
+Capture: `mobile_recording_code_blocks` returns the replay method, ranked
+mobile locator inventory, action sequence, and `mobile-page-object-draft`.
+`mobile_record_at_target_code_blocks` adds locator fields and an action snippet
+for an existing mobile Page Object anchor.
+
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
 method name, so a segment marked as `login as admin` generates a
