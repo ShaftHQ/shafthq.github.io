@@ -234,8 +234,9 @@ The packaged server supports:
   `capture_record_at_target_code_blocks`, with compile, optional replay, local
   deterministic code-review warnings, focused source-anchor insertion snippets,
   setup/assertion/control-flow review blocks, selected and alternative locator
-  expressions, intent-derived default names, and review-only AI enrichment
-  phases;
+  expressions, intent-derived default names, generated review headers,
+  compact fallback locator helpers, the `capture-page-object-draft` block, and
+  review-only AI enrichment phases;
 - deterministic Playwright TestNG generation through
   `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
   when the target repository uses `SHAFT.GUI.Playwright`;
@@ -303,7 +304,8 @@ MCP_CP="shaft-mcp/target/shaft-mcp-<version>.jar:shaft-mcp/target/dependency/*"
 MCP_MAIN="com.shaft.mcp.ShaftMcpApplication"
 
 java -cp "$MCP_CP" "$MCP_MAIN" capture start \
-  --url https://example.test --browser chrome --output recordings/example.json
+  --url https://example.test --browser chrome --output recordings/example.json \
+  --session-goal "record checkout happy path"
 java -cp "$MCP_CP" "$MCP_MAIN" capture start \
   --url https://example.test --browser chrome --output recordings/mobile.json \
   --device "Pixel 7" --geolocation "30.0444,31.2357" \

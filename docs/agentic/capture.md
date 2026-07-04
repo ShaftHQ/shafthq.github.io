@@ -44,7 +44,7 @@ map them safely: `--viewport-size`, `--device`, `--color-scheme`,
 `--geolocation`, `--timezone`, `--block-service-workers`, `--load-storage`,
 `--save-storage`, `--save-har`, `--test-id-attribute`, `--lang`,
 `--user-agent`, `--user-data-dir`, `--proxy-server`, `--proxy-bypass`,
-`--ignore-https-errors`, and `--timeout`. Device presets use bundled
+`--ignore-https-errors`, `--timeout`, and `--session-goal`. Device presets use bundled
 Chrome/Edge mobile-emulation profiles when available; color scheme,
 geolocation, timezone, and service-worker bypass use browser protocol support;
 storage state uses SHAFT's browser storage-state JSON; and HAR output uses the
@@ -52,7 +52,8 @@ same redacted observability entries as SHAFT failure traces. Unsupported
 drivers or unmapped device names produce deterministic warnings instead of raw
 protocol failures. `--save-har-glob` is accepted with a warning; Capture writes
 all observed network entries. Use `capture features` to list the current
-Playwright codegen feature map.
+Playwright codegen feature map. `--session-goal` stores the recorder intent in
+session extensions so generated Java can include a safe review comment.
 
 ```bash
 capture start \
@@ -89,10 +90,12 @@ method for actions that do not yet have a Capture equivalent.
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
 English while the user clicks, types, selects, uploads, or navigates. Its
-controls pause or resume action capture, add a user checkpoint, edit the visible
-action text by recording an edit checkpoint, and stop the recording. Pressing
-stop from the panel requests a normal SHAFT stop, closes the managed browser,
-and leaves the session in `COMPLETED` status for generation. The browser panel
+controls pause or resume action capture, add browser or element checkpoints from
+an in-panel dialog, edit or delete visible action text, reorder captured steps,
+add a visible assertion from a stored action target, pick locators, and stop the
+recording. Pressing stop from the panel requests a normal SHAFT stop, closes the
+managed browser, and leaves the session in `COMPLETED` status for generation.
+The browser panel
 and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
 avoid horizontal scrolling during review.
@@ -141,9 +144,10 @@ The returned code blocks include deterministic Page Object insertion guidance
 for WebDriver and Playwright captures, including SHAFT locator inventory, action
 sequence, setup prerequisites for required data and fixtures, assertion
 suggestions for missing post-navigation or post-submit checks, control-flow
-review commands, and fallback manual-mapping warnings when the generated source
-has no extractable candidates. Locator inventory blocks show the selected SHAFT
-locator expression and ranked alternatives from the generation report.
+review commands, and a `capture-page-object-draft` block with locator fields
+and flow methods when extractable candidates exist. Locator inventory blocks
+show the selected SHAFT locator expression and ranked alternatives from the
+generation report.
 
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
@@ -288,24 +292,30 @@ calls as candidates for HTTP contract replay.
 Generated class and method names prefer explicit user options, then checkpoint
 descriptions, page titles, URL paths, and finally the opaque session id. Edited
 step text from the recorder panel is preserved as a generated Java comment so
-reviewers can keep the user's intent beside the replay statement.
+reviewers can keep the user's intent beside the replay statement. Generated
+source also starts with a safe review header containing readiness, event count,
+fallback-locator count, and the optional `sessionGoal` comment when provided.
 
 The workbench HTML is a local review UI for building record/checkpoint
-commands, checking blockers and required inputs, reviewing locator decisions,
-seeing the generated code-block summary, inspecting deterministic control-flow
-suggestions, editing generated source through the browser file picker or
-download fallback, and reviewing the Playwright codegen feature map beside the
-generated code.
+commands, checking blockers and required inputs, reviewing assertion gaps,
+locator decisions, a Page Object draft, copyable CLI/MCP command starters, the
+generated code-block summary, deterministic control-flow suggestions, generated
+source through the browser file picker or download fallback, and the Playwright
+codegen feature map beside the generated code.
 
 Add `--enable-fallback-locators` when generating WebDriver replay code to make
 the generated test try ranked captured alternatives before failing a target
-lookup. The selected locator remains the first candidate; fallback candidates
-are accepted only when they resolve to one matching element with the recorded
-tag and accessible name, and interaction fallbacks must be visible and enabled.
-When a fallback is used, the generated helper writes a SHAFT report log entry:
+lookup. The selected locator remains the first candidate; when ranked
+alternatives exist, generated source imports `org.openqa.selenium.By` and emits
+a compact `captureReplayLocator(By primary, By... alternatives)` helper. The
+helper probes the primary locator first with `driver.element().getElementsCount`
+and then returns the first alternative with a current match; if none match, it
+returns the primary locator so SHAFT fails on the intended target.
 
-```text
-Capture fallback locator used for username-input: By.cssSelector: #username -> By.cssSelector: [name="username"]
+```java
+driver.element().click(captureReplayLocator(
+    SHAFT.GUI.Locator.inputField("Username"),
+    SHAFT.GUI.Locator.cssSelector("form input:nth-child(1)")));
 ```
 
 Use `--control-flow-preview` to write deterministic suggestions for common
