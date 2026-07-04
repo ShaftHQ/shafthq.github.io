@@ -1,7 +1,7 @@
 ---
 id: intellij
 title: IntelliJ IDEA plugin
-description: Use SHAFT Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
+description: Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 slug: /agentic/intellij
 sidebar_position: 3
 tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, assistant]
@@ -9,9 +9,14 @@ tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, assis
 
 # IntelliJ IDEA plugin
 
-The SHAFT IntelliJ IDEA plugin is a stable JetBrains Marketplace plugin for Java
-test projects. It is a thin IDE shell over `shaft-mcp`: SHAFT engine behavior,
-local CLI agent routing, direct provider adapters, Doctor, Healer, Capture, and
+The SHAFT IntelliJ IDEA plugin is the cohesive coding-partner front door for
+Java test projects. Use it to ask questions, plan repository-aware changes,
+record browser or mobile flows, refactor Selenium/Appium code toward SHAFT,
+reuse existing Page Objects, locators, and actions, diagnose failures, and
+prepare reviewable repairs from the same tool window.
+
+The plugin is a thin IDE shell over `shaft-mcp`: SHAFT engine behavior, local
+CLI agent routing, direct provider adapters, Doctor, Healer, Capture, and
 Inspector logic stay in the engine modules.
 
 Install the plugin from JetBrains Marketplace when it is published, then open
@@ -89,12 +94,30 @@ itself.
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
-the **Assistant** workflow. Use the **Workflow** selector at the top of the tool
-window to switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
+the **Assistant** workflow. By default, use Assistant slash commands such as
+`/partner`, `/record-web`, `/record-mobile`, `/doctor`, and `/guide`.
+
+If you enable **Settings | SHAFT | Enable advanced workflows and provider
+options**, the **Workflow** selector appears at the top of the tool window and
+can switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
 **Evidence**, **Projects**, and **Advanced**. The selector is used instead of a
 crowded tab strip so the controls stay readable in the narrow right-side
 IntelliJ tool window. MCP-backed workflow panels use the same verified setup
 state as the Assistant; a command must pass setup before feature tools run.
+
+Use the plugin as the default front door when you are already in IntelliJ:
+
+- Record web journeys with `/record-web` or Recorder, then review WebDriver or
+  Playwright code blocks before inserting them into the existing test structure.
+- Record mobile/Appium flows with `/record-mobile` or the mobile workflows, then
+  reuse generated locator and action blocks in the existing mobile Page Objects.
+- Convert Selenium snippets or tests with `/partner` or Guided Coding Partner so
+  the plan searches existing Page Objects, locator fields, and action methods
+  before suggesting new code.
+- Start Doctor or Healer workflows with `/doctor` or Triage from failed Allure
+  evidence; proposed fixes stay review-only until you apply and verify them.
+- Keep WebDriver as the default backend unless the project already uses
+  `SHAFT.GUI.Playwright` or the prompt/command explicitly asks for Playwright.
 
 ## Assistant
 
@@ -314,7 +337,7 @@ This action is available only in IDE installations with Java support enabled.
 ## Coding partner plan
 
 Use **Guided | Coding Partner | Plan coding partner** or `/partner` before
-asking the plugin or an agent to create code. The action prepares
+asking the plugin or an agent to create or refactor code. The action prepares
 `shaft_coding_partner_plan` with the
 repository path, intent, selected backend, current source path, selected text,
 optional evidence paths, and `maxResults=10`.
@@ -328,6 +351,10 @@ record-at-target patch preview when codegen is involved, and running the
 returned verification command. Record-at-target previews reuse existing locator
 fields, skip exact duplicate action lines, and show an apply order before any
 agent patch is accepted.
+
+For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
+the intended behavior. The plan should preserve working Page Object boundaries
+and reuse existing locators/actions before adding new SHAFT code.
 
 Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
 MCP connection, or change Assistant Local/Cloud routing. Configure Codex,

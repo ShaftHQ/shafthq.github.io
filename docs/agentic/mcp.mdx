@@ -12,9 +12,12 @@ import {McpApplications} from '@site/src/components/DocSnippets';
 # Connect shaft-mcp
 
 `shaft-mcp` is the Model Context Protocol server for SHAFT browser,
-mobile, Capture, coding-partner planning, Doctor, and healer automation. Web GUI tools default to
-SHAFT WebDriver; choose the `playwright_*` tools when the project already uses
-`SHAFT.GUI.Playwright` or the user explicitly asks for Playwright code. It is
+mobile, Capture, coding-partner planning, Doctor, and healer automation. Web
+GUI tools default to SHAFT WebDriver; choose the `playwright_*` tools when the
+project already uses `SHAFT.GUI.Playwright` or the user explicitly asks for
+Playwright code. IntelliJ workflows and MCP clients expose the WebDriver and
+Playwright tool families; the local Capture/Doctor CLI commands are listed
+below. It is
 published to Maven Central as the thin `io.github.shafthq:shaft-mcp` JAR, built
 in the SHAFT reactor, and depends on the canonical `shaft-engine` module. It
 does not add any dependency to ordinary `shaft-engine` consumers.
@@ -59,13 +62,15 @@ Then ask your client:
 The model provider remains owned by the client. `shaft-mcp` does not request,
 store, or proxy the client's model credentials.
 
-For an IDE-native experience in Java projects, see
-[IntelliJ IDEA plugin](/docs/agentic/intellij). The plugin calls the same
-MCP tools from an IntelliJ tool window and keeps engine, local agent, and
-provider behavior outside plugin code. It does not run installer scripts inside
-the IDE; its first-run setup lets you choose the target agent or SHAFT IntelliJ
-plugin, copy the matching installer command, run it in the IntelliJ terminal,
-then checks the installation and stores the local stdio command automatically.
+For an IDE-native experience in Java projects, start with the
+[IntelliJ IDEA plugin](/docs/agentic/intellij). The plugin is the cohesive
+front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector,
+Projects, and Guide search, while still calling the same MCP tools and keeping
+engine, local agent, and provider behavior outside plugin code. It does not run
+installer scripts inside the IDE; its first-run setup lets you choose the
+target agent or SHAFT IntelliJ plugin, copy the matching installer command, run
+it in the IntelliJ terminal, then checks the installation and stores the local
+stdio command automatically.
 
 ## Runtime workspace
 

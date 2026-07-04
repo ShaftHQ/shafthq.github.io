@@ -24,7 +24,7 @@ behind one fluent API.
   <Link className="doc-card" to="/docs/testing/web"><strong>Web</strong><span>Selenium sessions, resilient actions, assertions, screenshots, and reports.</span></Link>
   <Link className="doc-card" to="/docs/testing/mobile"><strong>Mobile</strong><span>Appium native, mobile web, Android, iOS, and Flutter workflows.</span></Link>
   <Link className="doc-card" to="/docs/testing/api"><strong>API</strong><span>REST Assured requests, authentication, extraction, schema checks, and assertions.</span></Link>
-  <Link className="doc-card" to="/docs/agentic/overview"><strong>Agentic</strong><span>MCP, Capture, Doctor, Heal, and optional provider integrations.</span></Link>
+  <Link className="doc-card" to="/docs/agentic/intellij"><strong>IntelliJ coding partner</strong><span>Record, refactor, reuse Page Objects, diagnose failures, and call MCP from the IDE.</span></Link>
 </div>
 
 ```mermaid
@@ -37,7 +37,9 @@ flowchart LR
     Engine --> DB["Database"]
     Engine --> Evidence["Allure evidence"]
     Evidence --> Doctor["Doctor"]
-    Agent["Codex / Copilot / ChatGPT / Claude / Gemini"] --> MCP["SHAFT MCP"]
+    Agent["Codex / Copilot / ChatGPT / Claude / Gemini"] --> IntelliJ["IntelliJ plugin"]
+    Agent --> MCP["SHAFT MCP"]
+    IntelliJ --> MCP
     MCP --> Engine
 ```
 
@@ -77,7 +79,8 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 |---|---|
 | Create a new project | [Project Generator](/docs/start/installation) |
 | Run the first test | [Quick start](/docs/start/quick-start) |
-| Connect an AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
+| Use SHAFT from IntelliJ | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
+| Connect another AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
 | Diagnose a failed run | [SHAFT Doctor](/docs/agentic/doctor) |
 | Recover a changed locator | [SHAFT Heal](/docs/agentic/heal) |
 | Upgrade a Selenium, Appium, REST Assured, or older SHAFT project | [Automated upgrade tool](/docs/start/upgrade) |

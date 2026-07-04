@@ -53,7 +53,9 @@ flowchart TD
     Goal --> Manual["Constrained manual setup"]
     New --> Generator["Project Generator"]
     Existing --> Upgrade["Upgrade guide"]
+    Agent --> IntelliJ["IntelliJ plugin"]
     Agent --> MCP["MCP guide"]
+    IntelliJ --> MCP
     Manual --> Dependencies["Add BOM and shaft-engine"]
     Generator --> Run["mvn test"]
     Upgrade --> Run
@@ -124,10 +126,14 @@ Use this after a generated, upgraded, or manual project already compiles. MCP is
 for agent operations around a working SHAFT project, not a replacement for
 project setup.
 
-1. Connect your client from the [SHAFT MCP guide](/docs/agentic/mcp#applications).
-2. Keep model credentials in the MCP client or provider configuration, not in
+1. If you work in IntelliJ IDEA, start with the
+   [SHAFT IntelliJ plugin](/docs/agentic/intellij); it wraps the same MCP tools
+   for recording, coding-partner planning, Doctor, Healer, and guide search.
+2. For other clients, connect from the
+   [SHAFT MCP guide](/docs/agentic/mcp#applications).
+3. Keep model credentials in the MCP client or provider configuration, not in
    source files.
-3. Use Capture and Doctor output as evidence, then review generated code before
+4. Use Capture and Doctor output as evidence, then review generated code before
    committing it.
 
 Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for

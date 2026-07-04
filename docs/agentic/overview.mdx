@@ -1,7 +1,7 @@
 ---
 id: overview
 title: Agentic testing
-description: Understand how MCP, Pilot, Capture, Doctor, and Heal fit together.
+description: Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 slug: /agentic/overview
 sidebar_position: 1
 tags: [mcp, pilot, capture, doctor, heal]
@@ -14,6 +14,7 @@ MCP, Capture, Doctor, and Heal remain useful without provider credentials.
 
 ```mermaid
 flowchart TD
+    IntelliJ["IntelliJ plugin"] --> MCP["SHAFT MCP"]
     Client["AI client"] --> MCP["SHAFT MCP"]
     MCP --> Engine["shaft-engine tools"]
     MCP --> Capture["Capture"]
@@ -28,6 +29,7 @@ flowchart TD
 
 | Capability | Default behavior | Start here |
 |---|---|---|
+| IntelliJ plugin | IDE front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and Guide search | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
 | MCP | Local stdio tools; no model credentials stored | [Connect MCP](/docs/agentic/mcp) |
 | Capture | Record and generate deterministic test code | [Capture](/docs/agentic/capture) |
 | Doctor | Analyze allowlisted evidence offline | [Doctor](/docs/agentic/doctor) |
