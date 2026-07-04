@@ -139,8 +139,11 @@ into existing Page Object classes when that pattern already exists, or create
 the smallest matching page/test classes when it does not.
 The returned code blocks include deterministic Page Object insertion guidance
 for WebDriver and Playwright captures, including SHAFT locator inventory, action
-sequence, and fallback manual-mapping warnings when the generated source has no
-extractable candidates.
+sequence, setup prerequisites for required data and fixtures, assertion
+suggestions for missing post-navigation or post-submit checks, control-flow
+review commands, and fallback manual-mapping warnings when the generated source
+has no extractable candidates. Locator inventory blocks show the selected SHAFT
+locator expression and ranked alternatives from the generation report.
 
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
@@ -259,7 +262,7 @@ The default output layout is:
 
 ```text
 generated-tests/
-  src/test/java/generated/capture/<SessionName>Test.java
+  src/test/java/generated/capture/<RecordedIntent>Test.java
   src/test/resources/testDataFiles/<session-name>-test.json
   target/shaft-capture/generation-report.json
   target/shaft-capture/capture-review.json
@@ -280,10 +283,19 @@ findings cover brittle absolute or index-heavy locators, missing post-navigation
 or post-submit assertions, fixed-duration waits, and sensitive JSON-backed test
 data. When replay fails and a SHAFT trace exists, Capture maps the failure back
 to the generated step and failed trace action, and flags failing network/API
-calls as candidates for HTTP contract replay. The workbench HTML is a local
-review UI for building record/checkpoint commands, editing generated source
-through the browser file picker or download fallback, and reviewing the
-Playwright codegen feature map beside the generated code.
+calls as candidates for HTTP contract replay.
+
+Generated class and method names prefer explicit user options, then checkpoint
+descriptions, page titles, URL paths, and finally the opaque session id. Edited
+step text from the recorder panel is preserved as a generated Java comment so
+reviewers can keep the user's intent beside the replay statement.
+
+The workbench HTML is a local review UI for building record/checkpoint
+commands, checking blockers and required inputs, reviewing locator decisions,
+seeing the generated code-block summary, inspecting deterministic control-flow
+suggestions, editing generated source through the browser file picker or
+download fallback, and reviewing the Playwright codegen feature map beside the
+generated code.
 
 Add `--enable-fallback-locators` when generating WebDriver replay code to make
 the generated test try ranked captured alternatives before failing a target

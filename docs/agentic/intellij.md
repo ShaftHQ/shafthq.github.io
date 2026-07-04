@@ -151,6 +151,8 @@ same chat box. For example, "start mobile recording" maps to
 `mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
 the same feature deterministically. Browser control defaults to WebDriver; use
 `playwright` in the prompt or command when that backend is required.
+Use `review recording` or `review recording recordings/<name>.json` to generate
+the same reviewed Capture code blocks without remembering `/codegen`.
 After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
@@ -203,6 +205,7 @@ Common examples:
 /browser playwright open https://example.com
 /record https://example.com
 /codegen recordings/intellij-capture.json
+review recording recordings/intellij-capture.json
 /mobile status Android
 /mobile native Android emulator-5554
 /mobile-record inspector Android recordings/inspector.json
@@ -256,7 +259,7 @@ explicitly required for that environment.
 
 The workflow selector exposes curated MCP requests for common automation jobs:
 
-- Recorder: Capture start, status, checkpoints, stop, code blocks,
+- Recorder: Capture start, status, checkpoints, stop, reviewed code blocks,
   record-at-target snippets, Playwright recording controls, and replay code
   generation.
 - Inspector: browser and Playwright DOM snapshots, screenshots, mobile
@@ -270,8 +273,10 @@ The workflow selector exposes curated MCP requests for common automation jobs:
 - Guided: starter templates for recording a browser flow and generating Page
   Object code, analyzing failed Allure results, converting Selenium snippets to
   SHAFT syntax, creating a new SHAFT project, and inspecting current page
-  locators. Templates prefill MCP arguments only; they do not run tools or write
-  source by themselves.
+  locators. The guided recorder action says **Review code** because it prepares
+  reviewed SHAFT code blocks, setup notes, assertion suggestions, locator
+  alternatives, and control-flow review output. Templates prefill MCP arguments
+  only; they do not run tools or write source by themselves.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, and official SHAFT guide search.
@@ -290,9 +295,11 @@ hidden inside plugin code.
 
 Use **Tools | SHAFT | Record SHAFT Flow Here** from a Java file to prepare a
 `capture_record_at_target_code_blocks` request for the caret's package, class,
-method, and source path. Replace the capture session path with a real recording
-before running it. After review approval, keep the same capture session path so
-generation preserves the reviewed browser journey instead of rerunning capture.
+method, and source path. The action defaults the session path to
+`recordings/intellij-capture.json`, matching the Assistant's normal browser
+recording path. Change it only when you recorded to a different file. After
+review approval, keep the same capture session path so generation preserves the
+reviewed browser journey instead of rerunning capture.
 This action is available only in IDE installations with Java support enabled.
 
 Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
