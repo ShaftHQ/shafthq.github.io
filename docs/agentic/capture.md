@@ -69,11 +69,13 @@ capture start \
 
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_status`, and `capture_stop` MCP tools. Generation is exposed by
-`capture_generate`; `capture_codegen_features` returns the feature map. Status
-contains safe metadata, counts, readiness, and warnings, never typed values.
-Readiness is `READY`, `RISKY`, or `BLOCKED`; risky steps keep recording, while
-blocked readiness means generated replay will need user action such as a stable
-locator or required secret input.
+`capture_generate`; `capture_codegen_features` returns the feature map.
+`capture_target_candidates`, `capture_backend_comparison`, and
+`capture_evidence_pack` cover existing-suite targeting, backend comparison, and
+review evidence manifests. Status contains safe metadata, counts, readiness,
+and warnings, never typed values. Readiness is `READY`, `RISKY`, or `BLOCKED`;
+risky steps keep recording, while blocked readiness means generated replay will
+need user action such as a stable locator or required secret input.
 
 WebDriver code generation remains the default through `capture_generate`,
 `capture_generate_replay`, and `capture_code_blocks`. Use
@@ -144,16 +146,17 @@ The returned code blocks include deterministic Page Object insertion guidance
 for WebDriver and Playwright captures, including SHAFT locator inventory, action
 sequence, setup prerequisites for required data and fixtures, assertion
 suggestions for missing post-navigation or post-submit checks, control-flow
-review commands, and a `capture-page-object-draft` block with locator fields
-and flow methods when extractable candidates exist. Locator inventory blocks
-show the selected SHAFT locator expression and ranked alternatives from the
-generation report.
+review commands, locator confidence queues, validation back-links, and a
+`capture-page-object-draft` block with locator fields and flow methods when
+extractable candidates exist. Locator inventory blocks show the selected SHAFT
+locator expression and ranked alternatives from the generation report.
 
 For native mobile journeys, use the mobile MCP tools instead of browser
 Capture: `mobile_recording_code_blocks` returns the replay method, ranked
 mobile locator inventory, action sequence, and `mobile-page-object-draft`.
 `mobile_record_at_target_code_blocks` adds locator fields and an action snippet
-for an existing mobile Page Object anchor.
+for an existing mobile Page Object anchor, plus a preview-only patch block and a
+locator confidence queue when fallback actions need review.
 
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
@@ -185,12 +188,30 @@ For a record-at-target flow, provide the existing Java source and insertion
 anchor when generating snippets. The CLI accepts
 `--target-source src/test/java/.../CheckoutTest.java --insert-after replayCheckout`
 and returns the normal generation result plus a focused insertion plan. MCP
-agents can call `capture_record_at_target_code_blocks` to receive separate
-blocks for SHAFT locator inventory/imports, action lines, and a no-edit
-insertion guide.
+agents can call `capture_target_candidates` first, then
+`capture_record_at_target_code_blocks` to receive separate blocks for SHAFT
+locator inventory/imports, action lines, and a preview-only patch block.
 SHAFT validates that the requested anchor is present when possible, but it never
 edits the source file until the calling agent performs a separately approved
 repository change.
+
+## Recorder/codegen implementation
+
+Recorder/codegen now turns the main post-recording decisions into reviewable
+artifacts before any source file is edited.
+
+| Rank | Enhancement | User-facing result |
+| --- | --- | --- |
+| 1 | Patch preview for record-at-target | `capture_record_at_target_code_blocks` and mobile record-at-target flows return preview-only diff blocks before an agent applies source edits. |
+| 2 | Existing-suite target scanner | `capture_target_candidates` suggests likely Page Objects, test classes, package names, driver variables, and insertion anchors from the current repository. |
+| 3 | Assertion gap checklist | Generated review blocks list missing post-login, post-submit, navigation, and error-state assertions. |
+| 4 | Locator confidence queue | Weak XPath, multi-match, and coordinate fallback steps are grouped into a fix-first review list. |
+| 5 | Fixture and secret handoff | Required environment variables, test data, and upload fixtures remain summarized without exposing secret values. |
+| 6 | Flow grouping assistant | Explicit `FLOW_START` and `FLOW_END` checkpoints become helper-method proposals; repeated groups stay advisory until approved. |
+| 7 | Replay failure back-links | Validation review blocks point compile or replay failures back to recording step ids and generated code blocks. |
+| 8 | Backend comparison blocks | `capture_backend_comparison` returns WebDriver and Playwright code-block summaries for the same Capture session. |
+| 9 | PR evidence pack | `capture_evidence_pack` returns local screenshots, workbench HTML/review paths, generated source paths, and validation commands for review. |
+| 10 | Guided IDE action copy | IntelliJ Recorder templates follow the real flow: record, review code, preview patch, apply, and verify. |
 
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
@@ -307,7 +328,10 @@ commands, checking blockers and required inputs, reviewing assertion gaps,
 locator decisions, a Page Object draft, copyable CLI/MCP command starters, the
 generated code-block summary, deterministic control-flow suggestions, generated
 source through the browser file picker or download fallback, and the Playwright
-codegen feature map beside the generated code.
+codegen feature map beside the generated code. Use
+`capture_backend_comparison` when reviewers need WebDriver and Playwright block
+summaries side by side, and `capture_evidence_pack` to return the local source,
+report, review, screenshot, and validation-command manifest for a PR.
 
 Add `--enable-fallback-locators` when generating WebDriver replay code to make
 the generated test try ranked captured alternatives before failing a target
