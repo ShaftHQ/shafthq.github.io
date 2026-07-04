@@ -208,11 +208,13 @@ MCP clients that have SHAFT skills installed.
 }
 ```
 
-The response includes a working-set summary, ranked `reuseMatches`, existing
-locator/action summaries, `missingCodeItems`, suggested MCP proof calls, a
-focused verification command, evidence paths, and approval warnings. The tool
-does not edit source. After review, use Capture record-at-target tools or the
-calling agent's normal patch workflow to apply only the missing code.
+The schema `1.1` response includes a working-set summary, ranked
+`reuseMatches`, existing locator/action summaries, a deterministic `stepPlan`,
+`recommendedTargetSourcePath`, `recommendedInsertionAnchor`, `missingCodeItems`,
+suggested MCP proof calls, a focused verification command, evidence paths, and
+approval warnings. The tool does not edit source. After review, use Capture
+record-at-target tools or the calling agent's normal patch workflow to apply
+only the missing code.
 
 ## Trace-first failure workflow
 
