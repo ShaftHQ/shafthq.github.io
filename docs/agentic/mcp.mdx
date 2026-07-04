@@ -192,6 +192,38 @@ waits/actions/assertions and the locator order from the catalog: smart/semantic
 locators, ARIA locators, `SHAFT.GUI.Locator.*`, then non-absolute XPath through
 `SHAFT.GUI.Locator.xpath(...)` only when nothing better exists.
 
+## Playwright MCP and CLI coverage
+
+SHAFT can work beside official Playwright MCP and `playwright-cli`; it does not
+need to replace them. Use SHAFT tools when the final output is a Java SHAFT
+project, Page Object, Capture session, Doctor report, or Heal proposal. Use
+official Playwright as a sidecar when the agent needs Playwright-native browser
+exploration, then bring the evidence back into SHAFT.
+
+```mermaid
+flowchart LR
+    Need[User asks for web automation] --> Target{Final code target}
+    Target -->|SHAFT Java| Shaft[shaft_coding_partner_plan + Capture/codegen]
+    Target -->|Playwright exploration| Official[Official Playwright MCP or playwright-cli]
+    Official --> Evidence[Snapshots, locators, screenshots, network, storage, console, trace]
+    Evidence --> Shaft
+    Shaft --> Guardrails[test_code_guardrails_check]
+    Guardrails --> Verify[Focused Maven or Gradle validation]
+```
+
+| Official Playwright capability | SHAFT coverage path |
+|---|---|
+| MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `playwright_browser_get_page_dom`, `element_*`, `playwright_element_*`, and semantic click/type tools. |
+| Screenshots, navigation, tabs, uploads, drag, hover, and form input | WebDriver and Playwright MCP tool families plus Capture action recording and replay. |
+| Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start_codegen`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. |
+| Playwright CLI network, storage, console, trace, video, PDF, and named-session commands | Use official `playwright-cli` as delegated evidence gathering; attach paths or summaries to `shaft_coding_partner_plan`, Doctor, Capture, or the final PR evidence. |
+| Playwright Test Agents planner/generator/healer | Use `npx playwright init-agents --loop=codex` for Playwright Test projects; for SHAFT Java projects, map the planner output into `test_automation_scenarios`, Capture, Doctor, Heal, and reviewed Java source edits. |
+
+Do not paste Playwright TypeScript generated tests into a Java Maven project.
+Treat `browser_run_code_unsafe`, `playwright-cli run-code`, and `eval` as
+trusted-client-only steps; report the command and evidence path instead of
+embedding arbitrary code in SHAFT source.
+
 ## Coding partner plan
 
 Use `shaft_coding_partner_plan` before generating or repairing repository code.
@@ -276,7 +308,8 @@ The packaged server supports:
   `capture_evidence_pack`, and review-only AI enrichment phases;
 - deterministic Playwright TestNG generation through
   `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
-  when the target repository uses `SHAFT.GUI.Playwright`;
+  when the target repository uses `SHAFT.GUI.Playwright`, plus local Capture CLI
+  generation through `capture generate --backend playwright`;
 - explicit Playwright browser, element, screenshot, DOM, action recording,
   playback, and copy-paste replay tools through the `playwright_*` tool family.
   `playwright_recording_code_blocks` keeps the direct replay method and also
@@ -357,6 +390,9 @@ java -cp "$MCP_CP" "$MCP_MAIN" capture stop
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \
   --enable-fallback-locators
+java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
+  --session recordings/example.json --backend playwright \
+  --output-dir generated-playwright
 java -cp "$MCP_CP" "$MCP_MAIN" capture generate \
   --session recordings/example.json --output-dir generated-tests \
   --control-flow-preview

@@ -84,6 +84,9 @@ WebDriver code generation remains the default through `capture_generate`,
 when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
 Playwright output. Those Playwright tools read the same Capture session format
 but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+From the local Capture CLI, pass `capture generate --backend playwright` to emit
+the same Playwright backend from a persisted Capture session; omitting
+`--backend` keeps WebDriver output.
 MCP Playwright action recordings created with `playwright_record_start` remain
 available through the same Playwright tool names; `playwright_recording_code_blocks`
 now adapts supported recorded actions into a Capture session, returns the

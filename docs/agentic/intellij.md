@@ -119,6 +119,103 @@ Use the plugin as the default front door when you are already in IntelliJ:
 - Keep WebDriver as the default backend unless the project already uses
   `SHAFT.GUI.Playwright` or the prompt/command explicitly asks for Playwright.
 
+## Agentic E2E workflows
+
+Use these flows as chat contracts. The plugin is the front door, `shaft-mcp`
+does repository-aware planning and evidence capture, and the selected local
+agent applies source edits only after you enable **Allow source edits** for that
+request.
+
+### Upgrade a Selenium Maven project
+
+In Agent mode, ask the assistant to inspect the current Selenium/JUnit Maven
+project and return the upgrader command first. The command should be in its own
+fenced block, and the agent should wait for you to run it before source edits.
+Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
+copyable command; this page documents the IDE workflow around that command.
+
+```mermaid
+flowchart TD
+    Project[Selenium WebDriver + JUnit Maven project] --> Setup[IntelliJ plugin setup: Codex CLI + shaft-mcp + shaft-skills]
+    Setup --> AskUpgrade[Agent mode: ask to upgrade project to SHAFT]
+    AskUpgrade --> Command[Agent returns copyable upgrader command from Upgrade guide]
+    Command --> UserRuns[User runs command in terminal]
+    UserRuns --> Compile[Agent reads result and runs focused compile]
+    Compile --> Review[User reviews upgraded project]
+```
+
+Use `basic` when you only want the POM updated, `session` when the agent should
+also migrate supported Selenium session setup, and `full` only after reviewing
+the higher-risk action rewrites.
+
+### Record a new scenario into existing Page Objects
+
+For the DuckDuckGo example, ask in Agent mode with **Allow source edits**:
+
+```text
+Write a scenario where the user searches for shaft_engine, opens the first result,
+and asserts the page title of the first result. Reuse the existing DuckDuckGo
+search and results page objects, add only missing locators/actions, create a
+first-result page object only if none exists, and use SHAFT assertion builders.
+```
+
+```mermaid
+flowchart TD
+    Prompt[User asks for new scenario] --> Plan[shaft_coding_partner_plan]
+    Plan --> Reuse[Existing SearchPage and ResultsPage reuse plan]
+    Reuse --> Record[capture_start or playwright_record_start]
+    Record --> Browser[Agent performs search, opens first result, records checkpoints]
+    Browser --> Codegen[capture_record_at_target_code_blocks or playwright_capture_code_blocks]
+    Codegen --> Guardrails[test_code_guardrails_check]
+    Guardrails --> Patch[Agent patches only missing locators, actions, page, and test method]
+    Patch --> Verify[Focused compile or test command]
+    Verify --> Approval[User reviews and approves generated code]
+```
+
+Checkpoint notes are review intent only. Generated assertions must be real SHAFT
+builder calls such as `driver.assertThat().browser()...` or
+`driver.element().assertThat(...)`, not raw JUnit/TestNG assertions.
+
+### Delegate browser exploration to Playwright
+
+When a task needs token-efficient snapshots, storage state, network inspection,
+console output, tracing, video, PDF, or official Playwright Test Agent planning,
+let the local agent use official Playwright CLI or Playwright MCP as a sidecar.
+The final Java change still returns through SHAFT planning and guardrails.
+
+```mermaid
+flowchart LR
+    Intent[User intent] --> NeedSidecar{Need Playwright-specific exploration?}
+    NeedSidecar -->|No| ShaftTools[SHAFT WebDriver or Playwright MCP tools]
+    NeedSidecar -->|Yes| PlaywrightSidecar[Official Playwright CLI or MCP]
+    PlaywrightSidecar --> Evidence[Snapshots, locators, screenshots, storage, HAR, traces]
+    ShaftTools --> Plan[shaft_coding_partner_plan]
+    Evidence --> Plan
+    Plan --> Java[SHAFT Page Objects and tests]
+    Java --> Verify[Guardrails and focused validation]
+```
+
+Do not paste Playwright TypeScript output into a Java project. Treat Playwright
+CLI/MCP output as evidence, then translate the proven behavior into
+`SHAFT.GUI.WebDriver` or `SHAFT.GUI.Playwright` syntax based on the project
+backend.
+
+### Diagnose and heal a failed test
+
+```mermaid
+flowchart TD
+    Failure[Failed SHAFT test] --> Trace[trace_latest and trace_summarize]
+    Failure --> Doctor[doctor_analyze_failed_allure]
+    Trace --> Cause[Failure category and source context]
+    Doctor --> Cause
+    Cause --> Heal{Locator recovery eligible?}
+    Heal -->|Yes| Healer[healer_run_failed_test or playwright_healer_run_failed_test]
+    Heal -->|No| FixPlan[shaft_coding_partner_plan for reviewed fix]
+    Healer --> FixPlan
+    FixPlan --> Patch[Approved source edit]
+    Patch --> Validate[Focused rerun]
+```
+
 ## Assistant
 
 The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
@@ -205,8 +302,8 @@ and `/project`.
 | Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
 | Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
 | Coding partner plan | `/partner` | `/coding-partner`, `/reuse` | `shaft_coding_partner_plan` |
-| Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
-| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `shaft_coding_partner_plan`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_recording_code_blocks` |
+| Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate`, `playwright_browser_get_page_dom`, `playwright_browser_take_screenshot` |
+| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_start_codegen`, `capture_codegen_features`, `capture_stop`, `shaft_coding_partner_plan`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_record_status`, `playwright_record_stop`, `playwright_recording_code_blocks`, `playwright_replay_recording`, `playwright_capture_generate_replay`, `playwright_capture_code_blocks` |
 | Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_record_at_target_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
 | Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
