@@ -70,10 +70,11 @@ capture start \
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_status`, and `capture_stop` MCP tools. Generation is exposed by
 `capture_generate`; `capture_codegen_features` returns the feature map.
-`capture_target_candidates`, `capture_backend_comparison`, and
-`capture_evidence_pack` cover existing-suite targeting, backend comparison, and
-review evidence manifests. Status contains safe metadata, counts, readiness,
-and warnings, never typed values. Readiness is `READY`, `RISKY`, or `BLOCKED`;
+`shaft_coding_partner_plan`, `capture_target_candidates`,
+`capture_backend_comparison`, and `capture_evidence_pack` cover repository-aware
+reuse planning, existing-suite targeting, backend comparison, and review
+evidence manifests. Status contains safe metadata, counts, readiness, and
+warnings, never typed values. Readiness is `READY`, `RISKY`, or `BLOCKED`;
 risky steps keep recording, while blocked readiness means generated replay will
 need user action such as a stable locator or required secret input.
 
@@ -131,17 +132,21 @@ so generation can prefer it without editing generated source.
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call
+`shaft_coding_partner_plan` with the user intent, current source path, selected
+text, and recording/report artifacts. The plan ranks existing Java targets,
+locator summaries, action summaries, missing code, suggested proof calls, and a
+focused verification command before code blocks are generated. Then call
 `capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
-Playwright. If a focus or click mistake pollutes the recording, the Assistant
-discard/re-record commands stop with `discard=true` before starting a fresh
-capture. The agent should show the generated result and ask whether the user
-wants the complete Java snippet or wants the agent to insert the code into the
-current repository. Snippet mode uses the returned Java full-class block,
-including imports, setup, inline `SHAFT.GUI.Locator.*` locators, SHAFT
-actions/assertions, and teardown.
-Insertion mode should inspect the repository and move locators and actions
-into existing Page Object classes when that pattern already exists, or create
-the smallest matching page/test classes when it does not.
+Playwright, or use `capture_record_at_target_code_blocks` when the plan found a
+specific insertion target. If a focus or click mistake pollutes the recording,
+the Assistant discard/re-record commands stop with `discard=true` before
+starting a fresh capture. The agent should show the generated result and ask
+whether the user wants the complete Java snippet or wants the agent to insert
+the code into the current repository. Snippet mode uses the returned Java
+full-class block, including imports, setup, inline `SHAFT.GUI.Locator.*`
+locators, SHAFT actions/assertions, and teardown. Insertion mode should reuse
+the plan's existing Page Object classes when that pattern already exists, or
+create the smallest matching page/test classes when it does not.
 The returned code blocks include deterministic Page Object insertion guidance
 for WebDriver and Playwright captures, including SHAFT locator inventory, action
 sequence, setup prerequisites for required data and fixtures, assertion
@@ -188,7 +193,7 @@ For a record-at-target flow, provide the existing Java source and insertion
 anchor when generating snippets. The CLI accepts
 `--target-source src/test/java/.../CheckoutTest.java --insert-after replayCheckout`
 and returns the normal generation result plus a focused insertion plan. MCP
-agents can call `capture_target_candidates` first, then
+agents can call `shaft_coding_partner_plan` or `capture_target_candidates` first, then
 `capture_record_at_target_code_blocks` to receive separate blocks for SHAFT
 locator inventory/imports, action lines, and a preview-only patch block.
 SHAFT validates that the requested anchor is present when possible, but it never
@@ -203,7 +208,7 @@ artifacts before any source file is edited.
 | Rank | Enhancement | User-facing result |
 | --- | --- | --- |
 | 1 | Patch preview for record-at-target | `capture_record_at_target_code_blocks` and mobile record-at-target flows return preview-only diff blocks before an agent applies source edits. |
-| 2 | Existing-suite target scanner | `capture_target_candidates` suggests likely Page Objects, test classes, package names, driver variables, and insertion anchors from the current repository. |
+| 2 | Coding partner and target scanner | `shaft_coding_partner_plan` and `capture_target_candidates` suggest likely Page Objects, test classes, package names, driver variables, insertion anchors, locator summaries, and action summaries from the current repository. |
 | 3 | Assertion gap checklist | Generated review blocks list missing post-login, post-submit, navigation, and error-state assertions. |
 | 4 | Locator confidence queue | Weak XPath, multi-match, and coordinate fallback steps are grouped into a fix-first review list. |
 | 5 | Fixture and secret handoff | Required environment variables, test data, and upload fixtures remain summarized without exposing secret values. |
@@ -211,7 +216,7 @@ artifacts before any source file is edited.
 | 7 | Replay failure back-links | Validation review blocks point compile or replay failures back to recording step ids and generated code blocks. |
 | 8 | Backend comparison blocks | `capture_backend_comparison` returns WebDriver and Playwright code-block summaries for the same Capture session. |
 | 9 | PR evidence pack | `capture_evidence_pack` returns local screenshots, workbench HTML/review paths, generated source paths, and validation commands for review. |
-| 10 | Guided IDE action copy | IntelliJ Recorder templates follow the real flow: record, review code, preview patch, apply, and verify. |
+| 10 | Guided IDE action copy | IntelliJ Guided templates follow the real flow: plan partner work, record, review code, preview patch, apply, and verify. |
 
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path

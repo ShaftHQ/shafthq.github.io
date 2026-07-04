@@ -1,7 +1,7 @@
 ---
 id: intellij
 title: IntelliJ IDEA plugin
-description: Use SHAFT Assistant, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
+description: Use SHAFT Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 slug: /agentic/intellij
 sidebar_position: 3
 tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, assistant]
@@ -181,11 +181,11 @@ The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
 | Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
 | Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
 | Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
-| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_recording_code_blocks` |
+| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `shaft_coding_partner_plan`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_recording_code_blocks` |
 | Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_record_at_target_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
 | Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
-| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/upgrade` | `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_upgrade` preview, explicit raw tool calls |
+| Productivity and raw MCP | `/mcp` | `/tool`, `/call`, `/guide`, `/docs`, `/scenarios`, `/guardrails`, `/project`, `/upgrade` | `shaft_guide_search`, `shaft_coding_partner_plan`, `test_automation_scenarios`, `test_code_guardrails_check`, `shaft_project_upgrade` preview, explicit raw tool calls |
 
 `/assistant` and its aliases (`/agent`, `/ask`, `/plan`, `/clients`) discover
 Assistant routes and local clients. Broad local and cloud prompts stay on the
@@ -270,13 +270,15 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project.
-- Guided: starter templates for recording a browser flow and generating Page
-  Object code, analyzing failed Allure results, converting Selenium snippets to
-  SHAFT syntax, creating a new SHAFT project, and inspecting current page
-  locators. The guided recorder action says **Review code** because it prepares
-  reviewed SHAFT code blocks, setup notes, assertion suggestions, locator
-  alternatives, and control-flow review output. Templates prefill MCP arguments
-  only; they do not run tools or write source by themselves.
+- Guided: a Partner section for planning repository-aware work from intent,
+  current Java source, selected text, and evidence paths; starter templates for
+  recording a browser flow and generating Page Object code, analyzing failed
+  Allure results, converting Selenium snippets to SHAFT syntax, creating a new
+  SHAFT project, and inspecting current page locators. The guided recorder
+  action says **Review code** because it prepares reviewed SHAFT code blocks,
+  setup notes, assertion suggestions, locator alternatives, and control-flow
+  review output. Templates prefill MCP arguments only; they do not run tools or
+  write source by themselves.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, recorder evidence manifests, backend comparison, and official
@@ -305,6 +307,20 @@ The generated MCP response includes focused locator/action blocks plus a
 preview-only patch block; apply changes only after reviewing that preview and
 running the relevant verification command.
 This action is available only in IDE installations with Java support enabled.
+
+## Coding partner plan
+
+Use **Guided | Partner | Plan partner work** before asking the plugin or an
+agent to create code. The action prepares `shaft_coding_partner_plan` with the
+repository path, intent, selected backend, current source path, selected text,
+optional evidence paths, and `maxResults=10`.
+
+The MCP response is preview-only. It returns a working-set summary, ranked
+reuse matches with existing locators/actions, missing code items, suggested MCP
+proof calls, a focused verification command, evidence paths, and approval
+warnings. Apply source edits only after reviewing the plan, using the
+record-at-target patch preview when codegen is involved, and running the
+returned verification command.
 
 Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
 MCP connection, or change Assistant Local/Cloud routing. Configure Codex,
