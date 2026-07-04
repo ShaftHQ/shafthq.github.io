@@ -120,7 +120,7 @@ baseURL=https://m.example.com
 - `mobile_initialize_web_emulation` runs a resized desktop browser in mobile compatibility mode.
 - `mobile_initialize_native` starts an Appium-backed Android or iOS native session using the configured Appium server and device name, UDID, app, app package/activity, or iOS bundle ID.
 - `mobile_take_screenshot` captures the current mobile screen, and `mobile_get_accessibility_tree` returns the active Appium page source/accessibility XML so the MCP client can understand the screen before acting.
-- `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, and `mobile_recording_code_blocks` support record/playback and copy-pasteable SHAFT action snippets.
+- `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, `mobile_recording_code_blocks`, and `mobile_record_at_target_code_blocks` support record/playback, Page Object handoff, and copy-pasteable SHAFT action snippets.
 
 ---
 
