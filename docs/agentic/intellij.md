@@ -181,7 +181,7 @@ The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
 | Command help | `/commands` | `/help`, `/mcp-help`, `/shaft-help` | Local help |
 | Assistant routing | `/assistant` | `/agent`, `/ask`, `/plan`, `/clients` | `autobot_local_agent_run`, `autobot_provider_chat`, `autobot_local_agent_clients` |
 | Browser control | `/browser` | `/web`, `/browse`, `/page`, `/inspect`, `/locator` | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `playwright_initialize`, `playwright_browser_navigate` |
-| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `capture_code_blocks`, `playwright_record_start`, `playwright_recording_code_blocks` |
+| Browser recording and codegen | `/record` | `/rec`, `/capture`, `/codegen`, `/generate`, `/gen`, `/generateTest` | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_recording_code_blocks` |
 | Mobile control and inspection | `/mobile` | `/appium`, `/device`, `/phone`, `/emulator` | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | `/mobile-record` | `/app-record`, `/inspector-record`, `/mobile-codegen`, `/app-codegen`, `/mobile-replay` | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_record_at_target_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
 | Failure analysis | `/doctor` | `/allure`, `/triage`, `/fixTestFailure`, `/failure`, `/fix` | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
@@ -260,8 +260,8 @@ explicitly required for that environment.
 The workflow selector exposes curated MCP requests for common automation jobs:
 
 - Recorder: Capture start, status, checkpoints, stop, reviewed code blocks,
-  record-at-target snippets, Playwright recording controls, and replay code
-  generation.
+  target discovery, record-at-target patch previews, backend comparison,
+  evidence packs, Playwright recording controls, and replay code generation.
 - Inspector: browser and Playwright DOM snapshots, screenshots, mobile
   toolchain status, wrapped Appium Inspector recording, mobile screenshots, and
   accessibility trees.
@@ -279,7 +279,8 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   only; they do not run tools or write source by themselves.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
-  discovery, and official SHAFT guide search.
+  discovery, recorder evidence manifests, backend comparison, and official
+  SHAFT guide search.
 
 Each category provides editable JSON arguments and calls the matching MCP tool.
 This keeps generated code and source edits reviewable in the IDE instead of
@@ -300,6 +301,9 @@ method, and source path. The action defaults the session path to
 recording path. Change it only when you recorded to a different file. After
 review approval, keep the same capture session path so generation preserves the
 reviewed browser journey instead of rerunning capture.
+The generated MCP response includes focused locator/action blocks plus a
+preview-only patch block; apply changes only after reviewing that preview and
+running the relevant verification command.
 This action is available only in IDE installations with Java support enabled.
 
 Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
