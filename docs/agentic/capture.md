@@ -192,6 +192,25 @@ SHAFT validates that the requested anchor is present when possible, but it never
 edits the source file until the calling agent performs a separately approved
 repository change.
 
+## Recorder/codegen enhancement plan
+
+The next recorder/codegen work is ordered around the moments where users still
+make manual decisions after recording. The goal is to turn each decision into a
+reviewable artifact before any source file is edited.
+
+| Rank | Enhancement | User-facing result |
+| --- | --- | --- |
+| 1 | Patch preview for record-at-target | `capture_record_at_target_code_blocks` and mobile record-at-target flows show the exact Java diff before an agent applies it. |
+| 2 | Existing-suite target scanner | The MCP server suggests likely Page Objects, test classes, package names, driver variables, and insertion anchors from the current repository. |
+| 3 | Assertion gap checklist | Generated results list missing post-login, post-submit, navigation, and error-state assertions. |
+| 4 | Locator confidence queue | Weak XPath, multi-match, and coordinate fallback steps are grouped into a fix-first review list. |
+| 5 | Fixture and secret handoff | Required environment variables, test data, and upload fixtures are summarized without exposing secret values. |
+| 6 | Flow grouping assistant | Explicit `FLOW_START` and `FLOW_END` checkpoints become helper-method proposals; repeated groups stay advisory until approved. |
+| 7 | Replay failure back-links | Compile or replay failures point back to recording step ids and generated code blocks. |
+| 8 | Backend comparison blocks | Users can compare WebDriver, Playwright, and mobile generation results when a recording can map to more than one backend. |
+| 9 | PR evidence pack | Screenshots, workbench HTML, generated source paths, and validation commands are collected for review. |
+| 10 | Guided IDE action copy | IntelliJ labels follow the real flow: record, review code, preview patch, apply, and verify. |
+
 All process arguments and filesystem paths are built with Java APIs
 (`ProcessBuilder`, `Path`, and `Files`). No Windows, POSIX shell, or path
 separator is assumed; restrictive POSIX permissions are applied when supported
