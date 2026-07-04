@@ -22,15 +22,19 @@ IntelliJ's Java plugin; Java-specific actions are registered only when Java
 support is available. First run shows a four-step setup inside the tool window:
 
 1. **Pick agent** defaults to Codex CLI.
-2. **Copy command** copies the right installer command for the selected agent.
+2. **Copy command** copies the right installer command for the selected agent
+   and shows a short clipboard toast.
 3. **Run in terminal** opens the IntelliJ terminal after copying the command.
 4. **Check setup** finds the installed SHAFT MCP command automatically,
-   verifies the selected local agent, and reveals **Start chatting**.
+   verifies the selected local agent and workspace, and reveals
+   **Start chatting**.
 
 The Marketplace plugin does not download or execute installer scripts at
 runtime. It only helps you choose the agent, copy the terminal installer
 command, find the installed `shaft-mcp.args` automatically, then stores and
-starts that local command.
+starts that local command. Installer commands always fetch
+`scripts/mcp/install-shaft-mcp` from the `main` branch so copied commands use
+the latest published setup script.
 After a command has passed setup, opening SHAFT shows the Assistant view.
 Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until **Check setup**
@@ -39,11 +43,14 @@ passes.
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
-stepper. Only the current useful button is active, so the path reads as
+stepper with visible state chips. Only the current useful button is active, so
+the path reads as
 **Pick agent -> Copy command -> Run in terminal -> Check setup -> Start chatting**.
-The stdio command stays managed by SHAFT and is not shown as a setup input.
-Test failures stay inline with categorized troubleshooting, client-specific
-next steps, copyable diagnostic output, and the retry action remains enabled.
+The setup summary shows the `main` installer source, selected target, selected
+runtime, and detected recommended CLI agent. The stdio command stays managed by
+SHAFT and is not shown as a setup input. Test failures stay inline with
+categorized troubleshooting, client-specific next steps, copyable diagnostic
+output, copyable SHAFT MCP docs link, and the retry action remains enabled.
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -73,10 +80,11 @@ GitHub Copilot users should check the Copilot MCP configuration and
 organization MCP policy, and SHAFT IntelliJ plugin users should run the
 `intellij-plugin` target before checking setup.
 
-After the test succeeds, setup shows the verified runtime, **Ready**, and
-**Start chatting** action without showing the managed stdio command or probe
-logs. The plugin starts the configured stdio command when it invokes tools; it
-does not embed the SHAFT engine or manage provider model traffic itself.
+After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
+and **Start chatting** action without showing the managed stdio command or
+probe logs. The plugin starts the configured stdio command when it invokes
+tools; it does not embed the SHAFT engine or manage provider model traffic
+itself.
 
 ## Tool window
 
@@ -125,14 +133,18 @@ output is finalized.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
-requires applying code or source edits. A custom local agent command can be
-supplied for non-standard CLI installations; broad Ask, Plan, and Agent prompts
-keep using the selected local route.
+requires applying code or source edits. If an Agent-mode continuation such as
+"try again" follows an earlier source-edit request, the Assistant still requires
+`Allow source edits` before launching the local agent. A custom local agent
+command can be supplied for non-standard CLI installations; broad Ask, Plan,
+and Agent prompts keep using the selected local route.
 
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, the New chat icon to start a separate context, and the
-Clear icon to clear only the active chat. Persisted chats keep rendered
-messages only; raw MCP payloads and common token/key values are not stored.
+Clear icon to clear only the active chat. Active chat messages are included as
+bounded context for local and cloud Assistant prompts until you click Clear;
+New chat starts a separate context. Persisted chats keep rendered messages
+only; raw MCP payloads and common token/key values are not stored.
 
 The Assistant understands explicit feature intent and direct commands from the
 same chat box. For example, "start mobile recording" maps to
@@ -176,9 +188,11 @@ Assistant routes and local clients. Broad local and cloud prompts stay on the
 selected Assistant route. Direct feature commands such as `/guide`, `/browser`,
 `/record`, `/doctor`, `/project upgrade`, and `/mcp` are MCP-backed; if MCP is
 not configured, the Assistant shows the SHAFT MCP setup prompt before it runs
-that feature command. Project creation from chat returns a review instruction;
-run **Create SHAFT Project** from Projects or Guided so the confirmed workflow
-gate is used before files are written.
+that feature command. Natural-language Ask/Plan prompts that need MCP tool
+access tell you to switch to Agent mode instead of launching a local agent from
+the wrong mode. Project creation from chat returns a review instruction; run
+**Create SHAFT Project** from Projects or Guided so the confirmed workflow gate
+is used before files are written.
 
 Common examples:
 
@@ -217,9 +231,12 @@ before instrumentation starts. The flow shows explicit diagnostics for missing,
 invalid, or unwritable `JAVA_HOME` values instead of opaque startup failures.
 
 Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
-`Allow source edits` stays off for DuckDuckGo/browser flow and is enabled when the run
-must change source files. If the step is expressed as "open the first result,"
-use the scoped 1-indexed XPath (`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for the first result.
+Ask/Plan browser-control prompts should be resent in Agent mode when MCP tools
+are required. `Allow source edits` stays off for DuckDuckGo/browser flow and is
+enabled when the run must change source files. If the step is expressed as
+"open the first result," use the scoped 1-indexed XPath
+(`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for
+the first result.
 For deterministic verification, finish with a final page title and page-specific
 text check after opening that result before approving generated capture output.
 Use `discard recording` or `re-record` when a focus or click mistake pollutes
