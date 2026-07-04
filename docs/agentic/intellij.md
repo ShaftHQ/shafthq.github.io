@@ -21,35 +21,29 @@ actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
 support is available. First run shows a four-step setup inside the tool window:
 
-1. **Choose assistant** defaults to Codex CLI and shows
-   `Runtime: Codex CLI selected`.
-2. **Install MCP** shows a multi-line installer command. Copy the installer
-   command and run it in a terminal.
-3. **Detect command** infers the local stdio command from the installed
-   `shaft-mcp.args`. Manual setup stays behind **Show manual MCP install target**.
-4. **Test connection** verifies the stdio command. Success shows
-   `Runtime: Codex CLI verified` and reveals **Start chatting with SHAFT Assistant**.
+1. **Pick agent** defaults to Codex CLI.
+2. **Copy command** copies the right installer command for the selected agent.
+3. **Run in terminal** opens the IntelliJ terminal after copying the command.
+4. **Check setup** finds the installed SHAFT MCP command automatically,
+   verifies the selected local agent, and reveals **Start chatting**.
 
 The Marketplace plugin does not download or execute installer scripts at
-runtime. It only helps you choose the installer target, copy the terminal
-installer command, infer the local stdio command from the installed
-`shaft-mcp.args`, then stores and starts that local command.
+runtime. It only helps you choose the agent, copy the terminal installer
+command, find the installed `shaft-mcp.args` automatically, then stores and
+starts that local command.
 After a command has passed setup, opening SHAFT shows the Assistant view.
-Without a configured MCP command, the landing view keeps the runtime,
-installer, inference, and test steps visible.
+Without a verified MCP command, the landing view keeps the click-through setup
+visible. Unverified settings stay behind the same setup gate until **Check setup**
+passes.
 
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
-Setup opens with a **Connect SHAFT Assistant** summary and marks the path as
-`done`, `next`, `wait`, or `checking` while you move through the installer,
-command inference, and connection test. Setup rows still show **Configured**,
-**Not configured**, **Connecting**, or **Error** states for the runtime, MCP
-command, and connection test. The default Install step builds the Codex CLI
-terminal command and inference action; other manual targets remain hidden until
-**Show manual MCP install target** is selected.
+Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
+stepper. Only the current useful button is active, so the path reads as
+**Pick agent -> Copy command -> Run in terminal -> Check setup -> Start chatting**.
+The stdio command stays managed by SHAFT and is not shown as a setup input.
 Test failures stay inline with categorized troubleshooting, client-specific
-next steps, copyable diagnostic command/output actions, and the retry action
-remains enabled.
+next steps, copyable diagnostic output, and the retry action remains enabled.
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -66,26 +60,23 @@ it:
   MCP configuration file.
 - **Client runtime**: install the selected client CLI or add it to `PATH`, then
   retry.
-- **MCP command**: rerun the terminal installer, infer the installed stdio
-  command, or paste a local SHAFT MCP stdio command generated outside IntelliJ.
-- **MCP probe**: run the copied stdio command in a terminal to confirm it starts
-  outside IntelliJ.
+- **MCP command**: rerun the terminal installer, then click **Check setup** so
+  SHAFT can find the installed command automatically.
+- **MCP probe**: rerun the installer command, then click **Check setup** once it
+  finishes.
 
-The setup pane includes a command builder, one-click actions for copying the
-installer command, inferring the stdio command, and copying diagnostic
-command/output. Codex users should verify `codex mcp list`, Claude users should
+The setup pane includes one-click actions for copying the installer command,
+opening the IntelliJ terminal, checking setup, and copying diagnostic output.
+Codex users should verify `codex mcp list`, Claude users should
 verify `claude mcp list` or restart Claude Desktop after desktop config changes,
 GitHub Copilot users should check the Copilot MCP configuration and
 organization MCP policy, and SHAFT IntelliJ plugin users should run the
-`intellij-plugin` target before using inference.
+`intellij-plugin` target before checking setup.
 
-After the test succeeds, setup stays visible long enough to show the verified
-runtime and **Start chatting with SHAFT Assistant** action. The success message
-includes the effective MCP workspace, `user.dir`, `shaft.mcp.workspaceRoot`, and
-`SHAFT_MCP_WORKSPACE_ROOT`, so you can confirm that tools are scoped to the open
-IntelliJ project. The plugin starts the configured stdio command when it invokes
-tools; it does not embed the SHAFT engine or manage provider model traffic
-itself.
+After the test succeeds, setup shows the verified runtime, **Ready**, and
+**Start chatting** action without showing the managed stdio command or probe
+logs. The plugin starts the configured stdio command when it invokes tools; it
+does not embed the SHAFT engine or manage provider model traffic itself.
 
 ## Tool window
 
@@ -94,7 +85,8 @@ the **Assistant** workflow. Use the **Workflow** selector at the top of the tool
 window to switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
 **Evidence**, **Projects**, and **Advanced**. The selector is used instead of a
 crowded tab strip so the controls stay readable in the narrow right-side
-IntelliJ tool window.
+IntelliJ tool window. MCP-backed workflow panels use the same verified setup
+state as the Assistant; a command must pass setup before feature tools run.
 
 ## Assistant
 
@@ -117,12 +109,15 @@ are stored in IntelliJ Password Safe; only the selected cloud provider key is
 passed to the MCP process. Cloud `AGENT` mode is disabled because direct
 provider chat cannot mutate the local workspace.
 
-Use `Ctrl+Enter` to send a prompt. Newly sent prompts scroll into view
-immediately, so the chat shows visible feedback before a long-running response
-finishes. The selected local agent appears as compact text such as `Codex CLI`;
-hover it for the full route, for example `Agent: Local / Codex / CLI`.
-Assistant controls are icon-only, keep JetBrains-style glyphs, use borderless
-button and chat-bubble surfaces, and retain accessible names and tooltips.
+Use `Ctrl+Enter` or `Command+Enter` to send a prompt. Newly sent prompts scroll
+into view immediately, so the chat shows visible feedback before a long-running
+response finishes. Press `Escape` to cancel a running request. The selected
+local agent appears as compact text such as `Codex CLI`; hover it for the full
+route, for example `Agent: Local / Codex / CLI`.
+Compact Assistant controls keep JetBrains-style glyphs, including Copy all,
+Clear, and Rerun transcript actions. All controls retain accessible names,
+status metadata, and tooltips. Code blocks use a light editor-style palette in
+light mode and a distinct dark surface in dark mode.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
@@ -148,14 +143,12 @@ After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
 
-An empty transcript suggests `/guide`, `/browser`, `/record`, and `/doctor` and
-shows starter insertions for common first tasks such as guide search, browser
-control, web recording, and failure analysis. The run timeline and action
-controls stay hidden until the current prompt, selected tool, running,
-approval, completion, cancellation, or failure state makes them useful. Type
-`@` in the prompt, or use the context icon, to insert supported workflow/tool
-starters. Type `#` when the current file or known project artifacts are
-available.
+An empty transcript stays focused on the larger composer instead of adding
+starter text below the chat. The run timeline and action controls stay hidden
+until the current prompt, selected tool, running, approval, completion,
+cancellation, or failure state makes them useful. Type `@` in the prompt, or
+use the context icon, to insert supported workflow/tool starters. Type `#` when
+the current file or known project artifacts are available.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command
@@ -165,7 +158,7 @@ The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
 
 ![SHAFT IntelliJ Assistant command hint and chat composer](/img/agentic/intellij-plugin-assistant.png)
 
-![SHAFT IntelliJ Assistant empty chat starters](/img/agentic/intellij-plugin-assistant-empty.png)
+![SHAFT IntelliJ Assistant empty composer](/img/agentic/intellij-plugin-assistant-empty.png)
 
 | Feature | Canonical command | Synonyms | Primary MCP tools |
 | --- | --- | --- | --- |

@@ -39,6 +39,13 @@ user configuration without creating a second `shaft-mcp` entry. Run the same
 command later to install a newer release. If you run the script without a
 target, it prompts you to choose a supported client.
 
+After the MCP setup succeeds, attended installs ask whether to install the
+SHAFT agent skills into the current directory and show that directory before
+you answer. Press Enter or answer `y` to install `shaft-skills/`; answer `n` to
+skip them. Unattended installs, including the IntelliJ IDEA plugin target,
+install the skills by default. Use `--install-shaft-skills` to force skill
+installation or `--skip-shaft-skills` to disable it.
+
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
 image for interactive local browser work: its browser runs inside the container
@@ -57,9 +64,8 @@ For an IDE-native experience in Java projects, see
 MCP tools from an IntelliJ tool window and keeps engine, local agent, and
 provider behavior outside plugin code. It does not run installer scripts inside
 the IDE; its first-run setup lets you choose the target agent or SHAFT IntelliJ
-plugin, copy the matching installer command, then infer the local
-`java @shaft-mcp.args` stdio command after installation. Manual paste remains
-available in setup and settings.
+plugin, copy the matching installer command, run it in the IntelliJ terminal,
+then checks the installation and stores the local stdio command automatically.
 
 ## Runtime workspace
 
@@ -435,7 +441,7 @@ verified, and rolled back on failure.
 
 At the end of a successful install, the script prints the installed
 `shaft-mcp` version, the configured client, the restart or new-session action,
-and this user guide link.
+the SHAFT skills install path or skip decision, and this user guide link.
 
 The MCP client remains responsible for tool approvals and model
 authentication.
