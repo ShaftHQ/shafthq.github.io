@@ -165,6 +165,8 @@ the current file or known project artifacts are available.
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command
 documentation. The command picker also shows each command summary and example.
+Command-help output renders each example on its own line as a fenced command
+block, so the IDE copy button can copy one runnable command at a time.
 The visible palette includes `/codegen`, `/record-web`, `/record-mobile`,
 `/doctor`, `/guide`, `/guardrails`, `/browser`, `/mobile`, and `/project`.
 
@@ -213,11 +215,13 @@ Common examples:
 Responses render as Markdown. Known SHAFT responses, including local agent runs,
 provider chat, local client discovery, MCP `content[].text` envelopes, JSON
 payloads, and Java snippets, are parsed into readable sections, tables, or
-fenced code blocks. Unknown structured responses are formatted through the
-selected Assistant route when possible; if no formatter is available, the plugin
-falls back to a local Markdown-safe JSON/code rendering. Use the copy actions
-for rendered Markdown, raw support diagnostics, or the full transcript plus
-current-session tool evidence when exporting for issue review.
+fenced code blocks. When a browser or mobile recording stops successfully, the
+Assistant shows the next `/codegen ...` command in its own fenced block.
+Unknown structured responses are formatted through the selected Assistant route
+when possible; if no formatter is available, the plugin falls back to a local
+Markdown-safe JSON/code rendering. Use the copy actions for rendered Markdown,
+raw support diagnostics, or the full transcript plus current-session tool
+evidence when exporting for issue review.
 
 ## Onboarding recording notes
 
