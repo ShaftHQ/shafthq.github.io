@@ -2659,7 +2659,7 @@
     "section": "Pilot",
     "key": "pilot.ai.gemini.model",
     "targetFile": "custom.properties",
-    "defaultValue": "",
+    "defaultValue": "gemini-3.5-flash",
     "possibleValues": "",
     "description": "configured Gemini model"
   },
