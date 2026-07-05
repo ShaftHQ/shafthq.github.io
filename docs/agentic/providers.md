@@ -41,7 +41,8 @@ pilot.ai.enabled=false
 pilot.ai.provider=none
 ```
 
-Provider models default to blank, remote and local consent default to `false`,
+Provider models default to blank except `pilot.ai.gemini.model`, which
+defaults to `gemini-3.5-flash`; remote and local consent default to `false`,
 and no evidence category is approved by default. Disabled or unavailable AI
 returns the request's `deterministicFallback` and makes no network call.
 
