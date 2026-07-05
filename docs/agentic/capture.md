@@ -84,6 +84,9 @@ WebDriver code generation remains the default through `capture_generate`,
 when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
 Playwright output. Those Playwright tools read the same Capture session format
 but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+From the local Capture CLI, pass `capture generate --backend playwright` to emit
+the same Playwright backend from a persisted Capture session; omitting
+`--backend` keeps WebDriver output.
 MCP Playwright action recordings created with `playwright_record_start` remain
 available through the same Playwright tool names; `playwright_recording_code_blocks`
 now adapts supported recorded actions into a Capture session, returns the
@@ -115,6 +118,9 @@ equals or contains, attribute equals, URL equals or contains, or title equals.
 The recorder stores these as `VerificationEvent` records. Expected text, URL,
 title, and attribute values are externalized through the same privacy classifier
 used for typed data, so generated assertions do not embed captured secrets.
+Generated GUI assertions use SHAFT assertion builders such as
+`driver.element().assertThat(...)` and `driver.browser().assertThat()`; do not
+replace checkpoint notes with raw TestNG or JUnit assertions.
 
 ![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
 
@@ -416,7 +422,8 @@ Every generated class creates a fresh driver in `@BeforeMethod` and calls
 `driver.quit()` from `@AfterMethod(alwaysRun = true)`. Only explicit
 `VerificationEvent` records become assertions. An `ASSERTION` checkpoint must
 point at a verification event; unsupported steps fail generation with their
-event IDs and remediation. A matched `FLOW_START`/`FLOW_END` pair does not
+event IDs and remediation. Checkpoint notes alone do not satisfy missing
+assertion warnings. A matched `FLOW_START`/`FLOW_END` pair does not
 infer abstractions from similar steps; only the explicitly marked events move
 into a reusable helper method.
 

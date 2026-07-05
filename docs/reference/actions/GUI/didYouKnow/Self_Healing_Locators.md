@@ -1,21 +1,31 @@
 ---
 id: Self_Healing_Locators
-title: Self-Healing Locators with Healenium
+title: Self-Healing Locators
 sidebar_label: Self-Healing Locators
-description: "Automatically recover from broken locators in SHAFT Engine using Healenium — configure self-healing properties and reduce test maintenance overhead."
-keywords: [SHAFT, self-healing locators, Healenium, broken locators, test maintenance, flaky tests, DOM changes]
+description: "Recover broken web locators in SHAFT Engine with SHAFT Heal, with legacy Healenium configuration documented for compatibility."
+keywords: [SHAFT, self-healing locators, SHAFT Heal, Healenium, broken locators, test maintenance, flaky tests, DOM changes]
 tags: [web, self-healing, healenium, locators]
 ---
 
-SHAFT Engine integrates [Healenium](https://healenium.io/) to automatically recover from broken element locators caused by DOM changes. When a locator fails to find an element, Healenium analyses the current DOM and attempts to locate the best matching element — reducing test maintenance overhead.
+For current SHAFT projects, start with
+[SHAFT Heal](/docs/agentic/heal): add `shaft-heal` and opt in with
+`healing.strategy=shaft-heal`. SHAFT Heal is deterministic, explainable,
+disabled by default, and writes reviewable locator recovery reports.
+
+This page keeps the legacy Healenium path documented for projects that already
+use it or explicitly need Healenium backend integration.
 
 :::info
-Healenium requires a **backend server** running alongside your tests. See the [Healenium documentation](https://healenium.io/docs/) for server setup instructions using Docker.
+Healenium remains opt-in through `healing.strategy=healenium`, or through the
+legacy `heal-enabled=true` flag when no explicit SHAFT Heal strategy is set. It
+requires a **backend server** running alongside your tests. See the
+[Healenium documentation](https://healenium.io/docs/) for server setup
+instructions using Docker.
 :::
 
 ---
 
-## How It Works
+## Legacy Healenium flow
 
 1. When an element cannot be found by its locator, Healenium intercepts the failure.
 2. It queries the Healenium backend server, which analyses the last known DOM snapshot.
@@ -25,7 +35,7 @@ Healenium requires a **backend server** running alongside your tests. See the [H
 
 ---
 
-## Configuration
+## Legacy Healenium configuration
 
 Configure Healenium properties programmatically using `SHAFT.Properties.healenium.set()`:
 
@@ -53,7 +63,7 @@ healenium.server.port=7878
 
 ---
 
-## Available Properties
+## Legacy Healenium properties
 
 | Property | Type | Default | Description |
 |---|---|---|---|
@@ -113,7 +123,10 @@ public class SelfHealingTest {
 ---
 
 :::tip
-Review the Healenium healing report after each test run and update your locators to the healed versions. Self-healing is a safety net, not a substitute for maintaining accurate locators.
+Prefer SHAFT Heal for new locator recovery work. For legacy Healenium suites,
+review the Healenium healing report after each test run and update your
+locators to the healed versions. Self-healing is a safety net, not a substitute
+for maintaining accurate locators.
 :::
 
 :::warning
@@ -122,6 +135,7 @@ Disable Healenium for performance-sensitive test suites or when running in envir
 
 ## Related
 
+- [SHAFT Heal](/docs/agentic/heal)
 - [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)

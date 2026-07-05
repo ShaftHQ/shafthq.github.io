@@ -75,9 +75,11 @@ Use the most user-facing locator that is stable enough for the product:
 1. Prefer semantic locators such as visible text, labels, placeholders, and ARIA
    names.
 2. Use `SHAFT.GUI.Locator` when you need a precise composed locator.
-3. Keep waits and retries as evidence-backed safety nets, not as a substitute
+3. Use native `By.xpath(...)` only as a last fallback for complex locators that
+   cannot be expressed with Smart Locators or the locator builder.
+4. Keep waits and retries as evidence-backed safety nets, not as a substitute
    for a stable locator.
-4. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
+5. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
    strategies cannot survive expected UI changes.
 
 ## Playwright backend
