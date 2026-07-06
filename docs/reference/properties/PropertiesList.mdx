@@ -434,6 +434,70 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 </Tabs>
 
+### Capture
+
+- These properties control web API request/response recording and capture settings, including network event filtering, request/response body externalization, and sensitive data redaction for API traffic capture during test execution.
+
+<Tabs groupId="PropertyTypes" queryString="Capture">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  boolean captureApiEnabled = SHAFT.Properties.capture.apiEnabled();
+  int captureApiMaxBodySizeBytes = SHAFT.Properties.capture.apiMaxBodySizeBytes();
+  boolean captureApiExternalizeRequestBodies = SHAFT.Properties.capture.externalizeRequestBodies();
+  boolean captureApiExternalizeResponseBodies = SHAFT.Properties.capture.externalizeResponseBodies();
+  String captureApiRedactedHeaderPatterns = SHAFT.Properties.capture.redactedHeaderPatterns();
+
+  /** set **/
+  SHAFT.Properties.capture.set()
+    .apiEnabled(true)
+    .apiMaxBodySizeBytes(1048576)
+    .externalizeRequestBodies(true)
+    .externalizeResponseBodies(true)
+    .redactedHeaderPatterns("authorization,cookie,x-api-key");
+  ```
+  </TabItem>
+
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```bash showLineNumbers
+  mvn test \
+    -Dcapture.api.enabled=true \
+    -Dcapture.api.maxBodySizeBytes=1048576 \
+    -Dcapture.api.externalizeRequestBodies=true \
+    -Dcapture.api.externalizeResponseBodies=true \
+    -Dcapture.api.redactedHeaderPatterns=authorization,cookie,x-api-key
+  ```
+  </TabItem>
+
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  capture.api.enabled=true
+  capture.api.maxBodySizeBytes=1048576
+  capture.api.externalizeRequestBodies=true
+  capture.api.externalizeResponseBodies=true
+  capture.api.redactedHeaderPatterns=authorization,cookie,x-api-key
+  ```
+  </TabItem>
+
+  <TabItem value="defaults" label="Default Values">
+
+  | Property Name                         | Default Value | Possible Values | Description                                                                                                                                                         |
+  |--------------------------------------|----------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | `capture.api.enabled`               | `false`       | `true`, `false` | • Enable or disable automatic capture of web API network traffic during test execution.<br/>• Requires Chrome or Edge browser with DevTools Protocol support.         |
+  | `capture.api.maxBodySizeBytes`      | `1048576`     | bytes (integer) | • Maximum request/response body size to capture in bytes (default 1 MB).<br/>• Bodies exceeding this limit are truncated in the capture session.                    |
+  | `capture.api.externalizeRequestBodies` | `true`    | `true`, `false` | • Store request bodies in external `capture-request-bodies.json` file instead of inline in the capture session.<br/>• Reduces session JSON size for large payloads. |
+  | `capture.api.externalizeResponseBodies` | `true`   | `true`, `false` | • Store response bodies in external `capture-response-bodies.json` file instead of inline in the capture session.<br/>• Reduces session JSON size for large payloads. |
+  | `capture.api.redactedHeaderPatterns` | ` `         | comma-separated header names | • Comma-separated list of header name patterns (case-insensitive regex) to redact from captured traffic.<br/>• Examples: `authorization`, `cookie`, `x-api-key`, `x-secret.*` |
+
+  </TabItem>
+
+</Tabs>
+
 ### Flags
 
 - These properties control generic platform flags, like the number of test retry attempts, auto-maximization of web browser window, and any other built-in checks or workarounds that aim to stabilize your test execution.

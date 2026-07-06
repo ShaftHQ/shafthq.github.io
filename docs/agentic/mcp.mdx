@@ -254,6 +254,81 @@ approval warnings. The tool does not edit source. After review, use Capture
 record-at-target tools or the calling agent's normal patch workflow to apply
 only the missing code.
 
+## Recording web API traffic
+
+Use the API capture tools to record HTTP request and response traffic during
+browser-based test execution. These tools extend the standard Capture lifecycle
+with automatic API event collection, body externalization, and sensitive header
+redaction.
+
+### `capture_api_start`
+
+Start a managed Chrome or Edge browser session and begin recording API traffic
+alongside browser interactions. This tool requires browser support for Chrome
+DevTools Protocol (CDP); Firefox and Safari are not supported.
+
+**Parameters:**
+- `url` (string, required): Initial navigation URL for the managed browser
+- `browser` (string, optional): Target browser name; defaults to `chrome`; Chrome, Chromium, or Edge
+- `outputPath` (string, optional): File path where the capture session is stored
+- `maxBodySizeBytes` (integer, optional): Maximum request/response body size in bytes; default 1048576 (1 MB); bodies exceeding this limit are truncated
+- `externalizeRequestBodies` (boolean, optional): Store request bodies in external file; default true
+- `externalizeResponseBodies` (boolean, optional): Store response bodies in external file; default true
+- `redactedHeaderPatterns` (string, optional): Comma-separated header name patterns (regex, case-insensitive) to exclude from capture; e.g., `authorization,cookie,x-api-key,x-secret.*`
+- `sessionGoal` (string, optional): User-provided intent summary stored in session metadata for review comments
+
+**Returns:**
+- Session status with event count, warnings, and readiness assessment
+- Path to the capture session file
+- Runtime directory for control files and external bodies
+
+### `capture_api_status`
+
+Query the status of the current active API capture recording. No parameters required.
+
+**Returns:**
+- `state`: Recording state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
+- `eventCount`: Number of captured browser interactions and API events
+- `apiEventCount`: Number of captured HTTP request/response events
+- `warnings`: List of deterministic warnings (unsupported interactions, missing locators, redacted inputs, etc.)
+- `readiness`: Assessment of captured state (`READY`, `RISKY`, `BLOCKED`)
+- `sessionPath`: Absolute path to the active capture session file
+
+### `capture_api_stop`
+
+Stop the active recording and close the managed browser. The session transitions to `COMPLETED` state and is ready for generation or review.
+
+**Parameters:**
+- `discard` (boolean, optional): When true, delete the capture session; default false
+
+**Returns:**
+- Final session status including event and API event counts
+- Session file path
+- Path to the generated workbench HTML for local review
+- Warning summary from the recording
+
+### `capture_checkpoint`
+
+Add an explicit checkpoint marker during recording to denote assertion points,
+flow boundaries, or named sections. Works with both standard browser-only and
+API-capture recordings.
+
+**Parameters:**
+- `kind` (string, required): Checkpoint category; `BROWSER` for assertion points, `FLOW_START` or `FLOW_END` for reusable helper method boundaries, or `MANUAL` for user notes
+- `description` (string, required): Checkpoint label; for `FLOW_START`/`FLOW_END`, becomes the generated helper method name
+
+**Returns:**
+- Confirmation of checkpoint insertion
+- Current event count and readiness assessment
+
+## API capture privacy and safety
+
+- **No secrets in session:** Configured redaction patterns, environment references, and the SHAFT privacy classifier prevent typed secrets, credentials, cookies, and authorization values from entering the persistent session JSON
+- **External bodies:** Request and response bodies are stored in separate `capture-request-bodies.json` and `capture-response-bodies.json` files by default, reducing session file size
+- **Header redaction:** Matching headers are replaced with placeholder text; original values are never stored
+- **Size limits:** Request and response bodies are capped at 1 MB by default; larger bodies are truncated
+- **Safe review:** The generated workbench HTML and capture review summary omit secrets and report only counts and rule names, never exposed values
+
 ## Trace-first failure workflow
 
 When a SHAFT WebDriver run writes persisted trace artifacts under
@@ -296,6 +371,11 @@ The packaged server supports:
 - Streamable HTTP with `--spring.profiles.active=http`, at `/mcp`;
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
+- web API traffic capture through `capture_api_start`, `capture_api_status`,
+  `capture_api_stop`, and `capture_checkpoint` for recordings that include HTTP
+  request/response events, with automatic body externalization, header redaction,
+  size limiting, and privacy enforcement; Chrome/Edge browsers with DevTools
+  Protocol support only;
 - deterministic WebDriver TestNG generation through `capture_generate`,
   `capture_generate_replay`, `capture_code_blocks`, and
   `capture_record_at_target_code_blocks`, with compile, optional replay, local
