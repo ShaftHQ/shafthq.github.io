@@ -74,10 +74,10 @@ try {
     String localFile = remote.downloadFile(remoteFile, "target/ssh-demo/shaft-demo.txt");
     String localPort = remote.forwardLocalPort(0, "127.0.0.1", 22);
 
-    SHAFT.Validations.assertThat().object(whoami).doesNotEqual("").perform();
-    SHAFT.Validations.assertThat().object(withEnv).contains("docs-demo").perform();
-    SHAFT.Validations.assertThat().object(localFile).contains("shaft-demo.txt").perform();
-    SHAFT.Validations.assertThat().object(localPort).doesNotEqual("").perform();
+    SHAFT.Validations.assertThat().object(whoami).doesNotEqual("");
+    SHAFT.Validations.assertThat().object(withEnv).contains("docs-demo");
+    SHAFT.Validations.assertThat().object(localFile).contains("shaft-demo.txt");
+    SHAFT.Validations.assertThat().object(localPort).doesNotEqual("");
 } finally {
     remote.quit();
 }
@@ -248,6 +248,65 @@ Common connection issues:
 - **Legacy `ssh-rsa` hosts** — older servers may require enabling RSA signatures in JSch config. Pass algorithm flags through `SshConnectionOptions.extraJschConfig(...)` when using the options overload ([#3130](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3130)).
 - **Duplicate JSch artifacts** — exclude `com.jcraft:jsch` from transitive dependencies so only the mwiede coordinate remains.
 - **Host key checking** — the string-based `remoteTerminal(...)` overloads currently disable strict host-key checking for backward compatibility. Use `SshConnectionOptions` with `knownHosts` and `strictHostKeyChecking(true)` when you need strict validation ([#3130](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3130)).
+
+---
+
+## Experimental Shell / PTY Support
+
+For interactive programs that need a shell lifecycle, prompts, or a pseudo-terminal — installers, CLIs, and server setup flows — open an experimental shell channel on a reusable remote terminal with `openShell(SshShellOptions)`. Prefer `performTerminalCommand(...)` for one-shot commands; reach for this only when you need to drive a prompt-response session.
+
+`openShell(...)` requires a reusable remote terminal from `SHAFT.CLI.remoteTerminal(...)`; local, dockerized, and ephemeral remote terminals are rejected. `TerminalActions.quit()` closes any open shell channels before disconnecting the underlying SSH session.
+
+```java title="SshShellInstaller.java"
+import com.shaft.cli.SshShellOptions;
+import com.shaft.cli.SshShellSession;
+import com.shaft.cli.TerminalActions;
+import com.shaft.driver.SHAFT;
+
+import java.time.Duration;
+import java.util.regex.Pattern;
+
+TerminalActions remote = SHAFT.CLI.remoteTerminal(
+    "install-host.example.com", 22, "qa-user", "~/.ssh/", "id_ed25519"
+);
+
+SshShellOptions shellOptions = SshShellOptions.builder()
+    .pty(true)
+    .ptyType("vt100")
+    .defaultTimeout(Duration.ofSeconds(30))
+    .build();
+
+try (SshShellSession shell = remote.openShell(shellOptions)) {
+    shell.readUntil(Pattern.compile("[$#] "));
+    shell.sendLine("cd /opt/installer");
+    shell.readUntil(Pattern.compile("[$#] "));
+
+    shell.sendLine("./install.sh --interactive");
+    shell.readUntil(Pattern.compile("Do you accept the license\\?"));
+    shell.sendLine("yes");
+
+    String finalOutput = shell.readUntil(Pattern.compile("Installation complete"));
+    SHAFT.Validations.assertThat().object(finalOutput).contains("Installation complete");
+} finally {
+    remote.quit();
+}
+```
+
+`SshShellOptions` also accepts `columns`/`rows` (PTY dimensions) and an initial `environment` map via its builder; all fields default sensibly (`pty=false`, `ptyType="vt100"`, an 80x24 terminal, and a 30-second timeout) when left unset.
+
+### Secret Prompts
+
+Use `sendSecret(...)` for passwords or other sensitive values — the text is written to the shell channel exactly like `sendLine`, but it is never written to raw logs; shell output that gets attached or logged still goes through SHAFT's existing terminal redaction path.
+
+```java title="SshShellSecretPrompt.java"
+shell.readUntil(Pattern.compile("Password:"));
+shell.sendSecret(System.getenv("SHAFT_REMOTE_SUDO_PASSWORD") + "\n");
+shell.readUntil(Pattern.compile("[$#] "));
+```
+
+`readUntil(Pattern)` blocks until the pattern matches (using the shell's default timeout) or throws a timeout error naming the pattern and elapsed duration; pass an explicit `readUntil(Pattern, Duration)` to override the default for a single read. `send(String)` writes exact text with no trailing newline, while `sendLine(String)` appends one.
+
+This API is intentionally small — it does not attempt terminal resizing, ANSI parsing, or an expect-style scripting language. For scripted, non-interactive commands, `performTerminalCommand(...)` remains the simpler choice.
 
 ---
 
