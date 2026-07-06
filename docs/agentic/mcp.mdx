@@ -289,9 +289,9 @@ Query the status of the current active API capture recording. No parameters requ
 **Returns:**
 - `state`: Recording state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
 - `eventCount`: Number of captured browser interactions and API events
-- `apiEventCount`: Number of captured HTTP request/response events
+- `readiness`: Recording readiness state
 - `warnings`: List of deterministic warnings (unsupported interactions, network errors, etc.)
-- `sessionPath`: Absolute path to the active capture session file
+- `outputPath`: Absolute path to the active capture session file
 
 ### `capture_api_stop`
 

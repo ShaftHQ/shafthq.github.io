@@ -582,15 +582,16 @@ API traffic capture is only available for browsers with DevTools Protocol suppor
 
 ### Code generation from API recordings
 
-After a successful `capture_api_stop`, generate test code using `capture_generate`:
+After a successful `capture_api_stop`, generate test code using `capture_generate_replay`:
 
 ```json
 {
-  "tool": "capture_generate",
+  "tool": "capture_generate_replay",
   "arguments": {
     "sessionPath": "recordings/checkout-with-api.json",
     "outputDirectory": "generated-tests",
-    "backend": "webdriver"
+    "packageName": "com.example.api",
+    "className": "CheckoutApiTest"
   }
 }
 ```
