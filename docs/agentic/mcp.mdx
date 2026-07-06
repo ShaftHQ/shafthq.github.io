@@ -254,6 +254,93 @@ approval warnings. The tool does not edit source. After review, use Capture
 record-at-target tools or the calling agent's normal patch workflow to apply
 only the missing code.
 
+## Recording web API traffic
+
+Use the API capture tools to record HTTP request and response traffic during
+browser-based test execution. These tools extend the standard Capture lifecycle
+with automatic API event collection, body externalization, and sensitive header
+redaction.
+
+### `capture_api_start`
+
+Start a managed Chrome or Edge browser session and begin recording API traffic
+alongside browser interactions. This tool requires browser support for Chrome
+DevTools Protocol (CDP); Firefox and Safari are not supported.
+
+**Parameters:**
+- `targetUrl` (string, required): Initial http, https, or file URL for the managed browser
+- `browser` (string, optional): Chrome or Edge; blank selects Chrome
+- `headless` (string, optional): Whether to launch without a visible window; blank selects repo policy (headless)
+- `recordNetworkActivity` (boolean, required): Whether to capture network transactions
+- `excludeAssetTypes` (string, optional): Comma-separated asset types to exclude
+- `includeOnlyDomains` (string, optional): Comma-separated domains to include; empty includes all
+- `excludePatterns` (string, optional): Comma-separated URL patterns to exclude
+- `sanitizeHeaders` (boolean, required): Whether to redact sensitive header values
+
+**Returns:**
+- Safe recorder status with network transaction count
+- Session state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
+- Event count and network metrics
+
+### `capture_api_status`
+
+Query the status of the current active API capture recording. No parameters required.
+
+**Returns:**
+- `state`: Recording state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
+- `eventCount`: Number of captured browser interactions and API events
+- `readiness`: Recording readiness state
+- `warnings`: List of deterministic warnings (unsupported interactions, network errors, etc.)
+- `outputPath`: Absolute path to the active capture session file
+
+### `capture_api_stop`
+
+Stop the active API capture recording.
+
+**Parameters:**
+- `stop` (boolean, required): Must be `true` for safety confirmation
+- `discard` (boolean, optional): Whether to delete capture artifacts after shutdown
+
+**Returns:**
+- Final recorder status with network transaction counts
+- Session file path
+
+### `capture_api_transactions`
+
+Query and retrieve the list of captured API transactions (HTTP request/response pairs)
+from the active recording. Returns a structured list of all network events recorded
+so far, including request details, response metadata, and capture timestamps.
+
+**Parameters:**
+- `limit` (integer, required): Maximum transactions to return (0 = all)
+- `includeAssets` (boolean, required): Whether to include asset requests (images, fonts, stylesheets)
+
+**Returns:**
+- Ordered list of network transaction summaries, each containing:
+  - `transactionId`: Unique transaction identifier
+  - `method`: HTTP method (GET, POST, PUT, DELETE, etc.)
+  - `sanitizedUrl`: Redacted URL without credentials or sensitive query params
+  - `statusCode`: HTTP response status code (0 if failed/blocked)
+  - `resourceKind`: Inferred resource type (document, xhr, fetch, stylesheet, image, font, other)
+  - `durationMs`: Transaction duration in milliseconds
+  - `requestSizeBytes`: Request body size in bytes (0 if no body)
+  - `responseSizeBytes`: Response body size in bytes (0 if unavailable)
+  - `failureReason`: Network or security error reason (empty if successful)
+  - `responseHeaders`: Redacted response headers (excludes sensitive values)
+  - `correlatedUiSequence`: List of correlated UI event IDs if any
+  - `bodyRefId`: Safe reference to stored body content if present
+  - `timestamp`: When the transaction started
+
+## API capture privacy and safety
+
+- **No secrets in session (by default):** When `capture.api.storeSecretsLocally=false` (default), authorization headers and sensitive data are stored via `bodyRefId` reference instead of inline values, and the SHAFT privacy classifier prevents typed secrets and credentials from entering the persistent session JSON
+- **Body externalization and reference handling:** Request/response bodies are stored via `bodyRefId` references in captured transactions for privacy preservation; the real body content is stored separately and referenced safely
+- **Secret storage control:** Set `capture.api.storeSecretsLocally=true` to store authorization headers inline for testing purposes (not recommended for production)
+- **Request/response body handling:** Bodies captured during recording are limited by `capture.api.maxBodyBytes=1048576` (1 MB default); bodies exceeding this limit are truncated
+- **First-party filtering:** Use `capture.api.firstPartyOnly=true` (default) to record only API calls from the primary domain, or set to false to include all cross-origin requests
+- **Asset filtering:** Set `capture.api.includeAssets=false` (default) to exclude image, CSS, font, and other static assets, or set to true to include them in the capture
+- **Safe review:** The generated workbench HTML and capture review summary omit secrets and report only counts and rule names, never exposed values
+
 ## Trace-first failure workflow
 
 When a SHAFT WebDriver run writes persisted trace artifacts under
@@ -296,6 +383,11 @@ The packaged server supports:
 - Streamable HTTP with `--spring.profiles.active=http`, at `/mcp`;
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
+- web API traffic capture through `capture_api_start`, `capture_api_status`,
+  `capture_api_stop`, and `capture_api_transactions` for recordings that include HTTP
+  request/response events, with automatic secret-reference handling, size limiting,
+  first-party/asset filtering, and privacy enforcement; Chrome/Edge browsers with
+  DevTools Protocol support only;
 - deterministic WebDriver TestNG generation through `capture_generate`,
   `capture_generate_replay`, `capture_code_blocks`, and
   `capture_record_at_target_code_blocks`, with compile, optional replay, local

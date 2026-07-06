@@ -434,6 +434,70 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 </Tabs>
 
+### Capture
+
+- These properties control web API request/response recording and capture settings, including network event filtering, request/response body externalization, and sensitive data redaction for API traffic capture during test execution.
+
+<Tabs groupId="PropertyTypes" queryString="Capture">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+
+  /** get **/
+  boolean captureApiEnabled = SHAFT.Properties.capture.isEnabled();
+  int captureApiMaxBodyBytes = SHAFT.Properties.capture.maxBodyBytes();
+  boolean captureApiIncludeAssets = SHAFT.Properties.capture.includeAssets();
+  boolean captureApiFirstPartyOnly = SHAFT.Properties.capture.firstPartyOnly();
+  boolean captureApiStoreSecretsLocally = SHAFT.Properties.capture.storeSecretsLocally();
+
+  /** set **/
+  SHAFT.Properties.capture.set()
+    .enabled(true)
+    .maxBodyBytes(1048576)
+    .includeAssets(false)
+    .firstPartyOnly(true)
+    .storeSecretsLocally(false);
+  ```
+  </TabItem>
+
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```bash showLineNumbers
+  mvn test \
+    -Dcapture.api.enabled=true \
+    -Dcapture.api.maxBodyBytes=1048576 \
+    -Dcapture.api.includeAssets=false \
+    -Dcapture.api.firstPartyOnly=true \
+    -Dcapture.api.storeSecretsLocally=false
+  ```
+  </TabItem>
+
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  capture.api.enabled=true
+  capture.api.maxBodyBytes=1048576
+  capture.api.includeAssets=false
+  capture.api.firstPartyOnly=true
+  capture.api.storeSecretsLocally=false
+  ```
+  </TabItem>
+
+  <TabItem value="defaults" label="Default Values">
+
+  | Property Name                    | Default Value | Possible Values | Description                                                                                                                                                         |
+  |----------------------------------|----------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | `capture.api.enabled`            | `false`       | `true`, `false` | • Enable or disable automatic capture of web API network traffic during test execution.<br/>• Requires Chrome or Edge browser with DevTools Protocol support.         |
+  | `capture.api.maxBodyBytes`       | `1048576`     | bytes (integer) | • Maximum request/response body size to capture in bytes (1 MB).<br/>• Bodies exceeding this limit are truncated in the capture session.                           |
+  | `capture.api.includeAssets`      | `false`       | `true`, `false` | • Include asset requests (images, CSS, fonts, etc.) in API capture.<br/>• When false, only data/API calls are recorded.                                            |
+  | `capture.api.firstPartyOnly`     | `true`        | `true`, `false` | • Capture only first-party API calls from the primary domain.<br/>• When false, all cross-origin requests are included.                                           |
+  | `capture.api.storeSecretsLocally` | `false`      | `true`, `false` | • Store authorization headers and sensitive data in the capture session.<br/>• When false (default), secrets are referenced via bodyRefId instead.                 |
+
+  </TabItem>
+
+</Tabs>
+
 ### Flags
 
 - These properties control generic platform flags, like the number of test retry attempts, auto-maximization of web browser window, and any other built-in checks or workarounds that aim to stabilize your test execution.

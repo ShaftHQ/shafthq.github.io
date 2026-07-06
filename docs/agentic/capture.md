@@ -466,6 +466,152 @@ mvn -pl shaft-capture -am test \
   -Dtest=ManagedCaptureRecorderBrowserTest,CaptureGeneratedReplayBrowserTest
 ```
 
+## Record web API traffic
+
+SHAFT can capture HTTP request and response traffic during browser-based test execution. API traffic recording requires Chrome or Edge browsers with DevTools Protocol (CDP) support and is disabled by default.
+
+### Browser requirements
+
+- **Supported:** Chrome, Chromium, Edge (any version with DevTools Protocol)
+- **Not supported:** Firefox, Safari, WebKit (pending CDP-equivalent event coverage)
+
+When recording with an unsupported browser, the capture session completes without network events; no error is raised. Use the `capture.api.enabled` property to enable API capture for the current run.
+
+### Configuration properties
+
+API capture behavior is controlled by the following properties (all optional with sensible defaults):
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `capture.api.enabled` | `false` | Enable or disable automatic capture of web API network traffic |
+| `capture.api.maxBodyBytes` | `1048576` | Maximum request/response body size in bytes (1 MB); larger bodies are truncated |
+| `capture.api.includeAssets` | `false` | Include asset requests (images, CSS, fonts); false captures only API calls |
+| `capture.api.firstPartyOnly` | `true` | Capture only first-party API calls from the primary domain |
+| `capture.api.storeSecretsLocally` | `false` | Store authorization headers and sensitive data inline (false = use body externalization via bodyRefId) |
+
+Example configuration:
+
+```properties
+capture.api.enabled=true
+capture.api.maxBodyBytes=1048576
+capture.api.includeAssets=false
+capture.api.firstPartyOnly=true
+capture.api.storeSecretsLocally=false
+```
+
+### Privacy and secret handling
+
+By default, `capture.api.storeSecretsLocally=false` ensures that authorization headers and sensitive data are stored via `bodyRefId` external references rather than inline in the capture session. This preserves privacy while keeping network traffic visible for debugging. Request and response bodies are stored separately from the session JSON; each network transaction record contains a `bodyRefId` field that references the externalized content.
+
+When `capture.api.storeSecretsLocally=true`, headers are captured inline for testing purposes; this should be used only in development environments and never in production scenarios. This mode stores full request/response content inline instead of using external references.
+
+### Recording API traffic via MCP
+
+Use the `capture_api_start` tool to begin recording with API capture enabled:
+
+```json
+{
+  "tool": "capture_api_start",
+  "arguments": {
+    "targetUrl": "https://example.test",
+    "browser": "chrome",
+    "headless": "true",
+    "recordNetworkActivity": true,
+    "excludeAssetTypes": "",
+    "includeOnlyDomains": "",
+    "excludePatterns": "",
+    "sanitizeHeaders": true
+  }
+}
+```
+
+Monitor the recording with `capture_api_status`:
+
+```json
+{
+  "tool": "capture_api_status",
+  "arguments": {}
+}
+```
+
+Query captured API transactions with `capture_api_transactions`:
+
+```json
+{
+  "tool": "capture_api_transactions",
+  "arguments": {
+    "limit": 0,
+    "includeAssets": false
+  }
+}
+```
+
+This returns the list of HTTP request/response pairs recorded so far, including request method, sanitized URL, response status, body sizes, and `bodyRefId` references to externalized request/response content.
+
+Stop the recording with `capture_api_stop`:
+
+```json
+{
+  "tool": "capture_api_stop",
+  "arguments": {
+    "stop": true,
+    "discard": false
+  }
+}
+```
+
+### IntelliJ Record API (Web) action
+
+The IntelliJ IDEA plugin provides a **Record API (Web)** action that:
+
+1. Opens a fresh managed Chrome session with API capture enabled
+2. Shows the Capture panel with both browser interactions and API calls listed
+3. Captures request and response traffic according to configured properties
+4. Stores secret/authorization headers as environment variable references by default (respects `capture.api.storeSecretsLocally`)
+5. Stops when the user clicks the panel's stop button or closes the browser
+
+Access the action through:
+- **IDE menu:** IntelliJ IDEA > SHAFT > Record API (Web)
+- **Run configuration:** Select the "Record API (Web)" run type
+
+The recorded session is stored in the project's `target/shaft-capture/` directory and ready for immediate generation or further review.
+
+### Chrome/Edge requirement (HasDevTools)
+
+API traffic capture is only available for browsers with DevTools Protocol support. The IntelliJ Record API (Web) action will work only with Chrome and Edge. This limitation is enforced by the `HasDevTools` browser capability check.
+
+### Code generation from API recordings
+
+After a successful `capture_api_stop`, generate test code using `capture_generate_replay`:
+
+```json
+{
+  "tool": "capture_generate_replay",
+  "arguments": {
+    "sessionPath": "recordings/checkout-with-api.json",
+    "outputDirectory": "generated-tests",
+    "packageName": "com.example.api",
+    "className": "CheckoutApiTest"
+  }
+}
+```
+
+The generated test class includes:
+
+- Browser navigation and interaction events (same as regular Capture)
+- API request/response data for reference and manual assertion writing
+- External test-data references for typed body values
+- Request/response body files linked as supporting artifacts
+
+### Future: API codegen and OpenAPI
+
+API traffic recording in this phase (P1) focuses on capturing and validating HTTP traffic during test execution. Future phases will add:
+
+- **P2 (ApiCaptureGenerator):** Automatic generation of reusable API test fixtures and contract validators from recorded traffic
+- **P4 (OpenAPI coverage):** Analysis and coverage reporting for OpenAPI/Swagger contracts against recorded API calls
+
+These features arrive as separate phases. For now, use the recorded API traffic for manual API assertion writing or as reference evidence during code review.
+
 ## Related
 
 - [Overview](/docs/agentic/overview)
