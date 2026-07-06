@@ -19,7 +19,7 @@ String body = api.getResponseBody();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210").perform();
+api.get("us/90210");
 String body = api.getResponseBody();
 SHAFT.Validations.assertThat().object(body).contains("Beverly Hills");
 ```
@@ -45,10 +45,10 @@ record User(int id, String name) {}
 
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 
-api.get("/users/1").setTargetStatusCode(200).perform();
+api.get("/users/1").setTargetStatusCode(200);
 User user = api.getResponseAs(User.class);
 
-api.get("/users").setTargetStatusCode(200).perform();
+api.get("/users").setTargetStatusCode(200);
 List<User> users = api.getResponseAsList(User.class);
 
 List<User> usersByType = api.getResponseAs(new TypeReference<List<User>>() {});
@@ -65,7 +65,7 @@ int statusCode = api.getResponseStatusCode();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210").perform();
+api.get("us/90210");
 int statusCode = api.getResponseStatusCode();
 SHAFT.Validations.assertThat().number(statusCode).isEqualTo(200);
 ```
@@ -79,7 +79,7 @@ long responseTime = api.getResponseTime();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210").perform();
+api.get("us/90210");
 long responseTime = api.getResponseTime();
 SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1);
 SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
@@ -96,7 +96,7 @@ String value = api.getResponseJSONValue("jsonPath");
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/users").perform();
+api.get("/users");
 String value = api.getResponseJSONValue("$[?(@.name=='Ervin Howell')].address.street");
 SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ```
@@ -109,7 +109,7 @@ String value = api.getResponseJSONValueAsList("jsonPath");
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/todos").perform();
+api.get("/todos");
 List<Object> completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
 for (Object completed : completedList) {
     SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true");

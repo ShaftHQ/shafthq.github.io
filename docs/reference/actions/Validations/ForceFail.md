@@ -40,7 +40,7 @@ driver.assertThat().element(loginButton)
 
 ## Eager execution
 
-Validation chains execute eagerly when the validation condition is selected. A terminal `.perform()` call is no longer required for assertions or verifications.
+Validation chains execute eagerly when the validation condition is selected, eliminating the need for a terminal method call.
 
 ```java title="PerformExample.java"
 Validations.assertThat().file("src/test/resources", "data.json").exists();

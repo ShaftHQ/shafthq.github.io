@@ -22,7 +22,7 @@ api.assertThatResponse().body()
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210").perform();
+api.get("us/90210");
 api.assertThatResponse().body().contains("Beverly Hills");
 ```
 
@@ -41,7 +41,7 @@ api.assertThatResponse().extractedJsonValue("jsonPath").isEqualTo("data");
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/users").perform();
+api.get("/users");
 api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5");
 ```
 
@@ -56,7 +56,7 @@ api.assertThatResponse().extractedJsonValueAsList("jsonPath").isEqualTo("data");
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/todos").perform();
+api.get("/todos");
 api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].completed").isEqualTo("true");
 ```
 
@@ -70,7 +70,7 @@ api.assertThatResponse().time().isEqualTo(expectedNumberValue);
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210").perform();
+api.get("us/90210");
 api.verifyThatResponse().time().isGreaterThanOrEquals(100);
 api.verifyThatResponse().time().isLessThanOrEquals(100000);
 ```

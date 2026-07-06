@@ -72,7 +72,7 @@ driver.assertThat()
 import com.shaft.driver.SHAFT;
 
 SHAFT.API api = new SHAFT.API("https://api.example.com");
-api.get("/users/1").setTargetStatusCode(200).perform();
+api.get("/users/1").setTargetStatusCode(200);
 
 api.assertThatResponse()
     .extractedJsonValue("$.name")

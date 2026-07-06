@@ -161,8 +161,7 @@ void createUserViaDbAndVerifyThroughApi() {
     // Verify through the REST API
     SHAFT.API api = new SHAFT.API("https://api.example.com");
     api.get("/users?email=test@example.com")
-       .setTargetStatusCode(200)
-       .perform();
+       .setTargetStatusCode(200);
 
     api.assertThatResponse()
         .extractedJsonValue("$[0].name")

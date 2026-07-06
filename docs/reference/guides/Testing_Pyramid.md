@@ -87,8 +87,7 @@ public class ApiTest {
         api = new SHAFT.API("https://api.example.com");
         api.post("/users")
             .setRequestBody("{\"name\": \"John\", \"email\": \"john@example.com\"}")
-            .setContentType("application/json")
-            .perform();
+            .setContentType("application/json");
         api.assertThatResponse().extractedJsonValue("name").isEqualTo("John");
         api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com");
         api.verifyThatResponse().statusCode().isEqualTo(201);

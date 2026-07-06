@@ -479,8 +479,7 @@ public class PropertiesTestDataExample {
         
         SHAFT.API api = new SHAFT.API(apiUrl);
         api.get("/users")
-            .setTargetStatusCode(200)
-            .perform();
+            .setTargetStatusCode(200);
     }
 }
 ```
@@ -850,8 +849,7 @@ public void createUserTest() {
     
     api.post("/users")
         .setRequestBody(requestBody)
-        .setTargetStatusCode(201)
-        .perform();
+        .setTargetStatusCode(201);
 }
 ```
 

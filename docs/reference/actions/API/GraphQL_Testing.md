@@ -23,7 +23,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.sendGraphQlRequest(
     "/graphql",
     "{ users { id name email } }"
-).perform();
+);
 
 // Assert response content
 api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
@@ -46,7 +46,7 @@ api.sendGraphQlRequest(
     "/graphql",
     query,
     variables
-).perform();
+);
 ```
 
 ---
@@ -65,7 +65,7 @@ api.sendGraphQlRequest(
     "{ users { ...UserFields } }",
     null,
     fragment
-).perform();
+);
 ```
 
 ---
@@ -85,7 +85,7 @@ api.sendGraphQlRequest(
     "{ users { ...UserFields } }",
     null,
     fragment
-).addHeader("Authorization", "Bearer mytoken123").perform();
+).addHeader("Authorization", "Bearer mytoken123");
 ```
 
 ---
@@ -102,7 +102,7 @@ public class GraphQLTest {
     public void queryAllUsers() {
         SHAFT.API api = new SHAFT.API("https://api.example.com");
 
-        api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
+        api.sendGraphQlRequest("/graphql", "{ users { id name email } }");
 
         api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
     }
@@ -113,7 +113,7 @@ public class GraphQLTest {
         String query = "query GetUser($id: ID!) { user(id: $id) { name email } }";
         String variables = "{\"id\": \"1\"}";
 
-        api.sendGraphQlRequest("/graphql", query, variables).perform();
+        api.sendGraphQlRequest("/graphql", query, variables);
 
         api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull();
     }
@@ -125,7 +125,7 @@ public class GraphQLTest {
             + "createUser(input: $input) { id name email } }";
         String variables = "{\"input\": {\"name\": \"Jane\", \"email\": \"jane@example.com\"}}";
 
-        api.sendGraphQlRequest("/graphql", mutation, variables).perform();
+        api.sendGraphQlRequest("/graphql", mutation, variables);
 
         api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull();
     }
@@ -146,8 +146,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.post("/graphql")
    .setRequestBody("{\"query\": \"{ users { id name } }\"}")
    .addHeader("Content-Type", "application/json")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 
 api.assertThatResponse()
    .extractedJsonValue("data.users[0].name")
