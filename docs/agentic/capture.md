@@ -487,8 +487,7 @@ API capture behavior is controlled by the following properties (all optional wit
 | `capture.api.maxBodyBytes` | `1048576` | Maximum request/response body size in bytes (1 MB); larger bodies are truncated |
 | `capture.api.includeAssets` | `false` | Include asset requests (images, CSS, fonts); false captures only API calls |
 | `capture.api.firstPartyOnly` | `true` | Capture only first-party API calls from the primary domain |
-| `capture.api.storeSecretsLocally` | `false` | Store authorization headers and sensitive data inline (false = use environment references) |
-| `capture.api.proxy.port` | `0` | Local proxy port for API capture (0 = auto-assign) |
+| `capture.api.storeSecretsLocally` | `false` | Store authorization headers and sensitive data inline (false = use body externalization via bodyRefId) |
 
 Example configuration:
 
@@ -498,14 +497,13 @@ capture.api.maxBodyBytes=1048576
 capture.api.includeAssets=false
 capture.api.firstPartyOnly=true
 capture.api.storeSecretsLocally=false
-capture.api.proxy.port=0
 ```
 
 ### Privacy and secret handling
 
-By default, `capture.api.storeSecretsLocally=false` ensures that authorization headers and sensitive data are stored as environment variable references rather than inline in the capture session. This preserves privacy while keeping network traffic visible for debugging.
+By default, `capture.api.storeSecretsLocally=false` ensures that authorization headers and sensitive data are stored via `bodyRefId` external references rather than inline in the capture session. This preserves privacy while keeping network traffic visible for debugging. Request and response bodies are stored separately from the session JSON; each network transaction record contains a `bodyRefId` field that references the externalized content.
 
-When `capture.api.storeSecretsLocally=true`, headers are captured inline for testing purposes; this should be used only in development environments and never in production scenarios.
+When `capture.api.storeSecretsLocally=true`, headers are captured inline for testing purposes; this should be used only in development environments and never in production scenarios. This mode stores full request/response content inline instead of using external references.
 
 ### Recording API traffic via MCP
 
@@ -515,14 +513,14 @@ Use the `capture_api_start` tool to begin recording with API capture enabled:
 {
   "tool": "capture_api_start",
   "arguments": {
-    "url": "https://example.test",
+    "targetUrl": "https://example.test",
     "browser": "chrome",
-    "outputPath": "recordings/checkout-with-api.json",
-    "maxBodyBytes": 1048576,
-    "includeAssets": false,
-    "firstPartyOnly": true,
-    "storeSecretsLocally": false,
-    "proxy.port": 0
+    "headless": "true",
+    "recordNetworkActivity": true,
+    "excludeAssetTypes": "",
+    "includeOnlyDomains": "",
+    "excludePatterns": "",
+    "sanitizeHeaders": true
   }
 }
 ```
@@ -541,11 +539,14 @@ Query captured API transactions with `capture_api_transactions`:
 ```json
 {
   "tool": "capture_api_transactions",
-  "arguments": {}
+  "arguments": {
+    "limit": 0,
+    "includeAssets": false
+  }
 }
 ```
 
-This returns the list of HTTP request/response pairs recorded so far, including request method, URL, response status, and body sizes.
+This returns the list of HTTP request/response pairs recorded so far, including request method, sanitized URL, response status, body sizes, and `bodyRefId` references to externalized request/response content.
 
 Stop the recording with `capture_api_stop`:
 
@@ -553,6 +554,7 @@ Stop the recording with `capture_api_stop`:
 {
   "tool": "capture_api_stop",
   "arguments": {
+    "stop": true,
     "discard": false
   }
 }

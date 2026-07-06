@@ -445,21 +445,19 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   import com.shaft.driver.SHAFT;
 
   /** get **/
-  boolean captureApiEnabled = SHAFT.Properties.capture.apiEnabled();
-  int captureApiMaxBodyBytes = SHAFT.Properties.capture.apiMaxBodyBytes();
-  boolean captureApiIncludeAssets = SHAFT.Properties.capture.apiIncludeAssets();
-  boolean captureApiFirstPartyOnly = SHAFT.Properties.capture.apiFirstPartyOnly();
-  boolean captureApiStoreSecretsLocally = SHAFT.Properties.capture.apiStoreSecretsLocally();
-  int captureApiProxyPort = SHAFT.Properties.capture.apiProxyPort();
+  boolean captureApiEnabled = SHAFT.Properties.capture.isEnabled();
+  int captureApiMaxBodyBytes = SHAFT.Properties.capture.maxBodyBytes();
+  boolean captureApiIncludeAssets = SHAFT.Properties.capture.includeAssets();
+  boolean captureApiFirstPartyOnly = SHAFT.Properties.capture.firstPartyOnly();
+  boolean captureApiStoreSecretsLocally = SHAFT.Properties.capture.storeSecretsLocally();
 
   /** set **/
   SHAFT.Properties.capture.set()
-    .apiEnabled(true)
-    .apiMaxBodyBytes(1048576)
-    .apiIncludeAssets(false)
-    .apiFirstPartyOnly(true)
-    .apiStoreSecretsLocally(false)
-    .apiProxyPort(0);
+    .enabled(true)
+    .maxBodyBytes(1048576)
+    .includeAssets(false)
+    .firstPartyOnly(true)
+    .storeSecretsLocally(false);
   ```
   </TabItem>
 
@@ -471,8 +469,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
     -Dcapture.api.maxBodyBytes=1048576 \
     -Dcapture.api.includeAssets=false \
     -Dcapture.api.firstPartyOnly=true \
-    -Dcapture.api.storeSecretsLocally=false \
-    -Dcapture.api.proxy.port=0
+    -Dcapture.api.storeSecretsLocally=false
   ```
   </TabItem>
 
@@ -484,7 +481,6 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   capture.api.includeAssets=false
   capture.api.firstPartyOnly=true
   capture.api.storeSecretsLocally=false
-  capture.api.proxy.port=0
   ```
   </TabItem>
 
@@ -496,8 +492,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   | `capture.api.maxBodyBytes`       | `1048576`     | bytes (integer) | • Maximum request/response body size to capture in bytes (1 MB).<br/>• Bodies exceeding this limit are truncated in the capture session.                           |
   | `capture.api.includeAssets`      | `false`       | `true`, `false` | • Include asset requests (images, CSS, fonts, etc.) in API capture.<br/>• When false, only data/API calls are recorded.                                            |
   | `capture.api.firstPartyOnly`     | `true`        | `true`, `false` | • Capture only first-party API calls from the primary domain.<br/>• When false, all cross-origin requests are included.                                           |
-  | `capture.api.storeSecretsLocally` | `false`      | `true`, `false` | • Store authorization headers and sensitive data in the capture session.<br/>• When false (default), secrets are referenced by environment variable instead.       |
-  | `capture.api.proxy.port`         | `0`           | port (integer)  | • Port for the local API capture proxy (0 = auto-assign).<br/>• Requires DevTools Protocol and Chrome/Edge support.                                              |
+  | `capture.api.storeSecretsLocally` | `false`      | `true`, `false` | • Store authorization headers and sensitive data in the capture session.<br/>• When false (default), secrets are referenced via bodyRefId instead.                 |
 
   </TabItem>
 

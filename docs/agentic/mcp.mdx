@@ -268,20 +268,19 @@ alongside browser interactions. This tool requires browser support for Chrome
 DevTools Protocol (CDP); Firefox and Safari are not supported.
 
 **Parameters:**
-- `url` (string, required): Initial navigation URL for the managed browser
-- `browser` (string, optional): Target browser name; defaults to `chrome`; Chrome, Chromium, or Edge
-- `outputPath` (string, optional): File path where the capture session is stored
-- `maxBodyBytes` (integer, optional): Maximum request/response body size in bytes; default 1048576 (1 MB); bodies exceeding this limit are truncated
-- `includeAssets` (boolean, optional): Include asset requests (images, CSS, fonts); default false
-- `firstPartyOnly` (boolean, optional): Capture only first-party API calls from the primary domain; default true
-- `storeSecretsLocally` (boolean, optional): Store authorization headers and sensitive data inline; default false
-- `proxy.port` (integer, optional): Local proxy port for API capture (0 = auto-assign); default 0
-- `sessionGoal` (string, optional): User-provided intent summary stored in session metadata for review comments
+- `targetUrl` (string, required): Initial http, https, or file URL for the managed browser
+- `browser` (string, optional): Chrome or Edge; blank selects Chrome
+- `headless` (string, optional): Whether to launch without a visible window; blank selects repo policy (headless)
+- `recordNetworkActivity` (boolean, required): Whether to capture network transactions
+- `excludeAssetTypes` (string, optional): Comma-separated asset types to exclude
+- `includeOnlyDomains` (string, optional): Comma-separated domains to include; empty includes all
+- `excludePatterns` (string, optional): Comma-separated URL patterns to exclude
+- `sanitizeHeaders` (boolean, required): Whether to redact sensitive header values
 
 **Returns:**
-- Session status with event count, warnings, and readiness assessment
-- Path to the capture session file
-- Runtime directory for control files and external bodies
+- Safe recorder status with network transaction count
+- Session state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
+- Event count and network metrics
 
 ### `capture_api_status`
 
@@ -291,22 +290,20 @@ Query the status of the current active API capture recording. No parameters requ
 - `state`: Recording state (`ACTIVE`, `COMPLETED`, `INCOMPLETE`)
 - `eventCount`: Number of captured browser interactions and API events
 - `apiEventCount`: Number of captured HTTP request/response events
-- `warnings`: List of deterministic warnings (unsupported interactions, missing locators, redacted inputs, etc.)
-- `readiness`: Assessment of captured state (`READY`, `RISKY`, `BLOCKED`)
+- `warnings`: List of deterministic warnings (unsupported interactions, network errors, etc.)
 - `sessionPath`: Absolute path to the active capture session file
 
 ### `capture_api_stop`
 
-Stop the active recording and close the managed browser. The session transitions to `COMPLETED` state and is ready for generation or review.
+Stop the active API capture recording.
 
 **Parameters:**
-- `discard` (boolean, optional): When true, delete the capture session; default false
+- `stop` (boolean, required): Must be `true` for safety confirmation
+- `discard` (boolean, optional): Whether to delete capture artifacts after shutdown
 
 **Returns:**
-- Final session status including event and API event counts
+- Final recorder status with network transaction counts
 - Session file path
-- Path to the generated workbench HTML for local review
-- Warning summary from the recording
 
 ### `capture_api_transactions`
 
@@ -315,29 +312,33 @@ from the active recording. Returns a structured list of all network events recor
 so far, including request details, response metadata, and capture timestamps.
 
 **Parameters:**
-- (none)
+- `limit` (integer, required): Maximum transactions to return (0 = all)
+- `includeAssets` (boolean, required): Whether to include asset requests (images, fonts, stylesheets)
 
 **Returns:**
-- `transactions`: Array of captured API transactions, each containing:
-  - `requestId`: Unique identifier for this request/response pair
+- Ordered list of network transaction summaries, each containing:
+  - `transactionId`: Unique transaction identifier
   - `method`: HTTP method (GET, POST, PUT, DELETE, etc.)
-  - `url`: Full request URL
-  - `timestamp`: Request timestamp
-  - `status`: HTTP response status code
-  - `bodySize`: Size of the response body in bytes
-  - `headers`: Request headers (redacted according to configured patterns)
-  - `firstParty`: Boolean indicating if this is a first-party request
-  - `isAsset`: Boolean indicating if this is an asset (image, CSS, font, etc.)
-- `totalCount`: Total number of transactions captured in the current session
+  - `sanitizedUrl`: Redacted URL without credentials or sensitive query params
+  - `statusCode`: HTTP response status code (0 if failed/blocked)
+  - `resourceKind`: Inferred resource type (document, xhr, fetch, stylesheet, image, font, other)
+  - `durationMs`: Transaction duration in milliseconds
+  - `requestSizeBytes`: Request body size in bytes (0 if no body)
+  - `responseSizeBytes`: Response body size in bytes (0 if unavailable)
+  - `failureReason`: Network or security error reason (empty if successful)
+  - `responseHeaders`: Redacted response headers (excludes sensitive values)
+  - `correlatedUiSequence`: List of correlated UI event IDs if any
+  - `bodyRefId`: Safe reference to stored body content if present
+  - `timestamp`: When the transaction started
 
 ## API capture privacy and safety
 
-- **No secrets in session (by default):** When `capture.api.storeSecretsLocally=false` (default), authorization headers and sensitive data are stored as environment variable references instead of inline values, and the SHAFT privacy classifier prevents typed secrets and credentials from entering the persistent session JSON
+- **No secrets in session (by default):** When `capture.api.storeSecretsLocally=false` (default), authorization headers and sensitive data are stored via `bodyRefId` reference instead of inline values, and the SHAFT privacy classifier prevents typed secrets and credentials from entering the persistent session JSON
+- **Body externalization and reference handling:** Request/response bodies are stored via `bodyRefId` references in captured transactions for privacy preservation; the real body content is stored separately and referenced safely
 - **Secret storage control:** Set `capture.api.storeSecretsLocally=true` to store authorization headers inline for testing purposes (not recommended for production)
-- **Request/response body handling:** Bodies captured during recording are stored alongside the session for analysis; consider `capture.api.maxBodyBytes=1048576` (1 MB default) to limit captured payload size
+- **Request/response body handling:** Bodies captured during recording are limited by `capture.api.maxBodyBytes=1048576` (1 MB default); bodies exceeding this limit are truncated
 - **First-party filtering:** Use `capture.api.firstPartyOnly=true` (default) to record only API calls from the primary domain, or set to false to include all cross-origin requests
 - **Asset filtering:** Set `capture.api.includeAssets=false` (default) to exclude image, CSS, font, and other static assets, or set to true to include them in the capture
-- **Proxy port:** `capture.api.proxy.port=0` (default) uses auto-assigned port; set to a specific port to use a fixed proxy configuration
 - **Safe review:** The generated workbench HTML and capture review summary omit secrets and report only counts and rule names, never exposed values
 
 ## Trace-first failure workflow
