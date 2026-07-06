@@ -23,8 +23,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/secure/data")
    .setAuthentication("username", "password", AuthenticationType.BASIC)
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -36,8 +35,7 @@ Use `AuthenticationType.DIGEST` for digest-challenge protected endpoints:
 ```java title="APIAuthentication.java"
 api.get("/digest-auth/data")
    .setAuthentication("user", "pass", AuthenticationType.DIGEST)
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -49,8 +47,7 @@ Submit credentials as form parameters using `AuthenticationType.FORM`:
 ```java title="APIAuthentication.java"
 api.post("/login")
    .setAuthentication("user@example.com", "password123", AuthenticationType.FORM)
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -62,8 +59,7 @@ Add the `Authorization` header with a `Bearer` token prefix:
 ```java title="APIAuthentication.java"
 api.get("/oauth/resource")
    .addHeader("Authorization", "Bearer your-oauth-token")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -75,8 +71,7 @@ api.get("/oauth/resource")
 ```java title="APIAuthentication.java"
 api.get("/data")
    .addHeader("X-API-Key", "your-api-key")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ### API Key in Query Parameter
@@ -84,8 +79,7 @@ api.get("/data")
 ```java title="APIAuthentication.java"
 api.get("/data")
    .addUrlParameter("api_key", "your-api-key")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -97,8 +91,7 @@ Pass a session cookie using `addHeader`:
 ```java title="APIAuthentication.java"
 api.get("/profile")
    .addHeader("Cookie", "session_id=abc123xyz; token=your-session-token")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 ```
 
 ---
@@ -112,13 +105,12 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 // Authenticate once — credentials reused for all subsequent requests
 api.get("/login")
-   .setAuthentication("user", "password", AuthenticationType.BASIC)
-   .perform();
+   .setAuthentication("user", "password", AuthenticationType.BASIC);
 
 // These requests automatically include the authentication credentials
-api.get("/users").setTargetStatusCode(200).perform();
-api.get("/orders").setTargetStatusCode(200).perform();
-api.get("/profile").setTargetStatusCode(200).perform();
+api.get("/users").setTargetStatusCode(200);
+api.get("/orders").setTargetStatusCode(200);
+api.get("/profile").setTargetStatusCode(200);
 ```
 
 ---
@@ -137,8 +129,7 @@ public class APIAuthTest {
         SHAFT.API api = new SHAFT.API("https://httpbin.org");
         api.get("/basic-auth/user/pass")
            .setAuthentication("user", "pass", AuthenticationType.BASIC)
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
 
         api.assertThatResponse()
            .extractedJsonValue("authenticated")
@@ -150,8 +141,7 @@ public class APIAuthTest {
         SHAFT.API api = new SHAFT.API("https://api.example.com");
         api.get("/protected")
            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
     }
 }
 ```

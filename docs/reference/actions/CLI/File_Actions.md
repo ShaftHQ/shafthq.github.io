@@ -54,8 +54,7 @@ public class UserImportTest {
         api.post("/users/import")
            .setRequestBody(usersPayload)
            .setContentType("application/json")
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
     }
 
     @BeforeMethod
@@ -83,7 +82,7 @@ SHAFT reports the target path and byte count for write operations; it does not a
 
 ```java title="SaveResponseExample.java"
 SHAFT.API api = new SHAFT.API("https://api.example.com");
-api.get("/config").setTargetStatusCode(200).perform();
+api.get("/config").setTargetStatusCode(200);
 
 // Persist the baseline configuration
 SHAFT.CLI.file().writeToFile("src/test/resources/baseline/config.json", api.getResponseBody());

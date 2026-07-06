@@ -17,8 +17,7 @@ import io.restassured.http.ContentType;
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.post("/auth/login")
    .setRequestBody(credentials)
-   .setContentType(ContentType.JSON)
-   .perform();
+   .setContentType(ContentType.JSON);
 
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 driver.browser()
@@ -35,7 +34,7 @@ driver.browser().navigateToURL("https://app.example.com");
 
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.importCookiesFrom(driver.browser());
-api.get("/account").perform();
+api.get("/account");
 ```
 
 #### Manual cookie reuse

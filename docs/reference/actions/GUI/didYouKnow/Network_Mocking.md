@@ -19,8 +19,8 @@ Network interception relies on Selenium DevTools support. Use a DevTools-capable
 
 | Scenario | Recommended approach |
 |---|---|
-| Test error states (500, 404) | `.respond().statusCode(500).perform()` |
-| Test empty states (no data) | `.respond().jsonBody("{\"items\":[]}").perform()` |
+| Test error states (500, 404) | `.respond().statusCode(500)` |
+| Test empty states (no data) | `.respond().jsonBody("{\"items\":[]}")` |
 | Block analytics / tracking calls | Match the analytics URL and return a 204 response |
 | Validate real API responses from the browser | `.assertResponse(...)` or `.verifyResponse(...)` |
 | Inject controlled test data | Match the request and return a fixed JSON payload |
@@ -45,8 +45,7 @@ driver.browser()
         .header("X-Test", "yes")
         .respond()
         .statusCode(200)
-        .jsonBody("{\"users\":[{\"name\":\"Mock User\"}]}")
-        .perform();
+        .jsonBody("{\"users\":[{\"name\":\"Mock User\"}]}");
 
 driver.browser().navigateToURL("https://example.com/dashboard");
 ```
@@ -64,8 +63,7 @@ driver.browser()
         .pathEquals("/api/users")
         .assertResponse(response -> response
                 .extractedJsonValue("users.size()")
-                .isEqualTo("1")
-                .perform());
+                .isEqualTo("1"));
 ```
 
 ---
@@ -83,7 +81,7 @@ driver.browser().startContractRecording(
         "/api/users");
 
 driver.browser().navigateToURL("https://example.com/users");
-new SHAFT.API("https://example.com").get("/api/users").perform();
+new SHAFT.API("https://example.com").get("/api/users");
 SHAFT.Contracts.stopRecording();
 
 driver.browser().replayContract("src/test/resources/contracts/users.json");
@@ -111,8 +109,7 @@ driver.browser()
         .bodyContains("\"coupon\":\"SUMMER\"")
         .matching(request -> request.getUri().contains("/api/"))
         .respond()
-        .statusCode(202)
-        .perform();
+        .statusCode(202);
 ```
 
 ---
@@ -142,8 +139,7 @@ public class NetworkMockingTest {
                 .urlContains("/api/users")
                 .respond()
                 .statusCode(200)
-                .jsonBody("{\"users\":[]}")
-                .perform();
+                .jsonBody("{\"users\":[]}");
 
         driver.browser().navigateToURL("https://example.com/users");
         driver.assertThat(By.id("emptyState")).text().contains("No users found");
@@ -157,8 +153,7 @@ public class NetworkMockingTest {
                 .urlContains("/api/users")
                 .respond()
                 .statusCode(500)
-                .jsonBody("{\"error\":\"Internal Server Error\"}")
-                .perform();
+                .jsonBody("{\"error\":\"Internal Server Error\"}");
 
         driver.browser().navigateToURL("https://example.com/users");
         driver.assertThat(By.id("errorBanner")).text().contains("Something went wrong");
