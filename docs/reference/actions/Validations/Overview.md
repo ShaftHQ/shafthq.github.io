@@ -55,7 +55,7 @@ driver.verifyThat().element(locator).exists();
 ```
 
 :::tip
-Assertion and verification chains execute eagerly when the validation condition is selected, so examples do not need a terminal `.perform()` call.
+Assertion and verification chains execute eagerly when the validation condition is selected, so examples do not require a terminal method call to execute.
 :::
 
 ## Related
