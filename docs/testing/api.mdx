@@ -23,7 +23,7 @@ public class CountryApiTest {
     public void getCountryByCapital() {
         SHAFT.API api = new SHAFT.API("https://restcountries.com/v3.1/");
 
-        api.get("capital/Cairo").perform();
+        api.get("capital/Cairo");
         api.assertThatResponse()
                 .extractedJsonValue("[0].name.common")
                 .isEqualTo("Egypt");

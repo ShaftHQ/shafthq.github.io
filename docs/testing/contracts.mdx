@@ -39,7 +39,7 @@ public class CheckoutContractTest {
                 "/api/");
 
         driver.browser().navigateToURL("https://shop.example.test/checkout");
-        api.get("/api/cart").perform();
+        api.get("/api/cart");
 
         SHAFT.Contracts.stopRecording();
         driver.quit();
@@ -55,8 +55,7 @@ SHAFT.Contracts.startRecording(
         "/api/catalog");
 
 new SHAFT.API("https://shop.example.test")
-        .get("/api/catalog")
-        .perform();
+        .get("/api/catalog");
 
 SHAFT.Contracts.stopRecording();
 ```
@@ -91,7 +90,7 @@ driver.browser().assertContract(
         "/api/");
 
 driver.browser().navigateToURL("https://shop.example.test/checkout");
-new SHAFT.API("https://shop.example.test").get("/api/cart").perform();
+new SHAFT.API("https://shop.example.test").get("/api/cart");
 
 SHAFT.Contracts.stopValidation();
 ```

@@ -43,7 +43,7 @@ Start from the facade namespace for the surface you are testing:
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 
-api.get("/todos/1").perform();
+api.get("/todos/1");
 api.assertThatResponse().extractedJsonValue("id").isEqualTo("1");
 ```
 

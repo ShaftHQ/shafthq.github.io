@@ -327,8 +327,7 @@ driver.browser()
         .urlContains("/api/data")
         .respond()
         .statusCode(200)
-        .jsonBody("{}")
-        .perform();
+        .jsonBody("{}");
 ```
 
 Intercepts browser HTTP requests matching the builder criteria and returns the mocked response.
@@ -342,8 +341,7 @@ driver.browser()
         .pathEquals("/api/data")
         .assertResponse(response -> response
                 .body()
-                .contains("{}")
-                .perform());
+                .contains("{}"));
 ```
 
 Use `clearNetworkInterceptors()` to remove active browser network rules before the driver session ends.

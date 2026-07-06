@@ -66,10 +66,9 @@ public void testCreateUserWithContractValidation() {
 
     api.post("/user/createWithList")
        .setRequestBody(invalidPayload)
-       .setContentType("application/json")
-       .perform();
+       .setContentType("application/json");
 
-    api.assertThatResponse().statusCode().isEqualTo(400).perform();
+    api.assertThatResponse().statusCode().isEqualTo(400);
 }
 ```
 

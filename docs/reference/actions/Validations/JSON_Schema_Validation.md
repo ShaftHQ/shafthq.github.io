@@ -51,8 +51,7 @@ import com.shaft.driver.SHAFT;
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/users/1")
-   .setTargetStatusCode(200)
-   .perform();
+   .setTargetStatusCode(200);
 
 api.assertThatResponse()
    .matchesSchema("src/test/resources/schemas/user-schema.json");
@@ -84,8 +83,7 @@ public class JSONSchemaValidationTest {
         SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 
         api.get("/users/1")
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
 
         api.assertThatResponse()
            .matchesSchema("src/test/resources/schemas/user-schema.json");
@@ -96,8 +94,7 @@ public class JSONSchemaValidationTest {
         SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 
         api.get("/users")
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
 
         api.assertThatResponse()
            .matchesSchema("src/test/resources/schemas/user-list-schema.json");
@@ -108,8 +105,7 @@ public class JSONSchemaValidationTest {
         SHAFT.API api = new SHAFT.API("https://api.example.com");
 
         api.get("/users/1")
-           .setTargetStatusCode(200)
-           .perform();
+           .setTargetStatusCode(200);
 
         // Confirm the response does not expose admin-only fields
         api.assertThatResponse()
