@@ -271,10 +271,11 @@ DevTools Protocol (CDP); Firefox and Safari are not supported.
 - `url` (string, required): Initial navigation URL for the managed browser
 - `browser` (string, optional): Target browser name; defaults to `chrome`; Chrome, Chromium, or Edge
 - `outputPath` (string, optional): File path where the capture session is stored
-- `maxBodySizeBytes` (integer, optional): Maximum request/response body size in bytes; default 1048576 (1 MB); bodies exceeding this limit are truncated
-- `externalizeRequestBodies` (boolean, optional): Store request bodies in external file; default true
-- `externalizeResponseBodies` (boolean, optional): Store response bodies in external file; default true
-- `redactedHeaderPatterns` (string, optional): Comma-separated header name patterns (regex, case-insensitive) to exclude from capture; e.g., `authorization,cookie,x-api-key,x-secret.*`
+- `maxBodyBytes` (integer, optional): Maximum request/response body size in bytes; default 1048576 (1 MB); bodies exceeding this limit are truncated
+- `includeAssets` (boolean, optional): Include asset requests (images, CSS, fonts); default false
+- `firstPartyOnly` (boolean, optional): Capture only first-party API calls from the primary domain; default true
+- `storeSecretsLocally` (boolean, optional): Store authorization headers and sensitive data inline; default false
+- `proxy.port` (integer, optional): Local proxy port for API capture (0 = auto-assign); default 0
 - `sessionGoal` (string, optional): User-provided intent summary stored in session metadata for review comments
 
 **Returns:**
@@ -307,26 +308,36 @@ Stop the active recording and close the managed browser. The session transitions
 - Path to the generated workbench HTML for local review
 - Warning summary from the recording
 
-### `capture_checkpoint`
+### `capture_api_transactions`
 
-Add an explicit checkpoint marker during recording to denote assertion points,
-flow boundaries, or named sections. Works with both standard browser-only and
-API-capture recordings.
+Query and retrieve the list of captured API transactions (HTTP request/response pairs)
+from the active recording. Returns a structured list of all network events recorded
+so far, including request details, response metadata, and capture timestamps.
 
 **Parameters:**
-- `kind` (string, required): Checkpoint category; `BROWSER` for assertion points, `FLOW_START` or `FLOW_END` for reusable helper method boundaries, or `MANUAL` for user notes
-- `description` (string, required): Checkpoint label; for `FLOW_START`/`FLOW_END`, becomes the generated helper method name
+- (none)
 
 **Returns:**
-- Confirmation of checkpoint insertion
-- Current event count and readiness assessment
+- `transactions`: Array of captured API transactions, each containing:
+  - `requestId`: Unique identifier for this request/response pair
+  - `method`: HTTP method (GET, POST, PUT, DELETE, etc.)
+  - `url`: Full request URL
+  - `timestamp`: Request timestamp
+  - `status`: HTTP response status code
+  - `bodySize`: Size of the response body in bytes
+  - `headers`: Request headers (redacted according to configured patterns)
+  - `firstParty`: Boolean indicating if this is a first-party request
+  - `isAsset`: Boolean indicating if this is an asset (image, CSS, font, etc.)
+- `totalCount`: Total number of transactions captured in the current session
 
 ## API capture privacy and safety
 
-- **No secrets in session:** Configured redaction patterns, environment references, and the SHAFT privacy classifier prevent typed secrets, credentials, cookies, and authorization values from entering the persistent session JSON
-- **External bodies:** Request and response bodies are stored in separate `capture-request-bodies.json` and `capture-response-bodies.json` files by default, reducing session file size
-- **Header redaction:** Matching headers are replaced with placeholder text; original values are never stored
-- **Size limits:** Request and response bodies are capped at 1 MB by default; larger bodies are truncated
+- **No secrets in session (by default):** When `capture.api.storeSecretsLocally=false` (default), authorization headers and sensitive data are stored as environment variable references instead of inline values, and the SHAFT privacy classifier prevents typed secrets and credentials from entering the persistent session JSON
+- **Secret storage control:** Set `capture.api.storeSecretsLocally=true` to store authorization headers inline for testing purposes (not recommended for production)
+- **Request/response body handling:** Bodies captured during recording are stored alongside the session for analysis; consider `capture.api.maxBodyBytes=1048576` (1 MB default) to limit captured payload size
+- **First-party filtering:** Use `capture.api.firstPartyOnly=true` (default) to record only API calls from the primary domain, or set to false to include all cross-origin requests
+- **Asset filtering:** Set `capture.api.includeAssets=false` (default) to exclude image, CSS, font, and other static assets, or set to true to include them in the capture
+- **Proxy port:** `capture.api.proxy.port=0` (default) uses auto-assigned port; set to a specific port to use a fixed proxy configuration
 - **Safe review:** The generated workbench HTML and capture review summary omit secrets and report only counts and rule names, never exposed values
 
 ## Trace-first failure workflow
@@ -372,10 +383,10 @@ The packaged server supports:
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
 - web API traffic capture through `capture_api_start`, `capture_api_status`,
-  `capture_api_stop`, and `capture_checkpoint` for recordings that include HTTP
-  request/response events, with automatic body externalization, header redaction,
-  size limiting, and privacy enforcement; Chrome/Edge browsers with DevTools
-  Protocol support only;
+  `capture_api_stop`, and `capture_api_transactions` for recordings that include HTTP
+  request/response events, with automatic secret-reference handling, size limiting,
+  first-party/asset filtering, and privacy enforcement; Chrome/Edge browsers with
+  DevTools Protocol support only;
 - deterministic WebDriver TestNG generation through `capture_generate`,
   `capture_generate_replay`, `capture_code_blocks`, and
   `capture_record_at_target_code_blocks`, with compile, optional replay, local

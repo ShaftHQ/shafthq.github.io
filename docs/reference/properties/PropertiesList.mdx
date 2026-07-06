@@ -446,18 +446,20 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
   /** get **/
   boolean captureApiEnabled = SHAFT.Properties.capture.apiEnabled();
-  int captureApiMaxBodySizeBytes = SHAFT.Properties.capture.apiMaxBodySizeBytes();
-  boolean captureApiExternalizeRequestBodies = SHAFT.Properties.capture.externalizeRequestBodies();
-  boolean captureApiExternalizeResponseBodies = SHAFT.Properties.capture.externalizeResponseBodies();
-  String captureApiRedactedHeaderPatterns = SHAFT.Properties.capture.redactedHeaderPatterns();
+  int captureApiMaxBodyBytes = SHAFT.Properties.capture.apiMaxBodyBytes();
+  boolean captureApiIncludeAssets = SHAFT.Properties.capture.apiIncludeAssets();
+  boolean captureApiFirstPartyOnly = SHAFT.Properties.capture.apiFirstPartyOnly();
+  boolean captureApiStoreSecretsLocally = SHAFT.Properties.capture.apiStoreSecretsLocally();
+  int captureApiProxyPort = SHAFT.Properties.capture.apiProxyPort();
 
   /** set **/
   SHAFT.Properties.capture.set()
     .apiEnabled(true)
-    .apiMaxBodySizeBytes(1048576)
-    .externalizeRequestBodies(true)
-    .externalizeResponseBodies(true)
-    .redactedHeaderPatterns("authorization,cookie,x-api-key");
+    .apiMaxBodyBytes(1048576)
+    .apiIncludeAssets(false)
+    .apiFirstPartyOnly(true)
+    .apiStoreSecretsLocally(false)
+    .apiProxyPort(0);
   ```
   </TabItem>
 
@@ -466,10 +468,11 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   ```bash showLineNumbers
   mvn test \
     -Dcapture.api.enabled=true \
-    -Dcapture.api.maxBodySizeBytes=1048576 \
-    -Dcapture.api.externalizeRequestBodies=true \
-    -Dcapture.api.externalizeResponseBodies=true \
-    -Dcapture.api.redactedHeaderPatterns=authorization,cookie,x-api-key
+    -Dcapture.api.maxBodyBytes=1048576 \
+    -Dcapture.api.includeAssets=false \
+    -Dcapture.api.firstPartyOnly=true \
+    -Dcapture.api.storeSecretsLocally=false \
+    -Dcapture.api.proxy.port=0
   ```
   </TabItem>
 
@@ -477,22 +480,24 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
   ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
   capture.api.enabled=true
-  capture.api.maxBodySizeBytes=1048576
-  capture.api.externalizeRequestBodies=true
-  capture.api.externalizeResponseBodies=true
-  capture.api.redactedHeaderPatterns=authorization,cookie,x-api-key
+  capture.api.maxBodyBytes=1048576
+  capture.api.includeAssets=false
+  capture.api.firstPartyOnly=true
+  capture.api.storeSecretsLocally=false
+  capture.api.proxy.port=0
   ```
   </TabItem>
 
   <TabItem value="defaults" label="Default Values">
 
-  | Property Name                         | Default Value | Possible Values | Description                                                                                                                                                         |
-  |--------------------------------------|----------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-  | `capture.api.enabled`               | `false`       | `true`, `false` | • Enable or disable automatic capture of web API network traffic during test execution.<br/>• Requires Chrome or Edge browser with DevTools Protocol support.         |
-  | `capture.api.maxBodySizeBytes`      | `1048576`     | bytes (integer) | • Maximum request/response body size to capture in bytes (default 1 MB).<br/>• Bodies exceeding this limit are truncated in the capture session.                    |
-  | `capture.api.externalizeRequestBodies` | `true`    | `true`, `false` | • Store request bodies in external `capture-request-bodies.json` file instead of inline in the capture session.<br/>• Reduces session JSON size for large payloads. |
-  | `capture.api.externalizeResponseBodies` | `true`   | `true`, `false` | • Store response bodies in external `capture-response-bodies.json` file instead of inline in the capture session.<br/>• Reduces session JSON size for large payloads. |
-  | `capture.api.redactedHeaderPatterns` | ` `         | comma-separated header names | • Comma-separated list of header name patterns (case-insensitive regex) to redact from captured traffic.<br/>• Examples: `authorization`, `cookie`, `x-api-key`, `x-secret.*` |
+  | Property Name                    | Default Value | Possible Values | Description                                                                                                                                                         |
+  |----------------------------------|----------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | `capture.api.enabled`            | `false`       | `true`, `false` | • Enable or disable automatic capture of web API network traffic during test execution.<br/>• Requires Chrome or Edge browser with DevTools Protocol support.         |
+  | `capture.api.maxBodyBytes`       | `1048576`     | bytes (integer) | • Maximum request/response body size to capture in bytes (1 MB).<br/>• Bodies exceeding this limit are truncated in the capture session.                           |
+  | `capture.api.includeAssets`      | `false`       | `true`, `false` | • Include asset requests (images, CSS, fonts, etc.) in API capture.<br/>• When false, only data/API calls are recorded.                                            |
+  | `capture.api.firstPartyOnly`     | `true`        | `true`, `false` | • Capture only first-party API calls from the primary domain.<br/>• When false, all cross-origin requests are included.                                           |
+  | `capture.api.storeSecretsLocally` | `false`      | `true`, `false` | • Store authorization headers and sensitive data in the capture session.<br/>• When false (default), secrets are referenced by environment variable instead.       |
+  | `capture.api.proxy.port`         | `0`           | port (integer)  | • Port for the local API capture proxy (0 = auto-assign).<br/>• Requires DevTools Protocol and Chrome/Edge support.                                              |
 
   </TabItem>
 

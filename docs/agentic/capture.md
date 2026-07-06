@@ -477,26 +477,35 @@ SHAFT can capture HTTP request and response traffic during browser-based test ex
 
 When recording with an unsupported browser, the capture session completes without network events; no error is raised. Use the `capture.api.enabled` property to enable API capture for the current run.
 
-### Body externalization and privacy
+### Configuration properties
 
-By default, HTTP request and response bodies are stored in separate external JSON files (`capture-request-bodies.json` and `capture-response-bodies.json`) rather than inline in the main `capture-session.json`. This reduces session file size for large payloads.
+API capture behavior is controlled by the following properties (all optional with sensible defaults):
 
-- **Request bodies:** Externalized by default via `capture.api.externalizeRequestBodies=true`
-- **Response bodies:** Externalized by default via `capture.api.externalizeResponseBodies=true`
+| Property | Default | Description |
+|----------|---------|-------------|
+| `capture.api.enabled` | `false` | Enable or disable automatic capture of web API network traffic |
+| `capture.api.maxBodyBytes` | `1048576` | Maximum request/response body size in bytes (1 MB); larger bodies are truncated |
+| `capture.api.includeAssets` | `false` | Include asset requests (images, CSS, fonts); false captures only API calls |
+| `capture.api.firstPartyOnly` | `true` | Capture only first-party API calls from the primary domain |
+| `capture.api.storeSecretsLocally` | `false` | Store authorization headers and sensitive data inline (false = use environment references) |
+| `capture.api.proxy.port` | `0` | Local proxy port for API capture (0 = auto-assign) |
 
-All captured HTTP headers, request paths, and response metadata are preserved inline. Use `capture.api.redactedHeaderPatterns` to exclude sensitive headers from the capture (e.g., `authorization`, `cookie`, `x-api-key`).
-
-Example redaction configuration:
+Example configuration:
 
 ```properties
-capture.api.redactedHeaderPatterns=authorization,cookie,x-api-key,x-secret.*
+capture.api.enabled=true
+capture.api.maxBodyBytes=1048576
+capture.api.includeAssets=false
+capture.api.firstPartyOnly=true
+capture.api.storeSecretsLocally=false
+capture.api.proxy.port=0
 ```
 
-Patterns are case-insensitive and support regex syntax. Matching headers are replaced with a placeholder in the capture; the original values are never stored.
+### Privacy and secret handling
 
-### Size limits
+By default, `capture.api.storeSecretsLocally=false` ensures that authorization headers and sensitive data are stored as environment variable references rather than inline in the capture session. This preserves privacy while keeping network traffic visible for debugging.
 
-Captured request and response bodies are capped at 1 MB per body by default via `capture.api.maxBodySizeBytes=1048576`. Bodies exceeding this limit are truncated in the capture session. No error is raised; the truncation is noted in the capture metadata.
+When `capture.api.storeSecretsLocally=true`, headers are captured inline for testing purposes; this should be used only in development environments and never in production scenarios.
 
 ### Recording API traffic via MCP
 
@@ -509,8 +518,11 @@ Use the `capture_api_start` tool to begin recording with API capture enabled:
     "url": "https://example.test",
     "browser": "chrome",
     "outputPath": "recordings/checkout-with-api.json",
-    "maxBodySizeBytes": 1048576,
-    "redactedHeaderPatterns": "authorization,cookie"
+    "maxBodyBytes": 1048576,
+    "includeAssets": false,
+    "firstPartyOnly": true,
+    "storeSecretsLocally": false,
+    "proxy.port": 0
   }
 }
 ```
@@ -524,6 +536,17 @@ Monitor the recording with `capture_api_status`:
 }
 ```
 
+Query captured API transactions with `capture_api_transactions`:
+
+```json
+{
+  "tool": "capture_api_transactions",
+  "arguments": {}
+}
+```
+
+This returns the list of HTTP request/response pairs recorded so far, including request method, URL, response status, and body sizes.
+
 Stop the recording with `capture_api_stop`:
 
 ```json
@@ -535,21 +558,25 @@ Stop the recording with `capture_api_stop`:
 }
 ```
 
-### Checkpoint during API recording
+### IntelliJ Record API (Web) action
 
-Add browser or assertion checkpoints while recording API traffic using `capture_checkpoint`:
+The IntelliJ IDEA plugin provides a **Record API (Web)** action that:
 
-```json
-{
-  "tool": "capture_checkpoint",
-  "arguments": {
-    "kind": "BROWSER",
-    "description": "User logged in successfully"
-  }
-}
-```
+1. Opens a fresh managed Chrome session with API capture enabled
+2. Shows the Capture panel with both browser interactions and API calls listed
+3. Captures request and response traffic according to configured properties
+4. Stores secret/authorization headers as environment variable references by default (respects `capture.api.storeSecretsLocally`)
+5. Stops when the user clicks the panel's stop button or closes the browser
 
-Use the same checkpoint tools and kinds as regular browser-only Capture recordings. API events are collected alongside browser interactions.
+Access the action through:
+- **IDE menu:** IntelliJ IDEA > SHAFT > Record API (Web)
+- **Run configuration:** Select the "Record API (Web)" run type
+
+The recorded session is stored in the project's `target/shaft-capture/` directory and ready for immediate generation or further review.
+
+### Chrome/Edge requirement (HasDevTools)
+
+API traffic capture is only available for browsers with DevTools Protocol support. The IntelliJ Record API (Web) action will work only with Chrome and Edge. This limitation is enforced by the `HasDevTools` browser capability check.
 
 ### Code generation from API recordings
 
@@ -569,25 +596,9 @@ After a successful `capture_api_stop`, generate test code using `capture_generat
 The generated test class includes:
 
 - Browser navigation and interaction events (same as regular Capture)
-- API request/response assertions and validations
+- API request/response data for reference and manual assertion writing
 - External test-data references for typed body values
 - Request/response body files linked as supporting artifacts
-
-### IntelliJ Record API (Web) action
-
-The IntelliJ IDEA plugin provides a **Record API (Web)** action that:
-
-1. Opens a fresh managed Chrome session
-2. Enables API traffic capture automatically
-3. Shows the Capture panel with both browser interactions and API calls listed
-4. Captures request/response bodies (redacted per configured patterns)
-5. Stops when the user clicks the panel's stop button or closes the browser
-
-Access the action through:
-- **IDE menu:** IntelliJ IDEA > SHAFT > Record API (Web)
-- **Run configuration:** Select the "Record API (Web)" run type
-
-The recorded session is stored in the project's `target/shaft-capture/` directory and ready for immediate generation or further review.
 
 ### Future: API codegen and OpenAPI
 
