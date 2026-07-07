@@ -91,6 +91,32 @@ probe logs. The plugin starts the configured stdio command when it invokes
 tools; it does not embed the SHAFT engine or manage provider model traffic
 itself.
 
+### Tool approval and consent workflow
+
+SHAFT displays an interactive tool-approval dialog when launching MCP tools,
+unless the selected agent pre-approves tools or scope consent is already
+granted for the current IDE session. The approval UI shows the tool name,
+its operation scope (e.g., "Browser control", "Recording", "Analysis"),
+and the workspace access it requires (e.g., "read project", "write test
+files", "read workspace"). Users approve individual scopes interactively,
+or check **Approve all SHAFT tools** to grant blanket session-wide consent
+for all tools and scopes.
+
+**Per-agent approval behavior:**
+
+- **Codex CLI and Claude Code**: Support interactive tool approval. The
+  approval box displays each distinct tool scope with clickable consent
+  options. Users can approve individual scopes or check "Approve all SHAFT
+  tools" for automatic approval throughout the session.
+- **GitHub Copilot**: Pre-approves all SHAFT tools and scopes per platform
+  policy; the interactive approval dialog is not shown.
+- **Gemini Cloud**: Delegates approval to the cloud MCP service; approval
+  behavior follows the configured provider's policy.
+
+Once a scope is approved for the session, subsequent tool invocations skip the
+approval dialog for that scope. Approval consent clears when the IDE restarts
+or when you explicitly reset the plugin.
+
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
@@ -104,6 +130,13 @@ can switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
 crowded tab strip so the controls stay readable in the narrow right-side
 IntelliJ tool window. MCP-backed workflow panels use the same verified setup
 state as the Assistant; a command must pass setup before feature tools run.
+
+This setting also enables **Expert mode**, which reveals advanced slash commands
+in the Assistant composer (e.g., `/mcp`, `/scenarios`, `/guardrails`,
+`/browser`, `/mobile`). Basic mode shows only the most-common commands
+(`/partner`, `/record-web`, `/record-mobile`, `/doctor`, `/guide`, `/codegen`);
+hover the command-help icon to see the full command family without entering
+Expert mode.
 
 Use the plugin as the default front door when you are already in IntelliJ:
 
@@ -276,6 +309,13 @@ same chat box. For example, "start mobile recording" maps to
 `mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
 the same feature deterministically. Browser control defaults to WebDriver; use
 `playwright` in the prompt or command when that backend is required.
+
+Use `/record <url>` to start browser recording at an explicit target URL with
+an interactive confirmation prompt. Similarly, `/codegen <path-to-recording.json>`
+shows an explicit confirmation before generating Java test code from a saved
+recording. These prompts help you verify the correct session and target before
+committing to capture or code generation.
+
 Use `review recording` or `review recording recordings/<name>.json` to generate
 the same reviewed Capture code blocks without remembering `/codegen`.
 After capture approval, the local Agent run shows completion feedback in the
@@ -458,12 +498,49 @@ For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
 the intended behavior. The plan should preserve working Page Object boundaries
 and reuse existing locators/actions before adding new SHAFT code.
 
-Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
-MCP connection, or change Assistant Local/Cloud routing. Configure Codex,
-Claude, GitHub Copilot, and other MCP clients outside the plugin from the
-[SHAFT MCP guide](/docs/agentic/mcp). Settings are grouped by **Connection**,
-**Execution**, **Advanced**, and **Credentials** so setup, routing, provider,
-and key-storage controls stay separate.
+## Settings and configuration
+
+Use **Settings | SHAFT** to configure the plugin's connection, execution,
+advanced features, and cloud provider credentials. Settings are organized into
+four sections:
+
+- **Connection**: Paste or edit the MCP stdio command, test the MCP connection,
+  and view the current agent/workspace configuration.
+- **Execution**: Choose the local Assistant route (Codex, Claude, or Copilot),
+  select the default AI model and reasoning effort, and enable Expert mode to
+  reveal advanced commands in the Assistant composer.
+- **Advanced**: Configure cloud provider selection for MCP tools and enable
+  advanced workflows.
+- **Credentials**: Store OpenAI, Anthropic, Gemini, and GitHub API keys in
+  IntelliJ Password Safe for use by MCP tools that request provider assistance.
+
+### Expert mode
+
+When you enable **Settings | SHAFT | Enable advanced workflows and provider
+options**, the Expert-mode toggle activates on the post-setup settings screen.
+Expert mode reveals advanced slash commands in the Assistant composer that are
+hidden by default, such as `/mcp`, `/scenarios`, `/guardrails`, `/browser`,
+and `/mobile`. Hover the command-help icon in the Assistant to view all
+available commands without enabling Expert mode.
+
+### Reset and reinstall
+
+The **Reset / reinstall** button appears once setup is complete or when the
+details pane is expanded. Clicking it:
+
+- Clears the stored MCP command configuration.
+- Removes session tool-approval consent so the approval dialog reappears for
+  all tools on the next run.
+- Resets all transient plugin state (chat history is preserved; project settings
+  are not affected).
+- Copies the installer command to the clipboard for manual reinstallation.
+
+**User code is never touched.** Reset only affects the SHAFT plugin
+configuration and MCP connection; your Java source, test files, Page Objects,
+locators, and project settings remain unchanged.
+
+Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
+plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
 
 Optional OpenAI, Anthropic, Gemini, and GitHub tokens are stored in IntelliJ
 Password Safe and can be passed as MCP process environment variables for the
