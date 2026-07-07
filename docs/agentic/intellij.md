@@ -118,6 +118,13 @@ crowded tab strip so the controls stay readable in the narrow right-side
 IntelliJ tool window. MCP-backed workflow panels use the same verified setup
 state as the Assistant; a command must pass setup before feature tools run.
 
+This setting also enables **Expert mode**, which reveals advanced slash commands
+in the Assistant composer (e.g., `/mcp`, `/scenarios`, `/guardrails`,
+`/browser`, `/mobile`). Basic mode shows only the most-common commands
+(`/partner`, `/record-web`, `/record-mobile`, `/doctor`, `/guide`, `/codegen`);
+hover the command-help icon to see the full command family without entering
+Expert mode.
+
 Use the plugin as the default front door when you are already in IntelliJ:
 
 - Record web journeys with `/record-web` or Recorder, then review WebDriver or
@@ -305,6 +312,13 @@ same chat box. For example, "start mobile recording" maps to
 `mobile_record_start`, while `/mobile-record start recordings/mobile.json` runs
 the same feature deterministically. Browser control defaults to WebDriver; use
 `playwright` in the prompt or command when that backend is required.
+
+Use `/record <url>` to start browser recording at an explicit target URL with
+an interactive confirmation prompt. Similarly, `/codegen <path-to-recording.json>`
+shows an explicit confirmation before generating Java test code from a saved
+recording. These prompts help you verify the correct session and target before
+committing to capture or code generation.
+
 Use `review recording` or `review recording recordings/<name>.json` to generate
 the same reviewed Capture code blocks without remembering `/codegen`.
 After capture approval, the local Agent run shows completion feedback in the
@@ -487,12 +501,96 @@ For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
 the intended behavior. The plan should preserve working Page Object boundaries
 and reuse existing locators/actions before adding new SHAFT code.
 
-Use **Settings | SHAFT** later to paste or edit the stdio command, retest the
-MCP connection, or change Assistant Local/Cloud routing. Configure Codex,
-Claude, GitHub Copilot, and other MCP clients outside the plugin from the
-[SHAFT MCP guide](/docs/agentic/mcp). Settings are grouped by **Connection**,
-**Execution**, **Advanced**, and **Credentials** so setup, routing, provider,
-and key-storage controls stay separate.
+## Settings and configuration
+
+Use **Settings | SHAFT** to configure the plugin's connection, execution,
+advanced features, and cloud provider credentials. Settings are organized into
+four sections:
+
+- **Connection**: Paste or edit the MCP stdio command, test the MCP connection,
+  and view the current agent/workspace configuration.
+- **Execution**: Choose the local Assistant route (Codex, Claude, or Copilot),
+  select the default AI model and reasoning effort, and enable Expert mode to
+  reveal advanced commands in the Assistant composer.
+- **Advanced**: Configure cloud provider selection for MCP tools and enable
+  advanced workflows.
+- **Credentials**: Store OpenAI, Anthropic, Gemini, and GitHub API keys in
+  IntelliJ Password Safe for use by MCP tools that request provider assistance.
+
+### Expert mode
+
+When you enable **Settings | SHAFT | Enable advanced workflows and provider
+options**, the Expert-mode toggle activates on the post-setup settings screen.
+Expert mode reveals advanced slash commands in the Assistant composer that are
+hidden by default, such as `/mcp`, `/scenarios`, `/guardrails`, `/browser`,
+and `/mobile`. Hover the command-help icon in the Assistant to view all
+available commands without enabling Expert mode.
+
+### Tool approval
+
+SHAFT MCP tool calls made through the Assistant are gated behind an
+interactive approval bubble rendered inline in the chat transcript. When a
+command such as `/record` or `/codegen` (or any Assistant feature that calls a
+SHAFT MCP tool) is about to dispatch a tool you have not approved yet, the
+Assistant shows the tool name and its arguments with a button per approval
+scope:
+
+- **Approve once** — allow just this one tool call.
+- **Approve tool always** — remember approval for every future call to this
+  tool.
+- **Approve all tools** — approve every SHAFT MCP tool from now on.
+- **Deny** — reject the call; the Assistant reports the denial instead of
+  running the tool.
+
+Remembered approvals are stored at the IDE level and survive restarts; **Reset
+everything** clears them. Each distinct tool is prompted at most once per run,
+so a workflow that calls the same tool repeatedly never prompt-storms you.
+
+When the selected Assistant route is Claude Code, an **Approve all SHAFT
+tools** checkbox also appears among the Assistant controls, and approval
+requests the Claude Code CLI raises mid-run are forwarded into the same chat
+approval flow: existing grants answer silently, anything else renders the
+approval bubble, and your decision is written back to the still-running CLI.
+Codex and GitHub Copilot CLI have no interactive approval protocol, so the
+checkbox and approve buttons are hidden for them; their tool permissions are
+baked into the launch command instead (see the source-edit approval notes
+above).
+
+### Reset everything
+
+Once initial setup is complete, returning to the settings screen shows the
+**Enable expert mode** toggle and a **Reset everything** button. Reset
+everything asks for confirmation, then factory-resets every plugin-local data
+store:
+
+- SHAFT settings return to factory defaults, so the fresh-install setup view
+  renders again.
+- Saved provider API keys are removed from IntelliJ Password Safe.
+- Tool approvals are cleared: the approve-all flag, remembered per-tool
+  approvals, and any pending single-use grants.
+- Assistant chat history is deleted for every open project.
+- Every open SHAFT tool window re-renders back to the setup view.
+
+**User code is never touched.** Reset everything only deletes plugin-local
+data; your Java source, test files, Page Objects, locators, and project
+settings remain unchanged.
+
+### Reset and reinstall
+
+The **Reset / reinstall** button appears once setup is complete or when the
+details pane is expanded. Clicking it:
+
+- Clears the stored MCP command configuration.
+- Clears transient plugin state so setup prompts appear again on next use
+  (chat history is preserved; project settings are not affected).
+- Copies the installer command to the clipboard for manual reinstallation.
+
+**User code is never touched.** Reset only affects the SHAFT plugin
+configuration and MCP connection; your Java source, test files, Page Objects,
+locators, and project settings remain unchanged.
+
+Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
+plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
 
 Optional OpenAI, Anthropic, Gemini, and GitHub tokens are stored in IntelliJ
 Password Safe and can be passed as MCP process environment variables for the
