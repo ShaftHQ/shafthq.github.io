@@ -26,7 +26,9 @@ actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
 support is available. First run shows a four-step setup inside the tool window:
 
-1. **Pick agent** defaults to Codex CLI.
+1. **Pick agent** defaults to Codex CLI. Local Codex, Claude, and GitHub
+   Copilot families are joined by **Gemini**, a cloud route configured with a
+   Google AI Studio API key instead of a local runtime.
 2. **Copy command** copies the right installer command for the selected agent
    and shows a short clipboard toast.
 3. **Run in terminal** opens the IntelliJ terminal after copying the command.
@@ -56,6 +58,17 @@ runtime, and detected recommended CLI agent. The stdio command stays managed by
 SHAFT and is not shown as a setup input. Test failures stay inline with
 categorized troubleshooting, client-specific next steps, copyable diagnostic
 output, copyable SHAFT MCP docs link, and the retry action remains enabled.
+
+Selecting the **Gemini** family swaps the runtime selector for a
+**Gemini API key** field. Paste a Google AI Studio API key; **Check setup**
+stores it in IntelliJ Password Safe, saves the Cloud/Gemini Assistant route
+with a default model, and enables passing the stored key to the SHAFT MCP
+process. The installer target switches to `intellij-plugin` because Gemini
+prompts run through SHAFT MCP provider chat instead of an external agent CLI.
+If no key is stored, **Check setup** fails inline with a reminder to paste the
+key and check again.
+
+![SHAFT IntelliJ MCP setup with the Gemini cloud provider](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
 ![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -237,10 +250,26 @@ Supported local routes are:
 | Claude Code | `claude --print`; Plan and no-source Agent use `--permission-mode plan`; source-edit Agent uses `acceptEdits` | No |
 | Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
+The composer shows a **model** selector and a reasoning **effort** selector for
+the active route in both the basic and advanced UI. Local routes list the
+models reported by the connected agent CLI (`codex models`,
+`claude config list-models`, `copilot models`) and fall back to a curated
+catalog per family; cloud routes list a curated catalog per provider, for
+example `gemini-3.5-flash`/`gemini-2.5-flash` for Gemini and
+`claude-fable-5`/`claude-opus-4-8`/`claude-sonnet-5` for Anthropic. Both
+selectors are editable so newer model names can be typed in. The selected
+model is passed as `--model` to the local CLIs and as the `model` argument to
+`autobot_provider_chat`. Effort levels are Default, Low, Medium, and High:
+Codex receives the level as its `model_reasoning_effort` config flag, while
+Claude, Copilot, and cloud providers receive a one-line reasoning-effort
+preference at the top of the prompt.
+
 Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
 are stored in IntelliJ Password Safe; only the selected cloud provider key is
 passed to the MCP process. Cloud `AGENT` mode is disabled because direct
-provider chat cannot mutate the local workspace.
+provider chat cannot mutate the local workspace. A cloud route selected during
+first-run setup (such as Gemini) stays active in the basic UI; switching
+providers ad hoc remains an advanced-mode control.
 
 Use `Ctrl+Enter` or `Command+Enter` to send a prompt. Newly sent prompts scroll
 into view immediately, so the chat shows visible feedback before a long-running
