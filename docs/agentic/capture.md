@@ -112,9 +112,17 @@ missing locator candidates, positional or multi-match locators, missing
 post-navigation or post-submit assertions, redacted required inputs, and
 collector warnings. The chip reports issues only; it does not block recording.
 
-Use the assertion control to toggle assertion mode, then click an element and choose
-one of the deterministic verification types: visible, enabled, selected, text
-equals or contains, attribute equals, URL equals or contains, or title equals.
+Use the assertion control to open the guided assertion flow, which offers two
+deterministic branches. The **Element** branch asks you to click the target
+element, then shows the top scored locator candidates (with a manual XPath or
+CSS field as an alternative), then the fixed element catalog: exists, visible,
+enabled, and selected (each with an expected `true`/`false` choice), text equals
+or contains, attribute equals (with attribute name and expected value fields),
+and image matches. The **Browser** branch shows the fixed page-level catalog:
+URL equals or contains, title equals or contains, and page text contains, each
+with an editable expected value prefilled from the live page. Saved assertions
+appear in the panel step list and rehydrate across navigations like any other
+recorded step.
 The recorder stores these as `VerificationEvent` records. Expected text, URL,
 title, and attribute values are externalized through the same privacy classifier
 used for typed data, so generated assertions do not embed captured secrets.
