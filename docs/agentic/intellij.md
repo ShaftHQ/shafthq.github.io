@@ -497,19 +497,61 @@ hidden by default, such as `/mcp`, `/scenarios`, `/guardrails`, `/browser`,
 and `/mobile`. Hover the command-help icon in the Assistant to view all
 available commands without enabling Expert mode.
 
+### Tool approval
+
+SHAFT displays an interactive tool-approval dialog when launching MCP tools,
+unless you have already approved the tool or scope during the current session.
+The approval dialog shows the tool name and lets you choose one of four
+approval scopes:
+
+- **Approve once**: Grant approval for this single tool invocation; the
+  approval is consumed and will not be reused.
+- **Approve tool always**: Permanently approve all future invocations of this
+  tool; the tool is added to the approved-tools list and persists after IDE
+  restart.
+- **Approve all tools**: Approve all SHAFT tools and all future tool
+  invocations. This checkbox is unchecked by default; check it to grant
+  session-spanning blanket approval for all tools.
+- **Deny**: Decline approval for this tool invocation.
+
+**Per-agent approval behavior:**
+
+- **Codex CLI and Claude Code**: Support interactive tool approval. When a
+  tool is invoked, the approval dialog displays with the four approval scopes
+  above.
+- **GitHub Copilot**: Pre-approves all SHAFT tools by default per platform
+  policy; the interactive approval dialog is not shown. Approval decisions
+  recorded by the approval service (if Copilot later invokes SHAFT tools from
+  outside the plugin context) follow the same permanent and approve-all rules.
+- **Gemini Cloud**: Cloud-provided agents delegate approval decisions to SHAFT
+  MCP; approval behavior follows the configured provider's policy.
+
+Once a tool or scope is approved, subsequent invocations of that tool skip
+the approval dialog. Approval decisions persist in `tool-approval.xml` until
+the IDE restarts or you explicitly reset the plugin.
+
+Explicit confirmation prompts are shown for `/record` (browser recording start)
+and `/codegen` (code generation from recording) to help you verify the correct
+session and target before committing to capture or code generation.
+
 ### Reset and reinstall
 
 The **Reset / reinstall** button appears once setup is complete or when the
 details pane is expanded. Clicking it:
 
 - Clears the stored MCP command configuration.
+- Clears all tool-approval decisions (both single-use and permanent approvals).
 - Clears transient plugin state so setup prompts appear again on next use
   (chat history is preserved; project settings are not affected).
 - Copies the installer command to the clipboard for manual reinstallation.
 
+A confirmation dialog is shown before reset begins so you can review what will
+be cleared. The plugin resets are isolated; resetting the plugin does not
+affect MCP clients or installed MCP commands outside the plugin context.
+
 **User code is never touched.** Reset only affects the SHAFT plugin
-configuration and MCP connection; your Java source, test files, Page Objects,
-locators, and project settings remain unchanged.
+configuration, MCP connection, and approval state; your Java source, test
+files, Page Objects, locators, and project settings remain unchanged.
 
 Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
 plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
