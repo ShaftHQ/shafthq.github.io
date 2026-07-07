@@ -91,32 +91,6 @@ probe logs. The plugin starts the configured stdio command when it invokes
 tools; it does not embed the SHAFT engine or manage provider model traffic
 itself.
 
-### Tool approval and consent workflow
-
-SHAFT displays an interactive tool-approval dialog when launching MCP tools,
-unless the selected agent pre-approves tools or scope consent is already
-granted for the current IDE session. The approval UI shows the tool name,
-its operation scope (e.g., "Browser control", "Recording", "Analysis"),
-and the workspace access it requires (e.g., "read project", "write test
-files", "read workspace"). Users approve individual scopes interactively,
-or check **Approve all SHAFT tools** to grant blanket session-wide consent
-for all tools and scopes.
-
-**Per-agent approval behavior:**
-
-- **Codex CLI and Claude Code**: Support interactive tool approval. The
-  approval box displays each distinct tool scope with clickable consent
-  options. Users can approve individual scopes or check "Approve all SHAFT
-  tools" for automatic approval throughout the session.
-- **GitHub Copilot**: Pre-approves all SHAFT tools and scopes per platform
-  policy; the interactive approval dialog is not shown.
-- **Gemini Cloud**: Delegates approval to the cloud MCP service; approval
-  behavior follows the configured provider's policy.
-
-Once a scope is approved for the session, subsequent tool invocations skip the
-approval dialog for that scope. Approval consent clears when the IDE restarts
-or when you explicitly reset the plugin.
-
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
@@ -529,10 +503,8 @@ The **Reset / reinstall** button appears once setup is complete or when the
 details pane is expanded. Clicking it:
 
 - Clears the stored MCP command configuration.
-- Removes session tool-approval consent so the approval dialog reappears for
-  all tools on the next run.
-- Resets all transient plugin state (chat history is preserved; project settings
-  are not affected).
+- Clears transient plugin state so setup prompts appear again on next use
+  (chat history is preserved; project settings are not affected).
 - Copies the installer command to the clipboard for manual reinstallation.
 
 **User code is never touched.** Reset only affects the SHAFT plugin
