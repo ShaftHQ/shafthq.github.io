@@ -497,6 +497,55 @@ hidden by default, such as `/mcp`, `/scenarios`, `/guardrails`, `/browser`,
 and `/mobile`. Hover the command-help icon in the Assistant to view all
 available commands without enabling Expert mode.
 
+### Tool approval
+
+SHAFT MCP tool calls made through the Assistant are gated behind an
+interactive approval bubble rendered inline in the chat transcript. When a
+command such as `/record` or `/codegen` (or any Assistant feature that calls a
+SHAFT MCP tool) is about to dispatch a tool you have not approved yet, the
+Assistant shows the tool name and its arguments with a button per approval
+scope:
+
+- **Approve once** — allow just this one tool call.
+- **Approve tool always** — remember approval for every future call to this
+  tool.
+- **Approve all tools** — approve every SHAFT MCP tool from now on.
+- **Deny** — reject the call; the Assistant reports the denial instead of
+  running the tool.
+
+Remembered approvals are stored at the IDE level and survive restarts; **Reset
+everything** clears them. Each distinct tool is prompted at most once per run,
+so a workflow that calls the same tool repeatedly never prompt-storms you.
+
+When the selected Assistant route is Claude Code, an **Approve all SHAFT
+tools** checkbox also appears among the Assistant controls, and approval
+requests the Claude Code CLI raises mid-run are forwarded into the same chat
+approval flow: existing grants answer silently, anything else renders the
+approval bubble, and your decision is written back to the still-running CLI.
+Codex and GitHub Copilot CLI have no interactive approval protocol, so the
+checkbox and approve buttons are hidden for them; their tool permissions are
+baked into the launch command instead (see the source-edit approval notes
+above).
+
+### Reset everything
+
+Once initial setup is complete, returning to the settings screen shows the
+**Enable expert mode** toggle and a **Reset everything** button. Reset
+everything asks for confirmation, then factory-resets every plugin-local data
+store:
+
+- SHAFT settings return to factory defaults, so the fresh-install setup view
+  renders again.
+- Saved provider API keys are removed from IntelliJ Password Safe.
+- Tool approvals are cleared: the approve-all flag, remembered per-tool
+  approvals, and any pending single-use grants.
+- Assistant chat history is deleted for every open project.
+- Every open SHAFT tool window re-renders back to the setup view.
+
+**User code is never touched.** Reset everything only deletes plugin-local
+data; your Java source, test files, Page Objects, locators, and project
+settings remain unchanged.
+
 ### Reset and reinstall
 
 The **Reset / reinstall** button appears once setup is complete or when the
