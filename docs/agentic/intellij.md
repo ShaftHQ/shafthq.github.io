@@ -255,7 +255,7 @@ the active route in both the basic and advanced UI. Local routes list the
 models reported by the connected agent CLI (`codex models`,
 `claude config list-models`, `copilot models`) and fall back to a curated
 catalog per family; cloud routes list a curated catalog per provider, for
-example `gemini-3.5-flash`/`gemini-3.5-pro` for Gemini and
+example `gemini-3.5-flash`/`gemini-2.5-flash` for Gemini and
 `claude-fable-5`/`claude-opus-4-8`/`claude-sonnet-5` for Anthropic. Both
 selectors are editable so newer model names can be typed in. The selected
 model is passed as `--model` to the local CLIs and as the `model` argument to
