@@ -24,14 +24,19 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a four-step setup inside the tool window:
+support is available. First run shows a five-step setup inside the tool window:
 
-1. **Pick agent** defaults to Codex CLI. Local Codex, Claude, and GitHub
+1. **Upgrade project** is optional and independent of the steps below: copy
+   the command that upgrades the open project to the latest modular SHAFT
+   release, then use the **Open terminal** button that appears next to it to
+   run it. See the [Upgrade guide](/docs/start/upgrade) for what that command
+   does; a brand-new project has nothing to upgrade and can skip this step.
+2. **Pick agent** defaults to Codex CLI. Local Codex, Claude, and GitHub
    Copilot families are joined by **Gemini**, a cloud route configured with a
    Google AI Studio API key instead of a local runtime.
-2. **Copy command** copies the right installer command for the selected agent
-   and shows a short clipboard toast.
-3. **Run in terminal** opens the IntelliJ terminal after copying the command.
+3. **Install SHAFT MCP** copies the right installer command for the selected
+   agent and shows a short clipboard toast; an **Open terminal** button
+   appears next to it once copied, so both actions stay visible together.
 4. **Check setup** finds the installed SHAFT MCP command automatically,
    verifies the selected local agent and workspace, and reveals
    **Start chatting**.
@@ -50,9 +55,9 @@ passes.
 ![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
-stepper with visible state chips. Only the current useful button is active, so
-the path reads as
-**Pick agent -> Copy command -> Run in terminal -> Check setup -> Start chatting**.
+stepper with visible state chips, only showing the buttons relevant to the
+current step, so the path reads as
+**Upgrade project -> Pick agent -> Install SHAFT MCP -> Check setup -> Start chatting**.
 The setup summary shows the `main` installer source, selected target, selected
 runtime, and detected recommended CLI agent. The stdio command stays managed by
 SHAFT and is not shown as a setup input. Test failures stay inline with
@@ -90,8 +95,9 @@ it:
 - **MCP probe**: rerun the installer command, then click **Check setup** once it
   finishes.
 
-The setup pane includes one-click actions for copying the installer command,
-opening the IntelliJ terminal, checking setup, and copying diagnostic output.
+The setup pane includes one-click actions for copying the SHAFT upgrade
+command, copying the installer command, opening the IntelliJ terminal for
+either, checking setup, and copying diagnostic output.
 Codex users should verify `codex mcp list`, Claude users should
 verify `claude mcp list` or restart Claude Desktop after desktop config changes,
 GitHub Copilot users should check the Copilot MCP configuration and
@@ -161,6 +167,11 @@ project and return the upgrader command first. The command should be in its own
 fenced block, and the agent should wait for you to run it before source edits.
 Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
 copyable command; this page documents the IDE workflow around that command.
+The setup wizard's **Upgrade project** step (see above) offers the same
+command as a one-click copy before you ever open the Assistant chat; this
+chat-driven flow and the **Projects** workflow's upgrade template are
+alternatives for triggering it later, mid-session, with repository-aware
+framing.
 
 ```mermaid
 flowchart TD
@@ -443,7 +454,8 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   summarization, report remediation, guarded reruns, and review-only locator
   proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
-  SHAFT upgrader against the open Java project.
+  SHAFT upgrader against the open Java project (the setup wizard's **Upgrade
+  project** step offers the same upgrade as a first-run, one-click copy).
 - Guided: a Coding Partner section for planning repository-aware work from intent,
   current Java source, selected text, and evidence paths; starter templates for
   recording a browser flow and generating Page Object code, analyzing failed
