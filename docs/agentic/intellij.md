@@ -100,9 +100,12 @@ organization MCP policy, and SHAFT IntelliJ plugin users should run the
 
 After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
 and **Start chatting** action without showing the managed stdio command or
-probe logs. The plugin starts the configured stdio command when it invokes
-tools; it does not embed the SHAFT engine or manage provider model traffic
-itself.
+probe logs. The plugin starts the configured stdio command on the first tool
+invocation and keeps that MCP server process alive across tool calls, so
+session-based tools (a `/record-web` Capture recording, an initialized live
+driver) keep running between commands; the process is restarted transparently
+when it dies or the configured command changes. The plugin does not embed the
+SHAFT engine or manage provider model traffic itself.
 
 ## Tool window
 
