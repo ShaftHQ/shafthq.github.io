@@ -522,8 +522,9 @@ Use **Settings | SHAFT** to configure the plugin's connection, execution,
 advanced features, and cloud provider credentials. Settings are organized into
 four sections:
 
-- **Connection**: Paste or edit the MCP stdio command, test the MCP connection,
-  and view the current agent/workspace configuration.
+- **Connection**: Paste or edit the MCP stdio command, test the MCP connection
+  against the currently open project, and view the current agent/workspace
+  configuration.
 - **Execution**: Choose the local Assistant route (Codex, Claude, or Copilot),
   select the default AI model and reasoning effort, and enable Expert mode to
   reveal advanced commands in the Assistant composer.
@@ -541,6 +542,20 @@ hidden by default, such as `/mcp`, `/scenarios`, `/guardrails`, `/browser`,
 and `/mobile`. Hover the command-help icon in the Assistant to view all
 available commands without enabling Expert mode.
 
+### SHAFT project detection
+
+The Assistant detects whether the open project actually depends on SHAFT (a
+`shaft-engine`/`shaft-bom`/`io.github.shafthq` reference in the root or a
+direct child module's `pom.xml`/`build.gradle`/`build.gradle.kts`). In a
+project that does not depend on SHAFT yet, mutating or SHAFT-reporting-only
+tools -- project upgrade, focused verification, and Doctor/Heal triage -- are
+not dispatched; the Assistant instead replies with a message pointing you at
+**Create SHAFT Project** or **Upgrade project** in the Projects workflow.
+Read-only tools such as guide search and coding-partner planning are not
+gated, since they are useful while you are still adopting SHAFT. The MCP
+connection heartbeat also stays idle in a non-SHAFT project instead of
+polling in the background.
+
 ### Tool approval
 
 SHAFT MCP tool calls made through the Assistant are gated behind an
@@ -557,9 +572,12 @@ scope:
 - **Deny** — reject the call; the Assistant reports the denial instead of
   running the tool.
 
-Remembered approvals are stored at the IDE level and survive restarts; **Reset
-everything** clears them. Each distinct tool is prompted at most once per run,
-so a workflow that calls the same tool repeatedly never prompt-storms you.
+Remembered approvals are stored per project and survive restarts, so approving
+a tool (or **Approve all SHAFT tools**) in one project never authorizes it in
+another project open in the same IDE session; **Reset everything** clears
+approvals for every currently open project. Each distinct tool is prompted at
+most once per run, so a workflow that calls the same tool repeatedly never
+prompt-storms you.
 
 When the selected Assistant route is Claude Code, an **Approve all SHAFT
 tools** checkbox also appears among the Assistant controls, and approval
@@ -581,8 +599,8 @@ store:
 - SHAFT settings return to factory defaults, so the fresh-install setup view
   renders again.
 - Saved provider API keys are removed from IntelliJ Password Safe.
-- Tool approvals are cleared: the approve-all flag, remembered per-tool
-  approvals, and any pending single-use grants.
+- Tool approvals are cleared for every open project: the approve-all flag,
+  remembered per-tool approvals, and any pending single-use grants.
 - Assistant chat history is deleted for every open project.
 - Every open SHAFT tool window re-renders back to the setup view.
 
