@@ -36,10 +36,17 @@ runtime in the per-user SHAFT cache when Python is missing. The shared Python
 installer prints the SHAFT MCP banner, shows the selected client, resolves
 `io.github.shafthq:shaft-mcp:LATEST` from Maven Central without requiring a
 local project, verifies checksums, shows progress for long downloads, downloads
-the thin JAR and its runtime dependencies to versioned per-user application
-data, writes a Java argfile, verifies it over stdio, and updates the selected
-user configuration without creating a second `shaft-mcp` entry. Run the same
-command later to install a newer release. If you run the script without a
+the thin JAR to versioned per-user application data, resolves its runtime
+dependencies into the **local Maven repository** (`~/.m2/repository`, honoring
+a `localRepository` configured in `~/.m2/settings.xml` or a
+`SHAFT_MCP_MAVEN_LOCAL_REPOSITORY` override) so future SHAFT projects reuse
+the same artifacts, writes a Java argfile, verifies it over stdio, and updates
+the selected user configuration without creating a second `shaft-mcp` entry.
+Everything already present with a matching checksum is skipped and reported —
+a reinstall only downloads what is actually new (Java, the JAR, and each
+dependency log their skips, and a summary reports how many dependencies were
+downloaded versus already up to date). Run the same command later to install a
+newer release. If you run the script without a
 target, it prompts you to choose a supported client.
 
 After the MCP setup succeeds, attended installs ask whether to install the
