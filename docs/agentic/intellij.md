@@ -516,13 +516,18 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   project** step offers the same upgrade as a first-run, one-click copy).
 - Guided: a Coding Partner section for planning repository-aware work from intent,
   current Java source, selected text, and evidence paths; starter templates for
-  recording a browser flow and generating Page Object code, analyzing failed
-  Allure results, converting Selenium snippets to SHAFT syntax, creating a new
-  SHAFT project, and inspecting current page locators. The guided recorder
-  action says **Review code** because it prepares reviewed SHAFT code blocks,
-  setup notes, assertion suggestions, locator alternatives, and control-flow
-  review output. Templates prefill MCP arguments only; they do not run tools or
-  write source by themselves.
+  recording a browser flow and generating Page Object code, starting a mobile
+  web-emulation session for recording, analyzing failed Allure results,
+  converting Selenium snippets to SHAFT syntax, creating a new SHAFT project,
+  and inspecting current page locators. The recorder **Backend** selector
+  routes the recording controls to WebDriver, Playwright, or Mobile (web
+  emulation) recording tools, and a **Headless browser** toggle (off by
+  default so you can interact with the recorded browser) controls whether
+  recording sessions launch a visible window — check it for agent-driven or CI
+  recordings. The guided recorder action says **Review code** because it
+  prepares reviewed SHAFT code blocks, setup notes, assertion suggestions,
+  locator alternatives, and control-flow review output. Templates prefill MCP
+  arguments only; they do not run tools or write source by themselves.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, recorder evidence manifests, backend comparison, and official
