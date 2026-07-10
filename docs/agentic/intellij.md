@@ -288,7 +288,7 @@ Supported local routes are:
 | Client | Default local command | API key required by SHAFT |
 | --- | --- | --- |
 | Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan and no-source Agent; workspace-write only with `Allow source edits` | No |
-| Claude Code | `claude --print`; Plan and no-source Agent use `--permission-mode plan`; source-edit Agent uses `acceptEdits` | No |
+| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` | No |
 | Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
 The composer shows a **model** selector and a reasoning **effort** selector for
@@ -325,6 +325,14 @@ While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
 output is finalized.
+A **Verbose** checkbox, shown for local CLI routes, streams the agent's
+progress into the chat as it happens instead of only showing the final
+result: extended-thinking/reasoning blocks, each tool call (with a short
+summary of its input when one is available), and each tool call's result or
+failure once it completes. Toggling Verbose mid-run is safe in either
+direction -- the transcript never ends up showing a stale in-progress bubble
+or losing an unrelated message. With Verbose off, a brief "running" bubble
+still appears while the agent works and is replaced by the final answer.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -615,15 +623,21 @@ approvals for every currently open project. Each distinct tool is prompted at
 most once per run, so a workflow that calls the same tool repeatedly never
 prompt-storms you.
 
-When the selected Assistant route is Claude Code, an **Approve all SHAFT
-tools** checkbox also appears among the Assistant controls, and approval
-requests the Claude Code CLI raises mid-run are forwarded into the same chat
-approval flow: existing grants answer silently, anything else renders the
-approval bubble, and your decision is written back to the still-running CLI.
-Codex and GitHub Copilot CLI have no interactive approval protocol, so the
-checkbox and approve buttons are hidden for them; their tool permissions are
-baked into the launch command instead (see the source-edit approval notes
-above).
+When the selected Assistant route is Claude Code and Agent mode runs
+without `Allow source edits`, SHAFT hosts a small local approval server for
+that run and points the CLI at it (`--permission-prompt-tool`), instead of
+limiting the CLI to only proposing a plan. Claude's own built-in safety
+classifier still auto-allows obviously safe, read-only actions without
+prompting -- matching what you would see running the CLI yourself -- but a
+genuinely mutating tool call (writing a file, running a command) pauses and
+renders the same approval bubble described above. Existing grants answer
+silently; a new request renders the bubble and your decision is sent back to
+the still-running CLI over that local approval server. These decisions are
+scoped separately from SHAFT MCP tool approvals, so approving (or denying) a
+local Claude Code tool call can never silently approve or deny an unrelated
+SHAFT MCP tool, and vice versa. Codex and GitHub Copilot CLI have no
+interactive approval protocol, so their tool permissions stay baked into the
+launch command instead (see the source-edit approval notes above).
 
 ### Reset everything
 
