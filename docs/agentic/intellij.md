@@ -34,7 +34,10 @@ support is available. First run shows a six-step setup inside the tool window:
    from this screen; **Recheck** re-detects after you install something. A
    **Copy SHAFT Engine warm-up command** button copies a Maven command that
    pre-downloads SHAFT Engine and its dependencies into the local Maven
-   repository so future projects skip re-downloading them. Java and Maven are
+   repository so future projects skip re-downloading them; the command pins
+   the latest released engine version (resolved live from Maven Central, with
+   the plugin's own release as the offline fallback) rather than a Maven
+   meta-version. Java and Maven are
    advisory: the SHAFT MCP installer bootstraps its own Java when none is
    found.
 1. **Upgrade project** is optional and independent of the steps below: copy
@@ -288,7 +291,7 @@ Supported local routes are:
 | Client | Default local command | API key required by SHAFT |
 | --- | --- | --- |
 | Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan and no-source Agent; workspace-write only with `Allow source edits` | No |
-| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` | No |
+| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` for file edits and keeps the same approval bridge for shell and third-party MCP tool calls, which `acceptEdits` alone would silently deny in `--print` mode; SHAFT's own MCP tools are pre-approved via `--allowedTools mcp__shaft-mcp` in both Agent variants | No |
 | Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
 The composer shows a **model** selector and a reasoning **effort** selector for
@@ -366,14 +369,19 @@ and **re-executes the recording headless** (`capture_generate_replay`), so the
 returned code blocks are verified against the live flow rather than only
 statically generated. When only the replay step fails, the generated and
 compiling code blocks are still returned together with the replay diagnostics,
-so a replay hiccup never turns into an empty "no code" response. Playwright
+so a replay hiccup never turns into an empty "no code" response. Re-running
+`/codegen` regenerates the deterministic `RecordedFlowTest` output in place
+instead of failing because the class already exists. Playwright
 and mobile recordings keep their generate-only code-block tools.
 
 Use `review recording` or `review recording recordings/<name>.json` to generate
 the same reviewed Capture code blocks without remembering `/codegen`.
 After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
-workflow step before continuing.
+workflow step before continuing. When the run created no files (for example
+because its tool calls were denied), the reviewed Capture code blocks stay
+available so you can approve again or copy the generated class manually, and
+the transcript says so explicitly instead of ending on a bare confirmation.
 
 For local agent CLI runs, the **Verbose** toggle streams everything the
 wrapped CLI reports while it works: recognized events are shown as
@@ -381,14 +389,20 @@ human-readable progress lines (thinking, tool calls, tool results), and any
 event with no human-readable mapping is shared as-is in its native format
 (raw JSON) instead of being hidden. CLIs with no structured stream forward
 their raw output after a one-time notice. With Verbose off, only the parsed
-final response is shown.
+final response is shown. Independent of the toggle, every Agent-mode answer
+ends with a factual **Local agent activity** footer whenever the run created
+or edited files or lost tool calls to permission denials, listing the touched
+paths and the denied tools with per-tool counts.
 
 An empty transcript stays focused on the larger composer instead of adding
 starter text below the chat. The run timeline and action controls stay hidden
 until the current prompt, selected tool, running, approval, completion,
-cancellation, or failure state makes them useful. Type `@` in the prompt, or
-use the context icon, to insert supported workflow/tool starters. Type `#` when
-the current file or known project artifacts are available.
+cancellation, or failure state makes them useful. Type `/` for commands, `@`
+for workflow starters, and `#` for the current file or known project
+artifacts; the dropdown filters live as you keep typing (for example `/co`
+narrows to `/codegen`), shows each command's summary, and inserts the clean
+command ready for its argument. The former "+" context button was removed in
+favor of these typed triggers.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command
@@ -638,6 +652,14 @@ local Claude Code tool call can never silently approve or deny an unrelated
 SHAFT MCP tool, and vice versa. Codex and GitHub Copilot CLI have no
 interactive approval protocol, so their tool permissions stay baked into the
 launch command instead (see the source-edit approval notes above).
+
+SHAFT's own MCP tools (`mcp__shaft-mcp__*`) never prompt during local Agent
+runs: they are first-party capabilities of the Assistant, so Claude Code Agent
+commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
+(mirroring the Codex launch-time `default_tools_approval_mode="approve"`
+flag), and any SHAFT tool request that still reaches the approval bridge is
+auto-allowed with an `Auto-approved SHAFT tool` timeline entry. Shell commands
+and third-party MCP servers keep the interactive approval bubble.
 
 ### Reset everything
 
