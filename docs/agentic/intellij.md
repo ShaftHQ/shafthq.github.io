@@ -24,8 +24,19 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a five-step setup inside the tool window:
+support is available. First run shows a six-step setup inside the tool window:
 
+0. **Prerequisites** detects the tools the setup flow depends on — Python 3,
+   Java, Maven, Node.js (only when the selected agent CLI is missing and needs
+   npm), and the selected agent CLI itself. Every missing tool gets a
+   **Copy install command** button with a simple per-OS terminal command
+   (winget, Homebrew, or apt) so a fresh machine can be provisioned entirely
+   from this screen; **Recheck** re-detects after you install something. A
+   **Copy SHAFT Engine warm-up command** button copies a Maven command that
+   pre-downloads SHAFT Engine and its dependencies into the local Maven
+   repository so future projects skip re-downloading them. Java and Maven are
+   advisory: the SHAFT MCP installer bootstraps its own Java when none is
+   found.
 1. **Upgrade project** is optional and independent of the steps below: copy
    the command that upgrades the open project to the latest modular SHAFT
    release, then use the **Open terminal** button that appears next to it to
@@ -38,8 +49,14 @@ support is available. First run shows a five-step setup inside the tool window:
    agent and shows a short clipboard toast; an **Open terminal** button
    appears next to it once copied, so both actions stay visible together.
 4. **Check setup** finds the installed SHAFT MCP command automatically,
-   verifies the selected local agent and workspace, and reveals
-   **Start chatting**.
+   verifies the selected local agent and workspace, and additionally asks the
+   selected agent CLI itself whether it can access `shaft-mcp` (for example
+   via `claude mcp get shaft-mcp` or `codex mcp get shaft-mcp`), so after a
+   plugin update plus a `shaft-mcp` reinstall you get a real "your CLI can now
+   use shaft-mcp" verdict. When the CLI sees `shaft-mcp` but cannot connect —
+   typical when a CLI session that predates the reinstall is still running — a
+   **Copy restart command** button copies a terminal command that stops stale
+   CLI processes and re-verifies access. Success reveals **Start chatting**.
 
 The Marketplace plugin does not download or execute installer scripts at
 runtime. It only helps you choose the agent, copy the terminal installer
@@ -57,7 +74,10 @@ passes.
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
 stepper with visible state chips, only showing the buttons relevant to the
 current step, so the path reads as
-**Upgrade project -> Pick agent -> Install SHAFT MCP -> Check setup -> Start chatting**.
+**Prerequisites -> Upgrade project -> Pick agent -> Install SHAFT MCP -> Check setup -> Start chatting**.
+The whole setup flow scrolls vertically when it outgrows the tool window (the
+scrollbar appears only when needed, and content re-wraps instead of scrolling
+sideways), so the bottom of the page always stays reachable.
 The setup summary shows the `main` installer source, selected target, selected
 runtime, and detected recommended CLI agent. The stdio command stays managed by
 SHAFT and is not shown as a setup input. Test failures stay inline with
@@ -333,11 +353,27 @@ shows an explicit confirmation before generating Java test code from a saved
 recording. These prompts help you verify the correct session and target before
 committing to capture or code generation.
 
+`/codegen` against a Capture recording generates the SHAFT test, compiles it,
+and **re-executes the recording headless** (`capture_generate_replay`), so the
+returned code blocks are verified against the live flow rather than only
+statically generated. When only the replay step fails, the generated and
+compiling code blocks are still returned together with the replay diagnostics,
+so a replay hiccup never turns into an empty "no code" response. Playwright
+and mobile recordings keep their generate-only code-block tools.
+
 Use `review recording` or `review recording recordings/<name>.json` to generate
 the same reviewed Capture code blocks without remembering `/codegen`.
 After capture approval, the local Agent run shows completion feedback in the
 final transcript so you can confirm generation status, outputs, and next
 workflow step before continuing.
+
+For local agent CLI runs, the **Verbose** toggle streams everything the
+wrapped CLI reports while it works: recognized events are shown as
+human-readable progress lines (thinking, tool calls, tool results), and any
+event with no human-readable mapping is shared as-is in its native format
+(raw JSON) instead of being hidden. CLIs with no structured stream forward
+their raw output after a one-time notice. With Verbose off, only the parsed
+final response is shown.
 
 An empty transcript stays focused on the larger composer instead of adding
 starter text below the chat. The run timeline and action controls stay hidden
