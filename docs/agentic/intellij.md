@@ -291,7 +291,7 @@ Supported local routes are:
 | Client | Default local command | API key required by SHAFT |
 | --- | --- | --- |
 | Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan and no-source Agent; workspace-write only with `Allow source edits` | No |
-| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` for file edits and keeps the same approval bridge for shell and MCP tool calls, which `acceptEdits` alone would silently deny in `--print` mode | No |
+| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` for file edits and keeps the same approval bridge for shell and third-party MCP tool calls, which `acceptEdits` alone would silently deny in `--print` mode; SHAFT's own MCP tools are pre-approved via `--allowedTools mcp__shaft-mcp` in both Agent variants | No |
 | Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
 The composer shows a **model** selector and a reasoning **effort** selector for
@@ -652,6 +652,14 @@ local Claude Code tool call can never silently approve or deny an unrelated
 SHAFT MCP tool, and vice versa. Codex and GitHub Copilot CLI have no
 interactive approval protocol, so their tool permissions stay baked into the
 launch command instead (see the source-edit approval notes above).
+
+SHAFT's own MCP tools (`mcp__shaft-mcp__*`) never prompt during local Agent
+runs: they are first-party capabilities of the Assistant, so Claude Code Agent
+commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
+(mirroring the Codex launch-time `default_tools_approval_mode="approve"`
+flag), and any SHAFT tool request that still reaches the approval bridge is
+auto-allowed with an `Auto-approved SHAFT tool` timeline entry. Shell commands
+and third-party MCP servers keep the interactive approval bubble.
 
 ### Reset everything
 
