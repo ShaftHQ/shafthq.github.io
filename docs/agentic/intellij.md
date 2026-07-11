@@ -521,8 +521,8 @@ Responses render as Markdown. Known SHAFT responses, including local agent runs,
 provider chat, local client discovery, MCP `content[].text` envelopes, JSON
 payloads, and Java snippets, are parsed into readable sections, tables, or
 fenced code blocks. When a browser or mobile recording stops successfully, the
-Assistant shows the next code-generation request ("Generate a SHAFT test from
-<recording path>") in its own fenced block, ready to send.
+Assistant shows the next code-generation request (`Generate a SHAFT test from
+recordings/....json`) in its own fenced block, ready to send.
 Unknown structured responses are formatted through the selected Assistant route
 when possible; if no formatter is available, the plugin falls back to a local
 Markdown-safe JSON/code rendering. Use the copy actions for rendered Markdown,
