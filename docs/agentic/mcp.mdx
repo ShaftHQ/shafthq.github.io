@@ -81,19 +81,20 @@ stdio command automatically.
 
 ## Runtime workspace
 
-`shaft-mcp` chooses a writable runtime root for SHAFT engine artifacts. It no
-longer depends on the directory from which the MCP client launched the Java
-process.
+`shaft-mcp` scopes every path a tool reads or writes to one workspace root, and
+that root is your project whenever the client can say so:
 
-The installer writes the Java argfile with both
-`-Duser.dir=<runtime-root>` and
-`-Dshaft.mcp.workspaceRoot=<runtime-root>` so GUI clients that launch from a
-system directory still use a writable per-user workspace. Manual configurations
-can set the same `shaft.mcp.workspaceRoot` JVM property, or set
-`SHAFT_MCP_WORKSPACE_ROOT` in the MCP server environment. If neither is set,
-`shaft-mcp` uses the process current directory only when that directory is
-writable and, on Windows, not under a protected system directory. Otherwise it
-falls back to per-user application data:
+1. An explicit `-Dshaft.mcp.workspaceRoot=<project>` JVM property or a
+   `SHAFT_MCP_WORKSPACE_ROOT` environment variable always wins. The SHAFT
+   IntelliJ IDEA plugin sets this per project automatically.
+2. Otherwise the directory the MCP client launched the server from becomes the
+   workspace. Agent clients such as Claude Code, Codex, and Copilot CLI launch
+   stdio servers from the open project, so recordings, generated tests, and
+   Doctor analyses land in the project you are working on.
+3. The launch directory is skipped when it cannot be a real project: protected
+   system locations, unwritable directories, and the bare user home. There the
+   installer-provided `-Dshaft.mcp.fallbackWorkspaceRoot` (or the computed
+   per-user application-data directory) takes over:
 
 - Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-mcp\work`
 - macOS: `~/Library/Application Support/ShaftHQ/shaft-mcp/work`
@@ -604,10 +605,11 @@ writes the selected client configuration itself.
 
 The script creates a local stdio server named `shaft-mcp`. It records the
 absolute Java 25 executable and the absolute versioned argfile path so GUI
-clients do not depend on their inherited `PATH`. The argfile also pins
-`user.dir` and `shaft.mcp.workspaceRoot` to the per-user SHAFT work directory so
-Allure results, downloads, reports, and other SHAFT artifacts are not created
-under a protected client launch directory.
+clients do not depend on their inherited `PATH`. The argfile carries only
+`-Dshaft.mcp.fallbackWorkspaceRoot=<per-user work directory>`: the directory
+your agent launches the server from stays the workspace (so tools operate on
+your open project), and the fallback applies only when that launch directory is
+a protected system location or the bare user home.
 
 `claude` configures Claude Code. `claude-desktop` configures Claude Desktop on
 Windows or macOS and requires restarting Claude Desktop. GitHub Copilot for
@@ -637,12 +639,15 @@ the Java executable and an argfile.
 Create `/absolute/path/to/shaft-mcp.args`:
 
 ```text
-"-Duser.dir=/absolute/path/to/shaft-mcp-work"
-"-Dshaft.mcp.workspaceRoot=/absolute/path/to/shaft-mcp-work"
+"-Dshaft.mcp.fallbackWorkspaceRoot=/absolute/path/to/shaft-mcp-work"
 -cp
 "/absolute/path/to/shaft-mcp.jar:/absolute/path/to/lib/*"
 com.shaft.mcp.ShaftMcpApplication
 ```
+
+To pin the workspace to one project regardless of the launch directory, add
+`"-Dshaft.mcp.workspaceRoot=/absolute/path/to/your-project"` as the first
+argfile line (or set `SHAFT_MCP_WORKSPACE_ROOT` in the server environment).
 
 Use `;` instead of `:` in the classpath on Windows. The JVM property paths may
 use forward slashes on every operating system.

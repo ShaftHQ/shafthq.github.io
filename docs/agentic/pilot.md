@@ -86,7 +86,7 @@ deleting a typed step also removes its externalized test-data reference. Each
 action keeps sanitized page context and a DOM snapshot so code generation can
 rank semantic, stable locators and honor a pinned locator preference. Stopping
 the recording closes the managed browser, saves the session, and returns the
-next `/codegen` command as a fenced command block.
+next code-generation request as a fenced block, ready to send.
 
 ## Doctor example
 

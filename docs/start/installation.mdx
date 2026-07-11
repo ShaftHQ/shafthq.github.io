@@ -71,6 +71,35 @@ Common first-run blockers:
 | Maven cannot resolve SHAFT | Check proxy settings, repository access, and Maven Central connectivity. |
 | Browser session does not start | Confirm the selected browser is installed or use the generated headless defaults. |
 | Report does not open automatically | Open the generated report from the project target output or rerun from an interactive desktop session. |
+| Build passes but `Total: 0` tests ran | Your pom is missing the TestNG Surefire provider — see [Adding SHAFT to an existing Maven project](#adding-shaft-to-an-existing-maven-project) below. Generated projects already include it. |
+
+## Adding SHAFT to an existing Maven project
+
+Generated projects come pre-wired, but if you add the `shaft-engine` dependency
+to a hand-written pom, one extra block is required: SHAFT ships the JUnit
+Platform, so a bare pom makes Maven Surefire auto-detect the JUnit provider and
+**silently run zero TestNG tests** (the build still "passes"). SHAFT prints a
+loud warning when this happens. Configure Surefire with the TestNG provider
+explicitly:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.5.5</version>
+            <dependencies>
+                <dependency>
+                    <groupId>org.apache.maven.surefire</groupId>
+                    <artifactId>surefire-testng</artifactId>
+                    <version>3.5.5</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
+```
 
 ## Upgrade an existing project
 
