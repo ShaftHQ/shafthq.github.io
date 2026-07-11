@@ -116,9 +116,22 @@ missing locator candidates, positional or multi-match locators, missing
 post-navigation or post-submit assertions, redacted required inputs, and
 collector warnings. The chip reports issues only; it does not block recording.
 
+The recorder only keeps actions a user actually performed. Browser-synthesized
+noise is suppressed on both the in-page recorder and the server pipeline:
+pressing Enter in a form no longer records a phantom click on the form's
+invisible default submit button, the duplicate `change` re-announcement of an
+already-recorded typed value no longer appends a second type step, clicks on
+the bare page background (`body`/`html`) are ignored, and page clicks made
+while the assertion wizard is open are treated as wizard interaction rather
+than recorded steps.
+
 Use the assertion control to open the guided assertion flow, which offers two
 deterministic branches. The **Element** branch asks you to click the target
-element, then shows the top scored locator candidates (with a manual XPath or
+element: a prominent top-of-page banner ("Assertion: click the element you
+want to verify... Press Esc to cancel"), a crosshair cursor, and the hover
+highlight make the waiting-for-your-click state unmissable, and that pick
+click is never recorded as a step. It then shows the top scored locator
+candidates (with a manual XPath or
 CSS field as an alternative), then the fixed element catalog: exists, visible,
 enabled, and selected (each with an expected `true`/`false` choice), text equals
 or contains, attribute equals (with attribute name and expected value fields),

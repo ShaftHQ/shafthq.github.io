@@ -40,17 +40,26 @@ support is available. First run shows a six-step setup inside the tool window:
    meta-version. Java and Maven are
    advisory: the SHAFT MCP installer bootstraps its own Java when none is
    found.
-1. **Upgrade project** is optional and independent of the steps below: copy
-   the command that upgrades the open project to the latest modular SHAFT
-   release, then use the **Open terminal** button that appears next to it to
-   run it. See the [Upgrade guide](/docs/start/upgrade) for what that command
-   does; a brand-new project has nothing to upgrade and can skip this step.
+1. **Upgrade project** runs a real check: the plugin reads the open project's
+   `pom.xml`, finds its SHAFT version, and compares it against the latest
+   released engine version. A project already on the latest release — or on a
+   newer local development build — shows **Done** immediately with nothing to
+   do. Otherwise the step explains exactly what it found (current vs. latest
+   version, or that the project has no SHAFT dependency yet), **Copy command**
+   copies the upgrade command *and opens an IntelliJ terminal with it
+   pre-typed* so you only press Enter, and **Check** re-runs the comparison
+   after the upgrade finishes. See the [Upgrade guide](/docs/start/upgrade)
+   for what that command does.
 2. **Pick agent** defaults to Codex CLI. Local Codex, Claude, and GitHub
    Copilot families are joined by **Gemini**, a cloud route configured with a
-   Google AI Studio API key instead of a local runtime.
+   Google AI Studio API key instead of a local runtime. The step shows
+   **Done** only when the selected agent is actually detected on this machine
+   (or, for Gemini, when a key is stored).
 3. **Install SHAFT MCP** copies the right installer command for the selected
-   agent and shows a short clipboard toast; an **Open terminal** button
-   appears next to it once copied, so both actions stay visible together.
+   agent and opens an IntelliJ terminal with the command pre-typed — press
+   Enter there to run it. The step shows **Done** only when an installed
+   `shaft-mcp` is really found on disk, never just because a button was
+   clicked.
 4. **Check setup** finds the installed SHAFT MCP command automatically,
    verifies the selected local agent and workspace, and additionally asks the
    selected agent CLI itself whether it can access `shaft-mcp` (for example
@@ -78,6 +87,10 @@ Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
 stepper with visible state chips, only showing the buttons relevant to the
 current step, so the path reads as
 **Prerequisites -> Upgrade project -> Pick agent -> Install SHAFT MCP -> Check setup -> Start chatting**.
+Every state chip reflects a real verification of what is on the machine or in
+the project — never a "you clicked the button" heuristic — and a check that
+ran and did not pass shows an explicit red **Failed** chip with recovery
+guidance instead of silently staying neutral.
 The whole setup flow scrolls vertically when it outgrows the tool window (the
 scrollbar appears only when needed, and content re-wraps instead of scrolling
 sideways), so the bottom of the page always stays reachable.
@@ -328,14 +341,18 @@ While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
 output is finalized.
-A **Verbose** checkbox, shown for local CLI routes, streams the agent's
-progress into the chat as it happens instead of only showing the final
-result: extended-thinking/reasoning blocks, each tool call (with a short
+A **Verbose** checkbox, available on every route, forwards the unfiltered
+picture into the chat as it happens instead of only showing the final result.
+For local agent CLI runs that means the agent's own stream:
+extended-thinking/reasoning blocks, each tool call (with a short
 summary of its input when one is available), and each tool call's result or
-failure once it completes. Toggling Verbose mid-run is safe in either
-direction -- the transcript never ends up showing a stale in-progress bubble
-or losing an unrelated message. With Verbose off, a brief "running" bubble
-still appears while the agent works and is replaced by the final answer.
+failure once it completes. For direct SHAFT MCP tool runs (slash commands
+such as `/codegen`), Verbose echoes the exact tool request being sent and the
+raw tool response alongside the formatted answer. Toggling Verbose mid-run is
+safe in either direction -- the transcript never ends up showing a stale
+in-progress bubble or losing an unrelated message. With Verbose off, a brief
+"running" bubble still appears while the agent works and is replaced by the
+final answer.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -365,14 +382,31 @@ recording. These prompts help you verify the correct session and target before
 committing to capture or code generation.
 
 `/codegen` against a Capture recording generates the SHAFT test, compiles it,
-and **re-executes the recording headless** (`capture_generate_replay`), so the
+and **re-executes the recording** (`capture_generate_replay`), so the
 returned code blocks are verified against the live flow rather than only
-statically generated. When only the replay step fails, the generated and
-compiling code blocks are still returned together with the replay diagnostics,
-so a replay hiccup never turns into an empty "no code" response. Re-running
-`/codegen` regenerates the deterministic `RecordedFlowTest` output in place
-instead of failing because the class already exists. Playwright
-and mobile recordings keep their generate-only code-block tools.
+statically generated. Before the run starts, the Assistant explains the three
+phases (generate, compile, replay) and warns that a browser window may open
+for the replay (it starts on `about:blank` before the test navigates). The
+result is a step-by-step story — which file was generated where, whether it
+compiled, whether the replay passed with per-step failure diagnostics when it
+did not, the report/review artifact paths, and the generated code with
+next-step guidance — never a bare confirmation. When only the replay step
+fails, the generated and compiling code blocks are still returned together
+with the replay diagnostics, so a replay hiccup never turns into an empty "no
+code" response. Re-running `/codegen` regenerates the deterministic
+`RecordedFlowTest` output in place instead of failing because the class
+already exists. Playwright and mobile recordings keep their generate-only
+code-block tools.
+
+`/upgrade` in **Agent** mode with **Allow source edits** enabled performs the
+project upgrade itself: the agent states the project's current SHAFT setup,
+previews the change with the `shaft_project_upgrade` dry run, runs the
+official upgrader non-interactively, verifies the project still compiles
+(repairing upgrade-induced breakage with SHAFT syntax when needed), and
+reports the old and new versions plus every file it touched and why. Outside
+Agent mode — or on cloud/non-CLI routes that cannot edit local files — the
+command explains exactly how to authorize the agent-run upgrade and still
+offers the manual copy-paste command.
 
 Use `review recording` or `review recording recordings/<name>.json` to generate
 the same reviewed Capture code blocks without remembering `/codegen`.
