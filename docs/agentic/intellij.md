@@ -70,6 +70,21 @@ support is available. First run shows a six-step setup inside the tool window:
    **Copy restart command** button copies a terminal command that stops stale
    CLI processes and re-verifies access. Success reveals **Start chatting**.
 
+Setup readiness has two lanes. The recorder, codegen, Doctor, and Healer only
+need the verified SHAFT MCP — no agent at all — so when the MCP check passes
+but the selected agent is missing or unreachable, setup still completes with a
+**Start without an agent** button and honest copy ("Recorder, codegen, and
+doctor are ready now — connecting an agent adds chat and is optional"), while
+the agent diagnostics and restart recovery stay visible for the optional
+second lane. The wizard is also project-aware: the Upgrade step distinguishes
+"already on the latest SHAFT" (green), "SHAFT upgrade available", "Maven
+project without SHAFT" (adopt via the upgrade command), and "no `pom.xml` at
+all" (scaffold a project first), so an empty folder is never told to upgrade.
+
+After setup, the main view header keeps a persistent **MCP health chip**
+("MCP: verified / failed / not checked") with a one-click **Recheck** that
+runs a live connection probe, so a broken MCP never fails silently mid-session.
+
 The Marketplace plugin does not download or execute installer scripts at
 runtime. It only helps you choose the agent, copy the terminal installer
 command, find the installed `shaft-mcp.args` automatically, then stores and
@@ -155,13 +170,26 @@ Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
 the **Assistant** workflow. By default, use Assistant slash commands such as
 `/partner`, `/record-web`, `/record-mobile`, `/doctor`, and `/guide`.
 
+Workflow tabs disclose progressively: the default **Workflow** selector shows
+**Assistant** and **Guided**, and the specialist tabs appear only when their
+artifacts make them relevant — **Recorder** once a `recordings/` directory
+exists, **Triage** and **Evidence** once `target/allure-results` or
+`target/shaft-traces` exist, and **Advanced** on demand the first time a
+workflow prepares a raw MCP request.
+
 If you enable **Settings | SHAFT | Enable advanced workflows and provider
-options**, the **Workflow** selector appears at the top of the tool window and
-can switch between **Guided**, **Recorder**, **Inspector**, **Triage**,
-**Evidence**, **Projects**, and **Advanced**. The selector is used instead of a
+options**, the selector always shows every workflow: **Guided**, **Recorder**,
+**Inspector**, **Triage**, **Evidence**, **Projects**, and **Advanced**. The
+selector is used instead of a
 crowded tab strip so the controls stay readable in the narrow right-side
 IntelliJ tool window. MCP-backed workflow panels use the same verified setup
 state as the Assistant; a command must pass setup before feature tools run.
+
+The fastest first contact is the Guided tab's **Try SHAFT on a sample page**
+button: it extracts a bundled local bookstore page (nothing leaves your
+machine), opens a visible recording on it, and walks you through search → add
+to cart → assertion → Stop → **Review code** — a complete record-review-insert
+loop in about 90 seconds, no target site required.
 
 This setting also enables **Expert mode**, which reveals advanced slash commands
 in the Assistant composer (e.g., `/mcp`, `/scenarios`, `/guardrails`,
@@ -428,15 +456,36 @@ ends with a factual **Local agent activity** footer whenever the run created
 or edited files or lost tool calls to permission denials, listing the touched
 paths and the denied tools with per-tool counts.
 
-An empty transcript stays focused on the larger composer instead of adding
-starter text below the chat. The run timeline and action controls stay hidden
+An empty chat teaches instead of staring back: four **starter cards** (record
+a web flow, generate a test from a recording, diagnose failed tests, upgrade
+the project) prefill the matching command with one click and disappear as
+soon as the chat has content. The run timeline and action controls stay hidden
 until the current prompt, selected tool, running, approval, completion,
 cancellation, or failure state makes them useful. Type `/` for commands, `@`
 for workflow starters, and `#` for the current file or known project
 artifacts; the dropdown filters live as you keep typing (for example `/co`
-narrows to `/codegen`), shows each command's summary, and inserts the clean
-command ready for its argument. The former "+" context button was removed in
-favor of these typed triggers.
+narrows to `/codegen`), shows each command's summary **and an example
+argument** (e.g. `/codegen recordings/intellij-capture.json`), and inserts
+the clean command ready for its argument. The former "+" context button was
+removed in favor of these typed triggers.
+
+Pasting raw Selenium/Appium Java into the composer proactively offers a
+one-click **"Selenium detected — convert to SHAFT + guardrails"** action that
+wraps the code in a convert-to-SHAFT request and runs the guardrail check on
+the converted result.
+
+After a recording stops and its review is generated, the review bar offers the
+whole Record → Review → Insert loop in one place: **Create test class** writes
+the reviewed class into `src/test/java` (never overwriting) and opens it,
+**Insert into open class** regenerates the steps anchored to the file open in
+the editor (`capture_record_at_target_code_blocks`), **Open review file**
+jumps to the generated review artifact, **Evidence pack** returns a shareable
+manifest of source/report/review artifacts with validation commands, and
+**Compare backends** generates the same recording as both WebDriver and
+Playwright SHAFT code side by side. The generation report's readiness
+findings (flaky steps, unsupported events, required inputs, fallback
+locators) also surface as file-level IDE annotations directly on the
+generated class.
 
 A single JetBrains-style command-help icon appears in the composer. Hover it to
 view the tested command families without filling the chat with command

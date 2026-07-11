@@ -116,6 +116,34 @@ missing locator candidates, positional or multi-match locators, missing
 post-navigation or post-submit assertions, redacted required inputs, and
 collector warnings. The chip reports issues only; it does not block recording.
 
+Teams can pin recorder behavior for a whole repository by checking in
+`.shaft/recorder-policy.json` at the workspace root:
+
+```json
+{
+  "headless": false,
+  "outputDirectory": "recordings",
+  "browser": "Chrome"
+}
+```
+
+All fields are optional. When the file exists, SHAFT MCP's `capture_start`
+applies it to every recording started against that workspace — whichever
+client asked (IntelliJ plugin, agent CLI, raw MCP call): `headless` locks the
+browser visibility, `outputDirectory` re-roots every recording into the team
+directory (the requested file name is kept), and `browser` fills the default
+when a request names none. The IntelliJ Guided panel mirrors the policy
+visibly: the Headless toggle is applied and locked with a "locked by team
+policy" tooltip, and the default session path moves into the team directory.
+A malformed policy file never blocks recording; it just falls back to
+defaults.
+
+For the maintenance loop, the Guided panel's **Weekly flaky triage** template
+prefills a batch Doctor analysis with historical bundles
+(`target/shaft-doctor/history`) so repeat offenders surface as trends; follow
+up with `healer_run_failed_test` per flaky test, and pair the template with a
+weekly scheduled agent that sends `/doctor` and consolidates the report.
+
 The recorder only keeps actions a user actually performed. Browser-synthesized
 noise is suppressed on both the in-page recorder and the server pipeline:
 pressing Enter in a form no longer records a phantom click on the form's
