@@ -128,13 +128,14 @@ const slackInviteUrl = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-o
 
 const codeCompare = {
   handled: [
-    'SHAFT handles the repeatable work:',
     'driver lifecycle, waits, retries, and sync',
     'screenshots, logs, steps, and attachments',
     'configuration and data isolation',
     'Allure evidence that Doctor and Heal can read',
   ],
 };
+
+const heroMeta = ['io.github.shafthq : shaft-engine', 'Java 25', 'MIT', 'Allure native'];
 
 const evidenceLoop = [
   {
@@ -269,11 +270,18 @@ function CodeCompare(): JSX.Element {
   return (
     <div className={styles.codeCompare} data-testid="landing-code-proof" aria-label="SHAFT test code proof">
       <figure className={styles.codePanel}>
-        <figcaption>SHAFT test</figcaption>
+        <figcaption>
+          <span className={styles.chromeDots} aria-hidden="true"><i /><i /><i /></span>
+          CheckoutTest.java
+          <span className={styles.statusChip}>Pass</span>
+        </figcaption>
         <JavaCodeExample />
       </figure>
       <div className={styles.handledPanel}>
-        <span>SHAFT handles</span>
+        <span>
+          SHAFT handles
+          <span className={styles.statusChip}>evidence attached</span>
+        </span>
         <ul>
           {codeCompare.handled.map((item) => (
             <li key={item}>{item}</li>
@@ -301,6 +309,11 @@ function Hero(): JSX.Element {
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
+          <p className={styles.heroMeta} aria-label="Project coordinates">
+            {heroMeta.map((fact) => (
+              <span key={fact}>{fact}</span>
+            ))}
+          </p>
           <h1>Ship automation evidence, not boilerplate code.</h1>
           <p>
             <strong>One Java test suite for web, mobile, API, DB, and CLI.</strong>
@@ -341,13 +354,14 @@ function GuidePathSection(): JSX.Element {
     <section className={`${styles.section} ${styles.pathSection} ${styles.reveal}`} data-testid="landing-pathfinder" id="guide-paths" data-reveal>
       <div className="container">
         <div className={`${styles.sectionHeading} ${styles.centerHeading}`}>
+          <span className={styles.eyebrow}>Guided paths</span>
           <Heading as="h2" id="guide-paths-heading">Get started in minutes.</Heading>
           <p>Install, configure, write a readable test, run it headlessly, and review the evidence before starring the repository.</p>
         </div>
         <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
           {guidePaths.map((path, index) => (
             <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal data-hover-glow>
-              <small>{index + 1}. {path.audience}</small>
+              <small>{String(index + 1).padStart(2, '0')} · {path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
               <em>{path.label}</em>
@@ -384,6 +398,7 @@ function SurfaceSection(): JSX.Element {
     <section className={`${styles.section} ${styles.surfaceSection} ${styles.reveal}`} data-testid="landing-surfaces" id="surface-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
+          <span className={styles.eyebrow}>Coverage matrix</span>
           <Heading as="h2" id="testing-surfaces">One framework. Full surface coverage.</Heading>
           <p>Start with the layer in front of you, then expand without changing the reporting and lifecycle model.</p>
         </div>
@@ -396,7 +411,10 @@ function SurfaceSection(): JSX.Element {
           </div>
           {testSurfaces.map((surface) => (
             <Link className={styles.matrixRow} to={surface.to} key={surface.title} data-hover-glow>
-              <strong>{surface.title}</strong>
+              <strong>
+                {surface.title}
+                <small className={styles.matrixStack}>{surface.stack}</small>
+              </strong>
               {coverageColumns.map((column) => (
                 <span key={column}>{column}</span>
               ))}
@@ -413,6 +431,7 @@ function ProofSection(): JSX.Element {
     <section className={`${styles.section} ${styles.reveal}`} data-testid="landing-proof" id="proof-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
+          <span className={styles.eyebrow}>Code proof</span>
           <Heading as="h2" id="why-shaft">Boilerplate code removed from tests.</Heading>
           <p>Clean tests that read like documentation. Let SHAFT own the repeatable mechanics that make evidence reliable.</p>
         </div>
@@ -436,6 +455,7 @@ function AllureEvidenceSection(): JSX.Element {
     <section className={`${styles.section} ${styles.allureSection} ${styles.reveal}`} data-testid="landing-allure-evidence" id="allure-evidence" data-reveal>
       <div className={`container ${styles.allureGrid}`}>
         <div className={styles.sectionHeading}>
+          <span className={styles.eyebrow}>Run evidence</span>
           <Heading as="h2" id="allure-evidence-heading">Allure evidence people can inspect.</Heading>
           <p>SHAFT turns each checkout action into report evidence: steps, screenshots, logs, and diagnostics stay attached to the run instead of scattered across CI output.</p>
           <Link className={styles.inlineCta} to="/docs/reference/reporting">
@@ -464,13 +484,14 @@ function AgentSection(): JSX.Element {
     <section className={`${styles.section} ${styles.agentBand} ${styles.reveal}`} data-testid="landing-agent" id="connect-ai-agent" data-reveal>
       <div className={`container ${styles.agentSection}`}>
         <div className={styles.sectionHeading}>
+          <span className={styles.eyebrow}>Diagnostic loop</span>
           <Heading as="h2">The evidence loop makes failures explainable.</Heading>
           <p>Run the suite, collect the artifacts, diagnose the path, and improve the checks with the same evidence trail.</p>
         </div>
         <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" aria-label="SHAFT evidence loop">
           {evidenceLoop.map((step, index) => (
             <div className={styles.loopStep} key={step.title} data-hover-glow>
-              <small>{index + 1}</small>
+              <small>{String(index + 1).padStart(2, '0')}</small>
               <strong>{step.title}</strong>
               <span>{step.description}</span>
             </div>
@@ -501,7 +522,7 @@ function FinalCta(): JSX.Element {
         )}
       </BrowserOnly>
       <div className={`container ${styles.finalCtaInner}`}>
-        <p className={styles.finalKicker}>You shipped evidence. We captured it.</p>
+        <p className={styles.finalKicker}>run complete · evidence attached · exit 0</p>
         <h2>Star SHAFT on GitHub.</h2>
         <p>Start with the quick path. After the sample test produces evidence, star the repository so releases stay visible.</p>
         <div className={styles.actions}>
