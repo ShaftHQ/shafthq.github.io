@@ -187,11 +187,15 @@ workflow.
 - "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
   verify the upgrade (with Agent mode and source edits approved).
 
-An empty chat shows clickable starter cards that prefill these requests, so the
-very first contact is a guided click rather than a blank prompt. The Assistant
+An empty chat keeps the surface uncluttered: the composer placeholder invites a
+plain-language request (record, generate a test, diagnose failures, upgrade)
+and wraps to the panel width so it is always fully readable. The Assistant
 opens in **Agent** mode with **Allow source edits** checked, so a first request
 like "generate a test" can actually land code in the project; uncheck it for
-suggestion-only runs.
+suggestion-only runs. Recording requests such as "Record my browser actions on
+https://..." always run on the plugin's own long-lived SHAFT MCP session -- a
+recording must never belong to a one-shot local agent turn, whose MCP process
+(and with it the recording browser) ends seconds after the reply.
 
 Enabling **Settings | SHAFT | Enable advanced workflows and provider options**
 (Expert mode, also available as a checkbox on the setup view) reveals the
@@ -460,10 +464,7 @@ ends with a factual **Local agent activity** footer whenever the run created
 or edited files or lost tool calls to permission denials, listing the touched
 paths and the denied tools with per-tool counts.
 
-An empty chat teaches instead of staring back: **starter cards** (record a web
-flow, record on Android, generate a test, diagnose failed tests, upgrade the
-project) prefill a plain-language request with one click and disappear as soon
-as the chat has content. The run timeline and action controls stay hidden
+The run timeline and action controls stay hidden
 until the current prompt, selected tool, running, approval, completion,
 cancellation, or failure state makes them useful. Type `@` for workflow
 starters (plain-language prefills such as "Record my browser actions on
