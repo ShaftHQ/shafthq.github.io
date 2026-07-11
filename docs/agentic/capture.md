@@ -188,6 +188,15 @@ so generation can prefer it without editing generated source.
 
 ![SHAFT Capture locator picker](/img/capture-locator-picker.png)
 
+While a capture session is active, `element_*` and `natural_act` tools drive
+the recorded browser directly -- no `driver_initialize` session is needed --
+and the driven interactions are recorded like user ones. That makes the
+scripted agent-performed codegen flow real: `capture_start_codegen`, perform
+the described actions with element tools, `capture_stop`, then generate code
+from the persisted recording. One-shot agent turns (a CLI that exits after its
+reply) must only use this same-turn scripted flow; an interactive user-driven
+recording started from such a turn dies with the turn's MCP process.
+
 For agent-driven MCP flows, the intended handoff is: call `capture_start` or
 `capture_start_codegen`, let the user interact with the visible browser, wait
 for either `capture_stop` or a browser-panel stop to complete, then call
