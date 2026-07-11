@@ -521,13 +521,27 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   converting Selenium snippets to SHAFT syntax, creating a new SHAFT project,
   and inspecting current page locators. The recorder **Backend** selector
   routes the recording controls to WebDriver, Playwright, or Mobile (web
-  emulation) recording tools, and a **Headless browser** toggle (off by
-  default so you can interact with the recorded browser) controls whether
-  recording sessions launch a visible window — check it for agent-driven or CI
-  recordings. The guided recorder action says **Review code** because it
-  prepares reviewed SHAFT code blocks, setup notes, assertion suggestions,
-  locator alternatives, and control-flow review output. Templates prefill MCP
-  arguments only; they do not run tools or write source by themselves.
+  emulation) recording tools, and fields the selected backend's start request
+  does not read gray out with explanatory tooltips. A **Headless browser**
+  toggle (off by default so you can interact with the recorded browser)
+  controls whether recording sessions launch a visible window — check it for
+  agent-driven or CI recordings; the preference persists across sessions and is
+  also honored by the `/record-web` and `/mobile web` assistant commands. The
+  **Intent** field flows into `capture_start` as `sessionGoal`, so generated
+  tests are named after the journey ("Log in as a valid user" yields
+  `logInAsAValidUser()`). A live **Status** strip polls the recorder after
+  Start recording and shows the session state, event/action counts (including
+  pending debounced input), and current URL, so headless recordings stay
+  observable in-panel. On the Mobile backend, Start recording chains
+  `mobile_initialize_web_emulation` and `mobile_record_start` as one action,
+  gating the recorder start on the emulated session succeeding. The guided
+  recorder action says **Review code** because it prepares reviewed SHAFT code
+  blocks, setup notes, assertion suggestions, locator alternatives, and
+  control-flow review output. Templates prefill MCP arguments only; apart from
+  the chained mobile recorder start, they do not run tools or write source by
+  themselves. When a test run fails and Allure evidence exists, the plugin
+  raises a "Diagnose with SHAFT Doctor" notification that prefills the
+  deterministic failed-Allure analysis in one click.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, recorder evidence manifests, backend comparison, and official
