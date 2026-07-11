@@ -68,15 +68,19 @@ capture start \
 ```
 
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
-`capture_status`, and `capture_stop` MCP tools. Generation is exposed by
+`capture_status`, and `capture_stop` MCP tools. Both start tools accept an
+optional `sessionGoal` describing the recorded journey; it names the generated
+test class and method. Generation is exposed by
 `capture_generate`; `capture_codegen_features` returns the feature map.
 `shaft_coding_partner_plan`, `capture_target_candidates`,
 `capture_backend_comparison`, and `capture_evidence_pack` cover repository-aware
 reuse planning, existing-suite targeting, backend comparison, and review
 evidence manifests. Status contains safe metadata, counts, readiness, and
-warnings, never typed values. Readiness is `READY`, `RISKY`, or `BLOCKED`;
-risky steps keep recording, while blocked readiness means generated replay will
-need user action such as a stable locator or required secret input.
+warnings, never typed values; `pendingSignalCount` reports debounced signals
+(uncommitted typed input, pending clicks) not yet persisted as events, so live
+monitors do not misread a quiet `eventCount`. Readiness is `READY`, `RISKY`, or
+`BLOCKED`; risky steps keep recording, while blocked readiness means generated
+replay will need user action such as a stable locator or required secret input.
 
 WebDriver code generation remains the default through `capture_generate`,
 `capture_generate_replay`, and `capture_code_blocks`. Use
@@ -338,12 +342,17 @@ data. When replay fails and a SHAFT trace exists, Capture maps the failure back
 to the generated step and failed trace action, and flags failing network/API
 calls as candidates for HTTP contract replay.
 
-Generated class and method names prefer explicit user options, then checkpoint
-descriptions, page titles, URL paths, and finally the opaque session id. Edited
-step text from the recorder panel is preserved as a generated Java comment so
-reviewers can keep the user's intent beside the replay statement. Generated
-source also starts with a safe review header containing readiness, event count,
-fallback-locator count, and the optional `sessionGoal` comment when provided.
+Generated class and method names prefer explicit user options, then the
+recorded `sessionGoal` ("Log in as a valid user" yields `logInAsAValidUser()`),
+then checkpoint descriptions, page titles, URL paths, and finally the opaque
+session id. Externalized-secret environment variables use stable names derived
+from the logical field (`SHAFT_CAPTURE_DATA_PASSWORD`), so re-recording the
+same journey never shifts the variable names a replay environment provides.
+Edited step text from the recorder panel is preserved as a generated Java
+comment so reviewers can keep the user's intent beside the replay statement.
+Generated source also starts with a safe review header containing readiness,
+event count, fallback-locator count, and the optional `sessionGoal` comment
+when provided.
 
 The workbench HTML is a local review UI for building record/checkpoint
 commands, checking blockers and required inputs, reviewing assertion gaps,
