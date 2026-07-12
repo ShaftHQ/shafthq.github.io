@@ -235,7 +235,7 @@ flowchart LR
 
 | Official Playwright capability | SHAFT coverage path |
 |---|---|
-| MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `playwright_browser_get_page_dom`, `element_*`, `playwright_element_*`, and semantic click/type tools. |
+| MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `browser_aria_snapshot` (whole-page or single-element YAML aria snapshot), `browser_accessibility_audit` (non-asserting axe-core WCAG audit), `playwright_browser_get_page_dom`, `element_*`, `playwright_element_*`, and semantic click/type tools. |
 | Screenshots, navigation, tabs, uploads, drag, hover, and form input | WebDriver and Playwright MCP tool families plus Capture action recording and replay. |
 | Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start_codegen`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. |
 | Playwright CLI network, storage, console, trace, video, PDF, and named-session commands | Use official `playwright-cli` as delegated evidence gathering; attach paths or summaries to `shaft_coding_partner_plan`, Doctor, Capture, or the final PR evidence. |
