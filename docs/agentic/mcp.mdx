@@ -56,6 +56,15 @@ skip them. Unattended installs, including the IntelliJ IDEA plugin target,
 install the skills by default. Use `--install-shaft-skills` to force skill
 installation or `--skip-shaft-skills` to disable it.
 
+Installing the skills also installs a generated
+[tool catalog](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-mcp-tools.md)
+at `shaft-skills/references/shaft-mcp-tools.md`, listing every `shaft-mcp`
+tool name and a one-line description. Agents should read this cached catalog
+for exact tool names instead of listing tools at runtime, which cuts
+consumer-agent token usage. On clients that defer tool schemas until
+requested, such as Claude Code's `ToolSearch`, batch-load every tool a task
+needs in one lookup instead of one call per tool.
+
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
 image for interactive local browser work: its browser runs inside the container
