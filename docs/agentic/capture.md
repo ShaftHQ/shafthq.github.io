@@ -50,10 +50,11 @@ geolocation, timezone, and service-worker bypass use browser protocol support;
 storage state uses SHAFT's browser storage-state JSON; and HAR output uses the
 same redacted observability entries as SHAFT failure traces. Unsupported
 drivers or unmapped device names produce deterministic warnings instead of raw
-protocol failures. `--save-har-glob` is accepted with a warning; Capture writes
-all observed network entries. Use `capture features` to list the current
-Playwright codegen feature map. `--session-goal` stores the recorder intent in
-session extensions so generated Java can include a safe review comment.
+protocol failures. `--save-har-glob` filters the saved HAR to URLs matching the
+glob and reports how many observed network entries were kept versus dropped.
+Use `capture features` to list the current Playwright codegen feature map.
+`--session-goal` stores the recorder intent in session extensions so generated
+Java can include a safe review comment.
 
 ```bash
 capture start \
@@ -70,7 +71,16 @@ capture start \
 The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
 `capture_status`, and `capture_stop` MCP tools. Both start tools accept an
 optional `sessionGoal` describing the recorded journey; it names the generated
-test class and method. Generation is exposed by
+test class and method. Both start tools also accept an optional
+`saveHarContent` option: leaving it blank or `none` keeps today's truncated
+network-trace preview bodies, while `full` emits complete, redacted
+request/response bodies (headers redacted, binary content base64-encoded) for
+every transaction recorded during the session, sourced from the API-capture
+network events rather than the preview trace. `full` falls back to preview
+bodies with a warning when no such transactions were recorded, for example
+when `apiCapture` was not enabled for that session. This option is MCP-only;
+the local `capture start` CLI does not expose a `--save-har-content` flag.
+Generation is exposed by
 `capture_generate`; `capture_codegen_features` returns the feature map.
 `shaft_coding_partner_plan`, `capture_target_candidates`,
 `capture_backend_comparison`, and `capture_evidence_pack` cover repository-aware

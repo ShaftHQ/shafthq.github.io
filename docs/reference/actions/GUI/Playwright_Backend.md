@@ -48,6 +48,7 @@ Common browser settings continue to use the existing web properties:
 - `baseURL`
 - `browserWindowWidth`
 - `browserWindowHeight`
+- `storageStatePath` — auto-loads a storage-state JSON file on driver init (see [Auto-load storage state on driver init](/docs/reference/actions/GUI/Browser_Actions#auto-load-storage-state-on-driver-init)); the file format is shared with the WebDriver backend
 - mobile emulation viewport and user-agent settings
 
 Playwright-specific properties use the `playwright.` prefix:
@@ -205,11 +206,13 @@ Legend:
 | `getWindowSize()` / `getWindowWidth()` / `getWindowHeight()` | Supported from viewport |
 | `addCookie()` / `getCookie()` / `getAllCookies()` / cookie getters | Supported through `BrowserContext.cookies()` |
 | `deleteCookie()` / `deleteAllCookies()` | Supported |
+| `saveStorageState(path)` / `loadStorageState(path)` | Supported; same JSON schema as WebDriver, files are interchangeable between backends |
 | `captureScreenshot()` / `captureScreenshot(type)` | Supported; attached to SHAFT report |
 | `capturePageSnapshot()` / `captureSnapshot()` | Supported as HTML attachment |
 | `waitForLazyLoading()` | Supported through Playwright load state |
 | `getContext()` / `setContext()` / `getContextHandles()` | Supported for the Playwright page context |
 | `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` / contract recording and replay | Supported through Playwright `BrowserContext` routing while preserving SHAFT's Selenium HTTP request/response contract |
+| `routeFromHar(harPath)` | Supported; same HAR 1.2 replay behavior as WebDriver |
 | `generateLightHouseReport()` | WebDriver-only |
 | `accessibility()` | Supported through bundled axe-core injection into the active Playwright page |
 

@@ -115,6 +115,7 @@ You can use these tab groups to navigate and get information about how to manage
   String baseURL = SHAFT.Properties.web.baseURL();
   int browserWindowWidth = SHAFT.Properties.web.browserWindowWidth();
   int browserWindowHeight = SHAFT.Properties.web.browserWindowHeight();
+  String storageStatePath = SHAFT.Properties.web.storageStatePath();
 
   /** set **/
   SHAFT.Properties.web.set().targetBrowserName(Browser.CHROME.browserName())
@@ -130,7 +131,8 @@ You can use these tab groups to navigate and get information about how to manage
     .mobileEmulationUserAgent("")
     .baseURL("")
     .browserWindowWidth(1920)
-    .browserWindowHeight(1080);
+    .browserWindowHeight(1080)
+    .storageStatePath("");
 
   ```
 
@@ -161,6 +163,7 @@ You can use these tab groups to navigate and get information about how to manage
   browserWindowHeight=1080
   pageLoadStrategy=none
   readinessState=none
+  storageStatePath=
   ```
   
   </TabItem>
@@ -184,6 +187,7 @@ You can use these tab groups to navigate and get information about how to manage
 | browserWindowHeight            | `1080`        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | • Won't work if autoMaximizeBrowserWindow is enabled.
 | pageLoadStrategy               | `none`        | `none`, `eager`, `normal`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | • Controls when Selenium considers the page loaded.
 | readinessState                 | `none`        | `interactive`, `none`, `complete`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | • Controls the document readiness state to wait for.
+| storageStatePath               | ` `           | example: `target/auth-state.json`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | • Path to a storage-state JSON file automatically loaded into a freshly-initialized driver.<br/>• SHAFT navigates to the file's recorded origin (falling back to `baseURL`) first; a load failure is logged as a warning and never fails driver init.<br/>• Blank (default) disables the feature.
 
   </TabItem>
 </Tabs>
@@ -1065,6 +1069,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | PerformanceReportFolderPath      | `performanceReport/`                          |                 | Path to the performance (Lighthouse) report output folder.               |
 | video.folder                     | `allure-results/videos`                       |                 | Path to the folder where recorded videos and generated animated GIF files are saved. |
 | servicesFolderPath               | `src/test/resources/META-INF/services/`       |                 | Path to the META-INF services folder for custom service implementations. |
+| authCacheFolderPath              | `target/auth-cache/`                          |                 | Folder that holds `SHAFT.Auth.setup(name, flow)` storage-state cache files (one JSON file per name). |
 | aiAgentWorkspaceRoot             | ``                                            |                 | Workspace root for SHAFT agent tooling.                                |
 | applitoolsApiKey                 | ``                                            |                 | Applitools API key for visual AI testing integration.                    |
 
