@@ -106,6 +106,28 @@ SHAFT.Report.report("Verified shopping cart contains exactly 3 items");
 
 `report()` adds a discrete, named step entry to the Allure timeline — useful for documenting manual verifications or computed outcomes that don't go through a SHAFT action.
 
+### Report a Step with an Explicit Status
+
+By default, a reported step is rendered with the current test status. You can pass an explicit Allure `Status` to control exactly how the step is rendered — the step text itself never influences its color:
+
+```java title="ReportStepWithStatus.java"
+import com.shaft.driver.SHAFT;
+import io.qameta.allure.model.Status;
+
+// Render a green (passed) step
+SHAFT.Report.report("Custom business rule verified", Status.PASSED);
+
+// Render a red (failed) step — stays visible even while discrete logging is enabled,
+// and is logged to the console at ERROR level
+SHAFT.Report.report("Custom business rule violated", Status.FAILED);
+```
+
+The same overload exists on the lower-level facade as `ReportManager.log(String, Status)`.
+
+:::note Behavior change
+Older SHAFT versions inferred a step's status from its text (any message containing "failed" rendered as a red step). This inference has been removed: benign messages that merely contain the word "failed" now render normally, and failure messages without that literal word no longer render green. Use the explicit-status overload whenever you need a specific step color.
+:::
+
 ### Attach Content
 
 Attachments appear as expandable entries in the Allure report and can hold any content type:
