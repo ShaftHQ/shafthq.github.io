@@ -163,7 +163,9 @@ candidates (with a manual XPath or
 CSS field as an alternative), then the fixed element catalog: exists, visible,
 enabled, and selected (each with an expected `true`/`false` choice), text equals
 or contains, attribute equals (with attribute name and expected value fields),
-and image matches. The **Browser** branch shows the fixed page-level catalog:
+image matches, aria snapshot matches (prompts for the baseline snapshot name),
+and screenshot matches baseline. Negated variants are unsupported for the aria
+snapshot and screenshot assertions. The **Browser** branch shows the fixed page-level catalog:
 URL equals or contains, title equals or contains, and page text contains, each
 with an editable expected value prefilled from the live page. Saved assertions
 appear in the panel step list and rehydrate across navigations like any other
@@ -173,7 +175,10 @@ title, and attribute values are externalized through the same privacy classifier
 used for typed data, so generated assertions do not embed captured secrets.
 Generated GUI assertions use SHAFT assertion builders such as
 `driver.element().assertThat(...)` and `driver.browser().assertThat()`; do not
-replace checkpoint notes with raw TestNG or JUnit assertions.
+replace checkpoint notes with raw TestNG or JUnit assertions. Aria snapshot
+matches and screenshot matches baseline render as
+`driver.element().assertThat(locator).matchesAriaSnapshot(...)` and
+`driver.element().assertThat(locator).matchesScreenshot().perform()`.
 
 ![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
 

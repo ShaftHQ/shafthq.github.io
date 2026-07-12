@@ -115,6 +115,26 @@ Run visual tests in a consistent environment (same OS, browser version, screen r
 Avoid running visual tests in headless mode if your baselines were captured in headed mode — subtle rendering differences between the two modes will cause false failures.
 :::
 
+---
+
+## matchesScreenshot()
+
+`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). It mirrors Playwright's `toHaveScreenshot()` options:
+
+```java title="ScreenshotBaseline.java"
+driver.element().assertThat(By.id("logo"))
+      .matchesScreenshot()
+      .maxDiffPixelRatio(0.01)
+      .mask(By.id("timestamp"))
+      .perform();
+```
+
+### Per-browser/OS baseline naming
+
+Baselines are stored per browser and platform, with a sanitized `_<browser>_<platform>` suffix appended to the hashed baseline file name (for example, `<hash>_chrome_windows.png`). The suffix is built from `SHAFT.Properties.web.targetBrowserName()` and `SHAFT.Properties.platform.targetPlatform()`, lowercased with non-alphanumeric characters stripped, so cross-browser and cross-OS runs no longer share (and fight over) a single baseline image.
+
+If no per-browser/OS baseline exists yet, SHAFT falls back to a legacy unsuffixed baseline when one is present, logging a one-line notice, so baselines captured before this change keep working. New baselines — and any run with `-Dshaft.updateSnapshots=true` — always write to the new per-browser/OS path.
+
 ## Related
 
 - [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
