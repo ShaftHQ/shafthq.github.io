@@ -98,6 +98,9 @@ shaft-cli call shaft_guide_search query='click element' maxResults=1
 
 shaft-cli guide search query='click element' --stdio-ok
 # [guide search works with no session]
+
+shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout happy path' maxDepth=2
+# [Markdown test plans written to specs/]
 ```
 
 ## Exit codes

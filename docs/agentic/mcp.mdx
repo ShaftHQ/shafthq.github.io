@@ -177,6 +177,55 @@ Use `shaft_project_upgrade` on an existing Java/Maven project to run the
 modular SHAFT upgrader script. Start with `dryRun: true`; applying changes
 requires `dryRun: false` and `approve: true`.
 
+Use `shaft_project_init_agents` to scaffold SHAFT agent/skill bridges into an
+existing test repository for a coding-agent loop. Pass `loop: "claude"` to
+generate a `.claude/skills/<skill>/SKILL.md` bridge file for every bundled
+SHAFT skill plus a root `SHAFT-AGENTS.md` guidance file, or `loop: "codex"`
+for the same layout under `.codex/skills/`. Every bridge is generated at call
+time from the bundled `shaft-skills/<skill>/SKILL.md` sources shipped inside
+the `shaft-mcp` jar, so the generated set always tracks the shaft-mcp build
+instead of a hand-duplicated copy. Existing files are left untouched unless
+`overwrite: true`; a skipped file is reported as a warning instead of failing
+the call, since `targetDirectory` is expected to be an existing repository
+that may already carry its own agent configuration. `vscode` and `opencode`
+loops are tracked in
+[ShaftHQ/SHAFT_ENGINE#3463](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3463).
+
+```json
+{"tool": "shaft_project_init_agents", "arguments": {"loop": "claude", "targetDirectory": ".", "overwrite": false}}
+```
+
+## Planning test coverage
+
+Use `test_plan_explore` to discover testable flows before recording or
+writing test code. It breadth-first crawls same-origin pages from an active
+SHAFT browser session starting at `targetUrl` (`maxDepth` clamped to 1..3,
+`maxPages` clamped to 1..50, default 10), inspects forms, primary navigation
+actions, and links with no AI calls, then writes one deterministic Markdown
+test plan per discovered flow into `specs/` inside the MCP workspace. Each
+plan lists numbered steps, candidate SHAFT locators ranked by the same
+pipeline `browser_open_intent` uses, seed data, and a verify section. An
+optional `goal` only orders the written plans by relevance and is never sent
+to a model provider.
+
+```json
+{"tool": "test_plan_explore", "arguments": {"targetUrl": "https://example.test", "goal": "checkout happy path", "maxDepth": 2, "maxPages": 10}}
+```
+
+Or from the command line once a `shaft-cli` session is running:
+
+```bash
+shaft-cli call test_plan_explore targetUrl=https://example.test goal="checkout happy path" maxDepth=2
+```
+
+`test_plan_explore` needs an active session started with `driver_initialize`.
+Review the generated `specs/` files with the user before recording or
+generating code — the `planning-shaft-tests` skill documents the full
+explore, review, codegen, and verify chain (`capture_start_codegen` for UI
+flows, `capture_api_start`/`capture_api_generate` for API flows, or
+`shaft_coding_partner_plan`/`shaft_coding_partner_diff` to insert into an
+existing repository), finishing with a scoped `verify_run_focused` run.
+
 ## Test automation scenario catalog
 
 Use `test_automation_scenarios` when the user asks an agent to create,
@@ -461,6 +510,10 @@ The packaged server supports:
 - structured test automation playbooks through `test_automation_scenarios`,
   repository-aware coding partner plans through `shaft_coding_partner_plan`,
   plus generated-code guardrail checks through `test_code_guardrails_check`;
+- deterministic, no-AI-call test planning through `test_plan_explore`, which
+  crawls the active session and drafts Markdown flow plans into `specs/`, and
+  agent/skill scaffolding for existing test repositories through
+  `shaft_project_init_agents`;
 - mobile web emulation and native Android/iOS execution through
   `mobile_initialize_web_emulation` and `mobile_initialize_native`;
   web-emulation results include a `deviceProfile` object with resolved
