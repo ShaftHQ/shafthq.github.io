@@ -200,7 +200,8 @@ recording must never belong to a one-shot local agent turn, whose MCP process
 Enabling **Settings | SHAFT | Enable advanced workflows and provider options**
 (Expert mode, also available as a checkbox on the setup view) reveals the
 **Workflow** selector with every specialist surface: **Guided**, **Recorder**,
-**Inspector**, **Triage**, **Evidence**, **Projects**, and **Advanced**. These
+**Inspector**, **Triage**, **Visual Baselines**, **Evidence**, **Projects**, and
+**Advanced**. These
 panels expose raw MCP requests and are aimed at users who already know the tool
 catalog; everything they do is reachable through plain Assistant requests. The
 Guided tab's **Try SHAFT on a sample page** button extracts a bundled local
@@ -573,6 +574,11 @@ The workflow selector exposes curated MCP requests for common automation jobs:
 - Inspector: browser and Playwright DOM snapshots, screenshots, mobile
   toolchain status, wrapped Appium Inspector recording, mobile screenshots, and
   accessibility trees.
+- Visual Baselines: scans the visual-baseline folder for pending `*_diff.png`
+  comparisons left by mismatched `matchesScreenshot()` runs, shows the
+  baseline and diff side by side, and lets you **Accept** (removes the stale
+  baseline so the next run records a fresh one) or **Reject** (clears the diff
+  marker, keeping the current baseline) each pending comparison.
 - Evidence: failed Allure analysis, trace discovery, trace analysis, trace
   summarization, report remediation, guarded reruns, and review-only locator
   proposals.
@@ -605,8 +611,9 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   control-flow review output. Templates prefill MCP arguments only; apart from
   the chained mobile recorder start, they do not run tools or write source by
   themselves. When a test run fails and Allure evidence exists, the plugin
-  raises a "Diagnose with SHAFT Doctor" notification that prefills the
-  deterministic failed-Allure analysis in one click.
+  raises a notification with **Diagnose with SHAFT Doctor** and **Heal failed
+  test** actions, prefilling the deterministic failed-Allure analysis or a
+  `healer_run_failed_test` run (AI flags off by default) in one click.
 - Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
   catalog prompts, generated-code guardrail checks, local Assistant client
   discovery, recorder evidence manifests, backend comparison, and official
@@ -615,6 +622,10 @@ The workflow selector exposes curated MCP requests for common automation jobs:
 Each category provides editable JSON arguments and calls the matching MCP tool.
 This keeps generated code and source edits reviewable in the IDE instead of
 hidden inside plugin code.
+
+A test-explorer tree, run-gutter icons, and watch-mode auto-run are not part
+of the plugin yet; that remaining scope is tracked in
+[ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
 
 ![SHAFT IntelliJ Guided workflow templates](/img/agentic/intellij-plugin-guided.png)
 
@@ -635,6 +646,19 @@ The generated MCP response includes focused locator/action blocks plus a
 preview-only patch block; apply changes only after reviewing that preview and
 running the relevant verification command.
 This action is available only in IDE installations with Java support enabled.
+
+## Pick Locator at caret
+
+Use **Tools | SHAFT | Pick Locator from Live Session** (also on the editor
+popup menu, visible in SHAFT projects with a Java editor context) to call
+`capture_pick_locator` and insert the returned `SHAFT.GUI.Locator...` snippet
+at the caret — the same idea as Playwright's "Pick Locator". Start a SHAFT
+Capture session first and switch the recorder to inspect mode, then click the
+target element in the managed browser; the action warns instead of inserting
+anything when no pick is available yet. This v1 requires the recorder-side
+pick to already exist in the live session; full session pick-state plumbing is
+tracked in
+[ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
 
 ## Coding partner plan
 
@@ -680,7 +704,8 @@ four sections:
 When you enable **Settings | SHAFT | Enable advanced workflows and provider
 options**, the Expert-mode toggle activates on the post-setup settings screen.
 Expert mode reveals the specialist workflow views (**Guided**, **Recorder**,
-**Inspector**, **Triage**, **Evidence**, **Projects**, **Advanced**) and the
+**Inspector**, **Triage**, **Visual Baselines**, **Evidence**, **Projects**,
+**Advanced**) and the
 ad-hoc provider/route controls in the Assistant composer. Regular users never
 need it: every workflow is reachable by describing the outcome in the
 Assistant.

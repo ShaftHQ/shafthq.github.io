@@ -135,6 +135,8 @@ Baselines are stored per browser and platform, with a sanitized `_<browser>_<pla
 
 If no per-browser/OS baseline exists yet, SHAFT falls back to a legacy unsuffixed baseline when one is present, logging a one-line notice, so baselines captured before this change keep working. New baselines — and any run with `-Dshaft.updateSnapshots=true` — always write to the new per-browser/OS path.
 
+The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comparisons and lets you Accept or Reject each one without leaving the IDE — see the [IntelliJ IDEA plugin](/docs/agentic/intellij) guide.
+
 ## Related
 
 - [Did You Know](/docs/reference/actions/GUI/Did_You_Know)
