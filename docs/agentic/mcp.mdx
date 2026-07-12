@@ -237,8 +237,9 @@ flowchart LR
 |---|---|
 | MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `browser_aria_snapshot` (whole-page or single-element YAML aria snapshot), `browser_accessibility_audit` (non-asserting axe-core WCAG audit), `playwright_browser_get_page_dom`, `element_*`, `playwright_element_*`, and semantic click/type tools. |
 | Screenshots, navigation, tabs, uploads, drag, hover, and form input | WebDriver and Playwright MCP tool families plus Capture action recording and replay. |
-| Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start_codegen`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. |
-| Playwright CLI network, storage, console, trace, video, PDF, and named-session commands | Use official `playwright-cli` as delegated evidence gathering; attach paths or summaries to `shaft_coding_partner_plan`, Doctor, Capture, or the final PR evidence. |
+| Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start_codegen`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. `capture_start`/`capture_start_codegen` also accept `saveHarGlob` (URL glob filter) and `saveHarContent=full` (complete redacted request/response bodies instead of truncated previews). |
+| Storage-state save/load, network request inspection, and mock routes | `browser_storage_state_save`/`browser_storage_state_load` and `playwright_browser_storage_state_save`/`playwright_browser_storage_state_load` (interchangeable JSON between backends); `browser_network_requests`/`browser_network_request` for observed traffic; `browser_route`/`browser_unroute` for mock responses. |
+| Playwright CLI console, trace, video, PDF, and named-session commands | Use official `playwright-cli` as delegated evidence gathering; attach paths or summaries to `shaft_coding_partner_plan`, Doctor, Capture, or the final PR evidence. |
 | Playwright Test Agents planner/generator/healer | Use `npx playwright init-agents --loop=codex` for Playwright Test projects; for SHAFT Java projects, map the planner output into `test_automation_scenarios`, Capture, Doctor, Heal, and reviewed Java source edits. |
 
 Do not paste Playwright TypeScript generated tests into a Java Maven project.
@@ -445,6 +446,15 @@ The packaged server supports:
 - explicit browser element actions through `element_click` and `element_type`,
   using locator strategy and locator value arguments, plus semantic
   WebDriver/Playwright click and type tools for human-readable element names;
+- storage-state save/load through `browser_storage_state_save`/
+  `browser_storage_state_load` and `playwright_browser_storage_state_save`/
+  `playwright_browser_storage_state_load`, writing and reading the same JSON
+  schema so a file saved from one backend loads on the other;
+- observed network transaction listing and detail through
+  `browser_network_requests` and `browser_network_request` (method, URL,
+  status, sizes, and a truncated redacted body preview; full bodies require a
+  Capture session with `saveHarContent=full`), plus mock network routes
+  through `browser_route` and `browser_unroute`;
 - official guide search through `shaft_guide_search`, so agents can retrieve
   cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
   guidance, and troubleshooting steps before writing code;

@@ -218,7 +218,9 @@ driver.browser().deleteAllCookies();
 
 Use storage state when a test needs to reuse an authenticated browser session
 without repeating the login flow. SHAFT saves cookies, `localStorage`, and
-`sessionStorage` to a JSON file.
+`sessionStorage` to a JSON file. `saveStorageState()`/`loadStorageState()` are
+implemented identically on `SHAFT.GUI.WebDriver` and `SHAFT.GUI.Playwright`, so
+a file saved from one backend loads on the other.
 
 ```java title="SaveStorageState.java"
 driver.browser()
@@ -235,6 +237,25 @@ driver.browser()
         .and().loadStorageState("target/auth-state.json")
         .and().refreshCurrentPage();
 ```
+
+### Auto-load storage state on driver init
+
+Set `SHAFT.Properties.web.storageStatePath` (property key `storageStatePath`)
+to a storage-state JSON file and a freshly-initialized driver loads it
+automatically, without an explicit `loadStorageState()` call:
+
+```java title="AutoLoadStorageState.java"
+SHAFT.Properties.web.set().storageStatePath("target/auth-state.json");
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+```
+
+SHAFT reads the `origin` recorded inside the storage-state file (falling back
+to `SHAFT.Properties.web.baseURL()` when the file has none) and navigates the
+fresh driver there first, since cookies cannot be added for an arbitrary
+domain before any page has loaded. This is fail-soft: a missing file, unreadable
+origin, or any other load failure is logged as a warning and never fails driver
+initialization. See [Authentication and session reuse](/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests)
+for the cached-login helper built on top of this property.
 
 ## Screenshots and Snapshots
 
@@ -437,4 +458,6 @@ SHAFT provides automatic reporting for every browser action. Check the **Reporti
 
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
+- [Using Cookies / authentication and session reuse](/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests)
+- [Network Mocking and HAR replay](/docs/reference/actions/GUI/didYouKnow/Network_Mocking)
 - [Web](/docs/testing/web)

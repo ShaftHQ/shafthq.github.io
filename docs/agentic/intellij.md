@@ -290,10 +290,14 @@ builder calls such as `driver.assertThat().browser()...` or
 
 ### Delegate browser exploration to Playwright
 
-When a task needs token-efficient snapshots, storage state, network inspection,
-console output, tracing, video, PDF, or official Playwright Test Agent planning,
-let the local agent use official Playwright CLI or Playwright MCP as a sidecar.
-The final Java change still returns through SHAFT planning and guardrails.
+When a task needs token-efficient snapshots, console output, tracing, video,
+PDF, or official Playwright Test Agent planning, let the local agent use
+official Playwright CLI or Playwright MCP as a sidecar. The final Java change
+still returns through SHAFT planning and guardrails. Storage-state save/load
+and observed-network inspection no longer need a sidecar for the common case:
+use `browser_storage_state_save`/`browser_storage_state_load` (or the
+`playwright_*` equivalents) and `browser_network_requests`/
+`browser_network_request` directly.
 
 ```mermaid
 flowchart LR

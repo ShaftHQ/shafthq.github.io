@@ -94,6 +94,25 @@ first mismatch. See [UI and API contract replay](/docs/testing/contracts).
 
 ---
 
+## Replay a Recorded HAR
+
+Use `routeFromHar()` to replay a previously captured HAR 1.2 file as mocked
+responses, instead of building matchers by hand. It works the same way on both
+`SHAFT.GUI.WebDriver` and `SHAFT.GUI.Playwright`. Matching is exact on method
+and URL; when the HAR contains duplicate entries for the same method/URL, they
+are replayed in the order they were recorded.
+
+```java title="RouteFromHar.java"
+driver.browser().routeFromHar("src/test/resources/har/checkout.har");
+driver.browser().navigateToURL("https://shop.example/checkout");
+```
+
+A compatible HAR file can come from a [Capture](/docs/agentic/capture) session
+started with `--save-har` (local CLI) or `saveHarPath` (`capture_start`/
+`capture_start_codegen` MCP tools), or from any HAR 1.2 export.
+
+---
+
 ## Request Matchers
 
 Use the built-in matchers for common request fields:
