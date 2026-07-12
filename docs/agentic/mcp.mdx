@@ -63,7 +63,11 @@ tool name and a one-line description. Agents should read this cached catalog
 for exact tool names instead of listing tools at runtime, which cuts
 consumer-agent token usage. On clients that defer tool schemas until
 requested, such as Claude Code's `ToolSearch`, batch-load every tool a task
-needs in one lookup instead of one call per tool.
+needs in one lookup instead of one call per tool. A companion
+[shaft-cli command reference](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-cli-commands.md)
+at `shaft-skills/references/shaft-cli-commands.md` tells agents to prefer the
+installed [shaft-cli](/docs/agentic/cli) over raw MCP tool calls, with MCP as
+the fallback.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker

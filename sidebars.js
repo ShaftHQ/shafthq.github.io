@@ -37,6 +37,7 @@ const sidebars = {
         'agentic/mcp',
         'agentic/intellij',
         'agentic/mcp-manual',
+        'agentic/cli',
         'agentic/pilot',
         'agentic/capture',
         'agentic/doctor',
