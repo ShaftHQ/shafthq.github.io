@@ -109,8 +109,9 @@ guidance instead of silently staying neutral.
 The whole setup flow scrolls vertically when it outgrows the tool window (the
 scrollbar appears only when needed, and content re-wraps instead of scrolling
 sideways), so the bottom of the page always stays reachable.
-The setup summary shows the `main` installer source, selected target, selected
-runtime, and detected recommended CLI agent. The stdio command stays managed by
+The setup summary shows the selected target, selected runtime, and detected
+recommended CLI agent -- internal installer-source/branch details are no
+longer surfaced here. The stdio command stays managed by
 SHAFT and is not shown as a setup input. Test failures stay inline with
 categorized troubleshooting, client-specific next steps, copyable diagnostic
 output, copyable SHAFT MCP docs link, and the retry action remains enabled.
@@ -164,13 +165,21 @@ driver) keep running between commands; the process is restarted transparently
 when it dies or the configured command changes. The plugin does not embed the
 SHAFT engine or manage provider model traffic itself.
 
+The plugin also caches the connected server's MCP tool list per connection
+instead of re-listing tools on every call, populating the catalog
+automatically the first time it is needed after a (re)connect. A request that
+names a tool missing from the cached catalog fails fast with a suggested
+nearest-match tool name instead of silently doing nothing.
+
 ## Tool window
 
 Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
 the **Assistant** — the only view regular users see — and the Assistant
 understands what you need in plain language. There are no commands to learn:
 describe the outcome, and the Assistant routes the request to the right SHAFT
-workflow.
+workflow. Typing `/` in the composer also opens a slash menu with quick
+shortcuts for the same core workflows -- see [Assistant](#assistant) below for
+the command list.
 
 - "Record my browser actions on https://your-app.example" starts a privacy-safe
   web recording session.
@@ -382,7 +391,16 @@ light mode and a distinct dark surface in dark mode.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
-output is finalized.
+output is finalized. While the stop is in flight, the run timeline shows a
+live **Cancelling…** status (or **Killing…** when the underlying process needs
+a hard stop) instead of leaving the previous running entry in place, and the
+run always resolves to exactly one terminal timeline entry -- never a
+duplicate or a stale in-progress row. Every terminal entry (completed,
+cancelled, or failed) carries an elapsed-time suffix such as `Completed (12s)`
+so you can see how long the run actually took at a glance. A token-usage line
+appears under the response only when the wrapped CLI reports real usage
+metadata (input/output token counts); SHAFT never fabricates or estimates a
+count when the CLI stays silent about usage.
 A **Verbose** checkbox, available on every route, forwards the unfiltered
 picture into the chat as it happens instead of only showing the final result.
 For local agent CLI runs that means the agent's own stream:
@@ -411,6 +429,14 @@ bounded context for local and cloud Assistant prompts until you click Clear;
 New chat starts a separate context. Persisted chats keep rendered messages
 only; raw MCP payloads and common token/key values are not stored.
 
+Typing `/` in the composer opens a slash menu. By default it shows five core
+commands: `/record` (canonical for starting a web recording session --
+`/record-web`, `/rec`, and `/capture` are aliases that route to the same
+command), `/record-mobile`, `/codegen`, `/doctor`, and `/upgrade`. Enabling
+[Expert mode](#expert-mode) reveals the rest of the MCP tool catalog in the
+same menu for users who already know the tool names; regular users never need
+it, because the five defaults plus plain language cover the common workflows.
+
 The Assistant understands feature intent directly from the chat box: "start
 mobile recording" maps to `mobile_record_start`, "record my browser actions on
 https://..." starts a web capture session, and "diagnose my last failed test
@@ -418,15 +444,21 @@ run" triages the most recent Allure results in the project. Browser control
 defaults to WebDriver; say `playwright` in the prompt when that backend is
 required.
 
-Asking for a test generated from a Capture recording (for example "Generate a
-SHAFT test from recordings/checkout.json") generates the SHAFT test, compiles
-it, and **re-executes the recording** (`capture_generate_replay`), so the
-returned code blocks are verified against the live flow rather than only
-statically generated — and it works from the persisted recording file alone,
-with no live capture session required. Before the run starts, the Assistant
-explains the three phases (generate, compile, replay) and warns that a browser
-window may open for the replay (it starts on `about:blank` before the test
-navigates). The result is a step-by-step story — which file was generated
+`/codegen recordings/checkout.json` (or asking in plain language, for example
+"Generate a SHAFT test from recordings/checkout.json") generates the SHAFT
+test, compiles it, and **re-executes the recording**, so the returned code
+blocks are verified against the live flow rather than only statically
+generated — and it works from the persisted recording file alone, with no
+live capture session required. WebDriver Capture recordings go through
+`capture_generate_replay` (generate, compile, then a headless replay gated on
+populated, passing Allure results); mobile recordings replay through
+`mobile_replay_recording` against the active mobile session; Playwright
+recordings initialize a Playwright driver and replay through
+`playwright_replay_recording` — generated locators are always validated live
+before the Assistant returns them, for every backend. Before the run starts,
+the Assistant explains the phases (generate, compile, replay) and warns that a
+browser window may open for the replay (it starts on `about:blank` before the
+test navigates). The result is a step-by-step story — which file was generated
 where, whether it compiled, whether the replay passed with per-step failure
 diagnostics when it did not, the report/review artifact paths, and the
 generated code with next-step guidance — never a bare confirmation. When only
@@ -434,10 +466,11 @@ the replay step fails, the generated and compiling code blocks are still
 returned together with the replay diagnostics, so a replay hiccup never turns
 into an empty "no code" response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
-exists. Playwright and mobile recordings keep their generate-only code-block
-tools. Describing the journey in plain words with no recording makes the agent
-open a fresh recording session, perform the described actions, and generate
-from the persisted result.
+exists. Describing the journey in plain words with no recording -- the same
+as `/codegen <plain-language scenario>` -- has the local agent open a fresh
+`capture_start_codegen` session, perform the described actions live, stop the
+session, then pass the persisted recording through the same replay-proving
+generator.
 
 "Upgrade this project to the latest SHAFT" in **Agent** mode with
 **Allow source edits** enabled performs the project upgrade itself: the agent
@@ -516,12 +549,18 @@ it runs a feature request. Natural-language Ask/Plan prompts that need MCP tool
 access tell you to switch to Agent mode instead of launching a local agent from
 the wrong mode. Project creation from chat returns a review instruction; run
 **Create SHAFT Project** from the expert-mode Projects or Guided workflow so
-the confirmed workflow gate is used before files are written. When a
-diagnosis request names no report path, the most recent populated
-`allure-results` directory in the project is analyzed automatically.
+the confirmed workflow gate is used before files are written. `/doctor` (and
+"diagnose my last failed test run" and similar natural phrasing) accepts an
+`allure-results` directory, an individual `*-result.json` file, or a SHAFT
+single-file Allure HTML report (`AllureReport.html` or a timestamped variant)
+directly; naming no path at all auto-discovers the newest evidence in the
+project -- the most recently populated `allure-results` directory, or
+otherwise the newest `AllureReport.html`.
 
-Legacy slash commands typed directly (for example `/doctor`) still route for
-backward compatibility, but the UI no longer teaches or advertises them.
+Slash commands beyond the five core defaults (for example typing `/heal` or
+`/guide` directly) still route to their MCP tool even while Expert mode is off
+and the slash menu does not list them, preserving backward compatibility for
+typed muscle memory.
 
 Responses render as Markdown. Known SHAFT responses, including local agent runs,
 provider chat, local client discovery, MCP `content[].text` envelopes, JSON

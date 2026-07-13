@@ -19,6 +19,13 @@ Capture creation, validation, serialization, and privacy enforcement work with
 `pilot.ai.enabled=false`. Optional AI consumers may receive only the already
 redacted representation after the separate Pilot approval checks succeed.
 
+The IntelliJ Assistant and other SHAFT front doors expose this recorder as the
+`/record` slash command (aliases `/record-web`, `/rec`, `/capture`) and its
+mobile counterpart as `/record-mobile`; generating replay-proven code from a
+persisted recording is `/codegen`. See
+[IntelliJ IDEA plugin](/docs/agentic/intellij#assistant) for the
+composer-level command reference.
+
 ## Managed browser recording
 
 The recorder launches a fresh SHAFT-managed Chrome, Chromium, or Edge session.
@@ -105,7 +112,11 @@ MCP Playwright action recordings created with `playwright_record_start` remain
 available through the same Playwright tool names; `playwright_recording_code_blocks`
 now adapts supported recorded actions into a Capture session, returns the
 generated source/test-data/report/review paths, and keeps the direct replay
-method for actions that do not yet have a Capture equivalent.
+method for actions that do not yet have a Capture equivalent. When the
+Assistant's `/codegen` command handles a persisted Playwright recording rather
+than a Capture session, it initializes a fresh Playwright driver and replays
+the recording through `playwright_replay_recording`, so the returned locators
+are still validated live before being handed back.
 
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
@@ -244,7 +255,11 @@ Capture: `mobile_recording_code_blocks` returns the replay method, ranked
 mobile locator inventory, action sequence, and `mobile-page-object-draft`.
 `mobile_record_at_target_code_blocks` adds locator fields and an action snippet
 for an existing mobile Page Object anchor, plus a preview-only patch block and a
-locator confidence queue when fallback actions need review.
+locator confidence queue when fallback actions need review. When the
+Assistant's `/codegen` command handles a persisted mobile recording, it
+replays it through `mobile_replay_recording` against the active mobile session
+before returning the generated code -- the same live-validation guarantee
+WebDriver and Playwright recordings get.
 
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
