@@ -52,12 +52,27 @@ heavy trace artifacts for passing tests.
 Allure receives one SHAFT trace-report attachment on failed tests:
 
 - `shaft-trace.zip`, which contains `shaft-trace.json`, `SHAFT Trace Report.html`,
-  `shaft-network.har`,
+  `shaft-network.har`, per-action screenshots,
   and the native Playwright trace ZIP when Playwright tracing is enabled and
   available
 
+The archive is fully self-contained: no loose HTML file is attached outside it.
+The embedded offline viewer opens on a unified **Timeline** tab that merges
+every recorded action, network exchange, and console message into one
+chronological list with relative offsets and clickable action entries. The
+**Network** and **Console** tabs render interactive tables (click a request for
+headers and a bounded body preview) and highlight rows that overlap the
+selected action's time window. An **Environment** tab shows the SHAFT version,
+OS, Java version, target platform, browser, execution address, headless flag,
+and executing thread from the trace's `environment` section, and the **Source**
+tab renders the full redacted failing source file (`source.fileContent`,
+bounded to 100k characters) with the failing line marked.
+
 The archived `shaft-trace.json` includes an `actions` array with stable fields
-for automation agents:
+for automation agents. Each action also records `caller` — the first
+non-framework stack frame, tying the action back to the exact test or
+page-object line — and each `network` entry carries an epoch `timestamp` for
+timeline correlation:
 
 ```json
 {
@@ -69,6 +84,7 @@ for automation agents:
   "durationMs": 184,
   "locator": "By.id: pay",
   "url": "https://shop.example/checkout",
+  "caller": "com.example.CheckoutTest.payShouldSucceed(CheckoutTest.java:42)",
   "message": "Click \"Pay\"",
   "exception": {
     "type": "org.openqa.selenium.ElementClickInterceptedException",
