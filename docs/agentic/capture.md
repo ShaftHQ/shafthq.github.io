@@ -118,6 +118,14 @@ than a Capture session, it initializes a fresh Playwright driver and replays
 the recording through `playwright_replay_recording`, so the returned locators
 are still validated live before being handed back.
 
+Like the mobile recorder, the Playwright recording status speaks the **same
+vocabulary as the web recorder**: recorded interactions are **steps**, readiness
+is `READY` / `RISKY` / `BLOCKED` (coordinate-only or redacted-value steps are
+`RISKY`; a stop with no steps is `BLOCKED`), stopping surfaces the saved session
+path with a **Review code** next-step, and actions performed while recording is
+inactive are reported with the same `Ignored: <reason>` transparency note. All
+three recorders (web, mobile, Playwright) therefore present one status contract.
+
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
 English while the user clicks, types, selects, uploads, or navigates. Its
