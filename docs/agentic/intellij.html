@@ -18,8 +18,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SHAFT Engine","applicationCategory":"DeveloperApplication","operatingSystem":"Windows, macOS, Linux","description":"Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.","url":"https://shafthq.github.io","license":"https://github.com/ShaftHQ/SHAFT_ENGINE/blob/master/LICENSE","author":{"@type":"Organization","name":"ShaftHQ","url":"https://github.com/ShaftHQ"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"ShaftHQ","url":"https://shafthq.github.io","logo":"https://shafthq.github.io/img/shaft.svg","sameAs":["https://github.com/ShaftHQ","https://www.facebook.com/groups/Automatest"],"description":"Open-source test automation organization behind SHAFT Engine — a unified testing framework for Web, Mobile, API, CLI, and Database testing."}</script><link rel="stylesheet" href="/assets/css/styles.f4af49a8.css">
-<script src="/assets/js/runtime~main.d777dffc.js" defer="defer"></script>
-<script src="/assets/js/main.2127a24f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.58a11128.js" defer="defer"></script>
+<script src="/assets/js/main.1512ccfa.js" defer="defer"></script>
 </head>
 <body>
 <svg style="display: none;"><defs>
@@ -120,8 +120,9 @@ guidance instead of silently staying neutral.
 The whole setup flow scrolls vertically when it outgrows the tool window (the
 scrollbar appears only when needed, and content re-wraps instead of scrolling
 sideways), so the bottom of the page always stays reachable.
-The setup summary shows the <code>main</code> installer source, selected target, selected
-runtime, and detected recommended CLI agent. The stdio command stays managed by
+The setup summary shows the selected target, selected runtime, and detected
+recommended CLI agent -- internal installer-source/branch details are no
+longer surfaced here. The stdio command stays managed by
 SHAFT and is not shown as a setup input. Test failures stay inline with
 categorized troubleshooting, client-specific next steps, copyable diagnostic
 output, copyable SHAFT MCP docs link, and the retry action remains enabled.</p>
@@ -168,12 +169,19 @@ session-based tools (a running Capture recording, an initialized live
 driver) keep running between commands; the process is restarted transparently
 when it dies or the configured command changes. The plugin does not embed the
 SHAFT engine or manage provider model traffic itself.</p>
+<p>The plugin also caches the connected server&#x27;s MCP tool list per connection
+instead of re-listing tools on every call, populating the catalog
+automatically the first time it is needed after a (re)connect. A request that
+names a tool missing from the cached catalog fails fast with a suggested
+nearest-match tool name instead of silently doing nothing.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="tool-window">Tool window<a href="#tool-window" class="hash-link" aria-label="Direct link to Tool window" title="Direct link to Tool window" translate="no">​</a></h2>
 <p>Open <strong>Tools | SHAFT | Open SHAFT</strong> to show the tool window. The plugin opens on
 the <strong>Assistant</strong> — the only view regular users see — and the Assistant
 understands what you need in plain language. There are no commands to learn:
 describe the outcome, and the Assistant routes the request to the right SHAFT
-workflow.</p>
+workflow. Typing <code>/</code> in the composer also opens a slash menu with quick
+shortcuts for the same core workflows -- see <a href="#assistant" class="">Assistant</a> below for
+the command list.</p>
 <ul>
 <li class="">&quot;Record my browser actions on <a href="https://your-app.example" target="_blank" rel="noopener noreferrer" class="">https://your-app.example</a>&quot; starts a privacy-safe
 web recording session.</li>
@@ -310,7 +318,16 @@ light mode and a distinct dark surface in dark mode.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
-output is finalized.
+output is finalized. While the stop is in flight, the run timeline shows a
+live <strong>Cancelling…</strong> status (or <strong>Killing…</strong> when the underlying process needs
+a hard stop) instead of leaving the previous running entry in place, and the
+run always resolves to exactly one terminal timeline entry -- never a
+duplicate or a stale in-progress row. Every terminal entry (completed,
+cancelled, or failed) carries an elapsed-time suffix such as <code>Completed (12s)</code>
+so you can see how long the run actually took at a glance. A token-usage line
+appears under the response only when the wrapped CLI reports real usage
+metadata (input/output token counts); SHAFT never fabricates or estimates a
+count when the CLI stays silent about usage.
 A <strong>Verbose</strong> checkbox, available on every route, forwards the unfiltered
 picture into the chat as it happens instead of only showing the final result.
 For local agent CLI runs that means the agent&#x27;s own stream:
@@ -337,21 +354,34 @@ Clear icon to clear only the active chat. Active chat messages are included as
 bounded context for local and cloud Assistant prompts until you click Clear;
 New chat starts a separate context. Persisted chats keep rendered messages
 only; raw MCP payloads and common token/key values are not stored.</p>
+<p>Typing <code>/</code> in the composer opens a slash menu. By default it shows five core
+commands: <code>/record</code> (canonical for starting a web recording session --
+<code>/record-web</code>, <code>/rec</code>, and <code>/capture</code> are aliases that route to the same
+command), <code>/record-mobile</code>, <code>/codegen</code>, <code>/doctor</code>, and <code>/upgrade</code>. Enabling
+<a href="#expert-mode" class="">Expert mode</a> reveals the rest of the MCP tool catalog in the
+same menu for users who already know the tool names; regular users never need
+it, because the five defaults plus plain language cover the common workflows.</p>
 <p>The Assistant understands feature intent directly from the chat box: &quot;start
 mobile recording&quot; maps to <code>mobile_record_start</code>, &quot;record my browser actions on
 https://...&quot; starts a web capture session, and &quot;diagnose my last failed test
 run&quot; triages the most recent Allure results in the project. Browser control
 defaults to WebDriver; say <code>playwright</code> in the prompt when that backend is
 required.</p>
-<p>Asking for a test generated from a Capture recording (for example &quot;Generate a
-SHAFT test from recordings/checkout.json&quot;) generates the SHAFT test, compiles
-it, and <strong>re-executes the recording</strong> (<code>capture_generate_replay</code>), so the
-returned code blocks are verified against the live flow rather than only
-statically generated — and it works from the persisted recording file alone,
-with no live capture session required. Before the run starts, the Assistant
-explains the three phases (generate, compile, replay) and warns that a browser
-window may open for the replay (it starts on <code>about:blank</code> before the test
-navigates). The result is a step-by-step story — which file was generated
+<p><code>/codegen recordings/checkout.json</code> (or asking in plain language, for example
+&quot;Generate a SHAFT test from recordings/checkout.json&quot;) generates the SHAFT
+test, compiles it, and <strong>re-executes the recording</strong>, so the returned code
+blocks are verified against the live flow rather than only statically
+generated — and it works from the persisted recording file alone, with no
+live capture session required. WebDriver Capture recordings go through
+<code>capture_generate_replay</code> (generate, compile, then a headless replay gated on
+populated, passing Allure results); mobile recordings replay through
+<code>mobile_replay_recording</code> against the active mobile session; Playwright
+recordings initialize a Playwright driver and replay through
+<code>playwright_replay_recording</code> — generated locators are always validated live
+before the Assistant returns them, for every backend. Before the run starts,
+the Assistant explains the phases (generate, compile, replay) and warns that a
+browser window may open for the replay (it starts on <code>about:blank</code> before the
+test navigates). The result is a step-by-step story — which file was generated
 where, whether it compiled, whether the replay passed with per-step failure
 diagnostics when it did not, the report/review artifact paths, and the
 generated code with next-step guidance — never a bare confirmation. When only
@@ -359,10 +389,11 @@ the replay step fails, the generated and compiling code blocks are still
 returned together with the replay diagnostics, so a replay hiccup never turns
 into an empty &quot;no code&quot; response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
-exists. Playwright and mobile recordings keep their generate-only code-block
-tools. Describing the journey in plain words with no recording makes the agent
-open a fresh recording session, perform the described actions, and generate
-from the persisted result.</p>
+exists. Describing the journey in plain words with no recording -- the same
+as <code>/codegen &lt;plain-language scenario&gt;</code> -- has the local agent open a fresh
+<code>capture_start_codegen</code> session, perform the described actions live, stop the
+session, then pass the persisted recording through the same replay-proving
+generator.</p>
 <p>&quot;Upgrade this project to the latest SHAFT&quot; in <strong>Agent</strong> mode with
 <strong>Allow source edits</strong> enabled performs the project upgrade itself: the agent
 states the project&#x27;s current SHAFT setup, previews the change with the
@@ -422,11 +453,17 @@ it runs a feature request. Natural-language Ask/Plan prompts that need MCP tool
 access tell you to switch to Agent mode instead of launching a local agent from
 the wrong mode. Project creation from chat returns a review instruction; run
 <strong>Create SHAFT Project</strong> from the expert-mode Projects or Guided workflow so
-the confirmed workflow gate is used before files are written. When a
-diagnosis request names no report path, the most recent populated
-<code>allure-results</code> directory in the project is analyzed automatically.</p>
-<p>Legacy slash commands typed directly (for example <code>/doctor</code>) still route for
-backward compatibility, but the UI no longer teaches or advertises them.</p>
+the confirmed workflow gate is used before files are written. <code>/doctor</code> (and
+&quot;diagnose my last failed test run&quot; and similar natural phrasing) accepts an
+<code>allure-results</code> directory, an individual <code>*-result.json</code> file, or a SHAFT
+single-file Allure HTML report (<code>AllureReport.html</code> or a timestamped variant)
+directly; naming no path at all auto-discovers the newest evidence in the
+project -- the most recently populated <code>allure-results</code> directory, or
+otherwise the newest <code>AllureReport.html</code>.</p>
+<p>Slash commands beyond the five core defaults (for example typing <code>/heal</code> or
+<code>/guide</code> directly) still route to their MCP tool even while Expert mode is off
+and the slash menu does not list them, preserving backward compatibility for
+typed muscle memory.</p>
 <p>Responses render as Markdown. Known SHAFT responses, including local agent runs,
 provider chat, local client discovery, MCP <code>content[].text</code> envelopes, JSON
 payloads, and Java snippets, are parsed into readable sections, tables, or
@@ -694,6 +731,6 @@ channel.</p>
 <li class=""><a class="" href="/docs/agentic/mcp">MCP</a></li>
 <li class=""><a class="" href="/docs/agentic/pilot">Pilot</a></li>
 <li class=""><a class="" href="/docs/agentic/providers">Providers</a></li>
-</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/intellij">intellij</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/idea">idea</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/mcp">mcp</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/recorder">recorder</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/doctor">doctor</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/healer">healer</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/inspector">inspector</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/projects">projects</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/assistant">assistant</a></li></ul></div></div><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/ShaftHQ/shafthq.github.io/blob/master/docs/agentic/intellij.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"><span class="theme-last-updated">Last updated<!-- --> on <b><time datetime="2026-07-13T12:49:45.000Z" itemprop="dateModified">Jul 13, 2026</time></b></span></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/agentic/mcp"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Connect shaft-mcp</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/agentic/mcp/manual"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Manual shaft-mcp configuration moved</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#tool-window" class="table-of-contents__link toc-highlight">Tool window</a></li><li><a href="#agentic-e2e-workflows" class="table-of-contents__link toc-highlight">Agentic E2E workflows</a><ul><li><a href="#upgrade-a-selenium-maven-project" class="table-of-contents__link toc-highlight">Upgrade a Selenium Maven project</a></li><li><a href="#record-a-new-scenario-into-existing-page-objects" class="table-of-contents__link toc-highlight">Record a new scenario into existing Page Objects</a></li><li><a href="#delegate-browser-exploration-to-playwright" class="table-of-contents__link toc-highlight">Delegate browser exploration to Playwright</a></li><li><a href="#diagnose-and-heal-a-failed-test" class="table-of-contents__link toc-highlight">Diagnose and heal a failed test</a></li></ul></li><li><a href="#assistant" class="table-of-contents__link toc-highlight">Assistant</a></li><li><a href="#onboarding-recording-notes" class="table-of-contents__link toc-highlight">Onboarding recording notes</a></li><li><a href="#workflows" class="table-of-contents__link toc-highlight">Workflows</a></li><li><a href="#record-in-java-code" class="table-of-contents__link toc-highlight">Record in Java code</a></li><li><a href="#pick-locator-at-caret" class="table-of-contents__link toc-highlight">Pick Locator at caret</a></li><li><a href="#coding-partner-plan" class="table-of-contents__link toc-highlight">Coding partner plan</a></li><li><a href="#settings-and-configuration" class="table-of-contents__link toc-highlight">Settings and configuration</a><ul><li><a href="#expert-mode" class="table-of-contents__link toc-highlight">Expert mode</a></li><li><a href="#shaft-project-detection" class="table-of-contents__link toc-highlight">SHAFT project detection</a></li><li><a href="#tool-approval" class="table-of-contents__link toc-highlight">Tool approval</a></li><li><a href="#reset-everything" class="table-of-contents__link toc-highlight">Reset everything</a></li><li><a href="#reset-and-reinstall" class="table-of-contents__link toc-highlight">Reset and reinstall</a></li></ul></li><li><a href="#publishing" class="table-of-contents__link toc-highlight">Publishing</a></li><li><a href="#related" class="table-of-contents__link toc-highlight">Related</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/start/overview">Start here</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/agentic/mcp">Connect MCP</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Support</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw" target="_blank" rel="noopener noreferrer" class="footer__link-item">Slack<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.facebook.com/groups/Automatest" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://shafthq.github.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Pages<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="margin-bottom--sm"><a href="https://github.com/ShaftHQ" rel="noopener noreferrer" class="footerLogoLink_BH7S"><img src="/img/shaft.svg" alt="ShaftHQ Logo" class="footer__logo themedComponent_mlkZ themedComponent--light_NVdE" style="height:150px"><img src="/img/shaft.svg" alt="ShaftHQ Logo" class="footer__logo themedComponent_mlkZ themedComponent--dark_xIcU" style="height:150px"></a></div><div class="footer__copyright">Copyright © 2026 ShaftHQ. Built with Docusaurus and GitHub Pages.</div></div></div></footer></div>
+</ul></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-tags-row"><div class="col"><b>Tags:</b><ul class="tags_jXut padding--none margin-left--sm"><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/intellij">intellij</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/idea">idea</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/mcp">mcp</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/recorder">recorder</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/doctor">doctor</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/healer">healer</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/inspector">inspector</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/projects">projects</a></li><li class="tag_QGVx"><a rel="tag" class="tag_zVej tagRegular_sFm0" href="/docs/tags/assistant">assistant</a></li></ul></div></div><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/ShaftHQ/shafthq.github.io/blob/master/docs/agentic/intellij.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"><span class="theme-last-updated">Last updated<!-- --> on <b><time datetime="2026-07-13T12:50:06.000Z" itemprop="dateModified">Jul 13, 2026</time></b></span></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/docs/agentic/mcp"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Connect shaft-mcp</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/docs/agentic/mcp/manual"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Manual shaft-mcp configuration moved</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#tool-window" class="table-of-contents__link toc-highlight">Tool window</a></li><li><a href="#agentic-e2e-workflows" class="table-of-contents__link toc-highlight">Agentic E2E workflows</a><ul><li><a href="#upgrade-a-selenium-maven-project" class="table-of-contents__link toc-highlight">Upgrade a Selenium Maven project</a></li><li><a href="#record-a-new-scenario-into-existing-page-objects" class="table-of-contents__link toc-highlight">Record a new scenario into existing Page Objects</a></li><li><a href="#delegate-browser-exploration-to-playwright" class="table-of-contents__link toc-highlight">Delegate browser exploration to Playwright</a></li><li><a href="#diagnose-and-heal-a-failed-test" class="table-of-contents__link toc-highlight">Diagnose and heal a failed test</a></li></ul></li><li><a href="#assistant" class="table-of-contents__link toc-highlight">Assistant</a></li><li><a href="#onboarding-recording-notes" class="table-of-contents__link toc-highlight">Onboarding recording notes</a></li><li><a href="#workflows" class="table-of-contents__link toc-highlight">Workflows</a></li><li><a href="#record-in-java-code" class="table-of-contents__link toc-highlight">Record in Java code</a></li><li><a href="#pick-locator-at-caret" class="table-of-contents__link toc-highlight">Pick Locator at caret</a></li><li><a href="#coding-partner-plan" class="table-of-contents__link toc-highlight">Coding partner plan</a></li><li><a href="#settings-and-configuration" class="table-of-contents__link toc-highlight">Settings and configuration</a><ul><li><a href="#expert-mode" class="table-of-contents__link toc-highlight">Expert mode</a></li><li><a href="#shaft-project-detection" class="table-of-contents__link toc-highlight">SHAFT project detection</a></li><li><a href="#tool-approval" class="table-of-contents__link toc-highlight">Tool approval</a></li><li><a href="#reset-everything" class="table-of-contents__link toc-highlight">Reset everything</a></li><li><a href="#reset-and-reinstall" class="table-of-contents__link toc-highlight">Reset and reinstall</a></li></ul></li><li><a href="#publishing" class="table-of-contents__link toc-highlight">Publishing</a></li><li><a href="#related" class="table-of-contents__link toc-highlight">Related</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/docs/start/overview">Start here</a></li><li class="footer__item"><a class="footer__link-item" href="/docs/agentic/mcp">Connect MCP</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Support</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw" target="_blank" rel="noopener noreferrer" class="footer__link-item">Slack<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://www.facebook.com/groups/Automatest" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/blog">Blog</a></li><li class="footer__item"><a href="https://shafthq.github.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Pages<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="margin-bottom--sm"><a href="https://github.com/ShaftHQ" rel="noopener noreferrer" class="footerLogoLink_BH7S"><img src="/img/shaft.svg" alt="ShaftHQ Logo" class="footer__logo themedComponent_mlkZ themedComponent--light_NVdE" style="height:150px"><img src="/img/shaft.svg" alt="ShaftHQ Logo" class="footer__logo themedComponent_mlkZ themedComponent--dark_xIcU" style="height:150px"></a></div><div class="footer__copyright">Copyright © 2026 ShaftHQ. Built with Docusaurus and GitHub Pages.</div></div></div></footer></div>
 </body>
 </html>
