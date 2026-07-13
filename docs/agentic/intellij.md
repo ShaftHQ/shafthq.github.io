@@ -639,10 +639,11 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   also honored by the assistant web and mobile recording flows. The
   **Intent** field flows into `capture_start` as `sessionGoal`, so generated
   tests are named after the journey ("Log in as a valid user" yields
-  `logInAsAValidUser()`). A live **Status** strip polls the recorder after
-  Start recording and shows the session state, steps count (including
-  pending debounced input), and current URL, so headless recordings stay
-  observable in-panel. On the Mobile backend, Start recording chains
+  `logInAsAValidUser()`). A live **Status** strip shows "Recording · N steps · Ready · <url>",
+  allowing you to monitor session state, steps count (including pending debounced input),
+  and current URL in the IDE panel; stopping from here or in the browser overlay
+  saves the same recording session, so headless recordings stay observable and controllable
+  in-panel. On the Mobile backend, Start recording chains
   `mobile_initialize_web_emulation` and `mobile_record_start` as one action,
   gating the recorder start on the emulated session succeeding. The guided
   recorder action says **Review code** because it prepares reviewed SHAFT code
