@@ -276,6 +276,15 @@ replays it through `mobile_replay_recording` against the active mobile session
 before returning the generated code -- the same live-validation guarantee
 WebDriver and Playwright recordings get.
 
+The mobile recording status speaks the **same vocabulary as the web recorder**
+rather than a parallel one: recorded interactions are **steps**, readiness is
+`READY` / `RISKY` / `BLOCKED` (coordinate-only or redacted-value steps are
+`RISKY`; a stop with no steps is `BLOCKED`), and stopping surfaces the saved
+session path with a **Review code** next-step. Actions performed while
+recording is inactive are reported with the same `Ignored: <reason>`
+transparency note used by the web overlay. The IntelliJ Guided panel's live
+status mirrors this wording automatically.
+
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
 method name, so a segment marked as `login as admin` generates a
