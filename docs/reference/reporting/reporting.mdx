@@ -27,7 +27,10 @@ SHAFT-generated HTML report attachments use a shared SHAFT report theme across
 execution summaries, performance reports, accessibility reports, locator health,
 failure briefs, failure traces, and flake profiles. The same theme gives each
 surface consistent headers, status chips, metric cards, table wrapping, and
-dark-mode behavior whether opened directly or from Allure.
+dark-mode behavior whether opened directly or from Allure. The SHAFT offline
+HTML theme and the injected Allure theme share one unified brand palette (light
+and dark modes) to ensure consistent SHAFT branding across both standalone
+reports and the Allure report.
 
 ---
 
@@ -115,6 +118,39 @@ best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
 only for failed traced actions and applies the same redaction rules used by the
 trace JSON.
 
+### SHAFT Overview Report
+
+SHAFT attaches a branded **SHAFT Overview** suite summary to the Allure report.
+The overview displays:
+
+- **Checkpoint totals** — count of total, passed, and failed checkpoints across the run
+- **Pass ratio donut** — visual pass-rate indicator
+- **Traces captured** — count of SHAFT traces under `target/shaft-traces/` (retry-aware: counts each failed attempt when retries are configured)
+
+The overview provides a quick snapshot of test outcomes and captured diagnostics alongside Allure's native statistics.
+
+### Assertion and Verification Evidence Cards
+
+Every hard assertion (Assertion) and soft assertion (Verification) automatically
+attaches a self-contained HTML evidence card as the **first attachment** on the
+validation's Allure report step. The card displays:
+
+- **Category and status** — "Assertion" or "Verification" label with PASSED/FAILED badge.
+- **Data-shape badge** — JSON, Text, or Value, derived from the compared values.
+- **Expected and Actual values with diffs:**
+  - JSON values are pretty-printed with a line-by-line diff.
+  - Multi-line or long text gets a unified line-diff view.
+  - Short scalar values show compact Expected/Actual rows side-by-side.
+- **Automatic redaction** — passwords, tokens, Authorization headers, and
+  secret-looking JSON/attribute values are masked to `********` before rendering.
+- **Dark-mode aware** — the card matches the SHAFT report theme.
+- **Size-capped** — very large values are truncated with a visible marker.
+
+The legacy plain-text "Expected Value" and "Actual Value" attachments remain
+unchanged for backward compatibility. Element-state and visual (image-comparison)
+validations do not receive the text card — their evidence is the screenshot or
+image diff attached separately.
+
 For failed Appium touch actions, the same `actions` array includes mobile
 session metadata when the driver exposes it:
 
@@ -199,6 +235,16 @@ want custom values to win.
 | `FAST` | Minimal evidence: screenshots, page source, GIF, video, WebDriver logs, full log, diagnostics, and trace off. |
 | `FULL` | Rich evidence: screenshots and page source always, GIF and video on, WebDriver logs and full log on, diagnostics on, and trace mode `always`. |
 | `CUSTOM` | No profile override. Use this before setting granular evidence controls directly. |
+
+### Allure Categories
+
+Allure 3 runs receive a `categories.json` file in `allure-results/` with failure groupings. SHAFT provides default categories for common assertion, locator, timeout, API, accessibility, visual, and infrastructure failures, plus three SHAFT-native outcome categories:
+
+- **SHAFT: flaky (passed on retry)** — test passed after one or more retry attempts
+- **SHAFT: self-healed locator** — test passed when SHAFT Heal recovered a broken locator
+- **SHAFT: soft verification failure** — soft assertion (verification) failed but test continued
+
+These categories are plain Allure metadata and do not require a custom Allure plugin. They help you distinguish SHAFT-specific recovery outcomes from conventional failures in the Allure Categories tab.
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">
