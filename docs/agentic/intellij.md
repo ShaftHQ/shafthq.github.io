@@ -81,9 +81,14 @@ second lane. The wizard is also project-aware: the Upgrade step distinguishes
 project without SHAFT" (adopt via the upgrade command), and "no `pom.xml` at
 all" (scaffold a project first), so an empty folder is never told to upgrade.
 
-After setup, the main view header keeps a persistent **MCP health chip**
-("MCP: verified / failed / not checked") with a one-click **Recheck** that
-runs a live connection probe, so a broken MCP never fails silently mid-session.
+After setup, the main view header keeps a persistent **readiness strip** showing:
+
+- **MCP** — "verified / failed / not checked" with a one-click **Recheck** button that runs a live connection probe so a broken MCP never fails silently mid-session.
+- **Workspace** — "OK" or "unavailable" reflecting the root folder state.
+- **Agent** — "ready" or "optional" (not connected) showing whether chat is available.
+- **Recording active** — a badge appearing whenever a SHAFT recording session is running.
+
+The Ready row in setup shows an explicit checklist: "MCP connected · Workspace root OK · Agent ready|Agent optional (not connected) · Ready to record".
 
 The Marketplace plugin does not download or execute installer scripts at
 runtime. It only helps you choose the agent, copy the terminal installer
@@ -112,9 +117,11 @@ sideways), so the bottom of the page always stays reachable.
 The setup summary shows the selected target, selected runtime, and detected
 recommended CLI agent -- internal installer-source/branch details are no
 longer surfaced here. The stdio command stays managed by
-SHAFT and is not shown as a setup input. Test failures stay inline with
-categorized troubleshooting, client-specific next steps, copyable diagnostic
-output, copyable SHAFT MCP docs link, and the retry action remains enabled.
+SHAFT and is not shown as a setup input. An **Advanced installer options** toggle
+exposes the raw installer command and allows manual MCP target selection for
+non-standard installations. Test failures stay inline with categorized
+troubleshooting, client-specific next steps, copyable diagnostic output,
+copyable SHAFT MCP docs link, and the retry action remains enabled.
 
 Selecting the **Gemini** family swaps the runtime selector for a
 **Gemini API key** field. Paste a Google AI Studio API key; **Check setup**
@@ -196,15 +203,19 @@ the command list.
 - "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
   verify the upgrade (with Agent mode and source edits approved).
 
-An empty chat keeps the surface uncluttered: the composer placeholder invites a
-plain-language request (record, generate a test, diagnose failures, upgrade)
-and wraps to the panel width so it is always fully readable. The Assistant
-opens in **Agent** mode with **Allow source edits** checked, so a first request
-like "generate a test" can actually land code in the project; uncheck it for
-suggestion-only runs. Recording requests such as "Record my browser actions on
-https://..." always run on the plugin's own long-lived SHAFT MCP session -- a
-recording must never belong to a one-shot local agent turn, whose MCP process
-(and with it the recording browser) ends seconds after the reply.
+An empty chat keeps the surface uncluttered. The Assistant offers three chips
+that pre-fill the composer (Record a sample flow / Ask how to assert / Diagnose
+my last failure) plus a dismissible first-run coach: "Check setup → Record a
+sample → Review code" with a **Got it** button that hides it permanently. The
+composer placeholder invites a plain-language request (record, generate a test,
+diagnose failures, upgrade) and wraps to the panel width so it is always fully
+readable. The Assistant opens in **Agent** mode with **Allow source edits**
+checked, so a first request like "generate a test" can actually land code in
+the project; uncheck it for suggestion-only runs. Recording requests such as
+"Record my browser actions on https://..." always run on the plugin's own
+long-lived SHAFT MCP session -- a recording must never belong to a one-shot
+local agent turn, whose MCP process (and with it the recording browser) ends
+seconds after the reply.
 
 Enabling **Settings | SHAFT | Enable advanced workflows and provider options**
 (Expert mode, also available as a checkbox on the setup view) reveals the
@@ -444,9 +455,11 @@ run" triages the most recent Allure results in the project. Browser control
 defaults to WebDriver; say `playwright` in the prompt when that backend is
 required.
 
-`/codegen recordings/checkout.json` (or asking in plain language, for example
-"Generate a SHAFT test from recordings/checkout.json") generates the SHAFT
-test, compiles it, and **re-executes the recording**, so the returned code
+Direct `/codegen` slash-command results show a persistent **review strip** with
+actions (Approve / Create test class / Insert / Dismiss) just like record-flow
+codegen. `/codegen recordings/checkout.json` (or asking in plain language, for
+example "Generate a SHAFT test from recordings/checkout.json") generates the
+SHAFT test, compiles it, and **re-executes the recording**, so the returned code
 blocks are verified against the live flow rather than only statically
 generated — and it works from the persisted recording file alone, with no
 live capture session required. WebDriver Capture recordings go through
@@ -624,20 +637,23 @@ The workflow selector exposes curated MCP requests for common automation jobs:
 - Projects: create new SHAFT example projects and preview or apply the modular
   SHAFT upgrader against the open Java project (the setup wizard's **Upgrade
   project** step offers the same upgrade as a first-run, one-click copy).
-- Guided: a Coding Partner section for planning repository-aware work from intent,
-  current Java source, selected text, and evidence paths; starter templates for
-  recording a browser flow and generating Page Object code, starting a mobile
-  web-emulation session for recording, analyzing failed Allure results,
-  converting Selenium snippets to SHAFT syntax, creating a new SHAFT project,
-  and inspecting current page locators. The recorder **Backend** selector
-  routes the recording controls to WebDriver, Playwright, or Mobile (web
-  emulation) recording tools, and fields the selected backend's start request
-  does not read gray out with explanatory tooltips. A **Headless browser**
-  toggle (off by default so you can interact with the recorded browser)
-  controls whether recording sessions launch a visible window — check it for
-  agent-driven or CI recordings; the preference persists across sessions and is
-  also honored by the assistant web and mobile recording flows. The
-  **Intent** field flows into `capture_start` as `sessionGoal`, so generated
+- Guided: displays only Target URL, a prominent live status, and the recorder
+  controls by default; all other fields and the Coding Partner/Locator sections
+  are behind an **Advanced options** toggle (auto-expanded when expert mode is
+  on). The full view includes a Coding Partner section for planning
+  repository-aware work from intent, current Java source, selected text, and
+  evidence paths; starter templates for recording a browser flow and generating
+  Page Object code, starting a mobile web-emulation session for recording,
+  analyzing failed Allure results, converting Selenium snippets to SHAFT syntax,
+  creating a new SHAFT project, and inspecting current page locators. The
+  recorder **Backend** selector routes the recording controls to WebDriver,
+  Playwright, or Mobile (web emulation) recording tools, and fields the selected
+  backend's start request do not gray out with explanatory tooltips. A
+  **Headless browser** toggle (off by default so you can interact with the
+  recorded browser) controls whether recording sessions launch a visible window
+  — check it for agent-driven or CI recordings; the preference persists across
+  sessions and is also honored by the assistant web and mobile recording flows.
+  The **Intent** field flows into `capture_start` as `sessionGoal`, so generated
   tests are named after the journey ("Log in as a valid user" yields
   `logInAsAValidUser()`). A live **Status** strip shows "Recording · N steps · Ready · <url>",
   allowing you to monitor session state, steps count (including pending debounced input),
