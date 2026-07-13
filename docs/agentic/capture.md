@@ -214,7 +214,7 @@ Generated GUI assertions use SHAFT assertion builders such as
 replace checkpoint notes with raw TestNG or JUnit assertions. Aria snapshot
 matches and screenshot matches baseline render as
 `driver.element().assertThat(locator).matchesAriaSnapshot(...)` and
-`driver.element().assertThat(locator).matchesScreenshot().perform()`.
+`driver.element().assertThat(locator).matchesScreenshot()`.
 
 ![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
 
