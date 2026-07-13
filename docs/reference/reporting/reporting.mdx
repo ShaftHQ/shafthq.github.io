@@ -115,6 +115,28 @@ best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
 only for failed traced actions and applies the same redaction rules used by the
 trace JSON.
 
+### Assertion and Verification Evidence Cards
+
+Every hard assertion (Assertion) and soft assertion (Verification) automatically
+attaches a self-contained HTML evidence card as the **first attachment** on the
+validation's Allure report step. The card displays:
+
+- **Category and status** — "Assertion" or "Verification" label with PASSED/FAILED badge.
+- **Data-shape badge** — JSON, Text, or Value, derived from the compared values.
+- **Expected and Actual values with diffs:**
+  - JSON values are pretty-printed with a line-by-line diff.
+  - Multi-line or long text gets a unified line-diff view.
+  - Short scalar values show compact Expected/Actual rows side-by-side.
+- **Automatic redaction** — passwords, tokens, Authorization headers, and
+  secret-looking JSON/attribute values are masked to `********` before rendering.
+- **Dark-mode aware** — the card matches the SHAFT report theme.
+- **Size-capped** — very large values are truncated with a visible marker.
+
+The legacy plain-text "Expected Value" and "Actual Value" attachments remain
+unchanged for backward compatibility. Element-state and visual (image-comparison)
+validations do not receive the text card — their evidence is the screenshot or
+image diff attached separately.
+
 For failed Appium touch actions, the same `actions` array includes mobile
 session metadata when the driver exposes it:
 
