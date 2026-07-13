@@ -130,8 +130,24 @@ const config = {
   // ],
 
   trailingSlash: false,
+  // Opt in to every Docusaurus v4 future flag now so the guide is ready for the
+  // v4 upgrade: site storage namespacing, Docusaurus Faster (Rspack/SWC/
+  // LightningCSS) by default, MDX v1 compat disabled, and CSS cascade layers.
+  // `future.v4: true` requires the @docusaurus/faster dependency.
+  future: {
+    v4: true,
+  },
   markdown: {
     mermaid: true,
+    // v4's `mdx1CompatDisabledByDefault` flag (enabled above via `v4: true`)
+    // turns MDX v1 compatibility off by default. We keep HTML-comment support
+    // on because the release blog posts double as GitHub release `bodyFile`s
+    // (see the "SHAFT_ENGINE Release Body Template" comment in blog/*.md), and
+    // GitHub release notes are GFM where `<!-- -->` is the correct comment
+    // syntax — MDX `{/* */}` comments would render as literal text there.
+    mdx1Compat: {
+      comments: true,
+    },
     hooks: {
       onBrokenMarkdownLinks: 'throw',
     },

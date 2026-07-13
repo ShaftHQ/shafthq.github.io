@@ -655,7 +655,7 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   sessions and is also honored by the assistant web and mobile recording flows.
   The **Intent** field flows into `capture_start` as `sessionGoal`, so generated
   tests are named after the journey ("Log in as a valid user" yields
-  `logInAsAValidUser()`). A live **Status** strip shows "Recording · N steps · Ready · <url>",
+  `logInAsAValidUser()`). A live **Status** strip shows "Recording · N steps · Ready · \<url\>",
   allowing you to monitor session state, steps count (including pending debounced input),
   and current URL in the IDE panel; stopping from here or in the browser overlay
   saves the same recording session, so headless recordings stay observable and controllable
