@@ -640,7 +640,7 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   **Intent** field flows into `capture_start` as `sessionGoal`, so generated
   tests are named after the journey ("Log in as a valid user" yields
   `logInAsAValidUser()`). A live **Status** strip polls the recorder after
-  Start recording and shows the session state, event/action counts (including
+  Start recording and shows the session state, steps count (including
   pending debounced input), and current URL, so headless recordings stay
   observable in-panel. On the Mobile backend, Start recording chains
   `mobile_initialize_web_emulation` and `mobile_record_start` as one action,

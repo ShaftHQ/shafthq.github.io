@@ -124,18 +124,23 @@ English while the user clicks, types, selects, uploads, or navigates. Its
 controls pause or resume action capture, add browser or element checkpoints from
 an in-panel dialog, edit or delete visible action text, reorder captured steps,
 add a visible assertion from a stored action target, pick locators, and stop the
-recording. Pressing stop from the panel requests a normal SHAFT stop, closes the
-managed browser, and leaves the session in `COMPLETED` status for generation.
-The browser panel
+recording. The browser panel
 and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
-avoid horizontal scrolling during review.
+avoid horizontal scrolling during review. The overlay follows the OS dark theme, aligned with the SHAFT report visual language.
 
-The panel also shows a live readiness chip next to the event count. It is
-computed from deterministic recorder evidence such as unsupported actions,
-missing locator candidates, positional or multi-match locators, missing
-post-navigation or post-submit assertions, redacted required inputs, and
-collector warnings. The chip reports issues only; it does not block recording.
+### Recorder overlay status
+
+The status line shows a pill stack at the top of the overlay:
+- **Readiness pill** (Ready / Risky / Blocked) indicates generation confidence
+- **Mode pill** (Recording / Paused / Asserting / Picking locator / Stopped) shows the current state
+- **Steps counter** ("N steps") displays the number of recorded interactions
+
+Below the pills, readiness warnings appear on their own line when present. When a navigation occurs within ~10 seconds after a recorded step, it is treated as a consequence of that step and not recorded separately; a brief "Ignored: navigation caused by your last step, kept as part of that step." note appears instead.
+
+### Stopping a recording
+
+Pressing stop from the panel opens a confirmation inside the overlay before the session stops. The confirmation displays "Session saved to: <path>" (sourced via loopback /session endpoint, best-effort) and prompts next actions — open the SHAFT Assistant in the IDE and use "Review code". Buttons: "Save & close" (stops the session and the browser closes) and "Keep recording" (dismisses the confirmation). Programmatic stops via MCP `capture_stop` are unchanged and close immediately without confirmation.
 
 Teams can pin recorder behavior for a whole repository by checking in
 `.shaft/recorder-policy.json` at the workspace root:
