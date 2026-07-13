@@ -126,7 +126,8 @@ Always use `if: always()` (GitHub Actions) or `post { always { } }` (Jenkins) so
 | `videoParams_recordVideo` | `false` | Granular video policy |
 | `createAnimatedGif` | `false` | Granular GIF policy; retry attempts can enable GIFs automatically |
 | `allure.generateArchive` | `false` | Generate a portable ZIP archive of the report |
-| `shaft.trace.mode` | `failure` | Attach failure trace viewer artifacts on `failure`, `retry`, or `always` |
+| `shaft.trace.mode` | `auto` | Trace mode: `auto` (retry-aware—resolves to `retry` when retries are configured, otherwise `failure`), `failure`, `retry`, or `always` |
+| `shaft.trace.retainFailedAttempts` | `true` | Keep failed-attempt trace bundles (`shaft-trace-attempt-<n>.zip`) when retries are enabled so a passing retry never deletes flake evidence |
 
 For the full list of reporting properties, see the
 [Properties List](/docs/reference/properties/PropertiesList).

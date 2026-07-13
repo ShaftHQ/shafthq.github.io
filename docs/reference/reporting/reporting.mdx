@@ -158,12 +158,11 @@ SHAFT also persists the archive and a local index under
 - `shaft-trace.zip`
 - `index.json`
 
-Use `shaft.trace.mode=failure` for normal runs. Switch to `retry` or `always`
-only while actively debugging.
+The default `shaft.trace.mode=auto` is retry-aware: with retries configured, every failed attempt keeps a trace automatically; without retries, it behaves as `failure`. Set `failure`, `retry`, or `always` explicitly to override the default behavior.
 
 ```properties title="src/main/resources/properties/custom.properties"
 shaft.trace.enabled=true
-shaft.trace.mode=failure
+shaft.trace.mode=auto
 shaft.trace.includeCodeContext=true
 shaft.trace.includeFullPageSnapshots=true
 shaft.trace.includeNativePageSource=true
@@ -171,6 +170,8 @@ shaft.trace.includeNetwork=true
 shaft.trace.includeConsole=true
 shaft.trace.maxArtifactMb=50
 ```
+
+When retries are enabled and `shaft.trace.retainFailedAttempts=true` (the default), each failed attempt's trace is persisted as `shaft-trace-attempt-<n>.zip` alongside the final `shaft-trace.zip`, so passing retries never erase the failed attempt's evidence. In CI, worst-case artifact size scales roughly with the number of failed attempts multiplied by `shaft.trace.maxArtifactMb`.
 
 ### Evidence Level Profiles
 
@@ -845,7 +846,8 @@ Key properties quick reference:
 | `shaft.flakeProfiler.failOnSevereFlakeRisk` | `false` | Fail the run when severe flake-risk actions are found |
 | `shaft.flakeProfiler.slowActionThresholdMs` | `2000` | Duration threshold used to flag slow and severe-risk actions |
 | `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
-| `shaft.trace.mode` | `failure` | Trace mode: `failure`, `retry`, or `always` |
+| `shaft.trace.mode` | `auto` | Trace mode: `auto` (retry-aware; resolves to `retry` when retryMaximumNumberOfAttempts > 0, otherwise `failure`), `failure`, `retry`, or `always` |
+| `shaft.trace.retainFailedAttempts` | `true` | Retain failed-attempt trace archives (`shaft-trace-attempt-<n>.zip`) when retries are enabled |
 | `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
 | `shaft.trace.includeFullPageSnapshots` | `true` | Include web snapshots when available |
 | `shaft.trace.includeNativePageSource` | `true` | Include Appium/native page source when available |
