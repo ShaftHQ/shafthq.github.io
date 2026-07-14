@@ -203,6 +203,12 @@ the command list.
 - "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
   verify the upgrade (with Agent mode and source edits approved).
 
+As the Assistant routes a request to a tool, the running status names it in
+plain language — "Running: `capture_start` …" — so it is always clear which
+tool was chosen. When a tool fails, the result leads with a short headline
+("`<tool>` couldn't finish"), the humanized error, and exactly one next action,
+so a failure is easy to scan and act on rather than a wall of exception text.
+
 An empty chat keeps the surface uncluttered. The Assistant offers three chips
 that pre-fill the composer (Record a sample flow / Ask how to assert / Diagnose
 my last failure) plus a dismissible first-run coach: "Check setup → Record a
