@@ -728,18 +728,27 @@ After a successful `capture_api_stop`, generate test code using `capture_generat
 The generated test class includes:
 
 - Browser navigation and interaction events (same as regular Capture)
-- API request/response data for reference and manual assertion writing
+- Executable `SHAFT.API` request/response calls with correlated values chained through variables
 - External test-data references for typed body values
 - Request/response body files linked as supporting artifacts
 
-### Future: API codegen and OpenAPI
+#### Response validation depth
 
-API traffic recording in this phase (P1) focuses on capturing and validating HTTP traffic during test execution. Future phases will add:
+`capture_api_generate` accepts a `validationDepth` controlling how thoroughly each recorded response is asserted:
 
-- **P2 (ApiCaptureGenerator):** Automatic generation of reusable API test fixtures and contract validators from recorded traffic
-- **P4 (OpenAPI coverage):** Analysis and coverage reporting for OpenAPI/Swagger contracts against recorded API calls
+- **`STATUS`** — asserts only the recorded HTTP status code.
+- **`STATUS_HEADERS`** — status plus every stable response header (sensitive/volatile headers skipped).
+- **`SCHEMA`** (default) — status plus a `matchesSchema` assertion against a schema inferred from the recorded body.
+- **`FULL_BODY`** — status plus a normalized golden-file body assertion (volatile/correlated leaves placeholdered, sensitive leaves masked).
+- **`BUSINESS`** — status plus a **targeted value assertion on each stable business field**, pinned by JSON path via `getResponseJSONValue`. Volatile (generated IDs/timestamps), correlated (chained), and sensitive (secret) leaves are deliberately skipped, so the generated test asserts the business-meaningful values a human would check — without flaking or leaking secrets. This is the assertion model for chained business-scenario tests.
 
-These features arrive as separate phases. For now, use the recorded API traffic for manual API assertion writing or as reference evidence during code review.
+### OpenAPI coverage
+
+When an OpenAPI/Swagger spec is supplied, generation also reports coverage of the spec's operations against the recorded API calls, so gaps are visible before review.
+
+### Native mobile API capture
+
+For device traffic captured outside a browser, `mobile_api_record_start` / `_status` / `_stop` run a loopback MITM proxy and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
 
 ## Related
 
