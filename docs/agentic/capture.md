@@ -150,7 +150,9 @@ Below the pills, readiness warnings appear on their own line when present. When 
 
 The recorder overlay supports practical interactions:
 
-- **Dragging and position memory** — Drag the overlay by its header to reposition it on the page. The position is clamped to the viewport boundaries and remembered for the duration of the page session. The default position is bottom-right.
+- **First-run coach marks** — On a first recording, a dismissible "New here? 3 quick tips" card orients you (what a step is, assert vs. pick locator, drag/stop). Click **Got it** to dismiss it; the choice is remembered for the page session.
+- **Dragging and position memory** — Drag the overlay by its header to reposition it on the page. The position is clamped to the viewport boundaries and remembered for the duration of the page session (and re-clamped if you resize the window, so the panel can't end up off-screen). The default position is bottom-right.
+- **Steps refreshed notice** — When a background re-sync from the saved session changes the visible step list (for example after a cross-origin navigation rehydrated rows), a brief "Steps refreshed from session" note appears instead of the list silently rewriting itself.
 - **Step kind badges** — Each step row displays a badge indicating the action type: Click, Type, Select, Toggle, Upload, Keys, Navigate, Assert, or Pin. When a step carries a readiness warning, the badge is colored amber for visibility.
 - **Soft-delete with undo** — Deleting a step from the list is a soft delete with a 5-second undo window. A "Step deleted. Undo" notification appears; click Undo within the window to restore the step. The deletion is only persisted after the window elapses.
 - **Help sheet** — Click the "?" button in the overlay header to toggle a help sheet listing all recorder controls, including how to drag the overlay, press Esc to cancel assert or pick mode, and access undo.
@@ -158,7 +160,7 @@ The recorder overlay supports practical interactions:
 
 ### Stopping a recording
 
-Pressing stop from the panel opens a confirmation inside the overlay before the session stops. The confirmation displays "Session saved to: \<path\>" (sourced via loopback /session endpoint, best-effort) and prompts next actions — open the SHAFT Assistant in the IDE and use "Review code". Buttons: "Save & close" (stops the session and the browser closes) and "Keep recording" (dismisses the confirmation). Programmatic stops via MCP `capture_stop` are unchanged and close immediately without confirmation.
+Pressing stop from the panel opens a confirmation inside the overlay before the session stops. The confirmation displays "Session saved to: \<path\>" (sourced via loopback /session endpoint, best-effort) and prompts next actions — open the SHAFT Assistant in the IDE and use "Review code". Buttons: "Save & close" (stops the session and the browser closes) and "Keep recording" (dismisses the confirmation). If the session ended before a clean stop (the server reports it `INCOMPLETE`), the confirmation switches to recovery copy that reassures every step captured so far was still saved and is safe to review — nothing was lost. Programmatic stops via MCP `capture_stop` are unchanged and close immediately without confirmation.
 
 Teams can pin recorder behavior for a whole repository by checking in
 `.shaft/recorder-policy.json` at the workspace root:
