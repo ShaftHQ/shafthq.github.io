@@ -24,3 +24,8 @@
 
 - Substantive docs changes: `yarn test`, `yarn typecheck`, `yarn build`, `yarn test:playwright`.
 - Visual changes: inspect the built page in a browser.
+
+## Accessibility
+
+- UI/visual doc-page changes: run the `a11ymcp` MCP server (configured in `.mcp.json`, npm `a11y-mcp-server`, axe-core based) against the affected built pages, complementing the heuristic `accessibility-review` skill.
+- Treat axe-core violations as review evidence for the changed pages; the heuristic skill covers what automated rules cannot (focus order, meaningful labels, reduced-motion intent).
