@@ -129,6 +129,21 @@ The overview displays:
 
 The overview provides a quick snapshot of test outcomes and captured diagnostics alongside Allure's native statistics.
 
+Alongside the HTML overview, SHAFT attaches a machine-readable **`Checkpoints`**
+JSON artifact (`application/json`) so tooling — SHAFT Doctor, the MCP server, and
+the IntelliJ plugin widgets — can consume structured checkpoint fields instead of
+scraping the HTML. Its shape is:
+
+```json
+{
+  "total": 4, "passed": 1, "failed": 3,
+  "checkpoints": [
+    { "id": 1, "type": "ASSERTION", "message": "...", "status": "PASS" },
+    { "id": 2, "type": "VERIFICATION", "message": "...", "status": "FAIL" }
+  ]
+}
+```
+
 ### Assertion and Verification Evidence Cards
 
 Every hard assertion (Assertion) and soft assertion (Verification) automatically
@@ -150,6 +165,19 @@ The legacy plain-text "Expected Value" and "Actual Value" attachments remain
 unchanged for backward compatibility. Element-state and visual (image-comparison)
 validations do not receive the text card — their evidence is the screenshot or
 image diff attached separately.
+
+### Soft Verification Visibility
+
+Soft assertions (`verifyThat`, reported as **Verification**) let a test keep
+running after a failure and only fail at the end. To make them easy to follow in
+the report:
+
+- Each soft failure's outcome step is titled **`Soft failure #N — ...`** with a
+  running count, so soft failures are easy to tally at a glance and are visibly
+  distinct from a hard assertion's single failure step.
+- When the test is force-failed at the end, a **Soft verification summary** step
+  lists every accumulated verification failure in the order they occurred, giving
+  one place to review them all instead of scanning the step list.
 
 For failed Appium touch actions, the same `actions` array includes mobile
 session metadata when the driver exposes it:
