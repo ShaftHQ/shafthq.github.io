@@ -59,7 +59,7 @@ const audienceLanes = [
     points: [
       'One guide path helps new projects, migrations, and cross-surface expansion.',
       'Failures start with artifacts that explain what changed and where to look.',
-      'The star prompt waits until evaluators have a successful first run to remember.',
+      'The star prompt only appears after a successful first run, so it never nags before evaluators see evidence.',
     ],
   },
 ];
@@ -560,7 +560,7 @@ function LandingFooter(): JSX.Element {
         ))}
       </div>
       <div className={`container ${styles.footerLinks}`}>
-        <small>© 2026 SHAFT Engine.</small>
+        <small>© {new Date().getFullYear()} SHAFT Engine.</small>
         <a href={snippets.githubRepository}>GitHub</a>
         <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions">Discussions</a>
         <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE">License</a>
