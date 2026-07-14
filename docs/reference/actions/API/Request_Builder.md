@@ -53,6 +53,18 @@ api.patch("/posts/1");
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.delete("/posts/1");
 ```
+#### Head
+`HEAD` returns the same status and headers as `GET` without a response body, so it is handy for existence, cache, and header checks.
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.head("/posts/1");
+```
+#### Options
+`OPTIONS` is typically used to inspect the methods an endpoint allows (CORS/preflight), commonly asserted through the `Allow` response header.
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.options("/posts");
+```
 
 ### Set Authentication
 Set the authentication method that will be used by the API request that you're currently building. By default, this value is set to `AuthenticationType.NONE` but you can change it by calling this method. If you use this method, the authentication token will be saved automatically for all following requests using the same session.
