@@ -114,6 +114,15 @@ SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/users").setTargetStatusCode(200);
 ```
 
+### Follow Redirects
+By default the request automatically follows HTTP redirects (3xx), so a redirecting endpoint returns the final response. Call **setFollowRedirects(false)** to receive the redirect response itself — required when asserting a 3xx status code or inspecting the `Location` header of the redirect.
+```java
+SHAFT.API api = new SHAFT.API("https://httpbin.org");
+api.get("/redirect-to?url=/get")
+        .setFollowRedirects(false)
+        .setTargetStatusCode(302);
+```
+
 ### Retry Policy
 `perform()` sends a request once unless you add an opt-in retry policy. Retries are useful for transient network failures, timeouts, rate limits, and temporary upstream errors without rerunning the whole test method.
 
