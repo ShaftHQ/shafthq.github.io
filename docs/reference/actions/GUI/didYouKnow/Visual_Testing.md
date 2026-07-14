@@ -119,15 +119,16 @@ Avoid running visual tests in headless mode if your baselines were captured in h
 
 ## matchesScreenshot()
 
-`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). It mirrors Playwright's `toHaveScreenshot()` options:
+`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). Like every other SHAFT assertion it runs immediately — no `perform()` is needed. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
 
 ```java title="ScreenshotBaseline.java"
 driver.element().assertThat(By.id("logo"))
-      .matchesScreenshot()
-      .maxDiffPixelRatio(0.01)
-      .mask(By.id("timestamp"))
-      .perform();
+      .matchesScreenshot(VisualComparisonOptions.create()
+          .maxDiffPixelRatio(0.01)
+          .mask(By.id("timestamp")));
 ```
+
+For a straight comparison with default settings, call `matchesScreenshot()` with no arguments.
 
 ### Per-browser/OS baseline naming
 

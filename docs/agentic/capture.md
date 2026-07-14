@@ -118,6 +118,14 @@ than a Capture session, it initializes a fresh Playwright driver and replays
 the recording through `playwright_replay_recording`, so the returned locators
 are still validated live before being handed back.
 
+Like the mobile recorder, the Playwright recording status speaks the **same
+vocabulary as the web recorder**: recorded interactions are **steps**, readiness
+is `READY` / `RISKY` / `BLOCKED` (coordinate-only or redacted-value steps are
+`RISKY`; a stop with no steps is `BLOCKED`), stopping surfaces the saved session
+path with a **Review code** next-step, and actions performed while recording is
+inactive are reported with the same `Ignored: <reason>` transparency note. All
+three recorders (web, mobile, Playwright) therefore present one status contract.
+
 When recording in a visible browser, SHAFT injects a compact Capture panel into
 the managed Chrome/Edge session. The panel lists captured actions in plain
 English while the user clicks, types, selects, uploads, or navigates. Its
@@ -142,7 +150,9 @@ Below the pills, readiness warnings appear on their own line when present. When 
 
 The recorder overlay supports practical interactions:
 
-- **Dragging and position memory** — Drag the overlay by its header to reposition it on the page. The position is clamped to the viewport boundaries and remembered for the duration of the page session. The default position is bottom-right.
+- **First-run coach marks** — On a first recording, a dismissible "New here? 3 quick tips" card orients you (what a step is, assert vs. pick locator, drag/stop). Click **Got it** to dismiss it; the choice is remembered for the page session.
+- **Dragging and position memory** — Drag the overlay by its header to reposition it on the page. The position is clamped to the viewport boundaries and remembered for the duration of the page session (and re-clamped if you resize the window, so the panel can't end up off-screen). The default position is bottom-right.
+- **Steps refreshed notice** — When a background re-sync from the saved session changes the visible step list (for example after a cross-origin navigation rehydrated rows), a brief "Steps refreshed from session" note appears instead of the list silently rewriting itself.
 - **Step kind badges** — Each step row displays a badge indicating the action type: Click, Type, Select, Toggle, Upload, Keys, Navigate, Assert, or Pin. When a step carries a readiness warning, the badge is colored amber for visibility.
 - **Soft-delete with undo** — Deleting a step from the list is a soft delete with a 5-second undo window. A "Step deleted. Undo" notification appears; click Undo within the window to restore the step. The deletion is only persisted after the window elapses.
 - **Help sheet** — Click the "?" button in the overlay header to toggle a help sheet listing all recorder controls, including how to drag the overlay, press Esc to cancel assert or pick mode, and access undo.
@@ -150,7 +160,7 @@ The recorder overlay supports practical interactions:
 
 ### Stopping a recording
 
-Pressing stop from the panel opens a confirmation inside the overlay before the session stops. The confirmation displays "Session saved to: \<path\>" (sourced via loopback /session endpoint, best-effort) and prompts next actions — open the SHAFT Assistant in the IDE and use "Review code". Buttons: "Save & close" (stops the session and the browser closes) and "Keep recording" (dismisses the confirmation). Programmatic stops via MCP `capture_stop` are unchanged and close immediately without confirmation.
+Pressing stop from the panel opens a confirmation inside the overlay before the session stops. The confirmation displays "Session saved to: \<path\>" (sourced via loopback /session endpoint, best-effort) and prompts next actions — open the SHAFT Assistant in the IDE and use "Review code". Buttons: "Save & close" (stops the session and the browser closes) and "Keep recording" (dismisses the confirmation). If the session ended before a clean stop (the server reports it `INCOMPLETE`), the confirmation switches to recovery copy that reassures every step captured so far was still saved and is safe to review — nothing was lost. Programmatic stops via MCP `capture_stop` are unchanged and close immediately without confirmation.
 
 Teams can pin recorder behavior for a whole repository by checking in
 `.shaft/recorder-policy.json` at the workspace root:
@@ -214,7 +224,7 @@ Generated GUI assertions use SHAFT assertion builders such as
 replace checkpoint notes with raw TestNG or JUnit assertions. Aria snapshot
 matches and screenshot matches baseline render as
 `driver.element().assertThat(locator).matchesAriaSnapshot(...)` and
-`driver.element().assertThat(locator).matchesScreenshot().perform()`.
+`driver.element().assertThat(locator).matchesScreenshot()`.
 
 ![SHAFT Capture assertion mode](/img/capture-assertion-mode.png)
 
@@ -275,6 +285,15 @@ Assistant's `/codegen` command handles a persisted mobile recording, it
 replays it through `mobile_replay_recording` against the active mobile session
 before returning the generated code -- the same live-validation guarantee
 WebDriver and Playwright recordings get.
+
+The mobile recording status speaks the **same vocabulary as the web recorder**
+rather than a parallel one: recorded interactions are **steps**, readiness is
+`READY` / `RISKY` / `BLOCKED` (coordinate-only or redacted-value steps are
+`RISKY`; a stop with no steps is `BLOCKED`), and stopping surfaces the saved
+session path with a **Review code** next-step. Actions performed while
+recording is inactive are reported with the same `Ignored: <reason>`
+transparency note used by the web overlay. The IntelliJ Guided panel's live
+status mirrors this wording automatically.
 
 Use `FLOW_START` and `FLOW_END` checkpoints to mark an explicit reusable flow
 inside a recording. The checkpoint description becomes the generated helper
@@ -711,18 +730,27 @@ After a successful `capture_api_stop`, generate test code using `capture_generat
 The generated test class includes:
 
 - Browser navigation and interaction events (same as regular Capture)
-- API request/response data for reference and manual assertion writing
+- Executable `SHAFT.API` request/response calls with correlated values chained through variables
 - External test-data references for typed body values
 - Request/response body files linked as supporting artifacts
 
-### Future: API codegen and OpenAPI
+#### Response validation depth
 
-API traffic recording in this phase (P1) focuses on capturing and validating HTTP traffic during test execution. Future phases will add:
+`capture_api_generate` accepts a `validationDepth` controlling how thoroughly each recorded response is asserted:
 
-- **P2 (ApiCaptureGenerator):** Automatic generation of reusable API test fixtures and contract validators from recorded traffic
-- **P4 (OpenAPI coverage):** Analysis and coverage reporting for OpenAPI/Swagger contracts against recorded API calls
+- **`STATUS`** — asserts only the recorded HTTP status code.
+- **`STATUS_HEADERS`** — status plus every stable response header (sensitive/volatile headers skipped).
+- **`SCHEMA`** (default) — status plus a `matchesSchema` assertion against a schema inferred from the recorded body.
+- **`FULL_BODY`** — status plus a normalized golden-file body assertion (volatile/correlated leaves placeholdered, sensitive leaves masked).
+- **`BUSINESS`** — status plus a **targeted value assertion on each stable business field**, pinned by JSON path via `getResponseJSONValue`. Volatile (generated IDs/timestamps), correlated (chained), and sensitive (secret) leaves are deliberately skipped, so the generated test asserts the business-meaningful values a human would check — without flaking or leaking secrets. This is the assertion model for chained business-scenario tests.
 
-These features arrive as separate phases. For now, use the recorded API traffic for manual API assertion writing or as reference evidence during code review.
+### OpenAPI coverage
+
+When an OpenAPI/Swagger spec is supplied, generation also reports coverage of the spec's operations against the recorded API calls, so gaps are visible before review.
+
+### Native mobile API capture
+
+For device traffic captured outside a browser, `mobile_api_record_start` / `_status` / `_stop` run a loopback MITM proxy and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
 
 ## Related
 
