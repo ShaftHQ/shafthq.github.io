@@ -150,6 +150,19 @@ scraping the HTML. It carries the same by-type breakdown the overview shows:
 }
 ```
 
+The same overview also renders as an **embedded panel** inside the generated
+Allure report itself: a floating **SHAFT Overview** toggle button (bottom-right
+of the report page) opens a modal with the identical Summary, By Type, and
+Details view described above, without leaving the report:
+
+![SHAFT Overview panel embedded in the Allure report](/img/allure-shaft-overview-panel.png)
+
+Both the standalone attachment and the embedded panel render from the same
+underlying data, so they always agree. The attachment stays useful as an
+individually downloadable artifact for tooling that consumes Allure
+attachments directly; the panel gives anyone viewing the report quick access
+to the same summary without downloading anything.
+
 ### Assertion and Verification Evidence Cards
 
 Every hard assertion (Assertion) and soft assertion (Verification) automatically
