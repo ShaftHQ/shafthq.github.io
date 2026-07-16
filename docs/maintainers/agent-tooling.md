@@ -89,7 +89,7 @@ Register both repos once, then let autopilot keep the brain fresh:
 ```bash
 gbrain sources add shaft-engine --path <SHAFT_ENGINE checkout>
 gbrain sources add shaft-userguide --path <shafthq.github.io checkout>
-gbrain sync --all
+gbrain sync --all --no-hard-deadline   # first full sync outlives the 1h watchdog
 gbrain autopilot --install --repo <SHAFT_ENGINE checkout>
 ```
 
@@ -113,7 +113,11 @@ gbrain config set autopilot.conversation_parser_probe.enabled true
 - **Never run `gbrain frontmatter validate --fix` against the docs repo.**
   Docusaurus `slug:` frontmatter defines public site URLs; gbrain reads the
   field as its own page slug and reports `SLUG_MISMATCH` — the fix would
-  rewrite published routes.
+  rewrite published routes. Consequence: docs/blog pages with custom slugs
+  fail the lint and are skipped (`gbrain sync --skip-failed` acknowledges
+  them; failing files auto-skip after 3 attempts), so they stay unindexed
+  until gbrain supports declared-slug sources. Failures log to
+  `~/.gbrain/sync-failures.jsonl`.
 - **Migration 0.32.2** refuses to run while a registered source has
   uncommitted git changes; commit first, then re-run
   `gbrain apply-migrations --yes`.
