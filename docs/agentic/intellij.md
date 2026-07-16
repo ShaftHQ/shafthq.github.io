@@ -430,6 +430,13 @@ safe in either direction -- the transcript never ends up showing a stale
 in-progress bubble or losing an unrelated message. With Verbose off, a brief
 "running" bubble still appears while the agent works and is replaced by the
 final answer.
+Tool-result messages that carry raw evidence (for example a Doctor analysis
+or a direct MCP tool response) also show a collapsed **Show raw output**
+toggle directly under that message, independent of the Verbose setting --
+expand it to inspect that one result's raw payload without turning on
+Verbose for the whole session. Like Verbose's raw-response echo, this raw
+evidence is transient view state only; it is never written to persisted
+chat history (see below).
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
