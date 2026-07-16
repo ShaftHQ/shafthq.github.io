@@ -22,6 +22,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | gbrain | Semantic repo index, knowledge graph, MCP server | Local git checkout, built with Bun |
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
 | headroom | Context-compression proxy fronting Claude Code | pip `headroom-ai`, docker preset |
+| graphify | Deterministic repository map (structure queries, pre-search file selection) | pip `graphifyy` (CLI `graphify`) |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
 | maven-tools-mcp | Live Maven Central facts MCP | Docker `arvindand/maven-tools-mcp` (project `.mcp.json`) |
 | Claude Code plugins | jdtls-lsp, design, frontend-design, mcp-server-dev, example-skills, fable, superpowers | Auto-installed from `.claude/settings.json` marketplaces |
@@ -167,6 +168,25 @@ curl http://127.0.0.1:8787/readyz   # expect status healthy
 - Live stats: `http://127.0.0.1:8787/stats`. Note that managed/desktop agent
   sessions may pin their own `ANTHROPIC_BASE_URL` and bypass the proxy;
   `api_requests` only counts sessions that inherit the global settings.
+
+## graphify
+
+Deterministic repository map, complementary to gbrain — graphify answers
+*structure* (which files/modules relate, zero DB locking, works offline);
+gbrain answers *meaning* (semantic retrieval). Both stay.
+
+```powershell
+py -3 -m pip install --user graphifyy==0.9.17   # CLI command is 'graphify'
+cd <SHAFT_ENGINE checkout>
+graphify .                                       # builds gitignored graphify-out/
+```
+
+Agents resolve the shared cache with
+`py -3 tools/repository-map/resolve_graph_out.py --check` (worktrees read the
+main checkout's cache; a guard-hook nudge reminds sessions to consult it
+before broad searches). The nightly `gbrain-dream` scheduled task also
+rebuilds `graphify-out/` so the map tracks the repo automatically; details in
+`tools/repository-map/README.md`.
 
 ## MCP servers and plugins
 
