@@ -750,9 +750,10 @@ Use **Settings | SHAFT** to configure the plugin's connection, execution,
 advanced features, and cloud provider credentials. Settings are organized into
 four sections:
 
-- **Connection**: Paste or edit the MCP stdio command, test the MCP connection
-  against the currently open project, and view the current agent/workspace
-  configuration.
+- **Connection**: View the MCP stdio command, test the MCP connection against
+  the currently open project, and view the current agent/workspace
+  configuration. Once a wizard-set command already exists, the field is
+  read-only by default — check **Edit manually** to override it directly.
 - **Execution**: Choose the local Assistant route (Codex, Claude, or Copilot),
   select the default AI model and reasoning effort, and enable Expert mode to
   reveal advanced commands in the Assistant composer.
@@ -832,6 +833,15 @@ commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
 flag), and any SHAFT tool request that still reaches the approval bridge is
 auto-allowed with an `Auto-approved SHAFT tool` timeline entry. Shell commands
 and third-party MCP servers keep the interactive approval bubble.
+
+### Connection & agents
+
+Once initial setup is complete, returning to the setup screen also shows a
+**Connection & agents** button alongside **Enable expert mode** and **Reset
+everything**. Unlike Reset everything, this re-runs the real connection and
+agent readiness check in place — bringing the choose/install/check steps back
+into view so you can confirm status or switch agents — without touching any
+saved settings, provider keys, tool approvals, or chat history.
 
 ### Reset everything
 
