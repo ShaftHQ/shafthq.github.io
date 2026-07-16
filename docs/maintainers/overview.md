@@ -19,5 +19,6 @@ SHAFT as a test framework.
 - [MCP publication and deployment](/docs/maintainers/mcp-deployment)
 - [CI failure investigation](/docs/maintainers/ci-failure-investigation)
 - [Agent guidance maintenance](/docs/maintainers/agent-guidance)
+- [Agent tooling](/docs/maintainers/agent-tooling)
 - [Visual provider boundary](/docs/maintainers/visual-provider)
 - [Repository history rewrite](/docs/maintainers/history-rewrite)
