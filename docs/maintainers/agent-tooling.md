@@ -90,13 +90,28 @@ Register both repos once, then let autopilot keep the brain fresh:
 gbrain sources add shaft-engine --path <SHAFT_ENGINE checkout>
 gbrain sources add shaft-userguide --path <shafthq.github.io checkout>
 gbrain sync --all --no-hard-deadline   # first full sync outlives the 1h watchdog
-gbrain autopilot --install --repo <SHAFT_ENGINE checkout>
 ```
 
-Autopilot runs sync plus the `dream` maintenance cycle (fact extraction,
-consolidation, take proposals, embeddings, orphan checks) continuously;
-`gbrain dream --dry-run` previews a cycle. Health and recommendations:
-`gbrain doctor`, `gbrain features`, `gbrain stats`.
+Continuous operation: on macOS/Linux, `gbrain autopilot --install --repo
+<checkout>` registers the self-maintaining daemon. **`autopilot --install`
+has no Windows target** (launchd/systemd/cron only) — on Windows register
+user-level Scheduled Tasks running gbrain's cron-friendly one-shots:
+
+```powershell
+schtasks /Create /TN gbrain-autosync /TR "%USERPROFILE%\.gbrain\autopilot\gbrain-autosync.cmd" /SC MINUTE /MO 30 /F
+schtasks /Create /TN gbrain-dream   /TR "%USERPROFILE%\.gbrain\autopilot\gbrain-dream.cmd"   /SC DAILY /ST 05:00 /F
+```
+
+`gbrain-autosync.cmd` runs `gbrain sync --all --no-pull --skip-failed
+--no-hard-deadline` (`--no-pull` so the tasks never touch working-repo git
+state; `--skip-failed` so one unparseable file cannot wedge the sync
+bookmark) and `gbrain-dream.cmd` runs `gbrain dream` — the full maintenance
+cycle (sync, fact extraction, consolidation, take proposals, embeddings,
+orphan checks). `gbrain dream --dry-run` previews a cycle. Health and
+recommendations: `gbrain doctor`, `gbrain features`, `gbrain stats`.
+Embed backlogs queued as jobs never drain on PGLite (no worker); cancel the
+job (`gbrain jobs cancel <id>`) and run `gbrain embed --stale`, or let the
+nightly dream absorb them.
 
 Enabled quality probes (doctor recommendations):
 
