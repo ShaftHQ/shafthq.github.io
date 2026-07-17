@@ -5,7 +5,7 @@ import {PageMetadata} from '@docusaurus/theme-common';
 
 export default function DocItemMetadata(): ReactNode {
   const {metadata, frontMatter, assets} = useDoc();
-  const isArchive = metadata.permalink.includes('/docs/archive/');
+  const isInternalOnly = metadata.permalink.includes('/docs/archive/') || metadata.permalink.includes('/docs/superpowers/');
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function DocItemMetadata(): ReactNode {
         keywords={frontMatter.keywords}
         image={assets.image ?? frontMatter.image}
       />
-      {isArchive ? (
+      {isInternalOnly ? (
         <Head>
           <meta name="robots" content="noindex, nofollow" />
         </Head>

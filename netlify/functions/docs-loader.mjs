@@ -12,7 +12,7 @@ const snippets = JSON.parse(
   readFileSync(join(currentDir, '..', '..', 'src', 'data', 'snippets.json'), 'utf-8'),
 );
 const MCP_COMMAND_SYSTEMS = ['windows', 'macos', 'linux'];
-const EXCLUDED_DIRECTORIES = new Set(['archive', 'maintainers']);
+const EXCLUDED_DIRECTORIES = new Set(['archive', 'maintainers', 'superpowers']);
 
 let cachedIndex = null;
 
