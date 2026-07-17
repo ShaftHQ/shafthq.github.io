@@ -1133,21 +1133,21 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="cli-based" label="CLI-based">
 
   ```powershell
-  mvn -e test "-Dallure3Version=3.12.0" "-DnodeLtsVersion=24.17.0"
+  mvn -e test "-Dallure3Version=3.14.3" "-DnodeLtsVersion=24.18.0"
   ```
 
   </TabItem>
   <TabItem value="file-based" label="File-based">
 
   ```properties showLineNumbers title="src/main/resources/properties/internal.properties"
-  shaftEngineVersion=10.2.20260622
-  allure3Version=3.12.0
-  nodeLtsVersion=24.17.0
+  shaftEngineVersion=10.3.20260716
+  allure3Version=3.14.3
+  nodeLtsVersion=24.18.0
   appiumServerVersion=3.5.2
   appiumInspectorPluginVersion=2026.5.1
-  appiumUiAutomator2DriverVersion=7.6.2
-  appiumXcuitestDriverVersion=11.12.2
-  androidCommandLineToolsVersion=14742923
+  appiumUiAutomator2DriverVersion=8.1.0
+  appiumXcuitestDriverVersion=11.17.7
+  androidCommandLineToolsVersion=15859902
   androidEmulatorApiLevel=36
   androidEmulatorDeviceProfile=pixel_8
   androidEmulatorImageTag=google_apis
@@ -1162,15 +1162,15 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                       | Default Value | Possible Values | Description |
 | ----------------------------------- | ------------- | --------------- | ----------- |
-| shaftEngineVersion                  | `10.2.20260622` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
+| shaftEngineVersion                  | `10.3.20260716` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
 | watermarkImagePath                  | SHAFT watermark URL | URL or file path | Default watermark image used by screenshot processing. |
-| allure3Version                      | `3.12.0`      | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
-| nodeLtsVersion                      | `24.17.0`     | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
+| allure3Version                      | `3.14.3`      | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
+| nodeLtsVersion                      | `24.18.0`     | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
 | appiumServerVersion                 | `3.5.2`       | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
 | appiumInspectorPluginVersion        | `2026.5.1`    | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
-| appiumUiAutomator2DriverVersion     | `7.6.2`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
-| appiumXcuitestDriverVersion         | `11.12.2`     | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
-| androidCommandLineToolsVersion      | `14742923`    | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
+| appiumUiAutomator2DriverVersion     | `8.1.0`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
+| appiumXcuitestDriverVersion         | `11.17.7`     | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
+| androidCommandLineToolsVersion      | `15859902`    | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
 | androidEmulatorApiLevel             | `36`          | Android API level | Default Android API level proposed for SHAFT-managed emulator creation. |
 | androidEmulatorDeviceProfile        | `pixel_8`     | Android virtual device profile | Default Android virtual device profile proposed for SHAFT-managed emulators. |
 | androidEmulatorImageTag             | `google_apis` | Android system image tag | Default Android system image tag proposed for SHAFT-managed emulators. |
