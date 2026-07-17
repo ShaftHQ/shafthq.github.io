@@ -59,7 +59,7 @@ const audienceLanes = [
     points: [
       'One guide path helps new projects, migrations, and cross-surface expansion.',
       'Failures start with artifacts that explain what changed and where to look.',
-      'The star prompt only appears after a successful first run, so it never nags before evaluators see evidence.',
+      'Starring the repository stays a simple, always-visible action, never gated behind proving anything first.',
     ],
   },
 ];
