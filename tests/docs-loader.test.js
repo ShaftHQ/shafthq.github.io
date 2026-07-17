@@ -23,8 +23,12 @@ assert(
   'Archive pages must be excluded.',
 );
 assert(
-  index.every((chunk) => !chunk.path.startsWith('maintainers/')),
-  'Maintainer pages must be excluded.',
+  index.every((chunk) => !chunk.path.startsWith('superpowers/')),
+  'Superpowers plan pages must be excluded.',
+);
+assert(
+  index.some((chunk) => chunk.path.startsWith('maintainers/')),
+  'Maintainer pages must be included.',
 );
 
 const cases = [
