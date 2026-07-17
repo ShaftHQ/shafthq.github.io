@@ -21,7 +21,6 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | memory CLI | Durable repo memory in `.memory/` | npm `@aictx/memory@0.1.55` (pin in `scripts/ci/validate_agent_setup.py`) |
 | gbrain | Semantic repo index, knowledge graph, MCP server | Local git checkout, built with Bun |
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
-| headroom | Context-compression proxy fronting Claude Code | pip `headroom-ai`, docker preset |
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | pip `graphifyy` (CLI `graphify`) |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
 | maven-tools-mcp | Live Maven Central facts MCP | Docker `arvindand/maven-tools-mcp` (project `.mcp.json`) |
@@ -143,34 +142,6 @@ gbrain config set autopilot.conversation_parser_probe.enabled true
   `retrieval-reflex` policy skill in SHAFT_ENGINE (`skills/retrieval-reflex/`)
   defines when agents should query it.
 
-## headroom
-
-### Install / update
-
-```bash
-pip install -U headroom-ai
-headroom install apply --preset persistent-docker --scope provider \
-  --providers manual --target claude --port 8787 --backend anthropic \
-  --mode token --no-telemetry
-curl http://127.0.0.1:8787/readyz   # expect status healthy
-```
-
-- `--scope provider` is required: any other scope reports success but
-  silently skips the `~/.claude/settings.json` `ANTHROPIC_BASE_URL` wiring.
-- `--no-telemetry` keeps the aggregate-stats beacon off; re-state it on every
-  re-apply.
-- The `persistent-task` preset (schtasks) requires an elevated shell because
-  it registers an `ONSTART` task; the `persistent-docker` preset installs
-  without elevation and persists via Docker's restart policy. The container
-  must publish on `127.0.0.1` only (verify with `docker inspect`).
-- Upgrading in place: stop/disable any old scheduled tasks first if migrating
-  from `persistent-task` — pip cannot replace a locked `headroom.exe`.
-- Revert everything with `headroom install unwrap claude`
-  (pre-change backup: `~/.claude/settings.json.pre-headroom.bak`).
-- Live stats: `http://127.0.0.1:8787/stats`. Note that managed/desktop agent
-  sessions may pin their own `ANTHROPIC_BASE_URL` and bypass the proxy;
-  `api_requests` only counts sessions that inherit the global settings.
-
 ## graphify
 
 Deterministic repository map, complementary to gbrain — graphify answers
@@ -204,7 +175,6 @@ Code plugins install themselves from `.claude/settings.json`
 memory check
 gbrain doctor --fast
 curl http://127.0.0.1:11434/api/tags    # ollama up, nomic-embed-text present
-curl http://127.0.0.1:8787/readyz       # headroom healthy
-docker ps --format '{{.Names}} {{.Status}}' | grep -E 'gbrain-ollama|headroom'
+docker ps --format '{{.Names}} {{.Status}}' | grep gbrain-ollama
 py -3 scripts/ci/validate_agent_setup.py   # in SHAFT_ENGINE
 ```
