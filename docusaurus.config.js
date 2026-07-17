@@ -313,7 +313,7 @@ const config = {
           //   value: '<a class="navbar__item navbar__link" href="https://shafthq.github.io/SHAFT_ENGINE/" target="_blank"><b>JavaDocs</b></a>',
           // },
           {
-            href: 'https://github.com/shafthq/SHAFT_ENGINE',
+            href: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
             position: 'right',
             className: 'header-github-link',
             target: '_blank',
