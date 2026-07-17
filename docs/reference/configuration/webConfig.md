@@ -1,5 +1,5 @@
 ---
-id: basicConfig
+id: webConfig
 title: Basic Configuration for Web GUI
 sidebar_label: Web GUI
 description: "Configure SHAFT Engine properties for web browser automation — browser type, headless mode, timeouts, proxy, and visual reporting."

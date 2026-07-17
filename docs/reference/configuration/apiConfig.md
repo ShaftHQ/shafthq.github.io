@@ -1,5 +1,5 @@
 ---
-id: basicConfig3
+id: apiConfig
 title: Basic Configuration for API
 sidebar_label: API
 description: "Configure SHAFT Engine properties for REST API testing — proxy, timeouts, retry settings, and Swagger/OpenAPI schema validation."
