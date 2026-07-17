@@ -12,6 +12,12 @@ const exampleFence =
 const internalLink = /\[[^\]]+\]\((?!https?:|mailto:|#)(?!\/docs\/(?:archive|maintainers)\/)[^)]+\)/i;
 const assertionChain =
   /(?:\bassertThat(?:Response)?\s*\(|\bverifyThat(?:Response)?\s*\(|\.assertThat\s*\(|\.verifyThat\s*\(|SHAFT\.Validations\.(?:assertThat|verifyThat)\s*\(|\bValidations\.(?:assertThat|verifyThat)\s*\()/;
+// The visual-regression builder (matchesScreenshot()) is the one assertion that
+// gathers its diff-budget/mask options lazily and REQUIRES an explicit .perform()
+// terminal to run the comparison (see VisualValidationsBuilder in shaft-engine).
+// Every other assertion executes immediately on its terminal call, so it is exempt
+// from the "no .perform() on assertions" rule below.
+const visualAssertionRequiresPerform = /\bmatchesScreenshot\s*\(/;
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -52,7 +58,11 @@ for (const {fullPath, relativePath} of docs) {
   for (const block of codeBlocks) {
     for (const statement of block.split(';')) {
       assert(
-        !(assertionChain.test(statement) && /\.perform\s*\(\s*\)/.test(statement)),
+        !(
+          assertionChain.test(statement) &&
+          /\.perform\s*\(\s*\)/.test(statement) &&
+          !visualAssertionRequiresPerform.test(statement)
+        ),
         `${relativePath} has .perform() on an assertion or verification example.`,
       );
     }
