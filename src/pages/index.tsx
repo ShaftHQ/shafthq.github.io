@@ -118,7 +118,7 @@ const proofPoints = [
   {
     title: 'Failures start with evidence',
     description: 'Web, mobile, API, CLI, and DB actions attach evidence that Doctor and Heal can use for recovery.',
-    label: 'Reporting guide',
+    label: 'Reporting overview',
     to: '/docs/features/reporting',
   },
 ];
@@ -459,7 +459,7 @@ function AllureEvidenceSection(): JSX.Element {
           <Heading as="h2" id="allure-evidence-heading">Allure evidence people can inspect.</Heading>
           <p>SHAFT turns each checkout action into report evidence: steps, screenshots, logs, and diagnostics stay attached to the run instead of scattered across CI output.</p>
           <Link className={styles.inlineCta} to="/docs/reference/reporting">
-            Open reporting guide
+            Open reporting configuration reference
           </Link>
         </div>
         <figure className={styles.allureFrame}>
