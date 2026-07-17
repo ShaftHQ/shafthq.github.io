@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const buildDirectory = path.join(root, 'build');
-const excludedPrefixes = ['/docs/archive/', '/docs/maintainers/'];
+const excludedPrefixes = ['/docs/archive/', '/docs/maintainers/', '/docs/superpowers/'];
 
 const files = (await readdir(buildDirectory))
   .filter((name) => name.startsWith('search-index-docs-') && name.endsWith('.json'));
