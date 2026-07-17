@@ -67,6 +67,7 @@ const sidebars = {
         'integrations/browserstack',
         'integrations/visual',
         'integrations/video',
+        'integrations/sikulix',
       ],
     },
     {
