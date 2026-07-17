@@ -692,9 +692,15 @@ Each category provides editable JSON arguments and calls the matching MCP tool.
 This keeps generated code and source edits reviewable in the IDE instead of
 hidden inside plugin code.
 
-A test-explorer tree, run-gutter icons, and watch-mode auto-run are not part
-of the plugin yet; that remaining scope is tracked in
-[ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
+Gutter run/debug icons appear next to any TestNG or JUnit `@Test` method in a
+SHAFT project. The **SHAFT Tests** tab lists recent test runs (pass/fail,
+class name, timestamp); double-click a row to rerun that test, or
+Ctrl+double-click to navigate to its source. **Settings | Tools | SHAFT**'s
+"Enable watch mode" checkbox reruns the last test automatically on every
+source save under `src/test/`; watch mode checks the saved file's class
+against the last run's target class first, and on a mismatch offers a
+"Run `<Class>`" notification action instead of silently replaying a stale
+result ([ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467)).
 
 ![SHAFT IntelliJ Guided workflow templates](/img/agentic/intellij-plugin-guided.png)
 
