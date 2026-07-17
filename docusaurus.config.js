@@ -70,7 +70,7 @@ const config = {
         operatingSystem: 'Windows, macOS, Linux',
         description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
         url: siteUrl,
-        license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/master/LICENSE',
+        license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
         author: {
           '@type': 'Organization',
           name: 'ShaftHQ',
