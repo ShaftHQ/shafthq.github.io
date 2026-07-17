@@ -276,7 +276,6 @@
 .pathCard small,
 .codePanel figcaption,
 .handledPanel > span,
-.matrixHeader,
 .pathCard em,
 .allureFrame figcaption,
 .footerBadges strong,
@@ -628,8 +627,7 @@
 
 .pathCard:hover,
 .proofCard:hover,
-.loopStep:hover,
-.matrixRow:hover {
+.loopStep:hover {
   color: var(--ifm-font-color-base);
   text-decoration: none;
 }
@@ -660,69 +658,6 @@
   color: var(--site-color-primary);
   font-style: normal;
   font-weight: var(--site-font-weight-bold);
-}
-
-.surfaceMatrix {
-  display: grid;
-  margin-bottom: 1.35rem;
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--ifm-background-surface-color);
-  box-shadow: 0 18px 48px rgba(var(--site-color-deep-alt-rgb), 0.07);
-}
-
-.matrixHeader,
-.matrixRow {
-  display: grid;
-  grid-template-columns: minmax(150px, 1.2fr) repeat(6, minmax(74px, 0.7fr));
-  align-items: stretch;
-}
-
-.matrixHeader {
-  background: rgba(var(--site-color-primary-rgb), 0.08);
-  color: var(--site-color-primary);
-  font-weight: var(--site-font-weight-bold);
-}
-
-.matrixHeader > *,
-.matrixRow > * {
-  min-width: 0;
-  padding: 0.82rem 0.9rem;
-  border-right: 1px solid var(--ifm-color-emphasis-200);
-}
-
-.matrixHeader > *:last-child,
-.matrixRow > *:last-child {
-  border-right: 0;
-}
-
-.matrixRow {
-  border-top: 1px solid var(--ifm-color-emphasis-200);
-  color: var(--ifm-font-color-base);
-  text-decoration: none;
-}
-
-.matrixRow:hover {
-  background: rgba(var(--site-color-primary-rgb), 0.06);
-}
-
-.matrixRow > span {
-  position: relative;
-  color: transparent;
-}
-
-.matrixRow > span::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0.58rem;
-  height: 0.58rem;
-  border-radius: 999px;
-  background: var(--site-color-primary);
-  box-shadow: 0 0 0 5px rgba(var(--site-color-primary-rgb), 0.12);
-  transform: translate(-50%, -50%);
-  content: '';
 }
 
 .proofGrid {
@@ -954,7 +889,6 @@
 }
 
 :global(html[data-theme='light']) .pathGrid,
-:global(html[data-theme='light']) .surfaceMatrix,
 :global(html[data-theme='light']) .evidenceLoop,
 :global(html[data-theme='light']) .allureFrame {
   border-color: rgba(var(--site-color-primary-rgb), 0.16);
@@ -1050,23 +984,6 @@
   text-transform: uppercase;
 }
 
-.matrixHeader {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--site-font-small);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.matrixStack {
-  display: block;
-  margin-top: 0.18rem;
-  color: var(--ifm-color-emphasis-700);
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--site-font-caption);
-  font-weight: var(--site-font-weight-regular);
-  letter-spacing: 0.05em;
-}
-
 .loopStep small {
   width: auto;
   min-width: 1.8rem;
@@ -1129,11 +1046,6 @@
   .pathCard::after {
     display: none;
   }
-
-  .matrixHeader,
-  .matrixRow {
-    grid-template-columns: minmax(140px, 1.1fr) repeat(6, minmax(64px, 0.7fr));
-  }
 }
 
 @media (max-width: 760px) {
@@ -1157,10 +1069,6 @@
 
   .codeCompare {
     grid-template-columns: 1fr;
-  }
-
-  .surfaceMatrix {
-    display: none;
   }
 
   .footerBadges {

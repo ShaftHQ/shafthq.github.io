@@ -123,7 +123,6 @@ const proofPoints = [
   },
 ];
 
-const coverageColumns = ['Test', 'Validate', 'Data', 'State', 'Observe', 'Evidence'];
 const slackInviteUrl = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
 
 const codeCompare = {
@@ -398,26 +397,16 @@ function SurfaceSection(): JSX.Element {
     <section className={`${styles.section} ${styles.surfaceSection} ${styles.reveal}`} data-testid="landing-surfaces" id="surface-section" data-reveal>
       <div className="container">
         <div className={styles.sectionHeading}>
-          <span className={styles.eyebrow}>Coverage matrix</span>
-          <Heading as="h2" id="testing-surfaces">One framework. Full surface coverage.</Heading>
+          <span className={styles.eyebrow}>Testing surfaces</span>
+          <Heading as="h2" id="testing-surfaces">One framework. Five testing surfaces.</Heading>
           <p>Start with the layer in front of you, then expand without changing the reporting and lifecycle model.</p>
         </div>
-        <div className={styles.surfaceMatrix} data-testid="landing-surface-matrix" aria-label="SHAFT surface coverage matrix">
-          <div className={styles.matrixHeader}>
-            <strong>Surface</strong>
-            {coverageColumns.map((column) => (
-              <span key={column}>{column}</span>
-            ))}
-          </div>
+        <div className={styles.proofGrid} data-testid="landing-surface-matrix" aria-label="SHAFT testing surfaces">
           {testSurfaces.map((surface) => (
-            <Link className={styles.matrixRow} to={surface.to} key={surface.title} data-hover-glow>
-              <strong>
-                {surface.title}
-                <small className={styles.matrixStack}>{surface.stack}</small>
-              </strong>
-              {coverageColumns.map((column) => (
-                <span key={column}>{column}</span>
-              ))}
+            <Link className={`${styles.proofCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal data-hover-glow>
+              <strong>{surface.title}</strong>
+              <span>{surface.description}</span>
+              <small>{surface.stack}</small>
             </Link>
           ))}
         </div>
