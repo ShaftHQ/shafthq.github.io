@@ -1,5 +1,5 @@
 ---
-id: basicConfig2
+id: mobileConfig
 title: Basic Configuration for Mobile GUI
 sidebar_label: Mobile GUI
 description: "Configure SHAFT Engine properties for mobile app automation with Appium — Android, iOS, native and web execution settings."
@@ -100,7 +100,7 @@ If both `browserStack.appUrl` and `mobile_app` point to remote app values, `brow
 
 ## Mobile Web (Browser on Device)
 
-For mobile browser testing, configure the same properties as [Web GUI](./basicConfig) and add the mobile target:
+For mobile browser testing, configure the same properties as [Web GUI](./webConfig) and add the mobile target:
 
 ```properties title="src/main/resources/properties/custom.properties"
 executionAddress=localhost:4723

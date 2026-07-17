@@ -21,6 +21,21 @@
   status = 301
 
 [[redirects]]
+  from = "/docs/reference/configuration/basicConfig"
+  to = "/docs/reference/configuration/webConfig"
+  status = 301
+
+[[redirects]]
+  from = "/docs/reference/configuration/basicConfig2"
+  to = "/docs/reference/configuration/mobileConfig"
+  status = 301
+
+[[redirects]]
+  from = "/docs/reference/configuration/basicConfig3"
+  to = "/docs/reference/configuration/apiConfig"
+  status = 301
+
+[[redirects]]
   from = "/docs/Best_Practices/*"
   to = "/docs/reference/guides/:splat"
   status = 301
