@@ -26,7 +26,7 @@ const config = {
       tagName: 'meta',
       attributes: {
         name: 'keywords',
-        content: 'test automation framework, selenium alternative, java test automation, web testing, mobile testing, api testing, appium, rest assured, testng, junit, cucumber, page object model, SHAFT engine, open source testing',
+        content: 'test automation framework, selenium test framework, java test automation, web testing, mobile testing, api testing, appium, rest assured, testng, junit, cucumber, page object model, SHAFT engine, open source testing',
       },
     },
     {
