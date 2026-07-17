@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const buildDirectory = path.join(root, 'build');
-const excludedPrefixes = ['/docs/archive/', '/docs/maintainers/', '/docs/superpowers/'];
+const excludedPrefixes = ['/docs/archive/', '/docs/superpowers/'];
 
 const files = (await readdir(buildDirectory))
   .filter((name) => name.startsWith('search-index-docs-') && name.endsWith('.json'));
@@ -54,4 +54,4 @@ for (const name of files) {
   await writeFile(file, JSON.stringify(payload));
 }
 
-console.log(`Removed ${removed} archive and maintainer sections from local search.`);
+console.log(`Removed ${removed} archive and superpowers sections from local search.`);
