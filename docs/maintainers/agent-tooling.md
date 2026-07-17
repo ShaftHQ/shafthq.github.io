@@ -24,7 +24,17 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | pip `graphifyy` (CLI `graphify`) |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
 | maven-tools-mcp | Live Maven Central facts MCP | Docker `arvindand/maven-tools-mcp` (project `.mcp.json`) |
-| Claude Code plugins | jdtls-lsp, design, frontend-design, mcp-server-dev, example-skills, fable, superpowers | Auto-installed from `.claude/settings.json` marketplaces |
+| Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
+
+The `fable` and `superpowers` plugins were removed in the 2026-07-17 harness
+consolidation: `act-as-fable` (a repo skill, not a plugin — see
+`.claude/skills/act-as-fable/`) is now the sole methodology authority, and
+UI evidence gathering moved from `webapp-testing`/`accessibility-review`/
+`chrome-devtools-mcp` to shaft-mcp's own browser tools (screenshots,
+`browser_accessibility_audit`, `browser_network_requests`). User-level
+config (`~/.claude`) now deploys from the source-controlled
+`.claude/user-harness/` via `scripts/agents/sync_user_harness.py`
+(`--check`/`--apply`) instead of being hand-maintained.
 
 ## memory CLI
 
