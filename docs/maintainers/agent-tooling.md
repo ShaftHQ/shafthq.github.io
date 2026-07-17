@@ -129,12 +129,22 @@ gbrain config set autopilot.conversation_parser_probe.enabled true
   the MCP process or run CLI maintenance between sessions.
 - **Never run `gbrain frontmatter validate --fix` against the docs repo.**
   Docusaurus `slug:` frontmatter defines public site URLs; gbrain reads the
-  field as its own page slug and reports `SLUG_MISMATCH` — the fix would
-  rewrite published routes. Consequence: docs/blog pages with custom slugs
-  fail the lint and are skipped (`gbrain sync --skip-failed` acknowledges
-  them; failing files auto-skip after 3 attempts), so they stay unindexed
-  until gbrain supports declared-slug sources. Failures log to
-  `~/.gbrain/sync-failures.jsonl`.
+  field as its own page slug and would otherwise reject it as `SLUG_MISMATCH`
+  — the fix would rewrite published routes, so this stays permanently
+  off-limits regardless of the flag below.
+- **This source has opted in to `gbrain sources trust-frontmatter-slug
+  shaft-userguide`** (upstream PR:
+  [garrytan/gbrain#2899](https://github.com/garrytan/gbrain/pull/2899),
+  tracked as [SHAFT_ENGINE#3618](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3618)).
+  Sync now honors the Docusaurus-declared slug for mismatched files instead of
+  skipping them — the 83 previously-unindexed blog posts and custom-route docs
+  pages import cleanly. Re-run `gbrain sources trust-frontmatter-slug
+  shaft-userguide` after any brain re-init (the flag lives in
+  `sources.config`, not in this repo). `gbrain doctor`'s `frontmatter_integrity`
+  check still WARNs on these files — that's a separate lint pass unaffected by
+  the trust flag, not a regression. Until the upstream PR merges, the flag
+  requires the local `C:/Users/Mohab/gbrain` checkout on the
+  `feature/trust-frontmatter-slug` branch (or any branch built from it).
 - **Migration 0.32.2** refuses to run while a registered source has
   uncommitted git changes; commit first, then re-run
   `gbrain apply-migrations --yes`.
