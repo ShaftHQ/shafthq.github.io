@@ -25,7 +25,8 @@
     "test:release-template": "node tests/release-blog-template.test.js",
     "test:shaft": "node scripts/run-shaft-tests.mjs",
     "verify-models": "node scripts/verify-models.js",
-    "build:llms": "node scripts/build-llms-txt.mjs"
+    "build:llms": "node scripts/build-llms-txt.mjs",
+    "generate:properties-catalog": "node scripts/generate-properties-catalog.mjs"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",

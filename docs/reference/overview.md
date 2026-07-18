@@ -21,7 +21,7 @@ guides.
 | Choose resilient web locators | [Web locator strategy](/docs/testing/web#locator-strategy) |
 | Send REST requests and validate responses | [API testing](/docs/testing/api) |
 | Configure browser, API, mobile, retry, or reporting behavior | [Property types](/docs/reference/properties/PropertyTypes) |
-| Generate a custom `.properties` file | [Properties Generator](/docs/reference/properties/custom-properties-generator) |
+| Generate a custom `.properties` file | [Config Generator tab](/docs/reference/properties/PropertiesList?PropertyTypes=generator) on the Properties Reference |
 | Attach evidence and understand reports | [Reporting](/docs/reference/reporting/) |
 | Diagnose flaky or failed runs | [How SHAFT reduces flakiness](/docs/testing/flakiness) |
 | Query a database or run a terminal command | [Database testing](/docs/testing/database) and [CLI testing](/docs/testing/cli) |

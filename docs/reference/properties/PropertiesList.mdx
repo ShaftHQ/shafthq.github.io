@@ -9,14 +9,22 @@ tags: [configuration, properties, reference]
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import {PropertiesGenerator} from '@site/src/components/PropertiesGenerator';
 
-You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible.
+You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible. The **Config Generator** tab is an interactive builder covering every property below — search, click to add, edit the value, then copy or download the resulting `.properties` file.
 
 <Tabs groupId="PropertyTypes" defaultValue="file-based" queryString="PropertyTypes">
   <TabItem value="code-based" label="Code-based">*You can read/write any property programmatically to provide more flexibility and control during runtime.*</TabItem>
   <TabItem value="cli-based" label="CLI-based">*You can set some properties via the CLI command that you use to execute your tests.*</TabItem>
   <TabItem value="file-based" label="File-based">*The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.*</TabItem>
   <TabItem value="defaults" label="Default Values">*The default/preset values built into SHAFT, with a description of what each one does and the possible values.*</TabItem>
+  <TabItem value="generator" label="Config Generator">
+
+Build a `.properties` file interactively instead of copying keys by hand: search or browse by category, click a property to add it, edit its value, then copy or download the generated file(s) below.
+
+<PropertiesGenerator />
+
+  </TabItem>
 </Tabs>
 
 ## Platform
