@@ -144,7 +144,20 @@ const SENSITIVE_SUBSTRINGS = [
   'username', 'authorization', 'credential',
 ];
 
+// Non-sensitive allowlist: keys containing sensitive substrings (e.g. "token") that are purely
+// numeric token-count limits or similar non-secret numeric properties, not credentials.
+// Regression fix for #3717: pilot.ai.maxInputTokens and pilot.ai.maxOutputTokens must not be
+// blanked or flagged sensitive, as they are numeric configuration values, not credentials.
+const NON_SENSITIVE_ALLOWLIST = [
+  'pilot.ai.maxInputTokens',
+  'pilot.ai.maxOutputTokens',
+];
+
 function isSensitive(key) {
+  // Check allowlist first: these keys match a sensitive substring but are not sensitive
+  if (NON_SENSITIVE_ALLOWLIST.includes(key)) {
+    return false;
+  }
   const lower = key.toLowerCase();
   return SENSITIVE_SUBSTRINGS.some((needle) => lower.includes(needle));
 }

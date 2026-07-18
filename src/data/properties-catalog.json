@@ -1598,7 +1598,7 @@
     "key": "whenToTakePageSourceSnapshot",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "failuresOnly",
+    "defaultValue": "Never",
     "possibleValues": "Never, Always, FailuresOnly",
     "description": "Granular page-source policy. Profile levels except CUSTOM override this after property loading."
   },
@@ -2175,20 +2175,18 @@
     "key": "pilot.ai.maxInputTokens",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "",
+    "defaultValue": "16000",
     "possibleValues": "",
-    "description": "Maximum estimated input tokens.",
-    "sensitive": true
+    "description": "Maximum estimated input tokens."
   },
   {
     "section": "Pilot",
     "key": "pilot.ai.maxOutputTokens",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "",
+    "defaultValue": "2000",
     "possibleValues": "",
-    "description": "Maximum output tokens.",
-    "sensitive": true
+    "description": "Maximum output tokens."
   },
   {
     "section": "Pilot",

@@ -66,4 +66,18 @@ for (const sensitiveKey of [
   assert(property.defaultValue === '', `${sensitiveKey} must publish a blank default, not its real value`);
 }
 
+// Non-sensitive numeric token-count regression guard: these contain "token" in their key name but are
+// purely numeric token-count limits with real numeric defaults that should NOT be blanked or marked sensitive.
+// Regression for issue #3717: refined sensitivity heuristic to exclude numeric token-count keys.
+for (const [tokenCountKey, expectedDefault, expectedType] of [
+  ['pilot.ai.maxInputTokens', '16000', 'number'],
+  ['pilot.ai.maxOutputTokens', '2000', 'number'],
+]) {
+  const property = catalog.find((p) => p.key === tokenCountKey);
+  assert(property, `Missing expected non-sensitive numeric property ${tokenCountKey}`);
+  assert(property.sensitive !== true, `${tokenCountKey} must NOT be flagged sensitive (it is a numeric token count, not a credential)`);
+  assert(property.defaultValue === expectedDefault, `${tokenCountKey} must publish its real numeric default '${expectedDefault}', got '${property.defaultValue}'`);
+  assert(property.type === expectedType, `${tokenCountKey} must have type '${expectedType}', got '${property.type}'`);
+}
+
 console.log(`Properties catalog checks passed (${catalog.length} properties, ${new Set(catalog.map((p) => p.section)).size} sections).`);
