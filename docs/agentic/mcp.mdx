@@ -187,9 +187,13 @@ the `shaft-mcp` jar, so the generated set always tracks the shaft-mcp build
 instead of a hand-duplicated copy. Existing files are left untouched unless
 `overwrite: true`; a skipped file is reported as a warning instead of failing
 the call, since `targetDirectory` is expected to be an existing repository
-that may already carry its own agent configuration. `vscode` and `opencode`
-loops are tracked in
-[ShaftHQ/SHAFT_ENGINE#3463](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3463).
+that may already carry its own agent configuration. `opencode` uses the same
+layout under `.opencode/skills/`, and `vscode` writes
+`.github/instructions/<skill>.instructions.md` files instead. Skills marked
+`distribution: full` in their frontmatter (such as the `act-as-mohab`
+methodology skill) are scaffolded as their complete SKILL.md text rather than
+a thin bridge, so a project with no prior agent instructions gets the full
+ways-of-working document.
 
 ```json
 {"tool": "shaft_project_init_agents", "arguments": {"loop": "claude", "targetDirectory": ".", "overwrite": false}}
