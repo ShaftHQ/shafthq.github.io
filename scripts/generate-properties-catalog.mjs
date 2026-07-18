@@ -239,7 +239,7 @@ function parseJavaFile(filePath) {
   const properties = [];
   // Zero-arg getters only (setters in the nested *SetProperty class all take one argument, so
   // the empty-parens anchor naturally excludes them without needing to bound the scan by class).
-  const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)\s*\r?\n\s*@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:\s*\r?\n\s*(?:\/\/[^\r\n]*)?)*)\s*(?:@\w+(?:\([^)]*\))?\s*\r?\n\s*)*(?:private\s+)?(boolean|Boolean|int|Integer|long|Long|double|float|String)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
+  const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)\s*\r?\n\s*@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:[ \t]*\r?\n[ \t]*(?:\/\/[^\r\n]*)?)*)\s*(?:@\w+(?:\([^)]*\))?[ \t]*\r?\n[ \t]*)*(?:private\s+)?(boolean|Boolean|int|Integer|long|Long|double|float|String)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
   let m;
   while ((m = propertyRe.exec(content)) !== null) {
     const [full, key, quotedDefault, constDefault, , returnType, methodName] = m;
@@ -256,7 +256,7 @@ function parseJavaFile(filePath) {
       const block = javadocBlocks[i];
       if (block.end > matchStart) continue;
       const between = content.slice(block.end, matchStart);
-      if (/^(?:\s*\r?\n|\s*@\w+(?:\([^)]*\))?\s*\r?\n)*\s*$/u.test(between)) {
+      if (/^(?:[ \t]*\r?\n|[ \t]*@\w+(?:\([^)]*\))?[ \t]*\r?\n)*[ \t]*$/u.test(between)) {
         javadoc = block.text;
       }
       break;
