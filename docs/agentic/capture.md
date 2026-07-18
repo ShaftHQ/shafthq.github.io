@@ -257,7 +257,11 @@ locator summaries, action summaries, missing code, suggested proof calls, and a
 focused verification command before code blocks are generated. Then call
 `capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
 Playwright, or use `capture_record_at_target_code_blocks` when the plan found a
-specific insertion target. If a focus or click mistake pollutes the recording,
+specific insertion target. Only the recording matters for a quick generation:
+`outputDirectory`, `packageName`, `className`, `overwrite`, and
+`driverVariableName` are optional and default to `generated-tests`,
+`tests.generated`, `RecordedFlowTest`, `false`, and `driver` (`page` for
+Playwright). If a focus or click mistake pollutes the recording,
 the Assistant discard/re-record commands stop with `discard=true` before
 starting a fresh capture. The agent should show the generated result and ask
 whether the user wants the complete Java snippet or wants the agent to insert
