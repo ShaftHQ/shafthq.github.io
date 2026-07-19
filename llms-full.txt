@@ -20933,17 +20933,26 @@ routes, code copying, and dark mode.
 
 ## Search and AutoBot
 
-Local search indexes public product documentation. A post-build integrity step
-removes `/docs/archive/` and `/docs/maintainers/` entries. Because search is
-static, it works anywhere the Docusaurus assets load.
+Local search runs on `@easyops-cn/docusaurus-search-local` (migrated from
+`@cmfcmf/docusaurus-search-local` in issue #865 for better result relevance).
+Exclusions are now declared at the source level via the plugin's `ignoreFiles`
+option in `docusaurus.config.js`, instead of the old
+`scripts/prune-search-index.mjs` post-build step (removed): it excludes only
+`docs/archive/` from `build/search-index.json`. Maintainer docs stay indexed,
+matching the #795 decision ("make docs/maintainers/ fully public").
+Because search is static, it works anywhere the Docusaurus assets load.
 
 AutoBot indexes Markdown and MDX by route and heading at startup, retrieves the
 eight best chunks for each question, and caps injected documentation context at
 80,000 characters. `yarn build` writes `static/autobot-index.json`; the
 Cloudflare function fetches that static index at runtime, so AutoBot does not
-depend on GitHub Pages server-side code or Netlify filesystem access. Archive
-and maintainer routes are excluded. The public HTTP request and response
-contract remains unchanged.
+depend on GitHub Pages server-side code or Netlify filesystem access.
+`EXCLUDED_DIRECTORIES` in `netlify/functions/docs-loader.mjs` excludes
+`archive/` and `superpowers/` only -- `docs/maintainers/` is intentionally
+included per #795 ("make docs/maintainers/ fully public"), and
+`tests/docs-loader.test.js` asserts that inclusion; local search's
+`ignoreFiles` matches. The public HTTP request and response contract remains
+unchanged.
 
 ## Content changes
 
