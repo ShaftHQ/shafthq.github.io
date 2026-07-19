@@ -1,6 +1,7 @@
 import {
   buildDocumentationIndex,
   loadDocumentation,
+  normalizeMarkdown,
   retrieveDocumentation,
 } from '../netlify/functions/docs-loader.mjs';
 import {loadDocumentationFromIndex} from '../netlify/functions/docs-retrieval.mjs';
@@ -74,6 +75,25 @@ assert(selected.length <= 8, 'Retrieval must select no more than eight chunks.')
 assert(
   selected.every((chunk) => !chunk.content.includes('Java 21 LTS')),
   'Retrieved documentation must not recommend the retired Java 21 baseline.',
+);
+
+const multiLineImportFixture = `# Heading
+
+import {
+  A,
+  B,
+} from '@site/src/x';
+
+Some prose that must survive.
+`;
+const normalizedMultiLineImport = normalizeMarkdown(multiLineImportFixture);
+assert(
+  !normalizedMultiLineImport.split('\n').some((line) => line.includes("from '")),
+  'Multi-line import statements must be fully stripped, including continuation lines and the closing "} from \'...\';".',
+);
+assert(
+  normalizedMultiLineImport.includes('Some prose that must survive.'),
+  'Prose following a multi-line import statement must survive normalization.',
 );
 
 console.log('Documentation retrieval checks passed.');
