@@ -4,94 +4,6 @@
 
 ---
 
-# SHAFT at a glance
-
-Canonical URL: https://shafthq.github.io/docs/start/overview
-
-# One engine. Every test surface.
-
-SHAFT is a Maven-published Java automation framework that combines browser,
-mobile, API, terminal, database, validation, evidence, and reporting workflows
-behind one fluent API.
-
- 
- Web Selenium sessions, resilient actions, assertions, screenshots, and reports. 
- Mobile Appium native, mobile web, Android, iOS, and Flutter workflows. 
- API REST Assured requests, authentication, extraction, schema checks, and assertions. 
- IntelliJ coding partner Record, refactor, reuse Page Objects, diagnose failures, and call MCP from the IDE. 
- 
-
-```mermaid
-flowchart LR
- Test["Your Test"] --> Engine["shaft-engine"]
- Engine --> Web["Web"]
- Engine --> Mobile["Mobile"]
- Engine --> API["API"]
- Engine --> CLI["CLI"]
- Engine --> DB["Database"]
- Engine --> Evidence["Allure evidence"]
- Evidence --> Doctor["Doctor"]
- Agent["Codex / Copilot / ChatGPT / Claude / Gemini"] --> IntelliJ["IntelliJ plugin"]
- Agent --> MCP["SHAFT MCP"]
- IntelliJ --> MCP
- MCP --> Engine
-```
-
-## Start in 90 seconds
-
-Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
-runner and testing surfaces, then download a ready-to-run project.
-
- 
-
-Copyable shell form:
-
-```bash
-mvn test
-```
-
- 
-
-If the generated sample runs and the report gives you the evidence you expected,
- before you leave the guide.
-
-## Why teams use SHAFT
-
-- One lifecycle and reporting model across test surfaces.
-- Built-in synchronization, screenshots, logging, and Allure evidence.
-- TestNG, JUnit, and Cucumber integration.
-- Optional modules are explicit; projects pay only for the capabilities they use.
-- Deterministic Capture, Doctor, and Heal workflows operate without a model provider.
-
-SHAFT is listed in the
-[Selenium ecosystem](https://www.selenium.dev/ecosystem/#frameworks) and received
-a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html).
-
-## Choose your path
-
-| Goal | Go directly to |
-|---|---|
-| Create a new project | [Project Generator](/docs/start/installation) |
-| Run the first test | [Quick start](/docs/start/quick-start) |
-| See where the evidence and reports come from | [Reporting and evidence](/docs/features/reporting) |
-| Run the suite in a pipeline | [CI/CD Integration](/docs/reference/guides/CI_CD_Integration) |
-| Use SHAFT from IntelliJ | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
-| Connect another AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
-| Diagnose a failed run | [SHAFT Doctor](/docs/agentic/doctor) |
-| Recover a changed locator | [SHAFT Heal](/docs/agentic/heal) |
-| Upgrade a Selenium, Appium, REST Assured, or older SHAFT project | [Automated upgrade tool](/docs/start/upgrade) |
-
-## Related
-
-- [Installation](/docs/start/installation)
-- [Quick Start](/docs/start/quick-start)
-- [Reporting and evidence](/docs/features/reporting)
-- [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
-- [Upgrade](/docs/start/upgrade)
-- [Modules](/docs/features/modules)
-
----
-
 # Install SHAFT
 
 Canonical URL: https://shafthq.github.io/docs/start/installation
@@ -649,6 +561,94 @@ complete method matrix.
 - [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
 - [Upgrade](/docs/start/upgrade)
 - [SHAFT MCP](/docs/agentic/mcp)
+- [Modules](/docs/features/modules)
+
+---
+
+# SHAFT at a glance
+
+Canonical URL: https://shafthq.github.io/docs/start/overview
+
+# One engine. Every test surface.
+
+SHAFT is a Maven-published Java automation framework that combines browser,
+mobile, API, terminal, database, validation, evidence, and reporting workflows
+behind one fluent API.
+
+ 
+ Web Selenium sessions, resilient actions, assertions, screenshots, and reports. 
+ Mobile Appium native, mobile web, Android, iOS, and Flutter workflows. 
+ API REST Assured requests, authentication, extraction, schema checks, and assertions. 
+ IntelliJ coding partner Record, refactor, reuse Page Objects, diagnose failures, and call MCP from the IDE. 
+ 
+
+```mermaid
+flowchart LR
+ Test["Your Test"] --> Engine["shaft-engine"]
+ Engine --> Web["Web"]
+ Engine --> Mobile["Mobile"]
+ Engine --> API["API"]
+ Engine --> CLI["CLI"]
+ Engine --> DB["Database"]
+ Engine --> Evidence["Allure evidence"]
+ Evidence --> Doctor["Doctor"]
+ Agent["Codex / Copilot / ChatGPT / Claude / Gemini"] --> IntelliJ["IntelliJ plugin"]
+ Agent --> MCP["SHAFT MCP"]
+ IntelliJ --> MCP
+ MCP --> Engine
+```
+
+## Start in 90 seconds
+
+Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
+runner and testing surfaces, then download a ready-to-run project.
+
+ 
+
+Copyable shell form:
+
+```bash
+mvn test
+```
+
+ 
+
+If the generated sample runs and the report gives you the evidence you expected,
+ before you leave the guide.
+
+## Why teams use SHAFT
+
+- One lifecycle and reporting model across test surfaces.
+- Built-in synchronization, screenshots, logging, and Allure evidence.
+- TestNG, JUnit, and Cucumber integration.
+- Optional modules are explicit; projects pay only for the capabilities they use.
+- Deterministic Capture, Doctor, and Heal workflows operate without a model provider.
+
+SHAFT is listed in the
+[Selenium ecosystem](https://www.selenium.dev/ecosystem/#frameworks) and received
+a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html).
+
+## Choose your path
+
+| Goal | Go directly to |
+|---|---|
+| Create a new project | [Project Generator](/docs/start/installation) |
+| Run the first test | [Quick start](/docs/start/quick-start) |
+| See where the evidence and reports come from | [Reporting and evidence](/docs/features/reporting) |
+| Run the suite in a pipeline | [CI/CD Integration](/docs/reference/guides/CI_CD_Integration) |
+| Use SHAFT from IntelliJ | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
+| Connect another AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
+| Diagnose a failed run | [SHAFT Doctor](/docs/agentic/doctor) |
+| Recover a changed locator | [SHAFT Heal](/docs/agentic/heal) |
+| Upgrade a Selenium, Appium, REST Assured, or older SHAFT project | [Automated upgrade tool](/docs/start/upgrade) |
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Reporting and evidence](/docs/features/reporting)
+- [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
+- [Upgrade](/docs/start/upgrade)
 - [Modules](/docs/features/modules)
 
 ---
@@ -1557,106 +1557,194 @@ missing provider or version mismatch can be diagnosed before the next attempt.
 
 ---
 
-# Web testing
+# API testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/web
+Canonical URL: https://shafthq.github.io/docs/testing/api
 
-# Web testing
+# API testing
 
-Start here when you want one browser test that opens a page, performs an
-action, asserts a result, and leaves screenshot/report evidence.
+Start here when you want one REST call, one assertion, and request/response
+evidence in the same report as your browser and mobile tests.
 
 ```java
 
-public class SearchTest {
- private SHAFT.GUI.WebDriver driver;
-
- @BeforeMethod
- public void openBrowser() {
- driver = new SHAFT.GUI.WebDriver();
- }
-
+public class CountryApiTest {
  @Test
- public void search() {
- driver.browser().navigateToURL("https://duckduckgo.com/")
- .and().element().type(By.name("q"), "SHAFT Engine")
- .and().assertThat().title().contains("DuckDuckGo");
- }
+ public void getCountryByCapital() {
+ SHAFT.API api = new SHAFT.API("https://restcountries.com/v3.1/");
 
- @AfterMethod(alwaysRun = true)
- public void closeBrowser() {
- driver.quit();
+ api.get("capital/Cairo");
+ api.assertThatResponse()
+ .extractedJsonValue("[0].name.common")
+ .isEqualTo("Egypt");
  }
 }
 ```
 
 ```mermaid
-sequenceDiagram
- participant Test
- participant SHAFT
- participant Browser
- participant Allure
- Test->>SHAFT: navigate / act / assert
- SHAFT->>Browser: synchronized WebDriver commands
- Browser-->>SHAFT: page and element state
- SHAFT->>Allure: steps, logs, screenshots, result
+flowchart LR
+ Builder["Build request"] --> Perform["perform()"]
+ Perform --> Evidence["Request + response evidence"]
+ Evidence --> Assert["Fluent response assertion"]
 ```
 
-Use the [GUI actions reference](/docs/reference/actions/GUI/Browser_Actions) for
-locators, browser actions, elements, waits, validations, accessibility, and
-network mocking. For browser traffic that should be captured and replayed
-later, see [UI and API contract replay](/docs/testing/contracts).
+Continue with [request building](/docs/reference/actions/API/Request_Builder),
+[authentication](/docs/reference/actions/API/API_Authentication), and
+[response assertions](/docs/reference/actions/API/Response_Validations). When
+the API is part of a browser journey, use
+[UI and API contract replay](/docs/testing/contracts) to record the exchanged
+traffic once and assert or replay it later.
 
 ## Run and inspect evidence
 
-Run the generated or copied test from the project root:
+Run the test from the project root:
 
  
 
-The report includes browser steps, screenshots, logs, and assertion results
-under . If the browser never opens, check Java/Maven first,
-then browser installation, then `targetBrowserName` and `headlessExecution`.
+SHAFT attaches request, response, status, headers, body, and assertion evidence
+under . If the request fails before assertions, check the
+base URI, proxy settings, authentication, and whether automatic `2xx` status
+assertion is appropriate for the scenario.
 
-## Locator strategy
+## First useful next steps
 
-Use the most user-facing locator that is stable enough for the product:
-
-1. Prefer semantic locators such as visible text, labels, placeholders, and ARIA
- names.
-2. Use `SHAFT.GUI.Locator` when you need a precise composed locator.
-3. Use native `By.xpath(...)` only as a last fallback for complex locators that
- cannot be expressed with Smart Locators or the locator builder.
-4. Keep waits and retries as evidence-backed safety nets, not as a substitute
- for a stable locator.
-5. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
- strategies cannot survive expected UI changes.
-
-## Playwright backend
-
-Use `SHAFT.GUI.Playwright` when a test should run through Microsoft Playwright
-instead of Selenium/Appium WebDriver. Both backends implement
-`SHAFT.GUI.Driver`, so setup code can choose the backend per test class.
-
-```java
-private SHAFT.GUI.Driver driver;
-
-@BeforeMethod
-public void openBrowser() {
- driver = new SHAFT.GUI.Playwright();
-}
-```
-
-See the [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
-reference for configuration, native Playwright access, tracing, and the
-WebDriver-to-Playwright mapping tree.
+| Need | Start with |
+|---|---|
+| Add headers, query parameters, or body | [Request Builder](/docs/reference/actions/API/Request_Builder) |
+| Reuse tokens or basic auth | [API Authentication](/docs/reference/actions/API/API_Authentication) |
+| Validate JSON fields or schemas | [Response Validations](/docs/reference/actions/API/Response_Validations) |
+| Record and replay UI/API traffic | [UI and API contract replay](/docs/testing/contracts) |
+| Track OpenAPI coverage | [API configuration](/docs/reference/configuration/apiConfig) |
 
 ## Related
 
-- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
-- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
-- [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
 - [UI and API contract replay](/docs/testing/contracts)
-- [Validations](/docs/reference/actions/Validations)
+
+---
+
+# CLI testing
+
+Canonical URL: https://shafthq.github.io/docs/testing/cli
+
+# CLI testing
+
+SHAFT provides terminal, Docker, SSH, and file actions with the same reporting
+model used by browser and API tests.
+
+```mermaid
+flowchart LR
+ Test --> Terminal["Terminal action"]
+ Terminal --> Local["Local process"]
+ Terminal --> Docker["Docker"]
+ Terminal --> SSH["SSH"]
+ Local --> Report["Allure evidence"]
+ Docker --> Report
+ SSH --> Report
+```
+
+Open the [terminal actions reference](/docs/reference/actions/CLI/Terminal_Actions)
+for executable examples and result handling.
+
+## First useful command test
+
+Use CLI actions when the product behavior depends on a process, file, Docker
+command, deployment script, or remote shell state. Start with a harmless local
+command and assert on the captured output:
+
+```java
+SHAFT.CLI terminal = new SHAFT.CLI();
+String output = terminal.performTerminalCommand("echo Hello SHAFT");
+
+SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT");
+```
+
+Run the test with Maven:
+
+```bash
+mvn test
+```
+
+The command, output, and validation status are attached to the same Allure
+evidence flow as the rest of the suite.
+
+## Troubleshooting
+
+| Symptom | Check |
+|---|---|
+| Command works locally but fails in CI | Use absolute paths or set the working directory explicitly. |
+| Docker command times out | Verify Docker is running before tuning command timeout properties. |
+| SSH command cannot connect | Validate host, user, key, network route, and CI secret injection. |
+| File assertion fails on Windows | Prefer forward slashes in Java paths; Java resolves them on Windows. |
+
+## Related
+
+- [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)
+- [File Actions](/docs/reference/actions/CLI/File_Actions)
+- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
+
+---
+
+# Database testing
+
+Canonical URL: https://shafthq.github.io/docs/testing/database
+
+# Database testing
+
+Use SHAFT database actions to open a JDBC connection, execute statements, and
+attach query evidence to the test report.
+
+```mermaid
+flowchart LR
+ Test --> Config["Connection string"]
+ Config --> JDBC["SHAFT database action"]
+ JDBC --> Query["Query / update"]
+ Query --> Result["Result validation + report"]
+```
+
+See [database actions](/docs/reference/actions/DB/DB_Actions),
+[connection strings](/docs/reference/actions/DB/Connection_Strings), and the
+[Oracle setup](/docs/reference/actions/DB/Oracle_JDBC_Setup).
+
+## First useful query test
+
+Start with a read-only query against a disposable schema, containerized
+database, or in-memory database. Keep credentials outside source control and
+validate a small result before adding write operations.
+
+```java
+SHAFT.DB database = new SHAFT.DB("jdbc:h2:mem:test");
+ResultSet rows = database.executeSelectQuery("SELECT 1");
+
+SHAFT.Validations.assertThat().object(rows).isNotNull();
+```
+
+Run the test with Maven:
+
+```bash
+mvn test
+```
+
+The query, connection target, and validation result are attached to the test
+report. If the connection fails, verify the JDBC URL, driver dependency,
+network route, schema permissions, and whether CI has the required secret
+values.
+
+## Choose the next reference
+
+| Need | Start with |
+|---|---|
+| Build a JDBC URL | [Connection Strings](/docs/reference/actions/DB/Connection_Strings) |
+| Run selects, updates, or result validation | [DB Actions](/docs/reference/actions/DB/DB_Actions) |
+| Connect to Oracle | [Oracle JDBC Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup) |
+
+## Related
+
+- [DB Actions](/docs/reference/actions/DB/DB_Actions)
+- [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
+- [Oracle Jdbc Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup)
 
 ---
 
@@ -2612,194 +2700,106 @@ captured from environments that do not allow test evidence retention.
 
 ---
 
-# API testing
+# Web testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/api
+Canonical URL: https://shafthq.github.io/docs/testing/web
 
-# API testing
+# Web testing
 
-Start here when you want one REST call, one assertion, and request/response
-evidence in the same report as your browser and mobile tests.
+Start here when you want one browser test that opens a page, performs an
+action, asserts a result, and leaves screenshot/report evidence.
 
 ```java
 
-public class CountryApiTest {
- @Test
- public void getCountryByCapital() {
- SHAFT.API api = new SHAFT.API("https://restcountries.com/v3.1/");
+public class SearchTest {
+ private SHAFT.GUI.WebDriver driver;
 
- api.get("capital/Cairo");
- api.assertThatResponse()
- .extractedJsonValue("[0].name.common")
- .isEqualTo("Egypt");
+ @BeforeMethod
+ public void openBrowser() {
+ driver = new SHAFT.GUI.WebDriver();
+ }
+
+ @Test
+ public void search() {
+ driver.browser().navigateToURL("https://duckduckgo.com/")
+ .and().element().type(By.name("q"), "SHAFT Engine")
+ .and().assertThat().title().contains("DuckDuckGo");
+ }
+
+ @AfterMethod(alwaysRun = true)
+ public void closeBrowser() {
+ driver.quit();
  }
 }
 ```
 
 ```mermaid
-flowchart LR
- Builder["Build request"] --> Perform["perform()"]
- Perform --> Evidence["Request + response evidence"]
- Evidence --> Assert["Fluent response assertion"]
+sequenceDiagram
+ participant Test
+ participant SHAFT
+ participant Browser
+ participant Allure
+ Test->>SHAFT: navigate / act / assert
+ SHAFT->>Browser: synchronized WebDriver commands
+ Browser-->>SHAFT: page and element state
+ SHAFT->>Allure: steps, logs, screenshots, result
 ```
 
-Continue with [request building](/docs/reference/actions/API/Request_Builder),
-[authentication](/docs/reference/actions/API/API_Authentication), and
-[response assertions](/docs/reference/actions/API/Response_Validations). When
-the API is part of a browser journey, use
-[UI and API contract replay](/docs/testing/contracts) to record the exchanged
-traffic once and assert or replay it later.
+Use the [GUI actions reference](/docs/reference/actions/GUI/Browser_Actions) for
+locators, browser actions, elements, waits, validations, accessibility, and
+network mocking. For browser traffic that should be captured and replayed
+later, see [UI and API contract replay](/docs/testing/contracts).
 
 ## Run and inspect evidence
 
-Run the test from the project root:
+Run the generated or copied test from the project root:
 
  
 
-SHAFT attaches request, response, status, headers, body, and assertion evidence
-under . If the request fails before assertions, check the
-base URI, proxy settings, authentication, and whether automatic `2xx` status
-assertion is appropriate for the scenario.
+The report includes browser steps, screenshots, logs, and assertion results
+under . If the browser never opens, check Java/Maven first,
+then browser installation, then `targetBrowserName` and `headlessExecution`.
 
-## First useful next steps
+## Locator strategy
 
-| Need | Start with |
-|---|---|
-| Add headers, query parameters, or body | [Request Builder](/docs/reference/actions/API/Request_Builder) |
-| Reuse tokens or basic auth | [API Authentication](/docs/reference/actions/API/API_Authentication) |
-| Validate JSON fields or schemas | [Response Validations](/docs/reference/actions/API/Response_Validations) |
-| Record and replay UI/API traffic | [UI and API contract replay](/docs/testing/contracts) |
-| Track OpenAPI coverage | [API configuration](/docs/reference/configuration/apiConfig) |
+Use the most user-facing locator that is stable enough for the product:
+
+1. Prefer semantic locators such as visible text, labels, placeholders, and ARIA
+ names.
+2. Use `SHAFT.GUI.Locator` when you need a precise composed locator.
+3. Use native `By.xpath(...)` only as a last fallback for complex locators that
+ cannot be expressed with Smart Locators or the locator builder.
+4. Keep waits and retries as evidence-backed safety nets, not as a substitute
+ for a stable locator.
+5. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
+ strategies cannot survive expected UI changes.
+
+## Playwright backend
+
+Use `SHAFT.GUI.Playwright` when a test should run through Microsoft Playwright
+instead of Selenium/Appium WebDriver. Both backends implement
+`SHAFT.GUI.Driver`, so setup code can choose the backend per test class.
+
+```java
+private SHAFT.GUI.Driver driver;
+
+@BeforeMethod
+public void openBrowser() {
+ driver = new SHAFT.GUI.Playwright();
+}
+```
+
+See the [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
+reference for configuration, native Playwright access, tracing, and the
+WebDriver-to-Playwright mapping tree.
 
 ## Related
 
-- [Request Builder](/docs/reference/actions/API/Request_Builder)
-- [Response Validations](/docs/reference/actions/API/Response_Validations)
-- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
 - [UI and API contract replay](/docs/testing/contracts)
-
----
-
-# CLI testing
-
-Canonical URL: https://shafthq.github.io/docs/testing/cli
-
-# CLI testing
-
-SHAFT provides terminal, Docker, SSH, and file actions with the same reporting
-model used by browser and API tests.
-
-```mermaid
-flowchart LR
- Test --> Terminal["Terminal action"]
- Terminal --> Local["Local process"]
- Terminal --> Docker["Docker"]
- Terminal --> SSH["SSH"]
- Local --> Report["Allure evidence"]
- Docker --> Report
- SSH --> Report
-```
-
-Open the [terminal actions reference](/docs/reference/actions/CLI/Terminal_Actions)
-for executable examples and result handling.
-
-## First useful command test
-
-Use CLI actions when the product behavior depends on a process, file, Docker
-command, deployment script, or remote shell state. Start with a harmless local
-command and assert on the captured output:
-
-```java
-SHAFT.CLI terminal = new SHAFT.CLI();
-String output = terminal.performTerminalCommand("echo Hello SHAFT");
-
-SHAFT.Validations.assertThat().object(output).contains("Hello SHAFT");
-```
-
-Run the test with Maven:
-
-```bash
-mvn test
-```
-
-The command, output, and validation status are attached to the same Allure
-evidence flow as the rest of the suite.
-
-## Troubleshooting
-
-| Symptom | Check |
-|---|---|
-| Command works locally but fails in CI | Use absolute paths or set the working directory explicitly. |
-| Docker command times out | Verify Docker is running before tuning command timeout properties. |
-| SSH command cannot connect | Validate host, user, key, network route, and CI secret injection. |
-| File assertion fails on Windows | Prefer forward slashes in Java paths; Java resolves them on Windows. |
-
-## Related
-
-- [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)
-- [File Actions](/docs/reference/actions/CLI/File_Actions)
-- [Docker Terminal](/docs/reference/actions/CLI/Docker_Terminal)
-
----
-
-# Database testing
-
-Canonical URL: https://shafthq.github.io/docs/testing/database
-
-# Database testing
-
-Use SHAFT database actions to open a JDBC connection, execute statements, and
-attach query evidence to the test report.
-
-```mermaid
-flowchart LR
- Test --> Config["Connection string"]
- Config --> JDBC["SHAFT database action"]
- JDBC --> Query["Query / update"]
- Query --> Result["Result validation + report"]
-```
-
-See [database actions](/docs/reference/actions/DB/DB_Actions),
-[connection strings](/docs/reference/actions/DB/Connection_Strings), and the
-[Oracle setup](/docs/reference/actions/DB/Oracle_JDBC_Setup).
-
-## First useful query test
-
-Start with a read-only query against a disposable schema, containerized
-database, or in-memory database. Keep credentials outside source control and
-validate a small result before adding write operations.
-
-```java
-SHAFT.DB database = new SHAFT.DB("jdbc:h2:mem:test");
-ResultSet rows = database.executeSelectQuery("SELECT 1");
-
-SHAFT.Validations.assertThat().object(rows).isNotNull();
-```
-
-Run the test with Maven:
-
-```bash
-mvn test
-```
-
-The query, connection target, and validation result are attached to the test
-report. If the connection fails, verify the JDBC URL, driver dependency,
-network route, schema permissions, and whether CI has the required secret
-values.
-
-## Choose the next reference
-
-| Need | Start with |
-|---|---|
-| Build a JDBC URL | [Connection Strings](/docs/reference/actions/DB/Connection_Strings) |
-| Run selects, updates, or result validation | [DB Actions](/docs/reference/actions/DB/DB_Actions) |
-| Connect to Oracle | [Oracle JDBC Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup) |
-
-## Related
-
-- [DB Actions](/docs/reference/actions/DB/DB_Actions)
-- [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
-- [Oracle Jdbc Setup](/docs/reference/actions/DB/Oracle_JDBC_Setup)
+- [Validations](/docs/reference/actions/Validations)
 
 ---
 
@@ -3729,6 +3729,325 @@ validation and publication.
 
 ---
 
+# Diagnose failures with Doctor
+
+Canonical URL: https://shafthq.github.io/docs/agentic/doctor
+
+# Diagnose failures with Doctor
+
+`io.github.shafthq:shaft-doctor` collects explicitly selected local test
+evidence into a portable, redacted bundle and applies ordered deterministic
+rules. It does not require `shaft-ai`, a provider credential, or network
+access. The complete baseline works with `pilot.ai.enabled=false`.
+
+Optional provider analysis is advisory only. It is disabled unless explicitly
+requested, receives only minimized already-redacted evidence, and never
+replaces the deterministic diagnosis, findings, confidence, or remediation.
+
+## Outputs
+
+Each analysis writes:
+
+- `doctor-evidence.json`: versioned `EvidenceBundle` with checksums,
+ provenance, relative paths, size-limit decisions, and a redaction summary;
+- `doctor-report.json`: the bundle plus versioned `Diagnosis`, cited
+ `Finding` records, confidence, uncertainty, and `Remediation` actions, plus
+ a separately identified advisory when provider analysis is requested;
+- `doctor-report.md`: a portable human-readable report and evidence index,
+ including a **Ranked Root Causes** section listing each candidate cause with
+ its trust percentage, rationale, and a copy/paste-ready fix prompt;
+- `doctor-triage.json` and `doctor-triage.md`: deterministic counts for
+ failing attempts, retry-hidden failures, recurring signatures, primary
+ signature, summary, and cited evidence IDs;
+- `execution-intelligence.json` and `execution-intelligence.md`: a compact
+ execution trend summary with primary cause, confidence, hidden retry count,
+ and recurring failure count;
+- `artifacts/`: approved binary evidence such as screenshots.
+
+Reports contain no original absolute machine paths. Evidence IDs and bundle
+IDs are content-derived, and JSON formatting uses LF line endings so repeated
+analysis of identical inputs is byte stable.
+
+## Run Doctor
+
+Use the Doctor command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). The canonical
+`doctor analyze` command and its `--allowed-root` option live there.
+
+The command writes `doctor-evidence.json`, `doctor-report.json`,
+`doctor-report.md`, `doctor-triage.*`, and `execution-intelligence.*` under
+`target/shaft-doctor`.
+
+Doctor input is flexible: point it at an `allure-results` directory, an
+individual populated `*-result.json` file, or a SHAFT single-file Allure HTML
+report (`AllureReport.html` or a timestamped variant such as
+`AllureReport-20260713-101500.html`) -- Doctor extracts the embedded results
+from the HTML report the same way it reads a results directory. Naming no
+path at all auto-discovers the newest evidence in the workspace: the most
+recently populated `allure-results` directory, or otherwise the newest
+`AllureReport.html`. The SHAFT Assistant routes natural-language phrasing such
+as "diagnose my last run" or "why did my tests fail" through the same
+auto-discovery.
+
+From an MCP chat:
+
+> Use `doctor_analyze_failed_allure` on the `allure-results` directory. Allow only the current
+> project root, write results to `target/shaft-doctor`, and do not collect
+> screenshots.
+
+## CLI reference
+
+The MCP main class exposes Doctor as a local command. Keep runnable MCP
+commands on the [MCP command reference](/docs/agentic/mcp#mcp-command-reference)
+so classpath, Windows separator, and local/remote setup guidance stay in one
+place.
+
+Every readable input must resolve under an explicit allowed root. Symlink
+targets are resolved before collection. The output directory must also be
+inside a declared root. Add repeated `--history` options to correlate recurring
+signatures from older `doctor-evidence.json` files.
+
+Screenshots and page snapshots are excluded by default. Retain them only with
+explicit approval through the Doctor command options documented on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Use `--max-item-bytes` and `--max-bundle-bytes` to lower the conservative
+retention limits. Use `--minimum-results` when the expected run size is known;
+an empty, malformed, truncated, or unexpectedly small Allure run is reported
+as incomplete and is never interpreted as successful.
+
+## Optional provider advisory
+
+Add `shaft-ai` when invoking `DoctorAnalyzer.analyzeWithAi(...)` directly. The
+`shaft-mcp` runtime classpath includes the OpenAI, Anthropic, Gemini, and
+Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
+must independently enable the provider, processing location, model, and every
+submitted evidence category.
+
+Local Ollama follows the same Doctor command path after Pilot properties enable
+local advisory analysis.
+
+Ollama defaults to `http://127.0.0.1:11434/api/chat`. Changing the endpoint does
+not weaken consent, redaction, minimization, schema validation, or evidence-ID
+checks.
+
+For OpenAI, Anthropic, or Gemini, select the provider and model, approve remote
+processing, and approve the same evidence categories. Credentials remain in
+the provider-specific environment variable documented in
+[optional provider controls](/docs/agentic/providers); they are never Doctor arguments or report
+fields.
+
+Doctor submits the deterministic diagnosis, its explicit uncertainty, and only
+the textual evidence cited by deterministic findings. Unknown cases may submit
+the smallest available textual evidence set. Provider output must match the
+versioned `shaft-doctor-advisory-1.0` schema and may contain observations,
+hypotheses with confidence, missing evidence, recommended actions, and
+limitations. References outside the submitted evidence-ID allowlist reject the
+entire advisory. Uncited claims and hypotheses that contradict the
+deterministic primary cause are visibly marked.
+
+Timeout, rate limit, invalid credentials, unavailable provider, malformed JSON,
+schema violation, oversized output, invented evidence, and budget exhaustion
+produce an explicit fallback advisory while retaining the complete
+deterministic report. Reports contain provider/model/configuration identifiers,
+duration, usage when available, cache state, and a safe fallback reason. They
+never contain credentials, raw provider responses, or hidden reasoning.
+
+Use `--ai-cache` to explicitly cache successful safe structured advisories
+under the output directory. Cache keys include the evidence bundle checksum,
+deterministic diagnosis checksum, and a non-secret provider/configuration
+checksum. Failures and raw evidence are never cached.
+
+## MCP
+
+`doctor_analyze_failed_allure` accepts explicit input paths, historical bundle paths,
+allowed roots, an output directory, screenshot/page-snapshot approvals, and
+the minimum expected Allure result count. The tool calls the same
+`DoctorAnalyzer` used by the CLI. It remains deterministic when Pilot AI is
+disabled; when the MCP server is explicitly started with an enabled provider,
+the same separate advisory and fallback rules apply.
+
+Use `doctor_analyze_failed_allure` and `doctor_suggest_fix` for default
+Selenium/WebDriver remediation snippets. Use
+`playwright_doctor_analyze_failed_allure` and `playwright_doctor_suggest_fix`
+when the failed test is written with `SHAFT.GUI.Playwright`; the evidence model
+is the same, but the returned code blocks use Playwright assertions and actions.
+
+`doctor_suggest_fix` and `playwright_doctor_suggest_fix` cap their remediation
+output at the top 5 ranked causes and tag each block with its category and
+trust score, for example `LOCATOR (trust 82%)`, so an MCP client (including
+the IntelliJ Assistant's `/doctor` command) can present causes in trust order
+without re-deriving the ranking itself.
+
+ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
+`doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
+the client and is not ingested by SHAFT. Copilot is MCP interoperability, not a
+generic Copilot API-key adapter. Download the credential-free
+[representative invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json).
+
+## MCP healer loop
+
+`healer_run_failed_test` builds on Doctor for failing Selenium tests. It reruns
+an allowlisted Maven test command under guardrails, snapshots the populated
+Allure results that changed during each attempt, and sends the fresh failing
+evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
+Use `playwright_healer_run_failed_test` for `SHAFT.GUI.Playwright` tests; it
+uses the same execution guardrails and sends evidence through the Playwright
+Doctor tool surface.
+
+The healer gives the MCP agent an explicit replay handoff: the agent may use
+its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
+tools to inspect WebDriver failures, or the `playwright_*` inspection and
+replay tools for Playwright failures, even when no SHAFT provider API key is
+configured. Configured SHAFT provider advisories remain optional and require
+the same Pilot consent as Doctor.
+
+The boundary is still review-only. The healer can suggest locator, wait,
+test-data, assertion, or setup fixes, or report a suspected product bug, but it
+does not edit files, skip tests, quarantine tests, publish branches, or bypass
+user confirmation.
+
+## Reviewed repair proposals
+
+Doctor repair is a separate, approval-gated workflow. `propose-fix` requires an
+exact 40-character base commit SHA, explicit repository-relative file
+allowlists, structured full-file patches, and tokenized Maven validation
+commands. It creates `codex/doctor- - ` in a temporary
+Git worktree, applies changes only there, and returns a persisted manifest with
+the complete unified diff, patch checksums, diagnosis/evidence references,
+exact validation commands, populated Allure counts, residual risk, rollback
+guidance, and a one-proposal approval token.
+
+Example `repair-input.json`:
+
+```json
+{
+ "patches": [
+ {
+ "path": "src/test/java/example/CheckoutTest.java",
+ "operation": "REPLACE",
+ "content": "package example;\n\nfinal class CheckoutTest {}\n",
+ "rationale": "Apply the reviewed diagnosis.",
+ "evidenceIds": ["allure-result-1"]
+ }
+ ],
+ "validationCommands": [
+ ["mvn", "-pl", "shaft-engine", "-am", "test", "-Dtest=CheckoutTest"],
+ ["mvn", "-pl", "shaft-engine", "-am", "compile", "-DskipTests"]
+ ]
+}
+```
+
+Run the reviewed repair command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference) after preparing
+the reviewed input.
+
+Only Maven compile, test, package, install, verification, Surefire/Failsafe, and
+JavaDoc goals are accepted. Commands are executed as argument arrays without a
+shell. Release, deployment, SCM, Versions Plugin, shell metacharacter, and
+arbitrary executable input is rejected. Test-running commands are forced to
+include `-DheadlessExecution=true`; a zero process exit alone is insufficient
+when populated passing Allure results are expected. Maven runs offline by
+default. CLI users must add `--approve-network-validation`, or MCP clients must
+set `networkValidationApproved=true`, before validation may access the network.
+
+`--ai` can request an optional provider-generated patch. The provider receives
+only the deterministic diagnosis and exact approved regular source files under
+explicit `TEXT` and `SOURCE` consent. Output must match the versioned repair
+patch schema. Invented paths, commands, symlinks, binary or oversized content,
+protected workflows, generated paths, and secret-like material are rejected.
+Provider, consent, timeout, or schema failure returns no patch and does not
+create a worktree.
+
+Publishing is always a later explicit action using the matching command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Failed validation blocks publication by default. An explicit
+`--override-failed-validation` also requires `--override-rationale`, which is
+recorded in the manifest and pull-request body. Publication stages only the
+manifested files, creates a Doctor-identified commit, pushes the dedicated
+branch, and creates or reuses an open draft pull request through authenticated
+`gh`. It never marks a PR ready, merges, releases, deploys, resets, cleans, or
+switches the user's current worktree. The temporary worktree is removed after
+publication or explicit cancellation; the published branch remains.
+
+The MCP equivalents are `doctor_propose_fix` and
+`doctor_publish_draft_pr`. The latter requires the same separate `approved`
+boolean and exact proposal token.
+
+## Evidence
+
+The collector recognizes populated Allure `*-result.json`, normalized exception
+chains, SHAFT logs/action history, environment metadata, dependency/build
+metadata, configuration summaries, `shaft-diagnostics.zip` attachments,
+screenshots, and page snapshots. When a failed SHAFT test attaches
+`shaft-diagnostics.zip`, Doctor reads only `diagnostics.json` from the archive
+and treats it as sanitized SHAFT log evidence for deterministic rules and MCP
+handoff. Text and structured JSON are redacted before retention or hashing.
+Password fields, authorization and cookie headers, tokens, private keys, common
+credential fields, and configured sensitive names are replaced without
+retaining their original values.
+
+Allure attempts are grouped by history ID and ordered by their recorded start
+time. Non-final failed, broken, and skipped attempts remain visible even when
+the final attempt passes. Historical bundles are optional and can be copied
+with their relative `artifacts/` directory for offline analysis.
+
+## Diagnosis
+
+The ordered rule engine classifies primary and contributing causes as:
+
+- `PRODUCT`
+- `TEST`
+- `LOCATOR`
+- `DATA`
+- `TIMING_SYNCHRONIZATION`
+- `ENVIRONMENT_CONFIGURATION`
+- `INFRASTRUCTURE`
+- `UNKNOWN`
+
+Rules cover locator-not-found, duplicate, stale, hidden/covered/interactable,
+frame/window context, assertion and test-data mismatches, timeout symptoms,
+driver/browser startup, Grid/Appium/network/filesystem/resource failures,
+setup/cleanup failures, parallel shared-state symptoms, retry-hidden failures,
+and recurring historical signatures. Every inference cites evidence IDs and
+is kept separate from observations. Unknown and contradictory cases remain
+unknown and list the missing evidence needed to narrow them.
+
+Each ranked cause additionally carries a deterministic **trust percentage**
+(5-95%) from a factor model: a confidence band for the matched rule, the
+evidence citations backing it, rule precedence when multiple rules match the
+same signature, minus a contradiction penalty when another finding disagrees.
+The same evidence always yields the same trust score. `doctor-report.md`'s
+**Ranked Root Causes** section lists causes highest-trust first, each with its
+rationale and a fenced, copy/paste-ready fix prompt that can be sent to any AI
+assistant or agent to apply the fix.
+
+## Sharing
+
+Review `doctor-evidence.json`, `doctor-report.json`, and any approved
+`artifacts/` before sharing. Screenshots and page source can contain personal
+or confidential data even after deterministic redaction and therefore remain
+opt-in. Doctor never uploads evidence automatically.
+
+## Validation
+
+Run from the repository root:
+
+```bash
+mvn -pl shaft-doctor,shaft-ai,shaft-mcp -am test
+mvn -pl shaft-doctor -am javadoc:javadoc
+```
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Providers](/docs/agentic/providers)
+
+---
+
 # IntelliJ IDEA plugin
 
 Canonical URL: https://shafthq.github.io/docs/agentic/intellij
@@ -4646,349 +4965,148 @@ channel.
 
 ---
 
-# SHAFT Pilot
+# Optional AI providers
 
-Canonical URL: https://shafthq.github.io/docs/agentic/pilot
+Canonical URL: https://shafthq.github.io/docs/agentic/providers
 
-# SHAFT Pilot
+# Optional AI providers
 
-SHAFT Pilot combines deterministic browser Capture, TestNG generation, failure
-diagnosis, reviewed repair proposals, and MCP interoperability.
-AI is optional and disabled by default.
-Capture, generation, Doctor, and MCP remain usable without a provider account,
-API key, model, or network call.
+SHAFT Pilot separates provider-neutral contracts from optional direct model
+access:
 
-## Modules
+- `shaft-pilot-core` contains immutable request/response records, approval and
+ redaction policies, budgets, safe audit metadata, provider capabilities,
+ `ServiceLoader` discovery, and deterministic fallback.
+- `shaft-ai` contains direct HTTP adapters for OpenAI, Anthropic, Google Gemini,
+ GitHub Models, and local Ollama. It uses JDK `HttpClient`; no provider SDK
+ type is exposed.
+- `shaft-engine` exposes only thread-local `SHAFT.Properties.pilot`
+ configuration. It has no dependency on either Pilot module.
 
-| Module | Purpose |
-| --- | --- |
-| `shaft-pilot-core` | Approval, redaction, budget, schema, audit, and deterministic fallback contracts. |
-| `shaft-capture` | Managed Chrome/Edge recording and deterministic TestNG generation. |
-| `shaft-doctor` | Portable evidence, deterministic diagnosis, and isolated reviewed repair proposals. |
-| `shaft-ai` | Optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama adapters. |
-| `shaft-mcp` | Executable stdio and Streamable HTTP server plus Capture and Doctor CLI. |
+`shaft-capture` and `shaft-doctor` depend on `shaft-pilot-core`. Add
+`shaft-ai` only when direct provider calls are required. Capture creation,
+validation, migration, and redaction remain deterministic with
+`pilot.ai.enabled=false`.
 
-Library consumers should import `shaft-bom` and add only the modules they use:
+SHAFT Doctor uses these contracts for an optional separately rendered advisory.
+It submits only minimized evidence from an already-redacted `EvidenceBundle`
+plus the deterministic diagnosis. Provider output cannot replace the baseline,
+must cite only submitted evidence IDs, and falls back safely for provider,
+budget, timeout, or validation failures. See [SHAFT Doctor](/docs/agentic/doctor).
 
-```xml
- 
- 
- 
- io.github.shafthq 
- shaft-bom 
- ${shaft.version} 
- pom 
- import 
- 
- 
- 
+## Safe defaults
 
- 
- 
- io.github.shafthq 
- shaft-capture 
- 
- 
- io.github.shafthq 
- shaft-doctor 
- 
- 
-```
-
-Add `shaft-ai` only for direct provider calls. External ChatGPT, Codex,
-Claude, Gemini, and GitHub Copilot clients use SHAFT through MCP and keep their
-own authentication.
-
-## Install the MCP server
-
-Use [Connect shaft-mcp](/docs/agentic/mcp) for installer, client
-configuration, local command, and Streamable HTTP setup. The
-[MCP command reference](/docs/agentic/mcp#mcp-command-reference) is the only
-page that carries runnable MCP command examples.
-
-## Capture example
-
-Start a privacy-filtered recording from the
-[MCP command reference](/docs/agentic/mcp#mcp-command-reference). Omit
-`--headless` when a person will drive the browser locally. Drive the visible
-browser or the automation controlling the headless session, optionally add a
-checkpoint, then stop and generate from the same canonical command page.
-
-Generation writes Java source, externalized ordinary test data, and
-`target/shaft-capture/generation-report.json`. Passwords, configured sensitive
-fields, credential-shaped values, private paths, and unsafe locator evidence
-are excluded or redacted. Replay succeeds only when the generated project
-compiles, passes, and produces populated Allure result JSON.
-
-During recording, SHAFT writes actions incrementally so a cross-domain
-navigation does not discard earlier steps. Text entry is consolidated into a
-single type action until it is committed or followed by a special key, while
-keys such as Enter and Tab remain separate actions. The recorder overlay lets
-you edit, delete, reorder, and add visible assertions for captured steps, and
-deleting a typed step also removes its externalized test-data reference. Each
-action keeps sanitized page context and a DOM snapshot so code generation can
-rank semantic, stable locators and honor a pinned locator preference. Stopping
-the recording closes the managed browser, saves the session, and returns the
-next code-generation request as a fenced block, ready to send.
-
-## Doctor example
-
-Analyze only explicitly allowed evidence with the Doctor command on
-[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
-
-Outputs include `doctor-evidence.json`, `doctor-report.json`, and
-`doctor-report.md`. The deterministic rules classify product, test, locator,
-data, timing/synchronization, environment/configuration, infrastructure, and
-unknown failures. Empty and retry-only evidence remains visible instead of
-being converted into a false success.
-
-## Reviewed repair example
-
-Create a complete reviewed input based on
-`examples/shaft-pilot/doctor/repair-input.json`, then use the reviewed repair
-commands from [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
-
-Doctor creates and validates a temporary isolated worktree. It does not modify
-the current branch or write to GitHub. After reviewing the diff and validation
-result, publish only a draft pull request with the exact returned token.
-
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. Publication cannot merge, bypass branch protection,
-or proceed without separate explicit approval.
-
-## MCP clients
-
-For Codex, Claude, or GitHub Copilot, choose the matching application command
-in [Connect shaft-mcp](/docs/agentic/mcp). The installer resolves the latest
-Maven Central release, verifies the JAR, and updates the per-user local stdio
-configuration without requiring you to edit a client configuration file.
-
-Use the [remote-client section](/docs/agentic/mcp#remote-clients) for
-Streamable HTTP setup. The endpoint is `/mcp` and the default port is `8081`.
-ChatGPT developer mode/apps and cloud agents cannot launch a local JAR, so
-deploy the container and expose `/mcp` over HTTPS. GitHub Copilot is an MCP
-client integration; it is not a direct provider API-key adapter.
-
-External client capabilities were verified against official documentation on
-June 12, 2026:
-
-| Client | Supported SHAFT connection | Current limitation or control |
-| --- | --- | --- |
-| ChatGPT apps/developer mode | Public HTTPS Streamable HTTP `/mcp`. See [Connect from ChatGPT](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt). | Hosted ChatGPT cannot start the local JAR; workspace plan and administrator controls apply. |
-| Codex CLI and IDE extension | Local stdio or Streamable HTTP, configured by CLI or shared `config.toml`. See [Codex MCP](https://developers.openai.com/codex/mcp). | Tool approval remains a Codex client policy. |
-| Claude Code and Desktop | Local stdio; Claude Code also supports HTTP and can import Desktop configuration. See [Claude Code MCP](https://docs.anthropic.com/en/docs/claude-code/mcp). | The Claude Messages API uses its separate remote [MCP connector](https://docs.anthropic.com/en/docs/agents-and-tools/mcp-connector). |
-| Gemini CLI | Local stdio, SSE, or Streamable HTTP through `settings.json`. See [Gemini CLI MCP](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md). | Server trust and tool confirmation are controlled by Gemini CLI. |
-| GitHub Copilot | MCP-capable IDEs and CLI can use local or remote servers; cloud agent uses repository MCP configuration. See [GitHub Copilot MCP](https://docs.github.com/en/copilot/concepts/context/mcp). | Cloud agent/code review currently consume tools only, and organization policy may restrict MCP. |
-
-## Optional providers
-
-Safe defaults:
+AI is off unless both settings are changed:
 
 ```properties
 pilot.ai.enabled=false
 pilot.ai.provider=none
-pilot.ai.consent.local=false
-pilot.ai.consent.remote=false
-pilot.ai.allowedEvidenceCategories=
 ```
 
-Download the
-[OpenAI](/examples/shaft-pilot/providers/openai.properties),
-[Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
-[Gemini](/examples/shaft-pilot/providers/gemini.properties),
-[GitHub Models](/examples/shaft-pilot/providers/github.properties), or
-[Ollama](/examples/shaft-pilot/providers/ollama.properties) example. Remote
-providers read credentials only from their configured environment variable
-names. Ollama needs no credential but still requires local consent.
-Remote consent, local consent, and every evidence category are denied unless
-explicitly enabled.
+Provider models default to blank except `pilot.ai.gemini.model`, which
+defaults to `gemini-3.5-flash`; remote and local consent default to `false`,
+and no evidence category is approved by default. Disabled or unavailable AI
+returns the request's `deterministicFallback` and makes no network call.
 
-Provider output is advisory. It cannot replace deterministic diagnosis, apply
-a Capture enrichment without review, or publish a repair without a second
-approval. Timeout, rate limit, authentication, malformed JSON, schema failure,
-budget exhaustion, and provider unavailability all preserve deterministic
-output.
+Credentials are read only from environment variables:
 
-## Privacy and security
-
-- Review recordings, externalized data, Doctor bundles, and repair manifests
- before sharing them.
-- Screenshots and page snapshots are excluded from Doctor unless explicitly
- requested.
-- Remote provider sharing requires explicit consent after minimization and
- redaction.
-- Credentials remain in environment variables or provider-native client
- authentication and must not be stored in SHAFT properties, examples, logs,
- generated tests, or Allure attachments.
-- Pilot audit events contain provider/model identifiers, redaction counts,
- duration, and status, but not prompts, evidence, credentials, or raw model
- responses.
-
-## Troubleshooting
-
-| Symptom | Resolution |
+| Provider | Default variable |
 | --- | --- |
-| MCP process exits or prints non-protocol output | Use Java 25, launch with the installer-generated argfile or thin classpath, and keep stdio logs on stderr. |
-| HTTP client cannot connect | Start with `--spring.profiles.active=http`, expose port `8081`, and use `/mcp`. |
-| Capture cannot start | Confirm Chrome or Edge is installed, no prior Capture session owns the runtime directory, and use `--headless` in CI. |
-| Generated test does not replay | Read `generation-report.json`; fix missing external data or an unsupported/ambiguous locator before regenerating. |
-| Doctor reports incomplete evidence | Provide populated `*-result.json` Allure files and set the correct `--allowed-root`. |
-| Provider is unavailable | Keep the deterministic result; verify enablement, consent, model, endpoint, budget, and environment variable name before retrying. |
-| Repair proposal is rejected | Use an exact base SHA, repository-relative allowlist, complete file content, tokenized Maven commands, and a clean isolated worktree. |
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Gemini | `GEMINI_API_KEY` |
+| GitHub Models | `GITHUB_TOKEN` |
+| Ollama | none |
 
-See [SHAFT Capture](/docs/agentic/capture), [SHAFT Doctor](/docs/agentic/doctor),
-[optional AI providers](/docs/agentic/providers), and [SHAFT MCP](/docs/agentic/mcp) for the
-complete contracts.
+The environment variable names are configurable, but credential values are
+never SHAFT properties. Provider endpoints and models are configured through
+`SHAFT.Properties.pilot`; no model is selected implicitly.
 
-## Example assets 
+## Approval and evidence
 
-Credential-free example assets for the commands above — review and replace
-paths/content before reusing any of them:
+Every request carries an `ApprovalPolicy`, and the effective SHAFT properties
+must independently approve the same processing location and all submitted
+`EvidenceCategory` values. Remote calls require
+`pilot.ai.consent.remote=true`. Ollama requires
+`pilot.ai.consent.local=true`; a loopback endpoint is not trusted
+automatically.
 
-- [`providers/ollama.properties`](/examples/shaft-pilot/providers/ollama.properties) —
- load as SHAFT properties to try the optional local Ollama advisory after
- reviewing the [provider controls](/docs/agentic/providers). The
- deterministic diagnosis remains the baseline if Ollama is unavailable or
- returns invalid output.
-- [`doctor/repair-input.json`](/examples/shaft-pilot/doctor/repair-input.json) —
- use only after replacing its paths and content with a reviewed change.
- Doctor repair creates an isolated worktree and does not publish to GitHub
- without a separate approval token.
-- [Doctor chat invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json) —
- a credential-free Doctor example.
-- [OpenAI](/examples/shaft-pilot/providers/openai.properties),
- [Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
- [Gemini](/examples/shaft-pilot/providers/gemini.properties), and
- [GitHub Models](/examples/shaft-pilot/providers/github.properties) property
- examples for the other optional providers.
+Before provider execution, `AiExecutionService`:
 
-## Related
+1. checks provider capabilities and availability;
+2. enforces request size, token, cost, timeout, concurrency, and circuit-breaker
+ limits;
+3. rejects unapproved evidence categories;
+4. redacts authorization and cookie headers, password/secret assignments,
+ common tokens, configured DOM selectors, attributes, and patterns;
+5. validates provider JSON against the requested schema;
+6. returns deterministic fallback for every failure.
 
-- [Overview](/docs/agentic/overview)
-- [MCP](/docs/agentic/mcp)
-- [Doctor](/docs/agentic/doctor)
-- [Providers](/docs/agentic/providers)
+Audit events contain only request ID, purpose, provider/model identifiers,
+redaction counts, duration, and status. Prompts, evidence, credentials, raw
+responses, and original secret values are excluded.
 
----
+## Example
 
-# shaft-cli command line
+```java
+SHAFT.Properties.pilot.set()
+ .enabled(true)
+ .provider("ollama")
+ .localConsent(true)
+ .allowedEvidenceCategories("TEXT")
+ .ollamaModel("your-local-model");
 
-Canonical URL: https://shafthq.github.io/docs/agentic/cli
+var schema = JsonNodeFactory.instance.objectNode()
+ .put("type", "object");
+schema.putObject("properties")
+ .putObject("summary")
+ .put("type", "string");
+schema.putArray("required").add("summary");
 
-# shaft-cli command line
+var approval = new ApprovalPolicy(
+ true,
+ false,
+ Set.of(EvidenceCategory.TEXT));
 
-`shaft-cli` is an MCP client and command-line interface to
-[shaft-mcp](/docs/agentic/mcp). It brings the full shaft-mcp tool set to the
-command line with zero tool-logic duplication, operating in two modes:
-stateless one-shot commands and a persistent session mode for stateful tools.
+var request = AiRequest.builder("doctor-summary", schema)
+ .text(redactedDiagnosticText)
+ .approvalPolicy(approval)
+ .deterministicFallback(deterministicDiagnosis)
+ .build();
 
-## Install
-
-Pass `--install-shaft-cli` to the shaft-mcp installer (the copy-paste command
-on the [Connect shaft-mcp page](/docs/agentic/mcp)) to also install shaft-cli —
-no local Java or Python required; the installer bootstraps whatever is missing.
-The flag is independent of `--client`, so it can be combined with any MCP
-client target, or run on its own.
-
-The installer downloads and SHA-256-verifies `shaft-cli- .jar` from
-Maven Central, then writes a runnable launcher (`shaft-cli` on macOS/Linux,
-`shaft-cli.cmd` on Windows) plus a `shaft-cli.args` Java argfile next to it,
-under the platform's application-data root:
-
-- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-cli\versions\ \`
-- macOS: `~/Library/Application Support/ShaftHQ/shaft-cli/versions/ /`
-- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-cli/versions/ /`
-
-shaft-mcp is a prerequisite; install it with the same command. shaft-cli
-locates it in this order:
-
-1. The `SHAFT_MCP_JAR` environment variable
-2. The installer's versions directory
-3. A sibling `../shaft-mcp/target` (development checkout)
-
-## Modes
-
-**One-shot mode** (default): each command spawns an ephemeral shaft-mcp child
-process over stdio, runs a single tool call, and exits. Suitable for stateless
-tools like guide search and doctor analysis.
-
-**Session mode**: `shaft-cli session start` launches a persistent shaft-mcp
-daemon (HTTP on a localhost port) and records the session endpoint to
-`~/.shaft/cli-session.json`. Subsequent commands connect over HTTP, preserving
-browser and device state across invocations. Commands that need live state
-(`browser`, `element`, `capture`) fail fast when no session is running, unless
-`--stdio-ok` is passed.
-
-Routing: if a live session exists, commands use HTTP; otherwise a one-shot
-stdio child is spawned.
-
-## Commands
-
-All commands support `-h`/`--help`; the root supports `-V`/`--version`.
-
-**`shaft-cli tools [--json]`** — list all available tools (name and first
-sentence of description). `--json` outputs the raw `tools/list` result.
-
-**`shaft-cli call [key=value ...] [--args ' '] [--json]
-[--stdio-ok]`** — invoke any tool by name. Arguments come from repeated
-`key=value` pairs (values are coerced: `true`/`false` to booleans,
-integers/decimals to numbers, `{...}`/`[...]` to JSON, otherwise strings)
-and/or `--args '{"k":"v"}'` (`key=value` overrides keys from `--args`).
-`--json` outputs the raw JSON-RPC result instead of rendered text.
-
-**`shaft-cli session start | status | stop`** — manage the daemon. `start`
-prints the port and pid; `status` prints
-`running — port , pid , started `.
-
-**Curated aliases** (same options as `call`):
-
-- `shaft-cli browser navigate|screenshot|dom|url` (session required)
-- `shaft-cli element click|type|hover` (session required)
-- `shaft-cli capture start|stop|status|code` (session required)
-- `shaft-cli guide search` (stateless)
-- `shaft-cli doctor analyze|suggest` (stateless)
-
-## Examples
-
-```text
-shaft-cli tools
-
-# trace_latest — returns recent persisted SHAFT trace indexes from target/shaft-traces
-
-# [...]
-
-shaft-cli session start
-
-# shaft-cli session started on port 12345 (pid 9876).
-
-shaft-cli session status
-
-# running — port 12345, pid 9876, started 2025-12-20T14:30:45Z
-
-shaft-cli call shaft_guide_search query='click element' maxResults=1
-
-# [JSON guide-search result]
-
-shaft-cli guide search query='click element' --stdio-ok
-
-# [guide search works with no session]
-
-shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout happy path' maxDepth=2
-
-# [Markdown test plans written to specs/]
+AiResponse response = new AiExecutionService().execute(request);
 ```
 
-## Exit codes
+Call `SHAFT.Properties.clearForCurrentThread()` at lifecycle boundaries after
+setting per-thread Pilot properties.
 
-- **0**: success
-- **1**: tool error, transport error, or `--json` result with `isError`
-- **2**: unknown alias action
+## Direct providers and external agents
+
+Direct provider adapters are separate from MCP clients. OpenAI, Anthropic,
+Gemini, and GitHub Models credentials apply only to `shaft-ai` direct calls.
+GitHub/Microsoft Copilot is supported through SHAFT MCP and retains its own
+client authentication; SHAFT does not request or define a generic Copilot model
+API key.
+
+Credential-free MCP configuration fixtures are under
+the [downloadable Pilot example assets](/docs/agentic/pilot#example-assets). See
+[SHAFT MCP](/docs/agentic/mcp) for transport
+and deployment details. The representative `doctor_analyze` fixture covers
+ChatGPT, Codex, Claude, Gemini, and GitHub Copilot without embedding any client
+or provider credential.
+
+Provider request mappings follow the official
+[OpenAI structured output](https://developers.openai.com/api/docs/guides/structured-outputs),
+[Anthropic structured output](https://platform.claude.com/docs/en/build-with-claude/structured-outputs),
+[Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output),
+[GitHub Models](https://docs.github.com/en/rest/models/inference),
+and [Ollama chat](https://docs.ollama.com/api/chat) contracts.
 
 ## Related
 
-- [MCP](/docs/agentic/mcp)
 - [Overview](/docs/agentic/overview)
-- [Capture](/docs/agentic/capture)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)
 
 ---
@@ -5762,325 +5880,6 @@ For device traffic captured outside a browser, `mobile_api_record_start` / `_sta
 
 ---
 
-# Diagnose failures with Doctor
-
-Canonical URL: https://shafthq.github.io/docs/agentic/doctor
-
-# Diagnose failures with Doctor
-
-`io.github.shafthq:shaft-doctor` collects explicitly selected local test
-evidence into a portable, redacted bundle and applies ordered deterministic
-rules. It does not require `shaft-ai`, a provider credential, or network
-access. The complete baseline works with `pilot.ai.enabled=false`.
-
-Optional provider analysis is advisory only. It is disabled unless explicitly
-requested, receives only minimized already-redacted evidence, and never
-replaces the deterministic diagnosis, findings, confidence, or remediation.
-
-## Outputs
-
-Each analysis writes:
-
-- `doctor-evidence.json`: versioned `EvidenceBundle` with checksums,
- provenance, relative paths, size-limit decisions, and a redaction summary;
-- `doctor-report.json`: the bundle plus versioned `Diagnosis`, cited
- `Finding` records, confidence, uncertainty, and `Remediation` actions, plus
- a separately identified advisory when provider analysis is requested;
-- `doctor-report.md`: a portable human-readable report and evidence index,
- including a **Ranked Root Causes** section listing each candidate cause with
- its trust percentage, rationale, and a copy/paste-ready fix prompt;
-- `doctor-triage.json` and `doctor-triage.md`: deterministic counts for
- failing attempts, retry-hidden failures, recurring signatures, primary
- signature, summary, and cited evidence IDs;
-- `execution-intelligence.json` and `execution-intelligence.md`: a compact
- execution trend summary with primary cause, confidence, hidden retry count,
- and recurring failure count;
-- `artifacts/`: approved binary evidence such as screenshots.
-
-Reports contain no original absolute machine paths. Evidence IDs and bundle
-IDs are content-derived, and JSON formatting uses LF line endings so repeated
-analysis of identical inputs is byte stable.
-
-## Run Doctor
-
-Use the Doctor command on
-[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). The canonical
-`doctor analyze` command and its `--allowed-root` option live there.
-
-The command writes `doctor-evidence.json`, `doctor-report.json`,
-`doctor-report.md`, `doctor-triage.*`, and `execution-intelligence.*` under
-`target/shaft-doctor`.
-
-Doctor input is flexible: point it at an `allure-results` directory, an
-individual populated `*-result.json` file, or a SHAFT single-file Allure HTML
-report (`AllureReport.html` or a timestamped variant such as
-`AllureReport-20260713-101500.html`) -- Doctor extracts the embedded results
-from the HTML report the same way it reads a results directory. Naming no
-path at all auto-discovers the newest evidence in the workspace: the most
-recently populated `allure-results` directory, or otherwise the newest
-`AllureReport.html`. The SHAFT Assistant routes natural-language phrasing such
-as "diagnose my last run" or "why did my tests fail" through the same
-auto-discovery.
-
-From an MCP chat:
-
-> Use `doctor_analyze_failed_allure` on the `allure-results` directory. Allow only the current
-> project root, write results to `target/shaft-doctor`, and do not collect
-> screenshots.
-
-## CLI reference
-
-The MCP main class exposes Doctor as a local command. Keep runnable MCP
-commands on the [MCP command reference](/docs/agentic/mcp#mcp-command-reference)
-so classpath, Windows separator, and local/remote setup guidance stay in one
-place.
-
-Every readable input must resolve under an explicit allowed root. Symlink
-targets are resolved before collection. The output directory must also be
-inside a declared root. Add repeated `--history` options to correlate recurring
-signatures from older `doctor-evidence.json` files.
-
-Screenshots and page snapshots are excluded by default. Retain them only with
-explicit approval through the Doctor command options documented on
-[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
-
-Use `--max-item-bytes` and `--max-bundle-bytes` to lower the conservative
-retention limits. Use `--minimum-results` when the expected run size is known;
-an empty, malformed, truncated, or unexpectedly small Allure run is reported
-as incomplete and is never interpreted as successful.
-
-## Optional provider advisory
-
-Add `shaft-ai` when invoking `DoctorAnalyzer.analyzeWithAi(...)` directly. The
-`shaft-mcp` runtime classpath includes the OpenAI, Anthropic, Gemini, and
-Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
-must independently enable the provider, processing location, model, and every
-submitted evidence category.
-
-Local Ollama follows the same Doctor command path after Pilot properties enable
-local advisory analysis.
-
-Ollama defaults to `http://127.0.0.1:11434/api/chat`. Changing the endpoint does
-not weaken consent, redaction, minimization, schema validation, or evidence-ID
-checks.
-
-For OpenAI, Anthropic, or Gemini, select the provider and model, approve remote
-processing, and approve the same evidence categories. Credentials remain in
-the provider-specific environment variable documented in
-[optional provider controls](/docs/agentic/providers); they are never Doctor arguments or report
-fields.
-
-Doctor submits the deterministic diagnosis, its explicit uncertainty, and only
-the textual evidence cited by deterministic findings. Unknown cases may submit
-the smallest available textual evidence set. Provider output must match the
-versioned `shaft-doctor-advisory-1.0` schema and may contain observations,
-hypotheses with confidence, missing evidence, recommended actions, and
-limitations. References outside the submitted evidence-ID allowlist reject the
-entire advisory. Uncited claims and hypotheses that contradict the
-deterministic primary cause are visibly marked.
-
-Timeout, rate limit, invalid credentials, unavailable provider, malformed JSON,
-schema violation, oversized output, invented evidence, and budget exhaustion
-produce an explicit fallback advisory while retaining the complete
-deterministic report. Reports contain provider/model/configuration identifiers,
-duration, usage when available, cache state, and a safe fallback reason. They
-never contain credentials, raw provider responses, or hidden reasoning.
-
-Use `--ai-cache` to explicitly cache successful safe structured advisories
-under the output directory. Cache keys include the evidence bundle checksum,
-deterministic diagnosis checksum, and a non-secret provider/configuration
-checksum. Failures and raw evidence are never cached.
-
-## MCP
-
-`doctor_analyze_failed_allure` accepts explicit input paths, historical bundle paths,
-allowed roots, an output directory, screenshot/page-snapshot approvals, and
-the minimum expected Allure result count. The tool calls the same
-`DoctorAnalyzer` used by the CLI. It remains deterministic when Pilot AI is
-disabled; when the MCP server is explicitly started with an enabled provider,
-the same separate advisory and fallback rules apply.
-
-Use `doctor_analyze_failed_allure` and `doctor_suggest_fix` for default
-Selenium/WebDriver remediation snippets. Use
-`playwright_doctor_analyze_failed_allure` and `playwright_doctor_suggest_fix`
-when the failed test is written with `SHAFT.GUI.Playwright`; the evidence model
-is the same, but the returned code blocks use Playwright assertions and actions.
-
-`doctor_suggest_fix` and `playwright_doctor_suggest_fix` cap their remediation
-output at the top 5 ranked causes and tag each block with its category and
-trust score, for example `LOCATOR (trust 82%)`, so an MCP client (including
-the IntelliJ Assistant's `/doctor` command) can present causes in trust order
-without re-deriving the ranking itself.
-
-ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
-`doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
-the client and is not ingested by SHAFT. Copilot is MCP interoperability, not a
-generic Copilot API-key adapter. Download the credential-free
-[representative invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json).
-
-## MCP healer loop
-
-`healer_run_failed_test` builds on Doctor for failing Selenium tests. It reruns
-an allowlisted Maven test command under guardrails, snapshots the populated
-Allure results that changed during each attempt, and sends the fresh failing
-evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
-Use `playwright_healer_run_failed_test` for `SHAFT.GUI.Playwright` tests; it
-uses the same execution guardrails and sends evidence through the Playwright
-Doctor tool surface.
-
-The healer gives the MCP agent an explicit replay handoff: the agent may use
-its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
-tools to inspect WebDriver failures, or the `playwright_*` inspection and
-replay tools for Playwright failures, even when no SHAFT provider API key is
-configured. Configured SHAFT provider advisories remain optional and require
-the same Pilot consent as Doctor.
-
-The boundary is still review-only. The healer can suggest locator, wait,
-test-data, assertion, or setup fixes, or report a suspected product bug, but it
-does not edit files, skip tests, quarantine tests, publish branches, or bypass
-user confirmation.
-
-## Reviewed repair proposals
-
-Doctor repair is a separate, approval-gated workflow. `propose-fix` requires an
-exact 40-character base commit SHA, explicit repository-relative file
-allowlists, structured full-file patches, and tokenized Maven validation
-commands. It creates `codex/doctor- - ` in a temporary
-Git worktree, applies changes only there, and returns a persisted manifest with
-the complete unified diff, patch checksums, diagnosis/evidence references,
-exact validation commands, populated Allure counts, residual risk, rollback
-guidance, and a one-proposal approval token.
-
-Example `repair-input.json`:
-
-```json
-{
- "patches": [
- {
- "path": "src/test/java/example/CheckoutTest.java",
- "operation": "REPLACE",
- "content": "package example;\n\nfinal class CheckoutTest {}\n",
- "rationale": "Apply the reviewed diagnosis.",
- "evidenceIds": ["allure-result-1"]
- }
- ],
- "validationCommands": [
- ["mvn", "-pl", "shaft-engine", "-am", "test", "-Dtest=CheckoutTest"],
- ["mvn", "-pl", "shaft-engine", "-am", "compile", "-DskipTests"]
- ]
-}
-```
-
-Run the reviewed repair command from
-[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference) after preparing
-the reviewed input.
-
-Only Maven compile, test, package, install, verification, Surefire/Failsafe, and
-JavaDoc goals are accepted. Commands are executed as argument arrays without a
-shell. Release, deployment, SCM, Versions Plugin, shell metacharacter, and
-arbitrary executable input is rejected. Test-running commands are forced to
-include `-DheadlessExecution=true`; a zero process exit alone is insufficient
-when populated passing Allure results are expected. Maven runs offline by
-default. CLI users must add `--approve-network-validation`, or MCP clients must
-set `networkValidationApproved=true`, before validation may access the network.
-
-`--ai` can request an optional provider-generated patch. The provider receives
-only the deterministic diagnosis and exact approved regular source files under
-explicit `TEXT` and `SOURCE` consent. Output must match the versioned repair
-patch schema. Invented paths, commands, symlinks, binary or oversized content,
-protected workflows, generated paths, and secret-like material are rejected.
-Provider, consent, timeout, or schema failure returns no patch and does not
-create a worktree.
-
-Publishing is always a later explicit action using the matching command from
-[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
-
-Failed validation blocks publication by default. An explicit
-`--override-failed-validation` also requires `--override-rationale`, which is
-recorded in the manifest and pull-request body. Publication stages only the
-manifested files, creates a Doctor-identified commit, pushes the dedicated
-branch, and creates or reuses an open draft pull request through authenticated
-`gh`. It never marks a PR ready, merges, releases, deploys, resets, cleans, or
-switches the user's current worktree. The temporary worktree is removed after
-publication or explicit cancellation; the published branch remains.
-
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. The latter requires the same separate `approved`
-boolean and exact proposal token.
-
-## Evidence
-
-The collector recognizes populated Allure `*-result.json`, normalized exception
-chains, SHAFT logs/action history, environment metadata, dependency/build
-metadata, configuration summaries, `shaft-diagnostics.zip` attachments,
-screenshots, and page snapshots. When a failed SHAFT test attaches
-`shaft-diagnostics.zip`, Doctor reads only `diagnostics.json` from the archive
-and treats it as sanitized SHAFT log evidence for deterministic rules and MCP
-handoff. Text and structured JSON are redacted before retention or hashing.
-Password fields, authorization and cookie headers, tokens, private keys, common
-credential fields, and configured sensitive names are replaced without
-retaining their original values.
-
-Allure attempts are grouped by history ID and ordered by their recorded start
-time. Non-final failed, broken, and skipped attempts remain visible even when
-the final attempt passes. Historical bundles are optional and can be copied
-with their relative `artifacts/` directory for offline analysis.
-
-## Diagnosis
-
-The ordered rule engine classifies primary and contributing causes as:
-
-- `PRODUCT`
-- `TEST`
-- `LOCATOR`
-- `DATA`
-- `TIMING_SYNCHRONIZATION`
-- `ENVIRONMENT_CONFIGURATION`
-- `INFRASTRUCTURE`
-- `UNKNOWN`
-
-Rules cover locator-not-found, duplicate, stale, hidden/covered/interactable,
-frame/window context, assertion and test-data mismatches, timeout symptoms,
-driver/browser startup, Grid/Appium/network/filesystem/resource failures,
-setup/cleanup failures, parallel shared-state symptoms, retry-hidden failures,
-and recurring historical signatures. Every inference cites evidence IDs and
-is kept separate from observations. Unknown and contradictory cases remain
-unknown and list the missing evidence needed to narrow them.
-
-Each ranked cause additionally carries a deterministic **trust percentage**
-(5-95%) from a factor model: a confidence band for the matched rule, the
-evidence citations backing it, rule precedence when multiple rules match the
-same signature, minus a contradiction penalty when another finding disagrees.
-The same evidence always yields the same trust score. `doctor-report.md`'s
-**Ranked Root Causes** section lists causes highest-trust first, each with its
-rationale and a fenced, copy/paste-ready fix prompt that can be sent to any AI
-assistant or agent to apply the fix.
-
-## Sharing
-
-Review `doctor-evidence.json`, `doctor-report.json`, and any approved
-`artifacts/` before sharing. Screenshots and page source can contain personal
-or confidential data even after deterministic redaction and therefore remain
-opt-in. Doctor never uploads evidence automatically.
-
-## Validation
-
-Run from the repository root:
-
-```bash
-mvn -pl shaft-doctor,shaft-ai,shaft-mcp -am test
-mvn -pl shaft-doctor -am javadoc:javadoc
-```
-
-## Related
-
-- [Overview](/docs/agentic/overview)
-- [MCP](/docs/agentic/mcp)
-- [Pilot](/docs/agentic/pilot)
-- [Providers](/docs/agentic/providers)
-
----
-
 # Recover locators with Heal
 
 Canonical URL: https://shafthq.github.io/docs/agentic/heal
@@ -6263,148 +6062,349 @@ original failure.
 
 ---
 
-# Optional AI providers
+# SHAFT Pilot
 
-Canonical URL: https://shafthq.github.io/docs/agentic/providers
+Canonical URL: https://shafthq.github.io/docs/agentic/pilot
 
-# Optional AI providers
+# SHAFT Pilot
 
-SHAFT Pilot separates provider-neutral contracts from optional direct model
-access:
+SHAFT Pilot combines deterministic browser Capture, TestNG generation, failure
+diagnosis, reviewed repair proposals, and MCP interoperability.
+AI is optional and disabled by default.
+Capture, generation, Doctor, and MCP remain usable without a provider account,
+API key, model, or network call.
 
-- `shaft-pilot-core` contains immutable request/response records, approval and
- redaction policies, budgets, safe audit metadata, provider capabilities,
- `ServiceLoader` discovery, and deterministic fallback.
-- `shaft-ai` contains direct HTTP adapters for OpenAI, Anthropic, Google Gemini,
- GitHub Models, and local Ollama. It uses JDK `HttpClient`; no provider SDK
- type is exposed.
-- `shaft-engine` exposes only thread-local `SHAFT.Properties.pilot`
- configuration. It has no dependency on either Pilot module.
+## Modules
 
-`shaft-capture` and `shaft-doctor` depend on `shaft-pilot-core`. Add
-`shaft-ai` only when direct provider calls are required. Capture creation,
-validation, migration, and redaction remain deterministic with
-`pilot.ai.enabled=false`.
+| Module | Purpose |
+| --- | --- |
+| `shaft-pilot-core` | Approval, redaction, budget, schema, audit, and deterministic fallback contracts. |
+| `shaft-capture` | Managed Chrome/Edge recording and deterministic TestNG generation. |
+| `shaft-doctor` | Portable evidence, deterministic diagnosis, and isolated reviewed repair proposals. |
+| `shaft-ai` | Optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama adapters. |
+| `shaft-mcp` | Executable stdio and Streamable HTTP server plus Capture and Doctor CLI. |
 
-SHAFT Doctor uses these contracts for an optional separately rendered advisory.
-It submits only minimized evidence from an already-redacted `EvidenceBundle`
-plus the deterministic diagnosis. Provider output cannot replace the baseline,
-must cite only submitted evidence IDs, and falls back safely for provider,
-budget, timeout, or validation failures. See [SHAFT Doctor](/docs/agentic/doctor).
+Library consumers should import `shaft-bom` and add only the modules they use:
 
-## Safe defaults
+```xml
+ 
+ 
+ 
+ io.github.shafthq 
+ shaft-bom 
+ ${shaft.version} 
+ pom 
+ import 
+ 
+ 
+ 
 
-AI is off unless both settings are changed:
+ 
+ 
+ io.github.shafthq 
+ shaft-capture 
+ 
+ 
+ io.github.shafthq 
+ shaft-doctor 
+ 
+ 
+```
+
+Add `shaft-ai` only for direct provider calls. External ChatGPT, Codex,
+Claude, Gemini, and GitHub Copilot clients use SHAFT through MCP and keep their
+own authentication.
+
+## Install the MCP server
+
+Use [Connect shaft-mcp](/docs/agentic/mcp) for installer, client
+configuration, local command, and Streamable HTTP setup. The
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference) is the only
+page that carries runnable MCP command examples.
+
+## Capture example
+
+Start a privacy-filtered recording from the
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference). Omit
+`--headless` when a person will drive the browser locally. Drive the visible
+browser or the automation controlling the headless session, optionally add a
+checkpoint, then stop and generate from the same canonical command page.
+
+Generation writes Java source, externalized ordinary test data, and
+`target/shaft-capture/generation-report.json`. Passwords, configured sensitive
+fields, credential-shaped values, private paths, and unsafe locator evidence
+are excluded or redacted. Replay succeeds only when the generated project
+compiles, passes, and produces populated Allure result JSON.
+
+During recording, SHAFT writes actions incrementally so a cross-domain
+navigation does not discard earlier steps. Text entry is consolidated into a
+single type action until it is committed or followed by a special key, while
+keys such as Enter and Tab remain separate actions. The recorder overlay lets
+you edit, delete, reorder, and add visible assertions for captured steps, and
+deleting a typed step also removes its externalized test-data reference. Each
+action keeps sanitized page context and a DOM snapshot so code generation can
+rank semantic, stable locators and honor a pinned locator preference. Stopping
+the recording closes the managed browser, saves the session, and returns the
+next code-generation request as a fenced block, ready to send.
+
+## Doctor example
+
+Analyze only explicitly allowed evidence with the Doctor command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Outputs include `doctor-evidence.json`, `doctor-report.json`, and
+`doctor-report.md`. The deterministic rules classify product, test, locator,
+data, timing/synchronization, environment/configuration, infrastructure, and
+unknown failures. Empty and retry-only evidence remains visible instead of
+being converted into a false success.
+
+## Reviewed repair example
+
+Create a complete reviewed input based on
+`examples/shaft-pilot/doctor/repair-input.json`, then use the reviewed repair
+commands from [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Doctor creates and validates a temporary isolated worktree. It does not modify
+the current branch or write to GitHub. After reviewing the diff and validation
+result, publish only a draft pull request with the exact returned token.
+
+The MCP equivalents are `doctor_propose_fix` and
+`doctor_publish_draft_pr`. Publication cannot merge, bypass branch protection,
+or proceed without separate explicit approval.
+
+## MCP clients
+
+For Codex, Claude, or GitHub Copilot, choose the matching application command
+in [Connect shaft-mcp](/docs/agentic/mcp). The installer resolves the latest
+Maven Central release, verifies the JAR, and updates the per-user local stdio
+configuration without requiring you to edit a client configuration file.
+
+Use the [remote-client section](/docs/agentic/mcp#remote-clients) for
+Streamable HTTP setup. The endpoint is `/mcp` and the default port is `8081`.
+ChatGPT developer mode/apps and cloud agents cannot launch a local JAR, so
+deploy the container and expose `/mcp` over HTTPS. GitHub Copilot is an MCP
+client integration; it is not a direct provider API-key adapter.
+
+External client capabilities were verified against official documentation on
+June 12, 2026:
+
+| Client | Supported SHAFT connection | Current limitation or control |
+| --- | --- | --- |
+| ChatGPT apps/developer mode | Public HTTPS Streamable HTTP `/mcp`. See [Connect from ChatGPT](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt). | Hosted ChatGPT cannot start the local JAR; workspace plan and administrator controls apply. |
+| Codex CLI and IDE extension | Local stdio or Streamable HTTP, configured by CLI or shared `config.toml`. See [Codex MCP](https://developers.openai.com/codex/mcp). | Tool approval remains a Codex client policy. |
+| Claude Code and Desktop | Local stdio; Claude Code also supports HTTP and can import Desktop configuration. See [Claude Code MCP](https://docs.anthropic.com/en/docs/claude-code/mcp). | The Claude Messages API uses its separate remote [MCP connector](https://docs.anthropic.com/en/docs/agents-and-tools/mcp-connector). |
+| Gemini CLI | Local stdio, SSE, or Streamable HTTP through `settings.json`. See [Gemini CLI MCP](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md). | Server trust and tool confirmation are controlled by Gemini CLI. |
+| GitHub Copilot | MCP-capable IDEs and CLI can use local or remote servers; cloud agent uses repository MCP configuration. See [GitHub Copilot MCP](https://docs.github.com/en/copilot/concepts/context/mcp). | Cloud agent/code review currently consume tools only, and organization policy may restrict MCP. |
+
+## Optional providers
+
+Safe defaults:
 
 ```properties
 pilot.ai.enabled=false
 pilot.ai.provider=none
+pilot.ai.consent.local=false
+pilot.ai.consent.remote=false
+pilot.ai.allowedEvidenceCategories=
 ```
 
-Provider models default to blank except `pilot.ai.gemini.model`, which
-defaults to `gemini-3.5-flash`; remote and local consent default to `false`,
-and no evidence category is approved by default. Disabled or unavailable AI
-returns the request's `deterministicFallback` and makes no network call.
+Download the
+[OpenAI](/examples/shaft-pilot/providers/openai.properties),
+[Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
+[Gemini](/examples/shaft-pilot/providers/gemini.properties),
+[GitHub Models](/examples/shaft-pilot/providers/github.properties), or
+[Ollama](/examples/shaft-pilot/providers/ollama.properties) example. Remote
+providers read credentials only from their configured environment variable
+names. Ollama needs no credential but still requires local consent.
+Remote consent, local consent, and every evidence category are denied unless
+explicitly enabled.
 
-Credentials are read only from environment variables:
+Provider output is advisory. It cannot replace deterministic diagnosis, apply
+a Capture enrichment without review, or publish a repair without a second
+approval. Timeout, rate limit, authentication, malformed JSON, schema failure,
+budget exhaustion, and provider unavailability all preserve deterministic
+output.
 
-| Provider | Default variable |
+## Privacy and security
+
+- Review recordings, externalized data, Doctor bundles, and repair manifests
+ before sharing them.
+- Screenshots and page snapshots are excluded from Doctor unless explicitly
+ requested.
+- Remote provider sharing requires explicit consent after minimization and
+ redaction.
+- Credentials remain in environment variables or provider-native client
+ authentication and must not be stored in SHAFT properties, examples, logs,
+ generated tests, or Allure attachments.
+- Pilot audit events contain provider/model identifiers, redaction counts,
+ duration, and status, but not prompts, evidence, credentials, or raw model
+ responses.
+
+## Troubleshooting
+
+| Symptom | Resolution |
 | --- | --- |
-| OpenAI | `OPENAI_API_KEY` |
-| Anthropic | `ANTHROPIC_API_KEY` |
-| Gemini | `GEMINI_API_KEY` |
-| GitHub Models | `GITHUB_TOKEN` |
-| Ollama | none |
+| MCP process exits or prints non-protocol output | Use Java 25, launch with the installer-generated argfile or thin classpath, and keep stdio logs on stderr. |
+| HTTP client cannot connect | Start with `--spring.profiles.active=http`, expose port `8081`, and use `/mcp`. |
+| Capture cannot start | Confirm Chrome or Edge is installed, no prior Capture session owns the runtime directory, and use `--headless` in CI. |
+| Generated test does not replay | Read `generation-report.json`; fix missing external data or an unsupported/ambiguous locator before regenerating. |
+| Doctor reports incomplete evidence | Provide populated `*-result.json` Allure files and set the correct `--allowed-root`. |
+| Provider is unavailable | Keep the deterministic result; verify enablement, consent, model, endpoint, budget, and environment variable name before retrying. |
+| Repair proposal is rejected | Use an exact base SHA, repository-relative allowlist, complete file content, tokenized Maven commands, and a clean isolated worktree. |
 
-The environment variable names are configurable, but credential values are
-never SHAFT properties. Provider endpoints and models are configured through
-`SHAFT.Properties.pilot`; no model is selected implicitly.
+See [SHAFT Capture](/docs/agentic/capture), [SHAFT Doctor](/docs/agentic/doctor),
+[optional AI providers](/docs/agentic/providers), and [SHAFT MCP](/docs/agentic/mcp) for the
+complete contracts.
 
-## Approval and evidence
+## Example assets 
 
-Every request carries an `ApprovalPolicy`, and the effective SHAFT properties
-must independently approve the same processing location and all submitted
-`EvidenceCategory` values. Remote calls require
-`pilot.ai.consent.remote=true`. Ollama requires
-`pilot.ai.consent.local=true`; a loopback endpoint is not trusted
-automatically.
+Credential-free example assets for the commands above — review and replace
+paths/content before reusing any of them:
 
-Before provider execution, `AiExecutionService`:
-
-1. checks provider capabilities and availability;
-2. enforces request size, token, cost, timeout, concurrency, and circuit-breaker
- limits;
-3. rejects unapproved evidence categories;
-4. redacts authorization and cookie headers, password/secret assignments,
- common tokens, configured DOM selectors, attributes, and patterns;
-5. validates provider JSON against the requested schema;
-6. returns deterministic fallback for every failure.
-
-Audit events contain only request ID, purpose, provider/model identifiers,
-redaction counts, duration, and status. Prompts, evidence, credentials, raw
-responses, and original secret values are excluded.
-
-## Example
-
-```java
-SHAFT.Properties.pilot.set()
- .enabled(true)
- .provider("ollama")
- .localConsent(true)
- .allowedEvidenceCategories("TEXT")
- .ollamaModel("your-local-model");
-
-var schema = JsonNodeFactory.instance.objectNode()
- .put("type", "object");
-schema.putObject("properties")
- .putObject("summary")
- .put("type", "string");
-schema.putArray("required").add("summary");
-
-var approval = new ApprovalPolicy(
- true,
- false,
- Set.of(EvidenceCategory.TEXT));
-
-var request = AiRequest.builder("doctor-summary", schema)
- .text(redactedDiagnosticText)
- .approvalPolicy(approval)
- .deterministicFallback(deterministicDiagnosis)
- .build();
-
-AiResponse response = new AiExecutionService().execute(request);
-```
-
-Call `SHAFT.Properties.clearForCurrentThread()` at lifecycle boundaries after
-setting per-thread Pilot properties.
-
-## Direct providers and external agents
-
-Direct provider adapters are separate from MCP clients. OpenAI, Anthropic,
-Gemini, and GitHub Models credentials apply only to `shaft-ai` direct calls.
-GitHub/Microsoft Copilot is supported through SHAFT MCP and retains its own
-client authentication; SHAFT does not request or define a generic Copilot model
-API key.
-
-Credential-free MCP configuration fixtures are under
-the [downloadable Pilot example assets](/docs/agentic/pilot#example-assets). See
-[SHAFT MCP](/docs/agentic/mcp) for transport
-and deployment details. The representative `doctor_analyze` fixture covers
-ChatGPT, Codex, Claude, Gemini, and GitHub Copilot without embedding any client
-or provider credential.
-
-Provider request mappings follow the official
-[OpenAI structured output](https://developers.openai.com/api/docs/guides/structured-outputs),
-[Anthropic structured output](https://platform.claude.com/docs/en/build-with-claude/structured-outputs),
-[Gemini structured output](https://ai.google.dev/gemini-api/docs/structured-output),
-[GitHub Models](https://docs.github.com/en/rest/models/inference),
-and [Ollama chat](https://docs.ollama.com/api/chat) contracts.
+- [`providers/ollama.properties`](/examples/shaft-pilot/providers/ollama.properties) —
+ load as SHAFT properties to try the optional local Ollama advisory after
+ reviewing the [provider controls](/docs/agentic/providers). The
+ deterministic diagnosis remains the baseline if Ollama is unavailable or
+ returns invalid output.
+- [`doctor/repair-input.json`](/examples/shaft-pilot/doctor/repair-input.json) —
+ use only after replacing its paths and content with a reviewed change.
+ Doctor repair creates an isolated worktree and does not publish to GitHub
+ without a separate approval token.
+- [Doctor chat invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json) —
+ a credential-free Doctor example.
+- [OpenAI](/examples/shaft-pilot/providers/openai.properties),
+ [Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
+ [Gemini](/examples/shaft-pilot/providers/gemini.properties), and
+ [GitHub Models](/examples/shaft-pilot/providers/github.properties) property
+ examples for the other optional providers.
 
 ## Related
 
 - [Overview](/docs/agentic/overview)
 - [MCP](/docs/agentic/mcp)
-- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)
+- [Providers](/docs/agentic/providers)
+
+---
+
+# shaft-cli command line
+
+Canonical URL: https://shafthq.github.io/docs/agentic/cli
+
+# shaft-cli command line
+
+`shaft-cli` is an MCP client and command-line interface to
+[shaft-mcp](/docs/agentic/mcp). It brings the full shaft-mcp tool set to the
+command line with zero tool-logic duplication, operating in two modes:
+stateless one-shot commands and a persistent session mode for stateful tools.
+
+## Install
+
+Pass `--install-shaft-cli` to the shaft-mcp installer (the copy-paste command
+on the [Connect shaft-mcp page](/docs/agentic/mcp)) to also install shaft-cli —
+no local Java or Python required; the installer bootstraps whatever is missing.
+The flag is independent of `--client`, so it can be combined with any MCP
+client target, or run on its own.
+
+The installer downloads and SHA-256-verifies `shaft-cli- .jar` from
+Maven Central, then writes a runnable launcher (`shaft-cli` on macOS/Linux,
+`shaft-cli.cmd` on Windows) plus a `shaft-cli.args` Java argfile next to it,
+under the platform's application-data root:
+
+- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-cli\versions\ \`
+- macOS: `~/Library/Application Support/ShaftHQ/shaft-cli/versions/ /`
+- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-cli/versions/ /`
+
+shaft-mcp is a prerequisite; install it with the same command. shaft-cli
+locates it in this order:
+
+1. The `SHAFT_MCP_JAR` environment variable
+2. The installer's versions directory
+3. A sibling `../shaft-mcp/target` (development checkout)
+
+## Modes
+
+**One-shot mode** (default): each command spawns an ephemeral shaft-mcp child
+process over stdio, runs a single tool call, and exits. Suitable for stateless
+tools like guide search and doctor analysis.
+
+**Session mode**: `shaft-cli session start` launches a persistent shaft-mcp
+daemon (HTTP on a localhost port) and records the session endpoint to
+`~/.shaft/cli-session.json`. Subsequent commands connect over HTTP, preserving
+browser and device state across invocations. Commands that need live state
+(`browser`, `element`, `capture`) fail fast when no session is running, unless
+`--stdio-ok` is passed.
+
+Routing: if a live session exists, commands use HTTP; otherwise a one-shot
+stdio child is spawned.
+
+## Commands
+
+All commands support `-h`/`--help`; the root supports `-V`/`--version`.
+
+**`shaft-cli tools [--json]`** — list all available tools (name and first
+sentence of description). `--json` outputs the raw `tools/list` result.
+
+**`shaft-cli call [key=value ...] [--args ' '] [--json]
+[--stdio-ok]`** — invoke any tool by name. Arguments come from repeated
+`key=value` pairs (values are coerced: `true`/`false` to booleans,
+integers/decimals to numbers, `{...}`/`[...]` to JSON, otherwise strings)
+and/or `--args '{"k":"v"}'` (`key=value` overrides keys from `--args`).
+`--json` outputs the raw JSON-RPC result instead of rendered text.
+
+**`shaft-cli session start | status | stop`** — manage the daemon. `start`
+prints the port and pid; `status` prints
+`running — port , pid , started `.
+
+**Curated aliases** (same options as `call`):
+
+- `shaft-cli browser navigate|screenshot|dom|url` (session required)
+- `shaft-cli element click|type|hover` (session required)
+- `shaft-cli capture start|stop|status|code` (session required)
+- `shaft-cli guide search` (stateless)
+- `shaft-cli doctor analyze|suggest` (stateless)
+
+## Examples
+
+```text
+shaft-cli tools
+
+# trace_latest — returns recent persisted SHAFT trace indexes from target/shaft-traces
+
+# [...]
+
+shaft-cli session start
+
+# shaft-cli session started on port 12345 (pid 9876).
+
+shaft-cli session status
+
+# running — port 12345, pid 9876, started 2025-12-20T14:30:45Z
+
+shaft-cli call shaft_guide_search query='click element' maxResults=1
+
+# [JSON guide-search result]
+
+shaft-cli guide search query='click element' --stdio-ok
+
+# [guide search works with no session]
+
+shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout happy path' maxDepth=2
+
+# [Markdown test plans written to specs/]
+```
+
+## Exit codes
+
+- **0**: success
+- **1**: tool error, transport error, or `--json` result with `isError`
+- **2**: unknown alias action
+
+## Related
+
+- [MCP](/docs/agentic/mcp)
+- [Overview](/docs/agentic/overview)
+- [Capture](/docs/agentic/capture)
 - [Doctor](/docs/agentic/doctor)
 
 ---
@@ -7256,6 +7256,109 @@ For the SDK's runtime behavior, see
 
 ---
 
+# Desktop and video
+
+Canonical URL: https://shafthq.github.io/docs/integrations/desktop-and-video
+
+Two optional modules extend SHAFT to the local desktop: `shaft-video` records the session, and `shaft-sikulix` drives desktop apps that have no DOM or Appium locators.
+
+## Video recording 
+
+`io.github.shafthq:shaft-video` supplies SHAFT's optional local desktop recording
+provider, including Automation Remarks and the platform-specific JAVE/FFmpeg
+payload.
+
+```mermaid
+flowchart TD
+ Record["videoParamsRecordVideo=true"] --> Mobile{"Appium native driver?"}
+ Mobile -- Yes --> Engine["shaft-engine driver-native recording"]
+ Mobile -- No --> Desktop{"Local + non-headless desktop?"}
+ Desktop -- Yes --> Video["shaft-video desktop provider"]
+ Desktop -- No --> Remote["Remote/provider video configured by capabilities"]
+```
+
+Add the module only for local, non-headless desktop recording:
+
+```xml
+ 
+ io.github.shafthq 
+ shaft-video 
+ 
+```
+
+`RecordManager.startVideoRecording()` requires the desktop provider when those
+conditions are met. `RecordManager.startVideoRecording(WebDriver)` keeps Appium
+Android/iOS recording in `shaft-engine` through driver-native
+`startRecordingScreen()`/`stopRecordingScreen()` calls.
+
+Remote BrowserStack, LambdaTest, Selenium Grid, Selenoid, or Moon video options
+are capabilities of those remote providers and do not require `shaft-video`.
+
+## SikuliX desktop automation 
+
+`io.github.shafthq:shaft-sikulix` adds optional SikuliX image matching for
+desktop workflows that cannot be reached through DOM or Appium locators.
+
+```xml
+ 
+ 
+ 
+ io.github.shafthq 
+ shaft-bom 
+ ${shaft.version} 
+ pom 
+ import 
+ 
+ 
+ 
+
+ 
+ 
+ io.github.shafthq 
+ shaft-engine 
+ 
+ 
+ io.github.shafthq 
+ shaft-sikulix 
+ 
+ 
+```
+
+```java title="SikuliXActions.java"
+new SHAFT.GUI.SikuliX().element()
+ .click("src/test/resources/images/save-button.png")
+ .type("src/test/resources/images/name-field.png", "SHAFT");
+```
+
+Attach actions to an already open application window when the match should be
+scoped to that desktop app:
+
+```java title="SikuliXScopedToWindow.java"
+SHAFT.GUI.SikuliX calculator = SHAFT.GUI.SikuliX.getInstance("Calculator");
+calculator.element()
+ .click("src/test/resources/images/one.png")
+ .click("src/test/resources/images/plus.png");
+calculator.quit();
+```
+
+If `shaft-sikulix` is missing, `SHAFT.GUI.SikuliX` reports the missing optional
+dependency and tells you to add it instead of surfacing a generic class loading
+error.
+
+:::tip
+Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-sikulix` only for image matching.
+:::
+
+## Related
+
+- [Modules](/docs/features/modules)
+- [Mobile and Appium testing](/docs/testing/mobile)
+- [Visual testing](/docs/integrations/visual)
+- [Upgrade](/docs/start/upgrade)
+- [BrowserStack](/docs/integrations/browserstack)
+
+---
+
 # Visual testing
 
 Canonical URL: https://shafthq.github.io/docs/integrations/visual
@@ -7427,109 +7530,6 @@ The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comp
 
 ---
 
-# Desktop and video
-
-Canonical URL: https://shafthq.github.io/docs/integrations/desktop-and-video
-
-Two optional modules extend SHAFT to the local desktop: `shaft-video` records the session, and `shaft-sikulix` drives desktop apps that have no DOM or Appium locators.
-
-## Video recording 
-
-`io.github.shafthq:shaft-video` supplies SHAFT's optional local desktop recording
-provider, including Automation Remarks and the platform-specific JAVE/FFmpeg
-payload.
-
-```mermaid
-flowchart TD
- Record["videoParamsRecordVideo=true"] --> Mobile{"Appium native driver?"}
- Mobile -- Yes --> Engine["shaft-engine driver-native recording"]
- Mobile -- No --> Desktop{"Local + non-headless desktop?"}
- Desktop -- Yes --> Video["shaft-video desktop provider"]
- Desktop -- No --> Remote["Remote/provider video configured by capabilities"]
-```
-
-Add the module only for local, non-headless desktop recording:
-
-```xml
- 
- io.github.shafthq 
- shaft-video 
- 
-```
-
-`RecordManager.startVideoRecording()` requires the desktop provider when those
-conditions are met. `RecordManager.startVideoRecording(WebDriver)` keeps Appium
-Android/iOS recording in `shaft-engine` through driver-native
-`startRecordingScreen()`/`stopRecordingScreen()` calls.
-
-Remote BrowserStack, LambdaTest, Selenium Grid, Selenoid, or Moon video options
-are capabilities of those remote providers and do not require `shaft-video`.
-
-## SikuliX desktop automation 
-
-`io.github.shafthq:shaft-sikulix` adds optional SikuliX image matching for
-desktop workflows that cannot be reached through DOM or Appium locators.
-
-```xml
- 
- 
- 
- io.github.shafthq 
- shaft-bom 
- ${shaft.version} 
- pom 
- import 
- 
- 
- 
-
- 
- 
- io.github.shafthq 
- shaft-engine 
- 
- 
- io.github.shafthq 
- shaft-sikulix 
- 
- 
-```
-
-```java title="SikuliXActions.java"
-new SHAFT.GUI.SikuliX().element()
- .click("src/test/resources/images/save-button.png")
- .type("src/test/resources/images/name-field.png", "SHAFT");
-```
-
-Attach actions to an already open application window when the match should be
-scoped to that desktop app:
-
-```java title="SikuliXScopedToWindow.java"
-SHAFT.GUI.SikuliX calculator = SHAFT.GUI.SikuliX.getInstance("Calculator");
-calculator.element()
- .click("src/test/resources/images/one.png")
- .click("src/test/resources/images/plus.png");
-calculator.quit();
-```
-
-If `shaft-sikulix` is missing, `SHAFT.GUI.SikuliX` reports the missing optional
-dependency and tells you to add it instead of surfacing a generic class loading
-error.
-
-:::tip
-Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-sikulix` only for image matching.
-:::
-
-## Related
-
-- [Modules](/docs/features/modules)
-- [Mobile and Appium testing](/docs/testing/mobile)
-- [Visual testing](/docs/integrations/visual)
-- [Upgrade](/docs/start/upgrade)
-- [BrowserStack](/docs/integrations/browserstack)
-
----
-
 # Reference
 
 Canonical URL: https://shafthq.github.io/docs/reference/overview
@@ -7547,7 +7547,7 @@ guides.
 | Open a browser, click, type, wait, and assert | [Web testing](/docs/testing/web) |
 | Choose resilient web locators | [Web locator strategy](/docs/testing/web#locator-strategy) |
 | Send REST requests and validate responses | [API testing](/docs/testing/api) |
-| Configure browser, API, mobile, retry, or reporting behavior | [Property types](/docs/reference/properties/PropertyTypes) |
+| Configure browser, API, mobile, retry, or reporting behavior | [Property Types](/docs/reference/properties/PropertyTypes) |
 | Generate a custom `.properties` file | [Config Generator tab](/docs/reference/properties/PropertiesList?PropertyTypes=generator) on the Properties Reference |
 | Attach evidence and understand reports | [Reporting](/docs/reference/reporting/) |
 | Diagnose flaky or failed runs | [How SHAFT reduces flakiness](/docs/testing/flakiness) |
@@ -7557,10 +7557,10 @@ guides.
 
 | Area | Reference |
 |---|---|
-| Browser and element actions | [GUI actions](/docs/reference/actions/GUI/Browser_Actions) |
+| Browser and element actions | [GUI Actions](/docs/reference/actions/GUI/Browser_Actions) |
 | REST API | [API request builder](/docs/reference/actions/API/Request_Builder) |
-| CLI | [Terminal actions](/docs/reference/actions/CLI/Terminal_Actions) |
-| Database | [Database actions](/docs/reference/actions/DB/DB_Actions) |
+| CLI | [CLI Actions](/docs/reference/actions/CLI/Terminal_Actions) |
+| Database | [Database Actions](/docs/reference/actions/DB/DB_Actions) |
 | Configuration | [Property types](/docs/reference/properties/PropertyTypes) |
 | Assertions | [Validations](/docs/reference/actions/Validations) |
 | Engineering practices | [Solution design](/docs/reference/guides/Solution_Design) |

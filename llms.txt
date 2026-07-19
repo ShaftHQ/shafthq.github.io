@@ -3,30 +3,30 @@
 > SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing.
 
 ## Start
-- [SHAFT at a glance](https://shafthq.github.io/docs/start/overview): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
 - [Install SHAFT](https://shafthq.github.io/docs/start/installation): Generate a new SHAFT project or upgrade an existing automation project.
 - [Quick start](https://shafthq.github.io/docs/start/quick-start): Choose the right SHAFT setup path, then run a first test.
+- [SHAFT at a glance](https://shafthq.github.io/docs/start/overview): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
 - [Upgrade to modular SHAFT](https://shafthq.github.io/docs/start/upgrade): Transactionally migrate legacy or native Maven projects to modular SHAFT.
 
 ## Testing
-- [Web testing](https://shafthq.github.io/docs/testing/web): A minimal SHAFT browser test with lifecycle, actions, and assertions.
-- [How SHAFT reduces flakiness](https://shafthq.github.io/docs/testing/flakiness): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
-- [Mobile and Flutter testing](https://shafthq.github.io/docs/testing/mobile): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
-- [UI and API contract replay](https://shafthq.github.io/docs/testing/contracts): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
 - [API testing](https://shafthq.github.io/docs/testing/api): Build, execute, inspect, and assert REST API requests with SHAFT.
 - [CLI testing](https://shafthq.github.io/docs/testing/cli): Execute and validate local, Docker, and SSH commands with SHAFT.
 - [Database testing](https://shafthq.github.io/docs/testing/database): Connect, query, and validate databases through SHAFT.
+- [How SHAFT reduces flakiness](https://shafthq.github.io/docs/testing/flakiness): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
+- [Mobile and Flutter testing](https://shafthq.github.io/docs/testing/mobile): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
+- [UI and API contract replay](https://shafthq.github.io/docs/testing/contracts): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
+- [Web testing](https://shafthq.github.io/docs/testing/web): A minimal SHAFT browser test with lifecycle, actions, and assertions.
 
 ## Agentic
 - [Agentic testing](https://shafthq.github.io/docs/agentic/overview): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 - [Connect shaft-mcp](https://shafthq.github.io/docs/agentic/mcp): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
+- [Diagnose failures with Doctor](https://shafthq.github.io/docs/agentic/doctor): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
 - [IntelliJ IDEA plugin](https://shafthq.github.io/docs/agentic/intellij): Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
+- [Optional AI providers](https://shafthq.github.io/docs/agentic/providers): Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.
+- [Record tests with Capture](https://shafthq.github.io/docs/agentic/capture): Record browser activity and generate reviewable deterministic TestNG source.
+- [Recover locators with Heal](https://shafthq.github.io/docs/agentic/heal): Enable deterministic, explainable WebDriver locator recovery.
 - [SHAFT Pilot](https://shafthq.github.io/docs/agentic/pilot): Capture, generation, diagnosis, reviewed repairs, and MCP interoperability — plus downloadable credential-free Pilot example assets.
 - [shaft-cli command line](https://shafthq.github.io/docs/agentic/cli): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
-- [Record tests with Capture](https://shafthq.github.io/docs/agentic/capture): Record browser activity and generate reviewable deterministic TestNG source.
-- [Diagnose failures with Doctor](https://shafthq.github.io/docs/agentic/doctor): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
-- [Recover locators with Heal](https://shafthq.github.io/docs/agentic/heal): Enable deterministic, explainable WebDriver locator recovery.
-- [Optional AI providers](https://shafthq.github.io/docs/agentic/providers): Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.
 
 ## Features
 - [Architecture](https://shafthq.github.io/docs/features/architecture): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
@@ -36,8 +36,8 @@
 
 ## Integrations
 - [BrowserStack](https://shafthq.github.io/docs/integrations/browserstack): Choose direct BrowserStack sessions or the optional SDK orchestration module.
-- [Visual testing](https://shafthq.github.io/docs/integrations/visual): Add reference-image assertions and image-based touch operations.
 - [Desktop and video](https://shafthq.github.io/docs/integrations/desktop-and-video): Optional local desktop recording and SikuliX image-based desktop automation.
+- [Visual testing](https://shafthq.github.io/docs/integrations/visual): Add reference-image assertions and image-based touch operations.
 
 ## Reference
 - [Reference](https://shafthq.github.io/docs/reference/overview): Detailed SHAFT actions, properties, validations, and practices.
