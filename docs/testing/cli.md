@@ -3,7 +3,6 @@ id: cli
 title: CLI testing
 description: Execute and validate local, Docker, and SSH commands with SHAFT.
 slug: /testing/cli
-sidebar_position: 4
 tags: [cli, terminal, docker, ssh]
 ---
 

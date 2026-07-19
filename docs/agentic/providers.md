@@ -3,7 +3,6 @@ id: providers
 title: Optional AI providers
 description: Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.
 slug: /agentic/providers
-sidebar_position: 7
 tags: [ai, privacy, providers]
 ---
 

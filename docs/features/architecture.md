@@ -3,7 +3,6 @@ id: architecture
 title: Architecture
 description: SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
 slug: /features/architecture
-sidebar_position: 1
 keywords: [SHAFT, architecture, test automation architecture, framework layers, engine vs framework, modules, facade]
 tags: [architecture, modules, best-practices, framework-design]
 ---

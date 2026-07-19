@@ -3,7 +3,6 @@ id: reporting
 title: Reporting and evidence
 description: How SHAFT records actions, screenshots, logs, and Allure results.
 slug: /features/reporting
-sidebar_position: 3
 tags: [reporting, allure, screenshots, evidence]
 ---
 

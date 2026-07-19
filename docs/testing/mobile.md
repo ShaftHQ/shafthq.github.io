@@ -3,7 +3,6 @@ id: mobile
 title: Mobile and Flutter testing
 description: Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
 slug: /testing/mobile
-sidebar_position: 2
 tags: [mobile, appium, flutter]
 ---
 
