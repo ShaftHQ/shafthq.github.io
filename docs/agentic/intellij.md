@@ -101,7 +101,7 @@ Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until **Check setup**
 passes.
 
-![SHAFT IntelliJ MCP setup flow](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ Assistant setup wizard listing the Upgrade project, Pick agent, Install SHAFT MCP, and Check setup steps, each with Check and Copy buttons and Install SHAFT MCP also showing an Install button, targeting Codex CLI with Prerequisites already marked Done](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
 stepper with visible state chips, only showing the buttons relevant to the
@@ -132,11 +132,11 @@ prompts run through SHAFT MCP provider chat instead of an external agent CLI.
 If no key is stored, **Check setup** fails inline with a reminder to paste the
 key and check again.
 
-![SHAFT IntelliJ MCP setup with the Gemini cloud provider](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
+![SHAFT IntelliJ Assistant setup wizard with Gemini selected as the assistant family, showing an empty Gemini API key field for pasting a Google AI Studio key, target INTELLIJ PLUGIN with Gemini cloud API runtime](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
-![SHAFT IntelliJ MCP setup success](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ Assistant setup showing Runtime verified, every step marked Done, a Ready row confirming MCP connected, Workspace root OK, Agent ready, Ready to record, and a Start chatting button](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
-![SHAFT IntelliJ MCP setup error](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+![SHAFT IntelliJ Assistant setup in dark mode with Check setup marked Failed and an Assist Error message, showing the Test failed. Retry test. recovery text and Reinstall, Copy output, and Copy docs link buttons](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
 Troubleshooting details distinguish the failure type when the plugin can infer
 it:
