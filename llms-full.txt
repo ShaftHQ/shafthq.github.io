@@ -10561,6 +10561,7 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 
 | Property Name | Default Value | Possible Values | Description |
 | ---------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| platformName | ` ` | example: `Android`, `iOS` | • Raw Appium `platformName` capability. Usually derived automatically from `targetOperatingSystem`; set this to override it directly. |
 | mobile_platformVersion | ` ` | example: `11.0, 13.0` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
 | mobile_deviceName | ` ` | example: `ANDROID_EMULATOR` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
 | mobile_automationName | `UiAutomator2` | `UiAutomator2`, `Espresso`, `XCUITest` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
@@ -10627,6 +10628,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  | `swagger.validation.url` | *(empty)* | URL or file path to the OpenAPI schema for validation. |
  | `openapi.coverage.report.enabled` | `false` | Generates an end-of-run OpenAPI operation coverage report using `swagger.validation.url` as the spec source. |
  | `openapi.coverage.threshold` | `0` | Minimum covered operation percentage required for a passing run; `0` disables threshold enforcement. |
+ | `shaft.contract.sensitiveKeys` | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key,accesskey` | Configured sensitive key fragments. |
+ | `shaft.contract.volatileKeys` | `requestId,traceId,spanId,sessionId,nonce,timestamp,createdAt,updatedAt,expiresAt,date,etag` | Configured volatile key names. |
 
 ## Capture
 
@@ -10687,6 +10690,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  | `capture.api.includeAssets` | `false` | `true`, `false` | • Include asset requests (images, CSS, fonts, etc.) in API capture. • When false, only data/API calls are recorded. |
  | `capture.api.firstPartyOnly` | `true` | `true`, `false` | • Capture only first-party API calls from the primary domain. • When false, all cross-origin requests are included. |
  | `capture.api.storeSecretsLocally` | `false` | `true`, `false` | • Store authorization headers and sensitive data in the capture session. • When false (default), secrets are referenced via bodyRefId instead. |
+ | `capture.api.maxTransactions` | `500` | integer | • Maximum number of network transactions to retain per capture session. |
+ | `capture.api.urlIncludeGlobs` | ` ` | comma-separated glob patterns | • When non-empty, only URLs matching one of these glob patterns are captured. |
+ | `capture.api.urlExcludeGlobs` | ` ` | comma-separated glob patterns | • URLs matching one of these glob patterns are always excluded from capture. |
 
 ## Flags
 
@@ -10811,6 +10817,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | shaft.trace.retainFailedAttempts | `true` | `true`, `false` | • Retain failed-attempt trace archives under attempt-indexed names when retries are enabled. |
 | shaft.trace.includeCodeContext | `true` | `true`, `false` | • Include the best matching project source-code frame and snippet. |
 | shaft.trace.includeFullPageSnapshots | `true` | `true`, `false` | • Include web page snapshots when available. |
+| shaft.trace.includeDomSnapshots | `true` | `true`, `false` | • Include DOM snapshots in the SHAFT failure trace bundle when available. |
+| shaft.trace.includeScreenshots | `true` | `true`, `false` | • Include screenshots in the SHAFT failure trace bundle when available. |
 | shaft.trace.includeNativePageSource | `true` | `true`, `false` | • Include native mobile page source when available. |
 | shaft.trace.includeNetwork | `true` | `true`, `false` | • Reserve network evidence in the trace metadata. |
 | shaft.trace.includeConsole | `true` | `true`, `false` | • Reserve console evidence in the trace metadata. |
@@ -10897,6 +10905,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.reportLanguage | `en` | Language code, such as `en`, `fr`, or `ru` | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI. |
 | allure.open | `false` | `true`, `false` | • Controls the Allure 3 Awesome plugin `open` option passed to Allure CLI report generation. |
 | allure.groupBy | `package,testClass` | Comma-separated Allure label names | • Controls the Allure 3 Awesome plugin `groupBy` hierarchy. Common values include `epic,feature,story` and `parentSuite,suite,subSuite`. |
+| allure.theme | `auto` | `auto`, `light`, `dark` | • Controls the Allure 3 Awesome plugin report theme. |
+| allure.forceConfiguredCliVersion | `true` | `true`, `false` | • `true` enforces the configured Allure 3 CLI version; `false` falls back to legacy PATH-first CLI resolution. |
 
 ## Timeouts
 
@@ -10926,6 +10936,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | Property Name | Default Value | Possible Values | Description |
 | ----------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------- |
 | waitForLazyLoading | `true` | `true`, `false` | Especially useful for modern/responsive web apps using React, Vue, Angular, ...etc |
+| waitForLazyLoadingTimeout | `30` | (seconds) | Timeout in seconds for SHAFT's browser lazy-loading synchronization. |
+| lazyLoadingNetworkIdleInitialObservationMillis | `200` | (milliseconds) | Initial network observation window in milliseconds when no requests were seen. |
+| lazyLoadingNetworkIdleQuietWindowMillis | `500` | (milliseconds) | Required network quiet window in milliseconds after observed activity. |
 | browserNavigationTimeout | `30` | (seconds) | Timeout in seconds for browser navigation. |
 | pageLoadTimeout | `30` | (seconds) | Timeout in seconds for page load. |
 | scriptExecutionTimeout | `30` | (seconds) | Timeout in seconds for script execution. |
@@ -10975,6 +10988,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | videoParams_recordVideo | `false` | `true`, `false` | Granular video policy. Profile levels except `CUSTOM` override this after property loading. |
 | videoParams_scope | `DriverSession` | `DriverSession`, `TestMethod` | Scope for video recording. |
 | whenToTakePageSourceSnapshot | `failuresOnly` | `Never`, `Always`, `FailuresOnly` | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
+| shaft.updateSnapshots | `false` | `true`, `false` | When true, regenerates visual and ARIA-snapshot baselines instead of comparing new captures against the existing ones. |
 
 ## Jira
 
@@ -11196,7 +11210,202 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | naturalActions.minimumTrustPercentage | `85` | `0`-`100` | Minimum plan trust required before execution. |
 | naturalActions.planner | `deterministic` | `deterministic`, `auto`, or a ServiceLoader planner ID | Selects the natural-action planner. |
 | naturalActions.aiFallback.enabled | `false` | `true`, `false` | Allows optional provider-assisted planners after deterministic planning is unavailable. |
+| naturalActions.aiFallback.threshold | `0` | `0`-`1` | Confidence threshold below which AI fallback is triggered. |
 | naturalActions.allowedActions | `browser,element,touch` | comma-separated `browser`, `element`, `touch` | Restricts which action categories natural actions may execute. |
+
+## Pilot
+
+- These properties control SHAFT's optional Pilot AI provider integrations
+ (OpenAI, Anthropic, Gemini, GitHub Models, and Ollama), including consent
+ gates, request/response redaction, retry and circuit-breaker limits, and
+ per-provider endpoints/models/credential lookup.
+- AI execution is disabled by default. Credentials are never configured
+ directly; each provider resolves its API key from the named environment
+ variable only after AI is explicitly enabled and the relevant processing
+ location (local, on-prem, or remote) has been approved via the consent
+ properties below.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean enabled = SHAFT.Properties.pilot.enabled();
+ String provider = SHAFT.Properties.pilot.provider();
+ boolean localConsent = SHAFT.Properties.pilot.localConsent();
+ boolean onPremConsent = SHAFT.Properties.pilot.onPremConsent();
+ boolean remoteConsent = SHAFT.Properties.pilot.remoteConsent();
+ String allowedEvidenceCategories = SHAFT.Properties.pilot.allowedEvidenceCategories();
+ boolean telemetryEnabled = SHAFT.Properties.pilot.telemetryEnabled();
+ int timeoutSeconds = SHAFT.Properties.pilot.timeoutSeconds();
+ int maxRequestBytes = SHAFT.Properties.pilot.maxRequestBytes();
+ int maxInputTokens = SHAFT.Properties.pilot.maxInputTokens();
+ int maxOutputTokens = SHAFT.Properties.pilot.maxOutputTokens();
+ String maxCostUsd = SHAFT.Properties.pilot.maxCostUsd();
+ int retryMaxAttempts = SHAFT.Properties.pilot.retryMaxAttempts();
+ int maxConcurrency = SHAFT.Properties.pilot.maxConcurrency();
+ int circuitBreakerFailureThreshold = SHAFT.Properties.pilot.circuitBreakerFailureThreshold();
+ int circuitBreakerCooldownSeconds = SHAFT.Properties.pilot.circuitBreakerCooldownSeconds();
+ String redactionSelectors = SHAFT.Properties.pilot.redactionSelectors();
+ String redactionAttributes = SHAFT.Properties.pilot.redactionAttributes();
+ String redactionPatterns = SHAFT.Properties.pilot.redactionPatterns();
+ // Each provider (openai, anthropic, gemini, github, ollama) exposes the same
+ // endpoint()/model()/apiKeyEnvironmentVariable()/processingLocation() shape, e.g.:
+ String openAiEndpoint = SHAFT.Properties.pilot.openAiEndpoint();
+ String openAiModel = SHAFT.Properties.pilot.openAiModel();
+ String openAiApiKeyEnvironmentVariable = SHAFT.Properties.pilot.openAiApiKeyEnvironmentVariable();
+ String openAiProcessingLocation = SHAFT.Properties.pilot.openAiProcessingLocation();
+
+ /** set **/
+ SHAFT.Properties.pilot.set()
+ .enabled(false)
+ .provider("none")
+ .localConsent(false)
+ .onPremConsent(false)
+ .remoteConsent(false)
+ .allowedEvidenceCategories("")
+ .telemetryEnabled(false)
+ .timeoutSeconds(30)
+ .maxRequestBytes(1048576)
+ .maxInputTokens(16000)
+ .maxOutputTokens(2000)
+ .maxCostUsd("0")
+ .retryMaxAttempts(2)
+ .maxConcurrency(2)
+ .circuitBreakerFailureThreshold(3)
+ .circuitBreakerCooldownSeconds(60)
+ .redactionSelectors("input[type=password],[autocomplete=current-password],[autocomplete=new-password]")
+ .redactionAttributes("authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key")
+ .redactionPatterns("")
+ .openAiEndpoint("https://api.openai.com/v1/responses")
+ .openAiModel("")
+ .openAiApiKeyEnvironmentVariable("")
+ .openAiProcessingLocation("remote")
+ .anthropicEndpoint("https://api.anthropic.com/v1/messages")
+ .anthropicModel("")
+ .anthropicApiKeyEnvironmentVariable("")
+ .anthropicProcessingLocation("remote")
+ .anthropicVersion("2023-06-01")
+ .geminiEndpoint("https://generativelanguage.googleapis.com/v1beta/models")
+ .geminiModel("gemini-3.5-flash")
+ .geminiApiKeyEnvironmentVariable("")
+ .geminiProcessingLocation("remote")
+ .githubEndpoint("https://models.github.ai/inference/chat/completions")
+ .githubModel("")
+ .githubApiKeyEnvironmentVariable("")
+ .githubProcessingLocation("remote")
+ .ollamaEndpoint("http://127.0.0.1:11434/api/chat")
+ .ollamaModel("")
+ .ollamaProcessingLocation("local")
+ .ollamaApiKeyEnvironmentVariable("")
+ .ollamaApiKeyHeader("")
+ .ollamaApiKeyPrefix("");
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn -e test "-Dpilot.ai.enabled=true" "-Dpilot.ai.provider=openai" "-Dpilot.ai.openai.model=gpt-5"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ pilot.ai.enabled=false
+ pilot.ai.provider=none
+ pilot.ai.consent.local=false
+ pilot.ai.consent.onPrem=false
+ pilot.ai.consent.remote=false
+ pilot.ai.allowedEvidenceCategories=
+ pilot.ai.telemetry.enabled=false
+ pilot.ai.timeoutSeconds=30
+ pilot.ai.maxRequestBytes=1048576
+ pilot.ai.maxInputTokens=16000
+ pilot.ai.maxOutputTokens=2000
+ pilot.ai.maxCostUsd=0
+ pilot.ai.retryMaxAttempts=2
+ pilot.ai.maxConcurrency=2
+ pilot.ai.circuitBreaker.failureThreshold=3
+ pilot.ai.circuitBreaker.cooldownSeconds=60
+ pilot.ai.redaction.selectors=input[type=password],[autocomplete=current-password],[autocomplete=new-password]
+ pilot.ai.redaction.attributes=authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key
+ pilot.ai.redaction.patterns=
+ pilot.ai.openai.endpoint=https://api.openai.com/v1/responses
+ pilot.ai.openai.model=
+ pilot.ai.openai.apiKeyEnvironmentVariable=
+ pilot.ai.openai.processingLocation=remote
+ pilot.ai.anthropic.endpoint=https://api.anthropic.com/v1/messages
+ pilot.ai.anthropic.model=
+ pilot.ai.anthropic.apiKeyEnvironmentVariable=
+ pilot.ai.anthropic.processingLocation=remote
+ pilot.ai.anthropic.version=2023-06-01
+ pilot.ai.gemini.endpoint=https://generativelanguage.googleapis.com/v1beta/models
+ pilot.ai.gemini.model=gemini-3.5-flash
+ pilot.ai.gemini.apiKeyEnvironmentVariable=
+ pilot.ai.gemini.processingLocation=remote
+ pilot.ai.github.endpoint=https://models.github.ai/inference/chat/completions
+ pilot.ai.github.model=
+ pilot.ai.github.apiKeyEnvironmentVariable=
+ pilot.ai.github.processingLocation=remote
+ pilot.ai.ollama.endpoint=http://127.0.0.1:11434/api/chat
+ pilot.ai.ollama.model=
+ pilot.ai.ollama.processingLocation=local
+ pilot.ai.ollama.apiKeyEnvironmentVariable=
+ pilot.ai.ollama.apiKeyHeader=
+ pilot.ai.ollama.apiKeyPrefix=
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------------------------------- | -------------- | ---------------- | ------------ |
+| pilot.ai.enabled | `false` | `true`, `false` | Whether optional AI execution is enabled. |
+| pilot.ai.provider | `none` | | Selected provider identifier. |
+| pilot.ai.consent.local | `false` | `true`, `false` | Whether local inference is approved. |
+| pilot.ai.consent.onPrem | `false` | `true`, `false` | Whether explicitly classified on-prem inference is approved. |
+| pilot.ai.consent.remote | `false` | `true`, `false` | Whether remote inference is approved. |
+| pilot.ai.allowedEvidenceCategories | ` ` | | Comma-separated approved evidence categories. |
+| pilot.ai.telemetry.enabled | `false` | `true`, `false` | Whether optional external telemetry is enabled. |
+| pilot.ai.timeoutSeconds | `30` | | Maximum provider timeout in seconds. |
+| pilot.ai.maxRequestBytes | `1048576` | | Maximum serialized request size. |
+| pilot.ai.maxInputTokens | `16000` | | Maximum estimated input tokens. |
+| pilot.ai.maxOutputTokens | `2000` | | Maximum output tokens. |
+| pilot.ai.maxCostUsd | `0` | | Maximum accepted provider-reported cost in USD. |
+| pilot.ai.retryMaxAttempts | `2` | | Maximum provider execution attempts. |
+| pilot.ai.maxConcurrency | `2` | | Maximum concurrent calls per provider. |
+| pilot.ai.circuitBreaker.failureThreshold | `3` | | Failures required to open the circuit. |
+| pilot.ai.circuitBreaker.cooldownSeconds | `60` | | Circuit-open cooldown in seconds. |
+| pilot.ai.redaction.selectors | `input[type=password],[autocomplete=current-password],[autocomplete=new-password]` | | Comma-separated CSS selectors to redact. |
+| pilot.ai.redaction.attributes | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key` | | Comma-separated structured or DOM attributes to redact. |
+| pilot.ai.redaction.patterns | ` ` | | Double-semicolon-separated custom regular expressions. |
+| pilot.ai.openai.endpoint | `https://api.openai.com/v1/responses` | | OpenAI Responses endpoint. |
+| pilot.ai.openai.model | ` ` | | Configured OpenAI model. |
+| pilot.ai.openai.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the OpenAI credential. |
+| pilot.ai.openai.processingLocation | `remote` | | Explicit OpenAI endpoint processing location. |
+| pilot.ai.anthropic.endpoint | `https://api.anthropic.com/v1/messages` | | Anthropic Messages endpoint. |
+| pilot.ai.anthropic.model | ` ` | | Configured Anthropic model. |
+| pilot.ai.anthropic.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the Anthropic credential. |
+| pilot.ai.anthropic.processingLocation | `remote` | | Explicit Anthropic endpoint processing location. |
+| pilot.ai.anthropic.version | `2023-06-01` | | Anthropic API contract version. |
+| pilot.ai.gemini.endpoint | `https://generativelanguage.googleapis.com/v1beta/models` | | Gemini models endpoint. |
+| pilot.ai.gemini.model | `gemini-3.5-flash` | | Configured Gemini model. |
+| pilot.ai.gemini.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the Gemini credential. |
+| pilot.ai.gemini.processingLocation | `remote` | | Explicit Gemini endpoint processing location. |
+| pilot.ai.github.endpoint | `https://models.github.ai/inference/chat/completions` | | GitHub Models chat-completions endpoint. |
+| pilot.ai.github.model | ` ` | | Configured GitHub Models model. |
+| pilot.ai.github.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the GitHub credential. |
+| pilot.ai.github.processingLocation | `remote` | | Explicit GitHub Models endpoint processing location. |
+| pilot.ai.ollama.endpoint | `http://127.0.0.1:11434/api/chat` | | Ollama chat endpoint. |
+| pilot.ai.ollama.model | ` ` | | Configured Ollama model. |
+| pilot.ai.ollama.processingLocation | `local` | | Explicit Ollama endpoint processing location. |
+| pilot.ai.ollama.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an on-prem Ollama gateway credential. |
+| pilot.ai.ollama.apiKeyHeader | ` ` | | Optional Ollama gateway credential header. |
+| pilot.ai.ollama.apiKeyPrefix | ` ` | | Optional Ollama gateway credential prefix. |
 
 ## Paths
 
@@ -11211,6 +11420,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | propertiesFolderPath | `src/main/resources/properties/` | | Path to the custom properties files folder. |
 | defaultPropertiesFolderPath | `src/main/resources/properties/default` | | Path to the default properties files folder. |
 | dynamicObjectRepositoryPath | `src/main/resources/dynamicObjectRepository/` | | Path to the dynamic object repository folder. |
+| ariaSnapshotFolderPath | `src/test/resources/aria/` | | Folder that holds saved ARIA-snapshot baselines used for accessibility-tree comparisons; regenerate with `-Dshaft.updateSnapshots=true`. |
 | testDataFolderPath | `src/test/resources/testDataFiles/` | | Path to the test data files folder. |
 | downloadsFolderPath | `target/downloadedFiles` | | Path to the folder for downloaded files. |
 | allureResultsFolderPath | `allure-results/` | | Path to the Allure results output folder. |
@@ -11220,6 +11430,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | video.folder | `allure-results/videos` | | Path to the folder where recorded videos and generated animated GIF files are saved. |
 | servicesFolderPath | `src/test/resources/META-INF/services/` | | Path to the META-INF services folder for custom service implementations. |
 | authCacheFolderPath | `target/auth-cache/` | | Folder that holds `SHAFT.Auth.setup(name, flow)` storage-state cache files (one JSON file per name). |
+| mobileSessionCacheFolderPath | `target/mobile-session-cache/` | | Folder that holds `TouchActions.saveSessionCapabilities`/`saveAppState` JSON snapshots used to reuse Appium session capabilities and mobile app state across test runs. |
 | aiAgentWorkspaceRoot | `` | | Workspace root for SHAFT agent tooling. |
 | applitoolsApiKey | `` | | Applitools API key for visual AI testing integration. |
 
@@ -11233,8 +11444,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
-| testDataColumnNamePrefix | `Data` | | |
-| allure.link.issue.pattern | `` | | |
+| testDataColumnNamePrefix | `Data` | | Prefix used when naming generated data-provider parameters in test reports. |
+| allure.link.issue.pattern | `` | | URL pattern used to turn `@Issue`/`@Issues` annotation values into clickable links in the Allure report; use `{}` as the issue-ID placeholder. |
 
 ## Tinkey
 
@@ -11246,10 +11457,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | ------------------------- | ------------- | --------------- | ----------- |
-| tinkey.keysetFilename | `` | | |
-| tinkey.kms.serverType | `` | | |
-| tinkey.kms.credentialPath | `` | | |
-| tinkey.kms.masterKeyUri | `` | | |
+| tinkey.keysetFilename | `` | | Path to the Google Tink keyset file used to encrypt/decrypt sensitive test data. |
+| tinkey.kms.serverType | `` | | Key Management Service provider backing the Tink keyset (e.g. `gcp-kms`, `aws-kms`). |
+| tinkey.kms.credentialPath | `` | | Path to the KMS provider credential file used to access the remote master key. |
+| tinkey.kms.masterKeyUri | `` | | URI of the remote KMS master key used to encrypt/decrypt the local Tink keyset. |
 
 ## Internal
 
@@ -11492,13 +11703,13 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | -------------------------- | ------------- | ------------------------------------ | ----------- |
-| setParallel | `NONE` | `METHODS, CLASSES, TESTS, INSTANCES` | |
-| setParallelMode | `STATIC` | `STATIC, DYNAMIC` | |
+| setParallel | `NONE` | `METHODS, CLASSES, TESTS, INSTANCES` | TestNG parallel execution mode (maps to the generated suite's `parallel` attribute). |
+| setParallelMode | `STATIC` | `STATIC, DYNAMIC` | Selects how `setThreadCount` is applied: `STATIC` uses it as-is, `DYNAMIC` multiplies it by the available processor cores. |
 | setThreadCount | `1.0d` | | ThreadCount is used as-is in case of STATIC mode. Total ThreadCount is automatically calculated for DYNAMIC mode; (Total ThreadCount = Number of available processor cores * setThreadCount) |
-| setVerbose | `0` | | |
-| setPreserveOrder | `false` | `true`, `false` | |
-| setGroupByInstances | `false` | `true`, `false` | |
-| setDataProviderThreadCount | `1` | | |
+| setVerbose | `0` | | TestNG verbose logging level for the generated suite (0 = silent). |
+| setPreserveOrder | `false` | `true`, `false` | Preserve declaration order of test methods/classes instead of TestNG's default ordering. |
+| setGroupByInstances | `false` | `true`, `false` | Group parallel test methods by instance instead of running them independently. |
+| setDataProviderThreadCount | `1` | | Number of threads TestNG uses to run `@DataProvider`-fed test invocations in parallel. |
 | testSuiteTimeout | `1440` | minutes | Test suite timeout. Default is 1440 minutes, or 24 hours. |
 
 ## Log4j
@@ -11542,12 +11753,27 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| name | `PropertiesConfig` | | Log4j2 configuration name, used internally as this configuration's identifier. |
+| appender.console.type | `Console` | | Log4j2 appender type for the console output target (`Console`). |
+| appender.console.name | `STDOUT` | | Reference name of the console appender, used by `rootLogger` and other loggers to attach to it. |
+| appender.console.layout.type | `PatternLayout` | | Log4j2 layout implementation used to format console log lines (`PatternLayout`). |
+| appender.console.layout.disableAnsi | `false` | `true`, `false` | Disables ANSI color codes in console log output. |
+| appender.console.layout.noConsoleNoAnsi | `false` | `true`, `false` | Automatically disables ANSI colors when output isn't attached to a real console (e.g. redirected to a file). |
+| appender.console.layout.charset | `UTF-8` | | Character encoding used when writing console log output. |
 | appender.console.layout.pattern | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m} %style{\| @%d{hh:mm:ss a}}{bright_black} %n` | | [Click here to learn more about log4j2 pattern layouts](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
+| appender.console.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the console appender (`ThresholdFilter`). |
 | appender.console.filter.threshold.level | `info` | `fatal, error, warn, info, debug, trace` | |
+| appender.file.type | `File` | | Log4j2 appender type for the rolling log file (`RollingFile`). |
+| appender.file.name | `LOGFILE` | | Reference name of the file appender, used by `rootLogger` and other loggers to attach to it. |
 | appender.file.fileName | `target/logs/log4j.log` | | |
+| appender.file.layout.type | `PatternLayout` | | Log4j2 layout implementation used to format file log lines (`PatternLayout`). |
 | appender.file.layout.pattern | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n` | | |
+| appender.file.layout.charset | `UTF-8` | | Character encoding used when writing the log file. |
+| appender.file.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the file appender (`ThresholdFilter`). |
 | appender.file.filter.threshold.level | `debug` | `fatal, error, warn, info, debug, trace` | |
 | rootLogger | `info, ASYNC_STDOUT, ASYNC_LOGFILE, ASYNC_REPORT_PORTAL` | | Uses asynchronous appenders for console, file, and ReportPortal logging. |
+| logger.app.name | `org.apache.http.impl.client` | | Fully qualified logger name whose level is overridden by `logger.app.level` (defaults to a noisy third-party logger). |
+| logger.app.level | `WARN` | | Log level applied to the logger named by `logger.app.name`, used to quiet noisy third-party libraries. |
 
 ## Related
 
