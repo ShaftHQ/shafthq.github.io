@@ -1734,6 +1734,50 @@ synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
 be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
 `lazyLoadingNetworkIdleQuietWindowMillis`.
 
+Lazy-loading readiness itself is layered, so the default wait adapts to what a
+page actually does without any test-code changes:
+
+- **JS readiness engine** (default, always on) polls `document.readyState`,
+ in-flight `fetch`/XHR/`sendBeacon` activity, resource-timing changes, jQuery
+ and Angular activity, and a main-thread idle probe
+ (`requestIdleCallback` → `requestAnimationFrame` → `setTimeout` fallback)
+ every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
+ `EventSource`/`WebSocket` connections are observed but never block idle, so
+ SSE and long-poll pages don't pin every action at the timeout ceiling.
+- **DOM-stability quiet window** (opt-in, off by default) adds a
+ `MutationObserver`-backed check: once enabled, readiness also requires
+ `lazyLoadingDomStabilityQuietWindowMillis` of DOM-mutation silence. It
+ defaults to `0` (disabled) because carousels, tickers, and React re-renders
+ would otherwise pin every action at the 30-second ceiling; turn it on only
+ for pages you know settle and stay settled.
+- **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
+ in-flight requests via WebDriver BiDi network events when BiDi is enabled.
+ This signal is advisory only: it can extend the quiet window while requests
+ are genuinely in flight (aged out after 10 seconds; SSE/WebSocket upgrades
+ excluded), but it never hard-gates readiness, preserving the same tolerance
+ for long-poll and SSE-style pages as the JS-only path.
+
+```properties title="src/main/resources/properties/custom.properties"
+lazyLoadingPollingIntervalMillis=200
+lazyLoadingDomStabilityQuietWindowMillis=0
+waitForLazyLoadingTimeout=30
+```
+
+For content that only loads on scroll — infinite lists, or sections behind an
+`IntersectionObserver` that hydrate only once visible — call
+`scrollToLoadAll()` right before a full-page assertion or screenshot. It sweeps
+the page in bounded, viewport-height steps (up to
+`lazyLoadingScrollSweepMaxSteps`, default `20`), waiting for lazy-loading
+readiness between each step, then restores the original scroll position. It is
+never invoked automatically by any readiness wait — sweeping an entire page is
+not a safe default before an arbitrary action — so call it explicitly:
+
+```java title="ScrollToLoadAll.java"
+driver.browser().navigateToURL("https://example.test/catalog")
+ .scrollToLoadAll()
+ .captureScreenshot();
+```
+
 ```java title="ExplicitStateWait.java"
 driver.browser().navigateToURL("https://example.test/orders")
  .and().element().click("Refresh orders")
@@ -10956,6 +11000,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | waitForLazyLoadingTimeout | `30` | (seconds) | Timeout in seconds for SHAFT's browser lazy-loading synchronization. |
 | lazyLoadingNetworkIdleInitialObservationMillis | `200` | (milliseconds) | Initial network observation window in milliseconds when no requests were seen. |
 | lazyLoadingNetworkIdleQuietWindowMillis | `500` | (milliseconds) | Required network quiet window in milliseconds after observed activity. |
+| lazyLoadingPollingIntervalMillis | `200` | (milliseconds) | Polling interval in milliseconds for the browser-readiness `fluentWait` loop. |
+| lazyLoadingDomStabilityQuietWindowMillis | `0` | (milliseconds); `0` disables DOM-stability folding | Required DOM-mutation quiet window in milliseconds before the browser-readiness wait treats the DOM as stable. |
+| lazyLoadingScrollSweepMaxSteps | `20` | (steps) | Maximum number of progressive-scroll steps that `driver.browser().scrollToLoadAll()` performs while sweeping a page for scroll-triggered lazy content. |
 | browserNavigationTimeout | `30` | (seconds) | Timeout in seconds for browser navigation. |
 | pageLoadTimeout | `30` | (seconds) | Timeout in seconds for page load. |
 | scriptExecutionTimeout | `30` | (seconds) | Timeout in seconds for script execution. |
@@ -11402,27 +11449,27 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.redaction.patterns | ` ` | | Double-semicolon-separated custom regular expressions. |
 | pilot.ai.openai.endpoint | `https://api.openai.com/v1/responses` | | OpenAI Responses endpoint. |
 | pilot.ai.openai.model | ` ` | | Configured OpenAI model. |
-| pilot.ai.openai.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the OpenAI credential. |
+| pilot.ai.openai.apiKeyEnvironmentVariable | `OPENAI_API_KEY` | | Environment variable containing the OpenAI credential. |
 | pilot.ai.openai.processingLocation | `remote` | | Explicit OpenAI endpoint processing location. |
 | pilot.ai.anthropic.endpoint | `https://api.anthropic.com/v1/messages` | | Anthropic Messages endpoint. |
 | pilot.ai.anthropic.model | ` ` | | Configured Anthropic model. |
-| pilot.ai.anthropic.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the Anthropic credential. |
+| pilot.ai.anthropic.apiKeyEnvironmentVariable | `ANTHROPIC_API_KEY` | | Environment variable containing the Anthropic credential. |
 | pilot.ai.anthropic.processingLocation | `remote` | | Explicit Anthropic endpoint processing location. |
 | pilot.ai.anthropic.version | `2023-06-01` | | Anthropic API contract version. |
 | pilot.ai.gemini.endpoint | `https://generativelanguage.googleapis.com/v1beta/models` | | Gemini models endpoint. |
 | pilot.ai.gemini.model | `gemini-3.5-flash` | | Configured Gemini model. |
-| pilot.ai.gemini.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the Gemini credential. |
+| pilot.ai.gemini.apiKeyEnvironmentVariable | `GEMINI_API_KEY` | | Environment variable containing the Gemini credential. |
 | pilot.ai.gemini.processingLocation | `remote` | | Explicit Gemini endpoint processing location. |
 | pilot.ai.github.endpoint | `https://models.github.ai/inference/chat/completions` | | GitHub Models chat-completions endpoint. |
 | pilot.ai.github.model | ` ` | | Configured GitHub Models model. |
-| pilot.ai.github.apiKeyEnvironmentVariable | ` ` | | Environment variable containing the GitHub credential. |
+| pilot.ai.github.apiKeyEnvironmentVariable | `GITHUB_TOKEN` | | Environment variable containing the GitHub credential. |
 | pilot.ai.github.processingLocation | `remote` | | Explicit GitHub Models endpoint processing location. |
 | pilot.ai.ollama.endpoint | `http://127.0.0.1:11434/api/chat` | | Ollama chat endpoint. |
 | pilot.ai.ollama.model | ` ` | | Configured Ollama model. |
 | pilot.ai.ollama.processingLocation | `local` | | Explicit Ollama endpoint processing location. |
 | pilot.ai.ollama.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an on-prem Ollama gateway credential. |
-| pilot.ai.ollama.apiKeyHeader | ` ` | | Optional Ollama gateway credential header. |
-| pilot.ai.ollama.apiKeyPrefix | ` ` | | Optional Ollama gateway credential prefix. |
+| pilot.ai.ollama.apiKeyHeader | `Authorization` | | Optional Ollama gateway credential header. |
+| pilot.ai.ollama.apiKeyPrefix | `Bearer ` | | Optional Ollama gateway credential prefix. |
 
 ## Paths
 
