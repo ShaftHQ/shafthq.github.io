@@ -265,6 +265,27 @@ const config = {
           // Retired agentic/mcp-manual tombstone (deleted; canonical content
           // lives on the main MCP setup page).
           {to: '/docs/agentic/mcp', from: '/docs/agentic/mcp/manual'},
+          // Docs IA PR B (issue #842): Validations 10-pages -> 1 page merge,
+          // plus GUI/Element_Validations folded into the same page as a
+          // duplicate-resolution. Section anchors are documented in the
+          // page itself since meta-refresh redirects can't target a
+          // fragment reliably.
+          {
+            to: '/docs/reference/actions/Validations',
+            from: [
+              '/docs/reference/actions/Validations/Overview',
+              '/docs/reference/actions/Validations/Browser',
+              '/docs/reference/actions/Validations/Elements',
+              '/docs/reference/actions/Validations/Files',
+              '/docs/reference/actions/Validations/Objects',
+              '/docs/reference/actions/Validations/Nums',
+              '/docs/reference/actions/Validations/Response',
+              '/docs/reference/actions/Validations/JSON_Schema_Validation',
+              '/docs/reference/actions/Validations/ForceFail',
+              '/docs/reference/actions/Validations/Soft_vs_Hard_Assertions',
+              '/docs/reference/actions/GUI/Element_Validations',
+            ],
+          },
           // Pre-2026-06-19 release posts consolidated into one history post
           // (issue #841).
           {

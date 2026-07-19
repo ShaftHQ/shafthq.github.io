@@ -189,7 +189,7 @@ SHAFT.Validations.assertThat()
 file.deleteFile("target/output.txt");
 ```
 
-For the full file validation API see the [File Validations →](../Validations/Files.md) reference.
+For the full file validation API see the [File validations →](../Validations#file-validations) reference.
 
 ## Best Practices
 

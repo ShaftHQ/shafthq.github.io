@@ -942,7 +942,7 @@ By following these guidelines and examples, you can build a robust and maintaina
 ## Related Documentation
 
 - [File Actions](/docs/reference/actions/CLI/File_Actions) - Reading and writing files programmatically
-- [File Validations](/docs/reference/actions/Validations/Files) - Validating file content and existence
+- [File validations](/docs/reference/actions/Validations#file-validations) - Validating file content and existence
 - [API Request Builder](/docs/reference/actions/API/Request_Builder) - Building API requests with test data
 - [Parallel Execution](/docs/reference/configuration/parallelExecution) - Using test data in parallel tests
 - [Properties List](/docs/reference/properties/PropertiesList) - SHAFT configuration properties

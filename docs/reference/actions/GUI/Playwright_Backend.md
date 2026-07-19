@@ -343,5 +343,5 @@ leave it `false` to report warnings only.
 - [Web testing](/docs/testing/web)
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
-- [Element Validations](/docs/reference/actions/GUI/Element_Validations)
+- [Element validations](/docs/reference/actions/Validations#element-validations)
 - [SHAFT Locator Builder](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder)

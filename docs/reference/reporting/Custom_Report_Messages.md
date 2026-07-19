@@ -203,4 +203,4 @@ void checkoutFlow() {
 ## Related Pages
 
 - [Reporting](./reporting.mdx) — Configure Allure, video recording, and execution summary reports.
-- [Validations Overview](/docs/reference/actions/Validations/Overview) — Full reference for all SHAFT validation types.
+- [Validations](/docs/reference/actions/Validations) — Full reference for all SHAFT validation types.

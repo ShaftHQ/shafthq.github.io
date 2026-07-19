@@ -33,7 +33,7 @@ Validate an extracted value from the response body by parsing the target **JSONP
 You can learn the JSONPath syntax from the [JSONPath documentation](https://github.com/json-path/JsonPath) and test your expressions at [jsonpath.com](http://jsonpath.com/).
 :::
 
-Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
+Chains to [Object validation methods](../Validations#object-validations) to continue building your validation.
 
 ```java
 api.assertThatResponse().extractedJsonValue("jsonPath").isEqualTo("data");
@@ -48,7 +48,7 @@ api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id
 ### Extracted Json Value As List
 Validate an extracted value from the response body by parsing the target **JSONPath** as a list and check every item against it.
 
-Chains to [Object validation methods](../Validations/Objects) to continue building your validation.
+Chains to [Object validation methods](../Validations#object-validations) to continue building your validation.
 
 ```java
 api.assertThatResponse().extractedJsonValueAsList("jsonPath").isEqualTo("data");
@@ -62,7 +62,7 @@ api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].compl
 
 ### Time
 Validate on the response time.
-Chains to [Number validation methods](../Validations/Nums) to continue building your validation.
+Chains to [Number validation methods](../Validations#number-validations) to continue building your validation.
 
 ```java
 api.assertThatResponse().time().isEqualTo(expectedNumberValue);
