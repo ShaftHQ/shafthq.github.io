@@ -130,6 +130,74 @@
   to = "/docs/testing/mobile"
   status = 301
 
+# Release blog posts published before 2026-06-19 were consolidated into a
+# single chronological history post (issue #841). Redirect the retired
+# standalone slugs to the section covering the same release.
+[[redirects]]
+  from = "/blog/release_announcement_7.1.20230309"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.1.20260324"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.1.20260331"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260501"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260505"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260506"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260605"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260610"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260612"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260614"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260615"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260617"
+  to = "/blog/release-history"
+  status = 301
+
+[[redirects]]
+  from = "/blog/release-10.2.20260618"
+  to = "/blog/release-history"
+  status = 301
+
 [functions]
   directory = "netlify/functions"
   included_files = ["docs/**", "src/data/snippets.json"]

@@ -32,16 +32,23 @@ try {
     'workflows',
     'automated-release-blog-post.yml',
   );
+  // These two historical release posts were consolidated into
+  // blog/2026-06-18-release-history.md (issue #841) and removed from blog/.
+  // They're kept here verbatim as format-regression fixtures: the assertions
+  // below check that the release-post generator's output matches these two
+  // known-good historical examples (one from the "Resources" table era, one
+  // from the plain PR-list era), independent of whether the underlying post
+  // is still a live, standalone blog entry.
   const latestReleasePostPath = path.join(
     __dirname,
-    '..',
-    'blog',
+    'fixtures',
+    'release-posts',
     '2026-05-02-release-10.2.20260501.md',
   );
   const releasePostMarchPath = path.join(
     __dirname,
-    '..',
-    'blog',
+    'fixtures',
+    'release-posts',
     '2026-03-31-release-10.1.20260331.md',
   );
 

@@ -274,9 +274,11 @@ public class SiteRenderTest {
 
     @Test
     public void releasePageRendersContributorAvatarsWithSmallSize() {
-        navigate("/blog/release-10.2.20260501");
+        // 10.2.20260501 was consolidated into /blog/release-history (issue #841);
+        // point this render check at a still-standalone release post instead.
+        navigate("/blog/release-10.2.20260621");
 
-        visible(By.xpath("//h1[contains(normalize-space(),'10.2.20260501')]"));
+        visible(By.xpath("//h1[contains(normalize-space(),'10.2.20260621')]"));
         visible(By.cssSelector("img[alt='@MohabMohie'][width='32'][height='32']"));
     }
 
