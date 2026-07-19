@@ -3,7 +3,6 @@ id: visual
 title: Visual testing
 description: Add reference-image assertions and image-based touch operations.
 slug: /integrations/visual
-sidebar_position: 2
 keywords: [SHAFT, visual testing, image comparison, visual regression, OpenCV, Applitools Eyes, matchesReferenceImage, matchesScreenshot, VisualValidationEngine, screenshot comparison]
 tags: [visual, opencv, applitools, visual-testing, image-comparison]
 ---
