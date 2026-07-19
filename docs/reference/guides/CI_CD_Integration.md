@@ -28,7 +28,6 @@ mvn -e test \
 |---|---|
 | `headlessExecution=true` | No display available in CI — run the browser without a GUI |
 | `allure.automaticallyOpen=false` | Do not try to open a browser to show the report |
-| `allure.generateArchive=true` | Generate a portable ZIP of the Allure report for artifact publishing |
 
 ---
 
@@ -40,7 +39,6 @@ Create a `custom.properties` file with sensible defaults for CI, then override i
 # CI/CD defaults
 headlessExecution=true
 allure.automaticallyOpen=false
-allure.generateArchive=true
 retryMaximumNumberOfAttempts=2
 createAnimatedGif=false
 videoParams_recordVideo=false
@@ -75,15 +73,16 @@ jobs:
         run: |
           mvn -e test \
             -DheadlessExecution=true \
-            -Dallure.automaticallyOpen=false \
-            -Dallure.generateArchive=true
+            -Dallure.automaticallyOpen=false
 
       - name: Upload Allure report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report
-          path: allure-report-archive/
+          path: allure-report/*.html
+          archive: false
+          if-no-files-found: ignore
 ```
 
 ---
@@ -157,10 +156,9 @@ This lets you run the same test suite against staging, production, or different 
 
 1. **Always use headless mode** in pipelines — there is no display server.
 2. **Disable auto-opening reports** — set `allure.automaticallyOpen=false`.
-3. **Generate report archives** — use `allure.generateArchive=true` and publish them as pipeline artifacts.
+3. **Archive test artifacts** — always upload reports and logs, even on failure (use `if: always()` in GitHub Actions or `post { always { } }` in Jenkins). GitHub Actions v7+ with `archive: false` uploads HTML files directly without zipping.
 4. **Set retry attempts** — `retryMaximumNumberOfAttempts=2` allows two retries after the first failure. Keep the budget small; JUnit retries still run setup and teardown for isolated attempts.
 5. **Parameterize everything** — use CLI properties so the same test suite works across environments.
-6. **Archive test artifacts** — always upload reports and logs, even on failure (use `if: always()` in GitHub Actions or `post { always { } }` in Jenkins).
 
 ## Related
 

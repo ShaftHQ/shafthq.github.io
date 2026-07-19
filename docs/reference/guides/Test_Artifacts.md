@@ -55,16 +55,9 @@ SHAFT writes convenience scripts to your project root on first run:
 generate_allure_report.bat
 ```
 
-### Generating a Portable Archive for CI/CD
+### Publishing to CI/CD
 
-Enable the archive property to create a ZIP file you can publish as a pipeline artifact:
-
-```properties title="src/main/resources/properties/custom.properties"
-allure.generateArchive=true
-allure.automaticallyOpen=false
-```
-
-The archive is written to `allure-report-archive/` and contains a self-contained HTML report.
+With GitHub Actions v7+, you can upload Allure HTML files directly without archiving. See the [Publishing Artifacts in CI/CD](#publishing-artifacts-in-cicd) section below for examples.
 
 ---
 
@@ -87,14 +80,16 @@ The generated file is written to the `execution-summary/` directory.
 ```yaml title=".github/workflows/tests.yml"
 - name: Upload Allure report
   if: always()
-  uses: actions/upload-artifact@v4
+  uses: actions/upload-artifact@v7
   with:
     name: allure-report
-    path: allure-report-archive/
+    path: allure-report/*.html
+    archive: false
+    if-no-files-found: ignore
 
 - name: Upload execution summary
   if: always()
-  uses: actions/upload-artifact@v4
+  uses: actions/upload-artifact@v7
   with:
     name: execution-summary
     path: execution-summary/
