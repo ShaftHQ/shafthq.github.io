@@ -63,6 +63,16 @@ html {
   scroll-margin-top: var(--site-anchor-offset);
 }
 
+/* WS-E typography audit: on desktop the doc article column measures ~823px at the 16px
+ * base body font (~95ch), well past the ~60-80ch readable range. Cap running prose (not
+ * tables/code blocks/images, which benefit from the full column width) to a ~75ch measure. */
+:where(.theme-doc-markdown, .markdown) > p,
+:where(.theme-doc-markdown, .markdown) > ul,
+:where(.theme-doc-markdown, .markdown) > ol,
+:where(.theme-doc-markdown, .markdown) > blockquote {
+  max-width: 75ch;
+}
+
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 :root[data-theme='dark'],
 body[data-theme='dark'],
