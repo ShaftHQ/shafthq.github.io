@@ -73,6 +73,8 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 |---|---|
 | Create a new project | [Project Generator](/docs/start/installation) |
 | Run the first test | [Quick start](/docs/start/quick-start) |
+| See where the evidence and reports come from | [Reporting and evidence](/docs/features/reporting) |
+| Run the suite in a pipeline | [CI/CD Integration](/docs/reference/guides/CI_CD_Integration) |
 | Use SHAFT from IntelliJ | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
 | Connect another AI coding agent | [SHAFT MCP](/docs/agentic/mcp) |
 | Diagnose a failed run | [SHAFT Doctor](/docs/agentic/doctor) |
@@ -83,6 +85,8 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 
 - [Installation](/docs/start/installation)
 - [Quick Start](/docs/start/quick-start)
+- [Reporting and evidence](/docs/features/reporting)
+- [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
 - [Upgrade](/docs/start/upgrade)
 - [Modules](/docs/features/modules)
 
@@ -256,12 +260,19 @@ open the evidence, then decide whether SHAFT removed enough setup work to keep.
  
 
 3. Confirm Maven reports passing tests.
-4. Open the generated evidence under .
+4. Open the generated evidence under . See
+ [Reporting and evidence](/docs/features/reporting) for what each report
+ contains and how to configure it.
 5. If the sample test, screenshots, logs, and report match what you expected,
  so you can find the project again and track releases.
 
 For a browser-first smoke run, keep the generated defaults or use this minimal
 configuration:
+
+ 
+
+Once the local run looks right, wire the same command into your pipeline with
+[CI/CD Integration](/docs/reference/guides/CI_CD_Integration).
 
 ## New project generation
 
@@ -634,6 +645,8 @@ complete method matrix.
 ## Related
 
 - [Installation](/docs/start/installation)
+- [Reporting and evidence](/docs/features/reporting)
+- [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
 - [Upgrade](/docs/start/upgrade)
 - [SHAFT MCP](/docs/agentic/mcp)
 - [Modules](/docs/features/modules)
@@ -6605,7 +6618,7 @@ desktop-image action facade without shadowing `shaft-engine` classes.
 - [Modules](/docs/features/modules)
 - [Reporting](/docs/features/reporting)
 - [Underlying technology](/docs/features/modules#technology)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
 
 ---
 
@@ -7129,7 +7142,7 @@ wait-heavy, stale, healed, or failing actions.
 - [Architecture](/docs/features/architecture)
 - [Modules](/docs/features/modules)
 - [Underlying technology](/docs/features/modules#technology)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
 
 ---
 
@@ -7409,7 +7422,7 @@ The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comp
 
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
 - [Desktop and video](/docs/integrations/desktop-and-video#video-recording)
 
 ---
@@ -7513,7 +7526,7 @@ Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-
 - [Mobile and Appium testing](/docs/testing/mobile)
 - [Visual testing](/docs/integrations/visual)
 - [Upgrade](/docs/start/upgrade)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
 
 ---
 
