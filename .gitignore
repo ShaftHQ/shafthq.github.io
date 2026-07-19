@@ -8,6 +8,8 @@
 .docusaurus
 .cache-loader
 static/autobot-index.json
+static/llms.txt
+static/llms-full.txt
 graphify-out/.graphify_root
 graphify-out/cache/
 graphify-out/20??-??-??/

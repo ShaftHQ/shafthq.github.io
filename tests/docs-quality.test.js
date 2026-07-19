@@ -19,8 +19,29 @@ const assertionChain =
 // from the "no .perform() on assertions" rule below.
 const visualAssertionRequiresPerform = /\bmatchesScreenshot\s*\(/;
 
+// WS-D: content-quality rules driven by DESIGN_LANGUAGE.md's "Admonition severity
+// vocabulary" and "Content style guide" sections.
+const bannedLinkText = new Set(['here', 'click here', 'this', 'link']);
+const markdownLink = /\[([^\]]+)\]\([^)]*\)/g;
+const standaloneNavLine = /^\s*\[[^\]]+\]\([^)]+\)(?:\s*·\s*\[[^\]]+\]\([^)]+\)){1,}\s*$/;
+const admonitionOpen = /^:::([a-zA-Z]+)/gm;
+const allowedAdmonitions = new Set(['tip', 'note', 'info', 'warning', 'danger']);
+const markdownImage = /!\[([^\]]*)\]\([^)]*\)/g;
+const genericAltText = new Set(['image', 'screenshot', 'img']);
+const headingLine = /^(#{1,6})\s+/gm;
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+// Blank out fenced code blocks while preserving line numbers/offsets, so example
+// code (which may itself contain markdown-ish text) never trips prose-only rules.
+function withoutFences(content) {
+  return content.replace(/```[\s\S]*?```/g, (block) => block.replace(/[^\n]/g, ' '));
+}
+
+function lineAt(content, index) {
+  return content.slice(0, index).split('\n').length;
 }
 
 function publicDocs(directory = docsRoot, files = []) {
@@ -66,6 +87,60 @@ for (const {fullPath, relativePath} of docs) {
         `${relativePath} has .perform() on an assertion or verification example.`,
       );
     }
+  }
+
+  const proseOnly = withoutFences(content);
+
+  // Rule 1: descriptive link text (Content style guide #1).
+  for (const match of proseOnly.matchAll(markdownLink)) {
+    const linkText = match[1].trim().toLowerCase();
+    assert(
+      !bannedLinkText.has(linkText),
+      `${relativePath}:${lineAt(content, match.index)} uses non-descriptive link text "${match[1].trim()}" — describe the destination instead.`,
+    );
+  }
+
+  // Rule 2: a single end-of-page navigation pattern — no inline "A · B" nav lines
+  // outside of "## Related" (Content style guide #2).
+  for (const line of proseOnly.split('\n')) {
+    assert(
+      !standaloneNavLine.test(line),
+      `${relativePath} has a standalone inline-nav line ("${line.trim()}"); fold these destinations into "## Related" instead.`,
+    );
+  }
+
+  // Rule 3: admonition severity vocabulary — no legacy ":::caution", and only the
+  // {tip, note, info, warning, danger} types (DESIGN_LANGUAGE.md Admonition severity vocabulary).
+  for (const match of content.matchAll(admonitionOpen)) {
+    const type = match[1].toLowerCase();
+    if (type === 'caution') {
+      assert(false, `${relativePath}:${lineAt(content, match.index)} uses ":::caution", a legacy alias — convert it to ":::warning".`);
+    }
+    assert(
+      allowedAdmonitions.has(type),
+      `${relativePath}:${lineAt(content, match.index)} uses unsupported admonition type ":::${match[1]}" — use one of tip, note, info, warning, danger.`,
+    );
+  }
+
+  // Rule 4: image alt text must be present and specific.
+  for (const match of proseOnly.matchAll(markdownImage)) {
+    const alt = match[1].trim().toLowerCase();
+    assert(
+      alt !== '' && !genericAltText.has(alt),
+      `${relativePath}:${lineAt(content, match.index)} has an empty or generic image alt text ("${match[1]}") — describe what the image shows.`,
+    );
+  }
+
+  // Rule 5: heading hierarchy must not skip a level going down. The frontmatter
+  // title stands in for H1, so a body may open at H2 but not deeper.
+  let previousLevel = 1;
+  for (const match of proseOnly.matchAll(headingLine)) {
+    const level = match[1].length;
+    assert(
+      level <= previousLevel + 1,
+      `${relativePath}:${lineAt(content, match.index)} heading level jumps from H${previousLevel} to H${level} — do not skip heading levels.`,
+    );
+    previousLevel = level;
   }
 }
 

@@ -121,7 +121,7 @@ public class iFrameTest {
 
 ---
 
-:::tip
+:::warning
 Always call `switchToDefaultContent()` after finishing work inside an iframe. Forgetting to switch back is a common cause of `NoSuchElementException` errors on main-page elements.
 :::
 

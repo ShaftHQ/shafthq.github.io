@@ -127,7 +127,7 @@ TestNG's `@Test(priority = N)` attribute controls execution order, but it has im
 | Implicit relationship — hard to understand at a glance | Explicit dependency — self-documenting |
 | Fragile when tests are added or reordered | Robust — dependencies are declared by name |
 
-:::danger
+:::warning
 Using `priority` to order tests creates a hidden dependency. If a test with `priority=1` fails, the test with `priority=2` still runs — often producing confusing, cascading failures that waste debugging time.
 :::
 

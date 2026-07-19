@@ -159,7 +159,7 @@ api.assertThatResponse()
 Use the `variables` parameter instead of string interpolation in GraphQL queries to avoid injection issues and improve readability.
 :::
 
-:::note
+:::warning
 GraphQL APIs typically return HTTP 200 even when errors occur — always validate the `errors` field in the response body alongside the status code.
 :::
 

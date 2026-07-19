@@ -88,8 +88,8 @@ SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
 ### Get Response JSON Value
 Extracts a string value from the response body by parsing the target **JSONPath.** <br />
 _* To extract the desired value, please refer to these urls for examples: <br /> 
-You can learn the JSONPath Syntax from [here](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
-And test your JSONPath [here](http://jsonpath.com/) *_
+You can learn the JSONPath Syntax from [the JSONPath syntax reference](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
+And test your JSONPath [on JSONPath.com](http://jsonpath.com/) *_
 ```java
 String value = api.getResponseJSONValue("jsonPath");
 ```

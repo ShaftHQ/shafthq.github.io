@@ -182,12 +182,10 @@ desktop-image action facade without shadowing `shaft-engine` classes.
 - [SHAFT Capture](/docs/agentic/capture)
 - [Maven reactor layout](/docs/maintainers/reactor)
 
----
-
-[Overview](/docs/start/overview) · [Quick start](/docs/start/quick-start)
-
 ## Related
 
+- [Overview](/docs/start/overview)
+- [Quick start](/docs/start/quick-start)
 - [Modules](/docs/features/modules)
 - [Reporting](/docs/features/reporting)
 - [Technology](/docs/features/technology)
