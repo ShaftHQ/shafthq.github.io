@@ -21,7 +21,6 @@
 - [Agentic testing](https://shafthq.github.io/docs/agentic/overview): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 - [Connect shaft-mcp](https://shafthq.github.io/docs/agentic/mcp): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 - [IntelliJ IDEA plugin](https://shafthq.github.io/docs/agentic/intellij): Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
-- [Manual shaft-mcp configuration moved](https://shafthq.github.io/docs/agentic/mcp/manual): Manual shaft-mcp configuration now lives on the canonical MCP setup page.
 - [SHAFT Pilot](https://shafthq.github.io/docs/agentic/pilot): Capture, generation, diagnosis, reviewed repairs, and MCP interoperability.
 - [shaft-cli command line](https://shafthq.github.io/docs/agentic/cli): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
 - [Record tests with Capture](https://shafthq.github.io/docs/agentic/capture): Record browser activity and generate reviewable deterministic TestNG source.

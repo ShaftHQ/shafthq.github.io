@@ -3610,7 +3610,7 @@ argfile line (or set `SHAFT_MCP_WORKSPACE_ROOT` in the server environment).
 Use `;` instead of `:` in the classpath on Windows. The JVM property paths may
 use forward slashes on every operating system.
 
-Codex local stdio configuration:
+Connect Codex to shaft-mcp with this local stdio configuration:
 
 Follow the [official Codex MCP documentation](https://developers.openai.com/codex/mcp)
 for client-specific settings and approval policy.
@@ -4630,33 +4630,6 @@ channel.
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
 - [Providers](/docs/agentic/providers)
-
----
-
-# Manual shaft-mcp configuration moved
-
-Canonical URL: https://shafthq.github.io/docs/agentic/mcp/manual
-
-# Manual shaft-mcp configuration moved
-
-Manual MCP configuration is now part of the canonical
-[Connect shaft-mcp guide](/docs/agentic/mcp#manual-configuration). Use that
-page for installer commands, Java argfile setup, Codex, Claude, GitHub Copilot,
-and Streamable HTTP configuration.
-
-For Codex, the canonical page links to the official Codex MCP documentation
-beside the local stdio and Streamable HTTP configuration examples.
-
-```text
-/docs/agentic/mcp#manual-configuration
-```
-
-## Related
-
-- [MCP](/docs/agentic/mcp)
-- [Overview](/docs/agentic/overview)
-- [Pilot](/docs/agentic/pilot)
-- [Doctor](/docs/agentic/doctor)
 
 ---
 
