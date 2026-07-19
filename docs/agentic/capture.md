@@ -3,7 +3,6 @@ id: capture
 title: Record tests with Capture
 description: Record browser activity and generate reviewable deterministic TestNG source.
 slug: /agentic/capture
-sidebar_position: 4
 tags: [capture, recording, generation]
 ---
 

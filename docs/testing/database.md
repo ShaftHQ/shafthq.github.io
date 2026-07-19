@@ -3,7 +3,6 @@ id: database
 title: Database testing
 description: Connect, query, and validate databases through SHAFT.
 slug: /testing/database
-sidebar_position: 5
 tags: [database, jdbc]
 ---
 

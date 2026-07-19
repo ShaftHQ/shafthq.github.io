@@ -3,7 +3,6 @@ id: cli
 title: shaft-cli command line
 description: Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
 slug: /agentic/cli
-sidebar_position: 3
 tags: [cli, mcp, agents, guide, capture, doctor]
 ---
 

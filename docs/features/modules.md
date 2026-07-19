@@ -3,7 +3,6 @@ id: modules
 title: Features and modules
 description: Select the core engine and optional SHAFT modules by capability — plus the underlying technology stack and sponsors/adopters.
 slug: /features/modules
-sidebar_position: 2
 keywords: [SHAFT, features, modules, dependencies, technology, ecosystem, Selenium, Appium, REST Assured, TestNG, JUnit, Cucumber, Allure, partners, sponsors, adopters, community]
 tags: [features, modules, dependencies, technology, partners, sponsors, community]
 ---

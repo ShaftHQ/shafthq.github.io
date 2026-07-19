@@ -3,7 +3,6 @@ id: desktop-and-video
 title: Desktop and video
 description: Optional local desktop recording and SikuliX image-based desktop automation.
 slug: /integrations/desktop-and-video
-sidebar_position: 3
 keywords: [SHAFT, video recording, shaft-video, desktop recording, FFmpeg, SikuliX, shaft-sikulix, image automation, desktop automation]
 tags: [video, recording, sikulix, desktop, image-automation]
 ---

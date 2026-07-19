@@ -3,7 +3,6 @@ id: pilot
 title: SHAFT Pilot
 description: Capture, generation, diagnosis, reviewed repairs, and MCP interoperability — plus downloadable credential-free Pilot example assets.
 slug: /agentic/pilot
-sidebar_position: 3
 keywords: [SHAFT, pilot, capture, doctor, mcp, examples, pilot examples, credential-free, repair proposal, ollama advisory]
 tags: [pilot, capture, doctor, mcp, examples]
 ---

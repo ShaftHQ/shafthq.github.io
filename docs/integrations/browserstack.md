@@ -3,7 +3,6 @@ id: browserstack
 title: BrowserStack
 description: Choose direct BrowserStack sessions or the optional SDK orchestration module.
 slug: /integrations/browserstack
-sidebar_position: 1
 tags: [browserstack, cloud]
 ---
 

@@ -20,7 +20,7 @@ guides.
 | Open a browser, click, type, wait, and assert | [Web testing](/docs/testing/web) |
 | Choose resilient web locators | [Web locator strategy](/docs/testing/web#locator-strategy) |
 | Send REST requests and validate responses | [API testing](/docs/testing/api) |
-| Configure browser, API, mobile, retry, or reporting behavior | [Property types](/docs/reference/properties/PropertyTypes) |
+| Configure browser, API, mobile, retry, or reporting behavior | [Property Types](/docs/reference/properties/PropertyTypes) |
 | Generate a custom `.properties` file | [Config Generator tab](/docs/reference/properties/PropertiesList?PropertyTypes=generator) on the Properties Reference |
 | Attach evidence and understand reports | [Reporting](/docs/reference/reporting/) |
 | Diagnose flaky or failed runs | [How SHAFT reduces flakiness](/docs/testing/flakiness) |
@@ -30,10 +30,10 @@ guides.
 
 | Area | Reference |
 |---|---|
-| Browser and element actions | [GUI actions](/docs/reference/actions/GUI/Browser_Actions) |
+| Browser and element actions | [GUI Actions](/docs/reference/actions/GUI/Browser_Actions) |
 | REST API | [API request builder](/docs/reference/actions/API/Request_Builder) |
-| CLI | [Terminal actions](/docs/reference/actions/CLI/Terminal_Actions) |
-| Database | [Database actions](/docs/reference/actions/DB/DB_Actions) |
+| CLI | [CLI Actions](/docs/reference/actions/CLI/Terminal_Actions) |
+| Database | [Database Actions](/docs/reference/actions/DB/DB_Actions) |
 | Configuration | [Property types](/docs/reference/properties/PropertyTypes) |
 | Assertions | [Validations](/docs/reference/actions/Validations) |
 | Engineering practices | [Solution design](/docs/reference/guides/Solution_Design) |

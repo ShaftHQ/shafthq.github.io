@@ -3,7 +3,6 @@ id: intellij
 title: IntelliJ IDEA plugin
 description: Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 slug: /agentic/intellij
-sidebar_position: 3
 tags: [intellij, idea, mcp, recorder, doctor, healer, inspector, projects, assistant]
 ---
 
