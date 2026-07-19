@@ -75,7 +75,9 @@ open the evidence, then decide whether SHAFT removed enough setup work to keep.
 <FirstRunCommand />
 
 3. Confirm Maven reports passing tests.
-4. Open the generated evidence under <AllureReportPath />.
+4. Open the generated evidence under <AllureReportPath />. See
+   [Reporting and evidence](/docs/features/reporting) for what each report
+   contains and how to configure it.
 5. If the sample test, screenshots, logs, and report match what you expected,
    <GitHubStarLink /> so you can find the project again and track releases.
 
@@ -83,6 +85,9 @@ For a browser-first smoke run, keep the generated defaults or use this minimal
 configuration:
 
 <BrowserSelectionProperties />
+
+Once the local run looks right, wire the same command into your pipeline with
+[CI/CD Integration](/docs/reference/guides/CI_CD_Integration).
 
 ## New project generation
 
@@ -485,6 +490,8 @@ complete method matrix.
 ## Related
 
 - [Installation](/docs/start/installation)
+- [Reporting and evidence](/docs/features/reporting)
+- [CI/CD Integration](/docs/reference/guides/CI_CD_Integration)
 - [Upgrade](/docs/start/upgrade)
 - [SHAFT MCP](/docs/agentic/mcp)
 - [Modules](/docs/features/modules)

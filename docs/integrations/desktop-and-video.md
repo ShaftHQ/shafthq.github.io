@@ -103,4 +103,4 @@ Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-
 - [Mobile and Appium testing](/docs/testing/mobile)
 - [Visual testing](/docs/integrations/visual)
 - [Upgrade](/docs/start/upgrade)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)

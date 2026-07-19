@@ -213,4 +213,4 @@ desktop-image action facade without shadowing `shaft-engine` classes.
 - [Modules](/docs/features/modules)
 - [Reporting](/docs/features/reporting)
 - [Underlying technology](/docs/features/modules#technology)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
