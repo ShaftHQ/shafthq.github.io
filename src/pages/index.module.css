@@ -58,6 +58,9 @@
   display: block;
   width: max-content;
   margin: 0 auto 1.2rem;
+  padding: 0.3rem 0.9rem;
+  background: var(--site-color-deep-alt);
+  border-radius: 999px;
   color: var(--site-color-primary);
   font-size: var(--site-font-card-title-lg);
   font-weight: var(--site-font-weight-bold);
