@@ -18,7 +18,7 @@
     "test": "npm run test:docs && npm run test:homepage && npm run test:history && npm run test:release-template",
     "test:history": "node tests/chat-history.test.js",
     "test:homepage": "node tests/homepage-performance.test.js",
-    "test:docs": "node tests/docs-loader.test.js && node tests/cloudflare-autobot.test.js && node tests/enhanced-instruction.test.js && node tests/properties-catalog.test.js && node tests/generate-properties-catalog-regex.test.js && node tests/docs-quality.test.js && node scripts/check-doc-duplicates.mjs",
+    "test:docs": "node tests/docs-loader.test.js && node tests/cloudflare-autobot.test.js && node tests/enhanced-instruction.test.js && node tests/properties-catalog.test.js && node tests/generate-properties-catalog-regex.test.js && node tests/properties-list-coverage.test.js && node tests/docs-quality.test.js && node scripts/check-doc-duplicates.mjs",
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "npm run test:shaft",
     "test:playwright": "npx playwright test",
