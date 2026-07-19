@@ -554,7 +554,7 @@ findings (flaky steps, unsupported events, required inputs, fallback
 locators) also surface as file-level IDE annotations directly on the
 generated class.
 
-![SHAFT IntelliJ Assistant chat composer](/img/agentic/intellij-plugin-assistant.png)
+![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box](/img/agentic/intellij-plugin-assistant.png)
 
 ![SHAFT IntelliJ Assistant empty composer](/img/agentic/intellij-plugin-assistant-empty.png)
 
@@ -702,7 +702,7 @@ against the last run's target class first, and on a mismatch offers a
 "Run `<Class>`" notification action instead of silently replaying a stale
 result ([ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467)).
 
-![SHAFT IntelliJ Guided workflow templates](/img/agentic/intellij-plugin-guided.png)
+![SHAFT IntelliJ Guided workflow panel showing Target URL, a Browser dropdown set to Chrome, a Headless browser checkbox, Advanced options (Backend, Template, Intent, Session path), and an empty Recorded steps list reading Nothing to show](/img/agentic/intellij-plugin-guided.png)
 
 ```json
 {"tool": "shaft_project_upgrade", "arguments": {"projectRoot": ".", "upgradeType": "basic", "dryRun": true, "approve": false}}
