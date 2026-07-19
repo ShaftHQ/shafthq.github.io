@@ -101,12 +101,20 @@
   content: '';
 }
 
+/* Repointed from --site-color-muted: unlike heroBrand/statusChip/audienceLane,
+   every real .eyebrow usage sits on the normal flipping Infima page background
+   (pathSection/surfaceSection/proof/allureSection/agentBand), not the fixed-dark
+   deep/deep-alt family --site-color-muted is designed to pair with. In light
+   theme that read pale muted-blue-grey text on a near-white background
+   (~1.3-1.5:1, see #851). --ifm-color-emphasis-800 is the token this same file
+   already uses for secondary text on these exact sections (.pathCard span,
+   .allureFrame figcaption, .loopStep span) and adapts correctly per theme. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
   margin-bottom: 0.9rem;
-  color: var(--site-color-muted);
+  color: var(--ifm-color-emphasis-800);
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--site-font-small);
   font-weight: var(--site-font-weight-medium);

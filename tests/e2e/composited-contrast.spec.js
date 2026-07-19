@@ -1,25 +1,48 @@
 const {expect, test} = require('@playwright/test');
 
-// Regression guard for #837. Three elements render brand-primary text over a
-// composited/blended background (a multi-layer CSS gradient, or a translucent
-// rgba() fill stacked on one) that tests/design-contrast.test.js structurally
-// cannot audit -- that test only checks solid (fg token, bg token) pairs parsed
+// Regression guard for #837 and #851. Several elements render text over a
+// composited/blended background (a multi-layer CSS gradient, a translucent
+// rgba() fill stacked on one, or an element's own opaque fill sitting on a
+// gradient ancestor) that tests/design-contrast.test.js structurally cannot
+// audit -- that test only checks solid (fg token, bg token) pairs parsed
 // straight out of src/css/custom.css, with no way to represent "the actual
-// blended pixel color behind this element" once gradients/opacity are involved:
+// blended pixel color behind this element" once gradients/opacity/an element's
+// own fill are involved. Guards here cover the elements #851's full-page audit
+// found most at risk of a silent regression:
 //
 //   - `.heroBrand` (src/pages/index.module.css .heroBrand) -- the "SHAFT"
-//     wordmark on `.hero`'s composited gradient/glow background.
+//     wordmark on `.hero`'s composited gradient/glow background. (#837)
 //   - `.statusChip` (src/pages/index.module.css .statusChip) -- the "Pass" /
 //     "evidence attached" pill, whose own rgba(primary, 0.1) fill sits on
-//     `.codePanel`/`.handledPanel`'s deep-alt background.
+//     `.codePanel`/`.handledPanel`'s deep-alt background. (#837)
 //   - `.audienceLane h2` (src/pages/index.module.css .audienceLane) -- lane
 //     titles on a translucent rgba(deep-alt, 0.5) fill over `.audienceSection`'s
-//     deep-to-deep-alt gradient.
+//     deep-to-deep-alt gradient. (#837)
+//   - `.eyebrow` (src/pages/index.module.css .eyebrow) -- section kicker labels
+//     ("Guided paths", "Testing surfaces", etc.) on the normal flipping Infima
+//     page background layered with a subtle primary-tinted gradient. Found
+//     genuinely failing in light theme (~1.3-1.5:1) during #851's audit --
+//     `--site-color-muted` is designed for the fixed-dark deep/deep-alt family,
+//     not this flipping background. Repointed to `--ifm-color-emphasis-800`.
+//   - `.heroMeta` span (src/pages/index.module.css .heroMeta) -- the
+//     "io.github.shafthq : shaft-engine · Java 25 · ..." coordinates line, a
+//     translucent rgba(muted, 0.82) fill on `.hero`'s composited background.
+//   - `.finalKicker` (src/pages/index.module.css .finalKicker) -- the
+//     "run complete · evidence attached · exit 0" line on `.finalCta`'s
+//     composited gradient/glow background (the same "always-dark" family as
+//     `.hero`, with its own radial-gradient glow layer).
+//   - hero `button--primary` CTA ("Start a new project") -- an element with
+//     its OWN opaque solid fill (Infima's button background, unrelated to the
+//     `--site-color-*` palette) sitting on `.hero`'s composited background;
+//     included because that "own opaque fill on a gradient ancestor" shape
+//     caused a real sampling bug during #851's audit (sampling just outside
+//     the button's box reads the hero backdrop, not the button's actual fill)
+//     and is worth guarding against the same mistake recurring.
 //
 // This closes that gap by rendering the real homepage and pixel-sampling the
 // actual composited output via Playwright screenshot + canvas getImageData --
 // the same technique used to originally discover the `.heroBrand` failure
-// (issue #837) and to measure the other two (#837 item 2).
+// (issue #837) and to run the full-page audit (#851).
 
 function relativeLuminance({r, g, b}) {
   const channel = (c) => {
@@ -151,6 +174,26 @@ async function assertClearsContrast(page, label, selector, samplePoints) {
   ).toBeGreaterThanOrEqual(dark.required);
 }
 
+// Default sampler for plain text with no background of its own: a thin sliver
+// just above and below the element's box, at horizontal center. Safe whenever
+// the element isn't its own filled/padded box (the common case: text painted
+// directly on an ancestor section's background).
+function adjacentSampler(rect) {
+  const cx = rect.x + rect.width / 2;
+  return [{x: cx, y: rect.y - 4}, {x: cx, y: rect.y + rect.height + 4}];
+}
+
+// Sampler for elements with their OWN filled box (button chrome, pill plates):
+// sampling just outside the box would read the ancestor's (different)
+// background instead of the element's real fill. Samples the left/right
+// padding gutters at vertical mid-height, inset far enough to clear icons/text.
+function interiorSampler(inset) {
+  return (rect) => {
+    const midY = rect.y + rect.height / 2;
+    return [{x: rect.x + inset, y: midY}, {x: rect.x + rect.width - inset, y: midY}];
+  };
+}
+
 test.beforeEach(async ({page}) => {
   await page.setViewportSize({width: 1280, height: 900});
   await page.goto('/');
@@ -188,4 +231,25 @@ test('audience lane heading clears WCAG AA contrast against its real composited 
     {x: rect.x + rect.width - 5, y: rect.y + 2},
   ];
   await assertClearsContrast(page, '.audienceLane h2', '[class*="audienceLane"] h2', samplePoints);
+});
+
+test('section eyebrow labels clear WCAG AA contrast against their real composited background', async ({page}) => {
+  await assertClearsContrast(page, '.eyebrow', '[class*="eyebrow"]', adjacentSampler);
+});
+
+test('hero coordinates line clears WCAG AA contrast against its real composited background', async ({page}) => {
+  await assertClearsContrast(page, '.heroMeta span', '[class*="heroMeta"] span', adjacentSampler);
+});
+
+test('final CTA kicker clears WCAG AA contrast against its real composited background', async ({page}) => {
+  await assertClearsContrast(page, '.finalKicker', '[class*="finalKicker"]', adjacentSampler);
+});
+
+test('hero primary CTA clears WCAG AA contrast against its own button fill', async ({page}) => {
+  await assertClearsContrast(
+    page,
+    'hero button--primary',
+    '[data-testid="landing-hero-install-cta"]',
+    interiorSampler(10),
+  );
 });
