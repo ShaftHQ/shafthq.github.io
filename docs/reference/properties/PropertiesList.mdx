@@ -770,6 +770,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | waitForLazyLoadingTimeout           | `30`          | (seconds)       | Timeout in seconds for SHAFT's browser lazy-loading synchronization.               |
 | lazyLoadingNetworkIdleInitialObservationMillis | `200` | (milliseconds)  | Initial network observation window in milliseconds when no requests were seen.     |
 | lazyLoadingNetworkIdleQuietWindowMillis | `500`     | (milliseconds)  | Required network quiet window in milliseconds after observed activity.             |
+| lazyLoadingPollingIntervalMillis    | `200`         | (milliseconds)  | Polling interval in milliseconds for the browser-readiness `fluentWait` loop.       |
+| lazyLoadingDomStabilityQuietWindowMillis | `0`      | (milliseconds); `0` disables DOM-stability folding | Required DOM-mutation quiet window in milliseconds before the browser-readiness wait treats the DOM as stable. |
+| lazyLoadingScrollSweepMaxSteps      | `20`          | (steps)         | Maximum number of progressive-scroll steps that `driver.browser().scrollToLoadAll()` performs while sweeping a page for scroll-triggered lazy content. |
 | browserNavigationTimeout            | `30`          | (seconds)       | Timeout in seconds for browser navigation.                                         |
 | pageLoadTimeout                     | `30`          | (seconds)       | Timeout in seconds for page load.                                                  |
 | scriptExecutionTimeout              | `30`          | (seconds)       | Timeout in seconds for script execution.                                           |
@@ -1244,27 +1247,27 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.redaction.patterns                      | ` `            |                   | Double-semicolon-separated custom regular expressions. |
 | pilot.ai.openai.endpoint                         | `https://api.openai.com/v1/responses` |   | OpenAI Responses endpoint. |
 | pilot.ai.openai.model                            | ` `            |                   | Configured OpenAI model. |
-| pilot.ai.openai.apiKeyEnvironmentVariable        | ` `            |                   | Environment variable containing the OpenAI credential. |
+| pilot.ai.openai.apiKeyEnvironmentVariable        | `OPENAI_API_KEY` |                 | Environment variable containing the OpenAI credential. |
 | pilot.ai.openai.processingLocation               | `remote`       |                   | Explicit OpenAI endpoint processing location. |
 | pilot.ai.anthropic.endpoint                      | `https://api.anthropic.com/v1/messages` | | Anthropic Messages endpoint. |
 | pilot.ai.anthropic.model                         | ` `            |                   | Configured Anthropic model. |
-| pilot.ai.anthropic.apiKeyEnvironmentVariable     | ` `            |                   | Environment variable containing the Anthropic credential. |
+| pilot.ai.anthropic.apiKeyEnvironmentVariable     | `ANTHROPIC_API_KEY` |               | Environment variable containing the Anthropic credential. |
 | pilot.ai.anthropic.processingLocation            | `remote`       |                   | Explicit Anthropic endpoint processing location. |
 | pilot.ai.anthropic.version                       | `2023-06-01`   |                   | Anthropic API contract version. |
 | pilot.ai.gemini.endpoint                         | `https://generativelanguage.googleapis.com/v1beta/models` | | Gemini models endpoint. |
 | pilot.ai.gemini.model                            | `gemini-3.5-flash` |               | Configured Gemini model. |
-| pilot.ai.gemini.apiKeyEnvironmentVariable        | ` `            |                   | Environment variable containing the Gemini credential. |
+| pilot.ai.gemini.apiKeyEnvironmentVariable        | `GEMINI_API_KEY` |                 | Environment variable containing the Gemini credential. |
 | pilot.ai.gemini.processingLocation               | `remote`       |                   | Explicit Gemini endpoint processing location. |
 | pilot.ai.github.endpoint                         | `https://models.github.ai/inference/chat/completions` | | GitHub Models chat-completions endpoint. |
 | pilot.ai.github.model                            | ` `            |                   | Configured GitHub Models model. |
-| pilot.ai.github.apiKeyEnvironmentVariable        | ` `            |                   | Environment variable containing the GitHub credential. |
+| pilot.ai.github.apiKeyEnvironmentVariable        | `GITHUB_TOKEN` |                   | Environment variable containing the GitHub credential. |
 | pilot.ai.github.processingLocation               | `remote`       |                   | Explicit GitHub Models endpoint processing location. |
 | pilot.ai.ollama.endpoint                         | `http://127.0.0.1:11434/api/chat` |       | Ollama chat endpoint. |
 | pilot.ai.ollama.model                            | ` `            |                   | Configured Ollama model. |
 | pilot.ai.ollama.processingLocation               | `local`        |                   | Explicit Ollama endpoint processing location. |
 | pilot.ai.ollama.apiKeyEnvironmentVariable        | ` `            |                   | Optional environment variable containing an on-prem Ollama gateway credential. |
-| pilot.ai.ollama.apiKeyHeader                     | ` `            |                   | Optional Ollama gateway credential header. |
-| pilot.ai.ollama.apiKeyPrefix                     | ` `            |                   | Optional Ollama gateway credential prefix. |
+| pilot.ai.ollama.apiKeyHeader                     | `Authorization` |                  | Optional Ollama gateway credential header. |
+| pilot.ai.ollama.apiKeyPrefix                     | `Bearer `      |                   | Optional Ollama gateway credential prefix. |
 
   </TabItem>
 </Tabs>

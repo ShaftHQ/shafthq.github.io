@@ -14,8 +14,74 @@ const {pathToFileURL} = require('node:url');
 
 async function main() {
   const modUrl = pathToFileURL(path.join(__dirname, '..', 'scripts', 'generate-properties-catalog.mjs')).href;
-  const {parseJavaSource} = await import(modUrl);
+  const {parseJavaSource, isSensitive, parseMdxDefaultsTablesFromContent} = await import(modUrl);
   assert.ok(typeof parseJavaSource === 'function', 'generate-properties-catalog.mjs must export parseJavaSource for testing');
+  assert.ok(typeof isSensitive === 'function', 'generate-properties-catalog.mjs must export isSensitive for testing');
+  assert.ok(typeof parseMdxDefaultsTablesFromContent === 'function', 'generate-properties-catalog.mjs must export parseMdxDefaultsTablesFromContent for testing');
+
+  // --- Regression guard: PropertiesList.mdx's section headers are `## Name` (h2), not `### Name`
+  // (h3) -- confirmed unchanged back to the commit that introduced this generator (#819). A
+  // section-header regex anchored on `###` never matches any section, so parseMdxDefaultsTables's
+  // per-section "Default Values" table lookup is silently empty and the generator falls back to
+  // humanized/javadoc descriptions for every property instead of reusing the richer hand-written
+  // mdx prose it exists to reuse (see this file's own header comment, source-of-truth order #2).
+  const mdxSnippet = `## Platform
+
+- Platform properties.
+
+<Tabs groupId="PropertyTypes" queryString="Platform">
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------- | -------------- | ---------------- | ------------------------------ |
+| SHAFT.CrossBrowserMode | \`off\` | \`off\`, \`sequential\` | Rich hand-written description reused from mdx. |
+
+  </TabItem>
+</Tabs>
+
+## Web
+
+<Tabs groupId="PropertyTypes" queryString="Web">
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------- | -------------- | ---------------- | ------------------------------ |
+| baseURL | \` \` | | Base URL description. |
+
+  </TabItem>
+</Tabs>
+`;
+  const mdxLookup = parseMdxDefaultsTablesFromContent(mdxSnippet);
+  assert.strictEqual(mdxLookup.size, 2, `Expected 2 rows parsed from '## '-headed mdx sections, got ${mdxLookup.size} -- the section-header regex must match '## Name' (h2), not '### Name' (h3)`);
+  assert.strictEqual(mdxLookup.get('SHAFT.CrossBrowserMode')?.description, 'Rich hand-written description reused from mdx.',
+    'parseMdxDefaultsTablesFromContent must capture the Default Values row for a key under an h2 (## ) section header');
+
+  // --- Regression guard for #829: isSensitive() flags any key containing "apikey", which wrongly
+  // blanked the catalog defaultValue for Pilot's *.apiKeyEnvironmentVariable / apiKeyHeader /
+  // apiKeyPrefix properties -- their real Java @DefaultValue is an env-var/header *name*
+  // (OPENAI_API_KEY, Authorization, "Bearer ", ...), a credential *pointer*, not the credential
+  // itself. These must NOT be flagged sensitive, across every current Pilot provider.
+  for (const nonSecretKey of [
+    'pilot.ai.openai.apiKeyEnvironmentVariable',
+    'pilot.ai.anthropic.apiKeyEnvironmentVariable',
+    'pilot.ai.gemini.apiKeyEnvironmentVariable',
+    'pilot.ai.github.apiKeyEnvironmentVariable',
+    'pilot.ai.ollama.apiKeyEnvironmentVariable',
+    'pilot.ai.ollama.apiKeyHeader',
+    'pilot.ai.ollama.apiKeyPrefix',
+  ]) {
+    assert.strictEqual(isSensitive(nonSecretKey), false,
+      `${nonSecretKey} references where a credential lives (env var/header/prefix name), not the credential itself -- must not be flagged sensitive (#829)`);
+  }
+
+  // Genuine secret-valued keys must still be blanked -- this fix must not weaken real detection.
+  for (const secretKey of [
+    'applitoolsApiKey', 'browserStack.accessKey', 'browserStack.userName', 'LambdaTest.accessKey',
+    'ga4ApiSecret', 'authorization', 'tinkey.kms.credentialPath',
+  ]) {
+    assert.strictEqual(isSensitive(secretKey), true,
+      `${secretKey} holds/points at a genuine credential and must still be flagged sensitive`);
+  }
 
   // --- Behavioral pinning: representative snippet covering the exact shape CodeQL's alert
   // targets -- a `//` line comment between `@DefaultValue(...)` and the getter -- plus a blank

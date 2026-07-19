@@ -410,8 +410,8 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "Raw Appium platformName capability (e.g. Android, iOS). Usually derived automatically from targetOperatingSystem; set this to override it directly."
+    "possibleValues": "example: Android, iOS",
+    "description": "Raw Appium platformName capability. Usually derived automatically from targetOperatingSystem; set this to override it directly."
   },
   {
     "section": "Mobile",
@@ -609,7 +609,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "500",
-    "possibleValues": "",
+    "possibleValues": "integer",
     "description": "Maximum number of network transactions to retain per capture session."
   },
   {
@@ -618,8 +618,8 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "Comma-separated glob patterns; when non-empty, only matching URLs are captured."
+    "possibleValues": "comma-separated glob patterns",
+    "description": "When non-empty, only URLs matching one of these glob patterns are captured."
   },
   {
     "section": "Capture",
@@ -627,8 +627,8 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "Comma-separated glob patterns; matching URLs are always excluded from capture."
+    "possibleValues": "comma-separated glob patterns",
+    "description": "URLs matching one of these glob patterns are always excluded from capture."
   },
   {
     "section": "Flags",
@@ -1230,8 +1230,8 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "auto",
-    "possibleValues": "",
-    "description": "Auto, light, or dark."
+    "possibleValues": "auto, light, dark",
+    "description": "Controls the Allure 3 Awesome plugin report theme."
   },
   {
     "section": "Allure",
@@ -1240,7 +1240,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "True to enforce configured Allure 3 CLI usage; false for legacy PATH-first behavior."
+    "description": "true enforces the configured Allure 3 CLI version; false falls back to legacy PATH-first CLI resolution."
   },
   {
     "section": "Allure",
@@ -1329,7 +1329,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "30",
-    "possibleValues": "",
+    "possibleValues": "(seconds)",
     "description": "Timeout in seconds for SHAFT's browser lazy-loading synchronization."
   },
   {
@@ -1338,7 +1338,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "200",
-    "possibleValues": "",
+    "possibleValues": "(milliseconds)",
     "description": "Initial network observation window in milliseconds when no requests were seen."
   },
   {
@@ -1347,8 +1347,35 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "500",
-    "possibleValues": "",
+    "possibleValues": "(milliseconds)",
     "description": "Required network quiet window in milliseconds after observed activity."
+  },
+  {
+    "section": "Timeouts",
+    "key": "lazyLoadingPollingIntervalMillis",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "200",
+    "possibleValues": "(milliseconds)",
+    "description": "Polling interval in milliseconds for the browser-readiness fluentWait loop."
+  },
+  {
+    "section": "Timeouts",
+    "key": "lazyLoadingDomStabilityQuietWindowMillis",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "0",
+    "possibleValues": "(milliseconds); 0 disables DOM-stability folding",
+    "description": "Required DOM-mutation quiet window in milliseconds before the browser-readiness wait treats the DOM as stable."
+  },
+  {
+    "section": "Timeouts",
+    "key": "lazyLoadingScrollSweepMaxSteps",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "20",
+    "possibleValues": "(steps)",
+    "description": "Maximum number of progressive-scroll steps that driver.browser().scrollToLoadAll() performs while sweeping a page for scroll-triggered lazy content."
   },
   {
     "section": "Timeouts",
@@ -2077,8 +2104,8 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "0",
-    "possibleValues": "",
-    "description": "Confidence threshold 0..1 below which AI fallback is triggered."
+    "possibleValues": "0-1",
+    "description": "Confidence threshold below which AI fallback is triggered."
   },
   {
     "section": "Natural Actions",
@@ -2283,10 +2310,9 @@
     "key": "pilot.ai.openai.apiKeyEnvironmentVariable",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "OPENAI_API_KEY",
     "possibleValues": "",
-    "description": "Environment variable containing the OpenAI credential.",
-    "sensitive": true
+    "description": "Environment variable containing the OpenAI credential."
   },
   {
     "section": "Pilot",
@@ -2320,10 +2346,9 @@
     "key": "pilot.ai.anthropic.apiKeyEnvironmentVariable",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "ANTHROPIC_API_KEY",
     "possibleValues": "",
-    "description": "Environment variable containing the Anthropic credential.",
-    "sensitive": true
+    "description": "Environment variable containing the Anthropic credential."
   },
   {
     "section": "Pilot",
@@ -2366,10 +2391,9 @@
     "key": "pilot.ai.gemini.apiKeyEnvironmentVariable",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "GEMINI_API_KEY",
     "possibleValues": "",
-    "description": "Environment variable containing the Gemini credential.",
-    "sensitive": true
+    "description": "Environment variable containing the Gemini credential."
   },
   {
     "section": "Pilot",
@@ -2403,10 +2427,9 @@
     "key": "pilot.ai.github.apiKeyEnvironmentVariable",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "GITHUB_TOKEN",
     "possibleValues": "",
-    "description": "Environment variable containing the GitHub credential.",
-    "sensitive": true
+    "description": "Environment variable containing the GitHub credential."
   },
   {
     "section": "Pilot",
@@ -2451,28 +2474,25 @@
     "type": "text",
     "defaultValue": "",
     "possibleValues": "",
-    "description": "Optional environment variable containing an on-prem Ollama gateway credential.",
-    "sensitive": true
+    "description": "Optional environment variable containing an on-prem Ollama gateway credential."
   },
   {
     "section": "Pilot",
     "key": "pilot.ai.ollama.apiKeyHeader",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "Authorization",
     "possibleValues": "",
-    "description": "Optional Ollama gateway credential header.",
-    "sensitive": true
+    "description": "Optional Ollama gateway credential header."
   },
   {
     "section": "Pilot",
     "key": "pilot.ai.ollama.apiKeyPrefix",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "",
+    "defaultValue": "Bearer ",
     "possibleValues": "",
-    "description": "Optional Ollama gateway credential prefix.",
-    "sensitive": true
+    "description": "Optional Ollama gateway credential prefix."
   },
   {
     "section": "Paths",
