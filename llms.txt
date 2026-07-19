@@ -1,0 +1,137 @@
+# SHAFT User Guide
+
+> SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing.
+
+## Start
+- [SHAFT at a glance](https://shafthq.github.io/docs/start/overview): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
+- [Install SHAFT](https://shafthq.github.io/docs/start/installation): Generate a new SHAFT project or upgrade an existing automation project.
+- [Quick start](https://shafthq.github.io/docs/start/quick-start): Choose the right SHAFT setup path, then run a first test.
+- [Upgrade to modular SHAFT](https://shafthq.github.io/docs/start/upgrade): Transactionally migrate legacy or native Maven projects to modular SHAFT.
+
+## Testing
+- [Web testing](https://shafthq.github.io/docs/testing/web): A minimal SHAFT browser test with lifecycle, actions, and assertions.
+- [How SHAFT reduces flakiness](https://shafthq.github.io/docs/testing/flakiness): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
+- [Mobile and Flutter testing](https://shafthq.github.io/docs/testing/mobile): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
+- [UI and API contract replay](https://shafthq.github.io/docs/testing/contracts): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
+- [API testing](https://shafthq.github.io/docs/testing/api): Build, execute, inspect, and assert REST API requests with SHAFT.
+- [CLI testing](https://shafthq.github.io/docs/testing/cli): Execute and validate local, Docker, and SSH commands with SHAFT.
+- [Database testing](https://shafthq.github.io/docs/testing/database): Connect, query, and validate databases through SHAFT.
+
+## Agentic
+- [Agentic testing](https://shafthq.github.io/docs/agentic/overview): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
+- [Connect shaft-mcp](https://shafthq.github.io/docs/agentic/mcp): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
+- [IntelliJ IDEA plugin](https://shafthq.github.io/docs/agentic/intellij): Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
+- [Manual shaft-mcp configuration moved](https://shafthq.github.io/docs/agentic/mcp/manual): Manual shaft-mcp configuration now lives on the canonical MCP setup page.
+- [SHAFT Pilot](https://shafthq.github.io/docs/agentic/pilot): Capture, generation, diagnosis, reviewed repairs, and MCP interoperability.
+- [shaft-cli command line](https://shafthq.github.io/docs/agentic/cli): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
+- [Record tests with Capture](https://shafthq.github.io/docs/agentic/capture): Record browser activity and generate reviewable deterministic TestNG source.
+- [Diagnose failures with Doctor](https://shafthq.github.io/docs/agentic/doctor): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
+- [Recover locators with Heal](https://shafthq.github.io/docs/agentic/heal): Enable deterministic, explainable WebDriver locator recovery.
+- [Optional AI providers](https://shafthq.github.io/docs/agentic/providers): Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.
+- [Pilot examples](https://shafthq.github.io/docs/agentic/examples): Credential-free Capture, Doctor, repair, MCP, and provider examples.
+
+## Features
+- [Architecture](https://shafthq.github.io/docs/features/architecture): SHAFT runtime, module, facade, and agent integration architecture.
+- [Features and modules](https://shafthq.github.io/docs/features/modules): Select the core engine and optional SHAFT modules by capability.
+- [Pillars of successful test automation](https://shafthq.github.io/docs/features/test-automation-pillars): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
+- [Reporting and evidence](https://shafthq.github.io/docs/features/reporting): How SHAFT records actions, screenshots, logs, and Allure results.
+- [Technology](https://shafthq.github.io/docs/features/technology): The open-source projects and services behind SHAFT.
+- [Partners and adopters](https://shafthq.github.io/docs/features/partners): Sponsors and organizations reported by engineers as SHAFT adopters.
+
+## Integrations
+- [BrowserStack](https://shafthq.github.io/docs/integrations/browserstack): Choose direct BrowserStack sessions or the optional SDK orchestration module.
+- [Visual testing](https://shafthq.github.io/docs/integrations/visual): Add reference-image assertions and image-based touch operations.
+- [Video recording](https://shafthq.github.io/docs/integrations/video): Choose Appium, cloud-provider, or optional local desktop recording.
+- [SikuliX desktop automation](https://shafthq.github.io/docs/integrations/sikulix): Add optional image-based desktop automation through SikuliX.
+
+## Reference
+- [Reference](https://shafthq.github.io/docs/reference/overview): Detailed SHAFT actions, properties, validations, and practices.
+- [Accessibility Testing with axe-core](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Accessibility_Testing): Automate accessibility audits in SHAFT Engine using axe-core — assert no critical violations, enforce minimum scores, and ignore specific rules.
+- [Alert Actions](https://shafthq.github.io/docs/reference/actions/GUI/Alert_Actions): Handle browser alert dialogs — accept, dismiss, read text, and type into prompt alerts using SHAFT Engine.
+- [API Authentication](https://shafthq.github.io/docs/reference/actions/API/API_Authentication): Configure BASIC, DIGEST, OAuth2, API Key, cookie, and session authentication for API tests in SHAFT Engine using setAuthentication and addHeader.
+- [API Response Validations](https://shafthq.github.io/docs/reference/actions/Validations/Response): Validate API responses including JSON values, file content comparison, and schema matching using SHAFT Engine.
+- [ARIA Role-Based Locators](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/ARIA_Locators): Locate elements by ARIA roles in SHAFT Engine for more resilient, accessible tests — use Role enum values like BUTTON, SEARCHBOX, DIALOG, and NAVIGATION.
+- [Async Element Actions](https://shafthq.github.io/docs/reference/actions/GUI/Async_Element_Actions): Run SHAFT element actions concurrently using Java virtual threads — improve test speed with non-blocking parallel interactions.
+- [Async Element Actions with Virtual Threads](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Async_Element_Actions): Speed up tests with non-blocking element actions in SHAFT Engine using Java virtual threads.
+- [Basic Configuration for API](https://shafthq.github.io/docs/reference/configuration/apiConfig): Configure SHAFT Engine properties for REST API testing — proxy, timeouts, retry settings, and Swagger/OpenAPI schema validation.
+- [Basic Configuration for Mobile GUI](https://shafthq.github.io/docs/reference/configuration/mobileConfig): Configure SHAFT Engine properties for mobile app automation with Appium — Android, iOS, native and web execution settings.
+- [Basic Configuration for Web GUI](https://shafthq.github.io/docs/reference/configuration/webConfig): Configure SHAFT Engine properties for web browser automation — browser type, headless mode, timeouts, proxy, and visual reporting.
+- [BDD-Style Reports with Allure Annotations](https://shafthq.github.io/docs/reference/guides/BDD_Style_Reports): Use Allure annotations to generate business-readable BDD-style reports without Cucumber — simpler setup, better maintainability.
+- [Browser Actions](https://shafthq.github.io/docs/reference/actions/GUI/Browser_Actions): Navigate pages, manage windows, handle cookies, capture screenshots, and control the browser using SHAFT Engine's BrowserActions API.
+- [Browser Validations](https://shafthq.github.io/docs/reference/actions/Validations/Browser): Validate browser attributes such as URL and title using SHAFT Engine's WebDriverBrowserValidationsBuilder.
+- [Built-in Cucumber BDD Step Definitions](https://shafthq.github.io/docs/reference/guides/Cucumber_BDD_Steps): Use SHAFT Engine's 500+ pre-built Gherkin step definitions for browser, element, and assertion steps — integrate Cucumber without writing boilerplate glue code.
+- [Clipboard Actions](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Clipboard_Actions): Perform clipboard operations — copy, cut, paste, and select all — on web elements using SHAFT Engine's clipboardActions() method.
+- [Common Configuration Examples](https://shafthq.github.io/docs/reference/properties/CommonExamples): Practical configuration examples for SHAFT Engine — web, mobile, API, parallel execution, cloud platforms, and CI/CD pipeline setup.
+- [Complete Properties Reference](https://shafthq.github.io/docs/reference/properties/PropertiesList): Full reference of all SHAFT Engine configuration properties — web, mobile, API, timeouts, paths, reporting, and integrations.
+- [Cross-Platform Strategy: Android and iOS](https://shafthq.github.io/docs/reference/guides/Cross_Platform_Strategy): When to combine Android and iOS tests in one project vs. separate projects, and how to handle platform-specific locators with SHAFT Engine.
+- [Custom Browser Capabilities](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Custom_Capabilities): Add custom browser capabilities and Selenium options to SHAFT Engine WebDriver — Chrome options, Firefox options, mobile emulation, proxy settings, and extension loading.
+- [Custom Properties Generator](https://shafthq.github.io/docs/reference/properties/custom-properties-generator): Generate SHAFT Engine properties files from a searchable catalog of supported properties, defaults, possible values, and descriptions.
+- [Custom Report Messages](https://shafthq.github.io/docs/reference/reporting/Custom_Report_Messages): Add custom messages to Allure report steps and validations using SHAFT Engine's withCustomReportMessage() and SHAFT.Report API.
+- [Database Actions](https://shafthq.github.io/docs/reference/actions/DB/DB_Actions): Execute SQL queries and interact with databases using SHAFT Engine's database automation support.
+- [Database Connection Strings](https://shafthq.github.io/docs/reference/actions/DB/Connection_Strings): JDBC connection string examples for MySQL, PostgreSQL, SQL Server, Oracle, and other databases with SHAFT Engine.
+- [Docker Container Terminal](https://shafthq.github.io/docs/reference/actions/CLI/Docker_Terminal): Legacy Docker-wrapped terminal execution using SHAFT Engine's deprecated TerminalActions Docker constructor.
+- [Element Actions](https://shafthq.github.io/docs/reference/actions/GUI/Element_Actions): Interact with web elements using SHAFT Engine — click, type, drag and drop, select from dropdowns, handle iframes, and more.
+- [Element Identification](https://shafthq.github.io/docs/reference/actions/GUI/Element_Identification): Locate web elements using ID, CSS selectors, XPath, SHAFT Locator Builder, relative locators, shadow DOM, and iframes.
+- [Element Identification Best Practices](https://shafthq.github.io/docs/reference/guides/Element_Identification): Best practices for element identification in SHAFT Engine — By objects, dynamic locators, cross-platform locators, and why to avoid @FindBy.
+- [Element Validations](https://shafthq.github.io/docs/reference/actions/GUI/Element_Validations): Validate element text, attributes, existence, visibility, state, and visual appearance using SHAFT Engine's fluent validation API.
+- [Element Validations](https://shafthq.github.io/docs/reference/actions/Validations/Elements): Validate web element properties such as existence, visibility, text, attributes, and visual appearance using SHAFT Engine.
+- [Explicit Wait Strategies](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Explicit_Waits): Control wait behaviour in SHAFT Engine — use explicit element and browser waits for dynamic content, lazy loading, and condition-based synchronization.
+- [File Actions](https://shafthq.github.io/docs/reference/actions/CLI/File_Actions): Manage files and directories programmatically — read, write, copy, move, and delete files using SHAFT Engine.
+- [File Validations](https://shafthq.github.io/docs/reference/actions/Validations/Files): Validate file existence, checksum, and content using SHAFT Engine's FileValidationsBuilder.
+- [Fluent Design: Chaining Actions and Validations](https://shafthq.github.io/docs/reference/guides/Fluent_Design): Learn how to use SHAFT Engine's fluent API to chain actions and validations for readable, maintainable test code.
+- [Force Fail](https://shafthq.github.io/docs/reference/actions/Validations/ForceFail): Intentionally fail a test with a custom message using SHAFT Engine's forceFail validation.
+- [GraphQL API Testing](https://shafthq.github.io/docs/reference/actions/API/GraphQL_Testing): Test GraphQL APIs in SHAFT Engine — send queries, mutations, and subscriptions with variables, fragments, and authentication headers using SHAFT.API.
+- [iFrame Handling](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/iFrame_Handling): Interact with embedded iframes in SHAFT Engine — switch into iframes by locator and return to the main page with switchToDefaultContent.
+- [Integrate Jira with SHAFT Engine](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine): Automatically create Jira bugs and link test results to Jira issues using SHAFT Engine's built-in Jira integration.
+- [JSON Schema Validation](https://shafthq.github.io/docs/reference/actions/Validations/JSON_Schema_Validation): Validate API responses against a JSON schema in SHAFT Engine using matchesSchema and doesNotMatchSchema for contract testing and API governance.
+- [JUnit Integration](https://shafthq.github.io/docs/reference/guides/JUnit5_Integration): Run SHAFT Engine tests with JUnit — set up test classes with @BeforeEach, @AfterEach, @Test, and @Order annotations alongside the SHAFT WebDriver.
+- [Kubernetes / Selenium Grid Deployment](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Kubernetes_Selenium_Grid): Deploy a scalable Selenium Grid on Kubernetes using KEDA auto-scaling and configure SHAFT Engine to run tests against it.
+- [Local Selenium Grid Execution](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Local_Selenium_Grid_Execution): Run SHAFT tests on a local Selenium Grid for distributed test execution across multiple browsers and machines.
+- [Mobile Emulation](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Mobile_Emulation): Emulate mobile devices in Chrome using SHAFT Engine — preset devices like iPhone and Android, or custom screen dimensions and user-agent strings.
+- [Native Selenium WebDriver Access](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Native_selenium_Webdriver): Access the native Selenium WebDriver instance from SHAFT for advanced use cases, and learn how to wrap an existing WebDriver with SHAFT capabilities.
+- [Natural Language Actions](https://shafthq.github.io/docs/reference/actions/GUI/Natural_Language_Actions): Use trust-gated natural-language browser, element, and touch actions through SHAFT Engine.
+- [Network Mocking and Request Interception](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Network_Mocking): Mock API responses, intercept browser network requests, and validate real responses in SHAFT Engine using Selenium DevTools.
+- [Number Validations](https://shafthq.github.io/docs/reference/actions/Validations/Nums): Validate numbers for equality and comparison using SHAFT Engine's NumberValidationsBuilder.
+- [Object Validations](https://shafthq.github.io/docs/reference/actions/Validations/Objects): Validate objects for equality, containment, regex matching, null checks, and boolean values using SHAFT Engine.
+- [Oracle JDBC Setup](https://shafthq.github.io/docs/reference/actions/DB/Oracle_JDBC_Setup): Step-by-step guide to configure Oracle JDBC driver for database testing with SHAFT Engine.
+- [Parallel Execution Configuration](https://shafthq.github.io/docs/reference/configuration/parallelExecution): Run SHAFT tests in parallel using TestNG, JUnit, or Maven Surefire — thread-safe driver management with ThreadLocal and configuration examples.
+- [Playwright Backend](https://shafthq.github.io/docs/reference/actions/GUI/Playwright_Backend): Use SHAFT GUI actions and assertions through the Microsoft Playwright Java backend.
+- [Programmatic Properties Configuration](https://shafthq.github.io/docs/reference/properties/Programmatic_Config): Configure SHAFT Engine properties in code at runtime — thread-safe programmatic configuration for browser, timeouts, visuals, and behaviour flags.
+- [Property Types](https://shafthq.github.io/docs/reference/properties/PropertyTypes): Understand SHAFT Engine property configuration — file-based, code-based, and CLI-based approaches with priority hierarchy.
+- [Reporting](https://shafthq.github.io/docs/reference/reporting/reporting): Learn about SHAFT Engine's built-in reports — Allure and Execution Summary — and how to configure video recording and report behavior via properties.
+- [Request Builder](https://shafthq.github.io/docs/reference/actions/API/Request_Builder): Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, body configuration, and request-level retries.
+- [Response Getters](https://shafthq.github.io/docs/reference/actions/API/Response_Getters): Extract and parse API response data — body, typed JSON objects, status code, response time, JSON values, and XML values using SHAFT Engine.
+- [Response Validations](https://shafthq.github.io/docs/reference/actions/API/Response_Validations): Validate API responses — status codes, JSON values, response body, schema matching, and response time using SHAFT Engine.
+- [Running Tests in CI/CD Pipelines](https://shafthq.github.io/docs/reference/guides/CI_CD_Integration): How to run SHAFT Engine tests in CI/CD pipelines — configuring properties, headless execution, and pipeline integration tips.
+- [Self-Healing Locators](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators): Recover broken web locators in SHAFT Engine with SHAFT Heal, with legacy Healenium configuration documented for compatibility.
+- [Shadow DOM Locator Builder](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Shadow_Dom_Locator_Builder): Locate and interact with elements inside Shadow DOM using SHAFT Engine's Locator Builder — no JavaScript execution needed, supports nested shadow roots.
+- [SHAFT Locator Builder](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder): Build element locators fluently with SHAFT's Locator Builder — combine tag, attribute, text, class, and image conditions for readable, maintainable locators without writing XPath or CSS selectors.
+- [Smart Locators](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Smart_Locators): Locate form inputs and clickable elements by semantic meaning in SHAFT Engine — use inputField() and clickableField() for readable, user-centric locators.
+- [Soft vs Hard Assertions](https://shafthq.github.io/docs/reference/actions/Validations/Soft_vs_Hard_Assertions): Understand the difference between hard assertions (assertThat) and soft assertions (verifyThat) in SHAFT Engine — choose the right strategy for your tests.
+- [SSH Remote Terminal](https://shafthq.github.io/docs/reference/actions/CLI/SSH_Terminal): Execute commands on remote servers via SSH using SHAFT Engine's TerminalActions with the SSH constructor.
+- [Terminal Actions](https://shafthq.github.io/docs/reference/actions/CLI/Terminal_Actions): Execute terminal commands and shell scripts programmatically using SHAFT Engine's CLI terminal actions.
+- [Test Artifacts and Report Paths](https://shafthq.github.io/docs/reference/guides/Test_Artifacts): Where to find SHAFT Engine test artifacts — Allure reports, execution summaries, and how to publish them from CI/CD pipelines.
+- [Test Automation Architecture](https://shafthq.github.io/docs/reference/guides/Architecture): Understand common test automation architectures and where SHAFT Engine fits in the technology stack.
+- [Test Automation Solution Design Patterns](https://shafthq.github.io/docs/reference/guides/Solution_Design): Compare test automation design patterns — Page Object Model, fluent design, anonymous classes, inheritance, and base classes — with SHAFT Engine examples.
+- [Test Automation Tool Selection Criteria](https://shafthq.github.io/docs/reference/guides/Tool_Selection): Key criteria for selecting a test automation tool or framework, and how SHAFT Engine addresses each one.
+- [Test Data Management](https://shafthq.github.io/docs/reference/actions/TestData_Management): Manage test data from JSON, Excel, CSV, and YAML files using SHAFT Engine's test data management API.
+- [Test Structure: Cases vs. Scenarios](https://shafthq.github.io/docs/reference/guides/Test_Structure): Understand the difference between isolated test cases and dependent test scenarios, and why you should avoid using priority to order tests.
+- [The Testing Pyramid and Automation Strategy](https://shafthq.github.io/docs/reference/guides/Testing_Pyramid): Understand the testing pyramid, the role of each testing level, and how to build an effective test automation strategy with SHAFT Engine.
+- [Tips and Tricks](https://shafthq.github.io/docs/reference/actions/GUI/Did_You_Know): Discover advanced SHAFT Engine features — native Selenium access, custom capabilities, Locator Builder, Shadow DOM, and cookie management.
+- [Touch Actions](https://shafthq.github.io/docs/reference/actions/GUI/Touch_Actions): Automate mobile touch interactions — tap, swipe, pinch to zoom, long press, and app background management using SHAFT Engine.
+- [Using Cookies in Your Tests](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests): Manage browser cookies in SHAFT tests — add, read, delete cookies, reuse storage state across browser and API sessions, and cache logins with SHAFT.Auth.
+- [Validations Overview](https://shafthq.github.io/docs/reference/actions/Validations/Overview): Learn how to use SHAFT Engine's built-in assertions and verifications for browser, element, object, number, file, and API response validation.
+- [Visual Testing and Image Comparison](https://shafthq.github.io/docs/reference/actions/GUI/didYouKnow/Visual_Testing): Detect visual regressions in SHAFT Engine using built-in image comparison engines — OpenCV, ExactEyes, StrictEyes, ContentEyes, and LayoutEyes.
+
+## Maintainers
+- [Maintainer runbooks](https://shafthq.github.io/docs/maintainers/overview): Build, release, CI, agent guidance, and repository maintenance procedures.
+- [Documentation site operations](https://shafthq.github.io/docs/maintainers/site-operations): Develop, validate, and deploy the canonical SHAFT documentation site.
+- [MCP publication and deployment](https://shafthq.github.io/docs/maintainers/mcp-deployment): Build, publish, and optionally host the SHAFT MCP server.
+- [Agent guidance maintenance](https://shafthq.github.io/docs/maintainers/agent-guidance): Keep repository agent instructions concise, validated, and current.
+- [Agent tooling](https://shafthq.github.io/docs/maintainers/agent-tooling): Install, operate, and update the third-party agent stack used for SHAFT maintenance.
+- [CI failure investigation](https://shafthq.github.io/docs/maintainers/ci-failure-investigation): Diagnose SHAFT CI failures using workflow logs and Allure artifacts.
+- [Maven Central publication](https://shafthq.github.io/docs/maintainers/publication): SHAFT reactor publication order, verification, and rollback contract.
+- [Maven reactor](https://shafthq.github.io/docs/maintainers/reactor): SHAFT modules, compatibility artifacts, and build boundaries.
+- [Repository history rewrite](https://shafthq.github.io/docs/maintainers/history-rewrite): Maintainer-only procedure for approved repository history rewrites.
+- [SHAFT Pilot release](https://shafthq.github.io/docs/maintainers/pilot-release): Release-candidate matrix and publication checks for SHAFT Pilot.
+- [Visual provider boundary](https://shafthq.github.io/docs/maintainers/visual-provider): Maintainer contract between shaft-engine and the optional visual provider.
