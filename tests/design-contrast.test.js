@@ -93,6 +93,8 @@ function contrastRatio(hexA, hexB) {
 // records the smallest/heaviest-weight real usage of that pair, which is what determines
 // whether the WCAG "large text" 3:1 allowance applies (>=24px normal, or >=18.66px bold) --
 // every pair here renders below that cutoff at its smallest use, so all are held to 4.5:1.
+// `themes` (optional) restricts a pair to the theme(s) where a selector actually renders it;
+// omit it when the same selector/token combination is real in both themes.
 const pairs = [
   {
     name: 'on-dark text / deep background',
@@ -109,8 +111,10 @@ const pairs = [
     size: 'normal',
     citation:
       'src/pages/index.module.css:846-865 (.finalCta bg gradient deep-alt->deep, h2 color=on-dark); ' +
-      "src/components/AutoBot/styles.module.css:538-541 ([data-theme='dark'] .assistantMessage .messageBubble bg=deep-alt, color=on-dark)",
-    smallestUse: 'AutoBot assistant message bubble text at --site-font-body (1.05rem / 16.8px), regular weight',
+      "src/components/AutoBot/styles.module.css:538-541 ([data-theme='dark'] .assistantMessage .messageBubble bg=deep-alt, color=on-dark); " +
+      "src/components/AutoBot/styles.module.css:555-561 ([data-theme='dark'] .userMessage .messageBubble bg=deep-alt, color=on-dark, #832); " +
+      "src/components/AutoBot/styles.module.css:534-537 ([data-theme='dark'] .chatHeader bg=deep-alt, color=on-dark, #832)",
+    smallestUse: 'AutoBot assistant/user message bubble text at --site-font-body (1.05rem / 16.8px), regular weight',
   },
   {
     name: 'muted text / deep background',
@@ -130,34 +134,27 @@ const pairs = [
     size: 'normal',
     citation:
       'src/pages/index.module.css:307-312 (.codeCompare > div/figure bg=deep-alt, color=muted); ' +
-      "src/components/AutoBot/styles.module.css:550-552 ([data-theme='dark'] .chatFooter bg=deep-alt, color=muted)",
+      "src/components/AutoBot/styles.module.css:550-552 ([data-theme='dark'] .chatFooter bg=deep-alt, color=muted); " +
+      'src/pages/index.module.css:290-296 (.codePanel figcaption / .handledPanel > span color=muted, repointed off primary in #832); ' +
+      'src/pages/index.module.css:418-423 (.codeAnnotation/.codeKeyword/.codeCall color=muted, repointed off primary in #832)',
     smallestUse: '.codeCompare code at --site-font-code-small (0.76rem / 12.16px), regular weight',
   },
   {
-    name: 'primary text / deep-alt background',
-    fg: 'primary',
-    bg: 'deep-alt',
-    size: 'normal',
-    citation:
-      'src/pages/index.module.css:101-112 (.eyebrow color=primary on .hero bg, deep-alt at gradient origin); ' +
-      'src/pages/index.module.css:289-312 (.codePanel figcaption / .handledPanel > span color=primary on .codeCompare div bg=deep-alt)',
-    smallestUse: '.codePanel figcaption at --site-font-label (0.88rem / 14.08px), font-weight 700',
-  },
-  {
-    name: 'primary text / deep background',
-    fg: 'primary',
-    bg: 'deep',
-    size: 'normal',
-    citation:
-      'src/pages/index.module.css:397 (.codeCompare pre bg=deep) + :418-422 (.codeAnnotation/.codeKeyword/.codeCall color=primary)',
-    smallestUse: '.codeAnnotation/.codeKeyword/.codeCall at --site-font-code-small (0.76rem / 12.16px), regular weight',
-  },
-  {
+    // #832: .eyebrow, .codePanel figcaption/.handledPanel > span, and .codeAnnotation/
+    // .codeKeyword/.codeCall were repointed off `primary` (see the two `muted text / deep(-alt)
+    // background` citations above); .userMessage .messageBubble and .chatHeader were repointed
+    // off `primary` in dark mode only (see `on-dark text / deep-alt background` above). Light
+    // mode's .userMessage .messageBubble / .chatHeader keep the primary fill unchanged -- it
+    // already passes there (5.26:1) -- so this pair stays real, but light-theme-only now: no
+    // selector renders on-dark text on a solid primary fill in dark mode anymore.
     name: 'on-dark text / primary background',
     fg: 'on-dark',
     bg: 'primary',
     size: 'normal',
-    citation: 'src/components/AutoBot/styles.module.css:225-227 (.userMessage .messageBubble bg=primary, color=on-dark)',
+    themes: ['light'],
+    citation:
+      'src/components/AutoBot/styles.module.css:225-227 (.userMessage .messageBubble bg=primary, color=on-dark, light theme only); ' +
+      'src/components/AutoBot/styles.module.css:72-74 (.chatHeader bg gradient reaching solid primary, color=on-dark, light theme only)',
     smallestUse: '.messageBubble p at --site-font-body (1.05rem / 16.8px), regular weight',
   },
 ];
@@ -167,6 +164,7 @@ const thresholds = {normal: 4.5, large: 3};
 function auditPalette(themeName, palette) {
   const rows = [];
   for (const pair of pairs) {
+    if (pair.themes && !pair.themes.includes(themeName)) continue;
     const fgHex = palette[pair.fg];
     const bgHex = palette[pair.bg];
     const ratio = contrastRatio(fgHex, bgHex);
@@ -187,35 +185,16 @@ function auditPalette(themeName, palette) {
 
 const allRows = [...auditPalette('light', lightPalette), ...auditPalette('dark', darkPalette)];
 
-// --- Known, proven-infeasible failures (WS-E investigation, see WCAG_CONTRAST_FINDINGS below) --
-// These 3 pairs fail WCAG AA and CANNOT be fixed by adjusting `--site-color-*` VALUES alone
-// without collateral damage: the math is a hard ceiling, not a tuning problem.
-//   - light primary(#006ec0) vs pure black (the maximum possible contrast against ANY
-//     background, of ANY hue/lightness) is only 3.99:1 -- already short of 4.5:1. Primary
-//     itself must lighten to have a chance, but it is independently capped at L~41.3% (HSL)
-//     by its own real, passing use as normal-weight link/label text on the white page
-//     background elsewhere (.pathCard em, .inlineCta, McpApplications .manualLink/.copyButton
-//     hover -- all <=16px, needing 4.5:1, currently only 5.26:1 of margin). The two
-//     constraints leave a ~0.5-point-wide window where success is *only* possible if the dark
-//     background is pushed to literal #000000 (destroying deep/deep-alt's navy hue and the
-//     "keep hue identity" requirement) -- and even then the margin is ~0.05, not a real fix.
-//   - dark on-dark(#f5fdff) vs primary(#4cc2ff) fill: exhaustive joint search over both
-//     tokens' lightness (holding hue/saturation fixed) found no combination that satisfies
-//     on-dark-vs-primary >=4.5 without on-dark collapsing under its OWN passing deep/deep-alt
-//     pairs (currently 18.37:1 / 14.58:1 of headroom) -- even at on-dark's absolute floor
-//     against those (L=37.4%), no primary lightness satisfies all three constraints together.
-// The real fix is a CSS-selector change (repoint these specific rules at an already-passing
-// `--site-color-*` token, e.g. `muted` or `deep-alt`), which is a design decision (it changes
-// which token-approved color renders, e.g. removing the user-chat-bubble's brand-blue fill,
-// or muting the hero eyebrow/code-panel accent color) outside this task's "adjust token
-// VALUES only" mandate. Tracked as a known limitation pending that design call -- see the
-// PR/session report for the full proof. Any *other* pair beyond this exact allowlist must
-// still pass; this list intentionally does not use wildcards.
-const knownLimitations = new Set([
-  'light|primary text / deep-alt background',
-  'light|primary text / deep background',
-  'dark|on-dark text / primary background',
-]);
+// --- Known, proven-infeasible failures ----------------------------------------------------
+// Empty as of #832: the 3 pairs formerly tracked here (light primary/deep-alt, light
+// primary/deep, dark on-dark/primary) could not reach WCAG AA by adjusting `--site-color-*`
+// VALUES alone -- see PR #831 / issue #832 for the original mathematical proof. The resolution
+// was the design decision #832 called for: repoint the affected selectors to a different,
+// already-passing token instead of tuning the palette (see the `pairs` citations above for
+// exactly which selectors moved and to what). Kept as a `Set` (not deleted) so the staleness
+// guard below still runs and a future regression can't silently reintroduce an allowlisted
+// failure without this guard catching it.
+const knownLimitations = new Set([]);
 
 // --- Report the full audit table (always -- passing or failing) --------------------------
 console.log('WCAG contrast audit -- DESIGN_LANGUAGE.md --site-color-* palettes\n');
