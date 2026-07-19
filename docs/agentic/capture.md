@@ -35,6 +35,12 @@ navigation, browsing-context, prompt, and preload-script signals when
 available. A JavaScript listener drained through ordinary WebDriver provides
 deterministic interaction capture and remains the compatibility fallback.
 
+The recorder always runs the managed browser locally: any configured
+`executionAddress` (remote Selenium Grid) is intentionally ignored at
+recording time, because an interactive recording needs the browser on your
+own screen to click through. Generated tests still honor your configured
+`executionAddress` when they run.
+
 Use the Capture commands on
 [Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). That page owns
 the runnable MCP command reference and classpath notes.
