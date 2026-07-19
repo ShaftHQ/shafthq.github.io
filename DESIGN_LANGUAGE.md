@@ -79,3 +79,27 @@ Only these weights are allowed for reusable UI styles: `400|500|600|700`.
 5. Ensure landing, docs cards, `code`/`pre`, and Mermaid visuals remain on the same blue-centric palette.
 6. Run a quick grep for `landing-` and hard-coded palette values before handoff.
 7. Document any justified token exceptions in this file and this checklist.
+
+## Admonition severity vocabulary
+
+The Docusaurus admonition type is not a stylistic choice — it signals consequence severity to the reader. Every callout uses exactly one of the following types, chosen against this vocabulary:
+
+- `:::tip` — An optional best practice or shortcut. The reader can skip it without harm.
+- `:::note` — A neutral aside or qualification of the surrounding text. Adds context, not risk.
+- `:::info` — A supplementary factual detail: version behavior, defaults, or environment specifics.
+- `:::warning` — Ignoring this can make an action fail, silently misbehave, or have side effects.
+- `:::danger` — The consequence is irreversible, destructive, or security-sensitive.
+- `:::caution` — Do not use. It is a legacy alias of `warning`. Convert any occurrence to `:::warning`.
+
+**Migration rule**: when a callout's body describes a failure mode, a destructive outcome, or a security consequence that its current type does not cover, reclassify it to the type above that matches — do not reword the body to fit the existing type.
+
+## Content style guide
+
+Binding rules for prose in `docs/`:
+
+1. **Descriptive link text.** Never use bare "here" or "click here" as link text — the link text itself must describe the destination.
+2. **One end-of-page navigation pattern.** Every page ends with a single `## Related` section listing internal links. Do not add a separate inline navigation line (for example `[A](...) · [B](...)`); fold every destination into `## Related`.
+3. **Sentence-case headings.** Capitalize only the first word and proper nouns.
+4. **Short paragraphs.** Prefer two to four sentences per paragraph; break up longer explanations with lists or subheadings.
+5. **Runnable example required.** Every doc includes at least one fenced, runnable code example relevant to its topic.
+6. **Second-person imperative tone.** Address the reader directly and lead with verbs ("Run…", "Add…", "Configure…") rather than passive or third-person phrasing.

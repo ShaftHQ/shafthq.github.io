@@ -5,7 +5,7 @@ import {PageMetadata} from '@docusaurus/theme-common';
 
 export default function DocItemMetadata(): ReactNode {
   const {metadata, frontMatter, assets} = useDoc();
-  const isInternalOnly = metadata.permalink.includes('/docs/archive/') || metadata.permalink.includes('/docs/superpowers/');
+  const isInternalOnly = metadata.permalink.includes('/docs/archive/');
 
   return (
     <>

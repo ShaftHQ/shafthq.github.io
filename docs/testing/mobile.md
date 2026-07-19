@@ -594,6 +594,7 @@ For issues or questions:
 - Join our [Slack community](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)
 - Check our [documentation](https://ShaftHQ.github.io/)
 
----
+## Related
 
-[Testing overview](/docs/start/overview) · [Features](/docs/features/modules)
+- [Testing overview](/docs/start/overview)
+- [Features](/docs/features/modules)

@@ -52,7 +52,7 @@ driver.browser().navigateToURL("https://example.com");
 The full list of supported device names is identical to the list in **Chrome DevTools → More tools → Sensors → Device**. Any device name that works there will work with SHAFT.
 :::
 
-:::caution Device-list drift
+:::warning Device-list drift
 The browser's built-in device list changes across releases (Chrome 143 removed `"Pixel 5"`, for example), and an unknown device name fails session creation with the opaque `entry 0 of 'firstMatch' is invalid`. SHAFT pins `"Pixel 5"` — its long-standing default — to explicit device metrics so it keeps working on every Chromium browser, and logs an up-front warning for any other device name explaining that the browser's own list will resolve it. If a previously working device name starts failing, switch to custom device emulation (below) with the device's width, height, pixel ratio, and user agent.
 :::
 

@@ -7,7 +7,7 @@ keywords: [SHAFT, properties, configuration, custom properties, Maven CLI, code 
 tags: [configuration, properties, types]
 ---
 
-### Priority Hierarchy
+## Priority Hierarchy
 
 Since there are many ways to configure SHAFT properties you need to know how the priorities work.
 Simply put, the values to the left override the values to the right.
@@ -15,7 +15,7 @@ Simply put, the values to the left override the values to the right.
 [Code-based](#code-based) > [CLI-based](#cli-based) > [File-based](#file-based) > [Default Values](PropertiesList)
 
 
-### File-based
+## File-based
 
 The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.
 
@@ -39,7 +39,7 @@ videoParams_recordVideo=true
 You can add all your custom properties in one or more files as you see fit. For more info you can refer to our [full list of supported properties](PropertiesList).
 
 
-### Code-based
+## Code-based
 
 You can read/write any property programmatically to provide more flexibility and control during runtime.
 
@@ -93,7 +93,7 @@ SHAFT.Properties.web.set().targetBrowserName(Browser.FIREFOX.browserName());
 :::
 
 
-### CLI-based
+## CLI-based
 
 You can set some properties via the CLI command that you use to execute your tests.
 

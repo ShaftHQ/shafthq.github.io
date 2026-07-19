@@ -7,7 +7,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "node scripts/build-autobot-index.mjs && docusaurus build && node scripts/prune-search-index.mjs",
+    "build": "node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build && node scripts/prune-search-index.mjs",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -24,7 +24,8 @@
     "test:playwright": "npx playwright test",
     "test:release-template": "node tests/release-blog-template.test.js",
     "test:shaft": "node scripts/run-shaft-tests.mjs",
-    "verify-models": "node scripts/verify-models.js"
+    "verify-models": "node scripts/verify-models.js",
+    "build:llms": "node scripts/build-llms-txt.mjs"
   },
   "dependencies": {
     "@cmfcmf/docusaurus-search-local": "^2.0.1",

@@ -9,7 +9,7 @@ tags: [web, cookies, authentication]
 
 You can manage cookies in your tests to maintain session state. Below is an example that demonstrates how to get a cookie value after login and reuse it in another session.
 
-#### API login to browser session
+## API login to browser session
 ```java
 import com.shaft.driver.SHAFT;
 import io.restassured.http.ContentType;
@@ -27,7 +27,7 @@ driver.browser()
 
 The browser must already be on an HTTP or HTTPS page whose domain is compatible with the imported cookies. Host-only API cookies are imported only on their original host; cross-subdomain browser reuse requires cookies issued with a shared domain such as `example.com`. Use `importCookiesFrom(api, "example.com", "/app")` to import only matching cookie domains and paths.
 
-#### Browser login to API session
+## Browser login to API session
 ```java
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 driver.browser().navigateToURL("https://app.example.com");
@@ -37,7 +37,7 @@ api.importCookiesFrom(driver.browser());
 api.get("/account");
 ```
 
-#### API session seeded from a saved storage-state file
+## API session seeded from a saved storage-state file
 
 `SHAFT.API` also accepts a storage-state JSON path directly in its constructor — the same file produced by `driver.browser().saveStorageState(path)` on either `SHAFT.GUI.WebDriver` or `SHAFT.GUI.Playwright`:
 
@@ -46,7 +46,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com", "target/auth-state.json
 api.get("/account");
 ```
 
-#### API session cookies back into the browser
+## API session cookies back into the browser
 
 Use `exportCookiesTo(...)` to mirror `importCookiesFrom(...)` in the other direction, copying cookies from an `SHAFT.API` session into a browser session:
 
@@ -63,7 +63,7 @@ driver.browser().refreshCurrentPage();
 
 Like `importCookiesFrom`, `exportCookiesTo(browserActions, domainFilter, pathFilter)` accepts optional exact domain and path filters to export only matching cookies.
 
-#### Manual cookie reuse
+## Manual cookie reuse
 ```java
 import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
