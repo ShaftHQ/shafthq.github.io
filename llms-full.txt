@@ -13927,7 +13927,7 @@ GraphQL APIs typically return HTTP 200 even when errors occur — always validat
 
 # JUnit Integration
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/JUnit5_Integration
+Canonical URL: https://shafthq.github.io/docs/reference/guides/JUnit_Integration
 
 SHAFT Engine supports **JUnit (Jupiter)** as a first-class test runner alongside TestNG. All SHAFT APIs, reporting, and properties configuration work identically regardless of which test framework you choose.
 
