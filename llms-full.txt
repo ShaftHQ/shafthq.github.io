@@ -7528,7 +7528,7 @@ guides.
 | Choose resilient web locators | [Web locator strategy](/docs/testing/web#locator-strategy) |
 | Send REST requests and validate responses | [API testing](/docs/testing/api) |
 | Configure browser, API, mobile, retry, or reporting behavior | [Property types](/docs/reference/properties/PropertyTypes) |
-| Generate a custom `.properties` file | [Properties Generator](/docs/reference/properties/custom-properties-generator) |
+| Generate a custom `.properties` file | [Config Generator tab](/docs/reference/properties/PropertiesList?PropertyTypes=generator) on the Properties Reference |
 | Attach evidence and understand reports | [Reporting](/docs/reference/reporting/) |
 | Diagnose flaky or failed runs | [How SHAFT reduces flakiness](/docs/testing/flakiness) |
 | Query a database or run a terminal command | [Database testing](/docs/testing/database) and [CLI testing](/docs/testing/cli) |
@@ -10234,13 +10234,16 @@ For a complete list of all available properties, their default values, and descr
 
 Canonical URL: https://shafthq.github.io/docs/reference/properties/PropertiesList
 
-You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible.
+You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible. The **Config Generator** tab is an interactive builder covering every property below — search, click to add, edit the value, then copy or download the resulting `.properties` file.
 
  
  *You can read/write any property programmatically to provide more flexibility and control during runtime.* 
  *You can set some properties via the CLI command that you use to execute your tests.* 
  *The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.* 
- *The default/preset values built into SHAFT, with a description of what each one does and the possible values.*
+ *The default/preset values built into SHAFT, with a description of what each one does and the possible values.* 
+ 
+
+Build a `.properties` file interactively instead of copying keys by hand: search or browse by category, click a property to add it, edit its value, then copy or download the generated file(s) below.
 
 ## Platform
 
@@ -11890,6 +11893,10 @@ When running on Selenium Grid or cloud platforms (BrowserStack, LambdaTest), cus
 # Custom Properties Generator
 
 Canonical URL: https://shafthq.github.io/docs/reference/properties/custom-properties-generator
+
+:::tip
+This generator is also embedded as the **Config Generator** tab on the [Complete Properties Reference](/docs/reference/properties/PropertiesList?PropertyTypes=generator) page, right next to the property tables it builds from — that's the best place to reach it while you're already reading about a specific property. This standalone page stays as a direct link/bookmark to the same tool.
+:::
 
 Use this generator to choose SHAFT properties, edit their values, and download the matching `.properties` files.
 
