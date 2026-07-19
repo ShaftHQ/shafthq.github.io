@@ -117,7 +117,7 @@
 
 [[redirects]]
   from = "/docs/Getting_Started/JUnit5_Integration"
-  to = "/docs/reference/guides/JUnit5_Integration"
+  to = "/docs/reference/guides/JUnit_Integration"
   status = 301
 
 [[redirects]]
