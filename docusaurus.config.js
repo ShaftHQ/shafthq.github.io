@@ -394,48 +394,35 @@ const config = {
       }),
     ],
     [
-      require.resolve("@cmfcmf/docusaurus-search-local"),
+      require.resolve("@easyops-cn/docusaurus-search-local"),
       {
         indexDocs: true,
-
-        // Index up to 3 nested parent categories so users can find docs
-        // by searching for sidebar category names (e.g. "Actions > GUI").
-        indexDocSidebarParentCategories: 3,
-
         indexBlog: true,
 
         // Index static pages (homepage, etc.) for broader search coverage.
         indexPages: true,
 
+        // Exclude only archived docs from search. Maintainer docs stay
+        // indexed: they are fully public per the #795 product decision
+        // (PR #800), matching the AutoBot docs-loader. Routes are matched
+        // without a leading slash (see processDocInfos.js).
+        ignoreFiles: [/^docs\/archive\//],
+
         language: "en",
 
-        style: undefined,
-
         // Show more search results for better discoverability.
-        maxSearchResults: 12,
+        searchResultLimits: 12,
 
-        lunr: {
-          // Split tokens on whitespace, hyphens, underscores, and dots
-          // so code-like identifiers (e.g. "BrowserActions", "setup_web",
-          // "shaft.properties") are searchable by each segment.
-          tokenizerSeparator: /[\s\-_./]+/,
+        // Surface the specific heading a match was found in, not just the page.
+        explicitSearchResultPath: true,
 
-          // Lower b value reduces the effect of document length on ranking,
-          // ensuring shorter reference pages still surface for relevant queries.
-          b: 0.6,
+        // Keep English stop words indexed, since they are sometimes relevant
+        // in programming docs (e.g. "wait", "self").
+        removeDefaultStopWordFilter: true,
 
-          // Slightly higher k1 slows term-frequency saturation, giving more
-          // nuanced ranking for documentation with repeated technical terms.
-          k1: 1.4,
-
-          // Stronger title boost so exact-title matches rank first.
-          titleBoost: 7,
-          contentBoost: 1,
-          // Higher tags boost rewards the curated per-page tags we add.
-          tagsBoost: 4,
-          // Now effective since indexDocSidebarParentCategories > 0.
-          parentCategoriesBoost: 3,
-        }
+        // Tolerate simple typos and missing spaces (e.g. "propreties",
+        // "selfhealing") via lunr's built-in fuzzy matching.
+        fuzzyMatchingDistance: 1,
       },
     ],
   ],

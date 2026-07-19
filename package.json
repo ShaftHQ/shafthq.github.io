@@ -7,7 +7,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build && node scripts/prune-search-index.mjs",
+    "build": "node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -29,12 +29,12 @@
     "generate:properties-catalog": "node scripts/generate-properties-catalog.mjs"
   },
   "dependencies": {
-    "@cmfcmf/docusaurus-search-local": "^2.0.1",
     "@docusaurus/core": "^3.10.2",
     "@docusaurus/faster": "^3.10.2",
     "@docusaurus/plugin-client-redirects": "^3.10.2",
     "@docusaurus/preset-classic": "^3.10.2",
     "@docusaurus/theme-mermaid": "^3.10.2",
+    "@easyops-cn/docusaurus-search-local": "0.55.2",
     "@fortawesome/fontawesome-svg-core": "^7.3.1",
     "@fortawesome/free-brands-svg-icons": "^7.3.1",
     "@fortawesome/free-regular-svg-icons": "^7.3.1",
