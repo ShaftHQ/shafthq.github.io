@@ -287,12 +287,12 @@ const config = {
           {to: '/docs/testing/mobile', from: ['/docs/Getting_Started/setup_mobile', '/docs/Getting_Started/flutter_testing', '/docs/Demos/mobile']},
           {to: '/docs/testing/api', from: '/docs/Getting_Started/setup_api'},
           {to: '/docs/features/modules', from: '/docs/Getting_Started/integrations'},
-          // NOTE: netlify.toml's target for this redirect is the stale
-          // `/docs/reference/guides/JUnit5_Integration` slug, but the page's
-          // frontmatter `id` (and therefore its real route) is
-          // `JUnit_Integration` (no "5") — that netlify.toml entry has been
-          // a dead 301 on the fallback host; tracked as a follow-up. Point
-          // this redirect at the page that actually exists.
+          // NOTE: this client redirect and netlify.toml's server-side 301 both
+          // point at `/docs/reference/guides/JUnit_Integration` (no "5"),
+          // matching the page's frontmatter `id` and real route (fixed in
+          // #847 — netlify.toml previously targeted the stale
+          // `JUnit5_Integration` slug, a dead 301 on the fallback host). The
+          // `from` side here is the historical inbound URL and stays as-is.
           {to: '/docs/reference/guides/JUnit_Integration', from: '/docs/Getting_Started/JUnit5_Integration'},
           // Retired agentic/mcp-manual tombstone (deleted; canonical content
           // lives on the main MCP setup page).
