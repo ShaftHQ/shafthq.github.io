@@ -90,6 +90,50 @@ synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
 be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
 `lazyLoadingNetworkIdleQuietWindowMillis`.
 
+Lazy-loading readiness itself is layered, so the default wait adapts to what a
+page actually does without any test-code changes:
+
+- **JS readiness engine** (default, always on) polls `document.readyState`,
+  in-flight `fetch`/XHR/`sendBeacon` activity, resource-timing changes, jQuery
+  and Angular activity, and a main-thread idle probe
+  (`requestIdleCallback` → `requestAnimationFrame` → `setTimeout` fallback)
+  every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
+  `EventSource`/`WebSocket` connections are observed but never block idle, so
+  SSE and long-poll pages don't pin every action at the timeout ceiling.
+- **DOM-stability quiet window** (opt-in, off by default) adds a
+  `MutationObserver`-backed check: once enabled, readiness also requires
+  `lazyLoadingDomStabilityQuietWindowMillis` of DOM-mutation silence. It
+  defaults to `0` (disabled) because carousels, tickers, and React re-renders
+  would otherwise pin every action at the 30-second ceiling; turn it on only
+  for pages you know settle and stay settled.
+- **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
+  in-flight requests via WebDriver BiDi network events when BiDi is enabled.
+  This signal is advisory only: it can extend the quiet window while requests
+  are genuinely in flight (aged out after 10 seconds; SSE/WebSocket upgrades
+  excluded), but it never hard-gates readiness, preserving the same tolerance
+  for long-poll and SSE-style pages as the JS-only path.
+
+```properties title="src/main/resources/properties/custom.properties"
+lazyLoadingPollingIntervalMillis=200
+lazyLoadingDomStabilityQuietWindowMillis=0
+waitForLazyLoadingTimeout=30
+```
+
+For content that only loads on scroll — infinite lists, or sections behind an
+`IntersectionObserver` that hydrate only once visible — call
+`scrollToLoadAll()` right before a full-page assertion or screenshot. It sweeps
+the page in bounded, viewport-height steps (up to
+`lazyLoadingScrollSweepMaxSteps`, default `20`), waiting for lazy-loading
+readiness between each step, then restores the original scroll position. It is
+never invoked automatically by any readiness wait — sweeping an entire page is
+not a safe default before an arbitrary action — so call it explicitly:
+
+```java title="ScrollToLoadAll.java"
+driver.browser().navigateToURL("https://example.test/catalog")
+        .scrollToLoadAll()
+        .captureScreenshot();
+```
+
 ```java title="ExplicitStateWait.java"
 driver.browser().navigateToURL("https://example.test/orders")
         .and().element().click("Refresh orders")

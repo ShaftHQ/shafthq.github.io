@@ -80,4 +80,34 @@ for (const [tokenCountKey, expectedDefault, expectedType] of [
   assert(property.type === expectedType, `${tokenCountKey} must have type '${expectedType}', got '${property.type}'`);
 }
 
+// Non-sensitive credential-pointer regression guard for #829: these keys contain "apikey" but
+// hold the *name* of an environment variable/header/prefix that points at a credential, not the
+// credential itself, so their real Java defaults must be published, not blanked.
+for (const [pointerKey, expectedDefault] of [
+  ['pilot.ai.openai.apiKeyEnvironmentVariable', 'OPENAI_API_KEY'],
+  ['pilot.ai.anthropic.apiKeyEnvironmentVariable', 'ANTHROPIC_API_KEY'],
+  ['pilot.ai.gemini.apiKeyEnvironmentVariable', 'GEMINI_API_KEY'],
+  ['pilot.ai.github.apiKeyEnvironmentVariable', 'GITHUB_TOKEN'],
+  ['pilot.ai.ollama.apiKeyHeader', 'Authorization'],
+  ['pilot.ai.ollama.apiKeyPrefix', 'Bearer '],
+]) {
+  const property = catalog.find((p) => p.key === pointerKey);
+  assert(property, `Missing expected non-sensitive credential-pointer property ${pointerKey}`);
+  assert(property.sensitive !== true, `${pointerKey} must NOT be flagged sensitive (#829): it names where a credential lives, not the credential itself`);
+  assert(property.defaultValue === expectedDefault, `${pointerKey} must publish its real default '${expectedDefault}', got '${property.defaultValue}'`);
+}
+
+// Lazy-loading readiness properties shipped by SHAFT_ENGINE #3775 (layered JS + advisory BiDi
+// readiness, and the explicit scrollToLoadAll() scroll sweep) must be present with their defaults.
+for (const [lazyKey, expectedDefault] of [
+  ['waitForLazyLoadingTimeout', '30'],
+  ['lazyLoadingPollingIntervalMillis', '200'],
+  ['lazyLoadingDomStabilityQuietWindowMillis', '0'],
+  ['lazyLoadingScrollSweepMaxSteps', '20'],
+]) {
+  const property = catalog.find((p) => p.key === lazyKey);
+  assert(property, `Missing expected lazy-loading property ${lazyKey} (SHAFT_ENGINE #3775)`);
+  assert(property.defaultValue === expectedDefault, `${lazyKey} must publish its real default '${expectedDefault}', got '${property.defaultValue}'`);
+}
+
 console.log(`Properties catalog checks passed (${catalog.length} properties, ${new Set(catalog.map((p) => p.section)).size} sections).`);

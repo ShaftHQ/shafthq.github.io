@@ -158,9 +158,26 @@ const NON_SENSITIVE_ALLOWLIST = [
   'pilot.ai.maxOutputTokens',
 ];
 
-function isSensitive(key) {
+// Credential-pointer suffixes: a key ending in one of these names *references* where a secret
+// lives (an environment-variable name, an HTTP header name, a header-value prefix) rather than
+// holding the secret itself, so it matches the "apikey" substring above without being one.
+// Regression fix for #829: the Pilot pilot.ai.<provider>.apiKeyEnvironmentVariable / .apiKeyHeader
+// / .apiKeyPrefix properties default to real, non-secret values (env-var names like
+// OPENAI_API_KEY, header names like Authorization, prefixes like "Bearer ") that must not be
+// blanked. Suffix-based (not a per-provider allowlist) so it covers every current and future
+// Pilot provider without needing an entry per provider.
+const NON_SENSITIVE_KEY_SUFFIXES = [
+  'apiKeyEnvironmentVariable',
+  'apiKeyHeader',
+  'apiKeyPrefix',
+];
+
+export function isSensitive(key) {
   // Check allowlist first: these keys match a sensitive substring but are not sensitive
   if (NON_SENSITIVE_ALLOWLIST.includes(key)) {
+    return false;
+  }
+  if (NON_SENSITIVE_KEY_SUFFIXES.some((suffix) => key.endsWith(suffix))) {
     return false;
   }
   const lower = key.toLowerCase();
@@ -307,11 +324,19 @@ function parseJavaFile(filePath) {
   return parseJavaSource(readFileSync(filePath, 'utf8'));
 }
 
-/** Parses PropertiesList.mdx's per-section "Default Values" GFM tables into a key -> row map. */
+/** Reads PropertiesList.mdx from disk and parses it via parseMdxDefaultsTablesFromContent. */
 function parseMdxDefaultsTables(mdxPath) {
-  const content = readFileSync(mdxPath, 'utf8');
+  return parseMdxDefaultsTablesFromContent(readFileSync(mdxPath, 'utf8'));
+}
+
+/**
+ * Parses PropertiesList.mdx's per-section "Default Values" GFM tables into a key -> row map
+ * (pure -- no I/O, exported for testing). Section headers in PropertiesList.mdx are `## Name`
+ * (h2, one level below the page's own h1 title) -- e.g. `## Platform`, `## Timeouts`.
+ */
+export function parseMdxDefaultsTablesFromContent(content) {
   const lookup = new Map();
-  const sectionRe = /^### .+$/gmu;
+  const sectionRe = /^## .+$/gmu;
   const sectionStarts = [...content.matchAll(sectionRe)].map((mm) => mm.index);
   sectionStarts.push(content.length);
 
