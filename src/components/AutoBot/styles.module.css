@@ -531,6 +531,14 @@
   background: var(--ifm-background-surface-color);
 }
 
+/* Repointed from the primary-based gradient (#832): .headerText h3 sits on this
+   fill and can't reach WCAG AA with on-dark text on solid primary in dark mode
+   (see tests/design-contrast.test.js, "on-dark text / primary background").
+   deep-alt already passes there; light mode is untouched (already passing). */
+[data-theme='dark'] .chatHeader {
+  background: var(--site-color-deep-alt);
+}
+
 [data-theme='dark'] .chatMessages {
   background: linear-gradient(180deg, rgba(var(--site-color-primary-rgb), 0.08), transparent 150px), var(--ifm-background-surface-color);
 }
@@ -552,7 +560,15 @@
   color: var(--site-color-muted);
 }
 
-[data-theme='dark'] .userMessage .messageBubble,
+/* Repointed from --ifm-color-primary-light (#832): on-dark text on that fill
+   can't reach WCAG AA (see tests/design-contrast.test.js, "on-dark text /
+   primary background"). deep-alt already passes there; the primary-colored
+   border keeps the bubble's brand-blue identity without using it as a fill. */
+[data-theme='dark'] .userMessage .messageBubble {
+  border: 1px solid var(--site-color-primary);
+  background: var(--site-color-deep-alt);
+}
+
 [data-theme='dark'] .sendButton,
 [data-theme='dark'] .messageAvatar {
   background: var(--ifm-color-primary-light);

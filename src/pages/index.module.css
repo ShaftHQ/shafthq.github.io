@@ -103,7 +103,7 @@
   align-items: center;
   gap: 0.55rem;
   margin-bottom: 0.9rem;
-  color: var(--site-color-primary);
+  color: var(--site-color-muted);
   font-family: var(--ifm-font-family-monospace);
   font-size: var(--site-font-small);
   font-weight: var(--site-font-weight-medium);
@@ -286,11 +286,19 @@
   line-height: 1.35;
 }
 
-.pathCard small,
+.pathCard small {
+  display: block;
+  color: var(--site-color-primary);
+  font-weight: var(--site-font-weight-bold);
+}
+
+/* Repointed from --site-color-primary (#832): these captions sit on the
+   deep-alt code-panel background, where primary text can't reach WCAG AA
+   (see tests/design-contrast.test.js). muted already passes there. */
 .codePanel figcaption,
 .handledPanel > span {
   display: block;
-  color: var(--site-color-primary);
+  color: var(--site-color-muted);
   font-weight: var(--site-font-weight-bold);
 }
 
@@ -415,10 +423,13 @@
   white-space: pre;
 }
 
+/* Repointed from --site-color-primary (#832): this text sits on the
+   .codeCompare pre's deep background, where primary text can't reach WCAG AA
+   (see tests/design-contrast.test.js). muted already passes there. */
 .codeAnnotation,
 .codeKeyword,
 .codeCall {
-  color: var(--site-color-primary);
+  color: var(--site-color-muted);
 }
 
 .codeFunction {
