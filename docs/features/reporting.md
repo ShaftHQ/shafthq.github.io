@@ -37,7 +37,7 @@ flowchart LR
 ```
 
 Use [reporting configuration](/docs/reference/reporting) and
-[custom report messages](/docs/reference/reporting/Custom_Report_Messages) for
+[custom report messages](/docs/reference/reporting#custom-report-messages) for
 detailed controls.
 
 ```properties title="src/main/resources/properties/custom.properties"
@@ -174,5 +174,5 @@ wait-heavy, stale, healed, or failing actions.
 
 - [Architecture](/docs/features/architecture)
 - [Modules](/docs/features/modules)
-- [Technology](/docs/features/technology)
+- [Underlying technology](/docs/features/modules#technology)
 - [Browserstack](/docs/integrations/browserstack)

@@ -254,7 +254,7 @@ to `SHAFT.Properties.web.baseURL()` when the file has none) and navigates the
 fresh driver there first, since cookies cannot be added for an arbitrary
 domain before any page has loaded. This is fail-soft: a missing file, unreadable
 origin, or any other load failure is logged as a warning and never fails driver
-initialization. See [Authentication and session reuse](/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests)
+initialization. See [Authentication and session reuse](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#using-cookies)
 for the cached-login helper built on top of this property.
 
 ## Screenshots and Snapshots
@@ -437,7 +437,7 @@ driver.browser().navigateToURL("https://example.com")
     .assertNoCriticalViolations("Home Page");
 ```
 
-For a full reference of all accessibility methods, see [Accessibility Testing](./didYouKnow/Accessibility_Testing).
+For a full reference of all accessibility methods, see [Accessibility Testing](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#accessibility-testing).
 
 ## Fluent Chaining
 
@@ -458,6 +458,6 @@ SHAFT provides automatic reporting for every browser action. Check the **Reporti
 
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
-- [Using Cookies / authentication and session reuse](/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests)
-- [Network Mocking and HAR replay](/docs/reference/actions/GUI/didYouKnow/Network_Mocking)
+- [Using Cookies / authentication and session reuse](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#using-cookies)
+- [Network Mocking and HAR replay](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#network-mocking)
 - [Web](/docs/testing/web)

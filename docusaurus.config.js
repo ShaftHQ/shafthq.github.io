@@ -243,6 +243,38 @@ const config = {
           return oldPaths;
         },
         redirects: [
+          // Docs IA PR B (issue #842): reference/reporting/reporting.mdx +
+          // Custom_Report_Messages.md merged into one page at
+          // docs/reference/reporting.mdx (same /docs/reference/reporting URL,
+          // so the createRedirects() wildcard below no longer has a
+          // reference/reporting/* sub-page to auto-generate from). Keep the
+          // legacy /docs/Reporting/Custom_Report_Messages netlify.toml path
+          // working explicitly.
+          {
+            to: '/docs/reference/reporting',
+            from: ['/docs/Reporting/Custom_Report_Messages', '/docs/reference/reporting/Custom_Report_Messages'],
+          },
+          // Docs IA PR B (issue #842) remaining duplicate-pair resolutions.
+          // Element Identification: the GUI-set page is canonical (it's in
+          // the sitemap priority regex); the guides copy's unique content
+          // (By vs @FindBy, dynamic locators, cross-platform Android/iOS
+          // locators) was moved into it.
+          {to: '/docs/reference/actions/GUI/Element_Identification', from: '/docs/reference/guides/Element_Identification'},
+          // Architecture: features/architecture.md is canonical; the guides
+          // copy's unique "layers of test automation" / engine-vs-framework
+          // content was moved into it.
+          {to: '/docs/features/architecture', from: '/docs/reference/guides/Architecture'},
+          // Docs IA PR B (issue #842) item 4: stub folds.
+          // agentic/examples.md's downloadable asset links moved onto
+          // agentic/pilot.md's own worked-example sections.
+          {to: '/docs/agentic/pilot', from: '/docs/agentic/examples'},
+          // features/technology.md and features/partners.md folded into
+          // features/modules.md as new sections; features/test-automation-pillars
+          // (the singleton pillars page) is untouched.
+          {to: '/docs/features/modules', from: ['/docs/features/technology', '/docs/features/partners']},
+          // integrations/video.md + integrations/sikulix.md merged into one
+          // "Desktop and video" integrations page.
+          {to: '/docs/integrations/desktop-and-video', from: ['/docs/integrations/video', '/docs/integrations/sikulix']},
           // Renamed config pages.
           {to: '/docs/reference/configuration/webConfig', from: '/docs/reference/configuration/basicConfig'},
           {to: '/docs/reference/configuration/mobileConfig', from: '/docs/reference/configuration/basicConfig2'},
@@ -265,6 +297,79 @@ const config = {
           // Retired agentic/mcp-manual tombstone (deleted; canonical content
           // lives on the main MCP setup page).
           {to: '/docs/agentic/mcp', from: '/docs/agentic/mcp/manual'},
+          // Docs IA PR B (issue #842): Validations 10-pages -> 1 page merge,
+          // plus GUI/Element_Validations folded into the same page as a
+          // duplicate-resolution. Section anchors are documented in the
+          // page itself since meta-refresh redirects can't target a
+          // fragment reliably.
+          {
+            to: '/docs/reference/actions/Validations',
+            from: [
+              '/docs/reference/actions/Validations/Overview',
+              '/docs/reference/actions/Validations/Browser',
+              '/docs/reference/actions/Validations/Elements',
+              '/docs/reference/actions/Validations/Files',
+              '/docs/reference/actions/Validations/Objects',
+              '/docs/reference/actions/Validations/Nums',
+              '/docs/reference/actions/Validations/Response',
+              '/docs/reference/actions/Validations/JSON_Schema_Validation',
+              '/docs/reference/actions/Validations/ForceFail',
+              '/docs/reference/actions/Validations/Soft_vs_Hard_Assertions',
+              '/docs/reference/actions/GUI/Element_Validations',
+            ],
+          },
+          // Docs IA PR B (issue #842): didYouKnow 19 pages + the old
+          // Did_You_Know.md hub -> 3 themed GUI tips pages. Async_Element_Actions
+          // and Visual_Testing were duplicate pairs, not theme content — they
+          // redirect to their existing GUI-set/integrations canonical page
+          // instead. Section anchors are documented on each themed page since
+          // meta-refresh redirects can't target a fragment reliably.
+          {
+            to: '/docs/reference/actions/GUI/Locators_And_Self_Healing',
+            from: [
+              '/docs/reference/actions/GUI/Did_You_Know',
+              '/docs/reference/actions/GUI/didYouKnow/ARIA_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/Shadow_Dom_Locator_Builder',
+              '/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder',
+              '/docs/reference/actions/GUI/didYouKnow/Smart_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/iFrame_Handling',
+            ],
+          },
+          {
+            to: '/docs/reference/actions/GUI/Waits_And_Synchronization',
+            from: [
+              '/docs/reference/actions/GUI/didYouKnow/Explicit_Waits',
+              '/docs/reference/actions/GUI/didYouKnow/Clipboard_Actions',
+            ],
+          },
+          {
+            to: '/docs/reference/actions/GUI/Infrastructure_Network_And_Visual',
+            from: [
+              '/docs/reference/actions/GUI/didYouKnow/Native_selenium_Webdriver',
+              '/docs/reference/actions/GUI/didYouKnow/Custom_Capabilities',
+              '/docs/reference/actions/GUI/didYouKnow/Mobile_Emulation',
+              '/docs/reference/actions/GUI/didYouKnow/Local_Selenium_Grid_Execution',
+              '/docs/reference/actions/GUI/didYouKnow/Kubernetes_Selenium_Grid',
+              '/docs/reference/actions/GUI/didYouKnow/Network_Mocking',
+              '/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests',
+              '/docs/reference/actions/GUI/didYouKnow/Accessibility_Testing',
+              '/docs/reference/actions/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine',
+            ],
+          },
+          // Duplicate resolution (issue #842 item 3): Async Element Actions —
+          // the didYouKnow copy redirects to the surviving GUI top-level page.
+          {
+            to: '/docs/reference/actions/GUI/Async_Element_Actions',
+            from: '/docs/reference/actions/GUI/didYouKnow/Async_Element_Actions',
+          },
+          // Duplicate resolution (issue #842 item 3): Visual Testing — the
+          // didYouKnow copy's unique matchesScreenshot()/engine content was
+          // folded into integrations/visual.md, the canonical page.
+          {
+            to: '/docs/integrations/visual',
+            from: '/docs/reference/actions/GUI/didYouKnow/Visual_Testing',
+          },
           // Pre-2026-06-19 release posts consolidated into one history post
           // (issue #841).
           {

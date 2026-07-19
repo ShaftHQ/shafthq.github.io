@@ -35,7 +35,7 @@ guides.
 | CLI | [Terminal actions](/docs/reference/actions/CLI/Terminal_Actions) |
 | Database | [Database actions](/docs/reference/actions/DB/DB_Actions) |
 | Configuration | [Property types](/docs/reference/properties/PropertyTypes) |
-| Assertions | [Validation overview](/docs/reference/actions/Validations/Overview) |
+| Assertions | [Validations](/docs/reference/actions/Validations) |
 | Engineering practices | [Solution design](/docs/reference/guides/Solution_Design) |
 
 Start from the facade namespace for the surface you are testing:
@@ -51,4 +51,4 @@ api.assertThatResponse().extractedJsonValue("id").isEqualTo("1");
 
 - [Quick start](/docs/start/quick-start)
 - [API request builder](/docs/reference/actions/API/Request_Builder)
-- [Validation overview](/docs/reference/actions/Validations/Overview)
+- [Validations](/docs/reference/actions/Validations)

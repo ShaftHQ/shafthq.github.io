@@ -107,7 +107,7 @@ const proofPoints = [
     title: 'Native engines stay native',
     description: 'Use Selenium, Playwright, Appium, REST Assured, TestNG, JUnit, and Cucumber directly when control matters.',
     label: 'Technology map',
-    to: '/docs/features/technology',
+    to: '/docs/features/modules#technology',
   },
   {
     title: 'Boilerplate code moves out of tests',
