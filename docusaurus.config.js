@@ -14,6 +14,7 @@ const config = {
   url: siteUrl,
   baseUrl: '/',
   onBrokenLinks: 'throw',
+  onBrokenAnchors: 'throw',
   favicon: 'img/shaft.ico',
   deploymentBranch: 'gh-pages',
 
@@ -216,6 +217,77 @@ const config = {
   ],
 
   plugins: [
+    [
+      require.resolve('@docusaurus/plugin-client-redirects'),
+      /** @type {import('@docusaurus/plugin-client-redirects').Options} */
+      ({
+        // GitHub Pages (the canonical host) can't serve netlify.toml's
+        // server-side 301s, so this plugin emits static meta-refresh pages
+        // for the same legacy URLs. Keep this list mirroring netlify.toml's
+        // `[[redirects]]` entries — netlify.toml stays authoritative for the
+        // secondary/fallback Netlify host.
+        createRedirects(existingPath) {
+          const wildcardPrefixMap = {
+            '/docs/reference/actions/': '/docs/Keywords/',
+            '/docs/reference/configuration/': '/docs/Basic_Config/',
+            '/docs/reference/guides/': '/docs/Best_Practices/',
+            '/docs/reference/properties/': '/docs/Properties/',
+            '/docs/reference/reporting/': '/docs/Reporting/',
+          };
+          const oldPaths = [];
+          for (const [newPrefix, oldPrefix] of Object.entries(wildcardPrefixMap)) {
+            if (existingPath.startsWith(newPrefix)) {
+              oldPaths.push(existingPath.replace(newPrefix, oldPrefix));
+            }
+          }
+          return oldPaths;
+        },
+        redirects: [
+          // Renamed config pages.
+          {to: '/docs/reference/configuration/webConfig', from: '/docs/reference/configuration/basicConfig'},
+          {to: '/docs/reference/configuration/mobileConfig', from: '/docs/reference/configuration/basicConfig2'},
+          {to: '/docs/reference/configuration/apiConfig', from: '/docs/reference/configuration/basicConfig3'},
+          // Retired Getting_Started tree.
+          {to: '/docs/start/overview', from: ['/docs/Getting_Started/first_steps', '/docs/Getting_Started/support']},
+          {to: '/docs/start/quick-start', from: ['/docs/Getting_Started/first_steps_2', '/docs/Getting_Started/first_steps_3']},
+          {to: '/docs/start/installation', from: ['/docs/Getting_Started/first_steps_4', '/docs/Getting_Started/first_steps_5', '/docs/Getting_Started/first_steps_6', '/docs/Getting_Started/shaft_wizard']},
+          {to: '/docs/testing/web', from: ['/docs/Getting_Started/setup_web', '/docs/Demos/web']},
+          {to: '/docs/testing/mobile', from: ['/docs/Getting_Started/setup_mobile', '/docs/Getting_Started/flutter_testing', '/docs/Demos/mobile']},
+          {to: '/docs/testing/api', from: '/docs/Getting_Started/setup_api'},
+          {to: '/docs/features/modules', from: '/docs/Getting_Started/integrations'},
+          // NOTE: netlify.toml's target for this redirect is the stale
+          // `/docs/reference/guides/JUnit5_Integration` slug, but the page's
+          // frontmatter `id` (and therefore its real route) is
+          // `JUnit_Integration` (no "5") — that netlify.toml entry has been
+          // a dead 301 on the fallback host; tracked as a follow-up. Point
+          // this redirect at the page that actually exists.
+          {to: '/docs/reference/guides/JUnit_Integration', from: '/docs/Getting_Started/JUnit5_Integration'},
+          // Retired agentic/mcp-manual tombstone (deleted; canonical content
+          // lives on the main MCP setup page).
+          {to: '/docs/agentic/mcp', from: '/docs/agentic/mcp/manual'},
+          // Pre-2026-06-19 release posts consolidated into one history post
+          // (issue #841).
+          {
+            to: '/blog/release-history',
+            from: [
+              '/blog/release_announcement_7.1.20230309',
+              '/blog/release-10.1.20260324',
+              '/blog/release-10.1.20260331',
+              '/blog/release-10.2.20260501',
+              '/blog/release-10.2.20260505',
+              '/blog/release-10.2.20260506',
+              '/blog/release-10.2.20260605',
+              '/blog/release-10.2.20260610',
+              '/blog/release-10.2.20260612',
+              '/blog/release-10.2.20260614',
+              '/blog/release-10.2.20260615',
+              '/blog/release-10.2.20260617',
+              '/blog/release-10.2.20260618',
+            ],
+          },
+        ],
+      }),
+    ],
     [
       require.resolve("@cmfcmf/docusaurus-search-local"),
       {
