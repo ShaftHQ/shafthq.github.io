@@ -1,10 +1,11 @@
 ---
 id: pilot
 title: SHAFT Pilot
-description: Capture, generation, diagnosis, reviewed repairs, and MCP interoperability.
+description: Capture, generation, diagnosis, reviewed repairs, and MCP interoperability — plus downloadable credential-free Pilot example assets.
 slug: /agentic/pilot
 sidebar_position: 3
-tags: [pilot, capture, doctor, mcp]
+keywords: [SHAFT, pilot, capture, doctor, mcp, examples, pilot examples, credential-free, repair proposal, ollama advisory]
+tags: [pilot, capture, doctor, mcp, examples]
 ---
 
 # SHAFT Pilot
@@ -196,6 +197,28 @@ output.
 See [SHAFT Capture](/docs/agentic/capture), [SHAFT Doctor](/docs/agentic/doctor),
 [optional AI providers](/docs/agentic/providers), and [SHAFT MCP](/docs/agentic/mcp) for the
 complete contracts.
+
+## Example assets {/* #example-assets */}
+
+Credential-free example assets for the commands above — review and replace
+paths/content before reusing any of them:
+
+- [`providers/ollama.properties`](/examples/shaft-pilot/providers/ollama.properties) —
+  load as SHAFT properties to try the optional local Ollama advisory after
+  reviewing the [provider controls](/docs/agentic/providers). The
+  deterministic diagnosis remains the baseline if Ollama is unavailable or
+  returns invalid output.
+- [`doctor/repair-input.json`](/examples/shaft-pilot/doctor/repair-input.json) —
+  use only after replacing its paths and content with a reviewed change.
+  Doctor repair creates an isolated worktree and does not publish to GitHub
+  without a separate approval token.
+- [Doctor chat invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json) —
+  a credential-free Doctor example.
+- [OpenAI](/examples/shaft-pilot/providers/openai.properties),
+  [Anthropic](/examples/shaft-pilot/providers/anthropic.properties),
+  [Gemini](/examples/shaft-pilot/providers/gemini.properties), and
+  [GitHub Models](/examples/shaft-pilot/providers/github.properties) property
+  examples for the other optional providers.
 
 ## Related
 

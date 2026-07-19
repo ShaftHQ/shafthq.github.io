@@ -172,4 +172,4 @@ The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comp
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
 - [Browserstack](/docs/integrations/browserstack)
-- [Video](/docs/integrations/video)
+- [Desktop and video](/docs/integrations/desktop-and-video#video-recording)

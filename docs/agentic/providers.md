@@ -127,7 +127,7 @@ client authentication; SHAFT does not request or define a generic Copilot model
 API key.
 
 Credential-free MCP configuration fixtures are under
-the [downloadable Pilot examples](/docs/agentic/examples). See
+the [downloadable Pilot example assets](/docs/agentic/pilot#example-assets). See
 [SHAFT MCP](/docs/agentic/mcp) for transport
 and deployment details. The representative `doctor_analyze` fixture covers
 ChatGPT, Codex, Claude, Gemini, and GitHub Copilot without embedding any client

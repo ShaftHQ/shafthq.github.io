@@ -109,4 +109,4 @@ For the SDK's runtime behavior, see
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
 - [Visual](/docs/integrations/visual)
-- [Video](/docs/integrations/video)
+- [Desktop and video](/docs/integrations/desktop-and-video#video-recording)

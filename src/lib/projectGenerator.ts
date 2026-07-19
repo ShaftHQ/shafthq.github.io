@@ -58,7 +58,7 @@ export const optionalModules: OptionalModule[] = [
     artifactId: 'shaft-video',
     title: 'Desktop video',
     description: 'Local non-headless desktop recording provider.',
-    href: '/docs/integrations/video',
+    href: '/docs/integrations/desktop-and-video#video-recording',
   },
   {
     artifactId: 'shaft-visual',
@@ -70,7 +70,7 @@ export const optionalModules: OptionalModule[] = [
     artifactId: 'shaft-sikulix',
     title: 'SikuliX desktop',
     description: 'Image-based Windows desktop automation through SikuliX.',
-    href: '/docs/integrations/sikulix',
+    href: '/docs/integrations/desktop-and-video#sikulix',
   },
   {
     artifactId: 'shaft-mcp',

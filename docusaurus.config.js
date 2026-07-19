@@ -264,6 +264,17 @@ const config = {
           // copy's unique "layers of test automation" / engine-vs-framework
           // content was moved into it.
           {to: '/docs/features/architecture', from: '/docs/reference/guides/Architecture'},
+          // Docs IA PR B (issue #842) item 4: stub folds.
+          // agentic/examples.md's downloadable asset links moved onto
+          // agentic/pilot.md's own worked-example sections.
+          {to: '/docs/agentic/pilot', from: '/docs/agentic/examples'},
+          // features/technology.md and features/partners.md folded into
+          // features/modules.md as new sections; features/test-automation-pillars
+          // (the singleton pillars page) is untouched.
+          {to: '/docs/features/modules', from: ['/docs/features/technology', '/docs/features/partners']},
+          // integrations/video.md + integrations/sikulix.md merged into one
+          // "Desktop and video" integrations page.
+          {to: '/docs/integrations/desktop-and-video', from: ['/docs/integrations/video', '/docs/integrations/sikulix']},
           // Renamed config pages.
           {to: '/docs/reference/configuration/webConfig', from: '/docs/reference/configuration/basicConfig'},
           {to: '/docs/reference/configuration/mobileConfig', from: '/docs/reference/configuration/basicConfig2'},

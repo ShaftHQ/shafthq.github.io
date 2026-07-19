@@ -42,7 +42,6 @@ const sidebars = {
         'agentic/doctor',
         'agentic/heal',
         'agentic/providers',
-        'agentic/examples',
       ],
     },
     {
@@ -54,8 +53,6 @@ const sidebars = {
         'features/test-automation-pillars',
         'features/modules',
         'features/reporting',
-        'features/technology',
-        'features/partners',
       ],
     },
     {
@@ -65,8 +62,7 @@ const sidebars = {
       items: [
         'integrations/browserstack',
         'integrations/visual',
-        'integrations/video',
-        'integrations/sikulix',
+        'integrations/desktop-and-video',
       ],
     },
     {
