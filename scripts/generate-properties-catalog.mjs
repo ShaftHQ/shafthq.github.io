@@ -21,7 +21,7 @@
 
 import {readFileSync, writeFileSync, readdirSync, existsSync} from 'node:fs';
 import path from 'node:path';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -38,7 +38,12 @@ const ENGINE_PROPERTIES_DIR = engineArg
       'shaft-engine', 'src', 'main', 'java', 'com', 'shaft', 'properties', 'internal',
     );
 
-if (!existsSync(ENGINE_PROPERTIES_DIR)) {
+// True only when this file is run directly (`node scripts/generate-properties-catalog.mjs`), not
+// when imported as a module (e.g. by tests/generate-properties-catalog-regex.test.js, which needs
+// parseJavaSource without requiring a sibling SHAFT_ENGINE checkout or writing the catalog file).
+const isMainModule = process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isMainModule && !existsSync(ENGINE_PROPERTIES_DIR)) {
   console.error(`Cannot find the SHAFT_ENGINE properties source directory:\n  ${ENGINE_PROPERTIES_DIR}\n`
     + 'Pass --engine-path=<path to shaft-engine/src/main/java/com/shaft/properties/internal>, or set '
     + 'SHAFT_ENGINE_PATH to the SHAFT_ENGINE checkout root, or run this next to a sibling SHAFT_ENGINE checkout.');
@@ -221,9 +226,32 @@ function capitalizeSentence(text) {
   return /[.!?]$/u.test(withCase) ? withCase : `${withCase}.`;
 }
 
-/** Parses one interface file's `@Key`/`@DefaultValue` getters, in source order. */
-function parseJavaFile(filePath) {
-  const content = readFileSync(filePath, 'utf8');
+// Zero-arg getters only (setters in the nested *SetProperty class all take one argument, so
+// the empty-parens anchor naturally excludes them without needing to bound the scan by class).
+//
+// The gap between `@DefaultValue(...)` and the annotation/type that follows -- optional blank
+// lines and `//` line comments -- used to be `(?:[ \t]*\r?\n[ \t]*(?:\/\/[^\r\n]*)?)*`. Each
+// repetition had its own leading *and* trailing `[ \t]*` either side of the mandatory `\r?\n`, so
+// a run of tabs sitting between two newlines could be attributed to the trailing half of one
+// repetition or the leading half of the next in 2^n equivalent ways for n tabs -- classic
+// overlapping-quantifier ReDoS (CodeQL js/redos, generate-properties-catalog.mjs:242). Every one
+// of those splits reaches the same total match, so the engine only discovers that after trying
+// them all, which is exponential when the overall match ultimately fails (e.g. a genuinely
+// malformed/adversarial run with no terminating getter).
+//
+// Fixed shape: `(?:[ \t]*(?:\/\/[^\r\n]*)?\r?\n)*` consumes indent, optional comment, and the
+// newline that ends *that same line* in one repetition, so each repetition's boundary is pinned
+// to a `\r?\n` it alone owns -- the next repetition's indent starts strictly after that newline
+// and can never re-claim characters the previous repetition already consumed. That removes the
+// combinatorial choice while matching the identical total span (any leftover indentation on the
+// following line is absorbed by the `[ \t]*` immediately after this group -- deliberately *not*
+// `\s*`, since `\s*` also matches `\r?\n` and would reopen the same kind of overlap with this
+// group's own newline-consuming loop, which showed up as quadratic -- not exponential, but still
+// avoidable -- blowup on long comment-free blank-line runs during verification).
+const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)\s*\r?\n\s*@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:[ \t]*(?:\/\/[^\r\n]*)?\r?\n)*)[ \t]*(?:@\w+(?:\([^)]*\))?[ \t]*\r?\n[ \t]*)*(?:private\s+)?(boolean|Boolean|int|Integer|long|Long|double|float|String)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
+
+/** Parses one interface file's `@Key`/`@DefaultValue` getters, in source order (pure -- no I/O). */
+export function parseJavaSource(content) {
   const interfaceMatch = content.match(/public interface (\w+)\s+extends EngineProperties</u);
   if (!interfaceMatch) return {interfaceName: null, properties: []};
   const interfaceName = interfaceMatch[1];
@@ -237,9 +265,7 @@ function parseJavaFile(filePath) {
   }
 
   const properties = [];
-  // Zero-arg getters only (setters in the nested *SetProperty class all take one argument, so
-  // the empty-parens anchor naturally excludes them without needing to bound the scan by class).
-  const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)\s*\r?\n\s*@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:[ \t]*\r?\n[ \t]*(?:\/\/[^\r\n]*)?)*)\s*(?:@\w+(?:\([^)]*\))?[ \t]*\r?\n[ \t]*)*(?:private\s+)?(boolean|Boolean|int|Integer|long|Long|double|float|String)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
+  propertyRe.lastIndex = 0;
   let m;
   while ((m = propertyRe.exec(content)) !== null) {
     const [full, key, quotedDefault, constDefault, , returnType, methodName] = m;
@@ -274,6 +300,11 @@ function parseJavaFile(filePath) {
     void full; void methodName;
   }
   return {interfaceName, properties};
+}
+
+/** Reads one interface file from disk and parses it via parseJavaSource. */
+function parseJavaFile(filePath) {
+  return parseJavaSource(readFileSync(filePath, 'utf8'));
 }
 
 /** Parses PropertiesList.mdx's per-section "Default Values" GFM tables into a key -> row map. */
@@ -445,19 +476,27 @@ function humanize(key) {
   return `${label}.`;
 }
 
-const catalog = buildCatalog();
-const json = `${JSON.stringify(catalog, null, 2)}\n`;
+// Only run the CLI's generate/check side effects (filesystem writes, process.exit) when this
+// file is executed directly, not when imported as a module (see isMainModule above).
+if (isMainModule) {
+  runCli();
+}
 
-console.log(`\nGenerated catalog: ${catalog.length} properties across ${new Set(catalog.map((p) => p.section)).size} sections.`);
+function runCli() {
+  const catalog = buildCatalog();
+  const json = `${JSON.stringify(catalog, null, 2)}\n`;
 
-if (checkOnly) {
-  const existing = existsSync(CATALOG_PATH) ? readFileSync(CATALOG_PATH, 'utf8') : '';
-  if (existing !== json) {
-    console.error(`\n${CATALOG_PATH} is out of date. Run: node scripts/generate-properties-catalog.mjs`);
-    process.exit(1);
+  console.log(`\nGenerated catalog: ${catalog.length} properties across ${new Set(catalog.map((p) => p.section)).size} sections.`);
+
+  if (checkOnly) {
+    const existing = existsSync(CATALOG_PATH) ? readFileSync(CATALOG_PATH, 'utf8') : '';
+    if (existing !== json) {
+      console.error(`\n${CATALOG_PATH} is out of date. Run: node scripts/generate-properties-catalog.mjs`);
+      process.exit(1);
+    }
+    console.log('properties-catalog.json is up to date.');
+  } else {
+    writeFileSync(CATALOG_PATH, json, 'utf8');
+    console.log(`Wrote ${CATALOG_PATH}`);
   }
-  console.log('properties-catalog.json is up to date.');
-} else {
-  writeFileSync(CATALOG_PATH, json, 'utf8');
-  console.log(`Wrote ${CATALOG_PATH}`);
 }
