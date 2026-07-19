@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshaft_user_guide=self.webpackChunkshaft_user_guide||[]).push([["6079"],{26402(e,s,u){u.d(s,{createArchitectureServices:()=>r.S});var r=u(45016);u(69302)}}]);
