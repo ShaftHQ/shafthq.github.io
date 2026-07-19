@@ -8,11 +8,6 @@
 
 Canonical URL: https://shafthq.github.io/docs/start/overview
 
-FirstRunCommand,
- GitHubStarLink,
- ReleaseFacts,
-} from '@site/src/components/DocSnippets';
-
 # One engine. Every test surface.
 
 SHAFT is a Maven-published Java automation framework that combines browser,
@@ -96,12 +91,6 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 # Install SHAFT
 
 Canonical URL: https://shafthq.github.io/docs/start/installation
-
-AllureReportPath,
- FirstRunCommand,
- GitHubStarLink,
- ReleaseFacts,
-} from '@site/src/components/DocSnippets';
 
 # Install SHAFT
 
@@ -208,13 +197,6 @@ fails.
 # Quick start
 
 Canonical URL: https://shafthq.github.io/docs/start/quick-start
-
-AllureReportPath,
- BrowserSelectionProperties,
- EngineDependencies,
- FirstRunCommand,
- GitHubStarLink,
-} from '@site/src/components/DocSnippets';
 
 # Quick start
 
@@ -1046,7 +1028,6 @@ For CI or an existing secret manager, set `OPENAI_API_KEY` and run the normal
 command:
 
 ```bash
-
 python upgrade_to_modular_shaft.py --project . --yes
 ```
 
@@ -9608,7 +9589,6 @@ SHAFT provides first-class clipboard support through the `driver.element().clipb
 ## Import
 
 ```java title="ClipboardImport.java"
-
 ```
 
 ---
@@ -24883,7 +24863,6 @@ The self-contained Allure HTML embeds report files as JavaScript calls like `d("
 
 ```bash
 python3 - <<'PY'
-
 from pathlib import Path
 
 for report in sorted(Path('/tmp/shaft-ci/allure-html').glob('*_Allure.html')):
@@ -24906,7 +24885,6 @@ Always count populated result JSON files before trusting any Allure status analy
 
 ```bash
 python3 - <<'PY'
-
 from pathlib import Path
 
 for report in sorted(Path('/tmp/shaft-ci/allure-html').glob('*_Allure.html')):
