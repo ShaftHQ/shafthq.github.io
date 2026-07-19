@@ -2,9 +2,9 @@
 id: Element_Identification
 title: Element Identification
 sidebar_label: Element Identification
-description: "Locate web elements using ID, CSS selectors, XPath, SHAFT Locator Builder, relative locators, shadow DOM, and iframes."
-keywords: [SHAFT, element identification, locator, CSS selector, XPath, shadow DOM, iframe, relative locator, Selenium]
-tags: [web, element, locators, xpath, css]
+description: "Locate web elements using ID, CSS selectors, XPath, SHAFT Locator Builder, relative locators, shadow DOM, iframes, By objects vs @FindBy, dynamic locators, and cross-platform Android/iOS locators."
+keywords: [SHAFT, element identification, locator, CSS selector, XPath, shadow DOM, iframe, relative locator, Selenium, By locator, FindBy, dynamic locator, cross-platform, Android, iOS, element identification best practices]
+tags: [web, element, locators, xpath, css, best-practices, elements, selenium]
 ---
 
 ## Overview
@@ -769,6 +769,82 @@ driver.element()
 
 :::tip
 Smart locators are the most resilient option for forms: they target semantic meaning rather than brittle selectors. When the DOM changes, the label or button text usually stays the same.
+:::
+
+---
+
+## Use `By` Objects, Not `@FindBy`
+
+The `@FindBy` annotation (from Selenium's `PageFactory`) has several drawbacks compared to plain `By` objects:
+
+| `@FindBy` | `By` Objects |
+|---|---|
+| Evaluated at runtime via reflection — errors appear late | Evaluated immediately — compile-time safety |
+| Cannot be reused across methods easily | Standard Java objects — pass, store, and compose freely |
+| Tied to `PageFactory.initElements()` lifecycle | No initialization ceremony required |
+| Hard to make dynamic or conditional | Easy to build dynamically with logic |
+
+:::warning
+`@FindBy` with `PageFactory` can lead to `StaleElementReferenceException` issues and adds unnecessary complexity. SHAFT's built-in element handling with `By` objects already provides smart waits, auto-scrolling, and retry logic.
+:::
+
+Define your locators as `By` constants in your Page Object class instead:
+
+```java title="LoginPage.java"
+import org.openqa.selenium.By;
+
+public class LoginPage {
+    private final By usernameInput = By.id("username");
+    private final By passwordInput = By.id("password");
+    private final By loginButton = By.cssSelector("button[type='submit']");
+}
+```
+
+## Dynamic Locators
+
+Sometimes a locator depends on runtime data — a product name, a row index, or a user-provided value. Build `By` objects dynamically with a helper method:
+
+```java title="DynamicLocators.java"
+public By getProductAddToCartButton(String productName) {
+    return By.cssSelector("div[data-product='" + productName + "'] button.add-to-cart");
+}
+
+public By getTableCell(int row, int col) {
+    return By.cssSelector("table tr:nth-child(" + row + ") td:nth-child(" + col + ")");
+}
+```
+
+The [SHAFT Locator Builder](#shaft-locator-builder-methods) works the same way for dynamic locators, without raw XPath or CSS:
+
+```java title="LocatorBuilderDynamic.java"
+public By getProductButton(String productName) {
+    return SHAFT.GUI.Locator.hasTagName("button")
+        .hasAttribute("data-product", productName)
+        .build();
+}
+```
+
+## Cross-Platform Locators (Android and iOS)
+
+When testing the same app on both Android and iOS, locators are often different. Use a helper method that returns the correct locator based on the current platform:
+
+```java title="CrossPlatformLocators.java"
+import org.openqa.selenium.Platform;
+import com.shaft.driver.SHAFT;
+
+public class LoginPage {
+    private By getUsernameInput() {
+        if (SHAFT.Properties.platform.targetPlatform().equals(Platform.ANDROID.name())) {
+            return By.id("com.example.app:id/username_input");
+        } else {
+            return By.name("username_field");
+        }
+    }
+}
+```
+
+:::tip
+For a cleaner approach, centralize platform-specific locators in a constants file or an enum-based strategy to avoid `if-else` blocks throughout your page objects. See [Cross-Platform Strategy](/docs/reference/guides/Cross_Platform_Strategy) for more details.
 :::
 
 ---

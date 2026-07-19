@@ -243,6 +243,27 @@ const config = {
           return oldPaths;
         },
         redirects: [
+          // Docs IA PR B (issue #842): reference/reporting/reporting.mdx +
+          // Custom_Report_Messages.md merged into one page at
+          // docs/reference/reporting.mdx (same /docs/reference/reporting URL,
+          // so the createRedirects() wildcard below no longer has a
+          // reference/reporting/* sub-page to auto-generate from). Keep the
+          // legacy /docs/Reporting/Custom_Report_Messages netlify.toml path
+          // working explicitly.
+          {
+            to: '/docs/reference/reporting',
+            from: ['/docs/Reporting/Custom_Report_Messages', '/docs/reference/reporting/Custom_Report_Messages'],
+          },
+          // Docs IA PR B (issue #842) remaining duplicate-pair resolutions.
+          // Element Identification: the GUI-set page is canonical (it's in
+          // the sitemap priority regex); the guides copy's unique content
+          // (By vs @FindBy, dynamic locators, cross-platform Android/iOS
+          // locators) was moved into it.
+          {to: '/docs/reference/actions/GUI/Element_Identification', from: '/docs/reference/guides/Element_Identification'},
+          // Architecture: features/architecture.md is canonical; the guides
+          // copy's unique "layers of test automation" / engine-vs-framework
+          // content was moved into it.
+          {to: '/docs/features/architecture', from: '/docs/reference/guides/Architecture'},
           // Renamed config pages.
           {to: '/docs/reference/configuration/webConfig', from: '/docs/reference/configuration/basicConfig'},
           {to: '/docs/reference/configuration/mobileConfig', from: '/docs/reference/configuration/basicConfig2'},

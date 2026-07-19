@@ -448,7 +448,7 @@ Soft assertion failures are accumulated per-test and reported at the end of the 
 
 ## Related
 
-- [Custom Report Messages](/docs/reference/reporting/Custom_Report_Messages) — enrich Allure reports with business context
+- [Custom Report Messages](/docs/reference/reporting#custom-report-messages) — enrich Allure reports with business context
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions) — available interactions before validating
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification) — locate the elements you validate
 - [Testing: Web](/docs/testing/web) — locator strategy and web testing guide

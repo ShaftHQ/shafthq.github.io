@@ -1,10 +1,11 @@
 ---
 id: architecture
 title: Architecture
-description: SHAFT runtime, module, facade, and agent integration architecture.
+description: SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
 slug: /features/architecture
 sidebar_position: 1
-tags: [architecture, modules]
+keywords: [SHAFT, architecture, test automation architecture, framework layers, engine vs framework, modules, facade]
+tags: [architecture, modules, best-practices, framework-design]
 ---
 
 # Architecture
@@ -16,6 +17,30 @@ SHAFT has two kinds of modularity:
 
 These are related, but they are not one artifact per facade namespace. Most
 functionality remains in the required `shaft-engine` JAR.
+
+## Where SHAFT fits in a test automation stack
+
+A test automation architecture separates concerns into layers — your test
+scripts, page objects/models, the engine, core libraries, and drivers/protocols
+that talk to the application under test. SHAFT Engine sits in the **engine**
+layer: it wraps and enhances industry-standard libraries (Selenium WebDriver,
+Appium, REST Assured, TestNG/JUnit, Allure) with smart element handling,
+a unified API across web/mobile/API/CLI/database testing, built-in reporting,
+and property-based configuration.
+
+| Capability | Without SHAFT | With SHAFT |
+|---|---|---|
+| Wait strategy | Manual `WebDriverWait` configuration | Automatic smart waits |
+| Element not found handling | Custom retry logic | Built-in retry with configurable attempts |
+| Screenshot capture | Manual `TakesScreenshot` code | Automatic at validation points |
+| Reporting | Manual Allure setup and step annotations | Automatic step logging and report generation |
+| Cross-browser | Manual driver management | Automatic driver management |
+
+SHAFT is an **engine**, not a framework: it does not dictate how you structure
+your tests — Page Object Model, fluent design, or any pattern you prefer all
+work — it provides the building blocks and you decide how to assemble them.
+This means SHAFT works with your team's existing conventions and can be
+adopted gradually, one test at a time, without rewriting your suite.
 
 ## Published Maven artifacts
 

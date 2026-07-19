@@ -37,7 +37,7 @@ flowchart LR
 ```
 
 Use [reporting configuration](/docs/reference/reporting) and
-[custom report messages](/docs/reference/reporting/Custom_Report_Messages) for
+[custom report messages](/docs/reference/reporting#custom-report-messages) for
 detailed controls.
 
 ```properties title="src/main/resources/properties/custom.properties"
