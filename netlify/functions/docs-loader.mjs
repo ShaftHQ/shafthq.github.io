@@ -40,8 +40,38 @@ function readDocumentationFiles(dirPath, baseDir, files = []) {
   return files;
 }
 
-function normalizeMarkdown(content) {
-  return content
+function countOccurrences(text, char) {
+  return text.split(char).length - 1;
+}
+
+// Strips `import`/`export` statements line-by-line rather than with a single regex, so that
+// brace-destructured imports spanning multiple lines (e.g. `import {\n  A,\n} from '...';`) are
+// removed in full, including their continuation lines and closing `} from '...';`. Tracks brace
+// balance instead of scanning ahead for a terminating `;`, which keeps this linear-time and avoids
+// any unbounded lookahead that could eat unrelated prose or trigger catastrophic backtracking.
+function stripImportExportStatements(content) {
+  const kept = [];
+  let braceBalance = 0;
+
+  for (const line of content.split('\n')) {
+    if (braceBalance > 0) {
+      braceBalance += countOccurrences(line, '{') - countOccurrences(line, '}');
+      continue;
+    }
+
+    if (/^(?:import|export)\s+/u.test(line)) {
+      braceBalance = countOccurrences(line, '{') - countOccurrences(line, '}');
+      continue;
+    }
+
+    kept.push(line);
+  }
+
+  return kept.join('\n');
+}
+
+export function normalizeMarkdown(content) {
+  const withoutFrontmatter = content
     .replace(/\r\n?/gu, '\n')
     .replace(
       /<McpApplications\s*\/>/gu,
@@ -55,8 +85,9 @@ function normalizeMarkdown(content) {
     )
     .replace(/<DoctorCommand\s*\/>/gu, `\`${snippets.doctor}\``)
     .replace(/<HealCommand\s*\/>/gu, `\`${snippets.heal}\``)
-    .replace(/^---[\s\S]*?---\s*/u, '')
-    .replace(/^(?:import|export)\s+.*$/gmu, '')
+    .replace(/^---[\s\S]*?---\s*/u, '');
+
+  return stripImportExportStatements(withoutFrontmatter)
     .replace(/<[^>]+>/gu, ' ')
     .replace(/\{\/\*[\s\S]*?\*\/\}/gu, ' ')
     .replace(/[ \t]+/gu, ' ')
