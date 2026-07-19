@@ -344,4 +344,4 @@ leave it `false` to report warnings only.
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [Element validations](/docs/reference/actions/Validations#element-validations)
-- [SHAFT Locator Builder](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder)
+- [SHAFT Locator Builder](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)

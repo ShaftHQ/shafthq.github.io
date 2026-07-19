@@ -4,7 +4,8 @@ title: Visual testing
 description: Add reference-image assertions and image-based touch operations.
 slug: /integrations/visual
 sidebar_position: 2
-tags: [visual, opencv, applitools]
+keywords: [SHAFT, visual testing, image comparison, visual regression, OpenCV, Applitools Eyes, matchesReferenceImage, matchesScreenshot, VisualValidationEngine, screenshot comparison]
+tags: [visual, opencv, applitools, visual-testing, image-comparison]
 ---
 
 # Visual testing
@@ -119,6 +120,52 @@ for WebDriver/Appium visual checks.
 Without `shaft-visual`, provider-dependent methods throw an
 `IllegalStateException` that names the missing Maven coordinate. Core screenshot
 and image-file operations continue to work.
+
+## Comparison engines
+
+`shaft-visual` supports five visual validation engines through the `VisualValidationEngine` enum:
+
+| Engine | Description | Best for |
+|---|---|---|
+| `EXACT_EYES` | Pixel-perfect comparison | Static assets, logos, icons |
+| `STRICT_EYES` | High-sensitivity comparison with minor tolerance | UI components |
+| `CONTENT_EYES` | Compares content while ignoring minor rendering differences | Text-heavy pages |
+| `LAYOUT_EYES` | Compares layout structure, ignores content changes | Page layout regression |
+| `OPENCV` | Uses OpenCV for flexible image matching | Complex scenarios, partial matching |
+
+```java title="VisualTesting.java"
+import com.shaft.enums.internal.VisualValidationEngine;
+
+// Assert element matches a reference image (stores baseline on first run)
+driver.element().assertThat(By.id("logo")).matchesReferenceImage();
+
+// Layout comparison — ignores content, checks structure
+driver.element().assertThat(By.id("productCard"))
+      .matchesReferenceImage(VisualValidationEngine.LAYOUT_EYES);
+```
+
+When an intentional UI change is made, delete the relevant baseline image from `src/test/resources/DynamicObjectRepository/` and run the test once to regenerate it. Run visual tests in a consistent environment (same OS, browser version, screen resolution) to avoid false positives, and avoid mixing headless and headed baselines.
+
+## matchesScreenshot()
+
+`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). Like every other SHAFT assertion it runs immediately — no `perform()` is needed. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
+
+```java title="ScreenshotBaseline.java"
+driver.element().assertThat(By.id("logo"))
+      .matchesScreenshot(VisualComparisonOptions.create()
+          .maxDiffPixelRatio(0.01)
+          .mask(By.id("timestamp")));
+```
+
+For a straight comparison with default settings, call `matchesScreenshot()` with no arguments.
+
+### Per-browser/OS baseline naming
+
+Baselines are stored per browser and platform, with a sanitized `_<browser>_<platform>` suffix appended to the hashed baseline file name (for example, `<hash>_chrome_windows.png`). The suffix is built from `SHAFT.Properties.web.targetBrowserName()` and `SHAFT.Properties.platform.targetPlatform()`, lowercased with non-alphanumeric characters stripped, so cross-browser and cross-OS runs no longer share (and fight over) a single baseline image.
+
+If no per-browser/OS baseline exists yet, SHAFT falls back to a legacy unsuffixed baseline when one is present, logging a one-line notice, so baselines captured before this change keep working. New baselines — and any run with `-Dshaft.updateSnapshots=true` — always write to the new per-browser/OS path.
+
+The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comparisons and lets you Accept or Reject each one without leaving the IDE — see the [IntelliJ IDEA plugin](/docs/agentic/intellij) guide.
 
 ## Related
 

@@ -787,7 +787,7 @@ Smart locators are the most resilient option for forms: they target semantic mea
 ## Additional Resources
 
 - [Web locator strategy](/docs/testing/web#locator-strategy)
-- [SHAFT Locator Builder guide](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder)
+- [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
 - [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java)
 - [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java)
 - [Selenium By Methods Documentation](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html)

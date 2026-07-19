@@ -9,7 +9,7 @@ tags: [best-practices, locators, elements, selenium, xpath, css]
 
 Choosing the right element identification strategy is critical to building
 stable tests. SHAFT encourages Selenium `By` objects and its
-[Locator Builder](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder).
+[Locator Builder](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder).
 
 ---
 
@@ -62,7 +62,7 @@ public By getTableCell(int row, int col) {
 
 ### Using SHAFT Locator Builder for Dynamic Locators
 
-The [SHAFT Locator Builder](/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder)
+The [SHAFT Locator Builder](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
 provides a fluent API for building locators without raw XPath or CSS:
 
 ```java title="LocatorBuilderDynamic.java"

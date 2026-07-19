@@ -286,6 +286,58 @@ const config = {
               '/docs/reference/actions/GUI/Element_Validations',
             ],
           },
+          // Docs IA PR B (issue #842): didYouKnow 19 pages + the old
+          // Did_You_Know.md hub -> 3 themed GUI tips pages. Async_Element_Actions
+          // and Visual_Testing were duplicate pairs, not theme content — they
+          // redirect to their existing GUI-set/integrations canonical page
+          // instead. Section anchors are documented on each themed page since
+          // meta-refresh redirects can't target a fragment reliably.
+          {
+            to: '/docs/reference/actions/GUI/Locators_And_Self_Healing',
+            from: [
+              '/docs/reference/actions/GUI/Did_You_Know',
+              '/docs/reference/actions/GUI/didYouKnow/ARIA_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/Self_Healing_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/Shadow_Dom_Locator_Builder',
+              '/docs/reference/actions/GUI/didYouKnow/Shaft_Locator_Builder',
+              '/docs/reference/actions/GUI/didYouKnow/Smart_Locators',
+              '/docs/reference/actions/GUI/didYouKnow/iFrame_Handling',
+            ],
+          },
+          {
+            to: '/docs/reference/actions/GUI/Waits_And_Synchronization',
+            from: [
+              '/docs/reference/actions/GUI/didYouKnow/Explicit_Waits',
+              '/docs/reference/actions/GUI/didYouKnow/Clipboard_Actions',
+            ],
+          },
+          {
+            to: '/docs/reference/actions/GUI/Infrastructure_Network_And_Visual',
+            from: [
+              '/docs/reference/actions/GUI/didYouKnow/Native_selenium_Webdriver',
+              '/docs/reference/actions/GUI/didYouKnow/Custom_Capabilities',
+              '/docs/reference/actions/GUI/didYouKnow/Mobile_Emulation',
+              '/docs/reference/actions/GUI/didYouKnow/Local_Selenium_Grid_Execution',
+              '/docs/reference/actions/GUI/didYouKnow/Kubernetes_Selenium_Grid',
+              '/docs/reference/actions/GUI/didYouKnow/Network_Mocking',
+              '/docs/reference/actions/GUI/didYouKnow/Using_Cookies_In_Your_Tests',
+              '/docs/reference/actions/GUI/didYouKnow/Accessibility_Testing',
+              '/docs/reference/actions/GUI/didYouKnow/Integrate_JIRA_With_SHAFT_Engine',
+            ],
+          },
+          // Duplicate resolution (issue #842 item 3): Async Element Actions —
+          // the didYouKnow copy redirects to the surviving GUI top-level page.
+          {
+            to: '/docs/reference/actions/GUI/Async_Element_Actions',
+            from: '/docs/reference/actions/GUI/didYouKnow/Async_Element_Actions',
+          },
+          // Duplicate resolution (issue #842 item 3): Visual Testing — the
+          // didYouKnow copy's unique matchesScreenshot()/engine content was
+          // folded into integrations/visual.md, the canonical page.
+          {
+            to: '/docs/integrations/visual',
+            from: '/docs/reference/actions/GUI/didYouKnow/Visual_Testing',
+          },
           // Pre-2026-06-19 release posts consolidated into one history post
           // (issue #841).
           {
