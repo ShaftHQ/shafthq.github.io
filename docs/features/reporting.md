@@ -175,4 +175,4 @@ wait-heavy, stale, healed, or failing actions.
 - [Architecture](/docs/features/architecture)
 - [Modules](/docs/features/modules)
 - [Underlying technology](/docs/features/modules#technology)
-- [Browserstack](/docs/integrations/browserstack)
+- [BrowserStack](/docs/integrations/browserstack)
