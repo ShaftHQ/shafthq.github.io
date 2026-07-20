@@ -2057,20 +2057,19 @@ Appium locators.
 
 `shaft-mcp` can drive mobile sessions when an MCP client needs browser-style automation over Android or iOS targets:
 
-- Use `mobile_initialize_web_emulation` for mobile web checks in a resized desktop browser.
-- Use `mobile_initialize_native` for Appium-backed native Android or iOS execution. Configure `executionAddress`, `targetOperatingSystem`, `mobile_automationName`, `mobile_deviceName`, and either `mobile_app`, Android `mobile_appPackage`/`mobile_appActivity`, or iOS `mobile_bundleId`.
+- Use `driver_initialize` with `engine=mobile_web` for mobile web checks in a resized desktop browser, or `engine=mobile_native` for Appium-backed native Android or iOS execution. Both take a nested `mobileOptions` request (absorbing the former separate `mobile_initialize_web_emulation`/`mobile_initialize_native` tools) configuring `appiumServerUrl`, `platformName`, `automationName`, `deviceName`, and either `app`, Android `appPackage`/`appActivity`, or iOS `bundleId`.
 - Use `mobile_get_contexts`, `mobile_switch_context`, `mobile_take_screenshot`, and `mobile_get_accessibility_tree` to inspect the live device screen before deciding what action to take.
-- Use `mobile_tap`, `mobile_type`, `mobile_swipe_by_offset`, `mobile_swipe_element_into_view`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs. `mobile_tap_coordinates` and `mobile_swipe_coordinates` are fallback-only actions; generated recordings warn that coordinate replay will probably fail when a locator cannot be resolved.
-- Use `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, `mobile_recording_code_blocks`, and `mobile_record_at_target_code_blocks` to record, replay, and generate Java snippets that can be pasted into a SHAFT test or existing mobile page object. With `includeSensitiveValues=false` (the safe default), typed values are classified per field using the same deterministic privacy policy as web capture: password/token-like locators are redacted, while ordinary fields such as search boxes keep their values and remain replayable.
+- Use `element_click`, `element_type`, `element_clear`, `mobile_swipe`, rotation, keyboard, background, and app activation tools to perform actions through SHAFT Engine touch/mobile APIs -- these unified tools dispatch to the active mobile session and absorb the former `mobile_tap`, `mobile_type`, `mobile_clear`, `mobile_double_tap`, `mobile_long_tap`, `mobile_swipe_by_offset`, `mobile_swipe_coordinates`, `mobile_swipe_element_into_view`, and `mobile_swipe_text_into_view` tools. `mobile_tap_coordinates` and `mobile_swipe`'s coordinate escape hatch (`startX`/`startY`/`endX`/`endY`) are fallback-only actions; generated recordings warn that coordinate replay will probably fail when a locator cannot be resolved.
+- Use `capture_start`, `capture_stop`, `capture_generate_replay`, `capture_code_blocks`, and `capture_record_at_target_code_blocks` to record, replay, and generate Java snippets that can be pasted into a SHAFT test or existing mobile page object -- these dispatch to the active mobile session, absorbing the former `mobile_record_start`/`mobile_record_stop`/`mobile_replay_recording`/`mobile_recording_code_blocks`/`mobile_record_at_target_code_blocks` tools. With `includeSensitiveValues=false` (the safe default), typed values are classified per field using the same deterministic privacy policy as web capture: password/token-like locators are redacted, while ordinary fields such as search boxes keep their values and remain replayable.
 - Use `mobile_toolchain_status` before Inspector setup when the agent needs exact readiness details. The response keeps the quick availability booleans and adds structured dependency diagnostics with a stable dependency id, detected path or version when available, a failure cause, and repair guidance for Node.js, npm, Appium, the Appium Inspector plugin, Android SDK tools, emulator support, and iOS host constraints.
-- Use `mobile_inspector_record_prepare` and `mobile_inspector_record_start` when the agent should launch a wrapped Appium Inspector recording session. The prepare step lists connected Android devices from `adb devices -l`, reports cached Android emulators, surfaces the relevant toolchain diagnostic warnings and fixes, returns suggested capabilities, and includes a confirmation token. Starting the confirmed plan opens a local Inspector wrapper with pause, resume, checkpoint, stop, and discard controls.
+- Use `mobile_inspector_record_start` when the agent should launch a wrapped Appium Inspector recording session -- it now prepares and starts the session in one call, absorbing the former separate `mobile_inspector_record_prepare` tool. It lists connected Android devices from `adb devices -l`, reports cached Android emulators, surfaces the relevant toolchain diagnostic warnings and fixes, returns suggested capabilities, and includes a confirmation token. `mobile_inspector_record_status` returns the live recording status and, with an optional `action` (pause|resume|checkpoint|stop|discard), performs that control first -- absorbing the former separate `mobile_inspector_record_control` tool.
 
 Generated mobile snippets use only SHAFT facade syntax: locators are emitted as
 `SHAFT.GUI.Locator.*`, touch gestures are emitted through
 `driver.element().touch()`, and assertions are emitted through
-`driver.element().assertThat(...)`. `mobile_recording_code_blocks` returns the
+`driver.element().assertThat(...)`. `capture_code_blocks` returns the
 replay method plus ranked mobile Page Object handoff blocks: locator inventory,
-action sequence, and a draft Page Object. `mobile_record_at_target_code_blocks`
+action sequence, and a draft Page Object. `capture_record_at_target_code_blocks`
 adds focused locator fields and an action snippet for an existing Java source
 anchor, so agents can merge a recording into the current page object instead of
 pasting a generated class. The wrapped Appium Inspector recorder reads the
@@ -2078,7 +2077,7 @@ current accessibility tree/source and prefers Appium-style locators such as
 accessibility id, id/resource-id, Android UiAutomator, and XPath before falling
 back to coordinates.
 
-For native execution, either connect a real Appium target or let the Inspector prepare step guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `mobile_record_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
+For native execution, either connect a real Appium target or let `mobile_inspector_record_start` guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `capture_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
 
 ## Mobile failure trace evidence
 
@@ -2886,14 +2885,94 @@ Canonical URL: https://shafthq.github.io/docs/agentic/mcp
 
 `shaft-mcp` is the Model Context Protocol server for SHAFT browser,
 mobile, Capture, coding-partner planning, Doctor, and healer automation. Web
-GUI tools default to SHAFT WebDriver; choose the `playwright_*` tools when the
-project already uses `SHAFT.GUI.Playwright` or the user explicitly asks for
-Playwright code. IntelliJ workflows and MCP clients expose the WebDriver and
-Playwright tool families; the local Capture/Doctor CLI commands are listed
-below. It is
+GUI tools default to SHAFT WebDriver; pass `engine=playwright` to
+`driver_initialize` when the project already uses `SHAFT.GUI.Playwright` or the
+user explicitly asks for Playwright code, and the same unified `element_*`,
+`browser_*`, `capture_*`, `doctor_*`, and `healer_*` tool names keep dispatching
+to whichever engine (WebDriver, Playwright, or mobile) is active in the session
+instead of requiring separate `playwright_*` tool names. The local Capture/Doctor
+CLI commands are listed below. It is
 published to Maven Central as the thin `io.github.shafthq:shaft-mcp` JAR, built
 in the SHAFT reactor, and depends on the canonical `shaft-engine` module. It
 does not add any dependency to ordinary `shaft-engine` consumers.
+
+:::warning Breaking change: 89-tool surface (was 164)
+The tool architecture sweep
+([ShaftHQ/SHAFT_ENGINE#3866](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3866))
+trimmed `shaft-mcp` from 164 to **89 tools**, with no back-compat shim or
+deprecation warning: calling a deleted tool name now fails immediately.
+
+- `natural_act` and `mobile_natural_act` are deleted outright. The
+ deterministic `SHAFT.GUI.WebDriver.act(...)` Java API these tools wrapped is
+ unaffected; see
+ [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions).
+- Every `playwright_*` tool name is removed. `driver_initialize` now takes an
+ optional `engine` (`web` default | `playwright` | `mobile_native` |
+ `mobile_web`), and unified tools such as `element_click`, `element_type`,
+ `browser_get_page_dom`, `capture_start`, `doctor_analyze_failed_allure`, and
+ `healer_run_failed_test` dispatch to whichever engine is active
+ (`doctor_*`/`healer_*` also take an explicit `backend` parameter).
+- Granular mobile tools are absorbed the same way: `element_click`,
+ `element_type`, and `element_clear` dispatch to an active mobile session
+ (replacing `mobile_tap`, `mobile_type`, `mobile_clear`, `mobile_double_tap`,
+ `mobile_long_tap`); `mobile_swipe` replaces the four
+ offset/coordinate/element/text swipe tools; `capture_start`/`capture_stop`/
+ `capture_status`/`capture_code_blocks`/`capture_record_at_target_code_blocks`
+ now dispatch mobile and Playwright recording (replacing
+ `mobile_record_start`/`mobile_record_stop`/`mobile_record_status`/
+ `mobile_recording_code_blocks`/`mobile_record_at_target_code_blocks`/
+ `mobile_replay_recording` and their `playwright_*` twins); `capture_api_start`
+ absorbs the standalone mobile API proxy from `mobile_api_record_start`;
+ `mobile_inspector_record_start` absorbs `mobile_inspector_record_prepare`, and
+ `mobile_inspector_record_status` absorbs `mobile_inspector_record_control`.
+ `browser_delete_cookies` absorbs `browser_delete_cookie`/
+ `browser_delete_all_cookies`, and `element_upload_file` absorbs
+ `element_drop_file_to_upload`.
+- New: `capture_step_delete`/`capture_step_reorder` edit a recorded step by its
+ stable `stepId` on the active Playwright or mobile recording.
+ `driver_initialize` gained an optional nested `mobileOptions` request
+ carrying every former `mobile_initialize_native`/
+ `mobile_initialize_web_emulation` parameter, and `capture_start`'s optional
+ `codegenOptions` absorbs the former `capture_start_codegen` tool.
+
+ 
+ Full list of removed tool names 
+
+`natural_act`, `mobile_natural_act`, `element_click_js`, `element_double_click`,
+`element_click_and_hold`, `element_append_text`, `element_set_value_js`,
+`element_drag_and_drop_by_offset`, `element_drop_file_to_upload`,
+`browser_maximize_window`, `browser_fullscreen_window`,
+`browser_delete_all_cookies`, `browser_delete_cookie`, `browser_network_request`,
+`capture_start_codegen`, `mobile_clear`, `mobile_tap`, `mobile_type`,
+`mobile_double_tap`, `mobile_long_tap`, `mobile_swipe_by_offset`,
+`mobile_swipe_coordinates`, `mobile_swipe_element_into_view`,
+`mobile_swipe_text_into_view`, `mobile_initialize_native`,
+`mobile_initialize_web_emulation`, `mobile_record_start`, `mobile_record_stop`,
+`mobile_record_status`, `mobile_recording_code_blocks`,
+`mobile_record_at_target_code_blocks`, `mobile_replay_recording`,
+`mobile_api_record_start`, `mobile_api_record_status`, `mobile_api_record_stop`,
+`mobile_api_record_transactions`, `mobile_inspector_record_prepare`,
+`mobile_inspector_record_control`, `mobile_step_delete`, `mobile_step_reorder`,
+and all 34 `playwright_*` tools (`playwright_initialize`, `playwright_quit`,
+`playwright_browser_navigate`, `playwright_browser_navigate_back`,
+`playwright_browser_navigate_forward`, `playwright_browser_new_window`,
+`playwright_browser_refresh`, `playwright_browser_set_window_size`,
+`playwright_browser_get_current_url`, `playwright_browser_get_title`,
+`playwright_browser_get_page_dom`, `playwright_browser_take_screenshot`,
+`playwright_browser_storage_state_save`, `playwright_browser_storage_state_load`,
+`playwright_element_click`, `playwright_element_click_js`,
+`playwright_element_double_click`, `playwright_element_type`,
+`playwright_element_clear`, `playwright_element_append_text`,
+`playwright_element_set_value_js`, `playwright_element_hover`,
+`playwright_element_drag_and_drop`, `playwright_element_upload_file`,
+`playwright_element_is_displayed`, `playwright_element_is_enabled`,
+`playwright_record_start`, `playwright_record_stop`, `playwright_record_status`,
+`playwright_recording_code_blocks`, `playwright_replay_recording`,
+`playwright_capture_code_blocks`, `playwright_capture_generate_replay`,
+`playwright_doctor_analyze_failed_allure`, `playwright_doctor_suggest_fix`, and
+`playwright_healer_run_failed_test`.
+ 
+:::
 
 ## Applications
 
@@ -3008,16 +3087,12 @@ properties, downloads, videos, services files, dynamic object repository files,
 test data, Extent reports, execution summaries, and performance reports.
 Explicit absolute path overrides remain absolute.
 
-Element action tools support both explicit locators and semantic names. Use
-`element_click` and `element_type` with a locator strategy and locator value for
-default WebDriver sessions, or `element_click_semantic` and
-`element_type_semantic` when the client has a human-readable element name such
-as a visible label, placeholder, or accessible name. For SHAFT Playwright
-sessions, use `playwright_element_click`, `playwright_element_type`, and the
-semantic `playwright_element_click_semantic` and
-`playwright_element_type_semantic` tools. Type tools keep generated recording
-snippets redacted unless the recording flow explicitly includes sensitive
-values. For approved natural-language execution, use `natural_act`.
+Use `element_click` and `element_type` with a locator strategy and locator
+value; these same tool names dispatch to whichever engine (WebDriver,
+Playwright, or mobile) is active in the session -- there is no separate
+`playwright_element_click`/`playwright_element_type` family. Type tools keep
+generated recording snippets redacted unless the recording flow explicitly
+includes sensitive values.
 
 ## Guide search for agents
 
@@ -3079,7 +3154,7 @@ the call, since `targetDirectory` is expected to be an existing repository
 that may already carry its own agent configuration. `opencode` uses the same
 layout under `.opencode/skills/`, and `vscode` writes
 `.github/instructions/ .instructions.md` files instead. Skills marked
-`distribution: full` in their frontmatter (such as the `act-as-mohab`
+`distribution: full` in their frontmatter (such as the `act-as-shaft-dev`
 methodology skill) are scaffolded as their complete SKILL.md text rather than
 a thin bridge, so a project with no prior agent instructions gets the full
 ways-of-working document.
@@ -3114,8 +3189,9 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal="checkout h
 `test_plan_explore` needs an active session started with `driver_initialize`.
 Review the generated `specs/` files with the user before recording or
 generating code — the `planning-shaft-tests` skill documents the full
-explore, review, codegen, and verify chain (`capture_start_codegen` for UI
-flows, `capture_api_start`/`capture_api_generate` for API flows, or
+explore, review, codegen, and verify chain (`capture_start` with
+`codegenOptions` for UI flows, `capture_api_start`/`capture_api_generate` for
+API flows, or
 `shaft_coding_partner_plan`/`shaft_coding_partner_diff` to insert into an
 existing repository), finishing with a scoped `verify_run_focused` run.
 
@@ -3134,7 +3210,7 @@ Common catalog entries include:
 | `web-pom-fluent-test` | Inspect the page with browser DOM/screenshot tools, create or extend Page Object classes, and write fluent SHAFT actions and assertions. | The headless GUI test passes and page object methods are reusable. |
 | `web-locator-refactor` | Replace brittle locators with SHAFT smart locators, ARIA locators, or stable `SHAFT.GUI.Locator.*` locators. | Affected tests pass without `@FindBy`, PageFactory, or absolute XPath. |
 | `web-capture-to-pom` | Record with Capture, generate WebDriver or Playwright replay snippets, then use the returned deterministic POM guidance to move stable locators and actions into existing page objects. | Replay-derived code is integrated instead of pasted as a generic generated class. |
-| `web-playwright-pom-fluent-test` | Use `playwright_*` browser and element tools to inspect the page, then write fluent `SHAFT.GUI.Playwright` page objects and tests. | The Playwright test compiles and follows the existing project backend. |
+| `web-playwright-pom-fluent-test` | Initialize `driver_initialize` with `engine=playwright`, use the same `browser_*`/`element_*` tools to inspect the page, then write fluent `SHAFT.GUI.Playwright` page objects and tests. | The Playwright test compiles and follows the existing project backend. |
 | `web-playwright-record-replay` | Record Playwright MCP actions, generate replay snippets, review the returned Capture report/review metadata, and move stable actions into Playwright page methods. | The replay code is reviewed, guarded, and inserted into Playwright classes. |
 | `mobile-native-appium` | Inspect contexts and accessibility trees, prefer accessibility ids through `SHAFT.GUI.Locator.*`, and create mobile page objects plus TestNG tests. | The native mobile test compiles; any unavailable device/cloud run is reported. |
 | `mobile-record-replay` | Record mobile actions through MCP, generate replay, ranked locator inventory, Page Object draft, and record-at-target blocks, then move them into mobile page methods. | The replay code is reviewed, guarded, and inserted into the right classes. |
@@ -3177,10 +3253,10 @@ flowchart LR
 
 | Official Playwright capability | SHAFT coverage path |
 |---|---|
-| MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `browser_aria_snapshot` (whole-page or single-element YAML aria snapshot), `browser_accessibility_audit` (non-asserting axe-core WCAG audit), `playwright_browser_get_page_dom`, `element_*`, `playwright_element_*`, and semantic click/type tools. |
-| Screenshots, navigation, tabs, uploads, drag, hover, and form input | WebDriver and Playwright MCP tool families plus Capture action recording and replay. |
-| Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start_codegen`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. `capture_start`/`capture_start_codegen` also accept `saveHarGlob` (URL glob filter) and `saveHarContent=full` (complete redacted request/response bodies instead of truncated previews). |
-| Storage-state save/load, network request inspection, and mock routes | `browser_storage_state_save`/`browser_storage_state_load` and `playwright_browser_storage_state_save`/`playwright_browser_storage_state_load` (interchangeable JSON between backends); `browser_network_requests`/`browser_network_request` for observed traffic; `browser_route`/`browser_unroute` for mock responses. |
+| MCP accessibility snapshots and browser actions | `browser_get_page_dom`, `browser_open_intent`, `browser_aria_snapshot` (whole-page or single-element YAML aria snapshot), `browser_accessibility_audit` (non-asserting axe-core WCAG audit), and `element_*` click/type tools -- the same tool names dispatch to a Playwright session once `driver_initialize` was called with `engine=playwright`. |
+| Screenshots, navigation, tabs, uploads, drag, hover, and form input | The unified `browser_*`/`element_*` tool family, engine-dispatched, plus Capture action recording and replay. |
+| Codegen options for test id, viewport, device, color scheme, geolocation, language, timezone, storage state, proxy, HAR, user agent, and user data directory | `capture_start`'s optional `codegenOptions`, `capture_codegen_features`, `capture_code_blocks`, and `capture generate --backend playwright`. `codegenOptions` also accepts `saveHarGlob` (URL glob filter) and `saveHarContent=full` (complete redacted request/response bodies instead of truncated previews). |
+| Storage-state save/load, network request inspection, and mock routes | `browser_storage_state_save`/`browser_storage_state_load` (same JSON on WebDriver or Playwright sessions); `browser_network_requests` for observed traffic, with an optional `id` narrowing to one transaction's full detail (not supported on the Playwright engine); `browser_route`/`browser_unroute` for mock responses. |
 | Playwright CLI console, trace, video, PDF, and named-session commands | Use official `playwright-cli` as delegated evidence gathering; attach paths or summaries to `shaft_coding_partner_plan`, Doctor, Capture, or the final PR evidence. |
 | Playwright Test Agents planner/generator/healer | Use `npx playwright init-agents --loop=codex` for Playwright Test projects; for SHAFT Java projects, map the planner output into `test_automation_scenarios`, Capture, Doctor, Heal, and reviewed Java source edits. |
 
@@ -3363,39 +3439,48 @@ The packaged server supports:
  locator helpers, the `capture-page-object-draft` block, backend comparison
  summaries through `capture_backend_comparison`, local review manifests through
  `capture_evidence_pack`, and review-only AI enrichment phases;
-- deterministic Playwright TestNG generation through
- `playwright_capture_generate_replay` and `playwright_capture_code_blocks`
- when the target repository uses `SHAFT.GUI.Playwright`, plus local Capture CLI
- generation through `capture generate --backend playwright`;
+- deterministic Playwright TestNG generation through the same
+ `capture_generate_replay` and `capture_code_blocks` tools (optional `backend`
+ parameter, defaulting to the active engine; absorbs the former
+ `playwright_capture_generate_replay`/`playwright_capture_code_blocks`/
+ `playwright_replay_recording`) when the target repository uses
+ `SHAFT.GUI.Playwright`, plus local Capture CLI generation through
+ `capture generate --backend playwright`;
 - explicit Playwright browser, element, screenshot, DOM, action recording,
- playback, and copy-paste replay tools through the `playwright_*` tool family.
- `playwright_recording_code_blocks` keeps the direct replay method and also
- returns Capture-compatible `captureSessionPath`, generated `sourcePath`,
+ playback, and copy-paste replay through the same unified `browser_*`,
+ `element_*`, and `capture_*` tool names used for WebDriver -- there is no
+ separate `playwright_*` tool family. `capture_code_blocks` returns
+ Capture-compatible `captureSessionPath`, generated `sourcePath`,
  `testDataPath`, `reportPath`, `reviewPath`, and report metadata when the
  recorded actions map to the Capture schema;
-- deterministic diagnosis through `doctor_analyze_failed_allure` for
- WebDriver remediation and `playwright_doctor_analyze_failed_allure` for
- Playwright remediation, restricted to explicit input paths and allowed roots,
- with an optional separately identified provider advisory when Pilot AI is
- explicitly enabled;
+- deterministic diagnosis through `doctor_analyze_failed_allure`, with an
+ optional `backend` (web|playwright, defaults to web) selecting the
+ generated remediation snippets' engine (absorbs the former
+ `playwright_doctor_analyze_failed_allure`), restricted to explicit input
+ paths and allowed roots, with an optional separately identified provider
+ advisory when Pilot AI is explicitly enabled;
 - persisted trace discovery and deterministic trace analysis through
  `trace_latest`, `trace_read`, `trace_summarize`, and `doctor_analyze_trace`,
  restricted to the MCP workspace and bounded for raw trace reads;
-- guarded test healing through `healer_run_failed_test` for Selenium/WebDriver
- and `playwright_healer_run_failed_test` for SHAFT Playwright, which rerun
- tokenized Maven validation commands, analyze fresh Allure evidence through
- Doctor, and return review-only fixes plus an agent replay handoff;
+- guarded test healing through `healer_run_failed_test`, with an optional
+ `backend` (web|playwright, defaults to web) selecting the generated
+ snippets' engine (absorbs the former `playwright_healer_run_failed_test`),
+ which reruns tokenized Maven validation commands, analyzes fresh Allure
+ evidence through Doctor, and returns review-only fixes plus an agent replay
+ handoff;
 - explicit browser element actions through `element_click` and `element_type`,
- using locator strategy and locator value arguments, plus semantic
- WebDriver/Playwright click and type tools for human-readable element names;
+ using locator strategy and locator value arguments, dispatching to whichever
+ engine (WebDriver, Playwright, or mobile) is active in the session;
 - storage-state save/load through `browser_storage_state_save`/
- `browser_storage_state_load` and `playwright_browser_storage_state_save`/
- `playwright_browser_storage_state_load`, writing and reading the same JSON
- schema so a file saved from one backend loads on the other;
+ `browser_storage_state_load`, writing and reading the same JSON schema
+ regardless of the active engine, so a file saved from one backend loads on
+ the other;
 - observed network transaction listing and detail through
- `browser_network_requests` and `browser_network_request` (method, URL,
- status, sizes, and a truncated redacted body preview; full bodies require a
- Capture session with `saveHarContent=full`), plus mock network routes
+ `browser_network_requests` (method, URL, status, sizes, and a truncated
+ redacted body preview; full bodies require a Capture session with
+ `saveHarContent=full`), whose optional `id` parameter narrows to one
+ transaction's full detail (absorbs the former `browser_network_request`
+ tool; not supported on the Playwright engine), plus mock network routes
  through `browser_route` and `browser_unroute`;
 - official guide search through `shaft_guide_search`, so agents can retrieve
  cited SHAFT best practices, API/GUI/CLI examples, locators, Page Object Model
@@ -3407,30 +3492,41 @@ The packaged server supports:
  crawls the active session and drafts Markdown flow plans into `specs/`, and
  agent/skill scaffolding for existing test repositories through
  `shaft_project_init_agents`;
-- mobile web emulation and native Android/iOS execution through
- `mobile_initialize_web_emulation` and `mobile_initialize_native`;
+- mobile web emulation and native Android/iOS execution through the same
+ `driver_initialize` tool, passing `engine=mobile_web`/`mobile_native` plus a
+ nested `mobileOptions` request carrying every former
+ `mobile_initialize_web_emulation`/`mobile_initialize_native` parameter;
  web-emulation results include a `deviceProfile` object with resolved
  viewport, user agent, device scale factor, and touch/mobile flags when SHAFT
  can determine them;
 - mobile inspection through `mobile_take_screenshot`,
- `mobile_get_accessibility_tree`, context switching, and action tools for
- locator-based tapping, typing, swiping, rotation, keyboard, backgrounding,
- app activation, recording, playback, and copy-pasteable Java action blocks;
+ `mobile_get_accessibility_tree`, context switching, and the same
+ `element_click`/`element_type`/`element_clear` and `mobile_swipe` action
+ tools used for locator-based tapping, typing, and swiping, plus rotation,
+ keyboard, backgrounding, app activation, recording, playback, and
+ copy-pasteable Java action blocks through `capture_start`/`capture_stop`/
+ `capture_code_blocks`;
 - wrapped Appium Inspector mobile recording through
- `mobile_toolchain_status`, `mobile_inspector_record_prepare`,
- `mobile_inspector_record_start`, `mobile_inspector_record_control`, and
+ `mobile_toolchain_status`, `mobile_inspector_record_start` (absorbs the
+ former `mobile_inspector_record_prepare`), `mobile_inspector_record_status`
+ (absorbs the former `mobile_inspector_record_control`), and
  `mobile_inspector_record_stop`. `mobile_toolchain_status` returns structured
  dependency diagnostics with availability, detected path or version, failure
- cause, and repair guidance. The prepare step reports `adb devices -l`, cached
- Android AVDs, relevant diagnostic warnings, suggested capabilities, and any
- Android emulator creation proposal before the user confirms startup. Recorded
- Inspector gestures are matched against the current accessibility tree/source
- and converted to locator actions where possible; coordinate actions are kept
- only as warned fallbacks;
-- trust-gated natural-language browser, element, and touch execution through
- `natural_act`, using the active SHAFT driver and the same
- `driver.act(...)` planner rules;
+ cause, and repair guidance. `mobile_inspector_record_start` reports
+ `adb devices -l`, cached Android AVDs, relevant diagnostic warnings,
+ suggested capabilities, and any Android emulator creation proposal before
+ the user confirms startup. Recorded Inspector gestures are matched against
+ the current accessibility tree/source and converted to locator actions
+ where possible; coordinate actions are kept only as warned fallbacks;
+- editing a recorded step by its stable `stepId` on the active Playwright or
+ mobile recording through `capture_step_delete`/`capture_step_reorder`;
 - legacy SSE endpoint properties as configuration aliases during migration.
+
+The intent-based `natural_act`/`mobile_natural_act` tools were deleted outright
+(no deprecation shim): trust-gated natural-language execution through MCP is
+gone, though the underlying deterministic `SHAFT.GUI.WebDriver.act(...)` Java
+API is unaffected -- see
+[Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions).
 
 The HTTP port defaults to `8081` and can be overridden with `PORT` or
 `--server.port`.
@@ -3510,10 +3606,10 @@ passes or when guardrails block more attempts. If the target repository has no
 SHAFT dependency at all, the guardrail stops before running any Maven build,
 since such a repository can never produce SHAFT Allure evidence.
 
-Use `playwright_healer_run_failed_test` for tests built around
-`SHAFT.GUI.Playwright`. It uses the same guardrails and evidence handling, but
-returns Playwright-oriented remediation snippets and directs the agent to the
-`playwright_*` replay and inspection tools.
+Pass `backend=playwright` for tests built around `SHAFT.GUI.Playwright`. It
+uses the same guardrails and evidence handling, but returns Playwright-oriented
+remediation snippets and directs the agent to the same `element_*`/`browser_*`
+replay and inspection tools (dispatched to the active Playwright engine).
 
 The tool accepts a repository root, a tokenized Maven command, an output
 directory, optional source-path allowlists, and explicit approvals for
@@ -3524,9 +3620,10 @@ worktree-escape paths are rejected.
 
 When the healer returns a failed diagnosis, the calling MCP agent may use its
 own LLM and the matching SHAFT MCP browser, DOM, screenshot, element, and
-replay tools to inspect the current UI. Use the existing WebDriver tool names
-for Selenium tests and the `playwright_*` names for Playwright tests. This
-agent-side reasoning does not require a SHAFT provider API key.
+replay tools to inspect the current UI. The same tool names cover Selenium and
+Playwright tests, dispatching to whichever engine the session's
+`driver_initialize` call selected. This agent-side reasoning does not require a
+SHAFT provider API key.
 
 The healer never edits source or publishes a change by itself. Locator, wait,
 test-data, assertion, and product-bug recommendations remain review-only until
@@ -3557,11 +3654,10 @@ as `REMOTE_DRIVER_ADDRESS`.
 Browser, filesystem, and GitHub mutations should remain approval-gated in the
 client. Start with a tool allowlist when the client supports one.
 
-`natural_act` temporarily enables natural-language execution for the call and
-restores the previous current-thread settings afterward. MCP clients may pass a
-per-call `minimumTrustPercentage`, `planner`, `aiFallbackEnabled`, and
-`allowedActions`. Argument values are not written to SHAFT logs; only intent
-length, argument count, threshold, planner, and fallback state are logged.
+The `natural_act`/`mobile_natural_act` tools that used to temporarily enable
+natural-language execution for a call were deleted outright in the tool
+architecture sweep, with no replacement tool. Argument values are still never
+written to SHAFT logs for any MCP tool call.
 
 ## What the installer configures
 
@@ -3867,17 +3963,18 @@ the minimum expected Allure result count. The tool calls the same
 disabled; when the MCP server is explicitly started with an enabled provider,
 the same separate advisory and fallback rules apply.
 
-Use `doctor_analyze_failed_allure` and `doctor_suggest_fix` for default
-Selenium/WebDriver remediation snippets. Use
-`playwright_doctor_analyze_failed_allure` and `playwright_doctor_suggest_fix`
-when the failed test is written with `SHAFT.GUI.Playwright`; the evidence model
-is the same, but the returned code blocks use Playwright assertions and actions.
+`doctor_analyze_failed_allure` and `doctor_suggest_fix` default to Selenium/
+WebDriver remediation snippets. Pass `backend=playwright` to either tool when
+the failed test is written with `SHAFT.GUI.Playwright` (absorbing the former
+`playwright_doctor_analyze_failed_allure`/`playwright_doctor_suggest_fix` tool
+names); the evidence model is the same, but the returned code blocks use
+Playwright assertions and actions.
 
-`doctor_suggest_fix` and `playwright_doctor_suggest_fix` cap their remediation
-output at the top 5 ranked causes and tag each block with its category and
-trust score, for example `LOCATOR (trust 82%)`, so an MCP client (including
-the IntelliJ Assistant's `/doctor` command) can present causes in trust order
-without re-deriving the ranking itself.
+`doctor_suggest_fix` caps its remediation output at the top 5 ranked causes and
+tags each block with its category and trust score, for example
+`LOCATOR (trust 82%)`, so an MCP client (including the IntelliJ Assistant's
+`/doctor` command) can present causes in trust order without re-deriving the
+ranking itself.
 
 ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
 `doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
@@ -3891,16 +3988,17 @@ generic Copilot API-key adapter. Download the credential-free
 an allowlisted Maven test command under guardrails, snapshots the populated
 Allure results that changed during each attempt, and sends the fresh failing
 evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
-Use `playwright_healer_run_failed_test` for `SHAFT.GUI.Playwright` tests; it
-uses the same execution guardrails and sends evidence through the Playwright
-Doctor tool surface.
+Pass `backend=playwright` for `SHAFT.GUI.Playwright` tests (absorbing the
+former `playwright_healer_run_failed_test` tool name); it uses the same
+execution guardrails and sends evidence through the same Doctor tool surface.
 
 The healer gives the MCP agent an explicit replay handoff: the agent may use
-its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
-tools to inspect WebDriver failures, or the `playwright_*` inspection and
-replay tools for Playwright failures, even when no SHAFT provider API key is
-configured. Configured SHAFT provider advisories remain optional and require
-the same Pilot consent as Doctor.
+its own LLM plus the same SHAFT MCP browser, DOM, screenshot, and element
+inspection/replay tools to inspect either WebDriver or Playwright failures,
+dispatching to whichever engine the session's `driver_initialize` call
+selected, even when no SHAFT provider API key is configured. Configured SHAFT
+provider advisories remain optional and require the same Pilot consent as
+Doctor.
 
 The boundary is still review-only. The healer can suggest locator, wait,
 test-data, assertion, or setup fixes, or report a suspected product bug, but it
@@ -4347,9 +4445,9 @@ first-result page object only if none exists, and use SHAFT assertion builders.
 flowchart TD
  Prompt[User asks for new scenario] --> Plan[shaft_coding_partner_plan]
  Plan --> Reuse[Existing SearchPage and ResultsPage reuse plan]
- Reuse --> Record[capture_start or playwright_record_start]
+ Reuse --> Record[capture_start, WebDriver or Playwright engine]
  Record --> Browser[Agent performs search, opens first result, records checkpoints]
- Browser --> Codegen[capture_record_at_target_code_blocks or playwright_capture_code_blocks]
+ Browser --> Codegen[capture_record_at_target_code_blocks]
  Codegen --> Guardrails[test_code_guardrails_check]
  Guardrails --> Patch[Agent patches only missing locators, actions, page, and test method]
  Patch --> Verify[Focused compile or test command]
@@ -4367,9 +4465,9 @@ PDF, or official Playwright Test Agent planning, let the local agent use
 official Playwright CLI or Playwright MCP as a sidecar. The final Java change
 still returns through SHAFT planning and guardrails. Storage-state save/load
 and observed-network inspection no longer need a sidecar for the common case:
-use `browser_storage_state_save`/`browser_storage_state_load` (or the
-`playwright_*` equivalents) and `browser_network_requests`/
-`browser_network_request` directly.
+use `browser_storage_state_save`/`browser_storage_state_load` and
+`browser_network_requests` directly -- the same tool names work against
+whichever engine (WebDriver or Playwright) is active in the session.
 
 ```mermaid
 flowchart LR
@@ -4397,7 +4495,7 @@ flowchart TD
  Trace --> Cause[Failure category and source context]
  Doctor --> Cause
  Cause --> Heal{Locator recovery eligible?}
- Heal -->|Yes| Healer[healer_run_failed_test or playwright_healer_run_failed_test]
+ Heal -->|Yes| Healer[healer_run_failed_test, WebDriver or Playwright backend]
  Heal -->|No| FixPlan[shaft_coding_partner_plan for reviewed fix]
  Healer --> FixPlan
  FixPlan --> Patch[Approved source edit]
@@ -4507,11 +4605,11 @@ same menu for users who already know the tool names; regular users never need
 it, because the five defaults plus plain language cover the common workflows.
 
 The Assistant understands feature intent directly from the chat box: "start
-mobile recording" maps to `mobile_record_start`, "record my browser actions on
-https://..." starts a web capture session, and "diagnose my last failed test
-run" triages the most recent Allure results in the project. Browser control
-defaults to WebDriver; say `playwright` in the prompt when that backend is
-required.
+mobile recording" maps to `capture_start` against an active mobile session,
+"record my browser actions on https://..." starts a web capture session, and
+"diagnose my last failed test run" triages the most recent Allure results in
+the project. Browser control defaults to WebDriver; say `playwright` in the
+prompt when that backend is required.
 
 Direct `/codegen` slash-command results show a persistent **review strip** with
 actions (Approve / Create test class / Insert / Dismiss) just like record-flow
@@ -4520,13 +4618,13 @@ example "Generate a SHAFT test from recordings/checkout.json") generates the
 SHAFT test, compiles it, and **re-executes the recording**, so the returned code
 blocks are verified against the live flow rather than only statically
 generated — and it works from the persisted recording file alone, with no
-live capture session required. WebDriver Capture recordings go through
-`capture_generate_replay` (generate, compile, then a headless replay gated on
-populated, passing Allure results); mobile recordings replay through
-`mobile_replay_recording` against the active mobile session; Playwright
-recordings initialize a Playwright driver and replay through
-`playwright_replay_recording` — generated locators are always validated live
-before the Assistant returns them, for every backend. Before the run starts,
+live capture session required. Every backend goes through the same
+`capture_generate_replay` tool (optional `backend` selecting web/playwright/
+mobile, defaulting to the active engine): WebDriver Capture recordings
+generate, compile, then a headless replay gated on populated, passing Allure
+results; mobile and Playwright recordings replay against their respective
+active session — generated locators are always validated live before the
+Assistant returns them, for every backend. Before the run starts,
 the Assistant explains the phases (generate, compile, replay) and warns that a
 browser window may open for the replay (it starts on `about:blank` before the
 test navigates). The result is a step-by-step story — which file was generated
@@ -4539,9 +4637,9 @@ into an empty "no code" response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
 exists. Describing the journey in plain words with no recording -- the same
 as `/codegen ` -- has the local agent open a fresh
-`capture_start_codegen` session, perform the described actions live, stop the
-session, then pass the persisted recording through the same replay-proving
-generator.
+`capture_start` session with `codegenOptions`, perform the described actions
+live, stop the session, then pass the persisted recording through the same
+replay-proving generator.
 
 "Upgrade this project to the latest SHAFT" in **Agent** mode with
 **Allow source edits** enabled performs the project upgrade itself: the agent
@@ -4607,11 +4705,11 @@ The Assistant routes plain-language intent to the right MCP tools:
 
 | Intent | Say something like | Primary MCP tools |
 | --- | --- | --- |
-| Browser control and inspection | "open https://example.com and sign in" | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `browser_aria_snapshot`, `browser_accessibility_audit`, `playwright_initialize`, `playwright_browser_navigate`, `playwright_browser_get_page_dom`, `playwright_browser_take_screenshot` |
-| Web recording and codegen | "Record my browser actions on https://example.com", "Generate a SHAFT test from recordings/checkout.json" | `capture_start`, `capture_start_codegen`, `capture_codegen_features`, `capture_stop`, `capture_status`, `capture_code_blocks`, `capture_generate_replay`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_record_status`, `playwright_record_stop`, `playwright_recording_code_blocks`, `playwright_replay_recording`, `playwright_capture_generate_replay`, `playwright_capture_code_blocks` |
-| Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
-| Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_record_at_target_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
-| Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
+| Browser control and inspection | "open https://example.com and sign in" | `driver_initialize` (optional `engine=playwright`), `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `browser_aria_snapshot`, `browser_accessibility_audit` |
+| Web recording and codegen | "Record my browser actions on https://example.com", "Generate a SHAFT test from recordings/checkout.json" | `capture_start` (optional `codegenOptions`), `capture_codegen_features`, `capture_stop`, `capture_status`, `capture_code_blocks`, `capture_generate_replay`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `capture_step_delete`, `capture_step_reorder` (the same tools dispatch to the active Playwright engine) |
+| Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `driver_initialize` (`engine=mobile_native`/`mobile_web` with a nested `mobileOptions` request), `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
+| Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_record_at_target_code_blocks`, `capture_generate_replay` (dispatching to the active mobile session), `mobile_inspector_record_start` |
+| Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
 | Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
 | Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
 
@@ -4717,9 +4815,9 @@ The workflow selector exposes curated MCP requests for common automation jobs:
  allowing you to monitor session state, steps count (including pending debounced input),
  and current URL in the IDE panel; stopping from here or in the browser overlay
  saves the same recording session, so headless recordings stay observable and controllable
- in-panel. On the Mobile backend, Start recording chains
- `mobile_initialize_web_emulation` and `mobile_record_start` as one action,
- gating the recorder start on the emulated session succeeding. The guided
+ in-panel. On the Mobile backend, Start recording chains `driver_initialize`
+ (`engine=mobile_web`) and `capture_start` as one action, gating the recorder
+ start on the emulated session succeeding. The guided
  recorder action says **Review code** because it prepares reviewed SHAFT code
  blocks, setup notes, assertion suggestions, locator alternatives, and
  control-flow review output. Templates prefill MCP arguments only; apart from
@@ -5189,12 +5287,15 @@ capture start \
  --save-har target/capture.har
 ```
 
-The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
-`capture_status`, and `capture_stop` MCP tools. Both start tools accept an
-optional `sessionGoal` describing the recorded journey; it names the generated
-test class and method. Both start tools also accept an optional
-`saveHarContent` option: leaving it blank or `none` keeps today's truncated
-network-trace preview bodies, while `full` emits complete, redacted
+The same lifecycle is exposed by the `capture_start`, `capture_status`, and
+`capture_stop` MCP tools. `capture_start` accepts an optional `sessionGoal`
+describing the recorded journey; it names the generated test class and
+method, plus an optional nested `codegenOptions` request (absorbing the
+former `capture_start_codegen` tool) that replaces the flat
+targetUrl/browser/outputPath/headless/sessionGoal arguments with the full
+Playwright-codegen-compatible request when finer control is needed. Within
+`codegenOptions`, `saveHarContent` leaving blank or `none` keeps today's
+truncated network-trace preview bodies, while `full` emits complete, redacted
 request/response bodies (headers redacted, binary content base64-encoded) for
 every transaction recorded during the session, sourced from the API-capture
 network events rather than the preview trace. `full` falls back to preview
@@ -5214,23 +5315,25 @@ monitors do not misread a quiet `eventCount`. Readiness is `READY`, `RISKY`, or
 replay will need user action such as a stable locator or required secret input.
 
 WebDriver code generation remains the default through `capture_generate`,
-`capture_generate_replay`, and `capture_code_blocks`. Use
-`playwright_capture_generate_replay` or `playwright_capture_code_blocks` only
-when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
-Playwright output. Those Playwright tools read the same Capture session format
-but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+`capture_generate_replay`, and `capture_code_blocks`. Pass their optional
+`backend=playwright` parameter (absorbing the former
+`playwright_capture_generate_replay`/`playwright_capture_code_blocks` tool
+names) only when the target repository uses `SHAFT.GUI.Playwright` or the
+user asks for Playwright output; the same tools read the same Capture session
+format but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
 From the local Capture CLI, pass `capture generate --backend playwright` to emit
 the same Playwright backend from a persisted Capture session; omitting
 `--backend` keeps WebDriver output.
-MCP Playwright action recordings created with `playwright_record_start` remain
-available through the same Playwright tool names; `playwright_recording_code_blocks`
-now adapts supported recorded actions into a Capture session, returns the
-generated source/test-data/report/review paths, and keeps the direct replay
-method for actions that do not yet have a Capture equivalent. When the
-Assistant's `/codegen` command handles a persisted Playwright recording rather
-than a Capture session, it initializes a fresh Playwright driver and replays
-the recording through `playwright_replay_recording`, so the returned locators
-are still validated live before being handed back.
+Playwright action recordings are started with `capture_start` against an
+active Playwright session (`driver_initialize` with `engine=playwright`);
+`capture_code_blocks` adapts supported recorded actions into a Capture
+session, returns the generated source/test-data/report/review paths, and
+keeps the direct replay method for actions that do not yet have a Capture
+equivalent. When the Assistant's `/codegen` command handles a persisted
+Playwright recording rather than a Capture session, it initializes a fresh
+Playwright driver and replays the recording through `capture_generate_replay`
+(`backend=playwright`), so the returned locators are still validated live
+before being handed back.
 
 Like the mobile recorder, the Playwright recording status speaks the **same
 vocabulary as the web recorder**: recorded interactions are **steps**, readiness
@@ -5353,24 +5456,25 @@ so generation can prefer it without editing generated source.
 
 ![SHAFT Capture locator picker](/img/capture-locator-picker.png)
 
-While a capture session is active, `element_*` and `natural_act` tools drive
-the recorded browser directly -- no `driver_initialize` session is needed --
-and the driven interactions are recorded like user ones. That makes the
-scripted agent-performed codegen flow real: `capture_start_codegen`, perform
-the described actions with element tools, `capture_stop`, then generate code
-from the persisted recording. One-shot agent turns (a CLI that exits after its
-reply) must only use this same-turn scripted flow; an interactive user-driven
-recording started from such a turn dies with the turn's MCP process.
+While a capture session is active, `element_*` tools drive the recorded
+browser directly -- no `driver_initialize` session is needed -- and the
+driven interactions are recorded like user ones. That makes the scripted
+agent-performed codegen flow real: `capture_start` with `codegenOptions`,
+perform the described actions with element tools, `capture_stop`, then
+generate code from the persisted recording. One-shot agent turns (a CLI that
+exits after its reply) must only use this same-turn scripted flow; an
+interactive user-driven recording started from such a turn dies with the
+turn's MCP process.
 
-For agent-driven MCP flows, the intended handoff is: call `capture_start` or
-`capture_start_codegen`, let the user interact with the visible browser, wait
-for either `capture_stop` or a browser-panel stop to complete, then call
-`shaft_coding_partner_plan` with the user intent, current source path, selected
-text, and recording/report artifacts. The plan ranks existing Java targets,
-locator summaries, action summaries, missing code, suggested proof calls, and a
-focused verification command before code blocks are generated. Then call
-`capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
-Playwright, or use `capture_record_at_target_code_blocks` when the plan found a
+For agent-driven MCP flows, the intended handoff is: call `capture_start`
+(with or without `codegenOptions`), let the user interact with the visible
+browser, wait for either `capture_stop` or a browser-panel stop to complete,
+then call `shaft_coding_partner_plan` with the user intent, current source
+path, selected text, and recording/report artifacts. The plan ranks existing
+Java targets, locator summaries, action summaries, missing code, suggested
+proof calls, and a focused verification command before code blocks are
+generated. Then call `capture_code_blocks` (optionally `backend=playwright`),
+or use `capture_record_at_target_code_blocks` when the plan found a
 specific insertion target. Only the recording matters for a quick generation:
 `outputDirectory`, `packageName`, `className`, `overwrite`, and
 `driverVariableName` are optional and default to `generated-tests`,
@@ -5393,16 +5497,17 @@ review commands, locator confidence queues, validation back-links, and a
 extractable candidates exist. Locator inventory blocks show the selected SHAFT
 locator expression and ranked alternatives from the generation report.
 
-For native mobile journeys, use the mobile MCP tools instead of browser
-Capture: `mobile_recording_code_blocks` returns the replay method, ranked
-mobile locator inventory, action sequence, and `mobile-page-object-draft`.
-`mobile_record_at_target_code_blocks` adds locator fields and an action snippet
-for an existing mobile Page Object anchor, plus a preview-only patch block and a
-locator confidence queue when fallback actions need review. When the
-Assistant's `/codegen` command handles a persisted mobile recording, it
-replays it through `mobile_replay_recording` against the active mobile session
-before returning the generated code -- the same live-validation guarantee
-WebDriver and Playwright recordings get.
+For native mobile journeys, the same `capture_*` tools dispatch to the active
+mobile session instead of a separate mobile tool family:
+`capture_code_blocks` returns the replay method, ranked mobile locator
+inventory, action sequence, and `mobile-page-object-draft`.
+`capture_record_at_target_code_blocks` adds locator fields and an action
+snippet for an existing mobile Page Object anchor, plus a preview-only patch
+block and a locator confidence queue when fallback actions need review. When
+the Assistant's `/codegen` command handles a persisted mobile recording, it
+replays it through `capture_generate_replay` against the active mobile
+session before returning the generated code -- the same live-validation
+guarantee WebDriver and Playwright recordings get.
 
 The mobile recording status speaks the **same vocabulary as the web recorder**
 rather than a parallel one: recorded interactions are **steps**, readiness is
@@ -5869,7 +5974,7 @@ When an OpenAPI/Swagger spec is supplied, generation also reports coverage of th
 
 ### Native mobile API capture
 
-For device traffic captured outside a browser, `mobile_api_record_start` / `_status` / `_stop` run a loopback MITM proxy and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
+For device traffic captured outside a browser, the same `capture_api_start`/`capture_api_status`/`capture_api_stop` tools dispatch to a loopback MITM proxy (standalone, needing no live driver session) when an explicit `mobilePlatform` is supplied or a mobile engine is active -- absorbing the former standalone `mobile_api_record_start`/`_status`/`_stop`/`_transactions` tools -- and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
 
 ## Related
 
@@ -8190,10 +8295,9 @@ baseURL=https://m.example.com
 
 `shaft-mcp` can start mobile sessions through the same SHAFT Engine setup:
 
-- `mobile_initialize_web_emulation` runs a resized desktop browser in mobile compatibility mode.
-- `mobile_initialize_native` starts an Appium-backed Android or iOS native session using the configured Appium server and device name, UDID, app, app package/activity, or iOS bundle ID.
+- `driver_initialize` with `engine=mobile_web` runs a resized desktop browser in mobile compatibility mode; `engine=mobile_native` starts an Appium-backed Android or iOS native session. Both take a nested `mobileOptions` request (absorbing the former separate `mobile_initialize_web_emulation`/`mobile_initialize_native` tools) carrying the Appium server, device name, UDID, app, app package/activity, or iOS bundle ID.
 - `mobile_take_screenshot` captures the current mobile screen, and `mobile_get_accessibility_tree` returns the active Appium page source/accessibility XML so the MCP client can understand the screen before acting.
-- `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, `mobile_recording_code_blocks`, and `mobile_record_at_target_code_blocks` support record/playback, Page Object handoff, and copy-pasteable SHAFT action snippets.
+- `capture_start`, `capture_stop`, `capture_generate_replay`, `capture_code_blocks`, and `capture_record_at_target_code_blocks` dispatch to the active mobile session (absorbing the former `mobile_record_start`/`mobile_record_stop`/`mobile_replay_recording`/`mobile_recording_code_blocks`/`mobile_record_at_target_code_blocks` tools) to support record/playback, Page Object handoff, and copy-pasteable SHAFT action snippets.
 
 ---
 
@@ -14211,11 +14315,14 @@ touches the browser.
 
 ## MCP usage
 
-`shaft-mcp` exposes the same behavior through the `natural_act` tool. The tool
-uses the active SHAFT driver, temporarily enables natural actions for the call,
-and restores the previous natural-action settings afterward. MCP clients can
-also pass per-call trust threshold, planner, AI fallback, and allowed-action
-overrides.
+`shaft-mcp` previously exposed this behavior through a `natural_act` tool (and
+a mobile `mobile_natural_act` counterpart). The [SHAFT tool architecture
+sweep](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3866) deleted both tools
+outright, with no deprecation shim: `driver.act(...)` remains a supported Java
+API, but MCP clients can no longer trigger natural-language execution through
+a dedicated tool call. Enable `naturalActions` in test code as shown above and
+drive the browser/mobile session through the deterministic `element_*`/
+`browser_*`/`mobile_*` MCP tools instead.
 
 See [Connect shaft-mcp](/docs/agentic/mcp) for transport setup and MCP client
 approval guidance.
