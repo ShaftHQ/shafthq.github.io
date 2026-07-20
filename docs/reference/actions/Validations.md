@@ -3,11 +3,11 @@ id: Validations
 title: Validations
 sidebar_label: Validations
 description: "SHAFT Engine's built-in assertions and verifications — browser, element, file, object, number, and API response validation, JSON schema validation, force fail, and soft vs hard assertion strategy."
-keywords: [SHAFT, validations, assertions, verifications, overview, browser validations, element validations, text validation, attribute validation, visual testing, OpenCV, file validations, object validations, number validations, api response validations, json schema validation, contract testing, force fail, soft vs hard assertions, assertThat, verifyThat]
+keywords: [SHAFT, validations, assertions, verifications, overview, browser validations, element validations, text validation, attribute validation, visual testing, OpenCV, file validations, object validations, number validations, api response validations, json schema validation, contract testing, force fail, soft vs hard assertions, assertThat, verifyThat, assertEquals, assertTrue, assertFalse, assertNull, assertNotNull, verify]
 tags: [validations, assertions, browser, element, file, object, number, response, json-schema, contract-testing, force-fail, soft-assertions, hard-assertions]
 ---
 
-SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API.
+SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API. If you're coming from JUnit or TestNG, SHAFT's fluent equivalents to `assertEquals`/`assertTrue`/`assertFalse`/`assertNull` are `isEqualTo()`, `isTrue()`, `isFalse()`, and `isNull()` chained off `assertThat()` (hard assertion) or `verifyThat()` (soft assertion, i.e. "verify").
 
 ## Overview {/* #overview */}
 
