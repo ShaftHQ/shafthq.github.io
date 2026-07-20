@@ -3,7 +3,7 @@ id: Element_Actions
 title: Element Actions
 sidebar_label: Element
 description: "Interact with web elements using SHAFT Engine — click, type, drag and drop, select from dropdowns, handle iframes, and more."
-keywords: [SHAFT, element actions, click, type, drag and drop, select, iframe, web automation, Selenium]
+keywords: [SHAFT, element actions, click, type, sendKeys, drag and drop, select, iframe, web automation, Selenium, isDisplayed]
 tags: [web, element, actions, selenium]
 ---
 
@@ -18,7 +18,8 @@ For trust-gated natural-language element workflows such as
 Typing actions show the value being entered in the Allure step title. SHAFT
 caps long or multiline values in the title so reports stay readable, keeps the
 locator in step metadata, and adds the resolved element name only when the
-engine captures one. Secure typing remains masked.
+engine captures one. Secure typing remains masked. If you're coming from
+plain Selenium, `type()` is SHAFT's equivalent of `WebElement.sendKeys()`.
 
 ### type()
 
