@@ -89,11 +89,14 @@ touches the browser.
 
 ## MCP usage
 
-`shaft-mcp` exposes the same behavior through the `natural_act` tool. The tool
-uses the active SHAFT driver, temporarily enables natural actions for the call,
-and restores the previous natural-action settings afterward. MCP clients can
-also pass per-call trust threshold, planner, AI fallback, and allowed-action
-overrides.
+`shaft-mcp` previously exposed this behavior through a `natural_act` tool (and
+a mobile `mobile_natural_act` counterpart). The [SHAFT tool architecture
+sweep](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3866) deleted both tools
+outright, with no deprecation shim: `driver.act(...)` remains a supported Java
+API, but MCP clients can no longer trigger natural-language execution through
+a dedicated tool call. Enable `naturalActions` in test code as shown above and
+drive the browser/mobile session through the deterministic `element_*`/
+`browser_*`/`mobile_*` MCP tools instead.
 
 See [Connect shaft-mcp](/docs/agentic/mcp) for transport setup and MCP client
 approval guidance.

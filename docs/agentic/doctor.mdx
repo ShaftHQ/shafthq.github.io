@@ -140,17 +140,18 @@ the minimum expected Allure result count. The tool calls the same
 disabled; when the MCP server is explicitly started with an enabled provider,
 the same separate advisory and fallback rules apply.
 
-Use `doctor_analyze_failed_allure` and `doctor_suggest_fix` for default
-Selenium/WebDriver remediation snippets. Use
-`playwright_doctor_analyze_failed_allure` and `playwright_doctor_suggest_fix`
-when the failed test is written with `SHAFT.GUI.Playwright`; the evidence model
-is the same, but the returned code blocks use Playwright assertions and actions.
+`doctor_analyze_failed_allure` and `doctor_suggest_fix` default to Selenium/
+WebDriver remediation snippets. Pass `backend=playwright` to either tool when
+the failed test is written with `SHAFT.GUI.Playwright` (absorbing the former
+`playwright_doctor_analyze_failed_allure`/`playwright_doctor_suggest_fix` tool
+names); the evidence model is the same, but the returned code blocks use
+Playwright assertions and actions.
 
-`doctor_suggest_fix` and `playwright_doctor_suggest_fix` cap their remediation
-output at the top 5 ranked causes and tag each block with its category and
-trust score, for example `LOCATOR (trust 82%)`, so an MCP client (including
-the IntelliJ Assistant's `/doctor` command) can present causes in trust order
-without re-deriving the ranking itself.
+`doctor_suggest_fix` caps its remediation output at the top 5 ranked causes and
+tags each block with its category and trust score, for example
+`LOCATOR (trust 82%)`, so an MCP client (including the IntelliJ Assistant's
+`/doctor` command) can present causes in trust order without re-deriving the
+ranking itself.
 
 ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
 `doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
@@ -164,16 +165,17 @@ generic Copilot API-key adapter. Download the credential-free
 an allowlisted Maven test command under guardrails, snapshots the populated
 Allure results that changed during each attempt, and sends the fresh failing
 evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
-Use `playwright_healer_run_failed_test` for `SHAFT.GUI.Playwright` tests; it
-uses the same execution guardrails and sends evidence through the Playwright
-Doctor tool surface.
+Pass `backend=playwright` for `SHAFT.GUI.Playwright` tests (absorbing the
+former `playwright_healer_run_failed_test` tool name); it uses the same
+execution guardrails and sends evidence through the same Doctor tool surface.
 
 The healer gives the MCP agent an explicit replay handoff: the agent may use
-its own LLM plus SHAFT MCP browser, DOM, screenshot, element, and natural-action
-tools to inspect WebDriver failures, or the `playwright_*` inspection and
-replay tools for Playwright failures, even when no SHAFT provider API key is
-configured. Configured SHAFT provider advisories remain optional and require
-the same Pilot consent as Doctor.
+its own LLM plus the same SHAFT MCP browser, DOM, screenshot, and element
+inspection/replay tools to inspect either WebDriver or Playwright failures,
+dispatching to whichever engine the session's `driver_initialize` call
+selected, even when no SHAFT provider API key is configured. Configured SHAFT
+provider advisories remain optional and require the same Pilot consent as
+Doctor.
 
 The boundary is still review-only. The healer can suggest locator, wait,
 test-data, assertion, or setup fixes, or report a suspected product bug, but it

@@ -80,12 +80,15 @@ capture start \
   --save-har target/capture.har
 ```
 
-The same lifecycle is exposed by the `capture_start`, `capture_start_codegen`,
-`capture_status`, and `capture_stop` MCP tools. Both start tools accept an
-optional `sessionGoal` describing the recorded journey; it names the generated
-test class and method. Both start tools also accept an optional
-`saveHarContent` option: leaving it blank or `none` keeps today's truncated
-network-trace preview bodies, while `full` emits complete, redacted
+The same lifecycle is exposed by the `capture_start`, `capture_status`, and
+`capture_stop` MCP tools. `capture_start` accepts an optional `sessionGoal`
+describing the recorded journey; it names the generated test class and
+method, plus an optional nested `codegenOptions` request (absorbing the
+former `capture_start_codegen` tool) that replaces the flat
+targetUrl/browser/outputPath/headless/sessionGoal arguments with the full
+Playwright-codegen-compatible request when finer control is needed. Within
+`codegenOptions`, `saveHarContent` leaving blank or `none` keeps today's
+truncated network-trace preview bodies, while `full` emits complete, redacted
 request/response bodies (headers redacted, binary content base64-encoded) for
 every transaction recorded during the session, sourced from the API-capture
 network events rather than the preview trace. `full` falls back to preview
@@ -105,23 +108,25 @@ monitors do not misread a quiet `eventCount`. Readiness is `READY`, `RISKY`, or
 replay will need user action such as a stable locator or required secret input.
 
 WebDriver code generation remains the default through `capture_generate`,
-`capture_generate_replay`, and `capture_code_blocks`. Use
-`playwright_capture_generate_replay` or `playwright_capture_code_blocks` only
-when the target repository uses `SHAFT.GUI.Playwright` or the user asks for
-Playwright output. Those Playwright tools read the same Capture session format
-but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
+`capture_generate_replay`, and `capture_code_blocks`. Pass their optional
+`backend=playwright` parameter (absorbing the former
+`playwright_capture_generate_replay`/`playwright_capture_code_blocks` tool
+names) only when the target repository uses `SHAFT.GUI.Playwright` or the
+user asks for Playwright output; the same tools read the same Capture session
+format but emit `SHAFT.GUI.Playwright` setup, actions, waits, and assertions.
 From the local Capture CLI, pass `capture generate --backend playwright` to emit
 the same Playwright backend from a persisted Capture session; omitting
 `--backend` keeps WebDriver output.
-MCP Playwright action recordings created with `playwright_record_start` remain
-available through the same Playwright tool names; `playwright_recording_code_blocks`
-now adapts supported recorded actions into a Capture session, returns the
-generated source/test-data/report/review paths, and keeps the direct replay
-method for actions that do not yet have a Capture equivalent. When the
-Assistant's `/codegen` command handles a persisted Playwright recording rather
-than a Capture session, it initializes a fresh Playwright driver and replays
-the recording through `playwright_replay_recording`, so the returned locators
-are still validated live before being handed back.
+Playwright action recordings are started with `capture_start` against an
+active Playwright session (`driver_initialize` with `engine=playwright`);
+`capture_code_blocks` adapts supported recorded actions into a Capture
+session, returns the generated source/test-data/report/review paths, and
+keeps the direct replay method for actions that do not yet have a Capture
+equivalent. When the Assistant's `/codegen` command handles a persisted
+Playwright recording rather than a Capture session, it initializes a fresh
+Playwright driver and replays the recording through `capture_generate_replay`
+(`backend=playwright`), so the returned locators are still validated live
+before being handed back.
 
 Like the mobile recorder, the Playwright recording status speaks the **same
 vocabulary as the web recorder**: recorded interactions are **steps**, readiness
@@ -244,24 +249,25 @@ so generation can prefer it without editing generated source.
 
 ![SHAFT Capture locator picker](/img/capture-locator-picker.png)
 
-While a capture session is active, `element_*` and `natural_act` tools drive
-the recorded browser directly -- no `driver_initialize` session is needed --
-and the driven interactions are recorded like user ones. That makes the
-scripted agent-performed codegen flow real: `capture_start_codegen`, perform
-the described actions with element tools, `capture_stop`, then generate code
-from the persisted recording. One-shot agent turns (a CLI that exits after its
-reply) must only use this same-turn scripted flow; an interactive user-driven
-recording started from such a turn dies with the turn's MCP process.
+While a capture session is active, `element_*` tools drive the recorded
+browser directly -- no `driver_initialize` session is needed -- and the
+driven interactions are recorded like user ones. That makes the scripted
+agent-performed codegen flow real: `capture_start` with `codegenOptions`,
+perform the described actions with element tools, `capture_stop`, then
+generate code from the persisted recording. One-shot agent turns (a CLI that
+exits after its reply) must only use this same-turn scripted flow; an
+interactive user-driven recording started from such a turn dies with the
+turn's MCP process.
 
-For agent-driven MCP flows, the intended handoff is: call `capture_start` or
-`capture_start_codegen`, let the user interact with the visible browser, wait
-for either `capture_stop` or a browser-panel stop to complete, then call
-`shaft_coding_partner_plan` with the user intent, current source path, selected
-text, and recording/report artifacts. The plan ranks existing Java targets,
-locator summaries, action summaries, missing code, suggested proof calls, and a
-focused verification command before code blocks are generated. Then call
-`capture_code_blocks` for WebDriver or `playwright_capture_code_blocks` for
-Playwright, or use `capture_record_at_target_code_blocks` when the plan found a
+For agent-driven MCP flows, the intended handoff is: call `capture_start`
+(with or without `codegenOptions`), let the user interact with the visible
+browser, wait for either `capture_stop` or a browser-panel stop to complete,
+then call `shaft_coding_partner_plan` with the user intent, current source
+path, selected text, and recording/report artifacts. The plan ranks existing
+Java targets, locator summaries, action summaries, missing code, suggested
+proof calls, and a focused verification command before code blocks are
+generated. Then call `capture_code_blocks` (optionally `backend=playwright`),
+or use `capture_record_at_target_code_blocks` when the plan found a
 specific insertion target. Only the recording matters for a quick generation:
 `outputDirectory`, `packageName`, `className`, `overwrite`, and
 `driverVariableName` are optional and default to `generated-tests`,
@@ -284,16 +290,17 @@ review commands, locator confidence queues, validation back-links, and a
 extractable candidates exist. Locator inventory blocks show the selected SHAFT
 locator expression and ranked alternatives from the generation report.
 
-For native mobile journeys, use the mobile MCP tools instead of browser
-Capture: `mobile_recording_code_blocks` returns the replay method, ranked
-mobile locator inventory, action sequence, and `mobile-page-object-draft`.
-`mobile_record_at_target_code_blocks` adds locator fields and an action snippet
-for an existing mobile Page Object anchor, plus a preview-only patch block and a
-locator confidence queue when fallback actions need review. When the
-Assistant's `/codegen` command handles a persisted mobile recording, it
-replays it through `mobile_replay_recording` against the active mobile session
-before returning the generated code -- the same live-validation guarantee
-WebDriver and Playwright recordings get.
+For native mobile journeys, the same `capture_*` tools dispatch to the active
+mobile session instead of a separate mobile tool family:
+`capture_code_blocks` returns the replay method, ranked mobile locator
+inventory, action sequence, and `mobile-page-object-draft`.
+`capture_record_at_target_code_blocks` adds locator fields and an action
+snippet for an existing mobile Page Object anchor, plus a preview-only patch
+block and a locator confidence queue when fallback actions need review. When
+the Assistant's `/codegen` command handles a persisted mobile recording, it
+replays it through `capture_generate_replay` against the active mobile
+session before returning the generated code -- the same live-validation
+guarantee WebDriver and Playwright recordings get.
 
 The mobile recording status speaks the **same vocabulary as the web recorder**
 rather than a parallel one: recorded interactions are **steps**, readiness is
@@ -759,7 +766,7 @@ When an OpenAPI/Swagger spec is supplied, generation also reports coverage of th
 
 ### Native mobile API capture
 
-For device traffic captured outside a browser, `mobile_api_record_start` / `_status` / `_stop` run a loopback MITM proxy and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
+For device traffic captured outside a browser, the same `capture_api_start`/`capture_api_status`/`capture_api_stop` tools dispatch to a loopback MITM proxy (standalone, needing no live driver session) when an explicit `mobilePlatform` is supplied or a mobile engine is active -- absorbing the former standalone `mobile_api_record_start`/`_status`/`_stop`/`_transactions` tools -- and persist a capture session you can generate from with the same tools. Its status shares the recorder glossary: the recorded unit is a **transaction**, readiness is `READY` / `RISKY` / `BLOCKED` (pairing or dropped-transaction warnings are `RISKY`; a stop with no transactions is `BLOCKED`), the saved session path is always visible, and stopping surfaces a **Review code** next-step.
 
 ## Related
 

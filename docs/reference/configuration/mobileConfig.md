@@ -117,10 +117,9 @@ baseURL=https://m.example.com
 
 `shaft-mcp` can start mobile sessions through the same SHAFT Engine setup:
 
-- `mobile_initialize_web_emulation` runs a resized desktop browser in mobile compatibility mode.
-- `mobile_initialize_native` starts an Appium-backed Android or iOS native session using the configured Appium server and device name, UDID, app, app package/activity, or iOS bundle ID.
+- `driver_initialize` with `engine=mobile_web` runs a resized desktop browser in mobile compatibility mode; `engine=mobile_native` starts an Appium-backed Android or iOS native session. Both take a nested `mobileOptions` request (absorbing the former separate `mobile_initialize_web_emulation`/`mobile_initialize_native` tools) carrying the Appium server, device name, UDID, app, app package/activity, or iOS bundle ID.
 - `mobile_take_screenshot` captures the current mobile screen, and `mobile_get_accessibility_tree` returns the active Appium page source/accessibility XML so the MCP client can understand the screen before acting.
-- `mobile_record_start`, `mobile_record_stop`, `mobile_replay_recording`, `mobile_recording_code_blocks`, and `mobile_record_at_target_code_blocks` support record/playback, Page Object handoff, and copy-pasteable SHAFT action snippets.
+- `capture_start`, `capture_stop`, `capture_generate_replay`, `capture_code_blocks`, and `capture_record_at_target_code_blocks` dispatch to the active mobile session (absorbing the former `mobile_record_start`/`mobile_record_stop`/`mobile_replay_recording`/`mobile_recording_code_blocks`/`mobile_record_at_target_code_blocks` tools) to support record/playback, Page Object handoff, and copy-pasteable SHAFT action snippets.
 
 ---
 
