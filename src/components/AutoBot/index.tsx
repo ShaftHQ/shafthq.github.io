@@ -106,22 +106,41 @@ Focus on helping users with:
     };
   }, []);
 
-  // Pin the mobile chat panel to the visual viewport so the on-screen keyboard
-  // cannot pan the header/input out of view (#869). Android Chrome shrinks only
-  // the visual viewport when the keyboard opens; the layout viewport (and 100dvh)
-  // does not change, so the UA pans the position:fixed panel — header off-screen,
-  // input behind the keyboard. Sizing the panel to visualViewport.height and
-  // offsetting it by visualViewport.offsetTop keeps it exactly over the visible
-  // region; the flex layout then keeps header + input pinned with the message
-  // list scrolling between them. Body scroll-lock stops the underlying page from
-  // receiving the pan. Scoped to mobile + open; desktop popover is untouched.
+  // Keep the mobile chat panel pinned above the on-screen keyboard (#869) as a
+  // FALLBACK only. The primary fix is the interactive-widget=resizes-content
+  // viewport directive (src/theme/Root.tsx): where it is honoured (Chrome/
+  // Android), the browser shrinks the layout viewport to the real space above
+  // the keyboard, so the panel's 100dvh already fits and window.innerHeight
+  // tracks visualViewport.height — this effect then detects the match and does
+  // nothing, so it can never over-shift the panel. On engines that don't honour
+  // it (iOS Safari), the layout viewport stays full-height while the visual
+  // viewport shrinks, so the UA pans the position:fixed panel; there we size the
+  // panel to visualViewport.height and offset it by visualViewport.offsetTop to
+  // sit exactly over the visible region. Body scroll-lock stops the underlying
+  // page from receiving the pan. Scoped to mobile + open; desktop is untouched.
   useEffect(() => {
     if (!isOpen || !isMobile) return;
     const vv = typeof window !== 'undefined' ? window.visualViewport : null;
     const el = chatWindowRef.current;
     if (!vv || !el) return;
 
+    const clearViewport = () => {
+      el.style.height = '';
+      el.style.top = '';
+      el.style.bottom = '';
+    };
+
     const applyViewport = () => {
+      // If the browser already resized the layout viewport to fit the keyboard
+      // (interactive-widget=resizes-content), innerHeight tracks the visual
+      // viewport and 100dvh already fits — don't second-guess it, or the manual
+      // offset double-counts the browser's own adjustment and shifts the panel
+      // too far (the "moved too much" regression). Only reposition when the
+      // layout viewport stayed full while the visual viewport shrank.
+      if (Math.abs(window.innerHeight - vv.height) < 2) {
+        clearViewport();
+        return;
+      }
       el.style.height = `${vv.height}px`;
       el.style.top = `${vv.offsetTop}px`;
       el.style.bottom = 'auto';

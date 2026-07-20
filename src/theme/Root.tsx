@@ -1,4 +1,5 @@
 import { useLocation } from '@docusaurus/router';
+import Head from '@docusaurus/Head';
 import React, { Suspense, useEffect, useState } from 'react';
 const LazyAutoBot = React.lazy(() => import('@site/src/components/AutoBot'));
 
@@ -170,6 +171,22 @@ function HashTargetScrollSync(): JSX.Element | null {
 export default function Root({ children }: React.PropsWithChildren) {
   return (
     <>
+      {/* interactive-widget=resizes-content makes the browser shrink the layout
+          viewport to the real space above the on-screen keyboard (its actual,
+          device-reported height -- never a hardcoded guess), instead of the
+          default resizes-visual behaviour that keeps the layout full-height and
+          pans fixed elements. This is the primary fix for the AutoBot mobile
+          keyboard pan (#869): with it, the panel's 100dvh already fits above the
+          keyboard on Chrome/Android and the visualViewport JS in AutoBot becomes
+          a no-op there (it only acts as the iOS/Safari fallback, where this
+          directive is not yet supported). Overrides Docusaurus's default viewport
+          meta -- Helmet dedupes by name, last declaration wins. */}
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
+        />
+      </Head>
       <HashTargetScrollSync />
       {children}
       <DeferredAutoBot />
