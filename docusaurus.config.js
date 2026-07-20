@@ -478,10 +478,11 @@ const config = {
           // },
           {
             href: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
+            label: 'Star SHAFT',
             position: 'right',
             className: 'header-github-link',
             target: '_blank',
-            'aria-label': 'GitHub repository',
+            'aria-label': 'Star SHAFT on GitHub',
           },
           {
             to: 'https://github.com/sponsors/MohabMohie/',
