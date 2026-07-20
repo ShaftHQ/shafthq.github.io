@@ -62,6 +62,17 @@ mvn test "-Dshaft.shard=1/2" -DheadlessExecution=true
 mvn test "-Dshaft.shard=2/2" -DheadlessExecution=true
 ```
 
+:::info
+`run_sharded_and_merge.py` and `assemble_shard_blob.py` ship in the
+**SHAFT_ENGINE** repository, not in your project — copy
+[`run_sharded_and_merge.py`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/scripts/ci/run_sharded_and_merge.py)
+and
+[`assemble_shard_blob.py`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/scripts/ci/assemble_shard_blob.py)
+into your own `scripts/ci/` before using either command below. Both are
+standalone and use only the Python standard library, so no extra install
+step is required beyond a Python 3 interpreter.
+:::
+
 `scripts/ci/run_sharded_and_merge.py` automates that loop end to end: it runs
 every shard, stages each shard's `allure-results` and trace directory into a
 shard blob, then merges all blobs into one report with `ShardMergeCli`.
@@ -111,6 +122,8 @@ and any flaky-clustering warnings print to stdout when the merge finishes.
 
 A generic CI shape: one matrix job per shard uploads its blob as an
 artifact, then a `merge` job downloads every blob and runs `ShardMergeCli`.
+This assumes `assemble_shard_blob.py` has already been copied into
+`scripts/ci/` in this repository, per the note above.
 
 ```yaml title=".github/workflows/sharded-tests.yml"
 jobs:
@@ -123,7 +136,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run shard ${{ matrix.shard }}/3
         run: mvn test "-Dshaft.shard=${{ matrix.shard }}/3" -DheadlessExecution=true
-      - name: Assemble shard blob
+      # assemble_shard_blob.py is copied from SHAFT_ENGINE's scripts/ci/ (see note above)
+      - name: Assemble shard blob (script copied from SHAFT_ENGINE scripts/ci/)
         run: python3 scripts/ci/assemble_shard_blob.py --shard ${{ matrix.shard }} --output "target/shard-blobs/shard-${{ matrix.shard }}" --zip
       - uses: actions/upload-artifact@v4
         with:
