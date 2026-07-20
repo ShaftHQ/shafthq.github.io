@@ -46,4 +46,4 @@ as the engine change and link the engine pull request.
 
 GitHub Pages publishes the public guide at `https://shafthq.github.io/`.
 Cloudflare Workers hosts the AutoBot backend API and can serve the same static
-build as a mirror; Netlify can still host preview/static mirrors.
+build as a mirror.

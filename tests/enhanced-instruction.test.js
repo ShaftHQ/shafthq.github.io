@@ -1,5 +1,5 @@
-import {loadDocumentation, getGitHubRepositoryContext} from '../netlify/functions/docs-loader.mjs';
-import {MAX_SYSTEM_INSTRUCTION_LENGTH} from '../netlify/functions/constants.mjs';
+import {loadDocumentation, getGitHubRepositoryContext} from '../shared/docs-loader.mjs';
+import {MAX_SYSTEM_INSTRUCTION_LENGTH} from '../shared/constants.mjs';
 
 const documentation = loadDocumentation('How do I connect Codex to shaft-mcp?');
 const githubContext = getGitHubRepositoryContext();

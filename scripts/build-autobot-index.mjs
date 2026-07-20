@@ -1,7 +1,7 @@
 import {mkdir, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {buildDocumentationIndex} from '../netlify/functions/docs-loader.mjs';
+import {buildDocumentationIndex} from '../shared/docs-loader.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outputPath = path.join(root, 'static', 'autobot-index.json');

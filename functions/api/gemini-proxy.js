@@ -1,6 +1,6 @@
-import { createAutobotResponse } from '../../netlify/functions/autobot-core.mjs';
-import { getGitHubRepositoryContext } from '../../netlify/functions/github-context.mjs';
-import { loadDocumentationFromIndex } from '../../netlify/functions/docs-retrieval.mjs';
+import { createAutobotResponse } from '../../shared/autobot-core.mjs';
+import { getGitHubRepositoryContext } from '../../shared/github-context.mjs';
+import { loadDocumentationFromIndex } from '../../shared/docs-retrieval.mjs';
 
 let cachedIndex = null;
 let cachedGitHubContext = null;
