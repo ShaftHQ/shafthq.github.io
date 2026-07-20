@@ -153,11 +153,23 @@ table th {
   }
 }
 
+/* Highest-priority right-nav item (issue #868): a "star us" CTA, not a
+   bare icon, per the SHAFT_ENGINE #3800/#3802 precedent. Its unconditional
+   flex layout survives Infima's default `.navbar__item { display: none }`
+   at <=996px (see below), keeping it -- and Search, appended after it by
+   the search plugin -- in the top bar at every width. */
+.header-github-link {
+  align-items: center;
+  display: flex;
+  gap: 0.4rem;
+}
+
 .header-github-link::before {
   content: '';
   width: 24px;
   height: 24px;
   display: flex;
+  flex-shrink: 0;
   background-color: var(--ifm-navbar-link-color);
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12'/%3E%3C/svg%3E");
   transition: background-color var(--ifm-transition-fast)
@@ -177,10 +189,19 @@ table th {
   }
 }
 
-.sponsorship-link {
-  align-items: center;
-  display: flex;
+/* Second-priority right-nav item: Sponsor keeps Infima's default
+   `.navbar__item { display: none }` at <=996px (no unconditional flex
+   override), so it defers to the ☰ sidebar menu below tablet width instead
+   of colliding with Search -- restoring the priority order after Sponsor's
+   flex layout previously fought that default at every width (issue #868). */
+@media (min-width: 997px) {
+  .sponsorship-link {
+    align-items: center;
+    display: flex;
+  }
+}
 
+.sponsorship-link {
   &:before {
     align-self: center;
     background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjYzk2MTk4IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik02LjczNiA0QzQuNjU3IDQgMi41IDUuODggMi41IDguNTE0YzAgMy4xMDcgMi4zMjQgNS45NiA0Ljg2MSA4LjEyYTI5LjY2IDI5LjY2IDAgMDA0LjU2NiAzLjE3NWwuMDczLjA0MS4wNzMtLjA0Yy4yNzEtLjE1My42NjEtLjM4IDEuMTMtLjY3NC45NC0uNTg4IDIuMTktMS40NDEgMy40MzYtMi41MDIgMi41MzctMi4xNiA0Ljg2MS01LjAxMyA0Ljg2MS04LjEyQzIxLjUgNS44OCAxOS4zNDMgNCAxNy4yNjQgNGMtMi4xMDYgMC0zLjgwMSAxLjM4OS00LjU1MyAzLjY0M2EuNzUuNzUgMCAwMS0xLjQyMiAwQzEwLjUzNyA1LjM4OSA4Ljg0MSA0IDYuNzM2IDR6TTEyIDIwLjcwM2wuMzQzLjY2N2EuNzUuNzUgMCAwMS0uNjg2IDBsLjM0My0uNjY3ek0xIDguNTEzQzEgNS4wNTMgMy44MjkgMi41IDYuNzM2IDIuNSA5LjAzIDIuNSAxMC44ODEgMy43MjYgMTIgNS42MDUgMTMuMTIgMy43MjYgMTQuOTcgMi41IDE3LjI2NCAyLjUgMjAuMTcgMi41IDIzIDUuMDUyIDIzIDguNTE0YzAgMy44MTgtMi44MDEgNy4wNi01LjM4OSA5LjI2MmEzMS4xNDYgMzEuMTQ2IDAgMDEtNS4yMzMgMy41NzZsLS4wMjUuMDEzLS4wMDcuMDAzLS4wMDIuMDAxLS4zNDQtLjY2Ni0uMzQzLjY2Ny0uMDAzLS4wMDItLjAwNy0uMDAzLS4wMjUtLjAxM0EyOS4zMDggMjkuMzA4IDAgMDExMCAyMC40MDhhMzEuMTQ3IDMxLjE0NyAwIDAxLTMuNjExLTIuNjMyQzMuOCAxNS41NzMgMSAxMi4zMzIgMSA4LjUxNHoiLz48L3N2Zz4=") 0 0/contain;
@@ -207,9 +228,58 @@ content: url(../../static/img/shaft_white.svg)
 
 /* ----- Search UI enhancements ----- */
 
-/* Wider search input for more comfortable typing */
-.dsla-search-wrapper {
-  min-width: 220px !important;
+/* Below 997px, theme-classic takes Search out of flex flow entirely
+   (@docusaurus/theme-classic Navbar/Search styles.module.css:
+   `.navbarSearchContainer { position: absolute; right:
+   var(--ifm-navbar-padding-horizontal) }`), floating it over whatever
+   would otherwise render in that space -- by design, since Infima's own
+   default (`.navbar__item { display: none }` at <=996px) normally leaves
+   nothing else there. The GitHub CTA opts back in below that breakpoint
+   (issue #868 priority: Star-on-GitHub + Search first), so its flex box
+   needs an explicit reserved margin or it renders underneath the floating
+   search widget. Sizes match the search input's own responsive width
+   below (13rem tablet / 2rem icon-only phone) plus navbar padding. */
+@media (max-width: 996px) and (min-width: 577px) {
+  .navbar__items--right {
+    padding-right: 15rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar__items--right {
+    padding-right: 3rem;
+  }
+
+  /* Collapse the "Star SHAFT" label to icon-only so the CTA stays compact
+     at phone widths. The icon is mask-based with a fixed px size, so
+     font-size:0 hides only the text. */
+  .navbar__items--right > .header-github-link {
+    font-size: 0;
+  }
+}
+
+/* Infima narrows .navbar__search-input to 9rem (144px) between 577-996px
+   (see default.css's `@media (max-width: 996px) { .navbar__search-input {
+   width: 9rem } }`), clipping the "Search" placeholder + the ctrl-K hint.
+   The plugin's own <=576px rule only shrinks the input to icon-only while
+   *unfocused*; focused/expanded search below 997px still falls back to
+   that same clipped 9rem. Guarantee a comfortable width everywhere the
+   input can show text (issue #868 requirement 4). Note: the previous
+   `.dsla-search-wrapper` / `.aa-*` selectors here predate the #866 local-
+   search migration and no longer match any rendered element -- tracked
+   for cleanup in a follow-up issue rather than fixed here (out of #868's
+   navbar-overlap scope). */
+@media (min-width: 577px) {
+  .navbar__search-input {
+    min-width: 13rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar__search-input:focus {
+    width: 13rem !important;
+    min-width: 0;
+  }
 }
 
 /* Keep search chrome aligned to the site token palette in both themes. */
