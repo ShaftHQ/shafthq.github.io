@@ -28,6 +28,7 @@ const AutoBot: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const chatWindowRef = useRef<HTMLDivElement>(null);
 
   // System instruction for the chatbot
   const systemInstruction = `You are AutoBot, the intelligent technical assistant for SHAFT, the Unified Test Automation Engine. Your objective is to help users by retrieving accurate information from the official SHAFT documentation and GitHub repository that have been provided to you.
@@ -104,6 +105,43 @@ Focus on helping users with:
       window.removeEventListener('resize', debouncedCheckMobile);
     };
   }, []);
+
+  // Pin the mobile chat panel to the visual viewport so the on-screen keyboard
+  // cannot pan the header/input out of view (#869). Android Chrome shrinks only
+  // the visual viewport when the keyboard opens; the layout viewport (and 100dvh)
+  // does not change, so the UA pans the position:fixed panel — header off-screen,
+  // input behind the keyboard. Sizing the panel to visualViewport.height and
+  // offsetting it by visualViewport.offsetTop keeps it exactly over the visible
+  // region; the flex layout then keeps header + input pinned with the message
+  // list scrolling between them. Body scroll-lock stops the underlying page from
+  // receiving the pan. Scoped to mobile + open; desktop popover is untouched.
+  useEffect(() => {
+    if (!isOpen || !isMobile) return;
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    const el = chatWindowRef.current;
+    if (!vv || !el) return;
+
+    const applyViewport = () => {
+      el.style.height = `${vv.height}px`;
+      el.style.top = `${vv.offsetTop}px`;
+      el.style.bottom = 'auto';
+    };
+
+    applyViewport();
+    vv.addEventListener('resize', applyViewport);
+    vv.addEventListener('scroll', applyViewport);
+    const previousBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      vv.removeEventListener('resize', applyViewport);
+      vv.removeEventListener('scroll', applyViewport);
+      el.style.height = '';
+      el.style.top = '';
+      el.style.bottom = '';
+      document.body.style.overflow = previousBodyOverflow;
+    };
+  }, [isOpen, isMobile]);
 
   // Auto-resize textarea based on content
   useEffect(() => {
@@ -264,7 +302,7 @@ Focus on helping users with:
 
       {/* Chat Window */}
       {isOpen && (
-        <div className={styles.chatWindow} role="dialog" aria-label="AutoBot chat">
+        <div className={styles.chatWindow} ref={chatWindowRef} role="dialog" aria-label="AutoBot chat">
           {/* Header */}
           <div className={styles.chatHeader}>
             <div className={styles.headerLeft}>
