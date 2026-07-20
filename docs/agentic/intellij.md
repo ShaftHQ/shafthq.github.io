@@ -301,9 +301,9 @@ first-result page object only if none exists, and use SHAFT assertion builders.
 flowchart TD
     Prompt[User asks for new scenario] --> Plan[shaft_coding_partner_plan]
     Plan --> Reuse[Existing SearchPage and ResultsPage reuse plan]
-    Reuse --> Record[capture_start or playwright_record_start]
+    Reuse --> Record[capture_start, WebDriver or Playwright engine]
     Record --> Browser[Agent performs search, opens first result, records checkpoints]
-    Browser --> Codegen[capture_record_at_target_code_blocks or playwright_capture_code_blocks]
+    Browser --> Codegen[capture_record_at_target_code_blocks]
     Codegen --> Guardrails[test_code_guardrails_check]
     Guardrails --> Patch[Agent patches only missing locators, actions, page, and test method]
     Patch --> Verify[Focused compile or test command]
@@ -321,9 +321,9 @@ PDF, or official Playwright Test Agent planning, let the local agent use
 official Playwright CLI or Playwright MCP as a sidecar. The final Java change
 still returns through SHAFT planning and guardrails. Storage-state save/load
 and observed-network inspection no longer need a sidecar for the common case:
-use `browser_storage_state_save`/`browser_storage_state_load` (or the
-`playwright_*` equivalents) and `browser_network_requests`/
-`browser_network_request` directly.
+use `browser_storage_state_save`/`browser_storage_state_load` and
+`browser_network_requests` directly -- the same tool names work against
+whichever engine (WebDriver or Playwright) is active in the session.
 
 ```mermaid
 flowchart LR
@@ -351,7 +351,7 @@ flowchart TD
     Trace --> Cause[Failure category and source context]
     Doctor --> Cause
     Cause --> Heal{Locator recovery eligible?}
-    Heal -->|Yes| Healer[healer_run_failed_test or playwright_healer_run_failed_test]
+    Heal -->|Yes| Healer[healer_run_failed_test, WebDriver or Playwright backend]
     Heal -->|No| FixPlan[shaft_coding_partner_plan for reviewed fix]
     Healer --> FixPlan
     FixPlan --> Patch[Approved source edit]
@@ -461,11 +461,11 @@ same menu for users who already know the tool names; regular users never need
 it, because the five defaults plus plain language cover the common workflows.
 
 The Assistant understands feature intent directly from the chat box: "start
-mobile recording" maps to `mobile_record_start`, "record my browser actions on
-https://..." starts a web capture session, and "diagnose my last failed test
-run" triages the most recent Allure results in the project. Browser control
-defaults to WebDriver; say `playwright` in the prompt when that backend is
-required.
+mobile recording" maps to `capture_start` against an active mobile session,
+"record my browser actions on https://..." starts a web capture session, and
+"diagnose my last failed test run" triages the most recent Allure results in
+the project. Browser control defaults to WebDriver; say `playwright` in the
+prompt when that backend is required.
 
 Direct `/codegen` slash-command results show a persistent **review strip** with
 actions (Approve / Create test class / Insert / Dismiss) just like record-flow
@@ -474,13 +474,13 @@ example "Generate a SHAFT test from recordings/checkout.json") generates the
 SHAFT test, compiles it, and **re-executes the recording**, so the returned code
 blocks are verified against the live flow rather than only statically
 generated — and it works from the persisted recording file alone, with no
-live capture session required. WebDriver Capture recordings go through
-`capture_generate_replay` (generate, compile, then a headless replay gated on
-populated, passing Allure results); mobile recordings replay through
-`mobile_replay_recording` against the active mobile session; Playwright
-recordings initialize a Playwright driver and replay through
-`playwright_replay_recording` — generated locators are always validated live
-before the Assistant returns them, for every backend. Before the run starts,
+live capture session required. Every backend goes through the same
+`capture_generate_replay` tool (optional `backend` selecting web/playwright/
+mobile, defaulting to the active engine): WebDriver Capture recordings
+generate, compile, then a headless replay gated on populated, passing Allure
+results; mobile and Playwright recordings replay against their respective
+active session — generated locators are always validated live before the
+Assistant returns them, for every backend. Before the run starts,
 the Assistant explains the phases (generate, compile, replay) and warns that a
 browser window may open for the replay (it starts on `about:blank` before the
 test navigates). The result is a step-by-step story — which file was generated
@@ -493,9 +493,9 @@ into an empty "no code" response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
 exists. Describing the journey in plain words with no recording -- the same
 as `/codegen <plain-language scenario>` -- has the local agent open a fresh
-`capture_start_codegen` session, perform the described actions live, stop the
-session, then pass the persisted recording through the same replay-proving
-generator.
+`capture_start` session with `codegenOptions`, perform the described actions
+live, stop the session, then pass the persisted recording through the same
+replay-proving generator.
 
 "Upgrade this project to the latest SHAFT" in **Agent** mode with
 **Allow source edits** enabled performs the project upgrade itself: the agent
@@ -561,11 +561,11 @@ The Assistant routes plain-language intent to the right MCP tools:
 
 | Intent | Say something like | Primary MCP tools |
 | --- | --- | --- |
-| Browser control and inspection | "open https://example.com and sign in" | `driver_initialize`, `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `browser_aria_snapshot`, `browser_accessibility_audit`, `playwright_initialize`, `playwright_browser_navigate`, `playwright_browser_get_page_dom`, `playwright_browser_take_screenshot` |
-| Web recording and codegen | "Record my browser actions on https://example.com", "Generate a SHAFT test from recordings/checkout.json" | `capture_start`, `capture_start_codegen`, `capture_codegen_features`, `capture_stop`, `capture_status`, `capture_code_blocks`, `capture_generate_replay`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `playwright_record_start`, `playwright_record_status`, `playwright_record_stop`, `playwright_recording_code_blocks`, `playwright_replay_recording`, `playwright_capture_generate_replay`, `playwright_capture_code_blocks` |
-| Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `mobile_initialize_native`, `mobile_initialize_web_emulation`, `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
-| Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `mobile_record_start`, `mobile_record_stop`, `mobile_recording_code_blocks`, `mobile_record_at_target_code_blocks`, `mobile_replay_recording`, `mobile_inspector_record_prepare` |
-| Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure`, `playwright_doctor_analyze_failed_allure`, `doctor_suggest_fix`, `doctor_analyze_trace` |
+| Browser control and inspection | "open https://example.com and sign in" | `driver_initialize` (optional `engine=playwright`), `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `browser_aria_snapshot`, `browser_accessibility_audit` |
+| Web recording and codegen | "Record my browser actions on https://example.com", "Generate a SHAFT test from recordings/checkout.json" | `capture_start` (optional `codegenOptions`), `capture_codegen_features`, `capture_stop`, `capture_status`, `capture_code_blocks`, `capture_generate_replay`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `capture_step_delete`, `capture_step_reorder` (the same tools dispatch to the active Playwright engine) |
+| Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `driver_initialize` (`engine=mobile_native`/`mobile_web` with a nested `mobileOptions` request), `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
+| Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_record_at_target_code_blocks`, `capture_generate_replay` (dispatching to the active mobile session), `mobile_inspector_record_start` |
+| Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
 | Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
 | Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
 
@@ -671,9 +671,9 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   allowing you to monitor session state, steps count (including pending debounced input),
   and current URL in the IDE panel; stopping from here or in the browser overlay
   saves the same recording session, so headless recordings stay observable and controllable
-  in-panel. On the Mobile backend, Start recording chains
-  `mobile_initialize_web_emulation` and `mobile_record_start` as one action,
-  gating the recorder start on the emulated session succeeding. The guided
+  in-panel. On the Mobile backend, Start recording chains `driver_initialize`
+  (`engine=mobile_web`) and `capture_start` as one action, gating the recorder
+  start on the emulated session succeeding. The guided
   recorder action says **Review code** because it prepares reviewed SHAFT code
   blocks, setup notes, assertion suggestions, locator alternatives, and
   control-flow review output. Templates prefill MCP arguments only; apart from
