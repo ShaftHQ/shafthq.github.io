@@ -12216,7 +12216,8 @@ For trust-gated natural-language element workflows such as
 Typing actions show the value being entered in the Allure step title. SHAFT
 caps long or multiline values in the title so reports stay readable, keeps the
 locator in step metadata, and adds the resolved element name only when the
-engine captures one. Secure typing remains masked.
+engine captures one. Secure typing remains masked. If you're coming from
+plain Selenium, `type()` is SHAFT's equivalent of `WebElement.sendKeys()`.
 
 ### type()
 
@@ -20398,7 +20399,7 @@ public class MobileTouchActionsDemo {
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/Validations
 
-SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API.
+SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API. If you're coming from JUnit or TestNG, SHAFT's fluent equivalents to `assertEquals`/`assertTrue`/`assertFalse`/`assertNull` are `isEqualTo()`, `isTrue()`, `isFalse()`, and `isNull()` chained off `assertThat()` (hard assertion) or `verifyThat()` (soft assertion, i.e. "verify").
 
 ## Overview 
 
