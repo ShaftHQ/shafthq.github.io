@@ -3,8 +3,8 @@ import {
   loadDocumentation,
   normalizeMarkdown,
   retrieveDocumentation,
-} from '../netlify/functions/docs-loader.mjs';
-import {loadDocumentationFromIndex} from '../netlify/functions/docs-retrieval.mjs';
+} from '../shared/docs-loader.mjs';
+import {loadDocumentationFromIndex} from '../shared/docs-retrieval.mjs';
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);

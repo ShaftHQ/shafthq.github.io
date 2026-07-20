@@ -7,7 +7,7 @@
  * 3. Key SHAFT topics are included in the context
  */
 
-import { loadDocumentation, getGitHubRepositoryContext } from './netlify/functions/docs-loader.mjs';
+import { loadDocumentation, getGitHubRepositoryContext } from './shared/docs-loader.mjs';
 
 console.log('===========================================');
 console.log('AutoBot Documentation-Based Approach Demo');

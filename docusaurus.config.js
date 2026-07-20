@@ -221,11 +221,11 @@ const config = {
       require.resolve('@docusaurus/plugin-client-redirects'),
       /** @type {import('@docusaurus/plugin-client-redirects').Options} */
       ({
-        // GitHub Pages (the canonical host) can't serve netlify.toml's
-        // server-side 301s, so this plugin emits static meta-refresh pages
-        // for the same legacy URLs. Keep this list mirroring netlify.toml's
-        // `[[redirects]]` entries — netlify.toml stays authoritative for the
-        // secondary/fallback Netlify host.
+        // GitHub Pages (the canonical, and since issue #864, only host)
+        // can't serve server-side 301s, so this plugin emits static
+        // meta-refresh pages for legacy URLs instead. This list is the
+        // sole source of truth for redirects (netlify.toml, previously a
+        // secondary/fallback host's redirect config, was retired in #864).
         createRedirects(existingPath) {
           const wildcardPrefixMap = {
             '/docs/reference/actions/': '/docs/Keywords/',

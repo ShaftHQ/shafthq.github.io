@@ -4,7 +4,7 @@ title: Documentation site operations
 description: Develop, validate, and deploy the canonical SHAFT documentation site.
 slug: /maintainers/site-operations
 sidebar_position: 2
-tags: [maintainers, docusaurus, cloudflare-workers, github-pages, netlify]
+tags: [maintainers, docusaurus, cloudflare-workers, github-pages]
 ---
 
 # Documentation site operations
@@ -32,10 +32,6 @@ Cloudflare Workers Builds uses `wrangler.toml`, builds with `yarn build`,
 uploads `build/` through `[assets]`, and routes `/api/gemini-proxy` through
 `worker/index.js`. Set `YARN_VERSION=1.22.22` and `GEMINI_API_KEY` in
 Cloudflare environment variables; do not commit secrets.
-
-Netlify uses `yarn build`, publishes `build/`, and serves functions from
-`netlify/functions/`. `GEMINI_API_KEY` belongs in the Netlify environment; it
-must never be embedded in the browser bundle.
 
 GitHub Pages uses `.github/workflows/deploy.yml` and publishes `build/` as the
 canonical public guide at `https://shafthq.github.io/`.
@@ -87,8 +83,8 @@ AutoBot indexes Markdown and MDX by route and heading at startup, retrieves the
 eight best chunks for each question, and caps injected documentation context at
 80,000 characters. `yarn build` writes `static/autobot-index.json`; the
 Cloudflare function fetches that static index at runtime, so AutoBot does not
-depend on GitHub Pages server-side code or Netlify filesystem access.
-`EXCLUDED_DIRECTORIES` in `netlify/functions/docs-loader.mjs` excludes
+depend on GitHub Pages server-side code.
+`EXCLUDED_DIRECTORIES` in `shared/docs-loader.mjs` excludes
 `archive/` and `superpowers/` only -- `docs/maintainers/` is intentionally
 included per #795 ("make docs/maintainers/ fully public"), and
 `tests/docs-loader.test.js` asserts that inclusion; local search's
@@ -101,5 +97,6 @@ unchanged.
 - Reuse commands and dependency snippets from `src/components/DocSnippets`.
 - Put historical records under `docs/archive/`; archive routes are unlisted and
   emit `noindex`.
-- Add redirects in `netlify.toml` when replacing a public route.
+- Add redirects to the `plugin-client-redirects` config in
+  `docusaurus.config.js` when replacing a public route.
 - Coordinate public behavior changes with a linked SHAFT_ENGINE pull request.

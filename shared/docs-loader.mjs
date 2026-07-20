@@ -9,7 +9,7 @@ export { getGitHubRepositoryContext } from './github-context.mjs';
 
 const currentDir = dirname(fileURLToPath(import.meta.url));
 const snippets = JSON.parse(
-  readFileSync(join(currentDir, '..', '..', 'src', 'data', 'snippets.json'), 'utf-8'),
+  readFileSync(join(currentDir, '..', 'src', 'data', 'snippets.json'), 'utf-8'),
 );
 const MCP_COMMAND_SYSTEMS = ['windows', 'macos', 'linux'];
 const EXCLUDED_DIRECTORIES = new Set(['archive', 'superpowers']);
@@ -130,7 +130,7 @@ function splitIntoChunks(file) {
 export function buildDocumentationIndex() {
   if (cachedIndex) return cachedIndex;
 
-  const docsPath = join(currentDir, '..', '..', 'docs');
+  const docsPath = join(currentDir, '..', 'docs');
   const files = readDocumentationFiles(docsPath, docsPath);
   cachedIndex = files.flatMap(splitIntoChunks);
   console.log(
