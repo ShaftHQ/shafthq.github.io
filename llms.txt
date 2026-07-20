@@ -74,6 +74,7 @@
 - [Response Getters](https://shafthq.github.io/docs/reference/actions/API/Response_Getters): Extract and parse API response data — body, typed JSON objects, status code, response time, JSON values, and XML values using SHAFT Engine.
 - [Response Validations](https://shafthq.github.io/docs/reference/actions/API/Response_Validations): Validate API responses — status codes, JSON values, response body, schema matching, and response time using SHAFT Engine.
 - [Running Tests in CI/CD Pipelines](https://shafthq.github.io/docs/reference/guides/CI_CD_Integration): How to run SHAFT Engine tests in CI/CD pipelines — configuring properties, headless execution, and pipeline integration tips.
+- [Sharded Test Execution and Merged Reports](https://shafthq.github.io/docs/reference/guides/Sharded_Execution): Split a SHAFT suite across parallel shards with -Dshaft.shard=N/M, then merge every shard's Allure results into one report and speedboard.
 - [SSH Remote Terminal](https://shafthq.github.io/docs/reference/actions/CLI/SSH_Terminal): Execute commands on remote servers via SSH using SHAFT Engine's TerminalActions with the SSH constructor.
 - [Terminal Actions](https://shafthq.github.io/docs/reference/actions/CLI/Terminal_Actions): Execute terminal commands and shell scripts programmatically using SHAFT Engine's CLI terminal actions.
 - [Test Artifacts and Report Paths](https://shafthq.github.io/docs/reference/guides/Test_Artifacts): Where to find SHAFT Engine test artifacts — Allure reports, execution summaries, and how to publish them from CI/CD pipelines.
