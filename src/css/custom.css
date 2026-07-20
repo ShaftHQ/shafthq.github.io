@@ -264,11 +264,7 @@ content: url(../../static/img/shaft_white.svg)
    The plugin's own <=576px rule only shrinks the input to icon-only while
    *unfocused*; focused/expanded search below 997px still falls back to
    that same clipped 9rem. Guarantee a comfortable width everywhere the
-   input can show text (issue #868 requirement 4). Note: the previous
-   `.dsla-search-wrapper` / `.aa-*` selectors here predate the #866 local-
-   search migration and no longer match any rendered element -- tracked
-   for cleanup in a follow-up issue rather than fixed here (out of #868's
-   navbar-overlap scope). */
+   input can show text (issue #868 requirement 4). */
 @media (min-width: 577px) {
   .navbar__search-input {
     min-width: 13rem !important;
@@ -282,21 +278,11 @@ content: url(../../static/img/shaft_white.svg)
   }
 }
 
-/* Keep search chrome aligned to the site token palette in both themes. */
-.dsla-search-wrapper,
-.dsla-search-field,
-.aa-InputWrapper,
-.aa-Input {
-  background: var(--ifm-background-surface-color);
-  color: var(--ifm-font-color-base);
-}
-
-.dsla-search-field::placeholder,
-.aa-Input::placeholder {
-  color: var(--ifm-color-emphasis-700);
-  opacity: 1;
-}
-
+/* Keep the local search input aligned to the site token palette in both
+   themes. The former Algolia DocSearch selectors (.dsla-*, .aa-*) that used
+   to sit here were removed after the #866 local-search migration left them
+   matching no rendered element (#872); @easyops-cn/docusaurus-search-local
+   renders a plain <input aria-label="Search">. */
 input[aria-label='Search'],
 input[placeholder='Search...'],
 input[placeholder='Search'] {
@@ -307,28 +293,6 @@ input[aria-label='Search']::placeholder,
 input[placeholder='Search...']::placeholder,
 input[placeholder='Search']::placeholder {
   color: var(--ifm-color-emphasis-700);
-}
-
-.aa-ItemLink,
-.aa-ItemLink:visited {
-  color: inherit;
-  text-decoration: none;
-}
-
-[data-theme='dark'] .dsla-search-wrapper,
-[data-theme='dark'] .dsla-search-field,
-[data-theme='dark'] .aa-InputWrapper,
-[data-theme='dark'] .aa-Input {
-  --aa-text-color-rgb: var(--site-color-on-dark-rgb);
-  --aa-muted-color-rgb: var(--site-color-muted-rgb);
-  --aa-primary-color-rgb: var(--site-color-primary-rgb);
-  background: var(--ifm-background-surface-color);
-  color: var(--site-color-on-dark);
-}
-
-[data-theme='dark'] .dsla-search-field::placeholder,
-[data-theme='dark'] .aa-Input::placeholder {
-  color: var(--site-color-muted);
 }
 
 [data-theme='dark'] input[aria-label='Search'],
@@ -343,57 +307,14 @@ input[placeholder='Search']::placeholder {
   color: var(--site-color-muted);
 }
 
-/* Improve search result title readability */
-.aa-ItemContentTitle {
-  font-weight: var(--site-font-weight-bold) !important;
-  font-size: var(--site-font-label) !important;
-  color: var(--ifm-font-color-base);
-}
-
-[data-theme='dark'] .aa-ItemContentTitle {
-  color: var(--site-color-on-dark);
-}
-
-/* Better description legibility */
-.aa-ItemContentDescription {
-  font-size: var(--site-font-small) !important;
-  line-height: 1.45 !important;
-  opacity: 0.85 !important;
-  color: var(--ifm-color-emphasis-700);
-}
-
-[data-theme='dark'] .aa-ItemContentDescription {
-  color: var(--site-color-muted);
-}
-
-/* Highlight matching text in search results */
-.aa-ItemContentTitle mark,
-.aa-ItemContentDescription mark {
-  background-color: rgba(var(--site-color-primary-rgb), 0.18) !important;
-  color: inherit !important;
-  border-radius: 2px;
-  padding: 0 2px;
-}
-
-[data-theme='dark'] .aa-ItemContentTitle mark,
-[data-theme='dark'] .aa-ItemContentDescription mark {
-  background-color: rgba(var(--site-color-primary-rgb), 0.22) !important;
-}
-
-/* Focus ring on the search input for accessibility */
-.dsla-search-field:focus-visible {
+/* Focus ring on the local search input for accessibility. Ported from the
+   removed .dsla-*/.aa-* rules so the intended focus outline actually applies
+   to the element the local search plugin renders. */
+input[aria-label='Search']:focus-visible,
+input[placeholder='Search...']:focus-visible,
+input[placeholder='Search']:focus-visible {
   outline: 2px solid var(--ifm-color-primary) !important;
   outline-offset: 1px;
-}
-
-.aa-Input:focus-visible {
-  outline: 2px solid var(--ifm-color-primary) !important;
-  outline-offset: 1px;
-}
-
-/* Subtle hover lift on result items */
-.aa-ItemLink:hover {
-  background-color: var(--ifm-hover-overlay) !important;
 }
 
 .docusaurus-mermaid-container svg {
