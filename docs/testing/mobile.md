@@ -113,6 +113,18 @@ context inspection.
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration allows you to seamlessly test Flutter apps on both Android and iOS platforms.
 
+:::warning Deprecated: `appium_flutterfinder_java` / `FlutterFinder`
+As of SHAFT Engine 10.3.20260726, the `io.github.ashwithpoojary98:appium_flutterfinder_java`
+dependency and its `FlutterFinder` API (used throughout the examples below) are **deprecated**
+in favor of `io.appium:java-client`'s native Flutter locators (`AppiumBy.flutterKey`,
+`flutterText`, `flutterType`, `flutterSemanticsLabel`, etc.) and the
+`FlutterIntegrationTestDriver` surface, shipped since java-client 10.1.1. The dependency is
+still on the classpath (compile scope, unchanged behavior) during the deprecation window, but
+new tests should prefer the native locators — see
+[Native Flutter Locators](#native-flutter-locators-recommended) below. Track the eventual
+removal at [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016).
+:::
+
 ## Prerequisites
 
 ### 1. Install Appium Server
@@ -279,7 +291,38 @@ SHAFT.Properties.mobile.set().platformVersion("13.0");
 
 When testing Flutter apps, you can use the FlutterFinder library to locate widgets. SHAFT Engine includes the `appium_flutterfinder_java` dependency (version 1.0.12) automatically.
 
-### Common Flutter Locator Strategies
+### Native Flutter Locators (Recommended)
+
+`io.appium:java-client` (10.1.1+) ships native `AppiumBy.flutter*` locators that return
+standard `WebElement`/`By` objects — no separate finder instance or `RemoteWebDriver` cast
+required. This is the supported replacement for `FlutterFinder` (see the deprecation notice
+above):
+
+```java
+import io.appium.java_client.AppiumBy;
+import org.openqa.selenium.WebElement;
+
+// By value key
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterKey("myButton"));
+
+// By text
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterText("Submit"));
+
+// By type (widget class name)
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
+
+// By semantics label (also the closest native equivalent to FlutterFinder's byToolTip)
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Login Button"));
+
+// Text containing
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterTextContaining("Submit"));
+```
+
+`AppiumBy.flutterAncestor(...)` / `AppiumBy.flutterDescendant(...)` compose two `FlutterBy`
+locators for hierarchy-relative lookups. See a full worked example in SHAFT Engine's own test
+suite: [`FlutterTest.java`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/appium/FlutterTest.java).
+
+### Common Flutter Locator Strategies (Deprecated)
 
 ```java
 import io.github.ashwith.flutter.FlutterFinder;
@@ -583,7 +626,8 @@ public class FlutterAppTestSuite {
 - [Appium Flutter Driver Documentation](https://github.com/appium-userland/appium-flutter-driver)
 - [Flutter Testing Guide](https://flutter.dev/docs/testing)
 - [SHAFT Engine Documentation](https://ShaftHQ.github.io/)
-- [Flutter Finder Java Library](https://github.com/ashwithpoojary98/javaflutterfinder) - Package: `io.github.ashwithpoojary98`
+- [Appium java-client Flutter API](https://github.com/appium/java-client) - native `AppiumBy.flutter*` locators (recommended, package `io.appium.java_client`)
+- [Flutter Finder Java Library](https://github.com/ashwithpoojary98/javaflutterfinder) - Package: `io.github.ashwithpoojary98` (deprecated, see [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016))
 
 ## Support
 
