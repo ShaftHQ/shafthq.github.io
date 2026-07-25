@@ -122,7 +122,9 @@ in favor of `io.appium:java-client`'s native Flutter locators (`AppiumBy.flutter
 still on the classpath (compile scope, unchanged behavior) during the deprecation window, but
 new tests should prefer the native locators — see
 [Native Flutter Locators](#native-flutter-locators-recommended) below. Track the eventual
-removal at [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016).
+removal at [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016)
+and the followup removal issue
+[ShaftHQ/SHAFT_ENGINE#4032](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4032).
 :::
 
 ## Prerequisites
@@ -627,7 +629,7 @@ public class FlutterAppTestSuite {
 - [Flutter Testing Guide](https://flutter.dev/docs/testing)
 - [SHAFT Engine Documentation](https://ShaftHQ.github.io/)
 - [Appium java-client Flutter API](https://github.com/appium/java-client) - native `AppiumBy.flutter*` locators (recommended, package `io.appium.java_client`)
-- [Flutter Finder Java Library](https://github.com/ashwithpoojary98/javaflutterfinder) - Package: `io.github.ashwithpoojary98` (deprecated, see [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016))
+- [Flutter Finder Java Library](https://github.com/ashwithpoojary98/javaflutterfinder) - Package: `io.github.ashwithpoojary98` (deprecated, see [ShaftHQ/SHAFT_ENGINE#4016](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4016) and [#4032](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4032))
 
 ## Support
 
