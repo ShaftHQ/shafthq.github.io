@@ -58,7 +58,19 @@ canonical rule file; they do not copy the canonical body into
 
 ## Audit
 
-Budgets and routing rules live in `scripts/ci/agent_guidance_budget.json`.
+This repository's own checks run via `yarn test` (including
+`tests/docs-quality.test.js`, which enforces the admonition vocabulary and
+content style guide rules from `DESIGN_LANGUAGE.md`), `yarn typecheck`, and
+`yarn build`:
+
+```bash
+yarn test
+yarn typecheck
+yarn build
+```
+
+`ShaftHQ/SHAFT_ENGINE` runs a separate audit against its own agent-guidance
+corpus, not present in this repository:
 
 ```bash
 python3 scripts/ci/validate_agent_guidance.py
@@ -66,10 +78,10 @@ python3 -m unittest tests.scripts.test_validate_agent_guidance
 git diff --check
 ```
 
-The audit checks file and host context budgets, both skill roots, local links,
-path scopes, stale references, costly mandates, duplicate paragraphs, and the
-manual paid-refresh gate.
-
-The refresh workflow runs only by manual dispatch. It invokes paid AI review
-only when the deterministic audit fails or a maintainer supplies a reason and
-forces review.
+Budgets and routing rules for that audit live in
+`scripts/ci/agent_guidance_budget.json` in `SHAFT_ENGINE`. It checks file and
+host context budgets, both skill roots, local links, path scopes, stale
+references, costly mandates, duplicate paragraphs, and the manual
+paid-refresh gate; its refresh workflow runs only by manual dispatch, and
+invokes paid AI review only when the deterministic audit fails or a
+maintainer supplies a reason and forces review.
