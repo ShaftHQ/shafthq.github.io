@@ -30,6 +30,15 @@ const markdownImage = /!\[([^\]]*)\]\([^)]*\)/g;
 const genericAltText = new Set(['image', 'screenshot', 'img']);
 const headingLine = /^(#{1,6})\s+/gm;
 
+// #4048: DESIGN_LANGUAGE.md Content style guide rules 7-8, re-expressed from
+// blader/humanizer (MIT, Copyright (c) 2025 Siqi Chen).
+const inflatedVocabulary = /\b(seamlessly?|robust|comprehensive|leverage|essential)\b/i;
+// Ratchet, not a rewrite mandate: the measured worst public-docs file today
+// is 37 em dashes (agentic/intellij.md). This locks in that ceiling instead
+// of demanding a 300+-instance corpus rewrite for zero functional gain.
+const EM_DASH_MAX_PER_FILE = 40;
+const emojiChar = /\p{Extended_Pictographic}/u;
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
@@ -42,6 +51,15 @@ function withoutFences(content) {
 
 function lineAt(content, index) {
   return content.slice(0, index).split('\n').length;
+}
+
+// Blank out table rows too, for the em-dash density check only — table cells
+// are an explicit exemption in DESIGN_LANGUAGE.md's Content style guide #7.
+function withoutTableRows(content) {
+  return content
+    .split('\n')
+    .map((line) => (/^\s*\|.*\|\s*$/.test(line) ? line.replace(/[^\n]/g, ' ') : line))
+    .join('\n');
 }
 
 function publicDocs(directory = docsRoot, files = []) {
@@ -142,6 +160,31 @@ for (const {fullPath, relativePath} of docs) {
     );
     previousLevel = level;
   }
+
+  // Rule 6: no emoji in headings (DESIGN_LANGUAGE.md is already clean here;
+  // this is a regression lock, not a rewrite. blog/ is a separate corpus and
+  // this scan never reaches it — its release-note emoji headings are a
+  // deliberate convention, not slop).
+  for (const line of proseOnly.split('\n')) {
+    if (/^#{1,6}\s+/.test(line) && emojiChar.test(line)) {
+      assert(false, `${relativePath} has an emoji in a heading ("${line.trim()}") — keep headings emoji-free.`);
+    }
+  }
+
+  // Rule 7: no inflated-vocabulary praise words (Content style guide #8).
+  for (const line of proseOnly.split('\n')) {
+    const match = line.match(inflatedVocabulary);
+    if (match) {
+      assert(false, `${relativePath} uses inflated vocabulary word "${match[0]}" in "${line.trim()}" — say what the thing does instead (Content style guide #8).`);
+    }
+  }
+
+  // Rule 8: em-dash density ratchet (Content style guide #7).
+  const emDashCount = (withoutTableRows(proseOnly).match(/—/g) || []).length;
+  assert(
+    emDashCount <= EM_DASH_MAX_PER_FILE,
+    `${relativePath} has ${emDashCount} em dashes (ratchet max ${EM_DASH_MAX_PER_FILE} per page) — prefer a period, comma, colon, or parentheses (Content style guide #7).`,
+  );
 }
 
 function docsContaining(pattern) {

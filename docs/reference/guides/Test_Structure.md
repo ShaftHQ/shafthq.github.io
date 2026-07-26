@@ -125,7 +125,7 @@ TestNG's `@Test(priority = N)` attribute controls execution order, but it has im
 | Controls order but does **not** skip dependents on failure | Explicitly skips dependent tests when a prerequisite fails |
 | All tests still run even if early ones fail | Failing early stops the chain — saves time and avoids noise |
 | Implicit relationship — hard to understand at a glance | Explicit dependency — self-documenting |
-| Fragile when tests are added or reordered | Robust — dependencies are declared by name |
+| Fragile when tests are added or reordered | Stable — dependencies are declared by name |
 
 :::warning
 Using `priority` to order tests creates a hidden dependency. If a test with `priority=1` fails, the test with `priority=2` still runs — often producing confusing, cascading failures that waste debugging time.

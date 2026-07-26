@@ -9,7 +9,7 @@ tags: [test-data, json, excel, csv]
 
 ## Overview
 
-Test data management is a critical aspect of test automation. SHAFT Engine provides robust support for managing test data across different file formats, making it easy to maintain, scale, and share test data across your automation projects.
+Test data management is a critical aspect of test automation. SHAFT Engine supports managing test data across different file formats, making it easy to maintain, scale, and share test data across your automation projects.
 
 SHAFT Engine supports the following test data formats:
 - **JSON** - Ideal for structured data, API payloads, and complex nested data
@@ -626,7 +626,7 @@ List<String> items = testData.getListAs("items", String.class);
 - Supports comments (`#`) — helpful for documenting test data
 - Handles nested structures and lists natively
 - Ideal replacement for properties files when you need hierarchy
-- Works seamlessly with SHAFT's type-safe API
+- Works with SHAFT's type-safe API
 
 ### Best Practices for YAML
 
@@ -920,7 +920,7 @@ public void databaseTest() throws Exception {
 
 ## Summary
 
-SHAFT Engine provides comprehensive test data management capabilities:
+SHAFT Engine provides these test data management capabilities:
 
 1. **JSON**: Best for structured, hierarchical data and API testing
 2. **CSV**: Ideal for simple tabular data and bulk test inputs
@@ -935,7 +935,7 @@ SHAFT Engine provides comprehensive test data management capabilities:
 - Handle sensitive data securely
 - Load test data efficiently
 
-By following these guidelines and examples, you can build a robust and maintainable test data management strategy for your SHAFT Engine automation projects.
+By following these guidelines and examples, you can build a maintainable test data management strategy for your SHAFT Engine automation projects.
 
 ---
 

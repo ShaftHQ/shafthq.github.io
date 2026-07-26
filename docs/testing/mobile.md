@@ -111,7 +111,7 @@ context inspection.
 
 ## Flutter applications
 
-SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration allows you to seamlessly test Flutter apps on both Android and iOS platforms.
+SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
 
 ## Prerequisites
 
@@ -378,7 +378,7 @@ driver.element()
 
 ## Cloud Execution
 
-SHAFT Engine's Flutter integration works seamlessly with cloud providers:
+SHAFT Engine's Flutter integration works with these cloud providers:
 
 ### BrowserStack
 
@@ -462,7 +462,7 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
    SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
    ```
 
-4. **Use Fluent API**: Leverage SHAFT's fluent API for readable tests:
+4. **Use Fluent API**: SHAFT's fluent API makes tests more readable:
    ```java
    driver.element()
          .type(usernameField, "user")

@@ -216,7 +216,7 @@ public class CheckoutTest extends BaseTest {
 
 1. **Start with POM** — it is the industry standard and scales well.
 2. **Use a base class** for driver setup/teardown, but keep it thin.
-3. **Leverage SHAFT's fluent API** inside your page object methods for readability.
+3. **Use SHAFT's fluent API** inside your page object methods for readability.
 4. **Avoid deep inheritance hierarchies** — prefer composition over inheritance when sharing behavior between page objects.
 5. **Choose one primary pattern and be consistent** across your project — mixing too many patterns creates confusion.
 

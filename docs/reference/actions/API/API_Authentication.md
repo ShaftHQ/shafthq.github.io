@@ -7,7 +7,7 @@ keywords: [SHAFT, API authentication, basic auth, digest auth, OAuth2, bearer to
 tags: [api, authentication, security, rest-assured]
 ---
 
-SHAFT Engine supports multiple API authentication strategies through `setAuthentication()` and the fluent request builder. All authentication methods integrate seamlessly with the existing `SHAFT.API` request-building API.
+SHAFT Engine supports multiple API authentication strategies through `setAuthentication()` and the fluent request builder. All authentication methods work with the existing `SHAFT.API` request-building API.
 
 ---
 
