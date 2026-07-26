@@ -2105,7 +2105,7 @@ context inspection.
 
 ## Flutter applications
 
-SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration allows you to seamlessly test Flutter apps on both Android and iOS platforms.
+SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
 
 ## Prerequisites
 
@@ -2360,7 +2360,7 @@ driver.element()
 
 ## Cloud Execution
 
-SHAFT Engine's Flutter integration works seamlessly with cloud providers:
+SHAFT Engine's Flutter integration works with these cloud providers:
 
 ### BrowserStack
 
@@ -2445,7 +2445,7 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
  SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
  ```
 
-4. **Use Fluent API**: Leverage SHAFT's fluent API for readable tests:
+4. **Use Fluent API**: SHAFT's fluent API makes tests more readable:
  ```java
  driver.element()
  .type(usernameField, "user")
@@ -7791,7 +7791,7 @@ public class AlertDemo {
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/API/API_Authentication
 
-SHAFT Engine supports multiple API authentication strategies through `setAuthentication()` and the fluent request builder. All authentication methods integrate seamlessly with the existing `SHAFT.API` request-building API.
+SHAFT Engine supports multiple API authentication strategies through `setAuthentication()` and the fluent request builder. All authentication methods work with the existing `SHAFT.API` request-building API.
 
 ---
 
@@ -18897,7 +18897,7 @@ public class CheckoutTest extends BaseTest {
 
 1. **Start with POM** — it is the industry standard and scales well.
 2. **Use a base class** for driver setup/teardown, but keep it thin.
-3. **Leverage SHAFT's fluent API** inside your page object methods for readability.
+3. **Use SHAFT's fluent API** inside your page object methods for readability.
 4. **Avoid deep inheritance hierarchies** — prefer composition over inheritance when sharing behavior between page objects.
 5. **Choose one primary pattern and be consistent** across your project — mixing too many patterns creates confusion.
 
@@ -18957,7 +18957,7 @@ SHAFT includes **Allure reporting** out of the box — with screenshots, videos,
 - Can configuration be overridden from the command line?
 - Is there built-in support for generating portable artifacts?
 
-SHAFT supports [headless execution and CLI-based property overrides](CI_CD_Integration) for seamless pipeline integration.
+SHAFT supports [headless execution and CLI-based property overrides](CI_CD_Integration) for direct pipeline integration.
 
 ### 5. Maintenance Cost
 
@@ -18970,7 +18970,7 @@ SHAFT handles **automatic waits, smart scrolling, element retry, and screenshot 
 ### 6. Learning Curve
 
 - How long does it take a new team member to write their first test?
-- Is the documentation clear and comprehensive?
+- Is the documentation clear and complete?
 - Are there working examples and templates?
 
 SHAFT provides a [one-command project setup](/docs/start/installation),
@@ -19041,7 +19041,7 @@ Canonical URL: https://shafthq.github.io/docs/reference/actions/TestData_Managem
 
 ## Overview
 
-Test data management is a critical aspect of test automation. SHAFT Engine provides robust support for managing test data across different file formats, making it easy to maintain, scale, and share test data across your automation projects.
+Test data management is a critical aspect of test automation. SHAFT Engine supports managing test data across different file formats, making it easy to maintain, scale, and share test data across your automation projects.
 
 SHAFT Engine supports the following test data formats:
 - **JSON** - Ideal for structured data, API payloads, and complex nested data
@@ -19256,7 +19256,7 @@ public class CSVDataDrivenTest {
 - Supports comments (`#`) — helpful for documenting test data
 - Handles nested structures and lists natively
 - Ideal replacement for properties files when you need hierarchy
-- Works seamlessly with SHAFT's type-safe API
+- Works with SHAFT's type-safe API
 
 ### Best Practices for YAML
 
@@ -19550,7 +19550,7 @@ public void databaseTest() throws Exception {
 
 ## Summary
 
-SHAFT Engine provides comprehensive test data management capabilities:
+SHAFT Engine provides these test data management capabilities:
 
 1. **JSON**: Best for structured, hierarchical data and API testing
 2. **CSV**: Ideal for simple tabular data and bulk test inputs
@@ -19565,7 +19565,7 @@ SHAFT Engine provides comprehensive test data management capabilities:
 - Handle sensitive data securely
 - Load test data efficiently
 
-By following these guidelines and examples, you can build a robust and maintainable test data management strategy for your SHAFT Engine automation projects.
+By following these guidelines and examples, you can build a maintainable test data management strategy for your SHAFT Engine automation projects.
 
 ---
 
@@ -19691,7 +19691,7 @@ TestNG's `@Test(priority = N)` attribute controls execution order, but it has im
 | Controls order but does **not** skip dependents on failure | Explicitly skips dependent tests when a prerequisite fails |
 | All tests still run even if early ones fail | Failing early stops the chain — saves time and avoids noise |
 | Implicit relationship — hard to understand at a glance | Explicit dependency — self-documenting |
-| Fragile when tests are added or reordered | Robust — dependencies are declared by name |
+| Fragile when tests are added or reordered | Stable — dependencies are declared by name |
 
 :::warning
 Using `priority` to order tests creates a hidden dependency. If a test with `priority=1` fails, the test with `priority=2` still runs — often producing confusing, cascading failures that waste debugging time.
@@ -20687,7 +20687,7 @@ SHAFT Engine allows you to perform assertions and verifications easily using the
 
 ## Overview 
 
-Assertions and verifications are essential components in test automation. Each serves a distinct purpose:
+Assertions and verifications are core parts of test automation. Each serves a distinct purpose:
 
 1. **Assertions (Hard Assertions)** — If the assertion condition is not met, test execution is **aborted** immediately. The remaining steps in the test case are skipped and the result is marked as **failed**. Use assertions for business-critical checkpoints.
 2. **Verifications (Soft Assertions)** — Even if the verification condition is not met, test execution **continues** until the last step completes. All failures are collected and reported at the end of the test run. Use verifications when you want to validate multiple conditions in a single test.
