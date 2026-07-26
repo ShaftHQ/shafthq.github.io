@@ -16,18 +16,30 @@ procedures belong in runbooks or skills.
 
 ## Ownership
 
+This repository's own canonical guidance lives here:
+
 | Content | Canonical location |
 |---|---|
+| Repository identity, defaults, content rules, validation | `AGENTS.md` |
+| Style authority: palette, typography tokens, prose rules | `DESIGN_LANGUAGE.md` |
+| Host-only behavior | `.github/copilot-instructions.md` |
+| Product and maintainer documentation | Docusaurus routes under `docs/` |
+| Executable behavior and history | `ShaftHQ/SHAFT_ENGINE` (a separate repository) configuration, source, and Git history |
+
+`ShaftHQ/SHAFT_ENGINE` keeps its own agent-guidance layout, referenced above
+but not present in this repository:
+
+| Content | Canonical location in `SHAFT_ENGINE` |
+|---|---|
 | Repository identity, global safety, routing, validation | `AGENTS.md` |
-| Host-only behavior | `CLAUDE.md`, `.github/copilot-instructions.md` |
+| Host-only behavior | `CLAUDE.md` |
 | Codex skill discovery metadata | `.agents/skills/*/SKILL.md` |
 | Production and test Java rules | `.github/instructions/*.instructions.md` |
 | CI, flaky-test, and release workflows | `.github/skills/*/SKILL.md` |
-| Product and maintainer documentation | Docusaurus routes in this repository |
-| Executable behavior and history | SHAFT_ENGINE configuration, source, and Git history |
 
-Codex bridge skills contain frontmatter and a link to one canonical rule file.
-Do not copy the canonical body into `.agents/skills/`.
+Codex bridge skills in `SHAFT_ENGINE` contain frontmatter and a link to one
+canonical rule file; they do not copy the canonical body into
+`.agents/skills/`.
 
 ## Update Rules
 
