@@ -174,17 +174,17 @@ To test a Flutter app using SHAFT Engine, you need to:
 
 ### Example Test Class
 
-Here's a complete example of a Flutter test using SHAFT Engine with TestNG and FlutterFinder:
+Here's a complete example of a Flutter test using SHAFT Engine with TestNG and
+java-client's native Flutter locators:
 
 ```java
 package com.example.tests;
 
 import com.shaft.driver.SHAFT;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
-import io.github.ashwith.flutter.FlutterFinder;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -192,7 +192,6 @@ import org.testng.annotations.Test;
 
 public class FlutterAppTest {
     private SHAFT.GUI.WebDriver driver;
-    private FlutterFinder finder;
 
     @BeforeMethod
     public void setup() {
@@ -206,25 +205,24 @@ public class FlutterAppTest {
         // Set app path (local file)
         SHAFT.Properties.mobile.set().app("path/to/your/app-debug.apk");
         
-        // Initialize driver
+        // Initialize driver. With automationName set to FLUTTER_INTEGRATION, SHAFT
+        // constructs a FlutterAndroidDriver/FlutterIOSDriver under the hood, so
+        // AppiumBy's native flutter* locators can be used directly via findElement().
         driver = new SHAFT.GUI.WebDriver();
-        
-        // Initialize FlutterFinder (requires RemoteWebDriver)
-        finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
     }
 
     @Test
     public void testFlutterApp() {
         // Find element by ValueKey
-        WebElement loginButton = finder.byValueKey("loginButton");
+        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
         loginButton.click();
         
         // Find element by text
-        WebElement welcomeMessage = finder.byText("Welcome!");
+        WebElement welcomeMessage = driver.getDriver().findElement(AppiumBy.flutterText("Welcome!"));
         Assert.assertNotNull(welcomeMessage, "Welcome message should be displayed");
         
         // Find element by Type
-        WebElement textField = finder.byType("TextField");
+        WebElement textField = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
         Assert.assertNotNull(textField, "TextField should be found");
     }
 
@@ -277,60 +275,52 @@ SHAFT.Properties.mobile.set().platformVersion("13.0");
 
 ## Locating Flutter Elements
 
-When testing Flutter apps, you can use the FlutterFinder library to locate widgets. SHAFT Engine includes the `appium_flutterfinder_java` dependency (version 1.0.12) automatically.
+When testing Flutter apps, use java-client's native `AppiumBy` `flutter*` factory
+methods to locate widgets. They ship with the Appium dependency SHAFT Engine
+already declares, so no additional dependency is required.
 
 ### Common Flutter Locator Strategies
 
 ```java
-import io.github.ashwith.flutter.FlutterFinder;
+import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
-// Create a FlutterFinder instance (requires RemoteWebDriver)
-FlutterFinder finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
-
-// By value key (String)
-WebElement element = finder.byValueKey("myButton");
-
-// By value key (int)
-WebElement element = finder.byValueKey(123);
+// By value key
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterKey("myButton"));
 
 // By text
-WebElement element = finder.byText("Submit");
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterText("Submit"));
 
 // By type (widget class name)
-WebElement element = finder.byType("TextField");
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
 
-// By tooltip
-WebElement element = finder.byToolTip("Increment");
+// By semantics label (also covers what Flutter's Tooltip widget exposes as its
+// tooltip message - there is no separate "by tooltip" locator)
+WebElement element = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Login Button"));
 
-// By semantics label
-WebElement element = finder.bySemanticsLabel("Login Button");
-
-// Note: Refer to the FlutterFinder documentation for the complete list of available methods
-// https://github.com/ashwithpoojary98/javaflutterfinder
+// Note: Refer to the java-client AppiumBy documentation for the complete list of
+// available flutter* factory methods.
+// https://github.com/appium/java-client
 ```
 
-### Working with FlutterFinder Elements
+### Working with Located Elements
 
-Once you have located an element using FlutterFinder, you can interact with it directly:
+Once you have located an element using a native `flutter*` locator, you can
+interact with it directly - it is a standard Selenium `WebElement`:
 
 ```java
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-// Initialize FlutterFinder (requires RemoteWebDriver)
-FlutterFinder finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
+import io.appium.java_client.AppiumBy;
 
 // Find and click a button
-WebElement incrementButton = finder.byValueKey("increment");
+WebElement incrementButton = driver.getDriver().findElement(AppiumBy.flutterKey("increment"));
 incrementButton.click();
 
 // Find and get text from an element
-WebElement counterText = finder.byValueKey("counterDisplay");
+WebElement counterText = driver.getDriver().findElement(AppiumBy.flutterKey("counterDisplay"));
 String text = counterText.getText();
 
-// Find by tooltip and interact
-WebElement submitButton = finder.byToolTip("Submit");
+// Find by semantics label and interact
+WebElement submitButton = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Submit"));
 submitButton.click();
 ```
 
@@ -491,23 +481,21 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
 
 ## Example Test Suite
 
-Complete example with multiple tests using FlutterFinder:
+Complete example with multiple tests using native `AppiumBy` `flutter*` locators:
 
 ```java
 package com.example.tests;
 
 import com.shaft.driver.SHAFT;
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
-import io.github.ashwith.flutter.FlutterFinder;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class FlutterAppTestSuite {
     private static SHAFT.GUI.WebDriver driver;
-    private static FlutterFinder finder;
 
     @BeforeClass
     public void setupClass() {
@@ -521,45 +509,44 @@ public class FlutterAppTestSuite {
     @BeforeMethod
     public void setup() {
         driver = new SHAFT.GUI.WebDriver();
-        // Initialize FlutterFinder with RemoteWebDriver
-        finder = new FlutterFinder((RemoteWebDriver) driver.getDriver());
     }
 
     @Test(description = "Verify successful login with valid credentials")
     public void testValidLogin() {
-        // Find and interact with Flutter widgets using FlutterFinder
-        WebElement usernameField = finder.byValueKey("usernameField");
-        WebElement passwordField = finder.byValueKey("passwordField");
-        WebElement loginButton = finder.byValueKey("loginButton");
+        // Find and interact with Flutter widgets using native flutter* locators
+        WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
+        WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
+        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
         
         usernameField.sendKeys("testuser");
         passwordField.sendKeys("testpass");
         loginButton.click();
         
         // Verify navigation to dashboard
-        WebElement dashboardTitle = finder.byText("Dashboard");
+        WebElement dashboardTitle = driver.getDriver().findElement(AppiumBy.flutterText("Dashboard"));
         Assert.assertNotNull(dashboardTitle, "Dashboard should be displayed");
     }
 
     @Test(description = "Verify error message with invalid credentials")
     public void testInvalidLogin() {
-        WebElement usernameField = finder.byValueKey("usernameField");
-        WebElement passwordField = finder.byValueKey("passwordField");
-        WebElement loginButton = finder.byValueKey("loginButton");
+        WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
+        WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
+        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
         
         usernameField.sendKeys("wronguser");
         passwordField.sendKeys("wrongpass");
         loginButton.click();
         
         // Verify error message is displayed
-        WebElement errorMessage = finder.byText("Invalid credentials");
+        WebElement errorMessage = driver.getDriver().findElement(AppiumBy.flutterText("Invalid credentials"));
         Assert.assertNotNull(errorMessage, "Error message should be displayed");
     }
 
     @Test(description = "Verify counter increment functionality")
     public void testCounterIncrement() {
-        // Find the increment button by tooltip or value key
-        WebElement incrementButton = finder.byToolTip("Increment");
+        // Find the increment button by its semantics label (Flutter's Tooltip
+        // widget registers its message as a semantics label)
+        WebElement incrementButton = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Increment"));
         
         // Click the button
         incrementButton.click();
@@ -583,7 +570,7 @@ public class FlutterAppTestSuite {
 - [Appium Flutter Driver Documentation](https://github.com/appium-userland/appium-flutter-driver)
 - [Flutter Testing Guide](https://flutter.dev/docs/testing)
 - [SHAFT Engine Documentation](https://ShaftHQ.github.io/)
-- [Flutter Finder Java Library](https://github.com/ashwithpoojary98/javaflutterfinder) - Package: `io.github.ashwithpoojary98`
+- [Appium java-client](https://github.com/appium/java-client) - ships the native `AppiumBy` `flutter*` locators
 
 ## Support
 
