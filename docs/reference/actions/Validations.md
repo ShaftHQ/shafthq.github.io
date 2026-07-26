@@ -11,7 +11,7 @@ SHAFT Engine allows you to perform assertions and verifications easily using the
 
 ## Overview {/* #overview */}
 
-Assertions and verifications are essential components in test automation. Each serves a distinct purpose:
+Assertions and verifications are core parts of test automation. Each serves a distinct purpose:
 
 1. **Assertions (Hard Assertions)** — If the assertion condition is not met, test execution is **aborted** immediately. The remaining steps in the test case are skipped and the result is marked as **failed**. Use assertions for business-critical checkpoints.
 2. **Verifications (Soft Assertions)** — Even if the verification condition is not met, test execution **continues** until the last step completes. All failures are collected and reported at the end of the test run. Use verifications when you want to validate multiple conditions in a single test.

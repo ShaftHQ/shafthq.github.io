@@ -15,6 +15,7 @@
 - Put recurring executable commands in `src/data/snippets.json` and render through `src/components/DocSnippets`.
 - Preserve AutoBot's HTTP contract, search exclusions, archive `noindex`, redirects, responsive behavior, dark mode, reduced motion, semantic HTML, and copyable fenced code.
 - Never restore unsupported adoption numbers, stale Java baselines, legacy coordinates as current guidance, secrets, or hardcoded "latest" versions.
+- `DESIGN_LANGUAGE.md` is the canonical style authority: palette and typography tokens, admonition severity, and the binding prose rules. Read it before writing docs prose or changing visible styling.
 
 ## Graphify
 

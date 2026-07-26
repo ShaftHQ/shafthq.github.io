@@ -79,6 +79,9 @@ Only these weights are allowed for reusable UI styles: `400|500|600|700`.
 5. Ensure landing, docs cards, `code`/`pre`, and Mermaid visuals remain on the same blue-centric palette.
 6. Run a quick grep for `landing-` and hard-coded palette values before handoff.
 7. Document any justified token exceptions in this file and this checklist.
+8. Interactive components ship focus, loading, empty, and error states. Match
+   a loading placeholder to the real layout's dimensions instead of a
+   centered spinner.
 
 ## Admonition severity vocabulary
 
@@ -103,3 +106,30 @@ Binding rules for prose in `docs/`:
 4. **Short paragraphs.** Prefer two to four sentences per paragraph; break up longer explanations with lists or subheadings.
 5. **Runnable example required.** Every doc includes at least one fenced, runnable code example relevant to its topic.
 6. **Second-person imperative tone.** Address the reader directly and lead with verbs ("Run…", "Add…", "Configure…") rather than passive or third-person phrasing.
+7. **Sparing em dashes.** Prefer a period, comma, colon, or parentheses. The
+   public docs currently average about four to five em dashes per page, which
+   reads as generated rather than written. Table cells and numeric ranges are
+   exempt.
+8. **No inflated vocabulary.** Do not use `seamless`/`seamlessly`, `robust`,
+   `leverage` (as a verb), `comprehensive`, or `essential` as praise. Say what
+   the thing does. "Integrates seamlessly with" is "works with"; "leverage
+   the fluent API" is "use the fluent API".
+9. **Plain copulas.** Prefer "is", "are", "has" over "serves as", "stands
+   as", "represents a", "boasts".
+
+### Editing pass
+
+When rewriting existing prose rather than authoring new prose, run one pass
+before committing: draft the rewrite, then ask two questions of it.
+
+1. What still marks this as generated rather than written?
+2. Does the rewrite state any fact, name, number, version, or citation that
+   is not in the source or verified against engine source?
+
+A rewrite that invents a specific detail is a defect even when it reads
+better than the vague original. Opinion and phrasing are yours to change;
+factual claims are not.
+
+Rules 7-9 and the editing pass above are re-expressed from blader/humanizer
+(MIT, Copyright (c) 2025 Siqi Chen); the states rule in the PR checklist below
+is re-expressed from leonxlnx/taste-skill (MIT, Copyright (c) 2026 Leonxlnx).

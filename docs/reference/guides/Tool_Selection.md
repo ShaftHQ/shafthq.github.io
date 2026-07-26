@@ -51,7 +51,7 @@ SHAFT includes **Allure reporting** out of the box — with screenshots, videos,
 - Can configuration be overridden from the command line?
 - Is there built-in support for generating portable artifacts?
 
-SHAFT supports [headless execution and CLI-based property overrides](CI_CD_Integration) for seamless pipeline integration.
+SHAFT supports [headless execution and CLI-based property overrides](CI_CD_Integration) for direct pipeline integration.
 
 ### 5. Maintenance Cost
 
@@ -64,7 +64,7 @@ SHAFT handles **automatic waits, smart scrolling, element retry, and screenshot 
 ### 6. Learning Curve
 
 - How long does it take a new team member to write their first test?
-- Is the documentation clear and comprehensive?
+- Is the documentation clear and complete?
 - Are there working examples and templates?
 
 SHAFT provides a [one-command project setup](/docs/start/installation),
