@@ -59,7 +59,7 @@ const audienceLanes = [
     points: [
       'One guide path helps new projects, migrations, and cross-surface expansion.',
       'Failures start with artifacts that explain what changed and where to look.',
-      'Starring the repository stays a simple, always-visible action, never gated behind proving anything first.',
+      'Allure reports give leaders an inspectable evidence trail for every release run, not just a pass/fail badge.',
     ],
   },
 ];
@@ -95,10 +95,10 @@ const guidePaths = [
   },
   {
     audience: 'Review',
-    title: 'Inspect Allure and star SHAFT',
-    description: 'Open the report, confirm the evidence, then keep the repository close.',
-    label: 'Star after success',
-    to: snippets.githubRepository,
+    title: 'Inspect the Allure report',
+    description: 'Open the report, confirm the evidence, then decide what ships next.',
+    label: 'Open reporting',
+    to: '/docs/features/reporting',
   },
 ];
 
@@ -267,7 +267,7 @@ function JavaCodeExample(): JSX.Element {
 
 function CodeCompare(): JSX.Element {
   return (
-    <div className={styles.codeCompare} data-testid="landing-code-proof" aria-label="SHAFT test code proof">
+    <div className={styles.codeCompare} data-testid="landing-code-proof" role="group" aria-label="SHAFT test code proof">
       <figure className={styles.codePanel}>
         <figcaption>
           <span className={styles.chromeDots} aria-hidden="true"><i /><i /><i /></span>
@@ -308,7 +308,7 @@ function Hero(): JSX.Element {
       <div className={`container ${styles.heroGrid}`}>
         <div className={styles.heroCopy}>
           <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
-          <p className={styles.heroMeta} aria-label="Project coordinates">
+          <p className={styles.heroMeta} role="group" aria-label="Project coordinates">
             {heroMeta.map((fact) => (
               <span key={fact}>{fact}</span>
             ))}
@@ -320,24 +320,24 @@ function Hero(): JSX.Element {
             moving synchronization, configuration, evidence, and recovery into the framework.
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
-            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
-              <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
-              Read quick start
-            </Link>
-            <a className="button button--secondary button--lg" data-testid="landing-hero-star-cta" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
-              <FontAwesomeIcon icon={faStar} aria-hidden="true" />
-              Star on GitHub
-            </a>
-            <a className="button button--secondary button--lg" data-testid="landing-hero-slack-cta" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
-              <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
-              Join Slack
-            </a>
             <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" data-hover-glow to="/docs/start/quick-start#new-project-generation">
               <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
               Start a new project
             </Link>
+            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
+              <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
+              Read quick start
+            </Link>
           </div>
-          <div className={styles.heroTrustLinks} aria-label="Project trust signals">
+          <div className={styles.heroTrustLinks} role="group" aria-label="Project trust signals">
+            <a className={styles.heroTrustLink} data-testid="landing-hero-star-cta" href={snippets.githubRepository} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faStar} aria-hidden="true" />
+              Star on GitHub
+            </a>
+            <a className={styles.heroTrustLink} data-testid="landing-hero-slack-cta" href={slackInviteUrl} target="_blank" rel="noreferrer">
+              <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+              Join Slack
+            </a>
             <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
             <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
             <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
@@ -357,10 +357,10 @@ function GuidePathSection(): JSX.Element {
           <Heading as="h2" id="guide-paths-heading">Get started in minutes.</Heading>
           <p>Install, configure, write a readable test, run it headlessly, and review the evidence before starring the repository.</p>
         </div>
-        <div className={styles.pathGrid} aria-labelledby="guide-paths-heading">
-          {guidePaths.map((path, index) => (
+        <div className={styles.pathGrid} role="group" aria-labelledby="guide-paths-heading">
+          {guidePaths.map((path) => (
             <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal data-hover-glow>
-              <small>{String(index + 1).padStart(2, '0')} · {path.audience}</small>
+              <small>{path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
               <em>{path.label}</em>
@@ -401,7 +401,7 @@ function SurfaceSection(): JSX.Element {
           <Heading as="h2" id="testing-surfaces">One framework. Five testing surfaces.</Heading>
           <p>Start with the layer in front of you, then expand without changing the reporting and lifecycle model.</p>
         </div>
-        <div className={styles.proofGrid} data-testid="landing-surface-matrix" aria-label="SHAFT testing surfaces">
+        <div className={styles.proofGrid} data-testid="landing-surface-matrix" role="group" aria-label="SHAFT testing surfaces">
           {testSurfaces.map((surface) => (
             <Link className={`${styles.proofCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal data-hover-glow>
               <strong>{surface.title}</strong>
@@ -477,7 +477,7 @@ function AgentSection(): JSX.Element {
           <Heading as="h2">The evidence loop makes failures explainable.</Heading>
           <p>Run the suite, collect the artifacts, diagnose the path, and improve the checks with the same evidence trail.</p>
         </div>
-        <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" aria-label="SHAFT evidence loop">
+        <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" role="group" aria-label="SHAFT evidence loop">
           {evidenceLoop.map((step, index) => (
             <div className={styles.loopStep} key={step.title} data-hover-glow>
               <small>{String(index + 1).padStart(2, '0')}</small>
@@ -512,25 +512,17 @@ function FinalCta(): JSX.Element {
       </BrowserOnly>
       <div className={`container ${styles.finalCtaInner}`}>
         <p className={styles.finalKicker}>run complete · evidence attached · exit 0</p>
-        <h2>Star SHAFT on GitHub.</h2>
-        <p>Start with the quick path. After the sample test produces evidence, star the repository so releases stay visible.</p>
+        <h2>Generate your first SHAFT project.</h2>
+        <p>Run the CLI, produce evidence, and see what your team gets. Questions first? Join the Slack community.</p>
         <div className={styles.actions}>
-          <Link className="button button--secondary button--lg" data-testid="landing-cta-quickstart" data-hover-glow to="/docs/start/quick-start#choose-your-path">
-            <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
-            Read quick start
-          </Link>
-          <a className="button button--secondary button--lg" data-testid="landing-cta-star" data-hover-glow href={snippets.githubRepository} target="_blank" rel="noreferrer">
-            <FontAwesomeIcon icon={faStar} aria-hidden="true" />
-            Star on GitHub
-          </a>
-          <a className="button button--secondary button--lg" data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
-            <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
-            Join Slack
-          </a>
           <Link className="button button--primary button--lg" data-testid="landing-cta-install" data-hover-glow to="/docs/start/quick-start#new-project-generation">
             <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
             Start a new project
           </Link>
+          <a className="button button--secondary button--lg" data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+            <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
+            Join Slack
+          </a>
         </div>
       </div>
     </section>
@@ -540,7 +532,7 @@ function FinalCta(): JSX.Element {
 function LandingFooter(): JSX.Element {
   return (
     <footer className={styles.landingFooter} data-testid="landing-footer">
-      <div className={`container ${styles.footerBadges}`} aria-label="SHAFT project facts">
+      <div className={`container ${styles.footerBadges}`} role="group" aria-label="SHAFT project facts">
         {footerBadges.map(([title, detail]) => (
           <span key={title}>
             <strong>{title}</strong>
@@ -572,11 +564,11 @@ export default function Home(): JSX.Element {
       <Hero />
       <main data-testid="landing-main">
         <AudienceSection />
+        <GuidePathSection />
         <SurfaceSection />
         <ProofSection />
         <AllureEvidenceSection />
         <AgentSection />
-        <GuidePathSection />
         <FinalCta />
       </main>
       <LandingFooter />

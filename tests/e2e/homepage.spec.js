@@ -85,7 +85,6 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await expect(pathfinder.getByRole('link', {name: /Connect MCP after the basics/})).toHaveAttribute('href', '/docs/start/quick-start#mcp-integration');
   await expect(pathfinder.getByRole('link', {name: /Add coverage beyond the browser/})).toHaveAttribute('href', '#testing-surfaces');
   await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
-  await expect(page.getByTestId('landing-cta-quickstart')).toHaveAttribute('href', '/docs/start/quick-start#choose-your-path');
   await expect(page.getByTestId('landing-cta-slack')).toHaveAttribute('href', /join\.slack\.com\/t\/shaft-engine/);
 
   await page.goto('/');
