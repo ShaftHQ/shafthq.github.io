@@ -259,11 +259,14 @@ for (const href of [
   'https://github.com/ShaftHQ/SHAFT_ENGINE/discussions',
   'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
 ]) {
-  const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const tagMatch = index.match(new RegExp(`<a[^>]*href="${escapedHref}"[^>]*>`));
-  assert(tagMatch, `Expected an <a> tag with href ${href}.`);
+  const hrefAttr = `href="${href}"`;
+  const hrefIndex = index.indexOf(hrefAttr);
+  assert(hrefIndex !== -1, `Expected an <a> tag with href ${href}.`);
+  const tagStart = index.lastIndexOf('<a', hrefIndex);
+  const tagEnd = index.indexOf('>', hrefIndex);
+  const tag = index.slice(tagStart, tagEnd + 1);
   assert(
-    tagMatch[0].includes('target="_blank"') && tagMatch[0].includes('rel="noreferrer"'),
+    tag.includes('target="_blank"') && tag.includes('rel="noreferrer"'),
     `External link to ${href} must open in a new tab with rel=noreferrer, matching the hero/final-CTA policy (#898 finding 29).`,
   );
 }
