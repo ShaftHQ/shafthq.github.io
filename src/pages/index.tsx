@@ -5,8 +5,10 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlack} from '@fortawesome/free-brands-svg-icons';
-import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {faBookOpen, faRotateLeft, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import CodeBlock from '@theme/CodeBlock';
 import ParticleBackground from '@site/src/components/ParticleBackground';
+import releases from '@site/src/data/releases.json';
 import snippets from '@site/src/data/snippets.json';
 import styles from './index.module.css';
 
@@ -222,20 +224,28 @@ function useHoverGlow(): void {
     }
 
     const glowTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-hover-glow]'));
+    const rects = new WeakMap<HTMLElement, DOMRect>();
+
+    const cacheRect = (event: PointerEvent) => {
+      const target = event.currentTarget as HTMLElement;
+      rects.set(target, target.getBoundingClientRect());
+    };
 
     const updatePointer = (event: PointerEvent) => {
       const target = event.currentTarget as HTMLElement;
-      const rect = target.getBoundingClientRect();
+      const rect = rects.get(target) ?? target.getBoundingClientRect();
       target.style.setProperty('--hover-x', `${event.clientX - rect.left}px`);
       target.style.setProperty('--hover-y', `${event.clientY - rect.top}px`);
     };
 
     glowTargets.forEach((target) => {
+      target.addEventListener('pointerenter', cacheRect, { passive: true });
       target.addEventListener('pointermove', updatePointer, { passive: true });
     });
 
     return () => {
       glowTargets.forEach((target) => {
+        target.removeEventListener('pointerenter', cacheRect);
         target.removeEventListener('pointermove', updatePointer);
       });
     };
@@ -363,6 +373,14 @@ function GuidePathSection(): JSX.Element {
           <span className={styles.eyebrow}>Guided paths</span>
           <Heading as="h2" id="guide-paths-heading">Get started in minutes.</Heading>
           <p>Install, configure, write a readable test, run it headlessly, and review the evidence before starring the repository.</p>
+        </div>
+        <div className={styles.dependencySnippet} data-testid="landing-dependency-snippet">
+          <p className={styles.dependencyLabel}>Add the dependency</p>
+          <CodeBlock language="xml">{`<dependency>
+  <groupId>io.github.shafthq</groupId>
+  <artifactId>shaft-engine</artifactId>
+  <version>${releases.engineVersion}</version>
+</dependency>`}</CodeBlock>
         </div>
         <div className={styles.pathGrid} role="group" aria-labelledby="guide-paths-heading">
           {guidePaths.map((path) => (
@@ -493,6 +511,10 @@ function AgentSection(): JSX.Element {
             </div>
           ))}
         </div>
+        <p className={styles.loopReturn} data-testid="landing-evidence-loop-return">
+          <FontAwesomeIcon icon={faRotateLeft} aria-hidden="true" />
+          Improve loops back to Execute — every run repeats the cycle.
+        </p>
         <div className={styles.featureLinks} data-testid="landing-agent-links">
           <Link data-testid="landing-agent-mcp-link" to="/docs/agentic/mcp">MCP setup and commands</Link>
           <Link to="/docs/agentic/doctor">Diagnose with Doctor</Link>

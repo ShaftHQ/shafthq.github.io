@@ -194,6 +194,81 @@ function interiorSampler(inset) {
   };
 }
 
+// Composites `fg` (with alpha) over `bg` using the standard "over" formula.
+function compositeOver(fg, bg) {
+  return {
+    r: fg.r * fg.a + bg.r * (1 - fg.a),
+    g: fg.g * fg.a + bg.g * (1 - fg.a),
+    b: fg.b * fg.a + bg.b * (1 - fg.a),
+  };
+}
+
+// Regression guard for #898 finding 14. Measures the hero/final secondary
+// button's border -- a UI component boundary under WCAG 1.4.11 (>=3:1
+// against the adjacent surrounding color) -- without needing sub-pixel
+// screenshot sampling of the 1px stroke itself (the existing 6x6-block
+// averaging used elsewhere in this file would blur a 1px line into the
+// fill/background either side of it). Instead: read the border's own rgba
+// color (a flat, non-gradient value) via getComputedStyle, sample the real
+// composited backdrop just outside the button's box, then composite the
+// border color over that background analytically and measure contrast
+// against the same background -- i.e. the boundary color vs. its adjacent
+// color, which is exactly what 1.4.11 asks for.
+async function measureBorderContrast(page, selector) {
+  const locator = page.locator(selector).first();
+  await locator.scrollIntoViewIfNeeded();
+
+  const info = await locator.evaluate((el) => {
+    const rect = el.getBoundingClientRect();
+    const style = getComputedStyle(el);
+    const borderMatch = style.borderTopColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+    return {
+      rect: {x: rect.x, y: rect.y, width: rect.width, height: rect.height},
+      border: {
+        r: +borderMatch[1],
+        g: +borderMatch[2],
+        b: +borderMatch[3],
+        a: borderMatch[4] !== undefined ? +borderMatch[4] : 1,
+      },
+    };
+  });
+
+  // Sample the hero backdrop just above the button: clear of the button's
+  // own fill/border/box-shadow and of any neighbouring button.
+  const bgPoint = {x: info.rect.x + info.rect.width / 2, y: info.rect.y - 10};
+
+  const screenshot = (await page.screenshot()).toString('base64');
+  const bg = await page.evaluate(async ({screenshot, point}) => {
+    const img = new Image();
+    img.src = `data:image/png;base64,${screenshot}`;
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+    });
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const blockSize = 6;
+    const d = ctx.getImageData(
+      Math.round(point.x - blockSize / 2),
+      Math.round(point.y - blockSize / 2),
+      blockSize,
+      blockSize,
+    ).data;
+    let r = 0, g = 0, b = 0;
+    const n = d.length / 4;
+    for (let i = 0; i < d.length; i += 4) {
+      r += d[i]; g += d[i + 1]; b += d[i + 2];
+    }
+    return {r: r / n, g: g / n, b: b / n};
+  }, {screenshot, point: bgPoint});
+
+  const compositedBorder = compositeOver(info.border, bg);
+  return {ratio: contrastRatio(compositedBorder, bg), border: info.border, bg};
+}
+
 test.beforeEach(async ({page}) => {
   await page.setViewportSize({width: 1280, height: 900});
   await page.goto('/');
@@ -252,4 +327,17 @@ test('hero primary CTA clears WCAG AA contrast against its own button fill', asy
     '[data-testid="landing-hero-install-cta"]',
     interiorSampler(10),
   );
+});
+
+test('hero secondary CTA border clears WCAG 1.4.11 non-text contrast (#898 finding 14)', async ({page}) => {
+  const {ratio, border, bg} = await measureBorderContrast(page, '[data-testid="landing-hero-quickstart-cta"]');
+  expect(
+    ratio,
+    `secondary button border rgba(${border.r},${border.g},${border.b},${border.a}) composited over measured bg ` +
+      `rgb(${bg.r.toFixed(1)},${bg.g.toFixed(1)},${bg.b.toFixed(1)}) = ${ratio.toFixed(2)}:1, needs >= 3:1`,
+  ).toBeGreaterThanOrEqual(3);
+});
+
+test('hero trust links clear WCAG AA text contrast against their real composited background (#898 finding 14)', async ({page}) => {
+  await assertClearsContrast(page, '.heroTrustLinks a', '[class*="heroTrustLinks"] a', adjacentSampler);
 });
