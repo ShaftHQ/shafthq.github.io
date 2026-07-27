@@ -92,7 +92,10 @@ assert(customStyles.includes('--site-anchor-offset: calc(var(--ifm-navbar-height
 assert(customStyles.includes('scroll-margin-top: var(--site-anchor-offset)'), 'Doc anchor targets must stay visible below the sticky navbar.');
 assert(styles.includes('max-width: 560px'), 'Landing CTA buttons must use a compact shared grid width for the two-action hero/final layout (#898 finding 1).');
 assert(!styles.includes("[data-testid='landing-hero-install-cta']"), 'Landing hero CTA grid must not need a column override once only two actions remain (#898 finding 1).');
-assert(styles.includes('grid-template-rows: 1.8rem 3rem 1fr'), 'Evidence loop cards must align number, title, and body rows.');
+assert(
+  styles.includes('.evidenceLoop {') && /\.evidenceLoop \{[^}]*grid-template-rows: auto auto 1fr;/.test(styles),
+  'Evidence loop must define its row tracks on the parent grid so subgrid children can align number, title, and body rows (#898 finding 20).',
+);
 assert(styles.includes('.codeAnnotation') && styles.includes('.codeKeyword') && styles.includes('.codeCall'), 'Homepage Java code block must define token styles.');
 assert(!styles.includes('overflow-x: auto'), 'Homepage must not create a horizontal scroller.');
 
@@ -119,6 +122,71 @@ assert(!particleBackground.includes('particleWorker'), 'ParticleBackground must 
 assert(
   !fs.existsSync(path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'particleWorker.ts')),
   'Dead particleWorker.ts file must be deleted (#898 finding 24).',
+);
+
+// #898 P2 remainder (findings 7, 8, 11, 14, 16, 17, 19, 20, 21)
+const revealRuleMatch = styles.match(/:global\(html\[data-reveal-ready='true'\]\) \.reveal \{[^}]*\}/);
+assert(revealRuleMatch, 'Homepage must define the base .reveal rule under html[data-reveal-ready].');
+assert(
+  !revealRuleMatch[0].includes('will-change'),
+  'Homepage must not permanently pin a compositor layer on ~20 reveal elements via will-change (#898 finding 16).',
+);
+assert(
+  styles.includes("content: '>' / ''"),
+  '.loopStep::after chevron must use the alt-text form so it is not announced by screen readers (#898 finding 11).',
+);
+assert(
+  styles.includes("content: '+' / ''"),
+  '.handledPanel li::before marker must use the alt-text form so it is not announced by screen readers (#898 finding 11).',
+);
+assert(
+  !/(?<!min-)height: 3\.45rem;/.test(styles),
+  'Landing CTA buttons must not fix a height that the same rule permits their label to wrap past (#898 finding 21).',
+);
+assert(
+  !index.includes("target.getBoundingClientRect()") || index.includes('pointerenter'),
+  'useHoverGlow must cache the target rect on pointerenter instead of forcing layout on every pointermove (#898 finding 17).',
+);
+assert(
+  index.includes("addEventListener('pointerenter'"),
+  'useHoverGlow must attach a pointerenter listener to cache each target\'s rect once per hover (#898 finding 17).',
+);
+assert(
+  /@media \(max-width: 1180px\) \{[^}]*\.pathGrid/.test(styles.replace(/\n/g, '')) ||
+    /@media \(max-width: 1180px\)[\s\S]{0,400}\.pathGrid/.test(styles),
+  'A 1180px breakpoint must give the 5-column path/loop/badge grids an intermediate 2-column step before the 980px single-column collapse (#898 finding 19).',
+);
+assert(
+  styles.includes('grid-template-rows: subgrid'),
+  '.audienceLane/.loopStep must use subgrid rows so cross-card alignment survives content/type-scale changes without a fixed-height overflow risk (#898 finding 20).',
+);
+assert(
+  index.includes('data-testid="landing-evidence-loop-return"'),
+  'The evidence loop must render a closing "back to Execute" affordance so it reads as a loop, not a terminating chain (#898 finding 7).',
+);
+assert(
+  /back to Execute/i.test(index),
+  'The loop-closing affordance must name the step it returns to (#898 finding 7).',
+);
+assert(
+  index.includes('data-testid="landing-dependency-snippet"'),
+  'Homepage must render a copyable Maven dependency coordinate for evaluating engineers (#898 finding 8).',
+);
+assert(
+  index.includes("import releases from '@site/src/data/releases.json'") && index.includes('releases.engineVersion'),
+  'The dependency snippet must source its version from releases.json, not a hardcoded literal (#898 finding 8).',
+);
+assert(
+  !/<version>10\.\d/.test(index),
+  'The dependency snippet must not hardcode a literal engine version in index.tsx (#898 finding 8).',
+);
+assert(
+  index.indexOf('Maven Central') === index.lastIndexOf('Maven Central'),
+  'Homepage should still not duplicate the Maven Central trust link after adding the dependency snippet (#898 finding 8 test impact).',
+);
+assert(
+  styles.includes('min-height: 3.45rem;'),
+  'Landing CTA buttons must use min-height so two-line labels do not overflow their own box (#898 finding 21).',
 );
 
 console.log('Homepage content, evidence, and accessibility checks passed.');

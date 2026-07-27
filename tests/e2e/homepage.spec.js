@@ -222,9 +222,12 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
             rect.right > parentRect.right + 1 ||
             rect.left < -1 ||
             rect.right > viewportWidth + 1,
+          // #898 finding 21: height: 3.45rem -> min-height must mean a
+          // wrapped two-line label no longer overflows its own button box.
+          overflowsVertically: link.scrollHeight > link.clientHeight + 1,
         };
       })
-      .filter((button) => button.overflows || button.width > button.parentWidth + 1);
+      .filter((button) => button.overflows || button.width > button.parentWidth + 1 || button.overflowsVertically);
   });
   expect(overflowingButtons).toEqual([]);
 
@@ -251,3 +254,55 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
     }));
   }).toEqual({opacity: '0', state: 'rolled-back'});
 });
+
+// Regression guard for #898 finding 21. The 761-900px band keeps the
+// 3-column-turned-2-column CTA grid active (single-column starts at 760px)
+// while each column is narrow enough to wrap a label like "Read quick
+// start" -- previously unguarded, since the mobile check above only runs at
+// 375px and only checked horizontal overflow.
+test('landing page CTA buttons do not overflow when their label wraps at 800px (#898 finding 21)', async ({page}) => {
+  await page.setViewportSize({width: 800, height: 900});
+  await page.goto('/');
+
+  const checkOverflow = async (testId) => page.evaluate((id) => {
+    return Array.from(document.querySelectorAll(`[data-testid="${id}"] .button`))
+      .map((button) => ({
+        text: button.textContent.trim().replace(/\s+/g, ' '),
+        overflowsVertically: button.scrollHeight > button.clientHeight + 1,
+      }))
+      .filter((button) => button.overflowsVertically);
+  }, testId);
+
+  expect(await checkOverflow('landing-hero-actions')).toEqual([]);
+  await page.getByTestId('landing-final').scrollIntoViewIfNeeded();
+  await expect.poll(() => page.getByTestId('landing-final').evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
+  expect(await checkOverflow('landing-final')).toEqual([]);
+});
+
+// Regression guard for #898 finding 19. The 5-column path/loop/badge grids
+// previously collapsed straight from 5 columns to 1 at 980px, with no
+// intermediate step -- leaving ~150px-wide cards in the 981-1180px band.
+// A 1180px breakpoint now gives them a 2-column step first.
+for (const width of [1000, 1100, 1180]) {
+  test(`landing page path/loop grids use an intermediate column step at ${width}px (#898 finding 19)`, async ({page}) => {
+    await page.setViewportSize({width, height: 900});
+    await page.goto('/');
+
+    const countColumns = async (selector) => page.locator(selector).evaluate((el) => {
+      return getComputedStyle(el).gridTemplateColumns.trim().split(/\s+/).length;
+    });
+
+    const pathColumns = await countColumns('[data-testid="landing-pathfinder"] [aria-labelledby="guide-paths-heading"]');
+    const loopColumns = await countColumns('[data-testid="landing-evidence-loop"]');
+
+    expect(pathColumns).toBeGreaterThanOrEqual(2);
+    expect(pathColumns).toBeLessThan(5);
+    expect(loopColumns).toBeGreaterThanOrEqual(2);
+    expect(loopColumns).toBeLessThan(5);
+
+    const overflowsHorizontally = await page.evaluate(() => {
+      return document.documentElement.scrollWidth > document.documentElement.clientWidth + 1;
+    });
+    expect(overflowsHorizontally).toBe(false);
+  });
+}
