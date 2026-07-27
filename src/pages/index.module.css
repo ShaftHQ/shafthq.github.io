@@ -1126,7 +1126,8 @@
   :global(html[data-reveal-ready='true']) .reveal,
   :global(html[data-reveal-ready='true']) .revealVisible,
   .proofCard,
-  .pathCard {
+  .pathCard,
+  .loopStep {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1134,7 +1135,13 @@
   }
 
   .proofCard:hover,
-  .pathCard:hover {
+  .pathCard:hover,
+  .loopStep:hover {
+    transform: none;
+  }
+
+  [data-hover-glow]::before {
+    transition: none;
     transform: none;
   }
 }
