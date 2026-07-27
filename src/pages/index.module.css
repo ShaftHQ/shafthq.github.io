@@ -37,13 +37,13 @@
   mix-blend-mode: screen;
 }
 
-.heroGrid,
+.heroLayout,
 .audienceGrid {
   position: relative;
   z-index: 1;
 }
 
-.heroGrid {
+.heroLayout {
   display: block;
   max-width: 1080px;
 }
@@ -66,12 +66,6 @@
   font-weight: var(--site-font-weight-bold);
   line-height: 1;
   letter-spacing: 0;
-  text-decoration: none;
-}
-
-.heroBrand:hover {
-  color: var(--site-color-muted);
-  text-decoration: none;
 }
 
 .heroMeta {
@@ -189,14 +183,6 @@
   justify-content: flex-start;
   gap: 0.75rem;
   border-radius: 8px;
-  text-align: center;
-}
-
-.hero .actions :global(.button)::after,
-.finalCta .actions :global(.button)::after {
-  display: block;
-  flex: 0 0 1.2rem;
-  content: '';
 }
 
 .hero .actions,
@@ -248,7 +234,7 @@
   height: 0.85rem;
 }
 
-[data-hover-glow] {
+.hoverGlow[data-hover-glow] {
   --hover-x: 50%;
   --hover-y: 50%;
   position: relative;
@@ -256,7 +242,7 @@
   isolation: isolate;
 }
 
-[data-hover-glow]::before {
+.hoverGlow[data-hover-glow]::before {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -269,18 +255,18 @@
   content: '';
 }
 
-[data-hover-glow]:hover::before,
-[data-hover-glow]:focus-visible::before {
+.hoverGlow[data-hover-glow]:hover::before,
+.hoverGlow[data-hover-glow]:focus-visible::before {
   opacity: 1;
   transform: scale(1);
 }
 
-[data-hover-glow] > * {
+.hoverGlow[data-hover-glow] > * {
   position: relative;
   z-index: 1;
 }
 
-.actions [data-hover-glow]::before {
+.actions .hoverGlow[data-hover-glow]::before {
   border-radius: inherit;
 }
 
@@ -308,6 +294,10 @@
   display: block;
   color: var(--site-color-primary);
   font-weight: var(--site-font-weight-bold);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--site-font-small);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 /* Repointed from --site-color-primary (#832): these captions sit on the
@@ -444,10 +434,23 @@
 /* Repointed from --site-color-primary (#832): this text sits on the
    .codeCompare pre's deep background, where primary text can't reach WCAG AA
    (see tests/design-contrast.test.js). muted already passes there. */
-.codeAnnotation,
-.codeKeyword,
 .codeCall {
   color: var(--site-color-muted);
+}
+
+/* #898 finding 28: .codeAnnotation/.codeKeyword/.codeCall previously all
+   resolved to the same muted color, so 5 token classes only ever rendered 3
+   distinct colors. Give annotation/keyword their own primary-tinted mixes
+   (same color-mix approach as .codeString, just at different intensities) so
+   each class carries a distinct meaning -- both percentages hand-verified
+   against WCAG AA (>=4.5:1, normal text) on --site-color-deep in both themes:
+   light 65%/50% -> 5.35:1 / 6.95:1, dark 65%/50% -> 11.87:1 / 13.13:1. */
+.codeAnnotation {
+  color: color-mix(in srgb, var(--site-color-primary) 65%, var(--site-color-on-dark));
+}
+
+.codeKeyword {
+  color: color-mix(in srgb, var(--site-color-primary) 50%, var(--site-color-on-dark));
 }
 
 .codeFunction {
@@ -518,6 +521,15 @@
   color: var(--site-color-on-dark);
 }
 
+/* .eyebrow is repointed to --ifm-color-emphasis-800 for the normal flipping
+   page background every other section sits on (see the .eyebrow comment
+   above) -- .audienceSection is part of the fixed-dark deep/deep-alt family
+   instead, so its eyebrow needs the muted-family color those sections use
+   (#898 finding 23). */
+.audienceSection .eyebrow {
+  color: var(--site-color-muted);
+}
+
 .audienceGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -535,7 +547,7 @@
   background: rgba(var(--site-color-deep-alt-rgb), 0.5);
 }
 
-.audienceLane h2 {
+.audienceLane h3 {
   margin: 0;
   color: var(--site-color-primary);
   font-size: var(--site-font-card-title);
@@ -697,9 +709,6 @@
 .proofGrid {
   display: grid;
   gap: 1rem;
-}
-
-.proofGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 1.25rem;
 }
@@ -715,9 +724,6 @@
   text-decoration: none;
   box-shadow: 0 14px 35px rgba(var(--site-color-deep-alt-rgb), 0.07);
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-}
-
-.proofCard {
   min-height: 245px;
   padding: 1.35rem;
   border-top: 4px solid var(--site-color-primary);
@@ -747,6 +753,14 @@
   grid-template-columns: minmax(0, 0.72fr) minmax(420px, 1.28fr);
   gap: clamp(1.4rem, 4vw, 3rem);
   align-items: center;
+}
+
+/* #898 finding 29: .sectionHeading's default margin-bottom pushes this
+   heading block above true vertical center relative to the image column,
+   since .allureGrid centers its items but the heading is taller than its
+   own visible content once that margin is included. */
+.allureGrid .sectionHeading {
+  margin-bottom: 0;
 }
 
 .inlineCta {
@@ -841,14 +855,20 @@
 
 .loopStep small {
   display: inline-grid;
-  width: 1.8rem;
+  width: auto;
   height: 1.8rem;
+  min-width: 1.8rem;
   place-items: center;
+  justify-self: start;
   margin: 0;
+  padding: 0 0.4rem;
   border: 1px solid rgba(var(--site-color-primary-rgb), 0.48);
-  border-radius: 999px;
+  border-radius: 6px;
   color: var(--site-color-primary);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--site-font-small);
   font-weight: var(--site-font-weight-bold);
+  letter-spacing: 0.08em;
 }
 
 .loopStep strong {
@@ -921,7 +941,10 @@
 .finalKicker {
   margin-bottom: 0.5rem;
   color: var(--site-color-muted);
-  font-weight: var(--site-font-weight-bold);
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--site-font-label);
+  font-weight: var(--site-font-weight-medium);
+  letter-spacing: 0.14em;
 }
 
 .finalCta p {
@@ -983,6 +1006,8 @@
 
 .footerBadges strong {
   color: var(--site-color-on-dark);
+  font-family: var(--ifm-font-family-monospace);
+  letter-spacing: 0.06em;
 }
 
 .footerBadges small {
@@ -1001,6 +1026,17 @@
 .footerLinks small,
 .footerLinks a {
   color: var(--site-color-muted);
+}
+
+.footerLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footerLinks a svg {
+  width: 0.7rem;
+  height: 0.7rem;
 }
 
 .footerLinks a:hover {
@@ -1029,38 +1065,8 @@
   transform: translate3d(0, calc(var(--reveal-distance) * 0.85), 0) scale(0.975);
 }
 
-.pathCard small {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--site-font-small);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.loopStep small {
-  width: auto;
-  min-width: 1.8rem;
-  justify-self: start;
-  padding: 0 0.4rem;
-  border-radius: 6px;
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--site-font-small);
-  letter-spacing: 0.08em;
-}
-
-.footerBadges strong {
-  font-family: var(--ifm-font-family-monospace);
-  letter-spacing: 0.06em;
-}
-
-.finalKicker {
-  font-family: var(--ifm-font-family-monospace);
-  font-size: var(--site-font-label);
-  font-weight: var(--site-font-weight-medium);
-  letter-spacing: 0.14em;
-}
-
 @media (max-width: 1180px) {
-  .heroGrid {
+  .heroLayout {
     max-width: 920px;
   }
 
@@ -1160,10 +1166,6 @@
     width: 100%;
   }
 
-  .actions a {
-    text-align: center;
-  }
-
   .heroParticles {
     opacity: 0.5;
   }
@@ -1203,7 +1205,7 @@
     transform: none;
   }
 
-  [data-hover-glow]::before {
+  .hoverGlow[data-hover-glow]::before {
     transition: none;
     transform: none;
   }

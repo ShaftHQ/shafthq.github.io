@@ -15,9 +15,10 @@ const {expect, test} = require('@playwright/test');
 //   - `.statusChip` (src/pages/index.module.css .statusChip) -- the "Pass" /
 //     "evidence attached" pill, whose own rgba(primary, 0.1) fill sits on
 //     `.codePanel`/`.handledPanel`'s deep-alt background. (#837)
-//   - `.audienceLane h2` (src/pages/index.module.css .audienceLane) -- lane
+//   - `.audienceLane h3` (src/pages/index.module.css .audienceLane) -- lane
 //     titles on a translucent rgba(deep-alt, 0.5) fill over `.audienceSection`'s
-//     deep-to-deep-alt gradient. (#837)
+//     deep-to-deep-alt gradient. Demoted from h2 to h3 in #898 finding 23, once
+//     AudienceSection gained its own section-level h2.
 //   - `.eyebrow` (src/pages/index.module.css .eyebrow) -- section kicker labels
 //     ("Guided paths", "Testing surfaces", etc.) on the normal flipping Infima
 //     page background layered with a subtle primary-tinted gradient. Found
@@ -25,7 +26,9 @@ const {expect, test} = require('@playwright/test');
 //     `--site-color-muted` is designed for the fixed-dark deep/deep-alt family,
 //     not this flipping background. Repointed to `--ifm-color-emphasis-800`.
 //   - `.heroMeta` span (src/pages/index.module.css .heroMeta) -- the
-//     "io.github.shafthq : shaft-engine · Java 25 · ..." coordinates line, a
+//     "io.github.shafthq : shaft-engine" coordinates line (trimmed to just the
+//     coordinate in #898 finding 29, since Java 25/MIT/Allure native already
+//     live in .footerBadges with more detail), a
 //     translucent rgba(muted, 0.82) fill on `.hero`'s composited background.
 //   - `.finalKicker` (src/pages/index.module.css .finalKicker) -- the
 //     "run complete · evidence attached · exit 0" line on `.finalCta`'s
@@ -284,7 +287,9 @@ test('hero wordmark clears WCAG AA contrast against its real composited backgrou
     const midY = rect.y + rect.height / 2;
     return [{x: rect.x + 4, y: midY}, {x: rect.x + rect.width - 4, y: midY}];
   };
-  await assertClearsContrast(page, '.heroBrand', 'a[class*="heroBrand"]', samplePoints);
+  // Non-interactive span since #898 finding 29 (was a self-referential Link
+  // from / to /); selector drops the `a` tag requirement accordingly.
+  await assertClearsContrast(page, '.heroBrand', '[class*="heroBrand"]', samplePoints);
 });
 
 test('status chip clears WCAG AA contrast against its real composited background', async ({page}) => {
@@ -298,14 +303,14 @@ test('status chip clears WCAG AA contrast against its real composited background
 });
 
 test('audience lane heading clears WCAG AA contrast against its real composited background', async ({page}) => {
-  // The h2 is a block-level grid cell wider than its own text run; sample its
+  // The h3 is a block-level grid cell wider than its own text run; sample its
   // empty right-hand margin and a thin sliver above the cap-height, both clear
   // of the glyphs regardless of the lane's actual heading text.
   const samplePoints = (rect) => [
     {x: rect.x + rect.width - 5, y: rect.y + rect.height / 2},
     {x: rect.x + rect.width - 5, y: rect.y + 2},
   ];
-  await assertClearsContrast(page, '.audienceLane h2', '[class*="audienceLane"] h2', samplePoints);
+  await assertClearsContrast(page, '.audienceLane h3', '[class*="audienceLane"] h3', samplePoints);
 });
 
 test('section eyebrow labels clear WCAG AA contrast against their real composited background', async ({page}) => {

@@ -111,7 +111,7 @@ assert(
   'Reduced motion must neutralize .loopStep:hover transform (#898 finding 12).',
 );
 assert(
-  /\[data-hover-glow\]::before\s*\{\s*transition: none;\s*transform: none;/.test(reducedMotionBlock),
+  /\.hoverGlow\[data-hover-glow\]::before\s*\{\s*transition: none;\s*transform: none;/.test(reducedMotionBlock),
   'Reduced motion must stop the hover-glow scale/opacity animation (#898 finding 13).',
 );
 assert(!index.includes('revealElements.forEach((element, index) => {'), 'Reveal stagger must not compute delay from a global document-order index (#898 finding 15).');
@@ -187,6 +187,125 @@ assert(
 assert(
   styles.includes('min-height: 3.45rem;'),
   'Landing CTA buttons must use min-height so two-line labels do not overflow their own box (#898 finding 21).',
+);
+
+// #898 P3 (findings 23, 25, 26, 27, 28, 29)
+function countStandaloneRule(selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(^|\\n)${escaped} \\{`, 'g');
+  return (styles.match(re) || []).length;
+}
+for (const selector of ['.pathCard small', '.loopStep small', '.footerBadges strong', '.finalKicker', '.proofGrid', '.proofCard']) {
+  assert(
+    countStandaloneRule(selector) === 1,
+    `${selector} must be declared in a single block instead of split across distant duplicates in the same file (#898 finding 25). Found ${countStandaloneRule(selector)} standalone occurrences.`,
+  );
+}
+
+assert(
+  !styles.includes(':global(.button)::after'),
+  'Hero/final CTA buttons must not render a dead optical-centring ::after spacer (#898 finding 26).',
+);
+const heroButtonRuleMatch = styles.match(/\.hero \.actions :global\(\.button\),\s*\n\.finalCta \.actions :global\(\.button\) \{[^}]*\}/);
+assert(heroButtonRuleMatch, 'Hero/final CTA shared button rule must still exist.');
+assert(
+  !heroButtonRuleMatch[0].includes('text-align: center'),
+  'Hero/final CTA buttons must not carry a dead text-align: center once left-aligned icon+label is the real intent (#898 finding 26).',
+);
+assert(
+  !/\.actions a \{\s*\n\s*text-align: center;\s*\n\s*\}/.test(styles),
+  'Mobile CTA links must not carry a dead text-align: center (#898 finding 26).',
+);
+
+const bareHoverGlowSelectors = (styles.match(/\[data-hover-glow\]/g) || []).length;
+const scopedHoverGlowSelectors = (styles.match(/\.hoverGlow\[data-hover-glow\]/g) || []).length;
+assert(bareHoverGlowSelectors > 0, 'Homepage must still define [data-hover-glow] styling.');
+assert(
+  bareHoverGlowSelectors === scopedHoverGlowSelectors,
+  `Every [data-hover-glow] CSS selector must be scoped under a .hoverGlow module class so it cannot leak globally out of this page's CSS module (#898 finding 27). ${bareHoverGlowSelectors} total, only ${scopedHoverGlowSelectors} scoped.`,
+);
+const hoverGlowAttrUsages = (index.match(/data-hover-glow(?=[ >])/g) || []).length;
+const hoverGlowClassUsages = (index.match(/styles\.hoverGlow\b/g) || []).length;
+assert(
+  hoverGlowAttrUsages > 0 && hoverGlowClassUsages === hoverGlowAttrUsages,
+  `Every data-hover-glow element must also carry the styles.hoverGlow class so the scoped CSS selector actually matches it (#898 finding 27). ${hoverGlowAttrUsages} attribute usages, ${hoverGlowClassUsages} class usages.`,
+);
+
+const codeTokenClasses = ['codeAnnotation', 'codeKeyword', 'codeCall', 'codeFunction', 'codeString'];
+const codeTokenColors = new Map();
+for (const cls of codeTokenClasses) {
+  const match = styles.match(new RegExp(`\\.${cls} \\{[^}]*color: ([^;]+);`));
+  assert(match, `.${cls} must declare its own color rule (#898 finding 28).`);
+  codeTokenColors.set(cls, match[1].trim());
+}
+assert(
+  new Set(codeTokenColors.values()).size === 5,
+  `Java code sample's 5 token classes must resolve to 5 distinct colors, not 3, so each class carries a distinct meaning (#898 finding 28). Got: ${[...codeTokenColors.entries()].map(([k, v]) => `${k}=${v}`).join(', ')}`,
+);
+
+assert(
+  index.includes('id="audience-section"'),
+  'AudienceSection must expose a stable anchor matching its sibling sections (#898 finding 23).',
+);
+assert(
+  index.includes('<h3>{lane.title}</h3>') && !index.includes('<h2>{lane.title}</h2>'),
+  'Audience lane titles must render as <h3> now that AudienceSection has its own section-level <h2>, so the heading outline is not promoted (#898 finding 23).',
+);
+
+for (const href of [
+  'https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine',
+  'https://www.selenium.dev/ecosystem/#frameworks',
+  'https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html',
+  'https://github.com/ShaftHQ/SHAFT_ENGINE/discussions',
+  'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
+]) {
+  const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const tagMatch = index.match(new RegExp(`<a[^>]*href="${escapedHref}"[^>]*>`));
+  assert(tagMatch, `Expected an <a> tag with href ${href}.`);
+  assert(
+    tagMatch[0].includes('target="_blank"') && tagMatch[0].includes('rel="noreferrer"'),
+    `External link to ${href} must open in a new tab with rel=noreferrer, matching the hero/final-CTA policy (#898 finding 29).`,
+  );
+}
+const githubFooterLinkMatch = index.match(/<a href=\{snippets\.githubRepository\}[^>]*>[\s\S]{0,20}GitHub[\s\S]{0,120}<\/a>/);
+assert(githubFooterLinkMatch, 'Expected the footer GitHub link.');
+assert(
+  githubFooterLinkMatch[0].includes('target="_blank"') && githubFooterLinkMatch[0].includes('rel="noreferrer"'),
+  'Footer GitHub link must open in a new tab with rel=noreferrer, matching the hero/final-CTA policy (#898 finding 29).',
+);
+assert(index.includes('faArrowUpRightFromSquare'), 'Homepage must import an external-link affordance icon (#898 finding 29).');
+const arrowIconUsages = (index.match(/faArrowUpRightFromSquare/g) || []).length - 1;
+assert(
+  arrowIconUsages === 6,
+  `Homepage must render the external-link icon on all 6 previously-inconsistent external links (#898 finding 29). Found ${arrowIconUsages}.`,
+);
+
+assert(
+  !/<Link className=\{styles\.heroBrand\}/.test(index),
+  'The homepage should not render a self-referential Link from / to / for the SHAFT wordmark (#898 finding 29).',
+);
+assert(
+  index.includes('<span className={styles.heroBrand}>SHAFT</span>'),
+  'The SHAFT wordmark must render as a non-interactive element on the homepage it already represents (#898 finding 29).',
+);
+
+assert(
+  index.includes("const heroMeta = ['io.github.shafthq : shaft-engine'];"),
+  'heroMeta must not restate Java 25/MIT/Allure native, which footerBadges already states with more detail (#898 finding 29).',
+);
+
+assert(
+  /\.allureGrid \.sectionHeading \{\s*\n\s*margin-bottom: 0;\s*\n\}/.test(styles),
+  '.allureGrid .sectionHeading must zero its bottom margin so the heading block is not pushed above vertical center relative to the image (#898 finding 29).',
+);
+
+assert(!styles.includes('.heroGrid'), '.heroGrid must be renamed since it is display: block, not a grid (#898 finding 29).');
+assert(styles.includes('.heroLayout'), 'Renamed hero layout class must exist (#898 finding 29).');
+assert(!index.includes('styles.heroGrid'), 'index.tsx must use the renamed heroLayout class (#898 finding 29).');
+
+assert(
+  !index.includes('SHAFT keeps Selenium, Playwright, Appium, and REST Assured visible while'),
+  'Hero sub-copy must not name four products in a dense 32-word second sentence; let the bolded lead sentence carry the message (#898 finding 29).',
 );
 
 console.log('Homepage content, evidence, and accessibility checks passed.');

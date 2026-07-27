@@ -5,7 +5,7 @@ import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlack} from '@fortawesome/free-brands-svg-icons';
-import {faBookOpen, faRotateLeft, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {faArrowUpRightFromSquare, faBookOpen, faRotateLeft, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import CodeBlock from '@theme/CodeBlock';
 import ParticleBackground from '@site/src/components/ParticleBackground';
 import releases from '@site/src/data/releases.json';
@@ -136,7 +136,7 @@ const codeCompare = {
   ],
 };
 
-const heroMeta = ['io.github.shafthq : shaft-engine', 'Java 25', 'MIT', 'Allure native'];
+const heroMeta = ['io.github.shafthq : shaft-engine'];
 
 const evidenceLoop = [
   {
@@ -322,9 +322,9 @@ function Hero(): JSX.Element {
           />
         )}
       </BrowserOnly>
-      <div className={`container ${styles.heroGrid}`}>
+      <div className={`container ${styles.heroLayout}`}>
         <div className={styles.heroCopy}>
-          <Link className={styles.heroBrand} to="/" aria-label="SHAFT home">SHAFT</Link>
+          <span className={styles.heroBrand}>SHAFT</span>
           <p className={styles.heroMeta} role="group" aria-label="Project coordinates">
             {heroMeta.map((fact) => (
               <span key={fact}>{fact}</span>
@@ -333,15 +333,14 @@ function Hero(): JSX.Element {
           <h1>Ship automation evidence, not boilerplate code.</h1>
           <p>
             <strong>One Java test suite for web, mobile, API, DB, and CLI.</strong>
-            {' '}SHAFT keeps Selenium, Playwright, Appium, and REST Assured visible while
-            moving synchronization, configuration, evidence, and recovery into the framework.
+            {' '}SHAFT keeps your native tools in view while moving sync, evidence, and recovery into the framework.
           </p>
           <div className={styles.actions} data-testid="landing-hero-actions">
-            <Link className="button button--primary button--lg" data-testid="landing-hero-install-cta" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+            <Link className={`button button--primary button--lg ${styles.hoverGlow}`} data-testid="landing-hero-install-cta" data-hover-glow to="/docs/start/quick-start#new-project-generation">
               <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
               Start a new project
             </Link>
-            <Link className="button button--secondary button--lg" data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
+            <Link className={`button button--secondary button--lg ${styles.hoverGlow}`} data-testid="landing-hero-quickstart-cta" data-hover-glow to="/docs/start/quick-start#choose-your-path">
               <FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />
               Read quick start
             </Link>
@@ -355,9 +354,18 @@ function Hero(): JSX.Element {
               <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
               Join Slack
             </a>
-            <a href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine">Maven Central</a>
-            <a href="https://www.selenium.dev/ecosystem/#frameworks">Selenium ecosystem</a>
-            <a href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html">Google Open Source award</a>
+            <a className={styles.heroTrustLink} href="https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine" target="_blank" rel="noreferrer">
+              Maven Central
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+            </a>
+            <a className={styles.heroTrustLink} href="https://www.selenium.dev/ecosystem/#frameworks" target="_blank" rel="noreferrer">
+              Selenium ecosystem
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+            </a>
+            <a className={styles.heroTrustLink} href="https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html" target="_blank" rel="noreferrer">
+              Google Open Source award
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>
@@ -384,7 +392,7 @@ function GuidePathSection(): JSX.Element {
         </div>
         <div className={styles.pathGrid} role="group" aria-labelledby="guide-paths-heading">
           {guidePaths.map((path) => (
-            <Link className={`${styles.pathCard} ${styles.reveal}`} to={path.to} key={path.title} data-reveal data-hover-glow>
+            <Link className={`${styles.pathCard} ${styles.reveal} ${styles.hoverGlow}`} to={path.to} key={path.title} data-reveal data-hover-glow>
               <small>{path.audience}</small>
               <strong>{path.title}</strong>
               <span>{path.description}</span>
@@ -399,19 +407,25 @@ function GuidePathSection(): JSX.Element {
 
 function AudienceSection(): JSX.Element {
   return (
-    <section className={`${styles.section} ${styles.audienceSection} ${styles.reveal}`} data-testid="landing-audience-split" data-reveal>
-      <div className={`container ${styles.audienceGrid}`}>
-        {audienceLanes.map((lane) => (
-          <section key={lane.title} className={styles.audienceLane} data-hover-glow>
-            <h2>{lane.title}</h2>
-            <p>{lane.description}</p>
-            <ul>
-              {lane.points.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </section>
-        ))}
+    <section className={`${styles.section} ${styles.audienceSection} ${styles.reveal}`} data-testid="landing-audience-split" id="audience-section" data-reveal>
+      <div className="container">
+        <div className={`${styles.sectionHeading} ${styles.centerHeading}`}>
+          <span className={styles.eyebrow}>Two audiences</span>
+          <Heading as="h2" id="audience-section-heading">Built for engineers. Read by leaders.</Heading>
+        </div>
+        <div className={styles.audienceGrid}>
+          {audienceLanes.map((lane) => (
+            <section key={lane.title} className={`${styles.audienceLane} ${styles.hoverGlow}`} data-hover-glow>
+              <h3>{lane.title}</h3>
+              <p>{lane.description}</p>
+              <ul>
+                {lane.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -428,7 +442,7 @@ function SurfaceSection(): JSX.Element {
         </div>
         <div className={styles.proofGrid} data-testid="landing-surface-matrix" role="group" aria-label="SHAFT testing surfaces">
           {testSurfaces.map((surface) => (
-            <Link className={`${styles.proofCard} ${styles.reveal}`} to={surface.to} key={surface.title} data-reveal data-hover-glow>
+            <Link className={`${styles.proofCard} ${styles.reveal} ${styles.hoverGlow}`} to={surface.to} key={surface.title} data-reveal data-hover-glow>
               <strong>{surface.title}</strong>
               <span>{surface.description}</span>
               <small>{surface.stack}</small>
@@ -452,7 +466,7 @@ function ProofSection(): JSX.Element {
         <CodeCompare />
         <div className={styles.proofGrid}>
           {proofPoints.map((point) => (
-            <Link className={`${styles.proofCard} ${styles.reveal}`} to={point.to} key={point.title} data-reveal data-hover-glow>
+            <Link className={`${styles.proofCard} ${styles.reveal} ${styles.hoverGlow}`} to={point.to} key={point.title} data-reveal data-hover-glow>
               <strong>{point.title}</strong>
               <span>{point.description}</span>
               <small>{point.label}</small>
@@ -504,7 +518,7 @@ function AgentSection(): JSX.Element {
         </div>
         <div className={styles.evidenceLoop} data-testid="landing-evidence-loop" role="group" aria-label="SHAFT evidence loop">
           {evidenceLoop.map((step, index) => (
-            <div className={styles.loopStep} key={step.title} data-hover-glow>
+            <div className={`${styles.loopStep} ${styles.hoverGlow}`} key={step.title} data-hover-glow>
               <small>{String(index + 1).padStart(2, '0')}</small>
               <strong>{step.title}</strong>
               <span>{step.description}</span>
@@ -544,11 +558,11 @@ function FinalCta(): JSX.Element {
         <h2>Generate your first SHAFT project.</h2>
         <p>Run the CLI, produce evidence, and see what your team gets. Questions first? Join the Slack community.</p>
         <div className={styles.actions}>
-          <Link className="button button--primary button--lg" data-testid="landing-cta-install" data-hover-glow to="/docs/start/quick-start#new-project-generation">
+          <Link className={`button button--primary button--lg ${styles.hoverGlow}`} data-testid="landing-cta-install" data-hover-glow to="/docs/start/quick-start#new-project-generation">
             <FontAwesomeIcon icon={faTerminal} aria-hidden="true" />
             Start a new project
           </Link>
-          <a className="button button--secondary button--lg" data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
+          <a className={`button button--secondary button--lg ${styles.hoverGlow}`} data-testid="landing-cta-slack" data-hover-glow href={slackInviteUrl} target="_blank" rel="noreferrer">
             <FontAwesomeIcon icon={faSlack} aria-hidden="true" />
             Join Slack
           </a>
@@ -571,9 +585,18 @@ function LandingFooter(): JSX.Element {
       </div>
       <div className={`container ${styles.footerLinks}`}>
         <small>© {new Date().getFullYear()} SHAFT Engine.</small>
-        <a href={snippets.githubRepository}>GitHub</a>
-        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions">Discussions</a>
-        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE">License</a>
+        <a href={snippets.githubRepository} target="_blank" rel="noreferrer">
+          GitHub
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+        </a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/discussions" target="_blank" rel="noreferrer">
+          Discussions
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+        </a>
+        <a href="https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE" target="_blank" rel="noreferrer">
+          License
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" />
+        </a>
         <a href="#top">Back to top</a>
       </div>
     </footer>
