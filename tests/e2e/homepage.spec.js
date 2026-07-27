@@ -54,6 +54,11 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
   await expect(page.getByRole('heading', {name: /Ship automation evidence, not boilerplate code/})).toBeVisible();
+  // #898 finding 10: the hero -- including the page's only <h1> and every hero
+  // CTA -- must be inside <main> so Docusaurus's "Skip to main content" link
+  // (which resolves to main:first-of-type) actually lands on it.
+  await expect(page.locator('main[data-testid="landing-main"] h1')).toHaveCount(1);
+  await expect(page.locator('main[data-testid="landing-main"] [data-testid="landing-hero-install-cta"]')).toBeVisible();
   await expect(page.getByTestId('landing-command-center')).toHaveCount(0);
   await expect(page.getByTestId('landing-hero-signals')).toHaveCount(0);
   await expect(page.getByTestId('landing-audience-split')).toBeVisible();
@@ -138,6 +143,51 @@ test('landing page links to the canonical MCP command page', async ({page}) => {
   expect(loopAlignment.numbers).toBeLessThanOrEqual(2);
   expect(loopAlignment.titles).toBeLessThanOrEqual(2);
   expect(loopAlignment.bodies).toBeLessThanOrEqual(2);
+});
+
+// Regression guard for #898 findings 12/13. .loopStep shares the same
+// translateY(-3px) hover-lift as .pathCard/.proofCard, and [data-hover-glow]
+// drives a 260ms scaling radial gradient on pointer move -- both must stop
+// for users who asked for less motion, matching the reduced-motion handling
+// already correct for .pathCard/.proofCard and ParticleBackground.
+test('landing page neutralizes hover-lift and hover-glow motion under prefers-reduced-motion (#898 findings 12/13)', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await page.goto('/');
+
+  await page.getByTestId('landing-agent').scrollIntoViewIfNeeded();
+  const loopStep = page.locator('[class*="loopStep"]').first();
+  await loopStep.hover();
+  await expect.poll(() => loopStep.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
+
+  const heroInstallCta = page.getByTestId('landing-hero-install-cta');
+  await heroInstallCta.hover();
+  const glowTransitionDuration = await heroInstallCta.evaluate(
+    (el) => getComputedStyle(el, '::before').transitionDuration,
+  );
+  expect(glowTransitionDuration).toBe('0s');
+});
+
+// Regression guard for #898 finding 15. useScrollReveal previously indexed
+// [data-reveal] elements globally across the whole document and capped the
+// stagger delay at 240ms (Math.min(index * 34, 240)) -- so every group past
+// the 8th element (all proof/path cards) popped in simultaneously instead of
+// cascading. The fix computes each element's index within its own parent.
+test('landing page computes the scroll-reveal stagger per section group, not globally (#898 finding 15)', async ({page}) => {
+  await page.goto('/');
+  const readDelay = (locator) => locator.evaluate((el) => el.style.getPropertyValue('--reveal-delay'));
+
+  const proofCards = page.locator('[data-testid="landing-proof"] [data-reveal]');
+  const pathCards = page.locator('[data-testid="landing-pathfinder"] [data-reveal]');
+  await expect(proofCards).toHaveCount(3);
+  await expect(pathCards).toHaveCount(5);
+
+  const lastProofDelay = await readDelay(proofCards.last());
+  const lastPathDelay = await readDelay(pathCards.last());
+
+  // Under the old global-index code both of these sat well past index 7 and
+  // would both have been capped identically at 240ms.
+  expect(lastProofDelay).toBe('68ms');
+  expect(lastPathDelay).toBe('136ms');
 });
 
 test('landing page keeps mobile motion and CTAs inside the viewport', async ({page}) => {

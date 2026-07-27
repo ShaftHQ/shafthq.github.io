@@ -4,6 +4,8 @@ const path = require('path');
 const index = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.tsx'), 'utf8');
 const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.module.css'), 'utf8');
 const customStyles = fs.readFileSync(path.join(__dirname, '..', 'src', 'css', 'custom.css'), 'utf8');
+const particleBackgroundPath = path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'index.tsx');
+const particleBackground = fs.readFileSync(particleBackgroundPath, 'utf8');
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -93,5 +95,30 @@ assert(!styles.includes("[data-testid='landing-hero-install-cta']"), 'Landing he
 assert(styles.includes('grid-template-rows: 1.8rem 3rem 1fr'), 'Evidence loop cards must align number, title, and body rows.');
 assert(styles.includes('.codeAnnotation') && styles.includes('.codeKeyword') && styles.includes('.codeCall'), 'Homepage Java code block must define token styles.');
 assert(!styles.includes('overflow-x: auto'), 'Homepage must not create a horizontal scroller.');
+
+// #898 P2 fast-follow
+assert(index.indexOf('<Hero />') > index.indexOf('<main'), 'Hero (the page\'s only <h1> and all hero CTAs) must render inside <main> so "Skip to main content" reaches it (#898 finding 10).');
+const reducedMotionBlock = styles.slice(styles.indexOf('@media (prefers-reduced-motion: reduce)'));
+assert(
+  /\.pathCard,\s*\.loopStep\s*\{\s*opacity: 1;/.test(reducedMotionBlock),
+  'Reduced motion must neutralize .loopStep hover-lift alongside .pathCard/.proofCard (#898 finding 12).',
+);
+assert(
+  /\.pathCard:hover,\s*\.loopStep:hover\s*\{\s*transform: none;/.test(reducedMotionBlock),
+  'Reduced motion must neutralize .loopStep:hover transform (#898 finding 12).',
+);
+assert(
+  /\[data-hover-glow\]::before\s*\{\s*transition: none;\s*transform: none;/.test(reducedMotionBlock),
+  'Reduced motion must stop the hover-glow scale/opacity animation (#898 finding 13).',
+);
+assert(!index.includes('revealElements.forEach((element, index) => {'), 'Reveal stagger must not compute delay from a global document-order index (#898 finding 15).');
+assert(index.includes('.indexOf(element)'), 'Reveal stagger must compute delay from each element\'s position within its own group (#898 finding 15).');
+assert(!particleBackground.includes('37, 194, 160'), 'ParticleBackground must not hardcode the off-palette Docusaurus green (#898 finding 22).');
+assert(!particleBackground.includes('ENABLE_PARTICLE_WORKERS'), 'ParticleBackground must not gate ~300 lines of dead worker code behind a hardcoded flag (#898 finding 24).');
+assert(!particleBackground.includes('particleWorker'), 'ParticleBackground must not reference the deleted particle worker module (#898 finding 24).');
+assert(
+  !fs.existsSync(path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'particleWorker.ts')),
+  'Dead particleWorker.ts file must be deleted (#898 finding 24).',
+);
 
 console.log('Homepage content, evidence, and accessibility checks passed.');

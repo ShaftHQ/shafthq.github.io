@@ -200,8 +200,11 @@ function useScrollReveal(): void {
       { rootMargin: '-8% 0px -10% 0px', threshold: [0, 0.12, 0.24] },
     );
 
-    revealElements.forEach((element, index) => {
-      element.style.setProperty('--reveal-delay', `${Math.min(index * 34, 240)}ms`);
+    revealElements.forEach((element) => {
+      const groupIndex = element.parentElement
+        ? Array.from(element.parentElement.children).indexOf(element)
+        : 0;
+      element.style.setProperty('--reveal-delay', `${Math.min(groupIndex * 34, 240)}ms`);
       observer.observe(element);
     });
 
@@ -214,6 +217,10 @@ function useScrollReveal(): void {
 
 function useHoverGlow(): void {
   React.useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     const glowTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-hover-glow]'));
 
     const updatePointer = (event: PointerEvent) => {
@@ -561,8 +568,8 @@ export default function Home(): JSX.Element {
       description="SHAFT turns Java automation into clear evidence across web, mobile, API, database, and CLI checks while preserving native tool control."
       noFooter
     >
-      <Hero />
       <main data-testid="landing-main">
+        <Hero />
         <AudienceSection />
         <GuidePathSection />
         <SurfaceSection />
