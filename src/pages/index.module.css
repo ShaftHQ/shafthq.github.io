@@ -202,15 +202,10 @@
 .hero .actions,
 .finalCta .actions {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 780px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-width: 560px;
   margin-right: auto;
   margin-left: auto;
-}
-
-.hero .actions [data-testid='landing-hero-install-cta'],
-.finalCta .actions [data-testid='landing-cta-install'] {
-  grid-column: 2;
 }
 
 .hero .actions :global(.button) {
@@ -233,12 +228,20 @@
 }
 
 .heroTrustLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   color: var(--site-color-muted);
   font-size: var(--site-font-label);
   font-weight: var(--site-font-weight-medium);
   text-decoration: underline;
   text-decoration-color: rgba(var(--site-color-primary-rgb), 0.48);
   text-underline-offset: 4px;
+}
+
+.heroTrustLink svg {
+  width: 0.85rem;
+  height: 0.85rem;
 }
 
 [data-hover-glow] {
@@ -632,19 +635,6 @@
 
 .pathCard:last-child {
   border-right: 0;
-}
-
-.pathCard::after {
-  position: absolute;
-  top: 1.16rem;
-  right: 0.88rem;
-  color: var(--site-color-primary);
-  content: '>';
-  font-weight: var(--site-font-weight-bold);
-}
-
-.pathCard:last-child::after {
-  display: none;
 }
 
 .pathCard:hover,
@@ -1064,10 +1054,6 @@
     border-radius: 8px;
     box-shadow: 0 14px 34px rgba(var(--site-color-deep-alt-rgb), 0.06);
   }
-
-  .pathCard::after {
-    display: none;
-  }
 }
 
 @media (max-width: 760px) {
@@ -1105,11 +1091,6 @@
   .hero .actions,
   .finalCta .actions {
     grid-template-columns: 1fr;
-  }
-
-  .hero .actions [data-testid='landing-hero-install-cta'],
-  .finalCta .actions [data-testid='landing-cta-install'] {
-    grid-column: 1;
   }
 
   .actions :global(.button) {
