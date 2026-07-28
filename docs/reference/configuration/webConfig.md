@@ -100,7 +100,13 @@ retryMaximumNumberOfAttempts=3
 
 # Loosen the built-in pre-action checks if your app has unusual rendering
 forceCheckForElementVisibility=false
+
+# Still throws on every retry within the identification timeout; only once that
+# timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to
+# a single displayed-and-enabled match before throwing MultipleElementsFoundException
+# (see SHAFT_ENGINE #4321)
 forceCheckElementLocatorIsUnique=false
+
 forceCheckTextWasTypedCorrectly=false
 forceCheckNavigationWasSuccessful=false
 
