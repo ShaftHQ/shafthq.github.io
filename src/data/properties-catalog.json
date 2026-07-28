@@ -682,7 +682,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Force check that element locator returns only one element."
+    "description": "Force check that element locator returns only one element. Still enforced on every retry within the identification timeout; only once that timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to a single displayed-and-enabled match before throwing MultipleElementsFoundException."
   },
   {
     "section": "Flags",
