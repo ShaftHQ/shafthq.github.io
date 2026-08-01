@@ -5,7 +5,7 @@
 // This is a maintainer-run refresh tool, not a build step (the docs site build does not depend
 // on a sibling engine checkout). Run it whenever engine properties change:
 //
-//   node scripts/generate-properties-catalog.mjs [--engine-path=<path>] [--check]
+//   node scripts/generate-properties-catalog.mjs [--engine-path=<path to properties/internal>] [--check]
 //
 // --check: do not write the file; exit non-zero if the generated catalog would differ from the
 //          committed one (used by tests/properties-catalog.test.js to catch drift in CI).

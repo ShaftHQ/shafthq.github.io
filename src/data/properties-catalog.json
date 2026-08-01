@@ -2184,7 +2184,7 @@
     "key": "pilot.ai.timeoutSeconds",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "30",
+    "defaultValue": "300",
     "possibleValues": "",
     "description": "Maximum provider timeout in seconds."
   },
