@@ -10752,7 +10752,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  .remoteConsent(false)
  .allowedEvidenceCategories("")
  .telemetryEnabled(false)
- .timeoutSeconds(30)
+ .timeoutSeconds(300)
  .maxRequestBytes(1048576)
  .maxInputTokens(16000)
  .maxOutputTokens(2000)
@@ -10807,7 +10807,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  pilot.ai.consent.remote=false
  pilot.ai.allowedEvidenceCategories=
  pilot.ai.telemetry.enabled=false
- pilot.ai.timeoutSeconds=30
+ pilot.ai.timeoutSeconds=300
  pilot.ai.maxRequestBytes=1048576
  pilot.ai.maxInputTokens=16000
  pilot.ai.maxOutputTokens=2000
@@ -10856,7 +10856,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.consent.remote | `false` | `true`, `false` | Whether remote inference is approved. |
 | pilot.ai.allowedEvidenceCategories | ` ` | | Comma-separated approved evidence categories. |
 | pilot.ai.telemetry.enabled | `false` | `true`, `false` | Whether optional external telemetry is enabled. |
-| pilot.ai.timeoutSeconds | `30` | | Maximum provider timeout in seconds. |
+| pilot.ai.timeoutSeconds | `300` | | Maximum provider timeout in seconds. |
 | pilot.ai.maxRequestBytes | `1048576` | | Maximum serialized request size. |
 | pilot.ai.maxInputTokens | `16000` | | Maximum estimated input tokens. |
 | pilot.ai.maxOutputTokens | `2000` | | Maximum output tokens. |
