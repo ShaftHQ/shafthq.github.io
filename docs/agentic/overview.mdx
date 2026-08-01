@@ -26,6 +26,29 @@ flowchart TD
     Provider -. consent + redaction .-> Heal
 ```
 
+## Install SHAFT agent tools
+
+Install SHAFT skills without configuring an MCP client:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-skills')"
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-skills
+```
+
+Install `shaft-cli` without configuring an MCP client. This also installs its
+internal `shaft-mcp` runtime prerequisite.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-cli
+```
+
 | Capability | Default behavior | Start here |
 |---|---|---|
 | IntelliJ plugin | IDE front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and Guide search | [IntelliJ IDEA plugin](/docs/agentic/intellij) |

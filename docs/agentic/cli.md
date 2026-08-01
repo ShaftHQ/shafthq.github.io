@@ -15,11 +15,10 @@ stateless one-shot commands and a persistent session mode for stateful tools.
 
 ## Install
 
-Pass `--install-shaft-cli` to the shaft-mcp installer (the copy-paste command
-on the [Connect shaft-mcp page](/docs/agentic/mcp)) to also install shaft-cli —
-no local Java or Python required; the installer bootstraps whatever is missing.
-The flag is independent of `--client`, so it can be combined with any MCP
-client target, or run on its own.
+Use the standalone `--install-shaft-cli` command in
+[Install SHAFT agent tools](/docs/agentic/overview#install-shaft-agent-tools).
+It installs shaft-cli and the required shaft-mcp runtime automatically without
+configuring an MCP client. No local Java or Python is required.
 
 The installer downloads and SHA-256-verifies `shaft-cli-<version>.jar` from
 Maven Central, then writes a runnable launcher (`shaft-cli` on macOS/Linux,
@@ -30,8 +29,8 @@ under the platform's application-data root:
 - macOS: `~/Library/Application Support/ShaftHQ/shaft-cli/versions/<version>/`
 - Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-cli/versions/<version>/`
 
-shaft-mcp is a prerequisite; install it with the same command. shaft-cli
-locates it in this order:
+shaft-mcp is an internal prerequisite that the standalone installer provides.
+shaft-cli locates it in this order:
 
 1. The `SHAFT_MCP_JAR` environment variable
 2. The installer's versions directory
