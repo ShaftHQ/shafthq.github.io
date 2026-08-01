@@ -17,7 +17,7 @@ const allowedTypes = new Set(['boolean', 'text', 'number']);
 // scripts/generate-properties-catalog.mjs) -- 405 properties at the time this floor was set.
 // Keep this a floor, not an exact match: the engine gains properties over time and this test
 // must not need touching on every unrelated engine release. Regenerate with
-// `node scripts/generate-properties-catalog.mjs --engine-path=<path to SHAFT_ENGINE checkout>`.
+// `node scripts/generate-properties-catalog.mjs --engine-path=<path to shaft-engine/src/main/java/com/shaft/properties/internal>`.
 assert(catalog.length >= 400, `Properties catalog should include the full SHAFT property set (got ${catalog.length}).`);
 
 const seenKeys = new Set();
@@ -79,6 +79,10 @@ for (const [tokenCountKey, expectedDefault, expectedType] of [
   assert(property.defaultValue === expectedDefault, `${tokenCountKey} must publish its real numeric default '${expectedDefault}', got '${property.defaultValue}'`);
   assert(property.type === expectedType, `${tokenCountKey} must have type '${expectedType}', got '${property.type}'`);
 }
+
+const pilotTimeout = catalog.find((p) => p.key === 'pilot.ai.timeoutSeconds');
+assert(pilotTimeout, 'Missing expected property pilot.ai.timeoutSeconds');
+assert(pilotTimeout.defaultValue === '300', `pilot.ai.timeoutSeconds must publish default '300', got '${pilotTimeout.defaultValue}'`);
 
 // Non-sensitive credential-pointer regression guard for #829: these keys contain "apikey" but
 // hold the *name* of an environment variable/header/prefix that points at a credential, not the
