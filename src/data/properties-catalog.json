@@ -504,6 +504,42 @@
     "description": "iOS bundle identifier for launching an already installed app without providing mobile_app. You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add mobile_ as a prefix."
   },
   {
+    "section": "Mobile",
+    "key": "mobile_flutterElementWaitTimeout",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "0",
+    "possibleValues": "",
+    "description": "Mobile flutter element wait timeout."
+  },
+  {
+    "section": "Mobile",
+    "key": "mobile_flutterServerLaunchTimeout",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "0",
+    "possibleValues": "",
+    "description": "Mobile flutter server launch timeout."
+  },
+  {
+    "section": "Mobile",
+    "key": "mobile_flutterSystemPort",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "0",
+    "possibleValues": "",
+    "description": "Mobile flutter system port."
+  },
+  {
+    "section": "Mobile",
+    "key": "mobile_flutterEnableMockCamera",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Mobile flutter enable mock camera."
+  },
+  {
     "section": "API",
     "key": "swagger.validation.enabled",
     "targetFile": "custom.properties",
@@ -673,7 +709,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Force check for element visibility before interactions."
+    "description": "Legacy configuration property with no current runtime consumer."
   },
   {
     "section": "Flags",
@@ -682,7 +718,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Force check that element locator returns only one element. Still enforced on every retry within the identification timeout; only once that timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to a single displayed-and-enabled match before throwing MultipleElementsFoundException."
+    "description": "Force check that element locator returns only one element. This is still enforced on every retry within the identification timeout; only once that timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to a single displayed-and-enabled match before throwing MultipleElementsFoundException (#4321)."
   },
   {
     "section": "Flags",
@@ -1504,6 +1540,15 @@
     "description": "Timeout in seconds for remote server instance creation."
   },
   {
+    "section": "Timeouts",
+    "key": "remoteServerConnectionAttemptTimeout",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "120",
+    "possibleValues": "(seconds)",
+    "description": "Timeout in seconds for a single HTTP connect/read attempt while creating a remote WebDriver session."
+  },
+  {
     "section": "Visuals",
     "key": "visualMatchingThreshold",
     "targetFile": "custom.properties",
@@ -2063,6 +2108,15 @@
     "description": "Reserved consent gate for reviewed source-patch proposals."
   },
   {
+    "section": "Healing",
+    "key": "healing.ladder.budgetSeconds",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "0",
+    "possibleValues": "0 or positive seconds",
+    "description": "Hard total budget in seconds across the deterministic re-suggestion ladder; 0 preserves one-shot resolution."
+  },
+  {
     "section": "Natural Actions",
     "key": "naturalActions.enabled",
     "targetFile": "custom.properties",
@@ -2211,7 +2265,7 @@
     "key": "pilot.ai.maxOutputTokens",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "2000",
+    "defaultValue": "8000",
     "possibleValues": "",
     "description": "Maximum output tokens."
   },
@@ -2699,7 +2753,7 @@
     "key": "shaftEngineVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "10.3.20260717",
+    "defaultValue": "10.3.20260728",
     "possibleValues": "version string",
     "description": "Engine version used by update checks, telemetry metadata, and internal tooling."
   },
@@ -2735,7 +2789,7 @@
     "key": "appiumServerVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "3.5.2",
+    "defaultValue": "3.6.0",
     "possibleValues": "Appium npm package version",
     "description": "Appium server version used by SHAFT MCP local mobile bootstrap."
   },
@@ -2744,7 +2798,7 @@
     "key": "appiumInspectorPluginVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "2026.5.1",
+    "defaultValue": "2026.7.1",
     "possibleValues": "Appium Inspector plugin version",
     "description": "Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording."
   },
@@ -2753,7 +2807,7 @@
     "key": "appiumUiAutomator2DriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "8.1.0",
+    "defaultValue": "8.2.0",
     "possibleValues": "Appium driver version",
     "description": "Appium UiAutomator2 driver version used by SHAFT MCP for Android."
   },
@@ -2762,7 +2816,7 @@
     "key": "appiumXcuitestDriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "11.17.7",
+    "defaultValue": "12.1.0",
     "possibleValues": "Appium driver version",
     "description": "Appium XCUITest driver version used by SHAFT MCP for iOS."
   },

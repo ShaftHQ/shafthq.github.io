@@ -383,6 +383,10 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 | mobile_appPackage            | ` `            | example: `com.example.android.myApp`                                                 | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_appActivity           | ` `            | example: `.MainActivity`                                                             | • You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix.                                                                                                                                                                                                                                   |
 | mobile_bundleId              | ` `            | example: `com.example.ios.myApp`                                                     | • iOS bundle identifier for launching an already installed app without providing `mobile_app`.<br/>• You can add any property from the <a href="https://appium.io/docs/en/2.0/guides/caps/">List of Appium Capabilities</a> directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_flutterElementWaitTimeout | `0`        |                 | Mobile flutter element wait timeout. |
+| mobile_flutterServerLaunchTimeout | `0`       |                 | Mobile flutter server launch timeout. |
+| mobile_flutterSystemPort     | `0`            |                 | Mobile flutter system port. |
+| mobile_flutterEnableMockCamera | `false`      | `true`, `false` | Mobile flutter enable mock camera. |
 
   </TabItem>
 </Tabs>
@@ -544,7 +548,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | retryMaximumNumberOfAttempts                | `0`           | example: `0`, `1`, `2`, `3`, `4`, ...etc | • Maximum number of retry attempts after the first failed execution.<br/>• JUnit retries run after `@AfterEach` cleanup and execute `@BeforeEach` again for isolated retry state.                                                                       |
 | forceCaptureSupportingEvidenceOnRetry       | `true`        | `true`, `false`                          | • When retrying a failed test, enable GIF/video/log evidence for the retry attempt.                                                                                                                                                                     |
 | autoMaximizeBrowserWindow                   | `true`        | `true`, `false`                          | • Automatically maximize browser window on launch.                                                                                                                                                                                                     |
-| forceCheckForElementVisibility              | `true`        | `true`, `false`                          | • Force check for element visibility before interactions.                                                                                                                                                                                              |
+| forceCheckForElementVisibility              | `true`        | `true`, `false`                          | • Legacy configuration property with no current runtime consumer.                                                                                                                                                                                       |
 | forceCheckElementLocatorIsUnique            | `true`        | `true`, `false`                          | • Force check that element locator returns only one element.<br/>• This is still enforced on every retry within the identification timeout; only once that timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to a single displayed-and-enabled match before throwing `MultipleElementsFoundException` ([#4321](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4321)).                        |
 | forceCheckTextWasTypedCorrectly             | `false`       | `true`, `false`                          | • In WebDriver element actions, after `type`, `typeSecure`, or `typeAppend`, compare the final element value/text with the expected typed text.<br/>• SHAFT skips this comparison for special key sequences such as `Keys.ENTER`.                         |
 | clearBeforeTypingMode                       | `native`      | `native`, `backspace`, `off`             | • Replaces both deprecated `attemptClearBeforeTyping` and `attemptClearBeforeTypingUsingBackspace` flags. `native` = clear using native Selenium method, `backspace` = clear by deleting letter by letter, `off` = no clearing before typing.          |
@@ -790,6 +794,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | waitForRemoteServerToBeUp           | `false`       | `true`, `false` | Wait for remote server to be up before execution.                                  |
 | timeoutForRemoteServerToBeUp        | `1`           | (seconds)       | Timeout in seconds for remote server to be up.                                     |
 | remoteServerInstanceCreationTimeout | `5`           | (seconds)       | Timeout in seconds for remote server instance creation.                            |
+| remoteServerConnectionAttemptTimeout | `120`        | (seconds)       | Timeout in seconds for a single HTTP connect/read attempt while creating a remote WebDriver session. |
 
   </TabItem>
 </Tabs>
@@ -1021,6 +1026,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | healing.ai.enabled               | `false`       | `true`, `false` | Enables optional provider reranking after deterministic eligibility. |
 | healing.ai.trigger               | `ambiguous`   | `never`, `ambiguous`, `below-threshold`, `always` | Controls when enabled AI reranking runs after deterministic scoring. |
 | healing.sourcePatch.enabled      | `false`       | `true`, `false` | Reserved consent gate for reviewed source-patch proposals. |
+| healing.ladder.budgetSeconds     | `0`           | `0` or positive seconds | Hard total budget in seconds across the deterministic re-suggestion ladder; `0` preserves one-shot resolution. |
 
   </TabItem>
 </Tabs>
@@ -1132,7 +1138,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
     .timeoutSeconds(300)
     .maxRequestBytes(1048576)
     .maxInputTokens(16000)
-    .maxOutputTokens(2000)
+    .maxOutputTokens(8000)
     .maxCostUsd("0")
     .retryMaxAttempts(2)
     .maxConcurrency(2)
@@ -1187,7 +1193,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   pilot.ai.timeoutSeconds=300
   pilot.ai.maxRequestBytes=1048576
   pilot.ai.maxInputTokens=16000
-  pilot.ai.maxOutputTokens=2000
+  pilot.ai.maxOutputTokens=8000
   pilot.ai.maxCostUsd=0
   pilot.ai.retryMaxAttempts=2
   pilot.ai.maxConcurrency=2
@@ -1236,7 +1242,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.timeoutSeconds                          | `300`          |                   | Maximum provider timeout in seconds. |
 | pilot.ai.maxRequestBytes                         | `1048576`      |                   | Maximum serialized request size. |
 | pilot.ai.maxInputTokens                          | `16000`        |                   | Maximum estimated input tokens. |
-| pilot.ai.maxOutputTokens                         | `2000`         |                   | Maximum output tokens. |
+| pilot.ai.maxOutputTokens                         | `8000`         |                   | Maximum output tokens. |
 | pilot.ai.maxCostUsd                              | `0`            |                   | Maximum accepted provider-reported cost in USD. |
 | pilot.ai.retryMaxAttempts                        | `2`            |                   | Maximum provider execution attempts. |
 | pilot.ai.maxConcurrency                          | `2`            |                   | Maximum concurrent calls per provider. |
@@ -1365,13 +1371,13 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="file-based" label="File-based">
 
   ```properties showLineNumbers title="src/main/resources/properties/internal.properties"
-  shaftEngineVersion=10.3.20260716
+  shaftEngineVersion=10.3.20260728
   allure3Version=3.14.3
   nodeLtsVersion=24.18.0
-  appiumServerVersion=3.5.2
-  appiumInspectorPluginVersion=2026.5.1
-  appiumUiAutomator2DriverVersion=8.1.0
-  appiumXcuitestDriverVersion=11.17.7
+  appiumServerVersion=3.6.0
+  appiumInspectorPluginVersion=2026.7.1
+  appiumUiAutomator2DriverVersion=8.2.0
+  appiumXcuitestDriverVersion=12.1.0
   androidCommandLineToolsVersion=15859902
   androidEmulatorApiLevel=36
   androidEmulatorDeviceProfile=pixel_8
@@ -1387,14 +1393,14 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                       | Default Value | Possible Values | Description |
 | ----------------------------------- | ------------- | --------------- | ----------- |
-| shaftEngineVersion                  | `10.3.20260716` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
+| shaftEngineVersion                  | `10.3.20260728` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
 | watermarkImagePath                  | SHAFT watermark URL | URL or file path | Default watermark image used by screenshot processing. |
 | allure3Version                      | `3.14.3`      | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
 | nodeLtsVersion                      | `24.18.0`     | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
-| appiumServerVersion                 | `3.5.2`       | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
-| appiumInspectorPluginVersion        | `2026.5.1`    | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
-| appiumUiAutomator2DriverVersion     | `8.1.0`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
-| appiumXcuitestDriverVersion         | `11.17.7`     | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
+| appiumServerVersion                 | `3.6.0`       | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
+| appiumInspectorPluginVersion        | `2026.7.1`    | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
+| appiumUiAutomator2DriverVersion     | `8.2.0`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
+| appiumXcuitestDriverVersion         | `12.1.0`      | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
 | androidCommandLineToolsVersion      | `15859902`    | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
 | androidEmulatorApiLevel             | `36`          | Android API level | Default Android API level proposed for SHAFT-managed emulator creation. |
 | androidEmulatorDeviceProfile        | `pixel_8`     | Android virtual device profile | Default Android virtual device profile proposed for SHAFT-managed emulators. |
