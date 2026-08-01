@@ -71,7 +71,7 @@ for (const sensitiveKey of [
 // Regression for issue #3717: refined sensitivity heuristic to exclude numeric token-count keys.
 for (const [tokenCountKey, expectedDefault, expectedType] of [
   ['pilot.ai.maxInputTokens', '16000', 'number'],
-  ['pilot.ai.maxOutputTokens', '2000', 'number'],
+  ['pilot.ai.maxOutputTokens', '8000', 'number'],
 ]) {
   const property = catalog.find((p) => p.key === tokenCountKey);
   assert(property, `Missing expected non-sensitive numeric property ${tokenCountKey}`);
