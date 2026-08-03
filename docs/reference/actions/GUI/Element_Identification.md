@@ -860,7 +860,7 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 7. **Document complex locators** - add comments explaining why a particular strategy was chosen
 8. **Test locators in isolation** - verify your locators work before building tests around them
 
-## Additional Resources
+## Related
 
 - [Web locator strategy](/docs/testing/web#locator-strategy)
 - [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)

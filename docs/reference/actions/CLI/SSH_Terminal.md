@@ -427,7 +427,7 @@ void ensureSufficientDiskSpace() {
 
 ---
 
-## Related Pages
+## Related
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.
 - [Docker Terminal](./Docker_Terminal.md) — Execute commands inside running Docker containers.

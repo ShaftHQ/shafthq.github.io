@@ -161,7 +161,8 @@ void createUserViaDbAndVerifyThroughApi() {
     // Verify through the REST API
     SHAFT.API api = new SHAFT.API("https://api.example.com");
     api.get("/users?email=test@example.com")
-       .setTargetStatusCode(200);
+       .setTargetStatusCode(200)
+       .perform();
 
     api.assertThatResponse()
         .extractedJsonValue("$[0].name")
@@ -182,7 +183,7 @@ void createUserViaDbAndVerifyThroughApi() {
 
 ---
 
-## Related Pages
+## Related
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.
 - [SSH Remote Terminal](./SSH_Terminal.md) — Execute commands on remote servers via SSH.

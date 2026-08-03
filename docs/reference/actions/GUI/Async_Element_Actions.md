@@ -129,7 +129,7 @@ Async actions are best suited for **write** operations (type, select, click) tha
 
 ---
 
-## Additional Resources
+## Related
 
 - [Element Actions](./Element_Actions) — standard synchronous element API
 - [SHAFT_ENGINE source — AsyncElementActions](https://github.com/ShaftHQ/SHAFT_ENGINE/tree/master/src/main/java/com/shaft/gui/element)

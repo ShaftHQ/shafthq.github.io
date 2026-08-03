@@ -128,7 +128,7 @@ You can learn more about the different **[property types]** and the **[full list
 :::
 
 [appium user guide]: <https://appium.io/docs/en/latest/>
-[Web GUI basic config]: <../Basic_Config/basicConfig>
+[Web GUI basic config]: /docs/reference/configuration/webConfig
 [property types]: /docs/reference/properties/PropertyTypes
 [full list of supported properties]: /docs/reference/properties/PropertiesList
 [BrowserStack]: <https://www.browserstack.com/>
