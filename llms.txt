@@ -42,7 +42,7 @@
 ## Reference
 - [Reference](https://shafthq.github.io/docs/reference/overview): Detailed SHAFT actions, properties, validations, and practices.
 - [Alert Actions](https://shafthq.github.io/docs/reference/actions/GUI/Alert_Actions): Handle browser alert dialogs — accept, dismiss, read text, and type into prompt alerts using SHAFT Engine.
-- [API Authentication](https://shafthq.github.io/docs/reference/actions/API/API_Authentication): Configure BASIC, DIGEST, OAuth2, API Key, cookie, and session authentication for API tests in SHAFT Engine using setAuthentication and addHeader.
+- [API Authentication](https://shafthq.github.io/docs/reference/actions/API/API_Authentication): Configure BASIC, FORM, OAuth2, API Key, cookie, and session authentication for API tests in SHAFT Engine using setAuthentication and addHeader.
 - [Async Element Actions](https://shafthq.github.io/docs/reference/actions/GUI/Async_Element_Actions): Run SHAFT element actions concurrently using Java virtual threads — improve test speed with non-blocking parallel interactions.
 - [Basic Configuration for API](https://shafthq.github.io/docs/reference/configuration/apiConfig): Configure SHAFT Engine properties for REST API testing — proxy, timeouts, retry settings, and Swagger/OpenAPI schema validation.
 - [Basic Configuration for Mobile GUI](https://shafthq.github.io/docs/reference/configuration/mobileConfig): Configure SHAFT Engine properties for mobile app automation with Appium — Android, iOS, native and web execution settings.

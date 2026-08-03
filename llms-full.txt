@@ -1575,7 +1575,7 @@ public class CountryApiTest {
 
  api.get("capital/Cairo");
  api.assertThatResponse()
- .extractedJsonValue("[0].name.common")
+ .extractedJsonValue("$[0].name.common")
  .isEqualTo("Egypt");
  }
 }
@@ -1583,8 +1583,8 @@ public class CountryApiTest {
 
 ```mermaid
 flowchart LR
- Builder["Build request"] --> Perform["perform()"]
- Perform --> Evidence["Request + response evidence"]
+ Builder["Build request"] --> Send["Send request"]
+ Send --> Evidence["Request + response evidence"]
  Evidence --> Assert["Fluent response assertion"]
 ```
 
@@ -2168,8 +2168,8 @@ To test a Flutter app using SHAFT Engine, you need to:
 
 ### Example Test Class
 
-Here's a complete example of a Flutter test using SHAFT Engine with TestNG and
-java-client's native Flutter locators:
+Use this complete Flutter example with TestNG and java-client's native Flutter
+locators:
 
 ```java
 package com.example.tests;
@@ -2197,17 +2197,13 @@ public class FlutterAppTest {
 
  @Test
  public void testFlutterApp() {
- // Find element by ValueKey
- WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
- loginButton.click();
+ driver.element().click(AppiumBy.flutterKey("loginButton"));
  
- // Find element by text
- WebElement welcomeMessage = driver.getDriver().findElement(AppiumBy.flutterText("Welcome!"));
- Assert.assertNotNull(welcomeMessage, "Welcome message should be displayed");
+ driver.element().assertThat(AppiumBy.flutterText("Welcome!"))
+ .exists();
  
- // Find element by Type
- WebElement textField = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
- Assert.assertNotNull(textField, "TextField should be found");
+ driver.element().assertThat(AppiumBy.flutterType("TextField"))
+ .exists();
  }
 
  @AfterMethod
@@ -2412,14 +2408,12 @@ Enable debug logging to troubleshoot issues:
 
 ```properties
 
-# In custom.properties
-log4j_logLevel=DEBUG
+# In src/main/resources/properties/log4j2.properties
+logger.app.level=DEBUG
 ```
 
-Or programmatically:
-```java
-SHAFT.Properties.log4j.set().logLevel("DEBUG");
-```
+`logger.app.level` is a Log4j2 file setting. Keep it in the Log4j2 properties
+file; it is not a typed `SHAFT.Properties` setting.
 
 ## Best Practices
 
@@ -2442,7 +2436,7 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
 
 3. **Wait for Elements**: SHAFT automatically handles waits, but you can configure timeout:
  ```java
- SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
+ SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(30);
  ```
 
 4. **Use Fluent API**: SHAFT's fluent API makes tests more readable:
@@ -2489,46 +2483,34 @@ public class FlutterAppTestSuite {
  @Test(description = "Verify successful login with valid credentials")
  public void testValidLogin() {
  // Find and interact with Flutter widgets using native flutter* locators
- WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
- WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
- WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
+ driver.element()
+ .type(AppiumBy.flutterKey("usernameField"), "testuser")
+ .type(AppiumBy.flutterKey("passwordField"), "testpass")
+ .click(AppiumBy.flutterKey("loginButton"));
  
- usernameField.sendKeys("testuser");
- passwordField.sendKeys("testpass");
- loginButton.click();
- 
- // Verify navigation to dashboard
- WebElement dashboardTitle = driver.getDriver().findElement(AppiumBy.flutterText("Dashboard"));
- Assert.assertNotNull(dashboardTitle, "Dashboard should be displayed");
+ driver.element().assertThat(AppiumBy.flutterText("Dashboard"))
+ .exists();
  }
 
  @Test(description = "Verify error message with invalid credentials")
  public void testInvalidLogin() {
- WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
- WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
- WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
+ driver.element()
+ .type(AppiumBy.flutterKey("usernameField"), "wronguser")
+ .type(AppiumBy.flutterKey("passwordField"), "wrongpass")
+ .click(AppiumBy.flutterKey("loginButton"));
  
- usernameField.sendKeys("wronguser");
- passwordField.sendKeys("wrongpass");
- loginButton.click();
- 
- // Verify error message is displayed
- WebElement errorMessage = driver.getDriver().findElement(AppiumBy.flutterText("Invalid credentials"));
- Assert.assertNotNull(errorMessage, "Error message should be displayed");
+ driver.element().assertThat(AppiumBy.flutterText("Invalid credentials"))
+ .exists();
  }
 
  @Test(description = "Verify counter increment functionality")
  public void testCounterIncrement() {
  // Find the increment button by its semantics label (Flutter's Tooltip
  // widget registers its message as a semantics label)
- WebElement incrementButton = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Increment"));
- 
- // Click the button
- incrementButton.click();
- 
- // Verify button was clicked (counter should increment)
- // Note: Actual verification would check the counter text value
- Assert.assertNotNull(incrementButton, "Increment button should be functional");
+ driver.element().click(AppiumBy.flutterSemanticsLabel("Increment"));
+
+ driver.element().assertThat(AppiumBy.flutterText("1"))
+ .exists();
  }
 
  @AfterMethod(alwaysRun = true)
@@ -2540,24 +2522,15 @@ public class FlutterAppTestSuite {
 }
 ```
 
-## Additional Resources
-
-- [Appium Flutter Driver Documentation](https://github.com/appium-userland/appium-flutter-driver)
-- [Flutter Testing Guide](https://flutter.dev/docs/testing)
-- [SHAFT Engine Documentation](https://ShaftHQ.github.io/)
-- [Appium java-client](https://github.com/appium/java-client) - ships the native `AppiumBy` `flutter*` locators
-
-## Support
-
-For issues or questions:
-- Open an issue on [GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)
-- Join our [Slack community](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)
-- Check our [documentation](https://ShaftHQ.github.io/)
-
 ## Related
 
 - [Testing overview](/docs/start/overview)
 - [Features](/docs/features/modules)
+- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-driver)
+- [Flutter testing guide](https://flutter.dev/docs/testing)
+- [Appium Java client](https://github.com/appium/java-client) for native `AppiumBy.flutter*` locators
+- [SHAFT Engine issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)
+- [SHAFT community Slack](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)
 
 ---
 
@@ -7009,9 +6982,11 @@ attachFullLog=true
 Use explicit waits for application states that the browser cannot infer:
 
 ```java title="ReliableStateWait.java"
+
 driver.browser().navigateToURL("https://example.test/orders");
 driver.element().click("Refresh orders");
-driver.element().waitUntilElementTextToBe(By.id("sync-status"), "Complete");
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+ By.id("sync-status"), "Complete"));
 driver.assertThat(By.id("order-count")).text().isEqualTo("25");
 ```
 
@@ -7603,7 +7578,7 @@ and image-file operations continue to work.
 | `STRICT_EYES` | High-sensitivity comparison with minor tolerance | UI components |
 | `CONTENT_EYES` | Compares content while ignoring minor rendering differences | Text-heavy pages |
 | `LAYOUT_EYES` | Compares layout structure, ignores content changes | Page layout regression |
-| `OPENCV` | Uses OpenCV for flexible image matching | Complex scenarios, partial matching |
+| `EXACT_OPENCV` | Uses OpenCV for image comparison | OpenCV-based visual checks |
 
 ```java title="VisualTesting.java"
 
@@ -7612,14 +7587,14 @@ driver.element().assertThat(By.id("logo")).matchesReferenceImage();
 
 // Layout comparison — ignores content, checks structure
 driver.element().assertThat(By.id("productCard"))
- .matchesReferenceImage(VisualValidationEngine.LAYOUT_EYES);
+ .matchesReferenceImage(ValidationEnums.VisualValidationEngine.LAYOUT_EYES);
 ```
 
 When an intentional UI change is made, delete the relevant baseline image from `src/test/resources/DynamicObjectRepository/` and run the test once to regenerate it. Run visual tests in a consistent environment (same OS, browser version, screen resolution) to avoid false positives, and avoid mixing headless and headed baselines.
 
 ## matchesScreenshot()
 
-`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). Like every other SHAFT assertion it runs immediately — no `perform()` is needed. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
+`matchesScreenshot()` is an OpenCV-only pixel-diff assertion built into `shaft-engine`, so it does not require `shaft-visual`. It runs when you call it. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
 
 ```java title="ScreenshotBaseline.java"
 driver.element().assertThat(By.id("logo"))
@@ -7813,7 +7788,7 @@ public class AlertDemo {
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/API/API_Authentication
 
-SHAFT Engine supports multiple API authentication strategies through `setAuthentication()` and the fluent request builder. All authentication methods work with the existing `SHAFT.API` request-building API.
+Use `setAuthentication()` for BASIC or FORM authentication. For bearer tokens, API keys, and cookies, add the relevant header before sending the request.
 
 ---
 
@@ -7827,19 +7802,8 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/secure/data")
  .setAuthentication("username", "password", AuthenticationType.BASIC)
- .setTargetStatusCode(200);
-```
-
----
-
-## DIGEST Authentication
-
-Use `AuthenticationType.DIGEST` for digest-challenge protected endpoints:
-
-```java title="APIAuthentication.java"
-api.get("/digest-auth/data")
- .setAuthentication("user", "pass", AuthenticationType.DIGEST)
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ---
@@ -7851,7 +7815,8 @@ Submit credentials as form parameters using `AuthenticationType.FORM`:
 ```java title="APIAuthentication.java"
 api.post("/login")
  .setAuthentication("user@example.com", "password123", AuthenticationType.FORM)
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ---
@@ -7863,7 +7828,8 @@ Add the `Authorization` header with a `Bearer` token prefix:
 ```java title="APIAuthentication.java"
 api.get("/oauth/resource")
  .addHeader("Authorization", "Bearer your-oauth-token")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ---
@@ -7875,15 +7841,17 @@ api.get("/oauth/resource")
 ```java title="APIAuthentication.java"
 api.get("/data")
  .addHeader("X-API-Key", "your-api-key")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ### API Key in Query Parameter
 
 ```java title="APIAuthentication.java"
 api.get("/data")
- .addUrlParameter("api_key", "your-api-key")
- .setTargetStatusCode(200);
+ .setUrlArguments("api_key=your-api-key")
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ---
@@ -7895,26 +7863,22 @@ Pass a session cookie using `addHeader`:
 ```java title="APIAuthentication.java"
 api.get("/profile")
  .addHeader("Cookie", "session_id=abc123xyz; token=your-session-token")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 ```
 
 ---
 
-## Persistent Session Authentication
+## Persistent headers and cookies
 
-When `setAuthentication()` is called, the credentials are saved for all subsequent requests in the same `SHAFT.API` session:
+Use `addHeader()` or `addCookie()` on `SHAFT.API` when a token or cookie should be sent with later requests:
 
 ```java title="APIAuthentication.java"
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
-// Authenticate once — credentials reused for all subsequent requests
-api.get("/login")
- .setAuthentication("user", "password", AuthenticationType.BASIC);
-
-// These requests automatically include the authentication credentials
+api.addHeader("Authorization", "Bearer your-oauth-token");
+api.addCookie("session_id", "your-session-id");
 api.get("/users").setTargetStatusCode(200);
-api.get("/orders").setTargetStatusCode(200);
-api.get("/profile").setTargetStatusCode(200);
 ```
 
 ---
@@ -7930,10 +7894,11 @@ public class APIAuthTest {
  SHAFT.API api = new SHAFT.API("https://httpbin.org");
  api.get("/basic-auth/user/pass")
  .setAuthentication("user", "pass", AuthenticationType.BASIC)
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 
  api.assertThatResponse()
- .extractedJsonValue("authenticated")
+ .extractedJsonValue("$.authenticated")
  .isEqualTo("true");
  }
 
@@ -7942,7 +7907,8 @@ public class APIAuthTest {
  SHAFT.API api = new SHAFT.API("https://api.example.com");
  api.get("/protected")
  .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
  }
 }
 ```
@@ -8088,7 +8054,7 @@ Async actions are best suited for **write** operations (type, select, click) tha
 
 ---
 
-## Additional Resources
+## Related
 
 - [Element Actions](./Element_Actions) — standard synchronous element API
 - [SHAFT_ENGINE source — AsyncElementActions](https://github.com/ShaftHQ/SHAFT_ENGINE/tree/master/src/main/java/com/shaft/gui/element)
@@ -8145,9 +8111,11 @@ com.SHAFT.proxySettings=proxy.corp.example.com:8080
 
 ```properties title="src/main/resources/properties/custom.properties"
 
-# Retry a failed API test up to N times before marking it failed
+# Example: allow three additional attempts after the first failure
 retryMaximumNumberOfAttempts=3
 ```
+
+The default is `0`, so retries are opt-in.
 
 ---
 
@@ -8318,7 +8286,7 @@ You can learn more about the different **[property types]** and the **[full list
 :::
 
 [appium user guide]: 
-[Web GUI basic config]: 
+[Web GUI basic config]: /docs/reference/configuration/webConfig
 [property types]: /docs/reference/properties/PropertyTypes
 [full list of supported properties]: /docs/reference/properties/PropertiesList
 [BrowserStack]: 
@@ -8350,11 +8318,11 @@ and [Properties Reference](/docs/reference/properties/PropertiesList).
 
 ```properties title="src/main/resources/properties/custom.properties"
 
-# Supported values: CHROME | FIREFOX | SAFARI | MICROSOFTEDGE
-targetBrowserName=CHROME
+# Default: chrome. Other supported values are firefox, safari, and edge.
+targetBrowserName=chrome
 
-# Run without a visible browser window (faster, ideal for CI/CD)
-headlessExecution=true
+# Default: false. Set true for a headless CI run.
+headlessExecution=false
 ```
 
 Override from the command line without changing the file:
@@ -8372,8 +8340,8 @@ mvn test -DtargetBrowserName=FIREFOX -DheadlessExecution=true
 # Used as a prefix when you call driver.browser().navigateToURL("/path")
 baseURL=https://staging.example.com
 
-# Time (seconds) SHAFT will retry finding an element before failing
-defaultElementIdentificationTimeout=30
+# Default: 10 seconds to find an element before failing
+defaultElementIdentificationTimeout=10
 
 # Time (seconds) for default UI state waits such as driver.element().waitUntil(...)
 waitForUiStateTimeout=600
@@ -8390,11 +8358,11 @@ lazyLoadingNetworkIdleInitialObservationMillis=200
 # Required network quiet window after observed XHR/fetch/resource activity
 lazyLoadingNetworkIdleQuietWindowMillis=500
 
-# Time (seconds) to wait for a page navigation to complete
-browserNavigationTimeout=60
+# Default: 30 seconds to wait for a page navigation to complete
+browserNavigationTimeout=30
 
-# Time (seconds) to wait for the full page DOM to load
-pageLoadTimeout=60
+# Default: 30 seconds to wait for the full page DOM to load
+pageLoadTimeout=30
 ```
 
 ---
@@ -8916,27 +8884,15 @@ driver.browser().waitForLazyLoading();
 
 Waits for lazy-loaded content to finish loading on the page.
 
-### Wait Until Title Is
+### Wait for a page condition
 
-```java title="WaitUntilTitle.java"
-driver.browser().waitUntilTitleIs("Expected Title");
-driver.browser().waitUntilTitleContains("Partial Title");
-driver.browser().waitUntilTitleNotContains("Old Title");
-```
+Use the element action surface with a Selenium condition when a page state
+must settle before the next action. For content loaded after the initial page,
+use `waitForLazyLoading()` above.
 
-### Wait Until URL Matches
+```java title="WaitForPageState.java"
 
-```java title="WaitUntilURL.java"
-driver.browser().waitUntilUrlToBe("https://example.com/dashboard");
-driver.browser().waitUntilUrlContains("dashboard");
-driver.browser().waitUntilUrlNotContains("login");
-driver.browser().waitUntilUrlMatches(".*dashboard.*");
-```
-
-### Wait Until Number of Windows
-
-```java title="WaitUntilWindows.java"
-driver.browser().waitUntilNumberOfWindowsToBe(2);
+driver.element().waitUntil(ExpectedConditions.titleContains("Dashboard"));
 ```
 
 ## Network Interception
@@ -9346,7 +9302,6 @@ targetBrowserName=chrome
 browserStack.userName=your_username
 browserStack.accessKey=your_access_key
 browserStack.osVersion=11
-browserStack.browserVersion=latest
 ```
 
  
@@ -9373,8 +9328,7 @@ SHAFT.Properties.web.set()
 SHAFT.Properties.browserStack.set()
  .userName("your_username")
  .accessKey("your_access_key")
- .osVersion("11")
- .browserVersion("latest");
+ .osVersion("11");
 ```
 
  
@@ -9528,7 +9482,7 @@ public void testMobileWeb() {
 
 ## Example 7: Enable maximum performance mode
 
-Maximum performance mode disables complementary features to achieve faster execution with up to 400% performance boost:
+Choose a maximum performance mode to reduce optional work during execution:
 
  
  
@@ -10133,7 +10087,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  | Property Name | Default Value | Description |
  |------------------------------|----------------|-----------------------------------------------------------------------------|
  | `swagger.validation.enabled` | `false` | Enables or disables Swagger/OpenAPI contract validation for API testing. |
- | `swagger.validation.url` | *(empty)* | URL or file path to the OpenAPI schema for validation. |
+ | `swagger.validation.url` | `` | URL or file path to the OpenAPI schema for validation. |
  | `openapi.coverage.report.enabled` | `false` | Generates an end-of-run OpenAPI operation coverage report using `swagger.validation.url` as the spec source. |
  | `openapi.coverage.threshold` | `0` | Minimum covered operation percentage required for a passing run; `0` disables threshold enforcement. |
  | `shaft.contract.sensitiveKeys` | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key,accesskey` | Configured sensitive key fragments. |
@@ -10404,10 +10358,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.accumulateHistory | `true` | `true`, `false` | • When `true`, accumulates Allure history across runs to enable trend graphs and historical comparison. When `false`, old results are deleted before the new run. *(previously: `cleanAllureResultsDirectoryBeforeExecution`)* |
 | allure.accumulateReports | `true` | `true`, `false` | • When `true`, keeps previous Allure HTML report files in the report directory. When `false`, only the latest run report is retained. |
 | allure.cleanResultsDirectory | `true` | `true`, `false` | • Clean the Allure results directory before each test run. Disable when merging results from multiple partial runs. |
-| allure.generateArchive | `false` | `true`, `false` | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: `generateAllureReportArchive`)* |
+| allure.generateArchive | `false` | `true`, `false` | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. |
 | allure.generateReport | `true` | `true`, `false` | • Generate the Allure HTML report, convenience script, archive, and live watch process after test execution. Set to `false` to keep raw `allure-results` only. |
-| allure.customLogo | *(SHAFT default logo URL)* | URL or local file path | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report. |
-| allure.customTitle | `Test run report` | Any string | • Custom title displayed in the header of the generated Allure report. |
+| allure.customLogo | `https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/images/shaft_report_logo.png?raw=true` | URL or local file path | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report. |
+| allure.customTitle | `SHAFT-powered test report` | Any string | • Custom title displayed in the header of the generated Allure report. |
 | allure.realtimeMonitoring | `false` | `true`, `false` | • Enables SHAFT-managed Allure 3 native real-time monitoring via `allure watch` while tests run. Ignored for Allure 2 or when the Allure CLI cannot be resolved. |
 | allure.singleFile | `true` | `true`, `false` | • Controls the Allure 3 Awesome plugin `singleFile` option. When `true`, the report is generated as a self-contained HTML file. |
 | allure.reportLanguage | `en` | Language code, such as `en`, `fr`, or `ru` | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI. |
@@ -10459,7 +10413,15 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | apiConnectionTimeout | `30` | (seconds) | Timeout in seconds for API connections. |
 | apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds for API connection manager. |
 | shellSessionTimeout | `30` | (seconds) | Timeout in seconds for shell session. |
-| sshServerAliveInterval | `60` | seconds; `
+| sshServerAliveInterval | `60` | seconds; `&lt;= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions. |
+| dockerCommandTimeout | `30` | (seconds) | Deprecated. Legacy docker-wrapped terminal command timeout. |
+| databaseLoginTimeout | `30` | (seconds) | Timeout in seconds for database login. |
+| databaseNetworkTimeout | `30` | (seconds) | Timeout in seconds for database network operations. |
+| databaseQueryTimeout | `30` | (seconds) | Timeout in seconds for database queries. |
+| waitForRemoteServerToBeUp | `false` | `true`, `false` | Wait for remote server to be up before execution. |
+| timeoutForRemoteServerToBeUp | `1` | (seconds) | Timeout in seconds for remote server to be up. |
+| remoteServerInstanceCreationTimeout | `5` | (seconds) | Timeout in seconds for remote server instance creation. |
+| remoteServerConnectionAttemptTimeout | `120` | (seconds) | Timeout in seconds for a single HTTP connect/read attempt while creating a remote WebDriver session. |
 
 ## Visuals
 
@@ -10498,7 +10460,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | animatedGif_frameDelay | `500` | milliseconds | Delay between frames in animated GIF. |
 | videoParams_recordVideo | `false` | `true`, `false` | Granular video policy. Profile levels except `CUSTOM` override this after property loading. |
 | videoParams_scope | `DriverSession` | `DriverSession`, `TestMethod` | Scope for video recording. |
-| whenToTakePageSourceSnapshot | `failuresOnly` | `Never`, `Always`, `FailuresOnly` | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
+| whenToTakePageSourceSnapshot | `Never` | `Never`, `Always`, `FailuresOnly` | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
 | shaft.updateSnapshots | `false` | `true`, `false` | When true, regenerates visual and ARIA-snapshot baselines instead of comparing new captures against the existing ones. |
 
 ## Jira
@@ -10586,12 +10548,21 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  
 
 | Property Name | Default Value | Possible Values | Description |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------- |
-| cucumber.features | `src/test/resources` | | |
-| cucumber.filter.name | `` | | |
-| cucumber.filter.tags | `` | | |
-| cucumber.glue | `customCucumberSteps, com.shaft.cucumber` | | |
-| cucumber.plugin | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` | | |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | ----------- |
+| cucumber.ansi-colors.disabled | `false` | `true`, `false` | Disable ANSI color output in Cucumber's console output. |
+| cucumber.execution.dry-run | `false` | `true`, `false` | Parse Cucumber features without executing step definitions. |
+| cucumber.execution.limit | `` | positive integer; empty for unlimited | Maximum number of scenarios to execute. |
+| cucumber.execution.order | `lexical` | `lexical`, `reverse`, `random`, `random:[seed]` | Scenario execution order. |
+| cucumber.execution.strict | `true` | `true`, `false` | Treat undefined and pending steps as failures. |
+| cucumber.execution.wip | `false` | `true`, `false` | Enable work-in-progress mode, which fails when a scenario passes. |
+| cucumber.features | `src/test/resources` | | Paths to Cucumber feature files or directories. |
+| cucumber.filter.name | `` | regular expression | Select scenarios by name; empty runs all scenarios. |
+| cucumber.filter.tags | `` | tag expression | Select scenarios by tag; empty runs all scenarios. |
+| cucumber.glue | `customCucumberSteps, com.shaft.cucumber` | comma-separated packages | Packages containing Cucumber step definitions and hooks. |
+| cucumber.plugin | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` | comma-separated plugins | Cucumber reporting and listener plugins. |
+| cucumber.object-factory | `` | class name | Custom Cucumber object factory; empty uses the default. |
+| cucumber.snippet-type | `underscore` | `underscore`, `camelcase` | Style for generated missing-step snippets. |
+| cucumber.publish.quiet | `true` | `true`, `false` | Suppress the Cucumber publish banner. |
 
 ## Healenium
 
@@ -10603,12 +10574,12 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | -------------- | ------------- | --------------- | ----------- |
-| recovery-tries | `1` | | |
-| score-cap | `0.5` | | |
-| heal-enabled | `false` | | |
-| serverHost | `localhost` | | |
-| serverPort | `7878` | | |
-| imitatePort | `8000` | | |
+| recovery-tries | `1` | positive integer | Number of Healenium self-healing recovery attempts before giving up on a broken locator. |
+| score-cap | `0.5` | `0.0` to `1.0` | Minimum Healenium similarity score required to accept a healed locator candidate. |
+| heal-enabled | `false` | `true`, `false` | Enable the Healenium self-healing proxy for this run. |
+| serverHost | `localhost` | hostname | Hostname of the Healenium server that scores locator-healing candidates. |
+| serverPort | `7878` | port number | Port of the Healenium server that scores locator-healing candidates. |
+| imitatePort | `8000` | port number | Local port SHAFT uses so Healenium can intercept browser traffic. |
 
 ## Healing
 
@@ -10868,7 +10839,6 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  pilot.ai.ollama.processingLocation=local
  pilot.ai.ollama.apiKeyEnvironmentVariable=
  pilot.ai.ollama.apiKeyHeader=
- pilot.ai.ollama.apiKeyPrefix=
  ```
 
  
@@ -11003,13 +10973,13 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  
 
  ```properties showLineNumbers title="src/main/resources/properties/internal.properties"
- shaftEngineVersion=10.3.20260728
+ shaftEngineVersion=10.3.20260801
  allure3Version=3.14.3
- nodeLtsVersion=24.18.0
+ nodeLtsVersion=24.18.1
  appiumServerVersion=3.6.0
  appiumInspectorPluginVersion=2026.7.1
- appiumUiAutomator2DriverVersion=8.2.0
- appiumXcuitestDriverVersion=12.1.0
+ appiumUiAutomator2DriverVersion=8.2.2
+ appiumXcuitestDriverVersion=12.1.4
  androidCommandLineToolsVersion=15859902
  androidEmulatorApiLevel=36
  androidEmulatorDeviceProfile=pixel_8
@@ -11025,14 +10995,14 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name | Default Value | Possible Values | Description |
 | ----------------------------------- | ------------- | --------------- | ----------- |
-| shaftEngineVersion | `10.3.20260728` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
-| watermarkImagePath | SHAFT watermark URL | URL or file path | Default watermark image used by screenshot processing. |
+| shaftEngineVersion | `10.3.20260801` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
+| watermarkImagePath | `https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-engine/src/main/resources/images/shaft_white_bg.png` | URL or file path | Default watermark image used by screenshot processing. |
 | allure3Version | `3.14.3` | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
-| nodeLtsVersion | `24.18.0` | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
+| nodeLtsVersion | `24.18.1` | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
 | appiumServerVersion | `3.6.0` | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
 | appiumInspectorPluginVersion | `2026.7.1` | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
-| appiumUiAutomator2DriverVersion | `8.2.0` | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
-| appiumXcuitestDriverVersion | `12.1.0` | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
+| appiumUiAutomator2DriverVersion | `8.2.2` | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
+| appiumXcuitestDriverVersion | `12.1.4` | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
 | androidCommandLineToolsVersion | `15859902` | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
 | androidEmulatorApiLevel | `36` | Android API level | Default Android API level proposed for SHAFT-managed emulator creation. |
 | androidEmulatorDeviceProfile | `pixel_8` | Android virtual device profile | Default Android virtual device profile proposed for SHAFT-managed emulators. |
@@ -11109,7 +11079,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | LambdaTest.project | `shaft-engine` | | Project name to group builds in the LambdaTest dashboard. |
 | LambdaTest.build | `Build Name` | | Build name to group test runs in the LambdaTest dashboard. |
 | LambdaTest.tunnel | `false` | `true`, `false` | Enable LambdaTest tunnel for testing locally hosted applications. |
-| LambdaTest.tunnelName | `` | | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
+| LambdaTest.tunnelName | `false` | | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
 | LambdaTest.buildName | `` | | Build name used in the LambdaTest SDK configuration. Use this instead of `LambdaTest.build` when using the LambdaTest SDK (automate-config.yml). |
 | LambdaTest.selenium_version | `` | | Selenium version to use on LambdaTest. |
 | LambdaTest.driver_version | `` | | Browser driver version to use on LambdaTest. |
@@ -11272,17 +11242,17 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | appender.console.layout.disableAnsi | `false` | `true`, `false` | Disables ANSI color codes in console log output. |
 | appender.console.layout.noConsoleNoAnsi | `false` | `true`, `false` | Automatically disables ANSI colors when output isn't attached to a real console (e.g. redirected to a file). |
 | appender.console.layout.charset | `UTF-8` | | Character encoding used when writing console log output. |
-| appender.console.layout.pattern | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m} %style{\| @%d{hh:mm:ss a}}{bright_black} %n` | | [Click here to learn more about log4j2 pattern layouts](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
+| appender.console.layout.pattern | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%d{HH:mm:ss}}{bright_black} %style{\|}{bright_black} %m%n` | | [Log4j2 pattern layout reference](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
 | appender.console.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the console appender (`ThresholdFilter`). |
-| appender.console.filter.threshold.level | `info` | `fatal, error, warn, info, debug, trace` | |
+| appender.console.filter.threshold.level | `info` | `fatal, error, warn, info, debug, trace` | Minimum log level written to the console; messages below this level are suppressed. |
 | appender.file.type | `File` | | Log4j2 appender type for the rolling log file (`RollingFile`). |
 | appender.file.name | `LOGFILE` | | Reference name of the file appender, used by `rootLogger` and other loggers to attach to it. |
-| appender.file.fileName | `target/logs/log4j.log` | | |
+| appender.file.fileName | `target/logs/log4j.log` | | Path to the active log file that SHAFT writes execution logs to. |
 | appender.file.layout.type | `PatternLayout` | | Log4j2 layout implementation used to format file log lines (`PatternLayout`). |
-| appender.file.layout.pattern | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n` | | |
+| appender.file.layout.pattern | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n` | | Log4j2 PatternLayout string controlling the format of each file log line. |
 | appender.file.layout.charset | `UTF-8` | | Character encoding used when writing the log file. |
 | appender.file.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the file appender (`ThresholdFilter`). |
-| appender.file.filter.threshold.level | `debug` | `fatal, error, warn, info, debug, trace` | |
+| appender.file.filter.threshold.level | `debug` | `fatal, error, warn, info, debug, trace` | Minimum log level written to the log file; messages below this level are suppressed. |
 | rootLogger | `info, ASYNC_STDOUT, ASYNC_LOGFILE, ASYNC_REPORT_PORTAL` | | Uses asynchronous appenders for console, file, and ReportPortal logging. |
 | logger.app.name | `org.apache.http.impl.client` | | Fully qualified logger name whose level is overridden by `logger.app.level` (defaults to a noisy third-party logger). |
 | logger.app.level | `WARN` | | Log level applied to the logger named by `logger.app.name`, used to quiet noisy third-party libraries. |
@@ -11450,7 +11420,7 @@ Save generated files under `src/main/resources/properties/` in your test project
 For example, a generated web configuration can include:
 
 ```properties title="src/main/resources/properties/custom.properties"
-targetBrowserName=GoogleChrome
+targetBrowserName=chrome
 headlessExecution=true
 createAnimatedGif=false
 ```
@@ -12302,7 +12272,8 @@ void createUserViaDbAndVerifyThroughApi() {
  // Verify through the REST API
  SHAFT.API api = new SHAFT.API("https://api.example.com");
  api.get("/users?email=test@example.com")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 
  api.assertThatResponse()
  .extractedJsonValue("$[0].name")
@@ -12323,7 +12294,7 @@ void createUserViaDbAndVerifyThroughApi() {
 
 ---
 
-## Related Pages
+## Related
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.
 - [SSH Remote Terminal](./SSH_Terminal.md) — Execute commands on remote servers via SSH.
@@ -12688,27 +12659,19 @@ driver.element().executeNativeMobileCommand(
 This method is intended for mobile (Appium) test execution. The available commands and parameters depend on the Appium driver and the target platform (Android/iOS).
 :::
 
-## Wait Methods
+## Wait methods
 
-SHAFT provides several wait methods to handle synchronization:
+Use `waitUntil(...)` with a Selenium condition or lambda when an element action
+depends on application state:
 
 ```java title="WaitMethodExamples.java"
-// Wait until element text matches
-driver.element().waitUntilElementTextToBe(locator, "Success");
 
-// Wait until attribute contains value
-driver.element().waitUntilAttributeContains(locator, "class", "complete");
-
-// Wait until element is selected
-driver.element().waitUntilElementToBeSelected(locator);
-
-// Wait for specific number of elements
-driver.element().waitUntilNumberOfElementsToBe(locator, 5);
-driver.element().waitUntilNumberOfElementsToBeLessThan(locator, 10);
-driver.element().waitUntilNumberOfElementsToBeMoreThan(locator, 0);
-
-// Wait until all elements are present
-driver.element().waitUntilPresenceOfAllElementsLocatedBy(locator);
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+ By.id("status"), "Success"));
+driver.element().waitUntil(ExpectedConditions.elementToBeSelected(
+ By.id("checkbox")));
+driver.element().waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(
+ By.cssSelector(".result"), 0));
 ```
 
 ## Table Data Extraction
@@ -13593,7 +13556,7 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 7. **Document complex locators** - add comments explaining why a particular strategy was chosen
 8. **Test locators in isolation** - verify your locators work before building tests around them
 
-## Additional Resources
+## Related
 
 - [Web locator strategy](/docs/testing/web#locator-strategy)
 - [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
@@ -13908,7 +13871,7 @@ Fluent design is not just syntactic sugar — it encourages you to think about t
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/API/GraphQL_Testing
 
-SHAFT Engine provides first-class GraphQL support through `SHAFT.API.sendGraphQlRequest()`. It returns the normal request builder, so **queries**, **mutations**, variables, fragments, authentication headers, status checks, and response assertions all use the same fluent API as REST requests.
+Use `SHAFT.API.sendGraphQlRequest()` for GraphQL queries and mutations. It returns the normal request builder, so variables, fragments, headers, status checks, and response assertions use the same fluent API as REST requests.
 
 ---
 
@@ -13926,7 +13889,7 @@ api.sendGraphQlRequest(
 );
 
 // Assert response content
-api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
 ```
 
 ---
@@ -14002,7 +13965,7 @@ public class GraphQLTest {
 
  api.sendGraphQlRequest("/graphql", "{ users { id name email } }");
 
- api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+ api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
  }
 
  @Test
@@ -14013,7 +13976,7 @@ public class GraphQLTest {
 
  api.sendGraphQlRequest("/graphql", query, variables);
 
- api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull();
+ api.assertThatResponse().extractedJsonValue("$.data.user.email").isNotNull();
  }
 
  @Test
@@ -14025,7 +13988,7 @@ public class GraphQLTest {
 
  api.sendGraphQlRequest("/graphql", mutation, variables);
 
- api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull();
+ api.assertThatResponse().extractedJsonValue("$.data.createUser.id").isNotNull();
  }
 }
 ```
@@ -14043,10 +14006,11 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.post("/graphql")
  .setRequestBody("{\"query\": \"{ users { id name } }\"}")
  .addHeader("Content-Type", "application/json")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 
 api.assertThatResponse()
- .extractedJsonValue("data.users[0].name")
+ .extractedJsonValue("$.data.users[0].name")
  .isEqualTo("John Doe");
 ```
 
@@ -15290,17 +15254,6 @@ public class MyParallelTest {
 
 ---
 
-## Related Documentation
-
-For more information, check out these related topics:
-
-- [Properties List](/docs/reference/properties/PropertiesList) - Complete reference of all SHAFT properties
-- [Property Types](/docs/reference/properties/PropertyTypes) - Learn about different ways to configure properties
-- [Common Examples](/docs/reference/properties/CommonExamples) - See practical configuration examples
-- [Web testing](/docs/testing/web) - Working browser example
-
----
-
 ## Summary
 
 SHAFT provides powerful parallel execution capabilities:
@@ -15309,7 +15262,16 @@ SHAFT provides powerful parallel execution capabilities:
 2. **Cross-Browser Execution**: Run tests across Chrome, Firefox, and Safari sequentially or in parallel
 3. **ThreadLocal Pattern**: Safely manage WebDriver instances in multi-threaded environments
 
-By combining these features and following best practices, you can significantly reduce test execution time while maintaining test reliability and stability.
+These features cover the common parallel-execution cases. Start with TestNG
+parallel settings, then add cross-browser execution or `ThreadLocal` only when
+the test runner and driver lifecycle require them.
+
+## Related
+
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Common Examples](/docs/reference/properties/CommonExamples)
+- [Web testing](/docs/testing/web)
 
 ---
 
@@ -15698,8 +15660,8 @@ SHAFT.Properties.timeouts.set()
 ```java title="ProgrammaticConfig.java"
 // Configure screenshots and video recording
 SHAFT.Properties.visuals.set()
- .screenshotParamsWhenActionIsPerformedPassedOrFailed("ELEMENT")
- .recordVideo(true);
+ .screenshotParamsWhenToTakeAScreenshot("Always")
+ .videoParamsRecordVideo(true);
 ```
 
 ---
@@ -15711,7 +15673,7 @@ SHAFT.Properties.visuals.set()
 SHAFT.Properties.flags.set()
  .retryMaximumNumberOfAttempts(2)
  .autoMaximizeBrowserWindow(true)
- .forceCheckForElementVisibility(true);
+ .automaticallyAssertResponseStatusCode(true);
 ```
 
 `retryMaximumNumberOfAttempts(2)` allows two retry attempts after the first
@@ -15754,7 +15716,8 @@ public class ProgrammaticConfigTest {
  .browserNavigationTimeout(60);
 
  SHAFT.Properties.visuals.set()
- .screenshotParamsWhenActionIsPerformedPassedOrFailed("ELEMENT");
+ .screenshotParamsWhenToTakeAScreenshot("Always")
+ .videoParamsRecordVideo(true);
 
  SHAFT.Properties.flags.set()
  .retryMaximumNumberOfAttempts(2)
@@ -15814,7 +15777,7 @@ Avoid setting properties in parallel test methods without careful thread-isolati
 
 Canonical URL: https://shafthq.github.io/docs/reference/properties/PropertyTypes
 
-## Priority Hierarchy
+## Priority hierarchy
 
 Since there are many ways to configure SHAFT properties you need to know how the priorities work.
 Simply put, the values to the left override the values to the right.
@@ -15872,7 +15835,7 @@ public void setup(){
 
 @BeforeClass
 public void beforeClass(){
- var username = SHAFT.Properties.browserStack.username();
+ var username = SHAFT.Properties.browserStack.userName();
  var accessKey = SHAFT.Properties.browserStack.accessKey();
  var platformVersion = SHAFT.Properties.browserStack.platformVersion();
  var deviceName = SHAFT.Properties.browserStack.deviceName();
@@ -15900,7 +15863,7 @@ You should use this approach if you want to override some specific properties fo
 
 Here's a sample command that you can execute from your terminal window to parameterize your test command:
 ```powershell
-mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-DgenerateAllureReportArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
+mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-Dallure.generateArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
 ```
 
 :::note
@@ -16932,8 +16895,7 @@ Now you have api object with the base serviceURI to start working with it with t
 
 ## Request Builder
 
-Now you can start building your request with the request builder and add the methods you need from the below methods.
-The fluent chain automatically executes the request and provides access to [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) methods and assertions.
+Build the request with the methods below, then send it with your test's request execution step. The resulting `SHAFT.API` session exposes [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) access and assertions.
 
 **Note:** A request usually has only one of the following: urlArguments, parameters+type, or body
 
@@ -16979,16 +16941,18 @@ api.options("/posts");
 ```
 
 ### Set Authentication
-Set the authentication method that will be used by the API request that you're currently building. By default, this value is set to `AuthenticationType.NONE` but you can change it by calling this method. If you use this method, the authentication token will be saved automatically for all following requests using the same session.
+Set BASIC or FORM authentication on the request you are building. The default is `AuthenticationType.NONE`. Use `addHeader()` when a bearer token must be sent with later requests.
 
 #### Authentication Type BASIC
 ```java
+
 SHAFT.API api = new SHAFT.API("https://postman-echo.com");
 api.get("/basic-auth").setAuthentication("postman", "password", AuthenticationType.BASIC);
 ```
 
 #### Authentication Type FORM
 ```java
+
 SHAFT.API api = new SHAFT.API("serviceURI");
 api.get("serviceName").setAuthentication("username", "password", AuthenticationType.FORM);
 ```
@@ -17002,8 +16966,8 @@ api.post("serviceName").addCookie("session_id", "1234");
 You can also use it directly without a request method to be used in all the following requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-api.post("serviceName");
 api.addCookie("session_id", "1234");
+api.post("serviceName");
 ```
 
 You can also copy browser cookies into an API session when a test starts in the UI and continues through API calls:
@@ -17032,11 +16996,12 @@ By default the request automatically follows HTTP redirects (3xx), so a redirect
 SHAFT.API api = new SHAFT.API("https://httpbin.org");
 api.get("/redirect-to?url=/get")
  .setFollowRedirects(false)
- .setTargetStatusCode(302);
+ .setTargetStatusCode(302)
+ ;
 ```
 
 ### Retry Policy
-`perform()` sends a request once unless you add an opt-in retry policy. Retries are useful for transient network failures, timeouts, rate limits, and temporary upstream errors without rerunning the whole test method.
+The request execution step sends a request once unless you add an opt-in retry policy. Retries are useful for transient network failures, timeouts, rate limits, and temporary upstream errors without rerunning the whole test method.
 
 ```java
 
@@ -17045,7 +17010,8 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.get("/users")
  .withRetry(RetryPolicy.transientFailures()
  .maxAttempts(3)
- .exponentialBackoff(Duration.ofMillis(200), Duration.ofSeconds(2)));
+ .exponentialBackoff(Duration.ofMillis(200), Duration.ofSeconds(2)))
+ ;
 ```
 
 `RetryPolicy.transientFailures()` retries network, connection, and read-timeout failures plus HTTP `408`, `429`, `500`, `502`, `503`, and `504`. Use `RetryPolicy.statusCodes(503, 504)` when you only want specific statuses.
@@ -17057,7 +17023,8 @@ api.post("/orders")
  .withRetry(RetryPolicy.statusCodes(503)
  .maxAttempts(2)
  .fixedBackoff(Duration.ofMillis(500))
- .allowNonIdempotentRequests());
+ .allowNonIdempotentRequests())
+ ;
 ```
 
 Backoff can be fixed, exponential, or jittered. SHAFT reports include the retry attempt count and final outcome for requests that use a retry policy.
@@ -17081,20 +17048,20 @@ Append a header to the current session **to be used in the current and all the f
 This feature is commonly used for authentication tokens and other global headers as you need
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-String token = "@1234z"
+String token = "@1234z";
 api.post("serviceName").addHeader("Authorization", "Bearer " + token);
 ```
 You can add more than one header in the same request.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-String token = "@1234z"
+String token = "@1234z";
 api.post("serviceName").addHeader("Authorization", "Bearer " + token).addHeader("Accept-Charset", "utf-8");
 ```
 You can also use it directly without a request method to set the header for all the following requests.
 ```java
 SHAFT.API api = new SHAFT.API("serviceURI");
-api.post("serviceName");
 api.addHeader("Accept-Language", "en");
+api.post("serviceName");
 ```
 
 For UI flows that keep a bearer token in browser storage, copy only the selected header:
@@ -17185,7 +17152,8 @@ String body = "{\"status\":\"active\"}";
 
 api.post("serviceName")
  .setRequestBody(body)
- .setParameters(parameters, RestActions.ParametersType.QUERY);
+ .setParameters(parameters, RestActions.ParametersType.QUERY)
+ ;
 ```
 #### Parameters Type MULTIPART
 Note that: Multipart parameters are used for file uploads and text fields. 
@@ -17199,7 +17167,8 @@ parametersMap.put("image", new java.io.File("src/test/resources/11_02.png"));
 parametersMap.put("arabicText", "تست أوتوميشن");
 
 api.post("serviceName")
- .setParameters(parametersMap, RestActions.ParametersType.MULTIPART);
+ .setParameters(parametersMap, RestActions.ParametersType.MULTIPART)
+ ;
 ```
 
 ### Set Path Parameters
@@ -17216,14 +17185,16 @@ Pass a `Map` of key-value pairs to replace placeholders by their names:
 Map pathParams = Map.of("PostID", 1, "CommentID", 1);
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/posts/{PostID}/comments/{CommentID}")
- .setPathParameters(pathParams);
+ .setPathParameters(pathParams)
+ ;
 ```
 #### Ordered Value Replacement
 Pass value directly to replace placeholder in the `serviceName`:
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/posts/{PostID}/comments/{CommentID}")
- .setPathParameters("1", "1");
+ .setPathParameters("1", "1")
+ ;
 ```
 
 ### Set URL Arguments
@@ -17235,21 +17206,6 @@ api.post("serviceName").setUrlArguments("username=john&password=1234");
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/comments").setUrlArguments("postId=1").setTargetStatusCode(201);
-```
-
-### Add Config
-Append a config to the current session to be used in the current and all the following requests.
-```java
-SHAFT.API api = new SHAFT.API("serviceURI");
-RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
- api.post("serviceName").addConfig(RestAssured.config);
-```
-You can also use it directly without a request method to be used for all the following requests.
-```java
-SHAFT.API api = new SHAFT.API("serviceURI");
-api.post("serviceName");
-RestAssured.config = RestAssured.config().redirect(RedirectConfig.redirectConfig().followRedirects(false));
- api.addConfig(RestAssured.config);
 ```
 
 ### Enable URL Encoding
@@ -17320,7 +17276,8 @@ api.assertThatResponse()
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.sendGraphQlRequest("/graphql", "{ me { name } }")
- .addHeader("Authorization", "Bearer mytoken123");
+ .addHeader("Authorization", "Bearer mytoken123")
+ ;
 
 api.assertThatResponse().body().contains("\"name\"");
 ```
@@ -17335,7 +17292,8 @@ String variables = "{\"input\": {\"name\": \"Bob\", \"email\": \"bob@example.com
 
 api.sendGraphQlRequest("/graphql", mutation, variables)
  .addHeader("Authorization", "Bearer admintoken")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 
 api.assertThatResponse()
  .extractedJsonValue("$.data.createUser.name")
@@ -17369,7 +17327,7 @@ public class Test_Api {
  "job": "leader"
  }""";
  api.post("api/users").setRequestBody(body).setTargetStatusCode(201).setContentType(ContentType.JSON);
- api.assertThatResponse().extractedJsonValue("name").isEqualTo("morpheus").withCustomReportMessage("Check that Morpheus exists.");
+ api.assertThatResponse().extractedJsonValue("$.name").isEqualTo("morpheus");
  }
 
 }
@@ -17388,7 +17346,7 @@ public class Test_Api {
 Canonical URL: https://shafthq.github.io/docs/reference/actions/API/Response_Getters
 
 ## SHAFT API Getters
-After getting back the [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) object, we can use the getters to continue working with it when needed.
+After the request execution step sends a request, use these getters on the `SHAFT.API` session to read its latest response.
 
 ### Get Response Body
 Extracts the response body and returns it as a plain string
@@ -17457,7 +17415,7 @@ long responseTime = api.getResponseTime();
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210");
 long responseTime = api.getResponseTime();
-SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1);
+SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1);
 SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
 ```
 
@@ -17467,7 +17425,7 @@ _* To extract the desired value, please refer to these urls for examples:
 You can learn the JSONPath Syntax from [the JSONPath syntax reference](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) 
 And test your JSONPath [on JSONPath.com](http://jsonpath.com/) *_
 ```java
-String value = api.getResponseJSONValue("jsonPath");
+String value = api.getResponseJSONValue("$.data.name");
 ```
 #### Usage
 ```java
@@ -17480,7 +17438,7 @@ SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ### Get Response JSON Value As List
 Extracts the response as list by parsing the target **JSONPath.**
 ```java
-String value = api.getResponseJSONValueAsList("jsonPath");
+String value = api.getResponseJSONValueAsList("$.data");
 ```
 #### Usage
 ```java
@@ -17516,7 +17474,7 @@ List value = api.getResponseXMLValueAsList("xmlPath");
 Canonical URL: https://shafthq.github.io/docs/reference/actions/API/Response_Validations
 
 ## SHAFT API Response Validations
-Using the SHAFT API object to directly validate the latest response is very convenient. Use `assertThatResponse()` for hard assertions or `verifyThatResponse()` for soft assertions. Response validations execute eagerly when the validation condition is selected.
+Call `assertThatResponse()` for a hard assertion or `verifyThatResponse()` for a soft verification. Each response condition runs immediately.
 
 ### Body
 Validate on the response body.
@@ -17544,7 +17502,7 @@ You can learn the JSONPath syntax from the [JSONPath documentation](https://gith
 Chains to [Object validation methods](../Validations#object-validations) to continue building your validation.
 
 ```java
-api.assertThatResponse().extractedJsonValue("jsonPath").isEqualTo("data");
+api.assertThatResponse().extractedJsonValue("$.data").isEqualTo("data");
 ```
 #### Usage
 ```java
@@ -17565,7 +17523,7 @@ api.assertThatResponse().extractedJsonValueAsList("jsonPath").isEqualTo("data");
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/todos");
-api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].completed").isEqualTo("true");
+api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].completed").contains(true);
 ```
 
 ### Time
@@ -18401,7 +18359,7 @@ void ensureSufficientDiskSpace() {
 
 ---
 
-## Related Pages
+## Related
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.
 - [Docker Terminal](./Docker_Terminal.md) — Execute commands inside running Docker containers.
@@ -19605,7 +19563,7 @@ By following these guidelines and examples, you can build a maintainable test da
 
 ---
 
-## Related Documentation
+## Related
 
 - [File Actions](/docs/reference/actions/CLI/File_Actions) - Reading and writing files programmatically
 - [File validations](/docs/reference/actions/Validations#file-validations) - Validating file content and existence
@@ -19846,7 +19804,8 @@ public class ApiTest {
  api = new SHAFT.API("https://api.example.com");
  api.post("/users")
  .setRequestBody("{\"name\": \"John\", \"email\": \"john@example.com\"}")
- .setContentType("application/json");
+ .setContentType("application/json")
+ ;
  api.assertThatResponse().extractedJsonValue("name").isEqualTo("John");
  api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com");
  api.verifyThatResponse().statusCode().isEqualTo(201);
@@ -20400,23 +20359,24 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe —
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Waits_And_Synchronization
 
-Deeper synchronization tips beyond SHAFT's automatic implicit waits — condition-specific waiting and correctly-sequenced element actions.
+Use these patterns when an application state needs more than SHAFT's automatic element waits.
 
 ## Explicit waits 
 
-SHAFT handles **implicit waits** automatically via `defaultElementIdentificationTimeout`, so most element interactions retry until the element is available. For **condition-specific synchronization**, `driver.element()` and `driver.browser()` expose a rich set of explicit wait methods:
+SHAFT retries normal element lookups with `defaultElementIdentificationTimeout`. For a specific condition, use the generic `driver.element().waitUntil(...)`. Browser sessions also expose `waitForLazyLoading()` for page content that arrives after the initial load:
 
 ```java title="ExplicitWaits.java"
-// Element-level
-driver.element().waitUntilElementTextToBe(By.id("status"), "Complete");
-driver.element().waitUntilAttributeContains(By.id("progress"), "style", "width: 100%");
-driver.element().waitUntilNumberOfElementsToBeMoreThan(By.cssSelector(".result"), 0);
-driver.element().waitUntilElementToBeSelected(By.id("checkbox"));
-driver.element().waitUntilPresenceOfAllElementsLocatedBy(By.cssSelector(".row"));
 
-// Browser-level
-driver.browser().waitUntilUrlContains("/dashboard");
-driver.browser().waitUntilTitleContains("Dashboard");
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+ By.id("status"), "Complete"));
+driver.element().waitUntil(ExpectedConditions.attributeContains(
+ By.id("progress"), "style", "width: 100%"));
+driver.element().waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(
+ By.cssSelector(".result"), 0));
+driver.element().waitUntil(ExpectedConditions.elementToBeSelected(By.id("checkbox")));
+driver.element().waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(
+ By.cssSelector(".row")));
+
 driver.browser().waitForLazyLoading();
 ```
 
@@ -20426,7 +20386,7 @@ Configure the default custom UI condition wait via `SHAFT.Properties.timeouts.se
 
 ### Custom condition waits (lambda)
 
-`driver.element().waitUntil()` and `driver.browser().waitUntil()` accept any Selenium `ExpectedCondition ` — including lambda expressions — for cases the named wait methods don't cover. Without an explicit `Duration`, it uses `waitForUiStateTimeout` (default 600 seconds):
+`driver.element().waitUntil()` accepts a Selenium condition or lambda. Without an explicit `Duration`, it uses `waitForUiStateTimeout` (default 600 seconds):
 
 ```java title="CustomConditionWait.java"
 
@@ -20445,7 +20405,7 @@ driver.element().waitUntil(webDriver -> (Boolean) ((JavascriptExecutor) webDrive
 ```
 
 :::tip
-Prefer `waitUntilNumberOfElementsToBeMoreThan(locator, 0)` over `waitUntilPresenceOfAllElementsLocatedBy` when you only need to confirm that **at least one** result has loaded. Prefer a named wait method over a lambda whenever one exists — it reads better.
+Prefer a built-in `ExpectedConditions` predicate when one expresses the state clearly. Use a lambda when the condition depends on application-specific state.
 :::
 
 :::warning
@@ -20719,7 +20679,7 @@ public class MobileTouchActionsDemo {
 
 Canonical URL: https://shafthq.github.io/docs/reference/actions/Validations
 
-SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API. If you're coming from JUnit or TestNG, SHAFT's fluent equivalents to `assertEquals`/`assertTrue`/`assertFalse`/`assertNull` are `isEqualTo()`, `isTrue()`, `isFalse()`, and `isNull()` chained off `assertThat()` (hard assertion) or `verifyThat()` (soft assertion, i.e. "verify").
+Use the `Validations` class or the fluent driver API to assert and verify values. `assertThat()` stops the test on failure; `verifyThat()` records the failure and lets the test continue.
 
 ## Overview 
 
@@ -20758,7 +20718,7 @@ driver.verifyThat().element(locator).exists();
 ```
 
 :::tip
-Assertion and verification chains execute eagerly when the validation condition is selected, so examples do not require a terminal method call to execute.
+Each validation runs when you call its condition method. The returned executor is retained for source compatibility; do not add another execution call.
 :::
 
 ## Browser validations 
@@ -20849,11 +20809,7 @@ driver.assertThat().element(locator).isSelected();
 ```
 
 :::tip
-All the state validation methods above execute eagerly when the condition is selected. You can optionally add a custom report message to the chain:
-```java
-driver.assertThat().element(locator).isVisible()
- .withCustomReportMessage("Verify login button is visible");
-```
+State validations run as soon as you call the condition method.
 :::
 
 ### Complete example
@@ -20875,23 +20831,20 @@ public class CheckoutValidationTest {
 
  // Add item and check badge
  driver.element().click(addToCartBtn);
- driver.assertThat(cartBadge)
- .text().isEqualTo("1")
- .withCustomReportMessage("Cart badge must show 1 after adding an item");
+ driver.assertThat().element(cartBadge)
+ .text().isEqualTo("1");
 
  // Proceed to checkout
  driver.element().click(checkoutBtn);
  driver.assertThat().browser().url().contains("/checkout");
 
  // Verify order summary is displayed
- driver.assertThat(orderSummary)
- .isVisible()
- .withCustomReportMessage("Order summary must be visible on checkout page");
+ driver.assertThat().element(orderSummary)
+ .isVisible();
 
  // Verify place order button is enabled
- driver.assertThat(placeOrderBtn)
- .isEnabled()
- .withCustomReportMessage("Place Order button must be enabled");
+ driver.assertThat().element(placeOrderBtn)
+ .isEnabled();
  }
 
  @BeforeMethod
@@ -20953,15 +20906,6 @@ Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("he
 Validations.assertThat().object(actualValue).isNotNull();
 ```
 
-:::tip
-You can add a custom report message to any object validation:
-```java
-Validations.assertThat().object(username)
- .isEqualTo("admin")
- .withCustomReportMessage("Verify username is 'admin'");
-```
-:::
-
 ## Number validations 
 
 You can perform assertions and verifications on numbers using the `NumberValidationsBuilder`: `isEqualTo()`, `doesNotEqual()`, `isGreaterThan()`, `isGreaterThanOrEquals()`, `isLessThan()`, and `isLessThanOrEquals()`.
@@ -21008,7 +20952,7 @@ api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull();
 ```
 
 :::info
-JSONPath expressions should be provided **without** the leading `$.` prefix. For example, use `"data.name"` instead of `"$.data.name"`. SHAFT uses the [Jayway JsonPath](https://github.com/json-path/JsonPath) library (the standard Java JSONPath implementation) for expression evaluation.
+Use standard JSONPath expressions such as `"$.data.name"`. SHAFT evaluates them with [Jayway JsonPath](https://github.com/json-path/JsonPath).
 :::
 
 :::tip
@@ -21048,7 +20992,8 @@ Place your schema files under `src/test/resources/schemas/`:
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/users/1")
- .setTargetStatusCode(200);
+ .setTargetStatusCode(200)
+ ;
 
 // Assert the response body matches the schema
 api.assertThatResponse()
@@ -21072,32 +21017,18 @@ SHAFT uses the [JSON Schema Validator](https://github.com/java-json-tools/json-s
 Use `forceFail()` to intentionally fail a test with a custom message. This is useful for marking incomplete tests, flagging known issues, or creating conditional failures.
 
 ```java title="ForceFailExample.java"
-// Force fail with a custom message
-Validations.assertThat().forceFail()
- .withCustomReportMessage("This feature is not yet implemented");
+// Force fail with a report message
+Validations.assertThat().forceFail("This feature is not yet implemented");
 
 // Soft force fail — collects the failure and continues execution
-Validations.verifyThat().forceFail()
- .withCustomReportMessage("Known issue: JIRA-1234");
+Validations.verifyThat().forceFail("Known issue: JIRA-1234");
 ```
 
-### withCustomReportMessage()
+### Validation timing
 
-Sets a business-readable message that appears in the Allure execution report instead of the default technical log message. It works with any validation type:
+Validation chains run when you call the condition method. Use the condition method as the end of the chain:
 
-```java title="CustomMessageExample.java"
-Validations.assertThat().object(actualValue)
- .isEqualTo(expectedValue)
- .withCustomReportMessage("Verify user name matches expected value");
-
-driver.assertThat().element(loginButton)
- .isVisible()
- .withCustomReportMessage("Verify login button is displayed");
-```
-
-Validation chains execute eagerly when the validation condition is selected, eliminating the need for a terminal method call:
-
-```java title="PerformExample.java"
+```java title="ValidationTiming.java"
 Validations.assertThat().file("src/test/resources", "data.json").exists();
 Validations.assertThat().number(count).isGreaterThan(0);
 driver.assertThat().element(locator).exists();
@@ -21114,7 +21045,7 @@ SHAFT Engine provides two assertion modes: **hard assertions** that stop the tes
 ```java title="SoftVsHardAssertions.java"
 // Hard assertion — test fails immediately on first failure
 driver.assertThat().browser().title().contains("Dashboard");
-driver.assertThat(By.id("welcomeMsg")).text().contains("Welcome");
+driver.assertThat().element(By.id("welcomeMsg")).text().contains("Welcome");
 ```
 
 ### Soft assertions — verifyThat()
