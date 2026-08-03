@@ -12,12 +12,8 @@ const exampleFence =
 const internalLink = /\[[^\]]+\]\((?!https?:|mailto:|#)(?!\/docs\/(?:archive|maintainers)\/)[^)]+\)/i;
 const assertionChain =
   /(?:\bassertThat(?:Response)?\s*\(|\bverifyThat(?:Response)?\s*\(|\.assertThat\s*\(|\.verifyThat\s*\(|SHAFT\.Validations\.(?:assertThat|verifyThat)\s*\(|\bValidations\.(?:assertThat|verifyThat)\s*\()/;
-// The visual-regression builder (matchesScreenshot()) is the one assertion that
-// gathers its diff-budget/mask options lazily and REQUIRES an explicit .perform()
-// terminal to run the comparison (see VisualValidationsBuilder in shaft-engine).
-// Every other assertion executes immediately on its terminal call, so it is exempt
-// from the "no .perform() on assertions" rule below.
-const visualAssertionRequiresPerform = /\bmatchesScreenshot\s*\(/;
+const apiRequestBuilder = /\b(?:api|driver)\.(?:get|post|put|patch|delete|head|options|sendGraphQlRequest)\s*\(/;
+const apiResponseInspection = /\b(?:assertThatResponse|verifyThatResponse|getResponse|getResponseJSONValue)\s*\(/;
 
 // WS-D: content-quality rules driven by DESIGN_LANGUAGE.md's "Admonition severity
 // vocabulary" and "Content style guide" sections.
@@ -99,10 +95,16 @@ for (const {fullPath, relativePath} of docs) {
       assert(
         !(
           assertionChain.test(statement) &&
-          /\.perform\s*\(\s*\)/.test(statement) &&
-          !visualAssertionRequiresPerform.test(statement)
+          /\.perform\s*\(\s*\)/.test(statement)
         ),
         `${relativePath} has .perform() on an assertion or verification example.`,
+      );
+    }
+
+    if (apiRequestBuilder.test(block) && apiResponseInspection.test(block)) {
+      assert(
+        /\.perform\s*\(\s*\)/.test(block),
+        `${relativePath} inspects an API response without executing the request in the same example.`,
       );
     }
   }

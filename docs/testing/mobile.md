@@ -423,14 +423,12 @@ SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION)
 Enable debug logging to troubleshoot issues:
 
 ```properties
-# In custom.properties
-log4j_logLevel=DEBUG
+# In src/main/resources/properties/log4j2.properties
+logger.app.level=DEBUG
 ```
 
-Or programmatically:
-```java
-SHAFT.Properties.log4j.set().logLevel("DEBUG");
-```
+`logger.app.level` is a Log4j2 file setting. Keep it in the Log4j2 properties
+file; it is not a typed `SHAFT.Properties` setting.
 
 ## Best Practices
 
@@ -453,7 +451,7 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
 
 3. **Wait for Elements**: SHAFT automatically handles waits, but you can configure timeout:
    ```java
-   SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
+   SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(30);
    ```
 
 4. **Use Fluent API**: SHAFT's fluent API makes tests more readable:

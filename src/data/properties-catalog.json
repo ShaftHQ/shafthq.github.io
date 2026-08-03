@@ -1231,7 +1231,7 @@
     "type": "boolean",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: generateAllureReportArchive)*"
+    "description": "Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines."
   },
   {
     "section": "Allure",
@@ -1473,7 +1473,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "60",
-    "possibleValues": "seconds; <= 0 disables keep-alive packets | JSch ServerAliveInterval in seconds for remote SSH sessions.",
+    "possibleValues": "seconds; <= 0 disables keep-alive packets",
     "description": "JSch ServerAliveInterval in seconds for remote SSH sessions."
   },
   {
@@ -1808,7 +1808,7 @@
     "type": "boolean",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "True to disable ANSI colors; false to keep them enabled."
+    "description": "Disable ANSI color output in Cucumber's console output."
   },
   {
     "section": "Cucumber",
@@ -1817,7 +1817,7 @@
     "type": "boolean",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "True to enable dry-run mode; false for normal execution."
+    "description": "Parse Cucumber features without executing step definitions."
   },
   {
     "section": "Cucumber",
@@ -1825,8 +1825,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "The execution limit as a string, or empty for unlimited."
+    "possibleValues": "positive integer; empty for unlimited",
+    "description": "Maximum number of scenarios to execute."
   },
   {
     "section": "Cucumber",
@@ -1834,8 +1834,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "lexical",
-    "possibleValues": "",
-    "description": "The execution order string."
+    "possibleValues": "lexical, reverse, random, random:[seed]",
+    "description": "Scenario execution order."
   },
   {
     "section": "Cucumber",
@@ -1844,7 +1844,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "True to fail on undefined/pending steps; false to allow them."
+    "description": "Treat undefined and pending steps as failures."
   },
   {
     "section": "Cucumber",
@@ -1853,7 +1853,7 @@
     "type": "boolean",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "True to enable WIP mode; false otherwise."
+    "description": "Enable work-in-progress mode, which fails when a scenario passes."
   },
   {
     "section": "Cucumber",
@@ -1862,7 +1862,7 @@
     "type": "text",
     "defaultValue": "src/test/resources",
     "possibleValues": "",
-    "description": "The features path string."
+    "description": "Paths to Cucumber feature files or directories."
   },
   {
     "section": "Cucumber",
@@ -1870,8 +1870,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "The name filter regex, or empty to run all scenarios."
+    "possibleValues": "regular expression",
+    "description": "Select scenarios by name; empty runs all scenarios."
   },
   {
     "section": "Cucumber",
@@ -1879,8 +1879,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "The tag filter expression, or empty to run all scenarios."
+    "possibleValues": "tag expression",
+    "description": "Select scenarios by tag; empty runs all scenarios."
   },
   {
     "section": "Cucumber",
@@ -1888,8 +1888,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "customCucumberSteps, com.shaft.cucumber",
-    "possibleValues": "",
-    "description": "The glue path(s) string."
+    "possibleValues": "comma-separated packages",
+    "description": "Packages containing Cucumber step definitions and hooks."
   },
   {
     "section": "Cucumber",
@@ -1897,8 +1897,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener",
-    "possibleValues": "",
-    "description": "The plugin configuration string."
+    "possibleValues": "comma-separated plugins",
+    "description": "Cucumber reporting and listener plugins."
   },
   {
     "section": "Cucumber",
@@ -1906,8 +1906,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "",
-    "possibleValues": "",
-    "description": "The object factory class name, or empty to use the default."
+    "possibleValues": "class name",
+    "description": "Custom Cucumber object factory; empty uses the default."
   },
   {
     "section": "Cucumber",
@@ -1915,8 +1915,8 @@
     "targetFile": "cucumber.properties",
     "type": "text",
     "defaultValue": "underscore",
-    "possibleValues": "",
-    "description": "The snippet type string."
+    "possibleValues": "underscore, camelcase",
+    "description": "Style for generated missing-step snippets."
   },
   {
     "section": "Cucumber",
@@ -1925,7 +1925,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "True to suppress the publish banner; false to display it."
+    "description": "Suppress the Cucumber publish banner."
   },
   {
     "section": "Healenium",
@@ -1933,7 +1933,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "1",
-    "possibleValues": "",
+    "possibleValues": "positive integer",
     "description": "Number of Healenium self-healing recovery attempts before giving up on a broken locator."
   },
   {
@@ -1942,8 +1942,8 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "0.5",
-    "possibleValues": "",
-    "description": "Minimum Healenium similarity score (0.0-1.0) required to accept a healed locator candidate."
+    "possibleValues": "0.0 to 1.0",
+    "description": "Minimum Healenium similarity score required to accept a healed locator candidate."
   },
   {
     "section": "Healenium",
@@ -1952,7 +1952,7 @@
     "type": "boolean",
     "defaultValue": "false",
     "possibleValues": "true, false",
-    "description": "Enables the Healenium self-healing proxy for this run."
+    "description": "Enable the Healenium self-healing proxy for this run."
   },
   {
     "section": "Healenium",
@@ -1960,7 +1960,7 @@
     "targetFile": "custom.properties",
     "type": "text",
     "defaultValue": "localhost",
-    "possibleValues": "",
+    "possibleValues": "hostname",
     "description": "Hostname of the Healenium server that scores locator-healing candidates."
   },
   {
@@ -1969,7 +1969,7 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "7878",
-    "possibleValues": "",
+    "possibleValues": "port number",
     "description": "Port of the Healenium server that scores locator-healing candidates."
   },
   {
@@ -1978,8 +1978,8 @@
     "targetFile": "custom.properties",
     "type": "number",
     "defaultValue": "8000",
-    "possibleValues": "",
-    "description": "Local port SHAFT points the browser at to imitate the real Selenium server so Healenium can intercept traffic."
+    "possibleValues": "port number",
+    "description": "Local port SHAFT uses so Healenium can intercept browser traffic."
   },
   {
     "section": "Healing",
@@ -2753,7 +2753,7 @@
     "key": "shaftEngineVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "10.3.20260728",
+    "defaultValue": "10.3.20260801",
     "possibleValues": "version string",
     "description": "Engine version used by update checks, telemetry metadata, and internal tooling."
   },
@@ -2780,7 +2780,7 @@
     "key": "nodeLtsVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "24.18.0",
+    "defaultValue": "24.18.1",
     "possibleValues": "Node.js version",
     "description": "Portable Node.js version downloaded when neither allure nor npx is available on PATH."
   },
@@ -2807,7 +2807,7 @@
     "key": "appiumUiAutomator2DriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "8.2.0",
+    "defaultValue": "8.2.2",
     "possibleValues": "Appium driver version",
     "description": "Appium UiAutomator2 driver version used by SHAFT MCP for Android."
   },
@@ -2816,7 +2816,7 @@
     "key": "appiumXcuitestDriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "12.1.0",
+    "defaultValue": "12.1.4",
     "possibleValues": "Appium driver version",
     "description": "Appium XCUITest driver version used by SHAFT MCP for iOS."
   },
@@ -3615,7 +3615,7 @@
     "type": "text",
     "defaultValue": "%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%d{HH:mm:ss}}{bright_black} %style{|}{bright_black} %m%n",
     "possibleValues": "",
-    "description": "Click here to learn more about log4j2 pattern layouts"
+    "description": "Log4j2 pattern layout reference"
   },
   {
     "section": "Log4j",

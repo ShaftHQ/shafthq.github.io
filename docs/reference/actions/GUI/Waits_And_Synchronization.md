@@ -7,23 +7,26 @@ keywords: [SHAFT, explicit waits, wait strategies, waitUntil, lazy loading, sync
 tags: [web, waits, synchronization, tips, element-actions]
 ---
 
-Deeper synchronization tips beyond SHAFT's automatic implicit waits — condition-specific waiting and correctly-sequenced element actions.
+Use these patterns when an application state needs more than SHAFT's automatic element waits.
 
 ## Explicit waits {/* #explicit-waits */}
 
-SHAFT handles **implicit waits** automatically via `defaultElementIdentificationTimeout`, so most element interactions retry until the element is available. For **condition-specific synchronization**, `driver.element()` and `driver.browser()` expose a rich set of explicit wait methods:
+SHAFT retries normal element lookups with `defaultElementIdentificationTimeout`. For a specific condition, use the generic `driver.element().waitUntil(...)`. Browser sessions also expose `waitForLazyLoading()` for page content that arrives after the initial load:
 
 ```java title="ExplicitWaits.java"
-// Element-level
-driver.element().waitUntilElementTextToBe(By.id("status"), "Complete");
-driver.element().waitUntilAttributeContains(By.id("progress"), "style", "width: 100%");
-driver.element().waitUntilNumberOfElementsToBeMoreThan(By.cssSelector(".result"), 0);
-driver.element().waitUntilElementToBeSelected(By.id("checkbox"));
-driver.element().waitUntilPresenceOfAllElementsLocatedBy(By.cssSelector(".row"));
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-// Browser-level
-driver.browser().waitUntilUrlContains("/dashboard");
-driver.browser().waitUntilTitleContains("Dashboard");
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+    By.id("status"), "Complete"));
+driver.element().waitUntil(ExpectedConditions.attributeContains(
+    By.id("progress"), "style", "width: 100%"));
+driver.element().waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(
+    By.cssSelector(".result"), 0));
+driver.element().waitUntil(ExpectedConditions.elementToBeSelected(By.id("checkbox")));
+driver.element().waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(
+    By.cssSelector(".row")));
+
 driver.browser().waitForLazyLoading();
 ```
 
@@ -33,7 +36,7 @@ Configure the default custom UI condition wait via `SHAFT.Properties.timeouts.se
 
 ### Custom condition waits (lambda)
 
-`driver.element().waitUntil()` and `driver.browser().waitUntil()` accept any Selenium `ExpectedCondition<Boolean>` — including lambda expressions — for cases the named wait methods don't cover. Without an explicit `Duration`, it uses `waitForUiStateTimeout` (default 600 seconds):
+`driver.element().waitUntil()` accepts a Selenium condition or lambda. Without an explicit `Duration`, it uses `waitForUiStateTimeout` (default 600 seconds):
 
 ```java title="CustomConditionWait.java"
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -54,7 +57,7 @@ driver.element().waitUntil(webDriver -> (Boolean) ((JavascriptExecutor) webDrive
 ```
 
 :::tip
-Prefer `waitUntilNumberOfElementsToBeMoreThan(locator, 0)` over `waitUntilPresenceOfAllElementsLocatedBy` when you only need to confirm that **at least one** result has loaded. Prefer a named wait method over a lambda whenever one exists — it reads better.
+Prefer a built-in `ExpectedConditions` predicate when one expresses the state clearly. Use a lambda when the condition depends on application-specific state.
 :::
 
 :::warning

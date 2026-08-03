@@ -108,9 +108,13 @@ attachFullLog=true
 Use explicit waits for application states that the browser cannot infer:
 
 ```java title="ReliableStateWait.java"
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
 driver.browser().navigateToURL("https://example.test/orders");
 driver.element().click("Refresh orders");
-driver.element().waitUntilElementTextToBe(By.id("sync-status"), "Complete");
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+    By.id("sync-status"), "Complete"));
 driver.assertThat(By.id("order-count")).text().isEqualTo("25");
 ```
 
