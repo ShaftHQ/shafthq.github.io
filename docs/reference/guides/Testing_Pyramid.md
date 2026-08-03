@@ -88,7 +88,7 @@ public class ApiTest {
         api.post("/users")
             .setRequestBody("{\"name\": \"John\", \"email\": \"john@example.com\"}")
             .setContentType("application/json")
-            .perform();
+            ;
         api.assertThatResponse().extractedJsonValue("name").isEqualTo("John");
         api.assertThatResponse().extractedJsonValue("email").isEqualTo("john@example.com");
         api.verifyThatResponse().statusCode().isEqualTo(201);

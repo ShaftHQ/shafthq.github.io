@@ -326,7 +326,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/users/1")
    .setTargetStatusCode(200)
-   .perform();
+   ;
 
 // Assert the response body matches the schema
 api.assertThatResponse()

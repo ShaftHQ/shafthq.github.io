@@ -7,7 +7,7 @@ keywords: [SHAFT, API authentication, basic auth, form auth, OAuth2, bearer toke
 tags: [api, authentication, security, rest-assured]
 ---
 
-Use `setAuthentication()` for BASIC or FORM authentication. For bearer tokens, API keys, and cookies, add the relevant header before calling `perform()`.
+Use `setAuthentication()` for BASIC or FORM authentication. For bearer tokens, API keys, and cookies, add the relevant header before sending the request.
 
 ---
 
@@ -24,7 +24,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.get("/secure/data")
    .setAuthentication("username", "password", AuthenticationType.BASIC)
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ---
@@ -37,7 +37,7 @@ Submit credentials as form parameters using `AuthenticationType.FORM`:
 api.post("/login")
    .setAuthentication("user@example.com", "password123", AuthenticationType.FORM)
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ---
@@ -50,7 +50,7 @@ Add the `Authorization` header with a `Bearer` token prefix:
 api.get("/oauth/resource")
    .addHeader("Authorization", "Bearer your-oauth-token")
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ---
@@ -63,7 +63,7 @@ api.get("/oauth/resource")
 api.get("/data")
    .addHeader("X-API-Key", "your-api-key")
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ### API Key in Query Parameter
@@ -72,7 +72,7 @@ api.get("/data")
 api.get("/data")
    .setUrlArguments("api_key=your-api-key")
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ---
@@ -85,7 +85,7 @@ Pass a session cookie using `addHeader`:
 api.get("/profile")
    .addHeader("Cookie", "session_id=abc123xyz; token=your-session-token")
    .setTargetStatusCode(200)
-   .perform();
+   ;
 ```
 
 ---
@@ -99,7 +99,7 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.addHeader("Authorization", "Bearer your-oauth-token");
 api.addCookie("session_id", "your-session-id");
-api.get("/users").setTargetStatusCode(200).perform();
+api.get("/users").setTargetStatusCode(200);
 ```
 
 ---
@@ -119,7 +119,7 @@ public class APIAuthTest {
         api.get("/basic-auth/user/pass")
            .setAuthentication("user", "pass", AuthenticationType.BASIC)
            .setTargetStatusCode(200)
-           .perform();
+           ;
 
         api.assertThatResponse()
            .extractedJsonValue("$.authenticated")
@@ -132,7 +132,7 @@ public class APIAuthTest {
         api.get("/protected")
            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
            .setTargetStatusCode(200)
-           .perform();
+           ;
     }
 }
 ```

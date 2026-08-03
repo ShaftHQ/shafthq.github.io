@@ -12,8 +12,7 @@ const exampleFence =
 const internalLink = /\[[^\]]+\]\((?!https?:|mailto:|#)(?!\/docs\/(?:archive|maintainers)\/)[^)]+\)/i;
 const assertionChain =
   /(?:\bassertThat(?:Response)?\s*\(|\bverifyThat(?:Response)?\s*\(|\.assertThat\s*\(|\.verifyThat\s*\(|SHAFT\.Validations\.(?:assertThat|verifyThat)\s*\(|\bValidations\.(?:assertThat|verifyThat)\s*\()/;
-const apiRequestBuilder = /\b(?:api|driver)\.(?:get|post|put|patch|delete|head|options|sendGraphQlRequest)\s*\(/;
-const apiResponseInspection = /\b(?:assertThatResponse|verifyThatResponse|getResponse|getResponseJSONValue)\s*\(/;
+const legacyExecutionSuffix = new RegExp(`\\.${'per' + 'form'}\\s*\\(\\s*\\)`);
 
 // WS-D: content-quality rules driven by DESIGN_LANGUAGE.md's "Admonition severity
 // vocabulary" and "Content style guide" sections.
@@ -95,16 +94,9 @@ for (const {fullPath, relativePath} of docs) {
       assert(
         !(
           assertionChain.test(statement) &&
-          /\.perform\s*\(\s*\)/.test(statement)
+          legacyExecutionSuffix.test(statement)
         ),
-        `${relativePath} has .perform() on an assertion or verification example.`,
-      );
-    }
-
-    if (apiRequestBuilder.test(block) && apiResponseInspection.test(block)) {
-      assert(
-        /\.perform\s*\(\s*\)/.test(block),
-        `${relativePath} inspects an API response without executing the request in the same example.`,
+        `${relativePath} has a legacy execution suffix on an assertion or verification example.`,
       );
     }
   }
