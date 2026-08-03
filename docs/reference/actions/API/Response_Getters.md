@@ -8,7 +8,7 @@ tags: [api, response, parsing, json]
 ---
 
 ## SHAFT API Getters
-After getting back the [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) object, we can use the getters to continue working with it when needed.
+After `perform()` sends a request, use these getters on the `SHAFT.API` session to read its latest response.
 
 ### Get Response Body
 Extracts the response body and returns it as a plain string
@@ -19,7 +19,7 @@ String body = api.getResponseBody();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210");
+api.get("us/90210").perform();
 String body = api.getResponseBody();
 SHAFT.Validations.assertThat().object(body).contains("Beverly Hills");
 ```
@@ -45,10 +45,10 @@ record User(int id, String name) {}
 
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 
-api.get("/users/1").setTargetStatusCode(200);
+api.get("/users/1").setTargetStatusCode(200).perform();
 User user = api.getResponseAs(User.class);
 
-api.get("/users").setTargetStatusCode(200);
+api.get("/users").setTargetStatusCode(200).perform();
 List<User> users = api.getResponseAsList(User.class);
 
 List<User> usersByType = api.getResponseAs(new TypeReference<List<User>>() {});
@@ -65,7 +65,7 @@ int statusCode = api.getResponseStatusCode();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210");
+api.get("us/90210").perform();
 int statusCode = api.getResponseStatusCode();
 SHAFT.Validations.assertThat().number(statusCode).isEqualTo(200);
 ```
@@ -79,9 +79,9 @@ long responseTime = api.getResponseTime();
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
-api.get("us/90210");
+api.get("us/90210").perform();
 long responseTime = api.getResponseTime();
-SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1);
+SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1);
 SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
 ```
 
@@ -91,12 +91,12 @@ _* To extract the desired value, please refer to these urls for examples: <br />
 You can learn the JSONPath Syntax from [the JSONPath syntax reference](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
 And test your JSONPath [on JSONPath.com](http://jsonpath.com/) *_
 ```java
-String value = api.getResponseJSONValue("jsonPath");
+String value = api.getResponseJSONValue("$.data.name");
 ```
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/users");
+api.get("/users").perform();
 String value = api.getResponseJSONValue("$[?(@.name=='Ervin Howell')].address.street");
 SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ```
@@ -104,12 +104,12 @@ SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ### Get Response JSON Value As List
 Extracts the response as list by parsing the target **JSONPath.**
 ```java
-String value = api.getResponseJSONValueAsList("jsonPath");
+String value = api.getResponseJSONValueAsList("$.data");
 ```
 #### Usage
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
-api.get("/todos");
+api.get("/todos").perform();
 List<Object> completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
 for (Object completed : completedList) {
     SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true");

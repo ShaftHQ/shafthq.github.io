@@ -7,7 +7,7 @@ keywords: [SHAFT, GraphQL, API testing, GraphQL query, variables, fragments, mut
 tags: [api, graphql, rest-assured]
 ---
 
-SHAFT Engine provides first-class GraphQL support through `SHAFT.API.sendGraphQlRequest()`. It returns the normal request builder, so **queries**, **mutations**, variables, fragments, authentication headers, status checks, and response assertions all use the same fluent API as REST requests.
+Use `SHAFT.API.sendGraphQlRequest()` for GraphQL queries and mutations. It returns the normal request builder, so variables, fragments, headers, status checks, and response assertions use the same fluent API as REST requests.
 
 ---
 
@@ -23,10 +23,10 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.sendGraphQlRequest(
     "/graphql",
     "{ users { id name email } }"
-);
+).perform();
 
 // Assert response content
-api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
 ```
 
 ---
@@ -46,7 +46,7 @@ api.sendGraphQlRequest(
     "/graphql",
     query,
     variables
-);
+).perform();
 ```
 
 ---
@@ -65,7 +65,7 @@ api.sendGraphQlRequest(
     "{ users { ...UserFields } }",
     null,
     fragment
-);
+).perform();
 ```
 
 ---
@@ -85,7 +85,7 @@ api.sendGraphQlRequest(
     "{ users { ...UserFields } }",
     null,
     fragment
-).addHeader("Authorization", "Bearer mytoken123");
+).addHeader("Authorization", "Bearer mytoken123").perform();
 ```
 
 ---
@@ -102,9 +102,9 @@ public class GraphQLTest {
     public void queryAllUsers() {
         SHAFT.API api = new SHAFT.API("https://api.example.com");
 
-        api.sendGraphQlRequest("/graphql", "{ users { id name email } }");
+        api.sendGraphQlRequest("/graphql", "{ users { id name email } }").perform();
 
-        api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
     }
 
     @Test
@@ -113,9 +113,9 @@ public class GraphQLTest {
         String query = "query GetUser($id: ID!) { user(id: $id) { name email } }";
         String variables = "{\"id\": \"1\"}";
 
-        api.sendGraphQlRequest("/graphql", query, variables);
+        api.sendGraphQlRequest("/graphql", query, variables).perform();
 
-        api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.user.email").isNotNull();
     }
 
     @Test
@@ -125,9 +125,9 @@ public class GraphQLTest {
             + "createUser(input: $input) { id name email } }";
         String variables = "{\"input\": {\"name\": \"Jane\", \"email\": \"jane@example.com\"}}";
 
-        api.sendGraphQlRequest("/graphql", mutation, variables);
+        api.sendGraphQlRequest("/graphql", mutation, variables).perform();
 
-        api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.createUser.id").isNotNull();
     }
 }
 ```
@@ -146,10 +146,11 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.post("/graphql")
    .setRequestBody("{\"query\": \"{ users { id name } }\"}")
    .addHeader("Content-Type", "application/json")
-   .setTargetStatusCode(200);
+   .setTargetStatusCode(200)
+   .perform();
 
 api.assertThatResponse()
-   .extractedJsonValue("data.users[0].name")
+   .extractedJsonValue("$.data.users[0].name")
    .isEqualTo("John Doe");
 ```
 

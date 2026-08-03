@@ -7,7 +7,7 @@ keywords: [SHAFT, validations, assertions, verifications, overview, browser vali
 tags: [validations, assertions, browser, element, file, object, number, response, json-schema, contract-testing, force-fail, soft-assertions, hard-assertions]
 ---
 
-SHAFT Engine allows you to perform assertions and verifications easily using the `Validations` class or the fluent driver-based API. If you're coming from JUnit or TestNG, SHAFT's fluent equivalents to `assertEquals`/`assertTrue`/`assertFalse`/`assertNull` are `isEqualTo()`, `isTrue()`, `isFalse()`, and `isNull()` chained off `assertThat()` (hard assertion) or `verifyThat()` (soft assertion, i.e. "verify").
+Use the `Validations` class or the fluent driver API to assert and verify values. `assertThat()` stops the test on failure; `verifyThat()` records the failure and lets the test continue.
 
 ## Overview {/* #overview */}
 
@@ -47,7 +47,7 @@ driver.verifyThat().element(locator).exists();
 ```
 
 :::tip
-Assertion and verification chains execute eagerly when the validation condition is selected, so examples do not require a terminal method call to execute.
+Each validation runs when you call its condition method. The returned executor is retained for source compatibility; do not add another execution call.
 :::
 
 ## Browser validations {/* #browser-validations */}
@@ -138,11 +138,7 @@ driver.assertThat().element(locator).isSelected();
 ```
 
 :::tip
-All the state validation methods above execute eagerly when the condition is selected. You can optionally add a custom report message to the chain:
-```java
-driver.assertThat().element(locator).isVisible()
-    .withCustomReportMessage("Verify login button is visible");
-```
+State validations run as soon as you call the condition method.
 :::
 
 ### Complete example
@@ -167,23 +163,20 @@ public class CheckoutValidationTest {
 
         // Add item and check badge
         driver.element().click(addToCartBtn);
-        driver.assertThat(cartBadge)
-              .text().isEqualTo("1")
-              .withCustomReportMessage("Cart badge must show 1 after adding an item");
+        driver.assertThat().element(cartBadge)
+              .text().isEqualTo("1");
 
         // Proceed to checkout
         driver.element().click(checkoutBtn);
         driver.assertThat().browser().url().contains("/checkout");
 
         // Verify order summary is displayed
-        driver.assertThat(orderSummary)
-              .isVisible()
-              .withCustomReportMessage("Order summary must be visible on checkout page");
+        driver.assertThat().element(orderSummary)
+              .isVisible();
 
         // Verify place order button is enabled
-        driver.assertThat(placeOrderBtn)
-              .isEnabled()
-              .withCustomReportMessage("Place Order button must be enabled");
+        driver.assertThat().element(placeOrderBtn)
+              .isEnabled();
     }
 
     @BeforeMethod
@@ -245,15 +238,6 @@ Validations.assertThat().object("Hello World").equalsIgnoringCaseSensitivity("he
 Validations.assertThat().object(actualValue).isNotNull();
 ```
 
-:::tip
-You can add a custom report message to any object validation:
-```java
-Validations.assertThat().object(username)
-    .isEqualTo("admin")
-    .withCustomReportMessage("Verify username is 'admin'");
-```
-:::
-
 ## Number validations {/* #number-validations */}
 
 You can perform assertions and verifications on numbers using the `NumberValidationsBuilder`: `isEqualTo()`, `doesNotEqual()`, `isGreaterThan()`, `isGreaterThanOrEquals()`, `isLessThan()`, and `isLessThanOrEquals()`.
@@ -300,7 +284,7 @@ api.assertThatResponse().extractedJsonValueAsList("data.items").isNotNull();
 ```
 
 :::info
-JSONPath expressions should be provided **without** the leading `$.` prefix. For example, use `"data.name"` instead of `"$.data.name"`. SHAFT uses the [Jayway JsonPath](https://github.com/json-path/JsonPath) library (the standard Java JSONPath implementation) for expression evaluation.
+Use standard JSONPath expressions such as `"$.data.name"`. SHAFT evaluates them with [Jayway JsonPath](https://github.com/json-path/JsonPath).
 :::
 
 :::tip
@@ -341,7 +325,8 @@ import com.shaft.driver.SHAFT;
 SHAFT.API api = new SHAFT.API("https://api.example.com");
 
 api.get("/users/1")
-   .setTargetStatusCode(200);
+   .setTargetStatusCode(200)
+   .perform();
 
 // Assert the response body matches the schema
 api.assertThatResponse()
@@ -365,32 +350,18 @@ SHAFT uses the [JSON Schema Validator](https://github.com/java-json-tools/json-s
 Use `forceFail()` to intentionally fail a test with a custom message. This is useful for marking incomplete tests, flagging known issues, or creating conditional failures.
 
 ```java title="ForceFailExample.java"
-// Force fail with a custom message
-Validations.assertThat().forceFail()
-    .withCustomReportMessage("This feature is not yet implemented");
+// Force fail with a report message
+Validations.assertThat().forceFail("This feature is not yet implemented");
 
 // Soft force fail — collects the failure and continues execution
-Validations.verifyThat().forceFail()
-    .withCustomReportMessage("Known issue: JIRA-1234");
+Validations.verifyThat().forceFail("Known issue: JIRA-1234");
 ```
 
-### withCustomReportMessage()
+### Validation timing
 
-Sets a business-readable message that appears in the Allure execution report instead of the default technical log message. It works with any validation type:
+Validation chains run when you call the condition method. Use the condition method as the end of the chain:
 
-```java title="CustomMessageExample.java"
-Validations.assertThat().object(actualValue)
-    .isEqualTo(expectedValue)
-    .withCustomReportMessage("Verify user name matches expected value");
-
-driver.assertThat().element(loginButton)
-    .isVisible()
-    .withCustomReportMessage("Verify login button is displayed");
-```
-
-Validation chains execute eagerly when the validation condition is selected, eliminating the need for a terminal method call:
-
-```java title="PerformExample.java"
+```java title="ValidationTiming.java"
 Validations.assertThat().file("src/test/resources", "data.json").exists();
 Validations.assertThat().number(count).isGreaterThan(0);
 driver.assertThat().element(locator).exists();
@@ -407,7 +378,7 @@ SHAFT Engine provides two assertion modes: **hard assertions** that stop the tes
 ```java title="SoftVsHardAssertions.java"
 // Hard assertion — test fails immediately on first failure
 driver.assertThat().browser().title().contains("Dashboard");
-driver.assertThat(By.id("welcomeMsg")).text().contains("Welcome");
+driver.assertThat().element(By.id("welcomeMsg")).text().contains("Welcome");
 ```
 
 ### Soft assertions — verifyThat()
