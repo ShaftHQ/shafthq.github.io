@@ -443,7 +443,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   | Property Name                 | Default Value | Description                                                                 |
   |------------------------------|----------------|-----------------------------------------------------------------------------|
   | `swagger.validation.enabled` | `false`        | Enables or disables Swagger/OpenAPI contract validation for API testing.   |
-  | `swagger.validation.url`     | *(empty)*      | URL or file path to the OpenAPI schema for validation.                     |
+  | `swagger.validation.url`     | ``             | URL or file path to the OpenAPI schema for validation.                     |
   | `openapi.coverage.report.enabled` | `false`   | Generates an end-of-run OpenAPI operation coverage report using `swagger.validation.url` as the spec source. |
   | `openapi.coverage.threshold`  | `0`            | Minimum covered operation percentage required for a passing run; `0` disables threshold enforcement. |
   | `shaft.contract.sensitiveKeys` | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key,accesskey` | Configured sensitive key fragments. |
@@ -728,10 +728,10 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | allure.accumulateHistory      | `true`                                                                                                                                           | `true`, `false`                                              | • When `true`, accumulates Allure history across runs to enable trend graphs and historical comparison. When `false`, old results are deleted before the new run. *(previously: `cleanAllureResultsDirectoryBeforeExecution`)* |
 | allure.accumulateReports      | `true`                                                                                                                                           | `true`, `false`                                              | • When `true`, keeps previous Allure HTML report files in the report directory. When `false`, only the latest run report is retained.                               |
 | allure.cleanResultsDirectory  | `true`                                                                                                                                           | `true`, `false`                                              | • Clean the Allure results directory before each test run. Disable when merging results from multiple partial runs.                                                 |
-| allure.generateArchive        | `false`                                                                                                                                          | `true`, `false`                                              | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. *(previously: `generateAllureReportArchive`)* |
+| allure.generateArchive        | `false`                                                                                                                                          | `true`, `false`                                              | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. |
 | allure.generateReport         | `true`                                                                                                                                           | `true`, `false`                                              | • Generate the Allure HTML report, convenience script, archive, and live watch process after test execution. Set to `false` to keep raw `allure-results` only.       |
-| allure.customLogo             | *(SHAFT default logo URL)*                                                                                                                       | URL or local file path                                       | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report.                                                                  |
-| allure.customTitle            | `Test run report`                                                                                                                                | Any string                                                   | • Custom title displayed in the header of the generated Allure report.                                                                                              |
+| allure.customLogo             | `https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/images/shaft_report_logo.png?raw=true`                         | URL or local file path                                       | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report.                                                                  |
+| allure.customTitle            | `SHAFT-powered test report`                                                                                                                       | Any string                                                   | • Custom title displayed in the header of the generated Allure report.                                                                                              |
 | allure.realtimeMonitoring     | `false`                                                                                                                                          | `true`, `false`                                              | • Enables SHAFT-managed Allure 3 native real-time monitoring via `allure watch` while tests run. Ignored for Allure 2 or when the Allure CLI cannot be resolved.    |
 | allure.singleFile             | `true`                                                                                                                                           | `true`, `false`                                              | • Controls the Allure 3 Awesome plugin `singleFile` option. When `true`, the report is generated as a self-contained HTML file.                                      |
 | allure.reportLanguage         | `en`                                                                                                                                             | Language code, such as `en`, `fr`, or `ru`                   | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI.                                                                     |
@@ -786,7 +786,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | apiConnectionTimeout                | `30`          | (seconds)       | Timeout in seconds for API connections.                                            |
 | apiConnectionManagerTimeout         | `30`          | (seconds)       | Timeout in seconds for API connection manager.                                     |
 | shellSessionTimeout                 | `30`          | (seconds)       | Timeout in seconds for shell session.                                              |
-| sshServerAliveInterval              | `60`          | seconds; `<= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions.                  |
+| sshServerAliveInterval              | `60`          | seconds; `&lt;= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions.                  |
 | dockerCommandTimeout                | `30`          | (seconds)       | Deprecated. Legacy docker-wrapped terminal command timeout.                        |
 | databaseLoginTimeout                | `30`          | (seconds)       | Timeout in seconds for database login.                                             |
 | databaseNetworkTimeout              | `30`          | (seconds)       | Timeout in seconds for database network operations.                                |
@@ -836,7 +836,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | animatedGif_frameDelay                         | `500`                  | milliseconds                                 | Delay between frames in animated GIF.                                  |
 | videoParams_recordVideo                        | `false`                | `true`, `false`                              | Granular video policy. Profile levels except `CUSTOM` override this after property loading. |
 | videoParams_scope                              | `DriverSession`        | `DriverSession`, `TestMethod`                | Scope for video recording.                                             |
-| whenToTakePageSourceSnapshot                   | `failuresOnly`         | `Never`, `Always`, `FailuresOnly`            | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
+| whenToTakePageSourceSnapshot                   | `Never`                | `Never`, `Always`, `FailuresOnly`            | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
 | shaft.updateSnapshots                          | `false`                | `true`, `false`                              | When true, regenerates visual and ARIA-snapshot baselines instead of comparing new captures against the existing ones. |
 
   </TabItem>
@@ -929,13 +929,22 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   </TabItem>
   <TabItem value="defaults" label="Default Values">
 
-| Property Name        | Default Value                                                                                                                        | Possible Values | Description |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------- | ----------- |
-| cucumber.features    | `src/test/resources`                                                                                                                 |                 |             |
-| cucumber.filter.name | ``                                                                                                                                   |                 |             |
-| cucumber.filter.tags | ``                                                                                                                                   |                 |             |
-| cucumber.glue        | `customCucumberSteps, com.shaft.cucumber`                                                                                            |                 |             |
-| cucumber.plugin      | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` |                 |             |
+| Property Name                    | Default Value                                                                                                                        | Possible Values                 | Description |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | ----------- |
+| cucumber.ansi-colors.disabled    | `false`                                                                                                                              | `true`, `false`                 | Disable ANSI color output in Cucumber's console output. |
+| cucumber.execution.dry-run       | `false`                                                                                                                              | `true`, `false`                 | Parse Cucumber features without executing step definitions. |
+| cucumber.execution.limit         | ``                                                                                                                                   | positive integer; empty for unlimited | Maximum number of scenarios to execute. |
+| cucumber.execution.order         | `lexical`                                                                                                                           | `lexical`, `reverse`, `random`, `random:[seed]` | Scenario execution order. |
+| cucumber.execution.strict        | `true`                                                                                                                               | `true`, `false`                 | Treat undefined and pending steps as failures. |
+| cucumber.execution.wip           | `false`                                                                                                                              | `true`, `false`                 | Enable work-in-progress mode, which fails when a scenario passes. |
+| cucumber.features                | `src/test/resources`                                                                                                                 |                                 | Paths to Cucumber feature files or directories. |
+| cucumber.filter.name             | ``                                                                                                                                   | regular expression              | Select scenarios by name; empty runs all scenarios. |
+| cucumber.filter.tags             | ``                                                                                                                                   | tag expression                  | Select scenarios by tag; empty runs all scenarios. |
+| cucumber.glue                    | `customCucumberSteps, com.shaft.cucumber`                                                                                            | comma-separated packages        | Packages containing Cucumber step definitions and hooks. |
+| cucumber.plugin                  | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` | comma-separated plugins        | Cucumber reporting and listener plugins. |
+| cucumber.object-factory          | ``                                                                                                                                   | class name                      | Custom Cucumber object factory; empty uses the default. |
+| cucumber.snippet-type            | `underscore`                                                                                                                        | `underscore`, `camelcase`       | Style for generated missing-step snippets. |
+| cucumber.publish.quiet           | `true`                                                                                                                               | `true`, `false`                 | Suppress the Cucumber publish banner. |
 
   </TabItem>
 </Tabs>
@@ -950,12 +959,12 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name  | Default Value | Possible Values | Description |
 | -------------- | ------------- | --------------- | ----------- |
-| recovery-tries | `1`           |                 |             |
-| score-cap      | `0.5`         |                 |             |
-| heal-enabled   | `false`       |                 |             |
-| serverHost     | `localhost`   |                 |             |
-| serverPort     | `7878`        |                 |             |
-| imitatePort    | `8000`        |                 |             |
+| recovery-tries | `1`           | positive integer | Number of Healenium self-healing recovery attempts before giving up on a broken locator. |
+| score-cap      | `0.5`         | `0.0` to `1.0` | Minimum Healenium similarity score required to accept a healed locator candidate. |
+| heal-enabled   | `false`       | `true`, `false` | Enable the Healenium self-healing proxy for this run. |
+| serverHost     | `localhost`   | hostname        | Hostname of the Healenium server that scores locator-healing candidates. |
+| serverPort     | `7878`        | port number     | Port of the Healenium server that scores locator-healing candidates. |
+| imitatePort    | `8000`        | port number     | Local port SHAFT uses so Healenium can intercept browser traffic. |
 
   </TabItem>
 </Tabs>
@@ -1224,7 +1233,6 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   pilot.ai.ollama.processingLocation=local
   pilot.ai.ollama.apiKeyEnvironmentVariable=
   pilot.ai.ollama.apiKeyHeader=
-  pilot.ai.ollama.apiKeyPrefix=
   ```
 
   </TabItem>
@@ -1371,13 +1379,13 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   <TabItem value="file-based" label="File-based">
 
   ```properties showLineNumbers title="src/main/resources/properties/internal.properties"
-  shaftEngineVersion=10.3.20260728
+  shaftEngineVersion=10.3.20260801
   allure3Version=3.14.3
-  nodeLtsVersion=24.18.0
+  nodeLtsVersion=24.18.1
   appiumServerVersion=3.6.0
   appiumInspectorPluginVersion=2026.7.1
-  appiumUiAutomator2DriverVersion=8.2.0
-  appiumXcuitestDriverVersion=12.1.0
+  appiumUiAutomator2DriverVersion=8.2.2
+  appiumXcuitestDriverVersion=12.1.4
   androidCommandLineToolsVersion=15859902
   androidEmulatorApiLevel=36
   androidEmulatorDeviceProfile=pixel_8
@@ -1393,14 +1401,14 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 | Property Name                       | Default Value | Possible Values | Description |
 | ----------------------------------- | ------------- | --------------- | ----------- |
-| shaftEngineVersion                  | `10.3.20260728` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
-| watermarkImagePath                  | SHAFT watermark URL | URL or file path | Default watermark image used by screenshot processing. |
+| shaftEngineVersion                  | `10.3.20260801` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
+| watermarkImagePath                  | `https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-engine/src/main/resources/images/shaft_white_bg.png` | URL or file path | Default watermark image used by screenshot processing. |
 | allure3Version                      | `3.14.3`      | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
-| nodeLtsVersion                      | `24.18.0`     | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
+| nodeLtsVersion                      | `24.18.1`     | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
 | appiumServerVersion                 | `3.6.0`       | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
 | appiumInspectorPluginVersion        | `2026.7.1`    | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
-| appiumUiAutomator2DriverVersion     | `8.2.0`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
-| appiumXcuitestDriverVersion         | `12.1.0`      | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
+| appiumUiAutomator2DriverVersion     | `8.2.2`       | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
+| appiumXcuitestDriverVersion         | `12.1.4`      | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
 | androidCommandLineToolsVersion      | `15859902`    | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
 | androidEmulatorApiLevel             | `36`          | Android API level | Default Android API level proposed for SHAFT-managed emulator creation. |
 | androidEmulatorDeviceProfile        | `pixel_8`     | Android virtual device profile | Default Android virtual device profile proposed for SHAFT-managed emulators. |
@@ -1483,7 +1491,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | LambdaTest.project              | `shaft-engine` |                 | Project name to group builds in the LambdaTest dashboard.               |
 | LambdaTest.build                | `Build Name`   |                 | Build name to group test runs in the LambdaTest dashboard.              |
 | LambdaTest.tunnel               | `false`        | `true`, `false` | Enable LambdaTest tunnel for testing locally hosted applications.        |
-| LambdaTest.tunnelName           | ``             |                 | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
+| LambdaTest.tunnelName           | `false`        |                 | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
 | LambdaTest.buildName            | ``             |                 | Build name used in the LambdaTest SDK configuration. Use this instead of `LambdaTest.build` when using the LambdaTest SDK (automate-config.yml). |
 | LambdaTest.selenium_version     | ``             |                 | Selenium version to use on LambdaTest.                                   |
 | LambdaTest.driver_version       | ``             |                 | Browser driver version to use on LambdaTest.                             |
@@ -1655,17 +1663,17 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | appender.console.layout.disableAnsi     | `false`                                                                                                                                                                                | `true`, `false`                          | Disables ANSI color codes in console log output.                                                                                |
 | appender.console.layout.noConsoleNoAnsi | `false`                                                                                                                                                                                | `true`, `false`                          | Automatically disables ANSI colors when output isn't attached to a real console (e.g. redirected to a file).                    |
 | appender.console.layout.charset         | `UTF-8`                                                                                                                                                                                |                                          | Character encoding used when writing console log output.                                                                        |
-| appender.console.layout.pattern         | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m} %style{\| @%d{hh:mm:ss a}}{bright_black} %n` |                                          | [Click here to learn more about log4j2 pattern layouts](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
+| appender.console.layout.pattern         | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%d{HH:mm:ss}}{bright_black} %style{\|}{bright_black} %m%n` |                                          | [Log4j2 pattern layout reference](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
 | appender.console.filter.threshold.type  | `ThresholdFilter`                                                                                                                                                                      |                                          | Log4j2 filter type applied to the console appender (`ThresholdFilter`).                                                         |
-| appender.console.filter.threshold.level | `info`                                                                                                                                                                                 | `fatal, error, warn, info, debug, trace` |                                                                                                                                  |
+| appender.console.filter.threshold.level | `info`                                                                                                                                                                                 | `fatal, error, warn, info, debug, trace` | Minimum log level written to the console; messages below this level are suppressed. |
 | appender.file.type                      | `File`                                                                                                                                                                                 |                                          | Log4j2 appender type for the rolling log file (`RollingFile`).                                                                  |
 | appender.file.name                      | `LOGFILE`                                                                                                                                                                              |                                          | Reference name of the file appender, used by `rootLogger` and other loggers to attach to it.                                    |
-| appender.file.fileName                  | `target/logs/log4j.log`                                                                                                                                                                |                                          |                                                                                                                                  |
+| appender.file.fileName                  | `target/logs/log4j.log`                                                                                                                                                                |                                          | Path to the active log file that SHAFT writes execution logs to. |
 | appender.file.layout.type               | `PatternLayout`                                                                                                                                                                        |                                          | Log4j2 layout implementation used to format file log lines (`PatternLayout`).                                                   |
-| appender.file.layout.pattern            | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n`                                                                                                                           |                                          |                                                                                                                                  |
+| appender.file.layout.pattern            | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n`                                                                                                                           |                                          | Log4j2 PatternLayout string controlling the format of each file log line. |
 | appender.file.layout.charset            | `UTF-8`                                                                                                                                                                                |                                          | Character encoding used when writing the log file.                                                                              |
 | appender.file.filter.threshold.type     | `ThresholdFilter`                                                                                                                                                                      |                                          | Log4j2 filter type applied to the file appender (`ThresholdFilter`).                                                            |
-| appender.file.filter.threshold.level    | `debug`                                                                                                                                                                                | `fatal, error, warn, info, debug, trace` |                                                                                                                                  |
+| appender.file.filter.threshold.level    | `debug`                                                                                                                                                                                | `fatal, error, warn, info, debug, trace` | Minimum log level written to the log file; messages below this level are suppressed. |
 | rootLogger                              | `info, ASYNC_STDOUT, ASYNC_LOGFILE, ASYNC_REPORT_PORTAL`                                                                                                                              |                                          | Uses asynchronous appenders for console, file, and ReportPortal logging.                                                         |
 | logger.app.name                         | `org.apache.http.impl.client`                                                                                                                                                          |                                          | Fully qualified logger name whose level is overridden by `logger.app.level` (defaults to a noisy third-party logger).           |
 | logger.app.level                        | `WARN`                                                                                                                                                                                 |                                          | Log level applied to the logger named by `logger.app.name`, used to quiet noisy third-party libraries.                          |

@@ -130,24 +130,24 @@ and image-file operations continue to work.
 | `STRICT_EYES` | High-sensitivity comparison with minor tolerance | UI components |
 | `CONTENT_EYES` | Compares content while ignoring minor rendering differences | Text-heavy pages |
 | `LAYOUT_EYES` | Compares layout structure, ignores content changes | Page layout regression |
-| `OPENCV` | Uses OpenCV for flexible image matching | Complex scenarios, partial matching |
+| `EXACT_OPENCV` | Uses OpenCV for image comparison | OpenCV-based visual checks |
 
 ```java title="VisualTesting.java"
-import com.shaft.enums.internal.VisualValidationEngine;
+import com.shaft.validation.ValidationEnums;
 
 // Assert element matches a reference image (stores baseline on first run)
 driver.element().assertThat(By.id("logo")).matchesReferenceImage();
 
 // Layout comparison — ignores content, checks structure
 driver.element().assertThat(By.id("productCard"))
-      .matchesReferenceImage(VisualValidationEngine.LAYOUT_EYES);
+      .matchesReferenceImage(ValidationEnums.VisualValidationEngine.LAYOUT_EYES);
 ```
 
 When an intentional UI change is made, delete the relevant baseline image from `src/test/resources/DynamicObjectRepository/` and run the test once to regenerate it. Run visual tests in a consistent environment (same OS, browser version, screen resolution) to avoid false positives, and avoid mixing headless and headed baselines.
 
 ## matchesScreenshot()
 
-`matchesScreenshot()` is a lighter-weight, OpenCV-only pixel-diff assertion built into `shaft-engine` (no `shaft-visual` dependency required). Like every other SHAFT assertion it runs immediately — no `perform()` is needed. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
+`matchesScreenshot()` is an OpenCV-only pixel-diff assertion built into `shaft-engine`, so it does not require `shaft-visual`. It runs when you call it. Pass a `VisualComparisonOptions` object to tune the diff budget and masks, mirroring Playwright's `toHaveScreenshot()` options:
 
 ```java title="ScreenshotBaseline.java"
 driver.element().assertThat(By.id("logo"))

@@ -24,7 +24,7 @@ public class CountryApiTest {
 
         api.get("capital/Cairo");
         api.assertThatResponse()
-                .extractedJsonValue("[0].name.common")
+                .extractedJsonValue("$[0].name.common")
                 .isEqualTo("Egypt");
     }
 }
@@ -32,8 +32,8 @@ public class CountryApiTest {
 
 ```mermaid
 flowchart LR
-    Builder["Build request"] --> Perform["perform()"]
-    Perform --> Evidence["Request + response evidence"]
+    Builder["Build request"] --> Send["Send request"]
+    Send --> Evidence["Request + response evidence"]
     Evidence --> Assert["Fluent response assertion"]
 ```
 

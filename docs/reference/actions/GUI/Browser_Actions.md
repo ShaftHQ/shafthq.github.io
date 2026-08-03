@@ -314,27 +314,16 @@ driver.browser().waitForLazyLoading();
 
 Waits for lazy-loaded content to finish loading on the page.
 
-### Wait Until Title Is
+### Wait for a page condition
 
-```java title="WaitUntilTitle.java"
-driver.browser().waitUntilTitleIs("Expected Title");
-driver.browser().waitUntilTitleContains("Partial Title");
-driver.browser().waitUntilTitleNotContains("Old Title");
-```
+Use the element action surface with a Selenium condition when a page state
+must settle before the next action. For content loaded after the initial page,
+use `waitForLazyLoading()` above.
 
-### Wait Until URL Matches
+```java title="WaitForPageState.java"
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-```java title="WaitUntilURL.java"
-driver.browser().waitUntilUrlToBe("https://example.com/dashboard");
-driver.browser().waitUntilUrlContains("dashboard");
-driver.browser().waitUntilUrlNotContains("login");
-driver.browser().waitUntilUrlMatches(".*dashboard.*");
-```
-
-### Wait Until Number of Windows
-
-```java title="WaitUntilWindows.java"
-driver.browser().waitUntilNumberOfWindowsToBe(2);
+driver.element().waitUntil(ExpectedConditions.titleContains("Dashboard"));
 ```
 
 ## Network Interception

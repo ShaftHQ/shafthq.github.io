@@ -8,7 +8,7 @@ tags: [api, response, parsing, json]
 ---
 
 ## SHAFT API Getters
-After getting back the [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) object, we can use the getters to continue working with it when needed.
+After the request execution step sends a request, use these getters on the `SHAFT.API` session to read its latest response.
 
 ### Get Response Body
 Extracts the response body and returns it as a plain string
@@ -81,7 +81,7 @@ long responseTime = api.getResponseTime();
 SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
 api.get("us/90210");
 long responseTime = api.getResponseTime();
-SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1.1);
+SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1);
 SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
 ```
 
@@ -91,7 +91,7 @@ _* To extract the desired value, please refer to these urls for examples: <br />
 You can learn the JSONPath Syntax from [the JSONPath syntax reference](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) <br />
 And test your JSONPath [on JSONPath.com](http://jsonpath.com/) *_
 ```java
-String value = api.getResponseJSONValue("jsonPath");
+String value = api.getResponseJSONValue("$.data.name");
 ```
 #### Usage
 ```java
@@ -104,7 +104,7 @@ SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
 ### Get Response JSON Value As List
 Extracts the response as list by parsing the target **JSONPath.**
 ```java
-String value = api.getResponseJSONValueAsList("jsonPath");
+String value = api.getResponseJSONValueAsList("$.data");
 ```
 #### Usage
 ```java

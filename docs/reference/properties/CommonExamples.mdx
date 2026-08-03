@@ -147,7 +147,6 @@ targetBrowserName=chrome
 browserStack.userName=your_username
 browserStack.accessKey=your_access_key
 browserStack.osVersion=11
-browserStack.browserVersion=latest
 ```
 
   </TabItem>
@@ -177,8 +176,7 @@ SHAFT.Properties.web.set()
 SHAFT.Properties.browserStack.set()
     .userName("your_username")
     .accessKey("your_access_key")
-    .osVersion("11")
-    .browserVersion("latest");
+    .osVersion("11");
 ```
 
   </TabItem>
@@ -332,7 +330,7 @@ public void testMobileWeb() {
 
 ## Example 7: Enable maximum performance mode
 
-Maximum performance mode disables complementary features to achieve faster execution with up to 400% performance boost:
+Choose a maximum performance mode to reduce optional work during execution:
 
 <Tabs groupId="configMethod">
   <TabItem value="file" label="File-based">

@@ -7,7 +7,7 @@ keywords: [SHAFT, GraphQL, API testing, GraphQL query, variables, fragments, mut
 tags: [api, graphql, rest-assured]
 ---
 
-SHAFT Engine provides first-class GraphQL support through `SHAFT.API.sendGraphQlRequest()`. It returns the normal request builder, so **queries**, **mutations**, variables, fragments, authentication headers, status checks, and response assertions all use the same fluent API as REST requests.
+Use `SHAFT.API.sendGraphQlRequest()` for GraphQL queries and mutations. It returns the normal request builder, so variables, fragments, headers, status checks, and response assertions use the same fluent API as REST requests.
 
 ---
 
@@ -26,7 +26,7 @@ api.sendGraphQlRequest(
 );
 
 // Assert response content
-api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
 ```
 
 ---
@@ -104,7 +104,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", "{ users { id name email } }");
 
-        api.assertThatResponse().extractedJsonValue("data.users").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.users").isNotNull();
     }
 
     @Test
@@ -115,7 +115,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", query, variables);
 
-        api.assertThatResponse().extractedJsonValue("data.user.email").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.user.email").isNotNull();
     }
 
     @Test
@@ -127,7 +127,7 @@ public class GraphQLTest {
 
         api.sendGraphQlRequest("/graphql", mutation, variables);
 
-        api.assertThatResponse().extractedJsonValue("data.createUser.id").isNotNull();
+        api.assertThatResponse().extractedJsonValue("$.data.createUser.id").isNotNull();
     }
 }
 ```
@@ -146,10 +146,11 @@ SHAFT.API api = new SHAFT.API("https://api.example.com");
 api.post("/graphql")
    .setRequestBody("{\"query\": \"{ users { id name } }\"}")
    .addHeader("Content-Type", "application/json")
-   .setTargetStatusCode(200);
+   .setTargetStatusCode(200)
+   ;
 
 api.assertThatResponse()
-   .extractedJsonValue("data.users[0].name")
+   .extractedJsonValue("$.data.users[0].name")
    .isEqualTo("John Doe");
 ```
 

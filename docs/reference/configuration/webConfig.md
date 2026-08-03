@@ -20,11 +20,11 @@ and [Properties Reference](/docs/reference/properties/PropertiesList).
 ## Target Browser
 
 ```properties title="src/main/resources/properties/custom.properties"
-# Supported values: CHROME | FIREFOX | SAFARI | MICROSOFTEDGE
-targetBrowserName=CHROME
+# Default: chrome. Other supported values are firefox, safari, and edge.
+targetBrowserName=chrome
 
-# Run without a visible browser window (faster, ideal for CI/CD)
-headlessExecution=true
+# Default: false. Set true for a headless CI run.
+headlessExecution=false
 ```
 
 Override from the command line without changing the file:
@@ -41,8 +41,8 @@ mvn test -DtargetBrowserName=FIREFOX -DheadlessExecution=true
 # Used as a prefix when you call driver.browser().navigateToURL("/path")
 baseURL=https://staging.example.com
 
-# Time (seconds) SHAFT will retry finding an element before failing
-defaultElementIdentificationTimeout=30
+# Default: 10 seconds to find an element before failing
+defaultElementIdentificationTimeout=10
 
 # Time (seconds) for default UI state waits such as driver.element().waitUntil(...)
 waitForUiStateTimeout=600
@@ -59,11 +59,11 @@ lazyLoadingNetworkIdleInitialObservationMillis=200
 # Required network quiet window after observed XHR/fetch/resource activity
 lazyLoadingNetworkIdleQuietWindowMillis=500
 
-# Time (seconds) to wait for a page navigation to complete
-browserNavigationTimeout=60
+# Default: 30 seconds to wait for a page navigation to complete
+browserNavigationTimeout=30
 
-# Time (seconds) to wait for the full page DOM to load
-pageLoadTimeout=60
+# Default: 30 seconds to wait for the full page DOM to load
+pageLoadTimeout=30
 ```
 
 ---

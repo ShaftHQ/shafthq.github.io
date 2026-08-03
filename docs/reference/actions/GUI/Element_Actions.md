@@ -361,27 +361,21 @@ driver.element().executeNativeMobileCommand(
 This method is intended for mobile (Appium) test execution. The available commands and parameters depend on the Appium driver and the target platform (Android/iOS).
 :::
 
-## Wait Methods
+## Wait methods
 
-SHAFT provides several wait methods to handle synchronization:
+Use `waitUntil(...)` with a Selenium condition or lambda when an element action
+depends on application state:
 
 ```java title="WaitMethodExamples.java"
-// Wait until element text matches
-driver.element().waitUntilElementTextToBe(locator, "Success");
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
-// Wait until attribute contains value
-driver.element().waitUntilAttributeContains(locator, "class", "complete");
-
-// Wait until element is selected
-driver.element().waitUntilElementToBeSelected(locator);
-
-// Wait for specific number of elements
-driver.element().waitUntilNumberOfElementsToBe(locator, 5);
-driver.element().waitUntilNumberOfElementsToBeLessThan(locator, 10);
-driver.element().waitUntilNumberOfElementsToBeMoreThan(locator, 0);
-
-// Wait until all elements are present
-driver.element().waitUntilPresenceOfAllElementsLocatedBy(locator);
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+    By.id("status"), "Success"));
+driver.element().waitUntil(ExpectedConditions.elementToBeSelected(
+    By.id("checkbox")));
+driver.element().waitUntil(ExpectedConditions.numberOfElementsToBeMoreThan(
+    By.cssSelector(".result"), 0));
 ```
 
 ## Table Data Extraction

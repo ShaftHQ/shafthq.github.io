@@ -572,17 +572,6 @@ public class MyParallelTest {
 
 ---
 
-## Related Documentation
-
-For more information, check out these related topics:
-
-- [Properties List](/docs/reference/properties/PropertiesList) - Complete reference of all SHAFT properties
-- [Property Types](/docs/reference/properties/PropertyTypes) - Learn about different ways to configure properties
-- [Common Examples](/docs/reference/properties/CommonExamples) - See practical configuration examples
-- [Web testing](/docs/testing/web) - Working browser example
-
----
-
 ## Summary
 
 SHAFT provides powerful parallel execution capabilities:
@@ -591,5 +580,14 @@ SHAFT provides powerful parallel execution capabilities:
 2. **Cross-Browser Execution**: Run tests across Chrome, Firefox, and Safari sequentially or in parallel
 3. **ThreadLocal Pattern**: Safely manage WebDriver instances in multi-threaded environments
 
-By combining these features and following best practices, you can significantly reduce test execution time while maintaining test reliability and stability.
+These features cover the common parallel-execution cases. Start with TestNG
+parallel settings, then add cross-browser execution or `ThreadLocal` only when
+the test runner and driver lifecycle require them.
+
+## Related
+
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Common Examples](/docs/reference/properties/CommonExamples)
+- [Web testing](/docs/testing/web)
 

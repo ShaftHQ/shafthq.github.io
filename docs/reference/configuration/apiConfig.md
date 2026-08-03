@@ -50,9 +50,11 @@ com.SHAFT.proxySettings=proxy.corp.example.com:8080
 ## Test Retries
 
 ```properties title="src/main/resources/properties/custom.properties"
-# Retry a failed API test up to N times before marking it failed
+# Example: allow three additional attempts after the first failure
 retryMaximumNumberOfAttempts=3
 ```
+
+The default is `0`, so retries are opt-in.
 
 ---
 

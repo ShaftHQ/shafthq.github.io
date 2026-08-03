@@ -174,8 +174,8 @@ To test a Flutter app using SHAFT Engine, you need to:
 
 ### Example Test Class
 
-Here's a complete example of a Flutter test using SHAFT Engine with TestNG and
-java-client's native Flutter locators:
+Use this complete Flutter example with TestNG and java-client's native Flutter
+locators:
 
 ```java
 package com.example.tests;
@@ -184,8 +184,6 @@ import com.shaft.driver.SHAFT;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -213,17 +211,13 @@ public class FlutterAppTest {
 
     @Test
     public void testFlutterApp() {
-        // Find element by ValueKey
-        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
-        loginButton.click();
+        driver.element().click(AppiumBy.flutterKey("loginButton"));
         
-        // Find element by text
-        WebElement welcomeMessage = driver.getDriver().findElement(AppiumBy.flutterText("Welcome!"));
-        Assert.assertNotNull(welcomeMessage, "Welcome message should be displayed");
+        driver.element().assertThat(AppiumBy.flutterText("Welcome!"))
+                .exists();
         
-        // Find element by Type
-        WebElement textField = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
-        Assert.assertNotNull(textField, "TextField should be found");
+        driver.element().assertThat(AppiumBy.flutterType("TextField"))
+                .exists();
     }
 
     @AfterMethod
@@ -429,14 +423,12 @@ SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION)
 Enable debug logging to troubleshoot issues:
 
 ```properties
-# In custom.properties
-log4j_logLevel=DEBUG
+# In src/main/resources/properties/log4j2.properties
+logger.app.level=DEBUG
 ```
 
-Or programmatically:
-```java
-SHAFT.Properties.log4j.set().logLevel("DEBUG");
-```
+`logger.app.level` is a Log4j2 file setting. Keep it in the Log4j2 properties
+file; it is not a typed `SHAFT.Properties` setting.
 
 ## Best Practices
 
@@ -459,7 +451,7 @@ SHAFT.Properties.log4j.set().logLevel("DEBUG");
 
 3. **Wait for Elements**: SHAFT automatically handles waits, but you can configure timeout:
    ```java
-   SHAFT.Properties.timeouts.set().elementIdentificationTimeout(30);
+   SHAFT.Properties.timeouts.set().defaultElementIdentificationTimeout(30);
    ```
 
 4. **Use Fluent API**: SHAFT's fluent API makes tests more readable:
@@ -490,8 +482,6 @@ import com.shaft.driver.SHAFT;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class FlutterAppTestSuite {
@@ -514,46 +504,34 @@ public class FlutterAppTestSuite {
     @Test(description = "Verify successful login with valid credentials")
     public void testValidLogin() {
         // Find and interact with Flutter widgets using native flutter* locators
-        WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
-        WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
-        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
+        driver.element()
+                .type(AppiumBy.flutterKey("usernameField"), "testuser")
+                .type(AppiumBy.flutterKey("passwordField"), "testpass")
+                .click(AppiumBy.flutterKey("loginButton"));
         
-        usernameField.sendKeys("testuser");
-        passwordField.sendKeys("testpass");
-        loginButton.click();
-        
-        // Verify navigation to dashboard
-        WebElement dashboardTitle = driver.getDriver().findElement(AppiumBy.flutterText("Dashboard"));
-        Assert.assertNotNull(dashboardTitle, "Dashboard should be displayed");
+        driver.element().assertThat(AppiumBy.flutterText("Dashboard"))
+                .exists();
     }
 
     @Test(description = "Verify error message with invalid credentials")
     public void testInvalidLogin() {
-        WebElement usernameField = driver.getDriver().findElement(AppiumBy.flutterKey("usernameField"));
-        WebElement passwordField = driver.getDriver().findElement(AppiumBy.flutterKey("passwordField"));
-        WebElement loginButton = driver.getDriver().findElement(AppiumBy.flutterKey("loginButton"));
+        driver.element()
+                .type(AppiumBy.flutterKey("usernameField"), "wronguser")
+                .type(AppiumBy.flutterKey("passwordField"), "wrongpass")
+                .click(AppiumBy.flutterKey("loginButton"));
         
-        usernameField.sendKeys("wronguser");
-        passwordField.sendKeys("wrongpass");
-        loginButton.click();
-        
-        // Verify error message is displayed
-        WebElement errorMessage = driver.getDriver().findElement(AppiumBy.flutterText("Invalid credentials"));
-        Assert.assertNotNull(errorMessage, "Error message should be displayed");
+        driver.element().assertThat(AppiumBy.flutterText("Invalid credentials"))
+                .exists();
     }
 
     @Test(description = "Verify counter increment functionality")
     public void testCounterIncrement() {
         // Find the increment button by its semantics label (Flutter's Tooltip
         // widget registers its message as a semantics label)
-        WebElement incrementButton = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Increment"));
-        
-        // Click the button
-        incrementButton.click();
-        
-        // Verify button was clicked (counter should increment)
-        // Note: Actual verification would check the counter text value
-        Assert.assertNotNull(incrementButton, "Increment button should be functional");
+        driver.element().click(AppiumBy.flutterSemanticsLabel("Increment"));
+
+        driver.element().assertThat(AppiumBy.flutterText("1"))
+                .exists();
     }
 
     @AfterMethod(alwaysRun = true)
@@ -565,21 +543,12 @@ public class FlutterAppTestSuite {
 }
 ```
 
-## Additional Resources
-
-- [Appium Flutter Driver Documentation](https://github.com/appium-userland/appium-flutter-driver)
-- [Flutter Testing Guide](https://flutter.dev/docs/testing)
-- [SHAFT Engine Documentation](https://ShaftHQ.github.io/)
-- [Appium java-client](https://github.com/appium/java-client) - ships the native `AppiumBy` `flutter*` locators
-
-## Support
-
-For issues or questions:
-- Open an issue on [GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)
-- Join our [Slack community](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)
-- Check our [documentation](https://ShaftHQ.github.io/)
-
 ## Related
 
 - [Testing overview](/docs/start/overview)
 - [Features](/docs/features/modules)
+- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-driver)
+- [Flutter testing guide](https://flutter.dev/docs/testing)
+- [Appium Java client](https://github.com/appium/java-client) for native `AppiumBy.flutter*` locators
+- [SHAFT Engine issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)
+- [SHAFT community Slack](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)

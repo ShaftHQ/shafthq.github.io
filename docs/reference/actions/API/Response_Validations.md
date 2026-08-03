@@ -8,7 +8,7 @@ tags: [api, validation, response, json]
 ---
 
 ## SHAFT API Response Validations
-Using the SHAFT API object to directly validate the latest response is very convenient. Use `assertThatResponse()` for hard assertions or `verifyThatResponse()` for soft assertions. Response validations execute eagerly when the validation condition is selected.
+Call `assertThatResponse()` for a hard assertion or `verifyThatResponse()` for a soft verification. Each response condition runs immediately.
 
 ### Body
 Validate on the response body.
@@ -36,7 +36,7 @@ You can learn the JSONPath syntax from the [JSONPath documentation](https://gith
 Chains to [Object validation methods](../Validations#object-validations) to continue building your validation.
 
 ```java
-api.assertThatResponse().extractedJsonValue("jsonPath").isEqualTo("data");
+api.assertThatResponse().extractedJsonValue("$.data").isEqualTo("data");
 ```
 #### Usage
 ```java
@@ -57,7 +57,7 @@ api.assertThatResponse().extractedJsonValueAsList("jsonPath").isEqualTo("data");
 ```java
 SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
 api.get("/todos");
-api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].completed").isEqualTo("true");
+api.verifyThatResponse().extractedJsonValueAsList("$[?(@.completed==true)].completed").contains(true);
 ```
 
 ### Time
