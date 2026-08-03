@@ -7,7 +7,7 @@ keywords: [SHAFT, properties, configuration, custom properties, Maven CLI, code 
 tags: [configuration, properties, types]
 ---
 
-## Priority Hierarchy
+## Priority hierarchy
 
 Since there are many ways to configure SHAFT properties you need to know how the priorities work.
 Simply put, the values to the left override the values to the right.
@@ -73,7 +73,7 @@ import org.testng.annotations.BeforeClass;
 
 @BeforeClass
 public void beforeClass(){
-	var username = SHAFT.Properties.browserStack.username();
+	var username = SHAFT.Properties.browserStack.userName();
 	var accessKey = SHAFT.Properties.browserStack.accessKey();
 	var platformVersion = SHAFT.Properties.browserStack.platformVersion();
 	var deviceName = SHAFT.Properties.browserStack.deviceName();
@@ -103,7 +103,7 @@ You should use this approach if you want to override some specific properties fo
 
 Here's a sample command that you can execute from your terminal window to parameterize your test command:
 ```powershell
-mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-DgenerateAllureReportArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
+mvn -e test "-DretryMaximumNumberOfAttempts=2" "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX" "-DtargetBrowserName=firefox" "-DheadlessExecution=true" "-Dallure.generateArchive=true" "-Dtest=${GLOBAL_TESTING_SCOPE}"
 ```
 
 :::note

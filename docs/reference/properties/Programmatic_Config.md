@@ -46,8 +46,8 @@ SHAFT.Properties.timeouts.set()
 ```java title="ProgrammaticConfig.java"
 // Configure screenshots and video recording
 SHAFT.Properties.visuals.set()
-    .screenshotParamsWhenActionIsPerformedPassedOrFailed("ELEMENT")
-    .recordVideo(true);
+    .screenshotParamsWhenToTakeAScreenshot("Always")
+    .videoParamsRecordVideo(true);
 ```
 
 ---
@@ -59,7 +59,7 @@ SHAFT.Properties.visuals.set()
 SHAFT.Properties.flags.set()
     .retryMaximumNumberOfAttempts(2)
     .autoMaximizeBrowserWindow(true)
-    .forceCheckForElementVisibility(true);
+    .automaticallyAssertResponseStatusCode(true);
 ```
 
 `retryMaximumNumberOfAttempts(2)` allows two retry attempts after the first
@@ -107,7 +107,8 @@ public class ProgrammaticConfigTest {
             .browserNavigationTimeout(60);
 
         SHAFT.Properties.visuals.set()
-            .screenshotParamsWhenActionIsPerformedPassedOrFailed("ELEMENT");
+            .screenshotParamsWhenToTakeAScreenshot("Always")
+            .videoParamsRecordVideo(true);
 
         SHAFT.Properties.flags.set()
             .retryMaximumNumberOfAttempts(2)
