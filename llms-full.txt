@@ -21459,23 +21459,21 @@ gbrain sync --all --no-hard-deadline # first full sync outlives the 1h watchdog
 
 Continuous operation: on macOS/Linux, `gbrain autopilot --install --repo
  ` registers the self-maintaining daemon. **`autopilot --install`
-has no Windows target** (launchd/systemd/cron only) — on Windows run the
-source-controlled installer from the SHAFT_ENGINE checkout:
+has no Windows target** (launchd/systemd/cron only). The SHAFT_ENGINE Windows
+installer manages Graphify only; operate gbrain separately on Windows.
+
+The source-controlled installer registers the daily Graphify refresh task:
 
 ```powershell
+cd 
 powershell -ExecutionPolicy Bypass -File tools\agent-infra\install-agent-tasks.ps1
 ```
 
-It registers two user-level Scheduled Tasks pointing at the repo's
-`tools/agent-infra/` scripts (source-controlled; logs stay machine-local in
-`~/.gbrain/autopilot/`): `gbrain-autosync` every 30 min runs `gbrain sync
---all --no-pull --skip-failed --no-hard-deadline` (`--no-pull` never touches
-working-repo git state; `--skip-failed` so one unparseable file cannot wedge
-the sync bookmark), and `gbrain-dream` daily at 05:00 runs `gbrain dream` —
-the full maintenance cycle (sync, fact extraction, consolidation, take
-proposals, embeddings, orphan checks) — then rebuilds and re-clusters the
-graphify repository map. `gbrain dream --dry-run` previews a cycle. Health
-and recommendations: `gbrain doctor`, `gbrain features`, `gbrain stats`.
+It points the user-level `graphify-refresh` Scheduled Task at the repository's
+`tools/agent-infra/graphify-refresh.cmd`; logs stay machine-local under
+`~/.agent-infra/logs/`. For gbrain, `gbrain dream --dry-run` previews a
+maintenance cycle. Health and recommendations: `gbrain doctor`, `gbrain
+features`, `gbrain stats`.
 Embed backlogs queued as jobs never drain on PGLite (no worker); cancel the
 job (`gbrain jobs cancel `) and run `gbrain embed --stale`, or let the
 nightly dream absorb them.
@@ -21527,14 +21525,23 @@ gbrain answers *meaning* (semantic retrieval). Both stay.
 py -3 -m pip install --user graphifyy==0.9.17 # CLI command is 'graphify'
 cd 
 graphify . # builds gitignored graphify-out/
+py -3 tools/repository-map/resolve_graph_out.py --record-current
 ```
 
-Agents resolve the shared cache with
-`py -3 tools/repository-map/resolve_graph_out.py --check` (worktrees read the
-main checkout's cache; a guard-hook nudge reminds sessions to consult it
-before broad searches). The nightly `gbrain-dream` scheduled task also
-rebuilds `graphify-out/` so the map tracks the repo automatically; details in
-`tools/repository-map/README.md`.
+Run both build commands from the primary checkout. The second command binds the
+completed cache to the exact Git revision and manifest that Graphify indexed;
+linked worktrees must not rebuild or record the shared cache.
+
+Agents check the shared cache with
+`py -3 tools/repository-map/resolve_graph_out.py --check`. The command exits
+successfully only when the marker matches the revision being inspected.
+Missing caches report `absent`; unmarked, changed, or revision-mismatched
+caches report `stale`. In either degraded mode, use targeted `rg` and Memory
+instead of treating the map as current evidence.
+
+The daily `graphify-refresh` Scheduled Task rebuilds and re-clusters the map,
+then records the marker only after both stages succeed. See
+`tools/repository-map/README.md` in SHAFT_ENGINE for the shared-cache contract.
 
 ## MCP servers and plugins
 
