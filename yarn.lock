@@ -2152,10 +2152,10 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-3.5.0.tgz#ce8152e556809326e1253682088bfdd116a453bd"
   integrity sha512-63mlRr6fiBbJ0wjr1Cf6dsDGtP2lNvk9lnatKgxs/fIkhslsZT291hIUzJkuUkI9yr69ZvWnWfgb2qXm4QyVaA==
 
-"@google/genai@^2.15.0":
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-2.15.0.tgz#f087b7c20b26249b587aa8750a73149df708fd23"
-  integrity sha512-Q41TvqwBQ9NcmWdh6qxY5qrpg+0FaVHD7febQoH007pykxzco4ohScBUP4BBBy+Q8j5D8euIBSRIBDfWuNVCKA==
+"@google/genai@^2.16.0":
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/@google/genai/-/genai-2.16.0.tgz#de943aff150dda28e7c08d5ac8781748c928ee27"
+  integrity sha512-K+1C1sqR0u7NJ5xpKJCQBws0QXpfuklo3WTNuUIMvtbQfNW2O5OohX0BYT2V+PXzsUzQEwGCXPWQxttLyGQ6xw==
   dependencies:
     google-auth-library "^10.3.0"
     p-retry "^4.6.2"
