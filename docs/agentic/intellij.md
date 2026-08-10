@@ -193,10 +193,12 @@ the command list.
   with an attached emulator session.
 - "Generate a SHAFT test from recordings/checkout.json" converts a saved
   recording directly into compile-validated SHAFT code — no live session
-  needed. Describing the journey in plain words instead ("Generate a SHAFT test
-  that signs in and verifies the welcome banner") makes the agent open a fresh
-  recording session, perform the described actions, and generate code from the
-  persisted recording.
+  needed. Use `/codegen` followed by a journey description to start a fresh
+  recording immediately and keep that description as the recording goal, for
+  example `/codegen sign in and verify the welcome banner`. Perform the journey,
+  send `stop recording`, review the generated code, then send `approve` to
+  create modular Page Object and test files. An unprefixed natural code request
+  remains a local-agent request and does not start the recorder automatically.
 - "Diagnose my last failed test run" triages the most recent Allure evidence in
   the project automatically — no report path required.
 - "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
@@ -370,23 +372,36 @@ Supported local routes are:
 
 | Client | Default local command | API key required by SHAFT |
 | --- | --- | --- |
-| Codex CLI | `codex exec --sandbox read-only -` for Ask/Plan and no-source Agent; workspace-write only with `Allow source edits` | No |
+| Codex CLI | `codex --ask-for-approval never exec --sandbox read-only -` for Ask/Plan and no-source Agent; project-scoped `workspace-write` with `Allow source edits` | No |
 | Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` for file edits and keeps the same approval bridge for shell and third-party MCP tool calls, which `acceptEdits` alone would silently deny in `--print` mode; SHAFT's own MCP tools are pre-approved via `--allowedTools mcp__shaft-mcp` in both Agent variants | No |
 | Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
 
 The composer shows a **model** selector and a reasoning **effort** selector for
 the active route in both the basic and advanced UI. Local routes list the
-models reported by the connected agent CLI (`codex models`,
-`claude config list-models`, `copilot models`) and fall back to a curated
-catalog per family; cloud routes list a curated catalog per provider, for
+models reported by the connected agent CLI (`codex debug models`,
+`claude config list-models`, `copilot models`); cloud routes list a curated
+catalog per provider, for
 example `gemini-3.5-flash`/`gemini-2.5-flash` for Gemini and
-`claude-fable-5`/`claude-opus-4-8`/`claude-sonnet-5` for Anthropic. Both
-selectors are editable so newer model names can be typed in. The selected
+`claude-fable-5`/`claude-opus-4-8`/`claude-sonnet-5` for Anthropic. The cloud
+selector is restricted to its curated choices, while the local selector is
+editable so newer local model names can be typed in. The selected
 model is passed as `--model` to the local CLIs and as the `model` argument to
 `autobot_provider_chat`. Effort levels are Default, Low, Medium, and High:
 Codex receives the level as its `model_reasoning_effort` config flag, while
 Claude, Copilot, and cloud providers receive a one-line reasoning-effort
 preference at the top of the prompt.
+
+The local model row always includes **CLI default**. Choose it to omit the
+`--model` flag and let the selected CLI use its configured default. A status
+row distinguishes checking, available models, an empty catalog, an unavailable
+CLI, and a failed refresh, so an empty selector is never the only diagnostic.
+
+The **Agent health** row checks the project-local SHAFT skills required by the
+selected family. Use **Recheck** after changing files, or **Repair skills** to
+run `shaft_project_init_agents` for the selected family. A local-agent prompt
+is blocked when the required `shaft-developer` or `shaft-recording-codegen`
+skill is missing; the repair action rechecks the files before it resends that
+prompt.
 
 Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
 are stored in IntelliJ Password Safe; only the selected cloud provider key is
@@ -445,6 +460,15 @@ requires applying code or source edits. If an Agent-mode continuation such as
 command can be supplied for non-standard CLI installations; broad Ask, Plan,
 and Agent prompts keep using the selected local route.
 
+:::danger Unrestricted Codex recovery
+
+Keep **Run Codex without sandbox** off for normal work. Enable this separate,
+default-off recovery option only when the Codex Windows project sandbox cannot
+launch. It skips Codex confirmation prompts and sandboxing, so Codex commands
+and file edits may access paths outside the open project.
+
+:::
+
 Assistant chats are persisted per IntelliJ project. Use the chat selector to
 reopen recent contexts, the New chat icon to start a separate context, and the
 Clear icon to clear only the active chat. Active chat messages are included as
@@ -491,11 +515,13 @@ the replay step fails, the generated and compiling code blocks are still
 returned together with the replay diagnostics, so a replay hiccup never turns
 into an empty "no code" response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
-exists. Describing the journey in plain words with no recording -- the same
-as `/codegen <plain-language scenario>` -- has the local agent open a fresh
-`capture_start` session with `codegenOptions`, perform the described actions
-live, stop the session, then pass the persisted recording through the same
-replay-proving generator.
+exists. `/codegen <plain-language scenario>` routes directly to `capture_start`
+and stores the full description as `sessionGoal`. Perform the actions in the
+recording browser, send `stop recording`, review the returned code, then send
+`approve`. The local agent reads the installed SHAFT skills, preserves the
+project build descriptor, creates separate Page Object and test classes, and
+uses SHAFT locator, action, and assertion syntax. Keep the result only after
+the generated project compiles and `test_code_guardrails_check` passes.
 
 "Upgrade this project to the latest SHAFT" in **Agent** mode with
 **Allow source edits** enabled performs the project upgrade itself: the agent
