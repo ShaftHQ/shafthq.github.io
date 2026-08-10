@@ -239,17 +239,18 @@ project setup.
  committing it.
 
 The IntelliJ plugin's first-run setup walks through the same four steps in its
-tool window — upgrade the project, pick an agent, install SHAFT MCP, and check
-the result — with a **Copy** and, for the install step, an **Install** button
-next to each one so you rarely leave the tool window:
+tool window: upgrade the project, pick an agent, copy the route-specific SHAFT
+MCP setup command, and check the result. Every command-transfer action is
+labeled **Copy**. The plugin opens a terminal with copied setup commands
+pre-typed, and you press Enter to run them:
 
-![SHAFT IntelliJ Assistant first-run setup wizard listing the Upgrade project, Pick agent, Install SHAFT MCP, and Check setup steps, each with Check and Copy buttons and Install SHAFT MCP also showing an Install button, targeting Codex CLI](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ Assistant first-run setup wizard with Prerequisites marked Done, Choose agent expanded, Codex CLI selected, and Copy setup command before Check setup](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Once **Check setup** passes, the wizard collapses the finished steps and shows
 a **Ready** row confirming the MCP connection, workspace, and agent, plus a
 **Start chatting** button to open the Assistant:
 
-![Completed SHAFT IntelliJ Assistant setup showing every step marked Done, a Ready row confirming MCP connected, Workspace root OK, Agent ready, Ready to record, and a Start chatting button](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ Assistant setup showing Codex CLI verified, Choose agent and Check setup marked Done, Copy setup command expanded, and a Ready row with Start chatting](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
 See the [IntelliJ plugin guide](/docs/agentic/intellij) for the full six-step
 setup, including Prerequisites detection, Gemini's cloud API key field, and
@@ -4158,10 +4159,10 @@ support is available. First run shows a six-step setup inside the tool window:
 0. **Prerequisites** detects the tools the setup flow depends on — Python 3,
  Java, Maven, Node.js (only when the selected agent CLI is missing and needs
  npm), and the selected agent CLI itself. Every missing tool gets a
- **Copy install command** button with a simple per-OS terminal command
+ **Copy** button with a simple per-OS terminal command
  (winget, Homebrew, or apt) so a fresh machine can be provisioned entirely
  from this screen; **Recheck** re-detects after you install something. A
- **Copy SHAFT Engine warm-up command** button copies a Maven command that
+ **Copy** button copies a Maven command that
  pre-downloads SHAFT Engine and its dependencies into the local Maven
  repository so future projects skip re-downloading them; the command pins
  the latest released engine version (resolved live from Maven Central, with
@@ -4174,18 +4175,19 @@ support is available. First run shows a six-step setup inside the tool window:
  released engine version. A project already on the latest release — or on a
  newer local development build — shows **Done** immediately with nothing to
  do. Otherwise the step explains exactly what it found (current vs. latest
- version, or that the project has no SHAFT dependency yet), **Copy command**
+ version, or that the project has no SHAFT dependency yet), **Copy**
  copies the upgrade command *and opens an IntelliJ terminal with it
  pre-typed* so you only press Enter, and **Check** re-runs the comparison
  after the upgrade finishes. See the [Upgrade guide](/docs/start/upgrade)
  for what that command does.
-2. **Pick agent** defaults to Codex CLI. Local Codex, Claude, and GitHub
- Copilot families are joined by **Gemini**, a cloud route configured with a
- Google AI Studio API key instead of a local runtime. The step shows
- **Done** only when the selected agent is actually detected on this machine
- (or, for Gemini, when a key is stored).
-3. **Install SHAFT MCP** copies the right installer command for the selected
- agent and opens an IntelliJ terminal with the command pre-typed — press
+2. **Choose agent** defaults to Codex CLI. Choose one complete route: Codex CLI,
+ Claude Code, Claude Desktop, GitHub Copilot CLI, GitHub Copilot in IntelliJ,
+ or Gemini in IntelliJ. Gemini uses a Google AI Studio API key instead of a
+ local runtime. The step shows **Done** only when the plugin can verify the
+ selected route. External desktop and IDE runtimes stay unverified when the
+ plugin cannot observe their state.
+3. **Copy setup command** copies the right installer command for the selected
+ route and opens an IntelliJ terminal with the command pre-typed. Press
  Enter there to run it. The step shows **Done** only when an installed
  `shaft-mcp` is really found on disk, never just because a button was
  clicked.
@@ -4196,7 +4198,7 @@ support is available. First run shows a six-step setup inside the tool window:
  plugin update plus a `shaft-mcp` reinstall you get a real "your CLI can now
  use shaft-mcp" verdict. When the CLI sees `shaft-mcp` but cannot connect —
  typical when a CLI session that predates the reinstall is still running — a
- **Copy restart command** button copies a terminal command that stops stale
+ **Copy** button copies a terminal command that stops stale
  CLI processes and re-verifies access. Success reveals **Start chatting**.
 
 Setup readiness has two lanes. The recorder, codegen, Doctor, and Healer only
@@ -4230,12 +4232,12 @@ Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until **Check setup**
 passes.
 
-![SHAFT IntelliJ Assistant setup wizard listing the Upgrade project, Pick agent, Install SHAFT MCP, and Check setup steps, each with Check and Copy buttons and Install SHAFT MCP also showing an Install button, targeting Codex CLI with Prerequisites already marked Done](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ Assistant setup wizard with Prerequisites marked Done, Choose agent expanded, Codex CLI selected, and Copy setup command before Check setup](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
 stepper with visible state chips, only showing the buttons relevant to the
 current step, so the path reads as
-**Prerequisites -> Upgrade project -> Pick agent -> Install SHAFT MCP -> Check setup -> Start chatting**.
+**Prerequisites -> Upgrade project -> Choose agent -> Copy setup command -> Check setup -> Start chatting**.
 Every state chip reflects a real verification of what is on the machine or in
 the project — never a "you clicked the button" heuristic — and a check that
 ran and did not pass shows an explicit red **Failed** chip with recovery
@@ -4243,17 +4245,16 @@ guidance instead of silently staying neutral.
 The whole setup flow scrolls vertically when it outgrows the tool window (the
 scrollbar appears only when needed, and content re-wraps instead of scrolling
 sideways), so the bottom of the page always stays reachable.
-The setup summary shows the selected target, selected runtime, and detected
-recommended CLI agent -- internal installer-source/branch details are no
-longer surfaced here. The stdio command stays managed by
-SHAFT and is not shown as a setup input. An **Advanced installer options** toggle
-exposes the raw installer command and allows manual MCP target selection for
-non-standard installations. Test failures stay inline with categorized
+The setup summary shows the selected agent and detected recommendation. The
+agent choice owns the MCP installer target, so changing the route also changes
+the copied installer command and invalidates stale setup verification. Internal
+installer-source/branch details and the managed stdio command are not shown as
+setup inputs. Test failures stay inline with categorized
 troubleshooting, client-specific next steps, copyable diagnostic output,
 copyable SHAFT MCP docs link, and the retry action remains enabled.
 
-Selecting the **Gemini** family swaps the runtime selector for a
-**Gemini API key** field. Paste a Google AI Studio API key; **Check setup**
+Selecting **Gemini in IntelliJ** from **Agent** shows a **Gemini API key**
+field. Paste a Google AI Studio API key; **Check setup**
 stores it in IntelliJ Password Safe, saves the Cloud/Gemini Assistant route
 with a default model, and enables passing the stored key to the SHAFT MCP
 process. The installer target switches to `intellij-plugin` because Gemini
@@ -4261,11 +4262,11 @@ prompts run through SHAFT MCP provider chat instead of an external agent CLI.
 If no key is stored, **Check setup** fails inline with a reminder to paste the
 key and check again.
 
-![SHAFT IntelliJ Assistant setup wizard with Gemini selected as the assistant family, showing an empty Gemini API key field for pasting a Google AI Studio key, target INTELLIJ PLUGIN with Gemini cloud API runtime](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
+![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
-![Completed SHAFT IntelliJ Assistant setup showing Runtime verified, every step marked Done, a Ready row confirming MCP connected, Workspace root OK, Agent ready, Ready to record, and a Start chatting button](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ Assistant setup showing Codex CLI verified, Choose agent and Check setup marked Done, Copy setup command expanded, and a Ready row with Start chatting](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
-![SHAFT IntelliJ Assistant setup in dark mode with Check setup marked Failed and an Assist Error message, showing the Test failed. Retry test. recovery text and Reinstall, Copy output, and Copy docs link buttons](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+![SHAFT IntelliJ Assistant setup in dark mode with Check setup marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
 Troubleshooting details distinguish the failure type when the plugin can infer
 it:
@@ -4724,6 +4725,21 @@ The Assistant routes plain-language intent to the right MCP tools:
 | Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
 | Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
 | Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
+
+Type `/help` to list every registered Assistant command, SHAFT MCP tool, and
+`shaft-cli` command. Add a topic to filter across word and separator boundaries:
+
+```text
+/help browser navigate
+```
+
+`/commands`, `/mcp-help`, and `/shaft-help` are aliases for the same local
+catalog. Questions such as "What tools can you use?" also open it without
+calling the selected agent. When SHAFT MCP is connected, the MCP section comes
+from its live `tools/list` response, including valid empty catalogs and newly
+added server tools. If discovery is unavailable or malformed, the Assistant
+labels and shows its bundled MCP catalog instead. Cancelling help does not
+cancel another MCP tool call that shares the project connection.
 
 If MCP is not configured, the Assistant shows the SHAFT MCP setup prompt before
 it runs a feature request. Natural-language Ask/Plan prompts that need MCP tool
