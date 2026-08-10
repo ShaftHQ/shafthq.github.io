@@ -1,1151 +1,1095 @@
-# Graph Report - shafthq.github.io  (2026-07-01)
+# Graph Report - shafthq.github.io  (2026-08-11)
 
 ## Corpus Check
-- 231 files · ~325,426 words
+- 212 files · ~368,113 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2450 nodes · 2514 edges · 250 communities (213 shown, 37 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.8)
+- 2435 nodes · 2510 edges · 229 communities (203 shown, 26 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `2fa07fb5`
+- Built from commit: `2154ba25`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_docsreference (48)|docs/reference (48)]]
-- [[_COMMUNITY_docsreference (48)|docs/reference (48)]]
-- [[_COMMUNITY_docsreference (47)|docs/reference (47)]]
-- [[_COMMUNITY_docsreference (39)|docs/reference (39)]]
-- [[_COMMUNITY_docsreference (38)|docs/reference (38)]]
-- [[_COMMUNITY_docsstart (38)|docs/start (38)]]
-- [[_COMMUNITY_docsreference (37)|docs/reference (37)]]
-- [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_docsreference (33)|docs/reference (33)]]
-- [[_COMMUNITY_docstesting (33)|docs/testing (33)]]
-- [[_COMMUNITY_docsarchive (30)|docs/archive (30)]]
-- [[_COMMUNITY_docsarchive (29)|docs/archive (29)]]
-- [[_COMMUNITY_docsarchive (28)|docs/archive (28)]]
-- [[_COMMUNITY_docsarchive (28)|docs/archive (28)]]
-- [[_COMMUNITY_docsarchive (27)|docs/archive (27)]]
-- [[_COMMUNITY_docsarchive (27)|docs/archive (27)]]
-- [[_COMMUNITY_docsarchive (25)|docs/archive (25)]]
-- [[_COMMUNITY_docsreference (23)|docs/reference (23)]]
-- [[_COMMUNITY_docsarchive (23)|docs/archive (23)]]
-- [[_COMMUNITY_docsreference (22)|docs/reference (22)]]
-- [[_COMMUNITY_docsreference (22)|docs/reference (22)]]
-- [[_COMMUNITY_docsreference (20)|docs/reference (20)]]
-- [[_COMMUNITY_docsreference (20)|docs/reference (20)]]
-- [[_COMMUNITY_package.json (20)|package.json (20)]]
-- [[_COMMUNITY_docsarchive (19)|docs/archive (19)]]
-- [[_COMMUNITY_docsreference (18)|docs/reference (18)]]
-- [[_COMMUNITY_docsreference (18)|docs/reference (18)]]
-- [[_COMMUNITY_docsreference (17)|docs/reference (17)]]
-- [[_COMMUNITY_package.json (17)|package.json (17)]]
-- [[_COMMUNITY_docsreference (16)|docs/reference (16)]]
-- [[_COMMUNITY_docsreference (16)|docs/reference (16)]]
-- [[_COMMUNITY_docsarchive (16)|docs/archive (16)]]
-- [[_COMMUNITY_testschatbot-e2e.test.js (16)|tests/chatbot-e2e.test.js (16)]]
-- [[_COMMUNITY_testsrun-all-tests.js (15)|tests/run-all-tests.js (15)]]
-- [[_COMMUNITY_docsreference (14)|docs/reference (14)]]
-- [[_COMMUNITY_docsreference (14)|docs/reference (14)]]
-- [[_COMMUNITY_docsreference (14)|docs/reference (14)]]
-- [[_COMMUNITY_docsreference (14)|docs/reference (14)]]
-- [[_COMMUNITY_srccomponents (13)|src/components (13)]]
-- [[_COMMUNITY_srccomponents (13)|src/components (13)]]
-- [[_COMMUNITY_docsreference (13)|docs/reference (13)]]
-- [[_COMMUNITY_docsarchive (13)|docs/archive (13)]]
-- [[_COMMUNITY_docsreference (13)|docs/reference (13)]]
-- [[_COMMUNITY_docsagentic (12)|docs/agentic (12)]]
-- [[_COMMUNITY_blog2026-05-02-release-10.2.20260501.md (12)|blog/2026-05-02-release-10.2.20260501.md (12)]]
-- [[_COMMUNITY_blog2026-05-05-release-10.2.20260505.md (12)|blog/2026-05-05-release-10.2.20260505.md (12)]]
-- [[_COMMUNITY_blog2026-05-06-release-10.2.20260506.md (12)|blog/2026-05-06-release-10.2.20260506.md (12)]]
-- [[_COMMUNITY_docsreference (12)|docs/reference (12)]]
-- [[_COMMUNITY_docsreference (12)|docs/reference (12)]]
-- [[_COMMUNITY_docsfeatures (12)|docs/features (12)]]
-- [[_COMMUNITY_docsreference (12)|docs/reference (12)]]
-- [[_COMMUNITY_docsreference (12)|docs/reference (12)]]
-- [[_COMMUNITY_docsreference (12)|docs/reference (12)]]
-- [[_COMMUNITY_docsagentic (11)|docs/agentic (11)]]
-- [[_COMMUNITY_docsreference (11)|docs/reference (11)]]
-- [[_COMMUNITY_docsreference (11)|docs/reference (11)]]
-- [[_COMMUNITY_srcpages (11)|src/pages (11)]]
-- [[_COMMUNITY_docsstart (11)|docs/start (11)]]
-- [[_COMMUNITY_docsagentic (10)|docs/agentic (10)]]
-- [[_COMMUNITY_blog2025-03-27-swagger-validation.md (10)|blog/2025-03-27-swagger-validation.md (10)]]
-- [[_COMMUNITY_docsreference (10)|docs/reference (10)]]
-- [[_COMMUNITY_docsreference (10)|docs/reference (10)]]
-- [[_COMMUNITY_docsmaintainers (10)|docs/maintainers (10)]]
-- [[_COMMUNITY_package.json (10)|package.json (10)]]
-- [[_COMMUNITY_srccomponents (10)|src/components (10)]]
-- [[_COMMUNITY_docsagentic (9)|docs/agentic (9)]]
-- [[_COMMUNITY_docsagentic (9)|docs/agentic (9)]]
-- [[_COMMUNITY_docsreference (9)|docs/reference (9)]]
-- [[_COMMUNITY_docsarchive (9)|docs/archive (9)]]
-- [[_COMMUNITY_docsreference (9)|docs/reference (9)]]
-- [[_COMMUNITY_docsreference (9)|docs/reference (9)]]
-- [[_COMMUNITY_docsreference (9)|docs/reference (9)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_blog2026-03-31-release-10.1.20260331.md (8)|blog/2026-03-31-release-10.1.20260331.md (8)]]
-- [[_COMMUNITY_blog2026-06-05-release-10.2.20260605.md (8)|blog/2026-06-05-release-10.2.20260605.md (8)]]
-- [[_COMMUNITY_blog2026-06-10-release-10.2.20260610.md (8)|blog/2026-06-10-release-10.2.20260610.md (8)]]
-- [[_COMMUNITY_blog2026-06-12-release-10.2.20260612.md (8)|blog/2026-06-12-release-10.2.20260612.md (8)]]
-- [[_COMMUNITY_blog2026-06-14-release-10.2.20260614.md (8)|blog/2026-06-14-release-10.2.20260614.md (8)]]
-- [[_COMMUNITY_blog2026-06-15-release-10.2.20260615.md (8)|blog/2026-06-15-release-10.2.20260615.md (8)]]
-- [[_COMMUNITY_blog2026-06-17-release-10.2.20260617.md (8)|blog/2026-06-17-release-10.2.20260617.md (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsmaintainers (8)|docs/maintainers (8)]]
-- [[_COMMUNITY_package.json (8)|package.json (8)]]
-- [[_COMMUNITY_docsreference (8)|docs/reference (8)]]
-- [[_COMMUNITY_docsarchive (8)|docs/archive (8)]]
-- [[_COMMUNITY_testsrelease-blog-template.test.js (8)|tests/release-blog-template.test.js (8)]]
-- [[_COMMUNITY_tsconfig.json (8)|tsconfig.json (8)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsagentic (7)|docs/agentic (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_srccomponents (7)|src/components (7)]]
-- [[_COMMUNITY_blog2023-01-24-selenium-ecosystem.md (7)|blog/2023-01-24-selenium-ecosystem.md (7)]]
-- [[_COMMUNITY_blog2024-01-27-virtual-threads-release.md (7)|blog/2024-01-27-virtual-threads-release.md (7)]]
-- [[_COMMUNITY_blog2026-03-24-release-10.1.20260324.md (7)|blog/2026-03-24-release-10.1.20260324.md (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsarchive (7)|docs/archive (7)]]
-- [[_COMMUNITY_docsarchive (7)|docs/archive (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsmaintainers (7)|docs/maintainers (7)]]
-- [[_COMMUNITY_srccomponents (7)|src/components (7)]]
-- [[_COMMUNITY_testschatbot-api.test.js (7)|tests/chatbot-api.test.js (7)]]
-- [[_COMMUNITY_testshomepage-performance.test.js (7)|tests/homepage-performance.test.js (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (7)|docs/reference (7)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsagentic (6)|docs/agentic (6)]]
-- [[_COMMUNITY_docsagentic (6)|docs/agentic (6)]]
-- [[_COMMUNITY_AGENTS.md (6)|AGENTS.md (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsfeatures (6)|docs/features (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsintegrations (6)|docs/integrations (6)]]
-- [[_COMMUNITY_docsmaintainers (6)|docs/maintainers (6)]]
-- [[_COMMUNITY_docsmaintainers (6)|docs/maintainers (6)]]
-- [[_COMMUNITY_docsmaintainers (6)|docs/maintainers (6)]]
-- [[_COMMUNITY_docsmaintainers (6)|docs/maintainers (6)]]
-- [[_COMMUNITY_srccomponents (6)|src/components (6)]]
-- [[_COMMUNITY_scriptscheck-doc-duplicates.mjs (6)|scripts/check-doc-duplicates.mjs (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (6)|docs/reference (6)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_staticimg (5)|static/img (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsarchive (5)|docs/archive (5)]]
-- [[_COMMUNITY_docsarchive (5)|docs/archive (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_docsintegrations (5)|docs/integrations (5)]]
-- [[_COMMUNITY_docsmaintainers (5)|docs/maintainers (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_README.md (5)|README.md (5)]]
-- [[_COMMUNITY_scriptsprune-search-index.mjs (5)|scripts/prune-search-index.mjs (5)]]
-- [[_COMMUNITY_docsstart (5)|docs/start (5)]]
-- [[_COMMUNITY_docsstart (5)|docs/start (5)]]
-- [[_COMMUNITY_docsreference (5)|docs/reference (5)]]
-- [[_COMMUNITY_blog2023-02-12-self-managed-appium-execution.md (4)|blog/2023-02-12-self-managed-appium-execution.md (4)]]
-- [[_COMMUNITY_blog2023-03-10-release_announcement.md (4)|blog/2023-03-10-release_announcement.md (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_docusaurus.config.js (4)|docusaurus.config.js (4)]]
-- [[_COMMUNITY_docsarchive (4)|docs/archive (4)]]
-- [[_COMMUNITY_docsfeatures (4)|docs/features (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_docsmaintainers (4)|docs/maintainers (4)]]
-- [[_COMMUNITY_package.json (4)|package.json (4)]]
-- [[_COMMUNITY_package.json (4)|package.json (4)]]
-- [[_COMMUNITY_testschat-history.test.js (4)|tests/chat-history.test.js (4)]]
-- [[_COMMUNITY_srctheme (4)|src/theme (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_docsreference (4)|docs/reference (4)]]
-- [[_COMMUNITY_blog2023-01-21-welcome (3)|blog/2023-01-21-welcome (3)]]
-- [[_COMMUNITY_docsfeatures (3)|docs/features (3)]]
-- [[_COMMUNITY_docsagentic (2)|docs/agentic (2)]]
-- [[_COMMUNITY_docsarchive (2)|docs/archive (2)]]
-- [[_COMMUNITY_blog2023-02-28-we-need-your-support.md (2)|blog/2023-02-28-we-need-your-support.md (2)]]
-- [[_COMMUNITY_docsreference (2)|docs/reference (2)]]
-- [[_COMMUNITY_docsarchive (2)|docs/archive (2)]]
-- [[_COMMUNITY_docsarchive (2)|docs/archive (2)]]
-- [[_COMMUNITY_docsfeatures (2)|docs/features (2)]]
-- [[_COMMUNITY_.github (2)|.github (2)]]
-- [[_COMMUNITY_docsintegrations (2)|docs/integrations (2)]]
-- [[_COMMUNITY_docsmaintainers (2)|docs/maintainers (2)]]
-- [[_COMMUNITY_Community 192|Community 192]]
-- [[_COMMUNITY_docsreference (2)|docs/reference (2)]]
-- [[_COMMUNITY_scriptsverify-models.js (2)|scripts/verify-models.js (2)]]
-- [[_COMMUNITY_sidebars.js (2)|sidebars.js (2)]]
-- [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
-- [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
-- [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
-- [[_COMMUNITY_docstesting (2)|docs/testing (2)]]
-- [[_COMMUNITY_blog2023-04-27-bingAI.md (1)|blog/2023-04-27-bingAI.md (1)]]
-- [[_COMMUNITY_blogauthors.yml (1)|blog/authors.yml (1)]]
-- [[_COMMUNITY_srcdata (1)|src/data (1)]]
-- [[_COMMUNITY_demo-output.txt (1)|demo-output.txt (1)]]
-- [[_COMMUNITY_staticexamples (1)|static/examples (1)]]
-- [[_COMMUNITY_.github (1)|.github (1)]]
-- [[_COMMUNITY_staticimg (1)|static/img (1)]]
-- [[_COMMUNITY_staticimg (1)|static/img (1)]]
-- [[_COMMUNITY_Community 209|Community 209]]
-- [[_COMMUNITY_Community 210|Community 210]]
-- [[_COMMUNITY_Community 211|Community 211]]
-- [[_COMMUNITY_Community 212|Community 212]]
-- [[_COMMUNITY_Community 213|Community 213]]
-- [[_COMMUNITY_Community 214|Community 214]]
-- [[_COMMUNITY_Community 215|Community 215]]
-- [[_COMMUNITY_Community 216|Community 216]]
-- [[_COMMUNITY_Community 217|Community 217]]
-- [[_COMMUNITY_Community 218|Community 218]]
-- [[_COMMUNITY_Community 219|Community 219]]
-- [[_COMMUNITY_Community 220|Community 220]]
-- [[_COMMUNITY_Community 221|Community 221]]
-- [[_COMMUNITY_Community 222|Community 222]]
-- [[_COMMUNITY_Community 223|Community 223]]
-- [[_COMMUNITY_Community 224|Community 224]]
-- [[_COMMUNITY_Community 225|Community 225]]
-- [[_COMMUNITY_Community 227|Community 227]]
-- [[_COMMUNITY_Community 228|Community 228]]
-- [[_COMMUNITY_Community 229|Community 229]]
-- [[_COMMUNITY_Community 230|Community 230]]
-- [[_COMMUNITY_Community 232|Community 232]]
-- [[_COMMUNITY_Community 233|Community 233]]
-- [[_COMMUNITY_Community 234|Community 234]]
-- [[_COMMUNITY_Community 235|Community 235]]
-- [[_COMMUNITY_Community 236|Community 236]]
-- [[_COMMUNITY_Community 237|Community 237]]
-- [[_COMMUNITY_Community 238|Community 238]]
-- [[_COMMUNITY_Community 239|Community 239]]
-- [[_COMMUNITY_Community 240|Community 240]]
-- [[_COMMUNITY_Community 241|Community 241]]
-- [[_COMMUNITY_Community 242|Community 242]]
-- [[_COMMUNITY_Community 243|Community 243]]
-- [[_COMMUNITY_Community 244|Community 244]]
-- [[_COMMUNITY_Community 245|Community 245]]
-- [[_COMMUNITY_Community 246|Community 246]]
-- [[_COMMUNITY_Community 247|Community 247]]
-- [[_COMMUNITY_Community 248|Community 248]]
-- [[_COMMUNITY_Community 249|Community 249]]
+- SHAFT API Response Validations
+- parallelExecution.md
+- Upgrade to modular SHAFT
+- Request Builder
+- SHAFT_ENGINE Test Automation Expert
+- CI_CD_Integration.md
+- Allure Report
+- docs-loader.test.js
+- Mobile and Flutter testing
+- Natural_Language_Actions.md
+- generate-properties-catalog.mjs
+- Final Summary - Chatbot Fix Implementation
+- Migration Guide: GitHub Pages to Netlify
+- AutoBot Optimization Summary
+- Security Fix Summary
+- PropertiesList.mdx
+- E2E Test Execution Results
+- GitHub Actions Test Setup - API Key Configuration
+- pages/index.tsx
+- Connect shaft-mcp
+- Deployment Checklist
+- Standard Connection String Patterns
+- Record web API traffic
+- scripts
+- IntelliJ IDEA plugin
+- Chatbot Testing Guide
+- project-generator.tsx
+- design-contrast.test.js
+- dependencies
+- SHAFT API Getters
+- build-llms-txt.mjs
+- DocSnippets/index.tsx
+- SiteRenderTest
+- run-all-tests.js
+- 2026-06-18-release-history.md
+- GitHub Secret to Code Flow
+- File_Actions.md
+- Diagnose failures with Doctor
+- Terminal_Actions.md
+- Quick start
+- gemini-proxy.js
+- SHAFT Pilot
+- Agent tooling
+- SSH_Terminal.md
+- DB_Actions.md
+- Testing_Pyramid.md
+- CommonExamples.mdx
+- Features and modules
+- Oracle_JDBC_Setup.md
+- Element_Actions.md
+- Infrastructure_Network_And_Visual.md
+- 🎉 SHAFT_ENGINE 10.2.20260501
+- API_Authentication.md
+- Mapping Tree
+- Test_Artifacts.md
+- composited-contrast.spec.js
+- Recover locators with Heal
+- Visual testing
+- Repository history rewrite
+- 🚀 SHAFT_Engine Now Supports Swagger/OpenAPI Contract Validation!
+- Connection_Strings.md
+- Browser_Actions.md
+- Element_Identification.md
+- package.json
+- Root.tsx
+- Design draft: redesigned custom-properties generator (issue #3717)
+- SHAFT MCP History Import
+- Docker_Terminal.md
+- Gradle Setup
+- Alert_Actions.md
+- Async_Element_Actions.md
+- Cookies
+- Window Management
+- Element Information
+- Supported Locator Types
+- Solution_Design.md
+- Programmatic_Config.md
+- How SHAFT reduces flakiness
+- PropertiesGenerator/index.tsx
+- properties-list-coverage.test.js
+- SHAFT 10.3.20260702
+- SHAFT 10.3.20260703
+- SHAFT 10.3.20260705
+- SHAFT 10.3.20260707
+- SHAFT 10.3.20260708
+- SHAFT 10.2.20260627
+- SHAFT 10.3.20260709
+- SHAFT 10.3.20260710
+- devDependencies
+- SHAFT 10.3.20260711
+- SHAFT 10.3.20260712
+- release-blog-template.test.js
+- compilerOptions
+- SHAFT 10.3.20260713
+- SHAFT 10.3.20260714
+- SHAFT 10.3.20260715
+- SHAFT 10.3.20260716
+- <b>SHAFT_Engine</b> is now a part of the <a href="https://www.selenium.dev/ecosystem/">Selenium Ecosystem!</a> 🎉🎉
+- <b>SHAFT_Engine</b> is introducing Virtual Threads for Everyday Tasks 🎉🎉
+- SHAFT 10.3.20260717
+- SHAFT 10.3.20260719
+- SHAFT 10.3.20260722
+- SHAFT 10.3.20260727
+- shaft-cli command line
+- Architecture
+- Reporting and evidence
+- Maven reactor layout
+- GraphQL_Testing.md
+- Navigation
+- Locators_And_Self_Healing.md
+- Best Practices for Test Data Management
+- mobileConfig.md
+- Cross_Platform_Strategy.md
+- tests/chatbot-api.test.js (7)
+- homepage-performance.test.js
+- Test_Structure.md
+- 2026-03-31-release-10.1.20260331.md
+- Optional AI providers
+- Investigate E2E test failures from GitHub Actions run 25572054507
+- Ticket: Agent Knowledge Migration and Instruction Consolidation
+- Pillars of successful test automation
+- SHAFT Pilot release
+- Documentation site operations
+- Interacting with IFrames
+- AGENTS.md
+- Excel Test Data
+- apiConfig.md
+- SHAFT 10.2.20260628
+- webConfig.md
+- Fluent_Design.md
+- JUnit_Integration.md
+- Sharded_Execution.md
+- run-shaft-tests.mjs
+- demo-autobot-approach.mjs
+- Install SHAFT
+- UI and API contract replay
+- overrides
+- BrowserStack
+- Agent guidance maintenance
+- CI failure and Allure artifact investigation
+- Maven Central publication contract
+- check-doc-duplicates.mjs
+- Screenshots and Snapshots
+- Typing
+- XPath Axis Navigation
+- Relative (Location-Based) Locators
+- TestData_Management.md
+- CSV Test Data
+- JSON Test Data
+- Properties Test Data
+- YAML Test Data
+- PropertyTypes.md
+- One engine. Every test surface.
+- Web testing
+- autobot-core.mjs
+- Agentic testing without hidden automation
+- CI Coverage Readiness Workflow
+- Repository History Rewrite Validation (Temporary Clone)
+- MCP publication and deployment
+- Common Use Cases
+- Common Use Cases
+- Execute Commands
+- Custom Connection String Patterns
+- <b>SHAFT_Engine</b> will now manage its own Appium Execution Environment 🎉🎉
+- Advanced Usage
+- Step 4: Common Connection Examples
+- docusaurus.config.js
+- Troubleshooting
+- Network Interception
+- Clicking
+- SHAFT Locator Builder Methods
+- Interacting with Shadow DOM
+- Waits_And_Synchronization.md
+- SHAFT 10.2.20260620
+- resolutions
+- chat-history.test.js
+- Common Use Cases
+- Troubleshooting
+- Reference
+- API testing
+- CLI testing
+- Database testing
+- generate-properties-catalog-regex.test.js
+- 2023-02-28-we-need-your-support.md
+- tink-design-journal.md
+- desktop-and-video.md
+- Visual-processing provider boundary
+- File Transfer
+- copilot-instructions.md
+- Best Practices
+- Drag and Drop
+- IFrames
+- ARIA Role-Based Locators
+- Smart Locators
+- verify-models.js
+- sidebars.js
+- Traditional Locators vs. SHAFT Locator Builder
+- a11ymcp
+- Welcome to SHAFT_Engine's first Blog Post!
+- Step 1: Download Oracle JDBC Driver
+- Mobile Context
+- Dropdowns
+- Hovering
+- JavaScript Actions
+- properties-catalog.test.js
+- docs-quality.test.js
+- jsx-namespace.d.ts
+- homepage.spec.js
+- contributors-history.md
+- Contributing To The SHAFT User Guide
+- modular-dependency-report.md
+- SHAFT 10.2.20260621
+- SHAFT UI Design Language
+- SHAFT 10.2.20260622
+- archive/overview.md
+- maintainers/overview.md
+- SHAFT 10.2.20260623
+- custom-properties-generator.mdx
+- development
+- playwright.config.js
+- landing-shots.mjs
+- landing-zoom.mjs
+- hash-scroll-sync.spec.js
+- constants.mjs
+- docs-loader.mjs
+- net.shaftengine:shaft-docs-smoke-tests
 
 ## God Nodes (most connected - your core abstractions)
-1. `SiteRenderTest` - 40 edges
+1. `SiteRenderTest` - 41 edges
 2. `Upgrade to modular SHAFT` - 26 edges
-3. `scripts` - 21 edges
-4. `Request Builder` - 17 edges
-5. `test` - 16 edges
-6. `Connect shaft-mcp` - 16 edges
-7. `Mobile and Flutter testing` - 15 edges
+3. `scripts` - 23 edges
+4. `Connect shaft-mcp` - 21 edges
+5. `Request Builder` - 17 edges
+6. `Allure Report` - 16 edges
+7. `Mobile and Flutter testing` - 14 edges
 8. `Diagnose failures with Doctor` - 13 edges
 9. `Security Fix Summary` - 13 edges
 10. `SHAFT API Response Validations` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `isSiteAvailable()` --calls--> `fetch()`  [INFERRED]
-  scripts/run-shaft-tests.mjs → worker/index.js
-- `fetchJson()` --calls--> `fetch()`  [INFERRED]
-  src/lib/projectGenerator.ts → worker/index.js
-- `fetchText()` --calls--> `fetch()`  [INFERRED]
-  src/lib/projectGenerator.ts → worker/index.js
-- `loadIndex()` --calls--> `fetch()`  [INFERRED]
-  functions/api/gemini-proxy.js → worker/index.js
 - `getDocumentationContext()` --calls--> `loadDocumentationFromIndex()`  [EXTRACTED]
-  functions/api/gemini-proxy.js → netlify/functions/docs-retrieval.mjs
+  functions/api/gemini-proxy.js → shared/docs-retrieval.mjs
+- `onRequest()` --calls--> `createAutobotResponse()`  [EXTRACTED]
+  functions/api/gemini-proxy.js → shared/autobot-core.mjs
+- `loadPages()` --calls--> `buildDocumentationIndex()`  [EXTRACTED]
+  scripts/build-llms-txt.mjs → shared/docs-loader.mjs
+- `getDocumentationContext()` --calls--> `getGitHubRepositoryContext()`  [EXTRACTED]
+  functions/api/gemini-proxy.js → shared/github-context.mjs
+- `retrieveDocumentation()` --calls--> `retrieveFromIndex()`  [EXTRACTED]
+  shared/docs-loader.mjs → shared/docs-retrieval.mjs
 
 ## Import Cycles
 - None detected.
 
-## Communities (250 total, 37 thin omitted)
+## Communities (229 total, 26 thin omitted)
 
-### Community 0 - "docs/reference (48)"
+### Community 0 - "SHAFT API Response Validations"
+Cohesion: 0.04
+Nodes (32): Body, Contains File Content, Does Not Contain File Content, Does Not Equal File Content, Does Not Equal File Content Ignoring Order, Does Not Match Schema, Extracted Json Value, Extracted Json Value As List (+24 more)
+
+### Community 1 - "parallelExecution.md"
 Cohesion: 0.04
 Nodes (47): 1. Start Small, 1. TestNG Parallel Execution, 2. Cross-Browser Parallel Execution, 2. Ensure Test Independence, 3. ThreadLocal Driver Pattern, 3. Use ThreadLocal Consistently, 4. Handle Shared Resources Carefully, 5. Configure Appropriate Timeouts (+39 more)
 
-### Community 1 - "docs/reference (48)"
-Cohesion: 0.17
-Nodes (8): Clipboard Actions, Fluent Chaining, Native Mobile Commands, Related, Screenshots, Scrolling, Table Data Extraction, Wait Methods
-
-### Community 2 - "docs/reference (47)"
-Cohesion: 0.22
-Nodes (9): Add Cookie, Cookies, Delete All Cookies, Delete Cookie, Get All Cookies, Get Cookie, Get Cookie Domain, Get Cookie Path (+1 more)
-
-### Community 3 - "docs/reference (39)"
-Cohesion: 0.05
-Nodes (40): Add Config, Add Cookie, Add Header, Append Default Content Charset To Content Type If Undefined, Authentication Type BASIC, Authentication Type FORM, Body as Hash Map, Body as JSONObject (+32 more)
-
-### Community 4 - "docs/reference (38)"
-Cohesion: 0.08
-Nodes (24): Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection (SID), IBM DB2 (+16 more)
-
-### Community 5 - "docs/start (38)"
+### Community 2 - "Upgrade to modular SHAFT"
 Cohesion: 0.04
 Nodes (44): Automated upgrade, BrowserStack dependency boundary, BrowserStack evidence, Capture dependency boundary, Choose an upgrade type, CI and cache migration, Command reference, Compilation and rollback (+36 more)
 
-### Community 6 - "docs/reference (37)"
-Cohesion: 0.17
-Nodes (11): Additional Dependencies, Choosing the Right Version, Oracle Internationalization (orai18n.jar), Oracle JDBC Driver Setup, Oracle JDBC Driver Versions, Oracle UCP (Universal Connection Pool), Prerequisites, Related (+3 more)
-
-### Community 7 - "Community 7"
-Cohesion: 0.19
-Nodes (9): loadDocumentationFromIndex(), retrieveFromIndex(), STOP_WORDS, tokenize(), cases, index, mcpSelection, selected (+1 more)
-
-### Community 8 - "docs/reference (33)"
-Cohesion: 0.15
-Nodes (12): Additional Resources, Best Practices, Combining Grid with Parallel Execution, Enable VNC for Visual Debugging, Environment Variables for Docker Grid, Example: High Capacity Node Configuration, Grid Configuration Options, Grid Console (+4 more)
-
-### Community 9 - "docs/testing (33)"
-Cohesion: 0.06
-Nodes (34): 1. Install Appium Server, 2. Verify Installation, 3. Prepare Your Flutter App, Additional Resources, Assertions, Basic Setup, Best Practices, BrowserStack (+26 more)
-
-### Community 10 - "docs/archive (30)"
-Cohesion: 0.07
-Nodes (29): 1. Updated to Latest Gemini Models, 2. Standardized Environment Variables, 3. Comprehensive Testing Framework, All Tests Summary, API Tests (`tests/chatbot-api.test.js`), Available Commands, Chat Window Opened, Code Review (+21 more)
-
-### Community 11 - "docs/archive (29)"
-Cohesion: 0.07
-Nodes (28): 1. `docusaurus.config.js`, 2. `src/components/AutoBot/index.tsx`, 3. `netlify.toml` (New), 4. `netlify/functions/gemini-proxy.mjs` (New), 5. `.github/workflows/deploy.yml`, Additional Resources, After (Secure), Architecture Changes (+20 more)
-
-### Community 12 - "docs/archive (28)"
-Cohesion: 0.07
-Nodes (27): 1. Documentation Loader (`netlify/functions/docs-loader.mjs`), 2. Shared Constants (`netlify/functions/constants.mjs`), 3. Updated Gemini Proxy (`netlify/functions/gemini-proxy.mjs`), 4. Updated AutoBot Component (`src/components/AutoBot/index.tsx`), 5. Updated Tests, 6. Updated Documentation, AutoBot Optimization Summary, Benefits (+19 more)
-
-### Community 13 - "docs/archive (28)"
-Cohesion: 0.07
-Nodes (27): 1. Removed API Key from Build Process, 2. Created Secure Proxy Function, 3. Updated Frontend, 4. Added Netlify Configuration, After (Secure), API Key Recommendations, Before (Vulnerable), Benefits Achieved (+19 more)
-
-### Community 14 - "docs/archive (27)"
-Cohesion: 0.07
-Nodes (26): 1. Homepage - Before Chat, 2. Chat Window - Opened, 3. Query Typed, 4. Error Handling (No API Key), ⏭️ API Integration Tests (Requires API Key), API Key Configuration Requirements, Conclusion, E2E Test Execution Results (+18 more)
-
-### Community 15 - "docs/archive (27)"
-Cohesion: 0.07
-Nodes (26): API Key Works Locally But Not in GitHub Actions, Check Workflow Configuration, Conclusion, Configuration Changes Made, ✅ Deploy Workflow (`.github/workflows/deploy.yml`), GitHub Actions Test Setup - API Key Configuration, Local Testing (with API key), Overview (+18 more)
-
-### Community 16 - "docs/archive (25)"
-Cohesion: 0.08
-Nodes (24): Approval Sign-off, Code Changes, Configuration, Deployment Architecture, Deployment Checklist, Deployment Steps, Documentation, Historical Deployment Status (Netlify Migration) (+16 more)
-
-### Community 17 - "docs/reference (23)"
-Cohesion: 0.08
-Nodes (25): Allure, API, BrowserStack, Cucumber, Flags, Healenium, Healing, Internal (+17 more)
-
-### Community 18 - "docs/archive (23)"
-Cohesion: 0.09
-Nodes (22): "All available models failed" error, "API key not configured" error, Chat History Test (`tests/chat-history.test.js`), Chatbot API Test (`tests/chatbot-api.test.js`), Chatbot Testing Guide, Current Models (December 2024), Documentation References, Expected Test Results (+14 more)
-
-### Community 19 - "docs/reference (22)"
-Cohesion: 0.07
-Nodes (16): Comparison Engines, Complete Example, Default Engine, matchesReferenceImage(), Related, Specific Engine, Updating Baselines, assertThat vs verifyThat (+8 more)
-
-### Community 20 - "docs/reference (22)"
+### Community 3 - "Request Builder"
 Cohesion: 0.05
-Nodes (39): API Response Validations, Attach Content, Best Practices, Browser Validations, Combining Both Approaches, Custom Messages on Validations, Element Validations, Log a Message (+31 more)
+Nodes (42): Add Cookie, Add Header, Append Default Content Charset To Content Type If Undefined, Authentication Type BASIC, Authentication Type FORM, Body as Hash Map, Body as JSONObject, Body as String (+34 more)
 
-### Community 21 - "docs/reference (20)"
-Cohesion: 0.15
-Nodes (12): Architecture Overview, Best Practices, GitHub Actions Example, Integrating with CI/CD, Prerequisites, Related Pages, Step 1 — Add Helm Repositories, Step 2 — Install KEDA (+4 more)
-
-### Community 22 - "docs/reference (20)"
-Cohesion: 0.06
-Nodes (14): Basic usage, Deterministic planner, MCP usage, Optional planner fallback, Related, Trust gate, App Management, Complete Example (+6 more)
-
-### Community 23 - "package.json (20)"
-Cohesion: 0.10
-Nodes (20): scripts, build, clear, deploy, docusaurus, serve, start, swizzle (+12 more)
-
-### Community 24 - "docs/archive (19)"
+### Community 4 - "SHAFT_ENGINE Test Automation Expert"
 Cohesion: 0.05
 Nodes (37): 1) Root-Cause-First Diagnosis, 2) Confidence Scoring, 3) Fix Ordering by Risk, 4) Validation-Centric Output, Archived Skill: Code Analysis and Optimization, Description, High-Value Enhancements for Accuracy, Limitations (+29 more)
 
-### Community 25 - "docs/reference (18)"
-Cohesion: 0.12
-Nodes (17): Body, Contains File Content, Does Not Contain File Content, Does Not Equal File Content, Does Not Equal File Content Ignoring Order, Does Not Match Schema, Extracted Json Value, Extracted Json Value As List (+9 more)
-
-### Community 27 - "docs/reference (17)"
-Cohesion: 0.25
-Nodes (7): Complete Test Example, Connecting to a Database, Connection Strings Reference, Factory Methods, Related, Using a Custom JDBC Connection String, Using the DatabaseType Enum (Recommended)
-
-### Community 28 - "package.json (17)"
-Cohesion: 0.12
-Nodes (17): dependencies, @cmfcmf/docusaurus-search-local, @docusaurus/core, @docusaurus/preset-classic, @docusaurus/theme-mermaid, @fortawesome/fontawesome-svg-core, @fortawesome/free-brands-svg-icons, @fortawesome/free-regular-svg-icons (+9 more)
-
-### Community 29 - "docs/reference (16)"
-Cohesion: 0.18
-Nodes (10): Best Practices, Compute a Remote File Checksum, Create an SSH Terminal, Download a File from the Remote Server, Execute Commands, File Transfer, Multiple Commands in Sequence, Prerequisites (+2 more)
-
-### Community 30 - "docs/reference (16)"
-Cohesion: 0.18
-Nodes (10): Available Actions, Basic Usage, Best Practices, Chaining Clipboard Actions, Copy, Cut, Import, Paste (+2 more)
-
-### Community 31 - "docs/archive (16)"
-Cohesion: 0.12
-Nodes (15): ✅ 1. GitHub Workflows (`.github/workflows/`), ✅ 2. Docusaurus Configuration (`docusaurus.config.js`), ✅ 3. AutoBot Component (`src/components/AutoBot/index.tsx`), ✅ 4. Environment File (`.env.example`), ✅ 5. Test Files, Conclusion, Configuration Chain, Configuration Summary (+7 more)
-
-### Community 32 - "tests/chatbot-e2e.test.js (16)"
-Cohesion: 0.13
-Nodes (13): AfterMethod, BeforeMethod, By, DataProvider, SiteRenderTest, {expect, test}, Object, test (+5 more)
-
-### Community 33 - "tests/run-all-tests.js (15)"
-Cohesion: 0.23
-Nodes (14): addTestResult(), documentE2ETests(), { execSync }, fs, generateReport(), isApiKeyError(), main(), path (+6 more)
-
-### Community 34 - "docs/reference (14)"
-Cohesion: 0.12
-Nodes (16): Get Response Body, Get Response JSON Value, Get Response JSON Value As List, Get Response Status Code, Get Response Time, Get Response XML Value, Get Response XML Value As List, Map JSON Response To Types (+8 more)
-
-### Community 35 - "docs/reference (14)"
-Cohesion: 0.22
-Nodes (8): Best Practices, Combining Docker Terminal with SHAFT.API, Create a Docker Terminal, Execute Commands, Multiple Commands in Sequence, Prerequisites, Related Pages, Single Command
-
-### Community 36 - "docs/reference (14)"
-Cohesion: 0.13
-Nodes (10): Best Practices, Complete Example: Download, Validate, and Clean Up, Copy File, Delete File, File Path Handling, Getting a File Actions Instance, Integration with File Validations, Read File (+2 more)
-
-### Community 37 - "docs/reference (14)"
-Cohesion: 0.13
-Nodes (14): Browser-Level Waits, Complete Example, Custom Condition Wait (Lambda), Element-Level Waits, Related, waitForLazyLoading, waitUntilAttributeContains, waitUntilElementTextToBe (+6 more)
-
-### Community 38 - "src/components (13)"
-Cohesion: 0.12
-Nodes (4): Application, CommandTemplates, McpApplications(), OperatingSystem
-
-### Community 39 - "src/components (13)"
-Cohesion: 0.23
-Nodes (9): AllInOneBackground(), FutureProofBackground(), GlobeBackground(), RoiBackground(), TrophyBackground(), WizardBackground(), FeatureItem, FeatureListRow1 (+1 more)
-
-### Community 40 - "docs/reference (13)"
-Cohesion: 0.30
-Nodes (9): getDocumentationContext(), loadIndex(), onRequest(), allowedOrigin(), allowedOrigins, corsHeaders, fetch(), preflight() (+1 more)
-
-### Community 41 - "docs/archive (13)"
-Cohesion: 0.18
-Nodes (11): Option 1: Docker-based Grid (Recommended), Option 2: Standalone Selenium Grid (JAR-based), Prerequisites for Docker Setup, Quick Start with Docker Compose, Scaling Nodes, Setup Options, Standalone Mode (Single-Machine Grid), Step 1: Download Selenium Server (+3 more)
-
-### Community 43 - "docs/agentic (12)"
-Cohesion: 0.14
-Nodes (13): CLI reference, Diagnose failures with Doctor, Diagnosis, Evidence, MCP, MCP healer loop, Optional provider advisory, Outputs (+5 more)
-
-### Community 44 - "blog/2026-05-02-release-10.2.20260501.md (12)"
-Cohesion: 0.17
-Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
-
-### Community 45 - "blog/2026-05-05-release-10.2.20260505.md (12)"
-Cohesion: 0.17
-Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
-
-### Community 46 - "blog/2026-05-06-release-10.2.20260506.md (12)"
-Cohesion: 0.17
-Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
-
-### Community 47 - "docs/reference (12)"
-Cohesion: 0.20
-Nodes (7): Best Practices, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, Getting a Terminal Instance, Related, Timeouts and Reporting
-
-### Community 48 - "docs/reference (12)"
-Cohesion: 0.05
-Nodes (34): Available Roles, Basic Usage, Benefits Over Traditional Locators, Combining Conditions, Complete Example, Related, Available Properties, Configuration (+26 more)
-
-### Community 49 - "docs/features (12)"
-Cohesion: 0.20
-Nodes (9): Apps, Browsers, Feature-to-module map, Features and modules, Other, Related, Smart Features, Supported Platforms (+1 more)
-
-### Community 50 - "docs/reference (12)"
-Cohesion: 0.15
-Nodes (12): Applying the Pyramid to Your Strategy, Best Practices, Integration / API Tests (Middle), Related, Step 1: Identify What to Automate at Each Level, Step 2: Maximize API Coverage, Step 3: Reserve UI Tests for Critical Paths, The Pyramid (+4 more)
-
-### Community 51 - "docs/reference (12)"
+### Community 5 - "CI_CD_Integration.md"
 Cohesion: 0.05
 Nodes (34): Best Practices, Example: BDD-Style Test with Allure, Related, The Allure BDD Annotations, What the Report Looks Like, Why Allure Annotations Over Cucumber?, Basic Pipeline Command, Best Practices (+26 more)
 
-### Community 52 - "docs/reference (12)"
-Cohesion: 0.15
-Nodes (12): Example 10: Screenshot and video recording configuration, Example 1: Run tests in headless mode on Firefox browser, Example 2: Run tests on Chrome with mobile emulation, Example 3: Remote execution on Selenium Grid, Example 4: BrowserStack execution, Example 5: Native mobile app testing (Android), Example 6: Mobile web testing, Example 7: Enable maximum performance mode (+4 more)
+### Community 6 - "Allure Report"
+Cohesion: 0.06
+Nodes (34): Accumulate History and Reports Across Runs, Active Debugging (rich visuals), All Reporting Properties, Allure Categories, Allure Report, Animated GIFs, Assertion and Verification Evidence Cards, Best practices (+26 more)
 
-### Community 53 - "docs/agentic (11)"
-Cohesion: 0.17
-Nodes (11): Capture example, Doctor example, Install the MCP server, MCP clients, Modules, Optional providers, Privacy and security, Related (+3 more)
+### Community 7 - "docs-loader.test.js"
+Cohesion: 0.19
+Nodes (11): loadDocumentationFromIndex(), retrieveFromIndex(), scoreChunk(), STOP_WORDS, tokenize(), cases, index, mcpSelection (+3 more)
 
-### Community 54 - "docs/reference (11)"
-Cohesion: 0.17
-Nodes (11): API Key Authentication, API Key in Header, API Key in Query Parameter, BASIC Authentication, Complete Test Example, Cookie-Based Authentication, DIGEST Authentication, FORM Authentication (+3 more)
+### Community 8 - "Mobile and Flutter testing"
+Cohesion: 0.06
+Nodes (33): 1. Install Appium Server, 2. Verify Installation, 3. Prepare Your Flutter App, Assertions, Basic Setup, Best Practices, BrowserStack, Button Clicks (+25 more)
 
-### Community 55 - "docs/reference (11)"
-Cohesion: 0.17
-Nodes (11): Chrome Examples, Complete Test Example, Configure HTTP Proxy, Disable Extensions and Notifications, Disable JavaScript, Edge Example, Firefox Examples, Load a Chrome Extension (+3 more)
+### Community 9 - "Natural_Language_Actions.md"
+Cohesion: 0.06
+Nodes (14): Basic usage, Deterministic planner, MCP usage, Optional planner fallback, Related, Trust gate, App Management, Complete Example (+6 more)
 
-### Community 56 - "src/pages (11)"
+### Community 10 - "generate-properties-catalog.mjs"
+Cohesion: 0.09
+Nodes (30): args, buildCatalog(), capitalizeSentence(), CATALOG_PATH, checkOnly, cleanCell(), DEFAULT_VALUE_CONSTANTS, descriptionFromJavadoc() (+22 more)
+
+### Community 11 - "Final Summary - Chatbot Fix Implementation"
+Cohesion: 0.07
+Nodes (29): 1. Updated to Latest Gemini Models, 2. Standardized Environment Variables, 3. Comprehensive Testing Framework, All Tests Summary, API Tests (`tests/chatbot-api.test.js`), Available Commands, Chat Window Opened, Code Review (+21 more)
+
+### Community 12 - "Migration Guide: GitHub Pages to Netlify"
+Cohesion: 0.07
+Nodes (28): 1. `docusaurus.config.js`, 2. `src/components/AutoBot/index.tsx`, 3. `netlify.toml` (New), 4. `netlify/functions/gemini-proxy.mjs` (New), 5. `.github/workflows/deploy.yml`, Additional Resources, After (Secure), Architecture Changes (+20 more)
+
+### Community 13 - "AutoBot Optimization Summary"
+Cohesion: 0.07
+Nodes (27): 1. Documentation Loader (`netlify/functions/docs-loader.mjs`), 2. Shared Constants (`netlify/functions/constants.mjs`), 3. Updated Gemini Proxy (`netlify/functions/gemini-proxy.mjs`), 4. Updated AutoBot Component (`src/components/AutoBot/index.tsx`), 5. Updated Tests, 6. Updated Documentation, AutoBot Optimization Summary, Benefits (+19 more)
+
+### Community 14 - "Security Fix Summary"
+Cohesion: 0.07
+Nodes (27): 1. Removed API Key from Build Process, 2. Created Secure Proxy Function, 3. Updated Frontend, 4. Added Netlify Configuration, After (Secure), API Key Recommendations, Before (Vulnerable), Benefits Achieved (+19 more)
+
+### Community 15 - "PropertiesList.mdx"
+Cohesion: 0.07
+Nodes (27): Allure, API, BrowserStack, Capture, Cucumber, Flags, Healenium, Healing (+19 more)
+
+### Community 16 - "E2E Test Execution Results"
+Cohesion: 0.07
+Nodes (26): 1. Homepage - Before Chat, 2. Chat Window - Opened, 3. Query Typed, 4. Error Handling (No API Key), ⏭️ API Integration Tests (Requires API Key), API Key Configuration Requirements, Conclusion, E2E Test Execution Results (+18 more)
+
+### Community 17 - "GitHub Actions Test Setup - API Key Configuration"
+Cohesion: 0.07
+Nodes (26): API Key Works Locally But Not in GitHub Actions, Check Workflow Configuration, Conclusion, Configuration Changes Made, ✅ Deploy Workflow (`.github/workflows/deploy.yml`), GitHub Actions Test Setup - API Key Configuration, Local Testing (with API key), Overview (+18 more)
+
+### Community 18 - "pages/index.tsx"
+Cohesion: 0.08
+Nodes (15): ConnectionLine, Particle, ParticleBackground(), ParticleBackgroundProps, audienceLanes, codeCompare, evidenceLoop, footerBadges (+7 more)
+
+### Community 19 - "Connect shaft-mcp"
+Cohesion: 0.08
+Nodes (25): API capture privacy and safety, Applications, Authentication boundary, Build from source, `capture_api_start`, `capture_api_status`, `capture_api_stop`, `capture_api_transactions` (+17 more)
+
+### Community 20 - "Deployment Checklist"
+Cohesion: 0.08
+Nodes (24): Approval Sign-off, Code Changes, Configuration, Deployment Architecture, Deployment Checklist, Deployment Steps, Documentation, Historical Deployment Status (Netlify Migration) (+16 more)
+
+### Community 21 - "Standard Connection String Patterns"
+Cohesion: 0.08
+Nodes (24): Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection, Basic Connection (SID), IBM DB2 (+16 more)
+
+### Community 22 - "Record web API traffic"
+Cohesion: 0.09
+Nodes (22): Browser requirements, Chrome/Edge requirement (HasDevTools), Code generation from API recordings, Configuration properties, Deterministic TestNG generation, Format, IntelliJ Record API (Web) action, Lifecycle (+14 more)
+
+### Community 23 - "scripts"
+Cohesion: 0.09
+Nodes (23): scripts, build, build:llms, clear, deploy, docusaurus, generate:properties-catalog, serve (+15 more)
+
+### Community 24 - "IntelliJ IDEA plugin"
+Cohesion: 0.09
+Nodes (22): Agentic E2E workflows, Assistant, Coding partner plan, Connection & agents, Delegate browser exploration to Playwright, Diagnose and heal a failed test, Expert mode, IntelliJ IDEA plugin (+14 more)
+
+### Community 25 - "Chatbot Testing Guide"
+Cohesion: 0.09
+Nodes (22): "All available models failed" error, "API key not configured" error, Chat History Test (`tests/chat-history.test.js`), Chatbot API Test (`tests/chatbot-api.test.js`), Chatbot Testing Guide, Current Models (December 2024), Documentation References, Expected Test Results (+14 more)
+
+### Community 26 - "project-generator.tsx"
+Cohesion: 0.19
+Nodes (21): addOptionalDependencies(), checkedModules(), defaultArtifactId(), escapeXml(), examplesApi, fallbackProjects, fetchJson(), fetchText() (+13 more)
+
+### Community 27 - "design-contrast.test.js"
 Cohesion: 0.10
-Nodes (11): audienceLanes, codeCompare, coverageColumns, evidenceLoop, footerBadges, guidePaths, Home(), proofPoints (+3 more)
+Nodes (21): allRows, assert(), auditPalette(), contrastRatio(), css, cssPath, darkBlock, darkPalette (+13 more)
 
-### Community 57 - "docs/start (11)"
+### Community 28 - "dependencies"
+Cohesion: 0.05
+Nodes (37): @docusaurus/core, @docusaurus/faster, @docusaurus/plugin-client-redirects, @docusaurus/preset-classic, @docusaurus/theme-mermaid, @easyops-cn/docusaurus-search-local, @fortawesome/fontawesome-svg-core, @fortawesome/free-brands-svg-icons (+29 more)
+
+### Community 29 - "SHAFT API Getters"
+Cohesion: 0.12
+Nodes (16): Get Response Body, Get Response JSON Value, Get Response JSON Value As List, Get Response Status Code, Get Response Time, Get Response XML Value, Get Response XML Value As List, Map JSON Response To Types (+8 more)
+
+### Community 30 - "build-llms-txt.mjs"
+Cohesion: 0.14
+Nodes (13): CATEGORY_LABELS, CATEGORY_ORDER, configPath, docRoute(), docsRoot, llmsFullTxt, llmsFullTxtPath, llmsTxt (+5 more)
+
+### Community 31 - "DocSnippets/index.tsx"
+Cohesion: 0.14
+Nodes (6): Application, commandFor(), CommandTemplates, detectOperatingSystem(), McpApplications(), OperatingSystem
+
+### Community 32 - "SiteRenderTest"
+Cohesion: 0.12
+Nodes (11): org.openqa.selenium.By, org.openqa.selenium.support.ui.WebDriverWait, org.openqa.selenium.WebDriver, org.openqa.selenium.WebElement, org.testng.annotations.AfterMethod, org.testng.annotations.BeforeMethod, org.testng.annotations.DataProvider, org.testng.annotations.Test (+3 more)
+
+### Community 33 - "run-all-tests.js"
+Cohesion: 0.23
+Nodes (14): addTestResult(), documentE2ETests(), { execSync }, fs, generateReport(), isApiKeyError(), main(), path (+6 more)
+
+### Community 34 - "2026-06-18-release-history.md"
+Cohesion: 0.12
+Nodes (15): 10.1.20260324 — March 24, 2026, 10.1.20260331 — March 31, 2026, 10.2.20260501 — May 2, 2026, 10.2.20260505 — May 5, 2026, 10.2.20260506 — May 6, 2026, 10.2.20260605 — June 5, 2026, 10.2.20260610 — June 10, 2026, 10.2.20260612 — June 12, 2026 (+7 more)
+
+### Community 35 - "GitHub Secret to Code Flow"
+Cohesion: 0.12
+Nodes (15): ✅ 1. GitHub Workflows (`.github/workflows/`), ✅ 2. Docusaurus Configuration (`docusaurus.config.js`), ✅ 3. AutoBot Component (`src/components/AutoBot/index.tsx`), ✅ 4. Environment File (`.env.example`), ✅ 5. Test Files, Conclusion, Configuration Chain, Configuration Summary (+7 more)
+
+### Community 36 - "File_Actions.md"
+Cohesion: 0.13
+Nodes (10): Best Practices, Complete Example: Download, Validate, and Clean Up, Copy File, Delete File, File Path Handling, Getting a File Actions Instance, Integration with File Validations, Read File (+2 more)
+
+### Community 37 - "Diagnose failures with Doctor"
+Cohesion: 0.14
+Nodes (13): CLI reference, Diagnose failures with Doctor, Diagnosis, Evidence, MCP, MCP healer loop, Optional provider advisory, Outputs (+5 more)
+
+### Community 38 - "Terminal_Actions.md"
+Cohesion: 0.14
+Nodes (11): Best Practices, Build and Deployment Validation, Common Use Cases, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, File System Validation, Getting a Terminal Instance (+3 more)
+
+### Community 39 - "Quick start"
 Cohesion: 0.14
 Nodes (13): Add SHAFT dependencies, Choose your path, Create the test skeleton, Existing project upgrade, Manual creation, MCP integration, New project generation, Optional modular integrations (+5 more)
 
-### Community 59 - "blog/2025-03-27-swagger-validation.md (10)"
-Cohesion: 0.20
-Nodes (9): 🔧 How to Enable It, 🧪 Or via Code, 📄 Sample Test, Say goodbye to manual schema checks—contract testing is now automated and built right into SHAFT!, 🚀 SHAFT_Engine Now Supports Swagger/OpenAPI Contract Validation!, 📂 Via `custom.properties`, ✅ What Gets Validated?, 🛡️ What is Contract Validation? (+1 more)
+### Community 40 - "gemini-proxy.js"
+Cohesion: 0.28
+Nodes (10): getDocumentationContext(), loadIndex(), onRequest(), getGitHubRepositoryContext(), allowedOrigin(), allowedOrigins, corsHeaders, fetch() (+2 more)
 
-### Community 60 - "docs/reference (10)"
-Cohesion: 0.18
-Nodes (10): Architecture Decision: Engine vs. Framework, Core Libraries, Drivers / Protocols, Page Objects / Models, Related, Test Automation Engine (SHAFT), Test Scripts, The Layers of Test Automation (+2 more)
+### Community 41 - "SHAFT Pilot"
+Cohesion: 0.15
+Nodes (12): Capture example, Doctor example, Example assets {/* #example-assets */}, Install the MCP server, MCP clients, Modules, Optional providers, Privacy and security (+4 more)
 
-### Community 61 - "docs/reference (10)"
-Cohesion: 0.18
-Nodes (10): Allure Report, Artifact Locations, Controlling What Gets Captured, Execution Summary, Generating a Portable Archive for CI/CD, Generating the Report Locally, GitHub Actions, Jenkins (+2 more)
+### Community 42 - "Agent tooling"
+Cohesion: 0.15
+Nodes (12): Agent tooling, Embedding backend, gbrain, Goal, graphify, Health checklist, Install / update, Inventory (+4 more)
 
-### Community 62 - "docs/maintainers (10)"
-Cohesion: 0.20
-Nodes (9): Chosen Flattening Mode, Execute Local Rewrite, Goal, Maintainer Cutover Procedure (Force Push), Pre-Cutover Inputs, Repository history rewrite, Retention / Removal Policy, Rollback Plan (+1 more)
+### Community 43 - "SSH_Terminal.md"
+Cohesion: 0.15
+Nodes (12): Best Practices, Create an SSH Terminal, Experimental Shell / PTY Support, JSch Compatibility Notes, Local Port Forward, Port Forwarding, Prerequisites, Related (+4 more)
 
-### Community 63 - "package.json (10)"
+### Community 44 - "DB_Actions.md"
+Cohesion: 0.15
+Nodes (8): Complete Test Example, Connecting to a Database, Connection Strings Reference, Executing Queries, Factory Methods, Related, Using a Custom JDBC Connection String, Using the DatabaseType Enum (Recommended)
+
+### Community 45 - "Testing_Pyramid.md"
+Cohesion: 0.15
+Nodes (12): Applying the Pyramid to Your Strategy, Best Practices, Integration / API Tests (Middle), Related, Step 1: Identify What to Automate at Each Level, Step 2: Maximize API Coverage, Step 3: Reserve UI Tests for Critical Paths, The Pyramid (+4 more)
+
+### Community 46 - "CommonExamples.mdx"
+Cohesion: 0.15
+Nodes (12): Example 10: Screenshot and video recording configuration, Example 1: Run tests in headless mode on Firefox browser, Example 2: Run tests on Chrome with mobile emulation, Example 3: Remote execution on Selenium Grid, Example 4: BrowserStack execution, Example 5: Native mobile app testing (Android), Example 6: Mobile web testing, Example 7: Enable maximum performance mode (+4 more)
+
+### Community 47 - "Features and modules"
 Cohesion: 0.17
-Nodes (11): engines, node, license, name, overrides, minimatch, node-forge, serialize-javascript (+3 more)
+Nodes (11): Apps, Browsers, Feature-to-module map, Features and modules, Other, Related, Smart Features, Sponsors and adopters {/* #partners */} (+3 more)
 
-### Community 64 - "src/components (10)"
-Cohesion: 0.22
-Nodes (7): buildConnections(), ConnectionLine, particles, ParticleWorkerCommand, ParticleWorkerFrame, postFrame(), WorkerParticle
+### Community 48 - "Oracle_JDBC_Setup.md"
+Cohesion: 0.17
+Nodes (11): Additional Dependencies, Choosing the Right Version, Oracle Internationalization (orai18n.jar), Oracle JDBC Driver Setup, Oracle JDBC Driver Versions, Oracle UCP (Universal Connection Pool), Prerequisites, Related (+3 more)
 
-### Community 65 - "docs/agentic (9)"
+### Community 49 - "Element_Actions.md"
+Cohesion: 0.17
+Nodes (8): Clipboard Actions, Fluent Chaining, Native Mobile Commands, Related, Screenshots, Scrolling, Table Data Extraction, Wait methods
+
+### Community 50 - "Infrastructure_Network_And_Visual.md"
+Cohesion: 0.17
+Nodes (11): Accessibility testing {/* #accessibility-testing */}, Custom browser capabilities {/* #custom-capabilities */}, Jira integration {/* #jira-integration */}, Kubernetes Selenium Grid {/* #kubernetes-selenium-grid */}, Local Selenium Grid execution {/* #local-selenium-grid */}, Mobile emulation {/* #mobile-emulation */}, Native Selenium WebDriver access {/* #native-selenium-webdriver */}, Network mocking and interception {/* #network-mocking */} (+3 more)
+
+### Community 51 - "🎉 SHAFT_ENGINE 10.2.20260501"
+Cohesion: 0.17
+Nodes (11): 📋 Changelog, 🏆 Community Spotlight, 🙌 Get Involved, 🚀 Get Started in Seconds, ⬆️ How to Upgrade, 💬 Join the Conversation, 🔨 Other Changes, 📖 Resources (+3 more)
+
+### Community 52 - "API_Authentication.md"
+Cohesion: 0.18
+Nodes (10): API Key Authentication, API Key in Header, API Key in Query Parameter, BASIC Authentication, Complete Test Example, Cookie-Based Authentication, FORM Authentication, OAuth2 Bearer Token (+2 more)
+
+### Community 53 - "Mapping Tree"
+Cohesion: 0.18
+Nodes (10): Accessibility And Network Parity, Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access (+2 more)
+
+### Community 54 - "Test_Artifacts.md"
+Cohesion: 0.18
+Nodes (10): Allure Report, Artifact Locations, Controlling What Gets Captured, Execution Summary, Generating the Report Locally, GitHub Actions, Jenkins, Publishing Artifacts in CI/CD (+2 more)
+
+### Community 55 - "composited-contrast.spec.js"
+Cohesion: 0.29
+Nodes (8): assertClearsContrast(), compositeOver(), contrastRatio(), {expect, test}, measureBorderContrast(), measureContrast(), relativeLuminance(), requiredRatio()
+
+### Community 56 - "Recover locators with Heal"
 Cohesion: 0.20
 Nodes (9): Add and enable the module, Deterministic decision policy, History and reports, Privacy and optional providers, Recover locators with Heal, Related, Source changes and limits, Strategy and Healenium coexistence (+1 more)
 
-### Community 66 - "docs/agentic (9)"
-Cohesion: 0.12
-Nodes (16): Applications, Authentication boundary, Build from source, Connect shaft-mcp, Distribution identity, Guide search for agents, Healing failed Selenium or Playwright tests, Manual configuration (+8 more)
+### Community 57 - "Visual testing"
+Cohesion: 0.20
+Nodes (9): Add the module, Comparison engines, Dependency decision, matchesScreenshot(), Per-browser/OS baseline naming, Related, Remains in `shaft-engine`, Requires `shaft-visual` (+1 more)
 
-### Community 67 - "docs/reference (9)"
-Cohesion: 0.22
-Nodes (8): Best Practices, Complete Test Example, Custom Device Emulation, Overview, Popular Preset Device Names, Preset Device Emulation, Related, Via Properties File
+### Community 58 - "Repository history rewrite"
+Cohesion: 0.20
+Nodes (9): Chosen Flattening Mode, Execute Local Rewrite, Goal, Maintainer Cutover Procedure (Force Push), Pre-Cutover Inputs, Repository history rewrite, Retention / Removal Policy, Rollback Plan (+1 more)
 
-### Community 68 - "docs/archive (9)"
-Cohesion: 0.22
-Nodes (8): Immutable provenance, Publication inventory, Rollback, Secrets and variables, SHAFT MCP History Import, Source repository state, Tags and releases, Verification
+### Community 59 - "🚀 SHAFT_Engine Now Supports Swagger/OpenAPI Contract Validation!"
+Cohesion: 0.20
+Nodes (9): 🔧 How to Enable It, 🧪 Or via Code, 📄 Sample Test, Say goodbye to manual schema checks—contract testing is now automated and built right into SHAFT!, 🚀 SHAFT_Engine Now Supports Swagger/OpenAPI Contract Validation!, 📂 Via `custom.properties`, ✅ What Gets Validated?, 🛡️ What is Contract Validation? (+1 more)
 
-### Community 69 - "docs/reference (9)"
-Cohesion: 0.22
-Nodes (8): Additional Resources, Basic Usage, Complete Example: Registration Form, Overview, Parallel Click and Screenshot, Parallel Form Fill, Synchronisation Methods, When to Use Async vs. Synchronous Actions
-
-### Community 70 - "docs/reference (9)"
-Cohesion: 0.22
-Nodes (9): 1. ID, 2. Name, 3. Class Name, 4. Tag Name, 5. CSS Selector, 6. XPath, 7. Link Text, 8. Partial Link Text (+1 more)
-
-### Community 72 - "docs/reference (8)"
-Cohesion: 0.25
-Nodes (8): 1. Organize Test Data Files, 2. Separate Test Data from Test Logic, 3. Use Meaningful Names, 4. Version Control Your Test Data, 5. Handle Sensitive Data Securely, 6. Keep Test Data Clean, 7. Load Test Data Efficiently, Best Practices for Test Data Management
-
-### Community 73 - "blog/2026-03-31-release-10.1.20260331.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, New Contributors, ⚡ What Changed?, What's Changed
-
-### Community 74 - "blog/2026-06-05-release-10.2.20260605.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT_ENGINE 10.2.20260605, ⚡ What Changed?, What's Changed
-
-### Community 75 - "blog/2026-06-10-release-10.2.20260610.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260610, ⚡ What Changed?, What's Changed
-
-### Community 76 - "blog/2026-06-12-release-10.2.20260612.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260612, ⚡ What Changed?, What's Changed
-
-### Community 77 - "blog/2026-06-14-release-10.2.20260614.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260614, ⚡ What Changed?, What's Changed
-
-### Community 78 - "blog/2026-06-15-release-10.2.20260615.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260615, ⚡ What Changed?, What's Changed
-
-### Community 79 - "blog/2026-06-17-release-10.2.20260617.md (8)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260617, ⚡ What Changed?, What's Changed
-
-### Community 80 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (8): analyzeWithIgnoredRules, assertAccessibilityScoreAtLeast, assertNoCriticalViolations, Available Methods, Complete Example, Enabling axe-core, Related, When to Use
-
-### Community 81 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (8): Available Actions, Click and Screenshot, Complete Test Example, Examples, Parallel Form Fill, Related, Synchronizing Async Actions, When to Use Async Actions
-
-### Community 82 - "docs/reference (8)"
+### Community 60 - "Connection_Strings.md"
 Cohesion: 0.20
 Nodes (9): Best Practices, Combining Multiple Parameters, Common JDBC Parameters, Configuration, Connection Management, Connection Parameters Reference, JDBC Connection Strings, Related (+1 more)
 
-### Community 83 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (3): Accessing Alert Actions, Complete Example, Related
+### Community 61 - "Browser_Actions.md"
+Cohesion: 0.20
+Nodes (9): Accessibility Testing, Auto-load storage state on driver init, Fluent Chaining, Getting Started, Related, Storage State, Wait Actions, Wait for a page condition (+1 more)
 
-### Community 84 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (8): Assistant, IntelliJ IDEA plugin, Onboarding recording notes, Publishing, Record in Java code, Related, Tool window, Workflows
+### Community 62 - "Element_Identification.md"
+Cohesion: 0.20
+Nodes (9): Best Practices, Combining Techniques, Cross-Platform Locators (Android and iOS), Dynamic Locators, Example: Element in IFrame with SHAFT Locator Builder, Example: Relative Locator for Element in Shadow DOM, Overview, Related (+1 more)
 
-### Community 85 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (8): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, New Contributors, SHAFT 10.2.20260627, ⚡ What Changed?, What's Changed
-
-### Community 86 - "docs/reference (8)"
-Cohesion: 0.22
-Nodes (8): Anonymous / Inline Style, Base Class with Inheritance, Best Practices, Combining Patterns, Fluent Page Object (Method Chaining), Page Object Model (POM), Pattern Comparison, Related
-
-### Community 87 - "docs/maintainers (8)"
+### Community 63 - "package.json"
 Cohesion: 0.25
-Nodes (7): Aggregate coverage continuity, Common commands, Consumer usage, Dependency baseline fixtures, GitHub Actions reactor policy, Maven reactor layout, Modules
+Nodes (7): engines, node, license, name, packageManager, private, version
 
-### Community 88 - "package.json (8)"
-Cohesion: 0.25
-Nodes (8): devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @playwright/test, @types/react, @types/react-dom, typescript
-
-### Community 89 - "docs/reference (8)"
+### Community 64 - "Root.tsx"
 Cohesion: 0.22
-Nodes (8): Behaviour Flags, Complete Example, Dynamic Configuration Use Case, Reading Current Values, Related, Timeout Properties, Visual Reporting Properties, Web / Browser Properties
+Nodes (4): Message, HASH_SCROLL_RETRY_DELAYS_MS, LazyAutoBot, USER_SCROLL_INTENT_EVENTS
 
-### Community 90 - "docs/archive (8)"
+### Community 65 - "Design draft: redesigned custom-properties generator (issue #3717)"
+Cohesion: 0.22
+Nodes (8): 1. Problem recap, 2. Source of truth (fixes problem 1), 3. Where it lives (fixes problem 2), 4. Layout (BrowserStack-grade UX), 5. Correctness fix carried along, 6. Responsive behavior, 7. Explicitly out of scope for this pass, Design draft: redesigned custom-properties generator (issue #3717)
+
+### Community 66 - "SHAFT MCP History Import"
+Cohesion: 0.22
+Nodes (8): Immutable provenance, Publication inventory, Rollback, Secrets and variables, SHAFT MCP History Import, Source repository state, Tags and releases, Verification
+
+### Community 67 - "Docker_Terminal.md"
+Cohesion: 0.22
+Nodes (8): Best Practices, Combining Docker Terminal with SHAFT.API, Create a Docker Terminal, Execute Commands, Multiple Commands in Sequence, Prerequisites, Related, Single Command
+
+### Community 68 - "Gradle Setup"
 Cohesion: 0.22
 Nodes (9): Gradle Setup, Maven Setup, Method 1: Add to Local Repository, Method 1: Install to Local Maven Repository (Recommended), Method 2: File Dependency, Method 2: System Scope Dependency, Method 3: Using Oracle Maven Repository, Method 3: Using Oracle Maven Repository (+1 more)
 
-### Community 91 - "tests/release-blog-template.test.js (8)"
+### Community 69 - "Alert_Actions.md"
+Cohesion: 0.22
+Nodes (3): Accessing Alert Actions, Complete Example, Related
+
+### Community 70 - "Async_Element_Actions.md"
+Cohesion: 0.22
+Nodes (8): Basic Usage, Complete Example: Registration Form, Overview, Parallel Click and Screenshot, Parallel Form Fill, Related, Synchronisation Methods, When to Use Async vs. Synchronous Actions
+
+### Community 71 - "Cookies"
+Cohesion: 0.22
+Nodes (9): Add Cookie, Cookies, Delete All Cookies, Delete Cookie, Get All Cookies, Get Cookie, Get Cookie Domain, Get Cookie Path (+1 more)
+
+### Community 72 - "Window Management"
+Cohesion: 0.22
+Nodes (9): Close Current Window, Full Screen Window, Get Page Source, Get Window Size, Get Window Title, Maximize Window, Resize Window, Switch Windows or Tabs (+1 more)
+
+### Community 74 - "Supported Locator Types"
+Cohesion: 0.22
+Nodes (9): 1. ID, 2. Name, 3. Class Name, 4. Tag Name, 5. CSS Selector, 6. XPath, 7. Link Text, 8. Partial Link Text (+1 more)
+
+### Community 75 - "Solution_Design.md"
+Cohesion: 0.22
+Nodes (8): Anonymous / Inline Style, Base Class with Inheritance, Best Practices, Combining Patterns, Fluent Page Object (Method Chaining), Page Object Model (POM), Pattern Comparison, Related
+
+### Community 76 - "Programmatic_Config.md"
+Cohesion: 0.22
+Nodes (8): Behaviour Flags, Complete Example, Dynamic Configuration Use Case, Reading Current Values, Related, Timeout Properties, Visual Reporting Properties, Web / Browser Properties
+
+### Community 77 - "How SHAFT reduces flakiness"
+Cohesion: 0.22
+Nodes (8): Automatic Synchronization, Flake Profiler, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
+
+### Community 78 - "PropertiesGenerator/index.tsx"
+Cohesion: 0.36
+Nodes (8): buildPropertiesFile(), catalog, PropertiesGenerator(), PropertyDefinition, PropertyType, sanitizeValue(), selectOptions(), targetPath()
+
+### Community 79 - "properties-list-coverage.test.js"
+Cohesion: 0.22
+Nodes (7): catalog, EXCLUSIONS, fs, mdx, MDX_PATH, missing, path
+
+### Community 80 - "SHAFT 10.3.20260702"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260702, ⚡ What Changed?, What's Changed
+
+### Community 81 - "SHAFT 10.3.20260703"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260703, ⚡ What Changed?, What's Changed
+
+### Community 82 - "SHAFT 10.3.20260705"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260705, ⚡ What Changed?, What's Changed
+
+### Community 83 - "SHAFT 10.3.20260707"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260707, ⚡ What Changed?, What's Changed
+
+### Community 84 - "SHAFT 10.3.20260708"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260708, ⚡ What Changed?, What's Changed
+
+### Community 85 - "SHAFT 10.2.20260627"
+Cohesion: 0.22
+Nodes (8): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, New Contributors, SHAFT 10.2.20260627, ⚡ What Changed?, What's Changed
+
+### Community 86 - "SHAFT 10.3.20260709"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260709, ⚡ What Changed?, What's Changed
+
+### Community 87 - "SHAFT 10.3.20260710"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260710, ⚡ What Changed?, What's Changed
+
+### Community 88 - "devDependencies"
+Cohesion: 0.13
+Nodes (15): @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @playwright/test (+7 more)
+
+### Community 89 - "SHAFT 10.3.20260711"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260711, ⚡ What Changed?, What's Changed
+
+### Community 90 - "SHAFT 10.3.20260712"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260712, ⚡ What Changed?, What's Changed
+
+### Community 91 - "release-blog-template.test.js"
 Cohesion: 0.25
 Nodes (4): { execFileSync }, fs, os, path
 
-### Community 92 - "tsconfig.json (8)"
+### Community 92 - "compilerOptions"
+Cohesion: 0.08
+Nodes (23): ./*, build, .docusaurus, DOM, ES2022, node_modules/@docusaurus/module-type-aliases/src/index.d.ts, node_modules/@docusaurus/theme-classic/src/theme-classic.d.ts, src/**/*.ts (+15 more)
+
+### Community 93 - "SHAFT 10.3.20260713"
 Cohesion: 0.25
-Nodes (7): compilerOptions, baseUrl, ignoreDeprecations, noEmit, exclude, extends, include
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260713, ⚡ What Changed?, What's Changed
 
-### Community 93 - "docs/reference (7)"
-Cohesion: 0.29
-Nodes (7): Advantages of Excel, Best Practices for Excel, Creating an Excel Test Data File, Data-Driven Testing with Excel, Excel Test Data, Using Excel Test Data, Working with Multiple Sheets
-
-### Community 94 - "docs/agentic (7)"
+### Community 94 - "SHAFT 10.3.20260714"
 Cohesion: 0.25
-Nodes (7): Deterministic TestNG generation, Format, Lifecycle, Managed browser recording, Privacy boundary, Record tests with Capture, Related
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260714, ⚡ What Changed?, What's Changed
 
-### Community 95 - "docs/reference (7)"
+### Community 95 - "SHAFT 10.3.20260715"
 Cohesion: 0.25
-Nodes (7): Asserting with SHAFT Validations, Complete Test Example, Query with Authentication Header, Query with Fragment, Query with Variables, Related, Simple Query
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260715, ⚡ What Changed?, What's Changed
 
-### Community 97 - "blog/2023-01-24-selenium-ecosystem.md (7)"
+### Community 96 - "SHAFT 10.3.20260716"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260716, ⚡ What Changed?, What's Changed
+
+### Community 97 - "<b>SHAFT_Engine</b> is now a part of the <a href="https://www.selenium.dev/ecosystem/">Selenium Ecosystem!</a> 🎉🎉"
 Cohesion: 0.29
 Nodes (6): <b>SHAFT_Engine</b> is now a part of the <a href="https://www.selenium.dev/ecosystem/">Selenium Ecosystem!</a> 🎉🎉, What are some other members of the Selenium Ecosystem?, What does being a member of the Selenium Ecosystem mean for SHAFT_Engine?, What is the Selenium Ecosystem?, Why use a framework that's part of the Selenium Ecosystem?, Why use SHAFT_Engine?
 
-### Community 98 - "blog/2024-01-27-virtual-threads-release.md (7)"
+### Community 98 - "<b>SHAFT_Engine</b> is introducing Virtual Threads for Everyday Tasks 🎉🎉"
 Cohesion: 0.29
 Nodes (6): <b>SHAFT_Engine</b> is introducing Virtual Threads for Everyday Tasks 🎉🎉, Now let's think of test automation. In automating a registration form, envision employing a crew of virtual threads as tiny helpers :, - Save your execution Time :, - SHAFT_ENGINE, your trusty automation solution, just got a major upgrade with virtual threads, a clever trick that makes it more efficient and helpful than ever., - The future of automation frameworks is here, and it's all about working smarter, not harder., - What is a Virtual Thread?
 
-### Community 99 - "blog/2026-03-24-release-10.1.20260324.md (7)"
-Cohesion: 0.29
-Nodes (6): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, ⚡ What Changed?, What's Changed
+### Community 99 - "SHAFT 10.3.20260717"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260717, ⚡ What Changed?, What's Changed
 
-### Community 100 - "docs/reference (7)"
+### Community 100 - "SHAFT 10.3.20260719"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260719, ⚡ What Changed?, What's Changed
+
+### Community 101 - "SHAFT 10.3.20260722"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260722, ⚡ What Changed?, What's Changed
+
+### Community 102 - "SHAFT 10.3.20260727"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260727, ⚡ What Changed?, What's Changed
+
+### Community 103 - "shaft-cli command line"
+Cohesion: 0.25
+Nodes (7): Commands, Examples, Exit codes, Install, Modes, Related, shaft-cli command line
+
+### Community 104 - "Architecture"
+Cohesion: 0.25
+Nodes (7): Architecture, Facade architecture, Module guides, Optional provider discovery, Published Maven artifacts, Related, Where SHAFT fits in a test automation stack
+
+### Community 105 - "Reporting and evidence"
+Cohesion: 0.25
+Nodes (7): Execution logs, Failure briefs and attachment manifest, Failure diagnostics bundle, Flake and auto-wait profiler, Locator health reports, Related, Reporting and evidence
+
+### Community 106 - "Maven reactor layout"
+Cohesion: 0.25
+Nodes (7): Aggregate coverage continuity, Common commands, Consumer usage, Dependency baseline fixtures, GitHub Actions reactor policy, Maven reactor layout, Modules
+
+### Community 107 - "GraphQL_Testing.md"
+Cohesion: 0.25
+Nodes (7): Asserting with SHAFT Validations, Complete Test Example, Query with Authentication Header, Query with Fragment, Query with Variables, Related, Simple Query
+
+### Community 108 - "Navigation"
+Cohesion: 0.25
+Nodes (8): Get Current URL, Navigate Back, Navigate Forward, Navigate to URL, Navigate to URL in a New Tab or Window, Navigate to URL with Basic Authentication, Navigation, Refresh Page
+
+### Community 109 - "Locators_And_Self_Healing.md"
+Cohesion: 0.25
+Nodes (7): ARIA role-based locators {/* #aria-locators */}, iFrame handling {/* #iframe-handling */}, Related, Self-healing locators {/* #self-healing-locators */}, Shadow DOM locator builder {/* #shadow-dom-locator-builder */}, SHAFT Locator Builder {/* #shaft-locator-builder */}, Smart locators {/* #smart-locators */}
+
+### Community 110 - "Best Practices for Test Data Management"
+Cohesion: 0.25
+Nodes (8): 1. Organize Test Data Files, 2. Separate Test Data from Test Logic, 3. Use Meaningful Names, 4. Version Control Your Test Data, 5. Handle Sensitive Data Securely, 6. Keep Test Data Clean, 7. Load Test Data Efficiently, Best Practices for Test Data Management
+
+### Community 111 - "mobileConfig.md"
 Cohesion: 0.25
 Nodes (7): Android Native App, BrowserStack Native Apps, Common Properties (Android & iOS), iOS Native App, Mobile Web (Browser on Device), Related, SHAFT MCP Mobile Automation
 
-### Community 101 - "docs/reference (7)"
-Cohesion: 0.40
-Nodes (4): Example Configuration, Integrate JIRA With SHAFT Engine, Related, Steps
-
-### Community 103 - "docs/archive (7)"
-Cohesion: 0.29
-Nodes (6): Access limitation, Implementation started, Investigate E2E test failures from GitHub Actions run 25572054507, Plan, Public findings, Run details
-
-### Community 104 - "docs/archive (7)"
-Cohesion: 0.29
-Nodes (6): Acceptance Criteria, Notes for Reviewers, Problem Statement, Proposed Solution, Scope, Ticket: Agent Knowledge Migration and Instruction Consolidation
-
-### Community 105 - "docs/reference (7)"
+### Community 112 - "Cross_Platform_Strategy.md"
 Cohesion: 0.25
-Nodes (7): Custom Capabilities, Example, Native Selenium WebDriver, Related, Shadow DOM Locator Builder, SHAFT Locator Builder, Using Cookies in Your Tests
-
-### Community 106 - "docs/reference (7)"
-Cohesion: 0.18
-Nodes (8): Additional Resources, Best Practices, Combining Techniques, Complete Example, Example: Element in IFrame with SHAFT Locator Builder, Example: Relative Locator for Element in Shadow DOM, Overview, Smart Locators
-
-### Community 107 - "docs/reference (7)"
-Cohesion: 0.29
-Nodes (7): Basic IFrame Handling, Complete IFrame Example, Example: Text Editor in IFrame, IFrame Best Practices, IFrame Switching by Index, Interacting with IFrames, Nested IFrames
-
-### Community 108 - "docs/reference (7)"
-Cohesion: 0.12
-Nodes (14): Decision Guide, How It Works, Recommended Approach, Related, Same Project: When and Why, Separate Projects: When and Why, Shared Utilities as a Library, Best Practices Summary (+6 more)
-
-### Community 110 - "docs/reference (7)"
-Cohesion: 0.25
-Nodes (7): Best Practices, Related, Test Cases: Isolated and Independent, Test Scenarios: Dependent Steps, What `priority` Is Good For, When to Use Each Approach, Why Not Use `priority`?
-
-### Community 111 - "docs/maintainers (7)"
-Cohesion: 0.29
-Nodes (6): Deterministic gate, Distribution verification, Release-candidate matrix, Rollback, SHAFT Pilot release, Standalone repository migration
-
-### Community 112 - "src/components (7)"
-Cohesion: 0.29
-Nodes (5): ConnectionLine, Particle, ParticleBackgroundProps, ParticleWorkerCommand, ParticleWorkerFrame
+Nodes (7): Decision Guide, How It Works, Recommended Approach, Related, Same Project: When and Why, Separate Projects: When and Why, Shared Utilities as a Library
 
 ### Community 113 - "tests/chatbot-api.test.js (7)"
 Cohesion: 0.38
 Nodes (6): { GoogleGenAI }, MODELS_TO_TEST, runTests(), TEST_QUERIES, testModelAvailability(), testResponseRelevance()
 
-### Community 114 - "tests/homepage-performance.test.js (7)"
-Cohesion: 0.29
-Nodes (5): customStyles, fs, index, path, styles
+### Community 114 - "homepage-performance.test.js"
+Cohesion: 0.12
+Nodes (13): codeTokenClasses, codeTokenColors, customStyles, fs, githubFooterLinkMatch, heroButtonRuleMatch, index, particleBackground (+5 more)
 
-### Community 115 - "docs/reference (7)"
+### Community 115 - "Test_Structure.md"
 Cohesion: 0.25
-Nodes (5): Complete Example, Creating a JSON Schema File, Related, Schema for a List Response, Why JSON Schema Validation?
+Nodes (7): Best Practices, Related, Test Cases: Isolated and Independent, Test Scenarios: Dependent Steps, What `priority` Is Good For, When to Use Each Approach, Why Not Use `priority`?
 
-### Community 117 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (5): Comparison of Test Data Formats, Overview, Related Documentation, Summary, Why Use External Test Data?
+### Community 116 - "2026-03-31-release-10.1.20260331.md"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, New Contributors, ⚡ What Changed?, What's Changed
 
-### Community 118 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Advantages of CSV, Best Practices for CSV, Creating a CSV Test Data File, CSV Test Data, Data-Driven Testing with CSV, Using CSV Test Data
-
-### Community 119 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Advantages of JSON, Best Practices for JSON, Creating a JSON Test Data File, JSON Test Data, JSON with Arrays, Using JSON Test Data
-
-### Community 120 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Advantages of Properties Files, Best Practices for Properties, Creating a Properties Test Data File, Environment-Specific Properties, Properties Test Data, Using Properties Test Data
-
-### Community 121 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Advantages of YAML, Best Practices for YAML, Creating a YAML Test Data File, Type-Safe Getters, Using YAML Test Data, YAML Test Data
-
-### Community 122 - "docs/agentic (6)"
-Cohesion: 0.29
-Nodes (6): No-AI Capture to TestNG, No-AI Doctor analysis, Optional local Ollama advisory, Pilot examples, Related, Reviewed repair proposal
-
-### Community 123 - "docs/agentic (6)"
+### Community 117 - "Optional AI providers"
 Cohesion: 0.29
 Nodes (6): Approval and evidence, Direct providers and external agents, Example, Optional AI providers, Related, Safe defaults
 
-### Community 124 - "AGENTS.md (6)"
-Cohesion: 0.33
-Nodes (4): Content, Defaults, Graphify, Validation
-
-### Community 125 - "docs/reference (6)"
+### Community 118 - "Investigate E2E test failures from GitHub Actions run 25572054507"
 Cohesion: 0.29
-Nodes (6): Base URL and Timeouts, Proxy, Related, Reliability & Retries, Target Browser, Visual Reporting
+Nodes (6): Access limitation, Implementation started, Investigate E2E test failures from GitHub Actions run 25572054507, Plan, Public findings, Run details
 
-### Community 126 - "docs/reference (6)"
+### Community 119 - "Ticket: Agent Knowledge Migration and Instruction Consolidation"
 Cohesion: 0.29
-Nodes (6): Automatic Status Code Check, Connection & Timeouts, Proxy, Related, Swagger / OpenAPI Contract Validation, Test Retries
+Nodes (6): Acceptance Criteria, Notes for Reviewers, Problem Statement, Proposed Solution, Scope, Ticket: Agent Knowledge Migration and Instruction Consolidation
 
-### Community 127 - "docs/reference (6)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260628, ⚡ What Changed?, What's Changed
-
-### Community 128 - "docs/reference (6)"
-Cohesion: 0.29
-Nodes (5): Common Use Cases, Complete Example: Payment Form, Full Test Example, Related, switchToIframe(By locator)
-
-### Community 129 - "docs/features (6)"
-Cohesion: 0.29
-Nodes (6): Architecture, Facade architecture, Module guides, Optional provider discovery, Published Maven artifacts, Related
-
-### Community 130 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Available Axes, Example: Locate Input via Associated Label, Example: Navigate to a Child Element, Example: Navigate to an Ancestor, Example: Preceding Sibling, XPath Axis Navigation
-
-### Community 131 - "docs/reference (6)"
-Cohesion: 0.33
-Nodes (6): Available Relative Locator Methods, Combining Relative Locators, Example: Login Form, Example: Product Grid, Relative (Location-Based) Locators, Using Relative Locators with SHAFT
-
-### Community 132 - "docs/reference (6)"
-Cohesion: 0.32
-Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
-
-### Community 133 - "docs/reference (6)"
-Cohesion: 0.29
-Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
-
-### Community 134 - "docs/reference (6)"
-Cohesion: 0.29
-Nodes (6): Best Practices, Chaining Actions with Validations, How It Works, Related, Switching Between Action Types, Why Fluent Design?
-
-### Community 135 - "docs/integrations (6)"
-Cohesion: 0.29
-Nodes (6): Add the module, Dependency decision, Related, Remains in `shaft-engine`, Requires `shaft-visual`, Visual testing
-
-### Community 136 - "docs/maintainers (6)"
-Cohesion: 0.33
-Nodes (5): Agent guidance maintenance, Audit, Goal, Ownership, Update Rules
-
-### Community 137 - "docs/maintainers (6)"
-Cohesion: 0.33
-Nodes (5): 1. Start from authenticated GitHub metadata, 2. Traverse SHAFT single-file Allure artifacts quickly, 3. Separate test defects from environment/provider defects, 4. PR authorship and title hygiene for agent-created work, CI failure and Allure artifact investigation
-
-### Community 138 - "docs/maintainers (6)"
-Cohesion: 0.33
-Nodes (5): Atomic release order, Disposable dry run, Failure and rollback behavior, Maven Central publication contract, Public artifact set
-
-### Community 139 - "docs/maintainers (6)"
-Cohesion: 0.29
-Nodes (6): Content changes, Documentation site operations, Egypt accessibility, Local development, Search and AutoBot, Validation
-
-### Community 141 - "scripts/check-doc-duplicates.mjs (6)"
-Cohesion: 0.33
-Nodes (4): blocks, canonicalDirectories, duplicates, root
-
-### Community 142 - "docs/reference (6)"
-Cohesion: 0.17
-Nodes (8): Eager execution, Related, Assertions vs. Verifications, Driver-Based Validations, Related, Standalone Validations, Supported Validation Targets, Usage Patterns
-
-### Community 143 - "docs/reference (6)"
-Cohesion: 0.29
-Nodes (4): Comparison, Complete Example, Related, Standalone Validations
-
-### Community 144 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (5): Common Use Cases, Use Case 1: Multi-Language Testing, Use Case 2: Cross-Browser Testing with Test Data, Use Case 3: API Testing with JSON Test Data, Use Case 4: Database Testing with Properties
-
-### Community 145 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (5): CSV Encoding Issues, Excel File Locked, File Not Found, Invalid JSON Format, Troubleshooting
-
-### Community 146 - "static/img (5)"
-Cohesion: 0.16
-Nodes (17): addOptionalDependencies(), checkedModules(), defaultArtifactId(), escapeXml(), fallbackProjects, fetchJson(), fetchText(), GitHubItem (+9 more)
-
-### Community 147 - "docs/reference (5)"
-Cohesion: 0.18
-Nodes (10): Advanced Predicate API, Complete Example, Failure Trace Observability, Mock Responses, Network Profiles, Record and Replay Contracts, Related, Request Matchers (+2 more)
-
-### Community 148 - "docs/reference (5)"
-Cohesion: 0.29
-Nodes (7): Browser Not Found, Grid Not Accessible, Nodes Not Registering with Hub, Out of Memory Errors, Session Creation Timeout, Tests Running on Wrong Browser, Troubleshooting
-
-### Community 150 - "docs/archive (5)"
-Cohesion: 0.40
-Nodes (4): CI Coverage Readiness Workflow, Credentials and permissions needed to trigger and monitor workflows, Manual dispatch inputs, What it runs
-
-### Community 151 - "docs/archive (5)"
-Cohesion: 0.40
-Nodes (4): Maintainer Preservation Check, Notes, Repository History Rewrite Validation (Temporary Clone), Results
-
-### Community 152 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (5): Attribute-Based Methods, Chaining Methods, SHAFT Locator Builder Methods, Tag-Based Methods, Text-Based Methods
-
-### Community 153 - "docs/reference (5)"
-Cohesion: 0.40
-Nodes (5): Complete Shadow DOM Example, Interacting with Shadow DOM, Locating Shadow DOM Elements, Nested Shadow DOM, What is Shadow DOM?
-
-### Community 154 - "docs/reference (5)"
-Cohesion: 0.29
-Nodes (6): Class-Level Driver (Shared Instance), JUnit vs TestNG Comparison, Maven Dependency, Related, Runtime Registration, Test Class Structure
-
-### Community 155 - "docs/integrations (5)"
-Cohesion: 0.33
-Nodes (5): BrowserStack, Direct session or SDK orchestration?, Related, Requires `shaft-browserstack`, Works with `shaft-engine` only
-
-### Community 156 - "docs/maintainers (5)"
-Cohesion: 0.40
-Nodes (4): Local container check, MCP publication and deployment, Optional hosted deployments, Publication flow
-
-### Community 157 - "docs/reference (5)"
-Cohesion: 0.33
-Nodes (5): CLI-based, Code-based, File-based, Priority Hierarchy, Related
-
-### Community 158 - "README.md (5)"
-Cohesion: 0.40
-Nodes (5): Common Use Cases, Database Seed / Cleanup via Container, Read a Generated File from the Container, Validate Application State Inside a Container, Verify a Log File
-
-### Community 159 - "scripts/prune-search-index.mjs (5)"
-Cohesion: 0.40
-Nodes (4): buildDirectory, excludedPrefixes, files, root
-
-### Community 160 - "docs/start (5)"
-Cohesion: 0.33
-Nodes (5): Create a new project, Install SHAFT, Related, Requirements, Upgrade an existing project
-
-### Community 161 - "docs/start (5)"
-Cohesion: 0.33
-Nodes (5): Choose your path, One engine. Every test surface., Related, Start in 90 seconds, Why teams use SHAFT
-
-### Community 163 - "blog/2023-02-12-self-managed-appium-execution.md (4)"
-Cohesion: 0.50
-Nodes (3): <b>SHAFT_Engine</b> will now manage its own Appium Execution Environment 🎉🎉, [Watch the demo and explore the code ⮊](https://youtu.be/JFuu9qyEgNM), What is self-managed appium execution?
-
-### Community 164 - "blog/2023-03-10-release_announcement.md (4)"
-Cohesion: 0.50
-Nodes (3): [7.1.20230309](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/7.1.20230309); Our first release after implementing fully automated continuous releases is out!, Release highlights:, Technical Details:
-
-### Community 165 - "docs/reference (4)"
-Cohesion: 0.40
-Nodes (4): Accessing the Native Selenium WebDriver, Related, Why Wrap a Driver?, Wrapping an Existing WebDriver Instance
-
-### Community 167 - "docs/archive (4)"
-Cohesion: 0.50
-Nodes (3): MILESTONE 1 REACHED || Initial Implementation Success, MILESTONE 2 REACHED || Extended Implementation Success, MILESTONE 3 REACHED || All Requirements Implemented Successfully with several enhancements
-
-### Community 168 - "docs/features (4)"
-Cohesion: 0.40
-Nodes (4): Partners and adopters, Related, Reported adoption, Sponsors
-
-### Community 169 - "docs/reference (4)"
-Cohesion: 0.50
-Nodes (4): ARIA Role-Based Locators, Available Roles, Example: Locate by Role, Example: Role + Additional Conditions
-
-### Community 170 - "docs/reference (4)"
-Cohesion: 0.40
-Nodes (5): Check Remote Disk Space Before Tests, Collect Remote Logs as Test Evidence, Common Use Cases, Trigger Remote Scripts, Verify Server State After Deployment
-
-### Community 171 - "docs/reference (4)"
-Cohesion: 0.50
-Nodes (4): Example 1: Simple Button, Example 2: Complex Element, Example 3: Element with Text, Traditional Locators vs. SHAFT Locator Builder
-
-### Community 172 - "docs/maintainers (4)"
-Cohesion: 0.50
-Nodes (3): Discovery contract, Operation inventory, Visual-processing provider boundary
-
-### Community 173 - "package.json (4)"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260620, ⚡ What Changed?, What's Changed
-
-### Community 174 - "package.json (4)"
-Cohesion: 0.50
-Nodes (4): resolutions, minimatch, node-forge, serialize-javascript
-
-### Community 175 - "tests/chat-history.test.js (4)"
-Cohesion: 0.67
-Nodes (3): buildChatHistory(), success, testChatHistoryFiltering()
-
-### Community 177 - "docs/reference (4)"
-Cohesion: 0.40
-Nodes (4): attribute(), Related, Validate Browser Title, Validate Browser URL
-
-### Community 178 - "docs/reference (4)"
-Cohesion: 0.40
-Nodes (5): Connection String Builder, Custom Connection String Patterns, Environment Variables, Multiple Database Connections, Using Properties File
-
-### Community 180 - "docs/features (3)"
-Cohesion: 0.25
-Nodes (7): Execution logs, Failure briefs and attachment manifest, Failure diagnostics bundle, Flake and auto-wait profiler, Locator health reports, Related, Reporting and evidence
-
-### Community 184 - "docs/reference (2)"
-Cohesion: 0.40
-Nodes (4): API login to browser session, Browser login to API session, Manual cookie reuse, Related
-
-### Community 192 - "Community 192"
+### Community 120 - "Pillars of successful test automation"
 Cohesion: 0.29
 Nodes (6): Choosing Features By Pillar, Maintainability, Pillars of successful test automation, Related, Reliability, Scalability
 
-### Community 193 - "docs/reference (2)"
-Cohesion: 0.40
-Nodes (4): I want to..., Reference, Reference areas, Related
+### Community 121 - "SHAFT Pilot release"
+Cohesion: 0.29
+Nodes (6): Deterministic gate, Distribution verification, Release-candidate matrix, Rollback, SHAFT Pilot release, Standalone repository migration
 
-### Community 196 - "docs/testing (2)"
-Cohesion: 0.40
-Nodes (4): API testing, First useful next steps, Related, Run and inspect evidence
+### Community 122 - "Documentation site operations"
+Cohesion: 0.29
+Nodes (6): Content changes, Documentation site operations, Egypt accessibility, Local development, Search and AutoBot, Validation
 
-### Community 197 - "docs/testing (2)"
-Cohesion: 0.40
-Nodes (4): CLI testing, First useful command test, Related, Troubleshooting
+### Community 123 - "Interacting with IFrames"
+Cohesion: 0.29
+Nodes (7): Basic IFrame Handling, Complete IFrame Example, Example: Text Editor in IFrame, IFrame Best Practices, IFrame Switching by Index, Interacting with IFrames, Nested IFrames
 
-### Community 198 - "docs/testing (2)"
-Cohesion: 0.40
-Nodes (4): Choose the next reference, Database testing, First useful query test, Related
+### Community 124 - "AGENTS.md"
+Cohesion: 0.29
+Nodes (5): Accessibility, Content, Defaults, Graphify, Validation
 
-### Community 199 - "docs/testing (2)"
-Cohesion: 0.33
-Nodes (5): Locator strategy, Playwright backend, Related, Run and inspect evidence, Web testing
+### Community 125 - "Excel Test Data"
+Cohesion: 0.29
+Nodes (7): Advantages of Excel, Best Practices for Excel, Creating an Excel Test Data File, Data-Driven Testing with Excel, Excel Test Data, Using Excel Test Data, Working with Multiple Sheets
 
-### Community 201 - "blog/2023-04-27-bingAI.md (1)"
-Cohesion: 0.14
-Nodes (13): Implementation Tasks, Story 10: Add a Star-Worthy Quick Win Path, Story 1: Complete the Properties Reference, Story 2: Improve the First-Run Path, Story 3: Expand Thin Task Guides, Story 4: Refactor the Upgrade Guide for Scanning, Story 5: Turn Reference Overview Into a Real Hub, Story 6: Source-Verify Java and Version Wording (+5 more)
+### Community 126 - "apiConfig.md"
+Cohesion: 0.29
+Nodes (6): Automatic Status Code Check, Connection & Timeouts, Proxy, Related, Swagger / OpenAPI Contract Validation, Test Retries
 
-### Community 202 - "blog/authors.yml (1)"
-Cohesion: 0.31
-Nodes (6): buildPropertiesFile(), catalog, PropertyDefinition, propertyId(), sanitizeValue(), targetPath()
-
-### Community 203 - "src/data (1)"
+### Community 127 - "SHAFT 10.2.20260628"
 Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260618, ⚡ What Changed?, What's Changed
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260628, ⚡ What Changed?, What's Changed
 
-### Community 204 - "demo-output.txt (1)"
-Cohesion: 0.40
-Nodes (3): allowedTargets, catalog, seen
+### Community 128 - "webConfig.md"
+Cohesion: 0.29
+Nodes (6): Base URL and Timeouts, Proxy, Related, Reliability & Retries, Target Browser, Visual Reporting
 
-### Community 205 - "static/examples (1)"
-Cohesion: 0.20
-Nodes (6): docs, docsRoot, pillarsGuide, publicDirectories, sidebars, sidebarsPath
+### Community 129 - "Fluent_Design.md"
+Cohesion: 0.29
+Nodes (6): Best Practices, Chaining Actions with Validations, How It Works, Related, Switching Between Action Types, Why Fluent Design?
 
-### Community 209 - "Community 209"
-Cohesion: 0.15
-Nodes (11): 1. Check Out The Code, 2. Install The Toolchain, 3. Run The Site Locally, 4. Make The Change, 5. Validate The Change, 6. Open The Pull Request, Contributing To The SHAFT User Guide, Contribute (+3 more)
+### Community 130 - "JUnit_Integration.md"
+Cohesion: 0.29
+Nodes (6): Class-Level Driver (Shared Instance), JUnit vs TestNG Comparison, Maven Dependency, Related, Runtime Registration, Test Class Structure
 
-### Community 210 - "Community 210"
-Cohesion: 0.18
-Nodes (10): Accessibility And Network Parity, Assertions And Verifications, Browser Actions, Configuration, Driver, Element Actions, Mapping Tree, Native Access (+2 more)
+### Community 131 - "Sharded_Execution.md"
+Cohesion: 0.29
+Nodes (6): GitHub Actions Matrix Example, Merging Shard Blobs With ShardMergeCli, Related, Running Shards Locally, What Sharding Does, When to Use Sharding
 
-### Community 211 - "Community 211"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260621, ⚡ What Changed?, What's Changed
+### Community 132 - "run-shaft-tests.mjs"
+Cohesion: 0.32
+Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
 
-### Community 212 - "Community 212"
-Cohesion: 0.18
-Nodes (10): Allowed exceptions, Approved palette (site-wide), Code block and Mermaid constraints, Dark theme, Font weights, Light theme, PR checklist for future UI edits, SHAFT UI Design Language (+2 more)
+### Community 133 - "demo-autobot-approach.mjs"
+Cohesion: 0.29
+Nodes (6): apiDocStart, documentation, githubContext, keyTopics, sampleQuestions, startTime
 
-### Community 213 - "Community 213"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
+### Community 134 - "Install SHAFT"
+Cohesion: 0.29
+Nodes (6): Adding SHAFT to an existing Maven project, Create a new project, Install SHAFT, Related, Requirements, Upgrade an existing project
 
-### Community 214 - "Community 214"
-Cohesion: 0.40
-Nodes (4): Task 1: Guard The Requested Page, Task 2: Add The Guide, Task 3: Validate And Publish, Test Automation Pillars Guide Implementation Plan
-
-### Community 215 - "Community 215"
-Cohesion: 0.22
-Nodes (8): Accessibility Testing, Fluent Chaining, Get and Set Context, Get Context Handles, Getting Started, Mobile Context, Related, Storage State
-
-### Community 216 - "Community 216"
-Cohesion: 0.25
-Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
-
-### Community 217 - "Community 217"
-Cohesion: 0.22
-Nodes (9): Close Current Window, Full Screen Window, Get Page Source, Get Window Size, Get Window Title, Maximize Window, Resize Window, Switch Windows or Tabs (+1 more)
-
-### Community 218 - "Community 218"
-Cohesion: 0.67
-Nodes (3): browserslist, development, production
-
-### Community 219 - "Community 219"
-Cohesion: 0.22
-Nodes (8): Automatic Synchronization, Flake Profiler, How SHAFT reduces flakiness, Optional Self Healing, Related, Retry With Evidence, Semantic Locators, What To Use First
-
-### Community 220 - "Community 220"
-Cohesion: 0.25
-Nodes (8): Get Current URL, Navigate Back, Navigate Forward, Navigate to URL, Navigate to URL in a New Tab or Window, Navigate to URL with Basic Authentication, Navigation, Refresh Page
-
-### Community 223 - "Community 223"
-Cohesion: 0.40
-Nodes (5): Wait Actions, Wait for Lazy Loading, Wait Until Number of Windows, Wait Until Title Is, Wait Until URL Matches
-
-### Community 224 - "Community 224"
-Cohesion: 0.40
-Nodes (5): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Record, Replay, and Validate Contracts, Validate Intercepted Responses
-
-### Community 225 - "Community 225"
-Cohesion: 0.40
-Nodes (5): Advanced Usage, Auto-Close with Try-With-Resources, Parameterized Queries (Prevent SQL Injection), Stored Procedures, Transaction Management
-
-### Community 227 - "Community 227"
-Cohesion: 0.20
-Nodes (14): buildDocumentationIndex(), currentDir, EXCLUDED_DIRECTORIES, loadDocumentation(), MCP_COMMAND_SYSTEMS, normalizeMarkdown(), readDocumentationFiles(), retrieveDocumentation() (+6 more)
-
-### Community 229 - "Community 229"
-Cohesion: 0.40
-Nodes (5): Basic Oracle Connection, Oracle RAC (Real Application Clusters), Oracle with Service Name, Oracle with TNS Name, Step 4: Common Connection Examples
-
-### Community 230 - "Community 230"
-Cohesion: 0.40
-Nodes (5): ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Network Adapter Error, SQLException: Listener refused the connection, SQLException: ORA-12505, TNS:listener does not currently know of SID, Troubleshooting
-
-### Community 232 - "Community 232"
+### Community 135 - "UI and API contract replay"
 Cohesion: 0.29
 Nodes (6): Assert or verify live traffic, Record a contract, Redaction and normalization, Related, Replay browser responses, UI and API contract replay
 
-### Community 233 - "Community 233"
+### Community 136 - "overrides"
+Cohesion: 0.29
+Nodes (7): overrides, minimatch, node-forge, qs, serialize-javascript, sockjs, uuid
+
+### Community 137 - "BrowserStack"
+Cohesion: 0.33
+Nodes (5): BrowserStack, Direct session or SDK orchestration?, Related, Requires `shaft-browserstack`, Works with `shaft-engine` only
+
+### Community 138 - "Agent guidance maintenance"
+Cohesion: 0.33
+Nodes (5): Agent guidance maintenance, Audit, Goal, Ownership, Update Rules
+
+### Community 139 - "CI failure and Allure artifact investigation"
+Cohesion: 0.33
+Nodes (5): 1. Start from authenticated GitHub metadata, 2. Traverse SHAFT single-file Allure artifacts quickly, 3. Separate test defects from environment/provider defects, 4. PR authorship and title hygiene for agent-created work, CI failure and Allure artifact investigation
+
+### Community 140 - "Maven Central publication contract"
+Cohesion: 0.33
+Nodes (5): Atomic release order, Disposable dry run, Failure and rollback behavior, Maven Central publication contract, Public artifact set
+
+### Community 141 - "check-doc-duplicates.mjs"
+Cohesion: 0.33
+Nodes (4): blocks, canonicalDirectories, duplicates, root
+
+### Community 144 - "XPath Axis Navigation"
+Cohesion: 0.33
+Nodes (6): Available Axes, Example: Locate Input via Associated Label, Example: Navigate to a Child Element, Example: Navigate to an Ancestor, Example: Preceding Sibling, XPath Axis Navigation
+
+### Community 145 - "Relative (Location-Based) Locators"
+Cohesion: 0.33
+Nodes (6): Available Relative Locator Methods, Combining Relative Locators, Example: Login Form, Example: Product Grid, Relative (Location-Based) Locators, Using Relative Locators with SHAFT
+
+### Community 146 - "TestData_Management.md"
+Cohesion: 0.33
+Nodes (5): Comparison of Test Data Formats, Overview, Related, Summary, Why Use External Test Data?
+
+### Community 147 - "CSV Test Data"
+Cohesion: 0.33
+Nodes (6): Advantages of CSV, Best Practices for CSV, Creating a CSV Test Data File, CSV Test Data, Data-Driven Testing with CSV, Using CSV Test Data
+
+### Community 148 - "JSON Test Data"
+Cohesion: 0.33
+Nodes (6): Advantages of JSON, Best Practices for JSON, Creating a JSON Test Data File, JSON Test Data, JSON with Arrays, Using JSON Test Data
+
+### Community 149 - "Properties Test Data"
+Cohesion: 0.33
+Nodes (6): Advantages of Properties Files, Best Practices for Properties, Creating a Properties Test Data File, Environment-Specific Properties, Properties Test Data, Using Properties Test Data
+
+### Community 150 - "YAML Test Data"
+Cohesion: 0.33
+Nodes (6): Advantages of YAML, Best Practices for YAML, Creating a YAML Test Data File, Type-Safe Getters, Using YAML Test Data, YAML Test Data
+
+### Community 151 - "PropertyTypes.md"
+Cohesion: 0.33
+Nodes (5): CLI-based, Code-based, File-based, Priority hierarchy, Related
+
+### Community 152 - "One engine. Every test surface."
+Cohesion: 0.33
+Nodes (5): Choose your path, One engine. Every test surface., Related, Start in 90 seconds, Why teams use SHAFT
+
+### Community 153 - "Web testing"
+Cohesion: 0.33
+Nodes (5): Locator strategy, Playwright backend, Related, Run and inspect evidence, Web testing
+
+### Community 154 - "autobot-core.mjs"
+Cohesion: 0.47
+Nodes (5): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry, MAX_MESSAGE_LENGTH
+
+### Community 155 - "Agentic testing without hidden automation"
 Cohesion: 0.40
-Nodes (5): Common Use Cases, Copy from One Field and Paste into Another, Duplicate a Value Across Multiple Fields, Replace All Content in a Text Area, Select All and Overwrite a Pre-filled Field
+Nodes (4): Agentic testing without hidden automation, Install SHAFT agent tools, Related, Why SHAFT?
 
-### Community 234 - "Community 234"
-Cohesion: 0.60
-Nodes (4): createAutobotResponse(), jsonResponse(), messageForModelFailure(), modelsToTry
-
-### Community 236 - "Community 236"
+### Community 156 - "CI Coverage Readiness Workflow"
 Cohesion: 0.40
-Nodes (4): Add the module, Related, SikuliX desktop automation, Use image actions
+Nodes (4): CI Coverage Readiness Workflow, Credentials and permissions needed to trigger and monitor workflows, Manual dispatch inputs, What it runs
 
-### Community 237 - "Community 237"
+### Community 157 - "Repository History Rewrite Validation (Temporary Clone)"
+Cohesion: 0.40
+Nodes (4): Maintainer Preservation Check, Notes, Repository History Rewrite Validation (Temporary Clone), Results
+
+### Community 158 - "MCP publication and deployment"
+Cohesion: 0.40
+Nodes (4): Local container check, MCP publication and deployment, Optional hosted deployments, Publication flow
+
+### Community 159 - "Common Use Cases"
+Cohesion: 0.40
+Nodes (5): Common Use Cases, Database Seed / Cleanup via Container, Read a Generated File from the Container, Validate Application State Inside a Container, Verify a Log File
+
+### Community 160 - "Common Use Cases"
+Cohesion: 0.40
+Nodes (5): Check Remote Disk Space Before Tests, Collect Remote Logs as Test Evidence, Common Use Cases, Trigger Remote Scripts, Verify Server State After Deployment
+
+### Community 161 - "Execute Commands"
+Cohesion: 0.40
+Nodes (5): Environment Variables, Execute Commands, Multiple Commands in Sequence, Single Command, Verbose Streaming
+
+### Community 162 - "Custom Connection String Patterns"
+Cohesion: 0.40
+Nodes (5): Connection String Builder, Custom Connection String Patterns, Environment Variables, Multiple Database Connections, Using Properties File
+
+### Community 163 - "<b>SHAFT_Engine</b> will now manage its own Appium Execution Environment 🎉🎉"
 Cohesion: 0.50
-Nodes (4): Build and Deployment Validation, Common Use Cases, File System Validation, Test Environment Setup and Teardown
+Nodes (3): <b>SHAFT_Engine</b> will now manage its own Appium Execution Environment 🎉🎉, [Watch the demo and explore the code ⮊](https://youtu.be/JFuu9qyEgNM), What is self-managed appium execution?
 
-### Community 238 - "Community 238"
+### Community 164 - "Advanced Usage"
+Cohesion: 0.40
+Nodes (5): Advanced Usage, Auto-Close with Try-With-Resources, Parameterized Queries (Prevent SQL Injection), Stored Procedures, Transaction Management
+
+### Community 165 - "Step 4: Common Connection Examples"
+Cohesion: 0.40
+Nodes (5): Basic Oracle Connection, Oracle RAC (Real Application Clusters), Oracle with Service Name, Oracle with TNS Name, Step 4: Common Connection Examples
+
+### Community 166 - "docusaurus.config.js"
+Cohesion: 0.25
+Nodes (3): config, NOTE: this client redirect and netlify.toml's server-side 301 both, {themes}
+
+### Community 167 - "Troubleshooting"
+Cohesion: 0.40
+Nodes (5): ClassNotFoundException: oracle.jdbc.driver.OracleDriver, Network Adapter Error, SQLException: Listener refused the connection, SQLException: ORA-12505, TNS:listener does not currently know of SID, Troubleshooting
+
+### Community 168 - "Network Interception"
+Cohesion: 0.40
+Nodes (5): Browser Network Profiles, Intercept and Mock HTTP Requests, Network Interception, Record, Replay, and Validate Contracts, Validate Intercepted Responses
+
+### Community 170 - "SHAFT Locator Builder Methods"
+Cohesion: 0.40
+Nodes (5): Attribute-Based Methods, Chaining Methods, SHAFT Locator Builder Methods, Tag-Based Methods, Text-Based Methods
+
+### Community 171 - "Interacting with Shadow DOM"
+Cohesion: 0.40
+Nodes (5): Complete Shadow DOM Example, Interacting with Shadow DOM, Locating Shadow DOM Elements, Nested Shadow DOM, What is Shadow DOM?
+
+### Community 172 - "Waits_And_Synchronization.md"
+Cohesion: 0.40
+Nodes (4): Clipboard actions {/* #clipboard-actions */}, Custom condition waits (lambda), Explicit waits {/* #explicit-waits */}, Related
+
+### Community 173 - "SHAFT 10.2.20260620"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260620, ⚡ What Changed?, What's Changed
+
+### Community 174 - "resolutions"
+Cohesion: 0.33
+Nodes (6): resolutions, minimatch, node-forge, qs, serialize-javascript, **/sockjs/uuid
+
+### Community 175 - "chat-history.test.js"
+Cohesion: 0.67
+Nodes (3): buildChatHistory(), success, testChatHistoryFiltering()
+
+### Community 176 - "Common Use Cases"
+Cohesion: 0.40
+Nodes (5): Common Use Cases, Use Case 1: Multi-Language Testing, Use Case 2: Cross-Browser Testing with Test Data, Use Case 3: API Testing with JSON Test Data, Use Case 4: Database Testing with Properties
+
+### Community 177 - "Troubleshooting"
+Cohesion: 0.40
+Nodes (5): CSV Encoding Issues, Excel File Locked, File Not Found, Invalid JSON Format, Troubleshooting
+
+### Community 178 - "Reference"
+Cohesion: 0.40
+Nodes (4): I want to..., Reference, Reference areas, Related
+
+### Community 179 - "API testing"
+Cohesion: 0.40
+Nodes (4): API testing, First useful next steps, Related, Run and inspect evidence
+
+### Community 180 - "CLI testing"
+Cohesion: 0.40
+Nodes (4): CLI testing, First useful command test, Related, Troubleshooting
+
+### Community 181 - "Database testing"
+Cohesion: 0.40
+Nodes (4): Choose the next reference, Database testing, First useful query test, Related
+
+### Community 182 - "generate-properties-catalog-regex.test.js"
+Cohesion: 0.40
+Nodes (3): assert, path, {pathToFileURL}
+
+### Community 184 - "tink-design-journal.md"
+Cohesion: 0.50
+Nodes (3): MILESTONE 1 REACHED || Initial Implementation Success, MILESTONE 2 REACHED || Extended Implementation Success, MILESTONE 3 REACHED || All Requirements Implemented Successfully with several enhancements
+
+### Community 185 - "desktop-and-video.md"
+Cohesion: 0.50
+Nodes (3): Related, SikuliX desktop automation {/* #sikulix */}, Video recording {/* #video-recording */}
+
+### Community 186 - "Visual-processing provider boundary"
+Cohesion: 0.50
+Nodes (3): Discovery contract, Operation inventory, Visual-processing provider boundary
+
+### Community 187 - "File Transfer"
+Cohesion: 0.50
+Nodes (4): Compute a Remote File Checksum, Download a Remote File, File Transfer, Upload a Local File
+
+### Community 189 - "Best Practices"
 Cohesion: 0.50
 Nodes (4): Best Practices, Performance, Security, Testing
 
-### Community 239 - "Community 239"
-Cohesion: 0.50
-Nodes (4): Customizing the Deployment, Deploy in a Dedicated Namespace, Set Browser-Specific Scaling Limits, Use a Custom `values.yaml` File
-
-### Community 240 - "Community 240"
+### Community 190 - "Drag and Drop"
 Cohesion: 0.50
 Nodes (4): Drag and Drop, Drag by Offset, Drag to a Position, Drag to Another Element
 
-### Community 242 - "Community 242"
+### Community 192 - "ARIA Role-Based Locators"
 Cohesion: 0.50
-Nodes (3): index, outputPath, root
+Nodes (4): ARIA Role-Based Locators, Available Roles, Example: Locate by Role, Example: Role + Additional Conditions
 
-### Community 243 - "Community 243"
+### Community 196 - "Traditional Locators vs. SHAFT Locator Builder"
+Cohesion: 0.50
+Nodes (4): Example 1: Simple Button, Example 2: Complex Element, Example 3: Element with Text, Traditional Locators vs. SHAFT Locator Builder
+
+### Community 197 - "a11ymcp"
+Cohesion: 0.50
+Nodes (3): npx, a11ymcp, a11y-mcp-server
+
+### Community 199 - "Step 1: Download Oracle JDBC Driver"
 Cohesion: 0.67
 Nodes (3): Option A: Download from Oracle Website, Option B: Download via SQL Developer or Oracle Instant Client, Step 1: Download Oracle JDBC Driver
 
-### Community 244 - "Community 244"
+### Community 200 - "Mobile Context"
 Cohesion: 0.67
-Nodes (3): Monitoring and Scaling Behavior, View KEDA ScaledObjects, Watch Nodes Scale During a Test Run
+Nodes (3): Get and Set Context, Get Context Handles, Mobile Context
 
-### Community 245 - "Community 245"
-Cohesion: 0.67
-Nodes (3): Configuring SHAFT for Local Grid, Remote Grid Preflight, Using Different Grid Address
+### Community 204 - "properties-catalog.test.js"
+Cohesion: 0.29
+Nodes (5): allowedTargets, allowedTypes, catalog, pilotTimeout, seenKeys
+
+### Community 205 - "docs-quality.test.js"
+Cohesion: 0.12
+Nodes (10): allowedAdmonitions, bannedLinkText, docs, docsRoot, genericAltText, legacyExecutionSuffix, pillarsGuide, publicDirectories (+2 more)
+
+### Community 209 - "Contributing To The SHAFT User Guide"
+Cohesion: 0.15
+Nodes (11): 1. Check Out The Code, 2. Install The Toolchain, 3. Run The Site Locally, 4. Make The Change, 5. Validate The Change, 6. Open The Pull Request, Contributing To The SHAFT User Guide, Contribute (+3 more)
+
+### Community 211 - "SHAFT 10.2.20260621"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260621, ⚡ What Changed?, What's Changed
+
+### Community 212 - "SHAFT UI Design Language"
+Cohesion: 0.14
+Nodes (13): Admonition severity vocabulary, Allowed exceptions, Approved palette (site-wide), Code block and Mermaid constraints, Content style guide, Dark theme, Editing pass, Font weights (+5 more)
+
+### Community 213 - "SHAFT 10.2.20260622"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260622, ⚡ What Changed?, What's Changed
+
+### Community 216 - "SHAFT 10.2.20260623"
+Cohesion: 0.25
+Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.2.20260623, ⚡ What Changed?, What's Changed
+
+### Community 218 - "development"
+Cohesion: 0.22
+Nodes (9): browserslist, development, production, >0.5%, last 1 chrome version, last 1 firefox version, last 1 safari version, not dead (+1 more)
+
+### Community 227 - "constants.mjs"
+Cohesion: 0.27
+Nodes (8): MAX_SYSTEM_INSTRUCTION_LENGTH, SHAFT_GITHUB_DISCUSSIONS, SHAFT_GITHUB_ISSUES, SHAFT_GITHUB_ORG, SHAFT_GITHUB_REPO, loadDocumentation(), documentation, githubContext
+
+### Community 242 - "docs-loader.mjs"
+Cohesion: 0.18
+Nodes (14): index, outputPath, root, buildDocumentationIndex(), countOccurrences(), currentDir, EXCLUDED_DIRECTORIES, MCP_COMMAND_SYSTEMS (+6 more)
 
 ## Knowledge Gaps
-- **1600 isolated node(s):** `startTime`, `documentation`, `githubContext`, `keyTopics`, `apiDocStart` (+1595 more)
+- **1606 isolated node(s):** `npx`, `a11y-mcp-server`, `startTime`, `documentation`, `githubContext` (+1601 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Interacting with IFrames` connect `docs/reference (7)` to `docs/reference (7)`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `Interacting with Shadow DOM` connect `docs/reference (5)` to `docs/reference (7)`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **Why does `Drag and Drop` connect `Community 240` to `docs/reference (48)`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
-- **What connects `startTime`, `documentation`, `githubContext` to the rest of the system?**
-  _1600 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `docs/reference (48)` be split into smaller, more focused modules?**
+- **Why does `Element Information` connect `Element Information` to `Element_Actions.md`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Typing` connect `Typing` to `Element_Actions.md`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **What connects `npx`, `a11y-mcp-server`, `startTime` to the rest of the system?**
+  _1606 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `SHAFT API Response Validations` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (39)` be split into smaller, more focused modules?**
-  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
-- **Should `docs/reference (38)` be split into smaller, more focused modules?**
-  _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
+- **Should `parallelExecution.md` be split into smaller, more focused modules?**
+  _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
+- **Should `Upgrade to modular SHAFT` be split into smaller, more focused modules?**
+  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+- **Should `Request Builder` be split into smaller, more focused modules?**
+  _Cohesion score 0.046511627906976744 - nodes in this community are weakly interconnected._
