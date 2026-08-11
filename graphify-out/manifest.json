@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1786389094.3568132,
-    "ast_hash": "a45bb2cf692f4aca1f047fb06f03efa7",
+    "mtime": 1786432631.4359317,
+    "ast_hash": "a7582ae1328ae7feebe61a0d1b40b81d",
     "semantic_hash": ""
   },
   "playwright.config.js": {
@@ -172,11 +172,6 @@
   "tests/properties-catalog.test.js": {
     "mtime": 1785760740.1791806,
     "ast_hash": "818e1810c0414d51fc5461132a384392",
-    "semantic_hash": ""
-  },
-  "tests/release-blog-template.test.js": {
-    "mtime": 1784483847.7807083,
-    "ast_hash": "e3ede5dd782133526001e1430e33d739",
     "semantic_hash": ""
   },
   "tests/run-all-tests.js": {
@@ -1267,16 +1262,6 @@
   "docs/reference/reporting.mdx": {
     "mtime": 1784483847.6942005,
     "ast_hash": "e1a7c001c17fc024d6796cada05ea31c",
-    "semantic_hash": ""
-  },
-  "tests/fixtures/release-posts/2026-03-31-release-10.1.20260331.md": {
-    "mtime": 1784483847.7680335,
-    "ast_hash": "051b1b7c7f73531117b774515b38333f",
-    "semantic_hash": ""
-  },
-  "tests/fixtures/release-posts/2026-05-02-release-10.2.20260501.md": {
-    "mtime": 1784483847.7736535,
-    "ast_hash": "c8020deebd5950f7c29c06de7adf4fd7",
     "semantic_hash": ""
   },
   "static/img/agentic/evidence/intellij-agentic-e2e-workflows.png": {
