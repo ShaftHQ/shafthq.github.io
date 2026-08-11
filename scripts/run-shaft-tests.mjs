@@ -1,4 +1,4 @@
-import {spawn, spawnSync} from 'node:child_process';
+import crossSpawn from 'cross-spawn';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 import net from 'node:net';
@@ -48,18 +48,12 @@ async function waitForSite(baseUrl) {
   throw new Error(`Timed out waiting for ${baseUrl}`);
 }
 
-function commandInvocation(command, args) {
-  if (!isWindows) return {command, args};
-  return {command: 'cmd.exe', args: ['/d', '/s', '/c', command, ...args]};
-}
-
 let server;
 let baseUrl = externalBaseUrl;
 if (!baseUrl) {
   const port = await findAvailablePort(Number(process.env.SHAFT_DOCS_PORT ?? 3000));
   baseUrl = `http://${host}:${port}`;
-  const invocation = commandInvocation(yarnCommand, ['serve', '--host', host, '--port', String(port)]);
-  server = spawn(invocation.command, invocation.args, {
+  server = crossSpawn(yarnCommand, ['serve', '--host', host, '--port', String(port)], {
     cwd: repoRoot,
     shell: false,
     stdio: 'inherit',
@@ -70,15 +64,15 @@ if (!baseUrl) {
 try {
   await waitForSite(baseUrl);
 
-  const mavenInvocation = commandInvocation(mavenCommand, [
+  const result = crossSpawn.sync(mavenCommand, [
     '-f',
     'tests/shaft/pom.xml',
     'test',
     `-Dshaft.version=${shaftVersion}`,
     `-Dsite.baseUrl=${baseUrl}`,
     '-Dgpg.skip=true',
-  ]);
-  const result = spawnSync(mavenInvocation.command, mavenInvocation.args, {
+    '-Dallure.automaticallyOpen=false',
+  ], {
     cwd: repoRoot,
     shell: false,
     stdio: 'inherit',
@@ -90,7 +84,7 @@ try {
 } finally {
   if (server) {
     if (isWindows) {
-      spawnSync('taskkill', ['/pid', String(server.pid), '/t', '/f'], {stdio: 'ignore'});
+      crossSpawn.sync('taskkill', ['/pid', String(server.pid), '/t', '/f'], {stdio: 'ignore'});
     } else {
       server.kill('SIGTERM');
     }
