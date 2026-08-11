@@ -109,6 +109,44 @@ Context transitions are trace events too. A call such as
 requested context, and resulting context when the Appium provider supports
 context inspection.
 
+## Read Android performance data
+
+Use `driver.mobile().performance()` when the live Appium driver exposes its
+performance-data interface. Check the provider's advertised types, then request
+one tabular sample for the application package and type you need.
+
+```java
+var performance = driver.mobile().performance();
+
+if (performance.supportedTypes().contains("memoryinfo")) {
+    var sample = performance.sample("com.example.app", "memoryinfo");
+
+    System.out.println(sample.columns());
+    System.out.println(sample.rows());
+}
+
+performance.clear();
+```
+
+Each `MobilePerformanceSample` contains its capture time, application ID, data
+type, columns, and rows. The model copies the provider table and exposes
+immutable lists. `history()` returns an immutable snapshot of the newest 100
+successful samples for that driver identity; `clear()` removes that session's
+history.
+
+:::warning
+Performance data is available only when the live Appium driver implements the
+exact performance-data interface. Android drivers normally expose it. iOS,
+Windows, Mac2, generic, closed, and custom drivers without that interface fail
+with `UnsupportedOperationException` instead of inferring support from a
+platform name.
+:::
+
+SHAFT records one backend-only `mobile/performance` trace event for each
+operation. Events include counts, not the application ID, requested type,
+columns, rows, or provider payload. Submitted and returned values are registered
+with the failure-trace redactor before later reports are rendered.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
