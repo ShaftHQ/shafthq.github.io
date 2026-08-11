@@ -1,16 +1,40 @@
 ---
 id: modules
 title: Features and modules
-description: Select the core engine and optional SHAFT modules by capability — plus the underlying technology stack and sponsors/adopters.
+description: Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
 slug: /features/modules
-keywords: [SHAFT, features, modules, dependencies, technology, ecosystem, Selenium, Appium, REST Assured, TestNG, JUnit, Cucumber, Allure, partners, sponsors, adopters, community]
-tags: [features, modules, dependencies, technology, partners, sponsors, community]
+keywords: [SHAFT, features, modules, dependencies, technology, ecosystem, Selenium, Appium, REST Assured, TestNG, JUnit, Cucumber, Allure, support, funding, community]
+tags: [features, modules, dependencies, technology, support, funding, community]
 ---
 
 # Features and modules
 
 The required `shaft-engine` artifact provides the public facade and core test
-automation capabilities. Dependency-heavy integrations are optional.
+automation capabilities. Add optional artifacts only when a project uses the
+capability they own.
+
+## Published artifact map
+
+| Artifact | Add it when |
+|---|---|
+| `shaft-engine` | The project needs web, mobile, API, database, CLI actions, test data, accessibility, reporting, or screenshots. |
+| `shaft-pilot-core` | An integration needs provider-neutral Pilot contracts and local-agent orchestration. |
+| `shaft-capture` | The project records browser/API flows and generates reviewable replay code. |
+| `shaft-doctor` | The project analyzes Allure evidence and failure traces offline. |
+| `shaft-ai` | Pilot needs optional direct model-provider adapters. |
+| `shaft-heal` | Web tests need deterministic, explainable locator recovery. |
+| `shaft-mcp` | An MCP client needs SHAFT browser, Capture, Doctor, healer, or guide-search tools. |
+| `shaft-cli` | Scripts or CI need repeatable one-shot access to the SHAFT tool catalog. |
+| `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
+| `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
+| `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
+| `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
+| `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
+
+`shaft-capture-proxy` supports Capture's isolated proxy runtime and is not the
+normal consumer entry point. `report-aggregate` builds reactor-wide reports
+but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
+relocation POM for older coordinates, not a new-project dependency.
 
 ## Feature-to-module map
 
@@ -132,7 +156,9 @@ driver.quit();
 
 See [Architecture](/docs/features/architecture) for exact dependency boundaries.
 
-## Sponsors and adopters {/* #partners */}
+## Project support and adoption {/* #partners */}
+
+### Tooling and open-source program support
 
 SHAFT has received tooling or open-source support from:
 
@@ -145,8 +171,14 @@ Engineers responding to anonymous community surveys have reported using SHAFT
 within organizations including Vodafone, DXC Technology, Euronet, Solutions by
 STC, IDEMIA, GET Group, EFG Holding, Jahez, Incorta, Paymob, GIZA Systems, and
 others. These names are community-reported rather than audited customer
-endorsements — no organization is represented as guaranteeing or officially
-endorsing SHAFT unless linked as a sponsor above.
+endorsements. No organization is represented as guaranteeing or officially
+endorsing SHAFT.
+
+### Fund continued maintenance
+
+SHAFT remains free under the MIT License. Financial support helps fund release
+maintenance, documentation, and public infrastructure through
+[GitHub Sponsors](https://github.com/sponsors/MohabMohie/).
 
 Use your own provider credentials through properties rather than hardcoding
 them in tests:

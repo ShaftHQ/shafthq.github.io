@@ -44,6 +44,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'agentic/overview',
+        'agentic/skills',
         'agentic/mcp',
         'agentic/intellij',
         'agentic/cli',

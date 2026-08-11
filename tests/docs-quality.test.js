@@ -1,4 +1,4 @@
-import {readFileSync, readdirSync} from 'fs';
+import {existsSync, readFileSync, readdirSync} from 'fs';
 import {extname, join, relative} from 'path';
 import {fileURLToPath} from 'url';
 
@@ -79,6 +79,14 @@ for (const {fullPath, relativePath} of docs) {
   const fences = content.match(/```/g) ?? [];
   assert(fences.length % 2 === 0, `${relativePath} has an unbalanced fenced code block.`);
   assert(!/Work In Progress/i.test(content), `${relativePath} must not publish Work In Progress placeholders.`);
+  assert(
+    !/github\.com\/ShaftHQ\/SHAFT_ENGINE\/(?:blob|tree)\/master\//i.test(content),
+    `${relativePath} links to the retired SHAFT_ENGINE master branch.`,
+  );
+  assert(
+    !/github\.com\/ShaftHQ\/SHAFT_ENGINE\/(?:blob|tree)\/main\/src\/(?:main|test)\//i.test(content),
+    `${relativePath} links to a pre-modularization SHAFT_ENGINE source path.`,
+  );
   assert(exampleFence.test(content), `${relativePath} needs a fenced usage example.`);
   assert(relatedHeading.test(content), `${relativePath} needs a dedicated related-links section.`);
 
@@ -201,7 +209,22 @@ assert(
 );
 
 const pillarsGuide = readFileSync(join(docsRoot, 'features/test-automation-pillars.mdx'), 'utf8');
+const skillsPath = join(docsRoot, 'agentic/skills.mdx');
+const agenticOverview = readFileSync(join(docsRoot, 'agentic/overview.mdx'), 'utf8');
+const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8');
+const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
+
+assert(existsSync(skillsPath), 'The public guide must include agentic/skills.mdx.');
+const skillsGuide = readFileSync(skillsPath, 'utf8');
+assert(
+  skillsGuide.includes('<SkillsInstallerCommands />'),
+  'agentic/skills.mdx must use the canonical installer command snippet.',
+);
+assert(
+  !agenticOverview.includes('--install-shaft-skills'),
+  'agentic/overview.mdx must delegate skill installation commands to agentic/skills.mdx.',
+);
 
 assert(
   pillarsGuide.includes('Pillars of successful test automation'),
@@ -214,6 +237,32 @@ assert(
 assert(
   sidebars.includes("'features/test-automation-pillars'"),
   'sidebars.js must list features/test-automation-pillars in the Features section.',
+);
+assert(
+  sidebars.includes("'agentic/skills'"),
+  'sidebars.js must list agentic/skills in the Agentic section.',
+);
+for (const artifact of [
+  'shaft-engine',
+  'shaft-pilot-core',
+  'shaft-capture',
+  'shaft-capture-proxy',
+  'shaft-doctor',
+  'shaft-ai',
+  'shaft-heal',
+  'shaft-mcp',
+  'shaft-cli',
+  'shaft-browserstack',
+  'shaft-video',
+  'shaft-visual',
+  'shaft-sikulix',
+  'shaft-bom',
+]) {
+  assert(modulesGuide.includes(`\`${artifact}\``), `features/modules.md must document ${artifact}.`);
+}
+assert(
+  maintainersOverview.includes('.github/workflows/README.md'),
+  'The maintainer overview must link repository-local operational README files.',
 );
 
 console.log('Documentation quality checks passed.');

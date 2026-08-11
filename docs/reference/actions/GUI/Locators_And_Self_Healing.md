@@ -137,7 +137,7 @@ By emailInput = SHAFT.GUI.Locator.hasTagName("label")
     .build();
 ```
 
-For more locator strategies, see [LocatorBuilderTest examples on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java).
+For more locator strategies, see [LocatorBuilderTest examples on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/LocatorBuilderTest.java).
 
 ## Smart locators {/* #smart-locators */}
 
