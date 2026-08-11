@@ -147,6 +147,55 @@ operation. Events include counts, not the application ID, requested type,
 columns, rows, or provider payload. Submitted and returned values are registered
 with the failure-trace redactor before later reports are rendered.
 
+## Record the mobile screen
+
+Use `driver.mobile().recording()` when the live Appium driver supports screen
+recording. Start one bounded recording, then stop it for decoded media bytes or
+publish it to an exact local path.
+
+```java
+import com.shaft.gui.driver.MobileRecordingOptions;
+
+import java.nio.file.Path;
+import java.time.Duration;
+
+var recording = driver.mobile().recording();
+var options = new MobileRecordingOptions(
+        Duration.ofSeconds(30),
+        32L * 1024 * 1024);
+
+recording.start(options);
+// Exercise the mobile application.
+Path saved = recording.stopAndSave(Path.of("artifacts", "mobile-recording.mp4"));
+System.out.println(saved);
+```
+
+`start()` uses a three-minute provider limit and a 64 MiB decoded-result limit.
+Explicit options accept one second through 30 minutes and one byte through 256
+MiB. `stop()` returns a fresh byte array. `stopAndSave()` uses SHAFT's safe
+exact-target publisher and returns the normalized target path.
+
+Recording state belongs to the driver session and is shared with SHAFT's
+automatic failure-video recorder. One owner cannot start over or stop the
+other owner's recording. A failed provider start returns the session to idle;
+a provider stop failure keeps ownership active so the same caller can retry.
+Driver teardown closes the recording state without issuing another provider
+command.
+
+:::warning
+The Appium Java interface does not guarantee that a remote provider implements
+the screen-recording command. BrowserStack App Automate rejected the command on
+the tested Android and iOS real-device paths, including Appium 3.3.0. Keep the
+positive recording flow for a compatible Appium server; do not substitute a
+provider's session-video feature for these returned bytes.
+:::
+
+SHAFT records one backend-only `mobile/recording` trace event for each public
+operation. Metadata contains only configured seconds or decoded byte counts.
+Media, target paths, provider payloads, DOM, and screenshots are not attached;
+target paths and provider failures are registered with the failure-trace
+redactor before later reports are rendered.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
