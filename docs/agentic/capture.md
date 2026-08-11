@@ -247,6 +247,22 @@ default is not the locator intent; the next captured event for that logical
 element stores the selected candidate with the `USER_PROVIDED` locator signal,
 so generation can prefer it without editing generated source.
 
+When you select a stable, unique test ID, Capture verifies that it resolves to
+the exact live element and stores a tag-independent relative XPath such as
+`//*[@data-testid="result-title-a"]`. Generated WebDriver code uses that
+verified path through `By.xpath(...)`, so the locator can survive an equivalent
+markup change such as an `<a>` becoming a `<span>`. Capture rechecks the chosen
+test ID when you confirm it and when you save the assertion.
+
+If the value is now duplicated, changed, removed, or attached to a replacement
+element, Capture clears the replay evidence and the candidate cannot be promoted.
+Pinning records your preference among eligible candidates; it never bypasses
+these checks.
+
+Custom names supplied through `--test-id-attribute` are normalized to
+lowercase for HTML. They must start with an ASCII letter or `_` and contain
+only ASCII letters, digits, `_`, `.`, or `-`; namespace prefixes are rejected.
+
 ![SHAFT Capture locator picker](/img/capture-locator-picker.png)
 
 While a capture session is active, `element_*` tools drive the recorded
