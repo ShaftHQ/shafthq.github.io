@@ -2792,15 +2792,9 @@ flowchart TD
 
 ## Install SHAFT agent tools
 
-Install SHAFT skills without configuring an MCP client:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-skills')"
-```
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-skills
-```
+Install the first-party skill pack without configuring an MCP client. The
+[SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
+routes, native directories, upgrade behavior, and packaging tradeoffs.
 
 Install `shaft-cli` without configuring an MCP client. This also installs its
 internal `shaft-mcp` runtime prerequisite.
@@ -2857,6 +2851,7 @@ MCP commands live on /docs/agentic/mcp#mcp-command-reference
 
 ## Related
 
+- [SHAFT agent skills](/docs/agentic/skills)
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)
@@ -3004,25 +2999,10 @@ downloaded versus already up to date). Run the same command later to install a
 newer release. If you run the script without a
 target, it prompts you to choose a supported client.
 
-After the MCP setup succeeds, attended installs ask whether to install the
-SHAFT agent skills into the current directory and show that directory before
-you answer. Press Enter or answer `y` to install `shaft-skills/`; answer `n` to
-skip them. Unattended installs, including the IntelliJ IDEA plugin target,
-install the skills by default. Use `--install-shaft-skills` to force skill
-installation or `--skip-shaft-skills` to disable it.
-
-Installing the skills also installs a generated
-[tool catalog](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-mcp-tools.md)
-at `shaft-skills/references/shaft-mcp-tools.md`, listing every `shaft-mcp`
-tool name and a one-line description. Agents should read this cached catalog
-for exact tool names instead of listing tools at runtime, which cuts
-consumer-agent token usage. On clients that defer tool schemas until
-requested, such as Claude Code's `ToolSearch`, batch-load every tool a task
-needs in one lookup instead of one call per tool. A companion
-[shaft-cli command reference](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-cli-commands.md)
-at `shaft-skills/references/shaft-cli-commands.md` tells agents to prefer the
-installed [shaft-cli](/docs/agentic/cli) over raw MCP tool calls, with MCP as
-the fallback.
+After MCP setup succeeds, the installer can also add SHAFT's agent skills and
+their generated tool catalogs. See [Install SHAFT agent skills](/docs/agentic/skills)
+for attended and unattended behavior, client-native destinations, flags,
+alternative installation routes, and verification.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -3806,6 +3786,7 @@ validation and publication.
 ## Related
 
 - [Overview](/docs/agentic/overview)
+- [Install SHAFT agent skills](/docs/agentic/skills)
 - [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)
 - [Providers](/docs/agentic/providers)
@@ -4130,6 +4111,111 @@ mvn -pl shaft-doctor -am javadoc:javadoc
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
 - [Providers](/docs/agentic/providers)
+
+---
+
+# Install SHAFT agent skills
+
+Canonical URL: https://shafthq.github.io/docs/agentic/skills
+
+# Install SHAFT agent skills
+
+SHAFT ships 30 focused skills for planning, writing, running, diagnosing, and
+reporting tests. Start a SHAFT task with `$shaft-developer`; its router selects
+one lifecycle, implementation, or MCP/CLI specialist for the immediate job.
+
+The pack contains guidance, not a model or hosted agent. It uses the tools and
+permissions of the agent client where you install it.
+
+## Choose an installation route
+
+| Route | Best for | What it installs |
+|---|---|---|
+| SHAFT installer | Most projects and MCP users | All skills plus generated MCP and CLI catalogs in the client-native directory |
+| Claude Code marketplace | Claude Code projects | The complete repository skill package and shared references |
+| Skills CLI | Installing individual skill directories across supported agents | Skill directories only; shared generated catalogs are omitted |
+| `shaft_project_init_agents` | An existing project connected to SHAFT MCP | Host-native bridges or full skill files while preserving existing files |
+
+## Install with the SHAFT installer
+
+Run from the project that should receive the skills.
+
+ 
+
+When the installer has a client target, it writes to that client's native
+directory: `.agents/skills` for Codex, `.claude/skills` for Claude clients, or
+`.github/skills` for Copilot clients. The IntelliJ plugin target installs all
+three layouts for project portability. A skills-only run with no client target
+also installs all three layouts.
+
+Re-run the same command to upgrade. SHAFT replaces its own installed files and
+leaves unrelated user skills untouched. It refuses linked or junctioned native
+skill directories on Windows so installation cannot escape the project.
+
+With no arguments in an interactive terminal, the installer asks which
+components to install; skills default to yes. A non-interactive run must pass a
+component selector. Use `--install-shaft-skills` to install skills without a
+prompt or `--skip-shaft-skills` to decline them in an interactive selection.
+When also configuring MCP, select one client with `--codex`, `--claude`,
+`--claude-desktop`, `--copilot`, `--copilot-intellij`, or
+`--intellij-plugin`. A client selector alone configures MCP but does not install
+skills, so combine it with `--install-shaft-skills` when both are required.
+
+## Install from the Claude Code marketplace
+
+Claude Code can load the repository's bundled marketplace manifest directly:
+
+```shell
+claude plugin marketplace add ShaftHQ/SHAFT_ENGINE --scope project
+claude plugin install shaft-skills@shafthq --scope project
+```
+
+This route includes shared references and generated MCP/CLI catalogs.
+For Codex, use the SHAFT installer above; the repository-root marketplace
+manifest is Claude-specific.
+
+## Install with the Skills CLI
+
+Use the Skills CLI when direct skill-directory installation is preferred:
+
+```shell
+npx skills add https://github.com/ShaftHQ/SHAFT_ENGINE/tree/main/shaft-skills --skill '*' --agent '*' -y
+```
+
+This route installs each skill but omits the pack's shared generated
+`shaft-mcp-tools.md` and `shaft-cli-commands.md` catalogs. Prefer the SHAFT
+installer or plugin marketplace when an agent needs exact offline tool and
+command lookup.
+
+## Initialize skills through SHAFT MCP
+
+For a project already connected to SHAFT MCP, initialize every supported host
+layout without overwriting existing files:
+
+```json
+{"tool": "shaft_project_init_agents", "arguments": {"loop": "all", "targetDirectory": ".", "overwrite": false}}
+```
+
+Use a single loop such as `codex`, `claude`, `opencode`, or `vscode` when the
+project targets only one host. Review the returned skipped-file warnings before
+using `overwrite: true`.
+
+## Verify the installation
+
+Start a fresh agent session in the project and ask it to load
+`$shaft-developer`. For an MCP-connected project, search the official guide
+before generating code:
+
+```json
+{"tool": "shaft_guide_search", "arguments": {"query": "page object model locators", "maxResults": 3}}
+```
+
+## Related
+
+- [Connect shaft-mcp](/docs/agentic/mcp)
+- [SHAFT CLI](/docs/agentic/cli)
+- [IntelliJ IDEA plugin](/docs/agentic/intellij)
+- [Agentic testing overview](/docs/agentic/overview)
 
 ---
 
@@ -6761,7 +6847,31 @@ Canonical URL: https://shafthq.github.io/docs/features/modules
 # Features and modules
 
 The required `shaft-engine` artifact provides the public facade and core test
-automation capabilities. Dependency-heavy integrations are optional.
+automation capabilities. Add optional artifacts only when a project uses the
+capability they own.
+
+## Published artifact map
+
+| Artifact | Add it when |
+|---|---|
+| `shaft-engine` | The project needs web, mobile, API, database, CLI actions, test data, accessibility, reporting, or screenshots. |
+| `shaft-pilot-core` | An integration needs provider-neutral Pilot contracts and local-agent orchestration. |
+| `shaft-capture` | The project records browser/API flows and generates reviewable replay code. |
+| `shaft-doctor` | The project analyzes Allure evidence and failure traces offline. |
+| `shaft-ai` | Pilot needs optional direct model-provider adapters. |
+| `shaft-heal` | Web tests need deterministic, explainable locator recovery. |
+| `shaft-mcp` | An MCP client needs SHAFT browser, Capture, Doctor, healer, or guide-search tools. |
+| `shaft-cli` | Scripts or CI need repeatable one-shot access to the SHAFT tool catalog. |
+| `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
+| `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
+| `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
+| `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
+| `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
+
+`shaft-capture-proxy` supports Capture's isolated proxy runtime and is not the
+normal consumer entry point. `report-aggregate` builds reactor-wide reports
+but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
+relocation POM for older coordinates, not a new-project dependency.
 
 ## Feature-to-module map
 
@@ -6883,7 +6993,9 @@ driver.quit();
 
 See [Architecture](/docs/features/architecture) for exact dependency boundaries.
 
-## Sponsors and adopters 
+## Project support and adoption
+
+### Tooling and open-source program support
 
 SHAFT has received tooling or open-source support from:
 
@@ -6896,8 +7008,14 @@ Engineers responding to anonymous community surveys have reported using SHAFT
 within organizations including Vodafone, DXC Technology, Euronet, Solutions by
 STC, IDEMIA, GET Group, EFG Holding, Jahez, Incorta, Paymob, GIZA Systems, and
 others. These names are community-reported rather than audited customer
-endorsements — no organization is represented as guaranteeing or officially
-endorsing SHAFT unless linked as a sponsor above.
+endorsements. No organization is represented as guaranteeing or officially
+endorsing SHAFT.
+
+### Fund continued maintenance
+
+SHAFT remains free under the MIT License. Financial support helps fund release
+maintenance, documentation, and public infrastructure through
+[GitHub Sponsors](https://github.com/sponsors/MohabMohie/).
 
 Use your own provider credentials through properties rather than hardcoding
 them in tests:
@@ -8099,7 +8217,7 @@ Async actions are best suited for **write** operations (type, select, click) tha
 ## Related
 
 - [Element Actions](./Element_Actions) — standard synchronous element API
-- [SHAFT_ENGINE source — AsyncElementActions](https://github.com/ShaftHQ/SHAFT_ENGINE/tree/master/src/main/java/com/shaft/gui/element)
+- [SHAFT_ENGINE source: AsyncElementActions](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/java/com/shaft/gui/element/AsyncElementActions.java)
 
 ---
 
@@ -13143,7 +13261,7 @@ public class ShadowDomTest {
 }
 ```
 
-For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
+For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
 
 ## Interacting with IFrames
 
@@ -13602,8 +13720,8 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 
 - [Web locator strategy](/docs/testing/web#locator-strategy)
 - [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
-- [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java)
-- [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java)
+- [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/LocatorBuilderTest.java)
+- [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java)
 - [Selenium By Methods Documentation](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html)
 - [W3C WebDriver Specification](https://www.w3.org/TR/webdriver/)
 
@@ -20335,7 +20453,7 @@ By emailInput = SHAFT.GUI.Locator.hasTagName("label")
  .build();
 ```
 
-For more locator strategies, see [LocatorBuilderTest examples on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java).
+For more locator strategies, see [LocatorBuilderTest examples on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/LocatorBuilderTest.java).
 
 ## Smart locators 
 
@@ -21154,6 +21272,17 @@ SHAFT as a test framework.
 - [Visual provider boundary](/docs/maintainers/visual-provider)
 - [Repository history rewrite](/docs/maintainers/history-rewrite)
 
+## Repository-local operating contracts
+
+Volatile instructions stay beside the scripts and configuration they govern.
+Use these source files instead of copying their inventories into this guide:
+
+- [Agent skills map](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/.agents/skills/README.md)
+- [GitHub Actions workflow inventory](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/.github/workflows/README.md)
+- [SHAFT skill evaluation contract](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/agent-plugins/shaft-skills/evals/README.md)
+- [IntelliJ capture validation runbook](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/tools/intellij-plugin-recording/README.md)
+- [Graphify repository-map runbook](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/tools/repository-map/README.md)
+
 ---
 
 # Documentation site operations
@@ -21747,6 +21876,7 @@ SHAFT publishes the complete reactor as one Maven Central deployment. Publicatio
 | `io.github.shafthq:shaft-engine` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-pilot-core` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-capture` | JAR | sources, JavaDocs, signatures |
+| `io.github.shafthq:shaft-capture-proxy` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-doctor` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-ai` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-heal` | JAR | sources, JavaDocs, signatures |
@@ -21755,6 +21885,7 @@ SHAFT publishes the complete reactor as one Maven Central deployment. Publicatio
 | `io.github.shafthq:shaft-visual` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-sikulix` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-mcp` | thin JAR | sources, JavaDocs, signatures |
+| `io.github.shafthq:shaft-cli` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-bom` | POM | signature |
 | `io.github.shafthq:SHAFT_ENGINE` | relocation POM | signature |
 
@@ -21837,13 +21968,15 @@ relocation artifact that points consumers to the canonical JAR.
 
 - The root `pom.xml` is the `io.github.shafthq:shaft-parent` aggregator and build parent. It owns shared version properties, dependency management, and plugin management.
 - `shaft-engine/pom.xml` builds the engine JAR. All framework source, resources, tests, examples, and runtime support assets remain under `shaft-engine/src/`; Java packages remain under `com.shaft`.
-- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, `shaft-sikulix`, and `shaft-mcp` versions without adding dependencies by itself.
+- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-capture-proxy`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, `shaft-sikulix`, and `shaft-mcp` versions without adding dependencies by itself.
 - `shaft-pilot-core/pom.xml` builds provider-neutral Pilot contracts, security controls, configuration snapshots, and deterministic fallback. It depends on `shaft-engine`; the engine has no reverse dependency.
 - `shaft-capture/pom.xml` builds managed Chrome/Edge recording, versioned contracts, deterministic privacy classification, Java/TestNG generation, compile/replay validation, schema migration, and atomic JSON persistence. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
+- `shaft-capture-proxy/pom.xml` isolates the MITM HTTP(S) proxy used to record native mobile API traffic so Netty and Bouncy Castle stay off the classpath of consumers that do not enable that capability. It depends on `shaft-engine` and `shaft-capture`.
 - `shaft-doctor/pom.xml` builds allowlisted local evidence collection, redacted portable bundles, deterministic failure rules, JSON/Markdown reports, provider-neutral optional advisory integration, and isolated approval-gated repair proposals. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
 - `shaft-ai/pom.xml` builds optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama adapters. It depends on `shaft-pilot-core` and exposes no provider SDK types.
 - `shaft-heal/pom.xml` builds optional deterministic web element recovery, bounded local history, structured reports, and provider-neutral optional reranking. It depends on `shaft-engine` and `shaft-pilot-core`.
 - `shaft-mcp/pom.xml` builds the optional executable MCP server plus SHAFT Capture and Doctor CLIs. It depends on `shaft-engine`, `shaft-capture`, `shaft-doctor`, and `shaft-ai` so the executable can offer explicitly configured direct-provider advisories; the engine has no reverse dependency on MCP.
+- `shaft-cli/pom.xml` builds the command-line client over the SHAFT MCP capability set for scripts and CI. It publishes independently and is not managed by the consumer BOM.
 - `shaft-browserstack/pom.xml` builds the optional BrowserStack Java SDK integration. Direct BrowserStack
  WebDriver/Appium sessions remain in `shaft-engine`.
 - `shaft-video/pom.xml` builds the optional desktop video recording provider. Add it when local desktop screen recording is needed; Appium-native recording remains in `shaft-engine`.
@@ -21919,6 +22052,7 @@ Build and test outputs are module-local. Important locations include:
 - Engine JAR: `shaft-engine/target/shaft-engine- .jar`
 - Pilot contracts JAR: `shaft-pilot-core/target/shaft-pilot-core- .jar`
 - Capture contracts JAR: `shaft-capture/target/shaft-capture- .jar`
+- Capture proxy JAR: `shaft-capture-proxy/target/shaft-capture-proxy- .jar`
 - Doctor analyzer JAR: `shaft-doctor/target/shaft-doctor- .jar`
 - Optional direct providers JAR: `shaft-ai/target/shaft-ai- .jar`
 - Optional SHAFT Heal JAR: `shaft-heal/target/shaft-heal- .jar`
@@ -21927,6 +22061,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual- .jar`
 - Optional SikuliX JAR: `shaft-sikulix/target/shaft-sikulix- .jar`
 - MCP thin JAR: `shaft-mcp/target/shaft-mcp- .jar`
+- CLI JAR: `shaft-cli/target/shaft-cli- .jar`
 - Surefire reports: ` /target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
 - Per-module JaCoCo execution data: ` /target/jacoco.exec`

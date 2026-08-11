@@ -21,6 +21,7 @@
 - [Agentic testing](https://shafthq.github.io/docs/agentic/overview): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 - [Connect shaft-mcp](https://shafthq.github.io/docs/agentic/mcp): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 - [Diagnose failures with Doctor](https://shafthq.github.io/docs/agentic/doctor): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
+- [Install SHAFT agent skills](https://shafthq.github.io/docs/agentic/skills): Install the first-party SHAFT testing skill pack for agent-native projects.
 - [IntelliJ IDEA plugin](https://shafthq.github.io/docs/agentic/intellij): Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 - [Optional AI providers](https://shafthq.github.io/docs/agentic/providers): Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.
 - [Record tests with Capture](https://shafthq.github.io/docs/agentic/capture): Record browser activity and generate reviewable deterministic TestNG source.
@@ -30,7 +31,7 @@
 
 ## Features
 - [Architecture](https://shafthq.github.io/docs/features/architecture): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
-- [Features and modules](https://shafthq.github.io/docs/features/modules): Select the core engine and optional SHAFT modules by capability — plus the underlying technology stack and sponsors/adopters.
+- [Features and modules](https://shafthq.github.io/docs/features/modules): Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
 - [Pillars of successful test automation](https://shafthq.github.io/docs/features/test-automation-pillars): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
 - [Reporting and evidence](https://shafthq.github.io/docs/features/reporting): How SHAFT records actions, screenshots, logs, and Allure results.
 
