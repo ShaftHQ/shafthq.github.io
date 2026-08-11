@@ -28,15 +28,9 @@ flowchart TD
 
 ## Install SHAFT agent tools
 
-Install SHAFT skills without configuring an MCP client:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-skills')"
-```
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-skills
-```
+Install the first-party skill pack without configuring an MCP client. The
+[SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
+routes, native directories, upgrade behavior, and packaging tradeoffs.
 
 Install `shaft-cli` without configuring an MCP client. This also installs its
 internal `shaft-mcp` runtime prerequisite.
@@ -93,6 +87,7 @@ MCP commands live on /docs/agentic/mcp#mcp-command-reference
 
 ## Related
 
+- [SHAFT agent skills](/docs/agentic/skills)
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)

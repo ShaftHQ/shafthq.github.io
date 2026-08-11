@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-08-11)
 
 ## Corpus Check
-- 209 files · ~365,521 words
+- 210 files · ~366,593 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2406 nodes · 2484 edges · 228 communities (201 shown, 27 thin omitted)
+- 2425 nodes · 2502 edges · 229 communities (202 shown, 27 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9c0057de`
+- Built from commit: `73d79a70`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -131,6 +131,7 @@
 - chatbot-api.test.js
 - homepage-performance.test.js
 - Test_Structure.md
+- Install SHAFT agent skills
 - Optional AI providers
 - Investigate E2E test failures from GitHub Actions run 25572054507
 - Ticket: Agent Knowledge Migration and Instruction Consolidation
@@ -229,7 +230,7 @@
 - SHAFT UI Design Language
 - SHAFT 10.2.20260622
 - archive/overview.md
-- maintainers/overview.md
+- Maintainer runbooks
 - SHAFT 10.2.20260623
 - custom-properties-generator.mdx
 - development
@@ -268,7 +269,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (228 total, 27 thin omitted)
+## Communities (229 total, 27 thin omitted)
 
 ### Community 0 - "SHAFT API Response Validations"
 Cohesion: 0.04
@@ -395,7 +396,7 @@ Cohesion: 0.14
 Nodes (13): CATEGORY_LABELS, CATEGORY_ORDER, configPath, docRoute(), docsRoot, llmsFullTxt, llmsFullTxtPath, llmsTxt (+5 more)
 
 ### Community 31 - "DocSnippets/index.tsx"
-Cohesion: 0.14
+Cohesion: 0.13
 Nodes (6): Application, commandFor(), CommandTemplates, detectOperatingSystem(), McpApplications(), OperatingSystem
 
 ### Community 32 - "SiteRenderTest"
@@ -459,8 +460,8 @@ Cohesion: 0.15
 Nodes (12): Example 10: Screenshot and video recording configuration, Example 1: Run tests in headless mode on Firefox browser, Example 2: Run tests on Chrome with mobile emulation, Example 3: Remote execution on Selenium Grid, Example 4: BrowserStack execution, Example 5: Native mobile app testing (Android), Example 6: Mobile web testing, Example 7: Enable maximum performance mode (+4 more)
 
 ### Community 47 - "Features and modules"
-Cohesion: 0.17
-Nodes (11): Apps, Browsers, Feature-to-module map, Features and modules, Other, Related, Smart Features, Sponsors and adopters {/* #partners */} (+3 more)
+Cohesion: 0.13
+Nodes (14): Apps, Browsers, Feature-to-module map, Features and modules, Fund continued maintenance, Other, Project support and adoption {/* #partners */}, Published artifact map (+6 more)
 
 ### Community 48 - "Oracle_JDBC_Setup.md"
 Cohesion: 0.17
@@ -725,6 +726,10 @@ Nodes (13): codeTokenClasses, codeTokenColors, customStyles, fs, githubFooterLin
 ### Community 115 - "Test_Structure.md"
 Cohesion: 0.25
 Nodes (7): Best Practices, Related, Test Cases: Isolated and Independent, Test Scenarios: Dependent Steps, What `priority` Is Good For, When to Use Each Approach, Why Not Use `priority`?
+
+### Community 116 - "Install SHAFT agent skills"
+Cohesion: 0.22
+Nodes (8): Choose an installation route, Initialize skills through SHAFT MCP, Install from the Claude Code marketplace, Install SHAFT agent skills, Install with the SHAFT installer, Install with the Skills CLI, Related, Verify the installation
 
 ### Community 117 - "Optional AI providers"
 Cohesion: 0.29
@@ -1027,8 +1032,8 @@ Cohesion: 0.29
 Nodes (5): allowedTargets, allowedTypes, catalog, pilotTimeout, seenKeys
 
 ### Community 205 - "docs-quality.test.js"
-Cohesion: 0.12
-Nodes (10): allowedAdmonitions, bannedLinkText, docs, docsRoot, genericAltText, legacyExecutionSuffix, pillarsGuide, publicDirectories (+2 more)
+Cohesion: 0.09
+Nodes (15): agenticOverview, allowedAdmonitions, bannedLinkText, docs, docsRoot, genericAltText, legacyExecutionSuffix, maintainersOverview (+7 more)
 
 ### Community 209 - "Contributing To The SHAFT User Guide"
 Cohesion: 0.15
@@ -1063,17 +1068,17 @@ Cohesion: 0.18
 Nodes (14): index, outputPath, root, buildDocumentationIndex(), countOccurrences(), currentDir, EXCLUDED_DIRECTORIES, MCP_COMMAND_SYSTEMS (+6 more)
 
 ## Knowledge Gaps
-- **1585 isolated node(s):** `npx`, `a11y-mcp-server`, `startTime`, `documentation`, `githubContext` (+1580 more)
+- **1599 isolated node(s):** `npx`, `a11y-mcp-server`, `startTime`, `documentation`, `githubContext` (+1594 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Clicking` connect `Clicking` to `Element_Actions.md`?**
+- **Why does `Network Interception` connect `Network Interception` to `Browser_Actions.md`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `npx`, `a11y-mcp-server`, `startTime` to the rest of the system?**
-  _1585 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1599 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `SHAFT API Response Validations` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `parallelExecution.md` be split into smaller, more focused modules?**

@@ -128,25 +128,10 @@ downloaded versus already up to date). Run the same command later to install a
 newer release. If you run the script without a
 target, it prompts you to choose a supported client.
 
-After the MCP setup succeeds, attended installs ask whether to install the
-SHAFT agent skills into the current directory and show that directory before
-you answer. Press Enter or answer `y` to install `shaft-skills/`; answer `n` to
-skip them. Unattended installs, including the IntelliJ IDEA plugin target,
-install the skills by default. Use `--install-shaft-skills` to force skill
-installation or `--skip-shaft-skills` to disable it.
-
-Installing the skills also installs a generated
-[tool catalog](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-mcp-tools.md)
-at `shaft-skills/references/shaft-mcp-tools.md`, listing every `shaft-mcp`
-tool name and a one-line description. Agents should read this cached catalog
-for exact tool names instead of listing tools at runtime, which cuts
-consumer-agent token usage. On clients that defer tool schemas until
-requested, such as Claude Code's `ToolSearch`, batch-load every tool a task
-needs in one lookup instead of one call per tool. A companion
-[shaft-cli command reference](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-skills/references/shaft-cli-commands.md)
-at `shaft-skills/references/shaft-cli-commands.md` tells agents to prefer the
-installed [shaft-cli](/docs/agentic/cli) over raw MCP tool calls, with MCP as
-the fallback.
+After MCP setup succeeds, the installer can also add SHAFT's agent skills and
+their generated tool catalogs. See [Install SHAFT agent skills](/docs/agentic/skills)
+for attended and unattended behavior, client-native destinations, flags,
+alternative installation routes, and verification.
 
 The resulting local stdio process lets SHAFT launch the browser on your desktop
 so you can see and interact with the automation session. Do not use the Docker
@@ -930,6 +915,7 @@ validation and publication.
 ## Related
 
 - [Overview](/docs/agentic/overview)
+- [Install SHAFT agent skills](/docs/agentic/skills)
 - [Pilot](/docs/agentic/pilot)
 - [Doctor](/docs/agentic/doctor)
 - [Providers](/docs/agentic/providers)

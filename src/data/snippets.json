@@ -4,6 +4,10 @@
   "allureReportPath": "allure-results and the generated Allure report under the project target output",
   "browserSelectionProperties": "targetBrowserName=CHROME\nheadlessExecution=true\ncreateAnimatedGif=true\nallure.singleFile=true",
   "githubRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+  "skillsInstaller": {
+    "windows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-skills')\"",
+    "posix": "curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-skills"
+  },
   "mcpInstaller": {
     "commandTemplates": {
       "windows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client {client} --install-shaft-skills\"",
