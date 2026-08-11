@@ -19,7 +19,10 @@
 
 ## Graphify
 
-- Before PRs, refresh graphify here and in `C:\Users\Mohab\IdeaProjects\SHAFT_ENGINE` when files or relationships change; use incremental if a graph exists, otherwise full extraction, and report backend/key blockers.
+- Before PRs, refresh Graphify for every changed repository from that
+  repository's primary checkout. Use the repository-owned maintenance
+  controller with an explicit, relative `--root`; linked worktrees only read
+  the shared cache. Report tool, parser, and cache blockers.
 
 ## Validation
 
