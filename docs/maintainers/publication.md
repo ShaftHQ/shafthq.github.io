@@ -18,6 +18,7 @@ SHAFT publishes the complete reactor as one Maven Central deployment. Publicatio
 | `io.github.shafthq:shaft-engine` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-pilot-core` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-capture` | JAR | sources, JavaDocs, signatures |
+| `io.github.shafthq:shaft-capture-proxy` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-doctor` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-ai` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-heal` | JAR | sources, JavaDocs, signatures |
@@ -26,6 +27,7 @@ SHAFT publishes the complete reactor as one Maven Central deployment. Publicatio
 | `io.github.shafthq:shaft-visual` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-sikulix` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-mcp` | thin JAR | sources, JavaDocs, signatures |
+| `io.github.shafthq:shaft-cli` | JAR | sources, JavaDocs, signatures |
 | `io.github.shafthq:shaft-bom` | POM | signature |
 | `io.github.shafthq:SHAFT_ENGINE` | relocation POM | signature |
 

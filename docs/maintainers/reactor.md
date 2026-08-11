@@ -16,13 +16,15 @@ relocation artifact that points consumers to the canonical JAR.
 
 - The root `pom.xml` is the `io.github.shafthq:shaft-parent` aggregator and build parent. It owns shared version properties, dependency management, and plugin management.
 - `shaft-engine/pom.xml` builds the engine JAR. All framework source, resources, tests, examples, and runtime support assets remain under `shaft-engine/src/`; Java packages remain under `com.shaft`.
-- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, `shaft-sikulix`, and `shaft-mcp` versions without adding dependencies by itself.
+- `shaft-bom/pom.xml` publishes the consumer BOM. Importing it manages the `shaft-engine`, `shaft-pilot-core`, `shaft-capture`, `shaft-capture-proxy`, `shaft-doctor`, `shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, `shaft-visual`, `shaft-sikulix`, and `shaft-mcp` versions without adding dependencies by itself.
 - `shaft-pilot-core/pom.xml` builds provider-neutral Pilot contracts, security controls, configuration snapshots, and deterministic fallback. It depends on `shaft-engine`; the engine has no reverse dependency.
 - `shaft-capture/pom.xml` builds managed Chrome/Edge recording, versioned contracts, deterministic privacy classification, Java/TestNG generation, compile/replay validation, schema migration, and atomic JSON persistence. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
+- `shaft-capture-proxy/pom.xml` isolates the MITM HTTP(S) proxy used to record native mobile API traffic so Netty and Bouncy Castle stay off the classpath of consumers that do not enable that capability. It depends on `shaft-engine` and `shaft-capture`.
 - `shaft-doctor/pom.xml` builds allowlisted local evidence collection, redacted portable bundles, deterministic failure rules, JSON/Markdown reports, provider-neutral optional advisory integration, and isolated approval-gated repair proposals. It depends on `shaft-pilot-core` and has no dependency on `shaft-ai`.
 - `shaft-ai/pom.xml` builds optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama adapters. It depends on `shaft-pilot-core` and exposes no provider SDK types.
 - `shaft-heal/pom.xml` builds optional deterministic web element recovery, bounded local history, structured reports, and provider-neutral optional reranking. It depends on `shaft-engine` and `shaft-pilot-core`.
 - `shaft-mcp/pom.xml` builds the optional executable MCP server plus SHAFT Capture and Doctor CLIs. It depends on `shaft-engine`, `shaft-capture`, `shaft-doctor`, and `shaft-ai` so the executable can offer explicitly configured direct-provider advisories; the engine has no reverse dependency on MCP.
+- `shaft-cli/pom.xml` builds the command-line client over the SHAFT MCP capability set for scripts and CI. It publishes independently and is not managed by the consumer BOM.
 - `shaft-browserstack/pom.xml` builds the optional BrowserStack Java SDK integration. Direct BrowserStack
   WebDriver/Appium sessions remain in `shaft-engine`.
 - `shaft-video/pom.xml` builds the optional desktop video recording provider. Add it when local desktop screen recording is needed; Appium-native recording remains in `shaft-engine`.
@@ -98,6 +100,7 @@ Build and test outputs are module-local. Important locations include:
 - Engine JAR: `shaft-engine/target/shaft-engine-<version>.jar`
 - Pilot contracts JAR: `shaft-pilot-core/target/shaft-pilot-core-<version>.jar`
 - Capture contracts JAR: `shaft-capture/target/shaft-capture-<version>.jar`
+- Capture proxy JAR: `shaft-capture-proxy/target/shaft-capture-proxy-<version>.jar`
 - Doctor analyzer JAR: `shaft-doctor/target/shaft-doctor-<version>.jar`
 - Optional direct providers JAR: `shaft-ai/target/shaft-ai-<version>.jar`
 - Optional SHAFT Heal JAR: `shaft-heal/target/shaft-heal-<version>.jar`
@@ -106,6 +109,7 @@ Build and test outputs are module-local. Important locations include:
 - Optional visual-processing JAR: `shaft-visual/target/shaft-visual-<version>.jar`
 - Optional SikuliX JAR: `shaft-sikulix/target/shaft-sikulix-<version>.jar`
 - MCP thin JAR: `shaft-mcp/target/shaft-mcp-<version>.jar`
+- CLI JAR: `shaft-cli/target/shaft-cli-<version>.jar`
 - Surefire reports: `<module>/target/surefire-reports/`
 - Aggregate JaCoCo report: `target/jacoco/`
 - Per-module JaCoCo execution data: `<module>/target/jacoco.exec`

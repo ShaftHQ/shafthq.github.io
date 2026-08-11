@@ -400,7 +400,7 @@ public class ShadowDomTest {
 }
 ```
 
-For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
+For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
 
 ## Interacting with IFrames
 
@@ -864,7 +864,7 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 
 - [Web locator strategy](/docs/testing/web#locator-strategy)
 - [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
-- [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/LocatorBuilderTest.java)
-- [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/src/test/java/testPackage/locator/ShadowDomTest.java)
+- [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/LocatorBuilderTest.java)
+- [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java)
 - [Selenium By Methods Documentation](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html)
 - [W3C WebDriver Specification](https://www.w3.org/TR/webdriver/)

@@ -74,6 +74,19 @@ export function GitHubStarLink(): JSX.Element {
   );
 }
 
+export function SkillsInstallerCommands(): JSX.Element {
+  return (
+    <>
+      <CodeBlock language="powershell" title="Windows">
+        {snippets.skillsInstaller.windows}
+      </CodeBlock>
+      <CodeBlock language="bash" title="macOS and Linux">
+        {snippets.skillsInstaller.posix}
+      </CodeBlock>
+    </>
+  );
+}
+
 export function ReleaseFacts(): JSX.Element {
   return (
     <ul>

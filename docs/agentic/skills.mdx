@@ -1,0 +1,109 @@
+---
+id: skills
+title: Install SHAFT agent skills
+description: Install the first-party SHAFT testing skill pack for agent-native projects.
+slug: /agentic/skills
+keywords: [SHAFT, agent skills, testing skills, install, plugin, MCP, CLI]
+tags: [agents, skills, install, plugin]
+---
+
+import {SkillsInstallerCommands} from '@site/src/components/DocSnippets';
+
+# Install SHAFT agent skills
+
+SHAFT ships 30 focused skills for planning, writing, running, diagnosing, and
+reporting tests. Start a SHAFT task with `$shaft-developer`; its router selects
+one lifecycle, implementation, or MCP/CLI specialist for the immediate job.
+
+The pack contains guidance, not a model or hosted agent. It uses the tools and
+permissions of the agent client where you install it.
+
+## Choose an installation route
+
+| Route | Best for | What it installs |
+|---|---|---|
+| SHAFT installer | Most projects and MCP users | All skills plus generated MCP and CLI catalogs in the client-native directory |
+| Claude Code marketplace | Claude Code projects | The complete repository skill package and shared references |
+| Skills CLI | Installing individual skill directories across supported agents | Skill directories only; shared generated catalogs are omitted |
+| `shaft_project_init_agents` | An existing project connected to SHAFT MCP | Host-native bridges or full skill files while preserving existing files |
+
+## Install with the SHAFT installer
+
+Run from the project that should receive the skills.
+
+<SkillsInstallerCommands />
+
+When the installer has a client target, it writes to that client's native
+directory: `.agents/skills` for Codex, `.claude/skills` for Claude clients, or
+`.github/skills` for Copilot clients. The IntelliJ plugin target installs all
+three layouts for project portability. A skills-only run with no client target
+also installs all three layouts.
+
+Re-run the same command to upgrade. SHAFT replaces its own installed files and
+leaves unrelated user skills untouched. It refuses linked or junctioned native
+skill directories on Windows so installation cannot escape the project.
+
+With no arguments in an interactive terminal, the installer asks which
+components to install; skills default to yes. A non-interactive run must pass a
+component selector. Use `--install-shaft-skills` to install skills without a
+prompt or `--skip-shaft-skills` to decline them in an interactive selection.
+When also configuring MCP, select one client with `--codex`, `--claude`,
+`--claude-desktop`, `--copilot`, `--copilot-intellij`, or
+`--intellij-plugin`. A client selector alone configures MCP but does not install
+skills, so combine it with `--install-shaft-skills` when both are required.
+
+## Install from the Claude Code marketplace
+
+Claude Code can load the repository's bundled marketplace manifest directly:
+
+```shell
+claude plugin marketplace add ShaftHQ/SHAFT_ENGINE --scope project
+claude plugin install shaft-skills@shafthq --scope project
+```
+
+This route includes shared references and generated MCP/CLI catalogs.
+For Codex, use the SHAFT installer above; the repository-root marketplace
+manifest is Claude-specific.
+
+## Install with the Skills CLI
+
+Use the Skills CLI when direct skill-directory installation is preferred:
+
+```shell
+npx skills add https://github.com/ShaftHQ/SHAFT_ENGINE/tree/main/shaft-skills --skill '*' --agent '*' -y
+```
+
+This route installs each skill but omits the pack's shared generated
+`shaft-mcp-tools.md` and `shaft-cli-commands.md` catalogs. Prefer the SHAFT
+installer or plugin marketplace when an agent needs exact offline tool and
+command lookup.
+
+## Initialize skills through SHAFT MCP
+
+For a project already connected to SHAFT MCP, initialize every supported host
+layout without overwriting existing files:
+
+```json
+{"tool": "shaft_project_init_agents", "arguments": {"loop": "all", "targetDirectory": ".", "overwrite": false}}
+```
+
+Use a single loop such as `codex`, `claude`, `opencode`, or `vscode` when the
+project targets only one host. Review the returned skipped-file warnings before
+using `overwrite: true`.
+
+## Verify the installation
+
+Start a fresh agent session in the project and ask it to load
+`$shaft-developer`. For an MCP-connected project, search the official guide
+before generating code:
+
+```json
+{"tool": "shaft_guide_search", "arguments": {"query": "page object model locators", "maxResults": 3}}
+```
+
+## Related
+
+- [Connect shaft-mcp](/docs/agentic/mcp)
+- [SHAFT CLI](/docs/agentic/cli)
+- [IntelliJ IDEA plugin](/docs/agentic/intellij)
+- [Agentic testing overview](/docs/agentic/overview)
