@@ -1,16 +1,16 @@
 # Graph Report - shafthq.github.io  (2026-08-11)
 
 ## Corpus Check
-- 210 files · ~366,593 words
+- 211 files · ~366,748 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2425 nodes · 2502 edges · 229 communities (202 shown, 27 thin omitted)
+- 2435 nodes · 2511 edges · 228 communities (202 shown, 26 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `73d79a70`
+- Built from commit: `a69d626c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -66,7 +66,7 @@
 - Oracle_JDBC_Setup.md
 - Element_Actions.md
 - Infrastructure_Network_And_Visual.md
-- Executing Queries
+- security-regressions.test.js
 - API_Authentication.md
 - Mapping Tree
 - Test_Artifacts.md
@@ -106,7 +106,6 @@
 - devDependencies
 - SHAFT 10.3.20260711
 - SHAFT 10.3.20260712
-- Common Use Cases
 - compilerOptions
 - SHAFT 10.3.20260713
 - SHAFT 10.3.20260714
@@ -245,7 +244,7 @@
 ## God Nodes (most connected - your core abstractions)
 1. `SiteRenderTest` - 41 edges
 2. `Upgrade to modular SHAFT` - 26 edges
-3. `scripts` - 22 edges
+3. `scripts` - 23 edges
 4. `Connect shaft-mcp` - 21 edges
 5. `Request Builder` - 17 edges
 6. `Allure Report` - 16 edges
@@ -269,7 +268,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (229 total, 27 thin omitted)
+## Communities (228 total, 26 thin omitted)
 
 ### Community 0 - "SHAFT API Response Validations"
 Cohesion: 0.04
@@ -365,7 +364,7 @@ Nodes (22): Browser requirements, Chrome/Edge requirement (HasDevTools), Code ge
 
 ### Community 23 - "scripts"
 Cohesion: 0.09
-Nodes (22): scripts, build, build:llms, clear, deploy, docusaurus, generate:properties-catalog, serve (+14 more)
+Nodes (23): scripts, build, build:llms, clear, deploy, docusaurus, generate:properties-catalog, serve (+15 more)
 
 ### Community 24 - "IntelliJ IDEA plugin"
 Cohesion: 0.09
@@ -424,8 +423,8 @@ Cohesion: 0.14
 Nodes (13): CLI reference, Diagnose failures with Doctor, Diagnosis, Evidence, MCP, MCP healer loop, Optional provider advisory, Outputs (+5 more)
 
 ### Community 38 - "Terminal_Actions.md"
-Cohesion: 0.20
-Nodes (7): Best Practices, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, Getting a Terminal Instance, Related, Timeouts and Reporting
+Cohesion: 0.14
+Nodes (11): Best Practices, Build and Deployment Validation, Common Use Cases, Cross-Platform Compatibility, Execute a Single Command, Execute Multiple Commands, File System Validation, Getting a Terminal Instance (+3 more)
 
 ### Community 39 - "Quick start"
 Cohesion: 0.14
@@ -448,8 +447,8 @@ Cohesion: 0.15
 Nodes (12): Best Practices, Create an SSH Terminal, Experimental Shell / PTY Support, JSch Compatibility Notes, Local Port Forward, Port Forwarding, Prerequisites, Related (+4 more)
 
 ### Community 44 - "DB_Actions.md"
-Cohesion: 0.25
-Nodes (7): Complete Test Example, Connecting to a Database, Connection Strings Reference, Factory Methods, Related, Using a Custom JDBC Connection String, Using the DatabaseType Enum (Recommended)
+Cohesion: 0.15
+Nodes (8): Complete Test Example, Connecting to a Database, Connection Strings Reference, Executing Queries, Factory Methods, Related, Using a Custom JDBC Connection String, Using the DatabaseType Enum (Recommended)
 
 ### Community 45 - "Testing_Pyramid.md"
 Cohesion: 0.15
@@ -474,6 +473,10 @@ Nodes (8): Clipboard Actions, Fluent Chaining, Native Mobile Commands, Related, 
 ### Community 50 - "Infrastructure_Network_And_Visual.md"
 Cohesion: 0.17
 Nodes (11): Accessibility testing {/* #accessibility-testing */}, Custom browser capabilities {/* #custom-capabilities */}, Jira integration {/* #jira-integration */}, Kubernetes Selenium Grid {/* #kubernetes-selenium-grid */}, Local Selenium Grid execution {/* #local-selenium-grid */}, Mobile emulation {/* #mobile-emulation */}, Native Selenium WebDriver access {/* #native-selenium-webdriver */}, Network mocking and interception {/* #network-mocking */} (+3 more)
+
+### Community 51 - "security-regressions.test.js"
+Cohesion: 0.25
+Nodes (7): assert, fs, homepage, path, prBuild, repoRoot, runner
 
 ### Community 52 - "API_Authentication.md"
 Cohesion: 0.18
@@ -616,8 +619,8 @@ Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260710, ⚡ What Changed?, What's Changed
 
 ### Community 88 - "devDependencies"
-Cohesion: 0.13
-Nodes (15): @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, devDependencies, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, @playwright/test (+7 more)
+Cohesion: 0.12
+Nodes (17): cross-spawn, @docusaurus/module-type-aliases, @docusaurus/tsconfig, @docusaurus/types, devDependencies, cross-spawn, @docusaurus/module-type-aliases, @docusaurus/tsconfig (+9 more)
 
 ### Community 89 - "SHAFT 10.3.20260711"
 Cohesion: 0.25
@@ -626,10 +629,6 @@ Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds
 ### Community 90 - "SHAFT 10.3.20260712"
 Cohesion: 0.25
 Nodes (7): 📋 Changelog, 🏆 Community Spotlight, 🚀 Get Started in Seconds, 💬 Join the Conversation, SHAFT 10.3.20260712, ⚡ What Changed?, What's Changed
-
-### Community 91 - "Common Use Cases"
-Cohesion: 0.50
-Nodes (4): Build and Deployment Validation, Common Use Cases, File System Validation, Test Environment Setup and Teardown
 
 ### Community 92 - "compilerOptions"
 Cohesion: 0.08
@@ -792,7 +791,7 @@ Cohesion: 0.29
 Nodes (6): GitHub Actions Matrix Example, Merging Shard Blobs With ShardMergeCli, Related, Running Shards Locally, What Sharding Does, When to Use Sharding
 
 ### Community 132 - "run-shaft-tests.mjs"
-Cohesion: 0.32
+Cohesion: 0.38
 Nodes (6): findAvailablePort(), isPortAvailable(), isSiteAvailable(), releases, repoRoot, waitForSite()
 
 ### Community 133 - "demo-autobot-approach.mjs"
@@ -1068,24 +1067,24 @@ Cohesion: 0.18
 Nodes (14): index, outputPath, root, buildDocumentationIndex(), countOccurrences(), currentDir, EXCLUDED_DIRECTORIES, MCP_COMMAND_SYSTEMS (+6 more)
 
 ## Knowledge Gaps
-- **1599 isolated node(s):** `npx`, `a11y-mcp-server`, `startTime`, `documentation`, `githubContext` (+1594 more)
+- **1608 isolated node(s):** `npx`, `a11y-mcp-server`, `startTime`, `documentation`, `githubContext` (+1603 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **27 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Network Interception` connect `Network Interception` to `Browser_Actions.md`?**
+- **Why does `File Transfer` connect `File Transfer` to `SSH_Terminal.md`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Cookies` connect `Cookies` to `Browser_Actions.md`?**
+  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `Typing` connect `Typing` to `Element_Actions.md`?**
   _High betweenness centrality (0.001) - this node is a cross-community bridge._
 - **What connects `npx`, `a11y-mcp-server`, `startTime` to the rest of the system?**
-  _1599 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1608 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `SHAFT API Response Validations` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `parallelExecution.md` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `Upgrade to modular SHAFT` be split into smaller, more focused modules?**
   _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
-- **Should `Request Builder` be split into smaller, more focused modules?**
-  _Cohesion score 0.046511627906976744 - nodes in this community are weakly interconnected._
-- **Should `SHAFT_ENGINE Test Automation Expert` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._

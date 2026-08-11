@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1786440539.7984533,
-    "ast_hash": "da415c2cd45d77e764ad0f8c806041df",
+    "mtime": 1786443735.987814,
+    "ast_hash": "4bb0c66676e0248c2fd16d330f2b03bc",
     "semantic_hash": ""
   },
   "playwright.config.js": {
@@ -35,8 +35,8 @@
     "semantic_hash": ""
   },
   "scripts/run-shaft-tests.mjs": {
-    "mtime": 1786440539.8038583,
-    "ast_hash": "4a81904c720af93da79392c240c2e09b",
+    "mtime": 1786443735.987814,
+    "ast_hash": "246612b744e7db4640c4dccae5d01636",
     "semantic_hash": ""
   },
   "scripts/verify-models.js": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "tests/e2e/homepage.spec.js": {
-    "mtime": 1786440539.9843204,
-    "ast_hash": "f7f7e8b6d3351486588b8cba32bd370f",
+    "mtime": 1786443735.9892857,
+    "ast_hash": "e3c9069c6fc4bcd0942bd6530b150d3d",
     "semantic_hash": ""
   },
   "tests/enhanced-instruction.test.js": {
@@ -1100,8 +1100,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/pr-build.yml": {
-    "mtime": 1786440539.6649177,
-    "ast_hash": "d97a3124d4af5a3458192782b8e6f938",
+    "mtime": 1786443735.986813,
+    "ast_hash": "bfa3e2d541410b16c57b318e039b9e5c",
     "semantic_hash": ""
   },
   "blog/2026-06-18-release-history.md": {
@@ -1317,6 +1317,11 @@
   "docs/agentic/skills.mdx": {
     "mtime": 1786443398.6673033,
     "ast_hash": "5e4482b24ab4f4dc43c1c2a604e7fc0f",
+    "semantic_hash": ""
+  },
+  "tests/security-regressions.test.js": {
+    "mtime": 1786443735.9902935,
+    "ast_hash": "acdd251087446c9e291f2dc46bd57abf",
     "semantic_hash": ""
   }
 }
