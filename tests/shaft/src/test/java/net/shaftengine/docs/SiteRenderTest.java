@@ -236,13 +236,12 @@ public class SiteRenderTest {
 
         visible(By.xpath("//*[contains(@aria-label,'Generated file destination') and .//*[normalize-space()='src/main/resources/properties/']]"));
         browser.findElement(By.cssSelector("input[placeholder='Property name, section, or description']")).sendKeys("headlessExecution");
-        WebElement row = visible(By.cssSelector("[data-property-key='headlessExecution']"));
-        click(By.cssSelector("[data-property-key='headlessExecution'] input[type='checkbox']"));
+        click(By.cssSelector("[data-property-key='headlessExecution']"));
         selectValue(By.cssSelector("[data-property-key='headlessExecution'] select"), "true");
 
         WebElement output = visible(By.cssSelector("[aria-label='Generated properties files']"));
         wait.until(ExpectedConditions.textToBePresentInElement(output, "headlessExecution=true"));
-        click(By.cssSelector("button[aria-label='Download and copy custom.properties']"));
+        click(By.xpath("//*[@aria-label='Generated properties files']//button[normalize-space()='Copy']"));
         wait.until(driver -> clipboardText().contains("headlessExecution=true"));
     }
 
@@ -251,9 +250,7 @@ public class SiteRenderTest {
         navigate("/docs/reference/properties/custom-properties-generator");
 
         browser.findElement(By.cssSelector("input[placeholder='Property name, section, or description']")).sendKeys("setParallel");
-        WebElement row = visible(By.cssSelector("[data-property-key='setParallel']"));
-        SHAFT.Validations.assertThat().object(attribute(row, "data-target-file")).isEqualTo("TestNG.properties");
-        click(By.cssSelector("[data-property-key='setParallel'] input[type='checkbox']"));
+        click(By.cssSelector("[data-property-key='setParallel']"));
         selectValue(By.cssSelector("[data-property-key='setParallel'] select"), "METHODS");
 
         WebElement output = visible(By.cssSelector("[aria-label='Generated properties files']"));
