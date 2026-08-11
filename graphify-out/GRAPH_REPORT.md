@@ -1,4 +1,4 @@
-# Graph Report - issue-924  (2026-08-11)
+# Graph Report - shafthq.github.io  (2026-08-11)
 
 ## Corpus Check
 - 209 files · ~365,521 words
