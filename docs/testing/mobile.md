@@ -142,7 +142,8 @@ with `UnsupportedOperationException` instead of inferring support from a
 platform name.
 :::
 
-SHAFT records one backend-only `mobile/performance` trace event for each
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/performance` event for each
 operation. Events include counts, not the application ID, requested type,
 columns, rows, or provider payload. Submitted and returned values are registered
 with the failure-trace redactor before later reports are rendered.
@@ -190,11 +191,12 @@ positive recording flow for a compatible Appium server; do not substitute a
 provider's session-video feature for these returned bytes.
 :::
 
-SHAFT records one backend-only `mobile/recording` trace event for each public
-operation. Metadata contains only configured seconds or decoded byte counts.
-Media, target paths, provider payloads, DOM, and screenshots are not attached;
-target paths and provider failures are registered with the failure-trace
-redactor before later reports are rendered.
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/recording` event for each
+public operation. Metadata contains only configured seconds or decoded byte
+counts. Media, target paths, provider payloads, DOM, and screenshots are not
+attached; target paths and provider failures are registered with the
+failure-trace redactor before later reports are rendered.
 
 ## Capture a bounded mobile evidence archive
 
