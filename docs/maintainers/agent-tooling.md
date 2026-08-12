@@ -21,7 +21,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | memory CLI | Durable repo memory in `.memory/` | npm `@aictx/memory@0.1.55` (pin in `scripts/ci/validate_agent_setup.py`) |
 | gbrain | Semantic repo index, knowledge graph, MCP server | Local git checkout, built with Bun |
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
-| graphify | Deterministic repository map (structure queries, pre-search file selection) | pip `graphifyy` (CLI `graphify`) |
+| graphify | Deterministic repository map (structure queries, pre-search file selection) | Repository controller using an isolated uv tool environment |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
 | maven-tools-mcp | Live Maven Central facts MCP | Docker `arvindand/maven-tools-mcp` (project `.mcp.json`) |
 | Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
@@ -115,10 +115,11 @@ powershell -ExecutionPolicy Bypass -File tools\agent-infra\install-agent-tasks.p
 ```
 
 It points the user-level `graphify-refresh` Scheduled Task at the repository's
-`tools/agent-infra/graphify-refresh.cmd`; logs stay machine-local under
-`~/.agent-infra/logs/`. For gbrain, `gbrain dream --dry-run` previews a
-maintenance cycle. Health and recommendations: `gbrain doctor`, `gbrain
-features`, `gbrain stats`.
+thin `tools/agent-infra/graphify-refresh.cmd` adapter. The adapter derives its
+repository root, then calls the same portable Python controller used by
+maintainers. Logs stay machine-local under `~/.agent-infra/logs/`. For gbrain,
+`gbrain dream --dry-run` previews a maintenance cycle. Health and
+recommendations: `gbrain doctor`, `gbrain features`, `gbrain stats`.
 Embed backlogs queued as jobs never drain on PGLite (no worker); cancel the
 job (`gbrain jobs cancel <id>`) and run `gbrain embed --stale`, or let the
 nightly dream absorb them.
@@ -151,7 +152,7 @@ gbrain config set autopilot.conversation_parser_probe.enabled true
   `sources.config`, not in this repo). `gbrain doctor`'s `frontmatter_integrity`
   check still WARNs on these files — that's a separate lint pass unaffected by
   the trust flag, not a regression. Until the upstream PR merges, the flag
-  requires the local `C:/Users/Mohab/gbrain` checkout on the
+  requires the local `<gbrain-checkout>` on the
   `feature/trust-frontmatter-slug` branch (or any branch built from it).
 - **Migration 0.32.2** refuses to run while a registered source has
   uncommitted git changes; commit first, then re-run
@@ -167,15 +168,58 @@ Deterministic repository map, complementary to gbrain — graphify answers
 gbrain answers *meaning* (semantic retrieval). Both stay.
 
 ```powershell
-py -3 -m pip install --user graphifyy==0.9.17   # CLI command is 'graphify'
-cd <SHAFT_ENGINE checkout>
-graphify .                                       # builds gitignored graphify-out/
-py -3 tools/repository-map/resolve_graph_out.py --record-current
+py -3 tools/repository-map/graphify_maintenance.py refresh --root .
 ```
 
-Run both build commands from the primary checkout. The second command binds the
-completed cache to the exact Git revision and manifest that Graphify indexed;
-linked worktrees must not rebuild or record the shared cache.
+Run the controller from the repository's primary checkout. It resolves the
+explicit `--root`, builds the gitignored `graphify-out/` cache, audits
+extraction coverage, clusters the graph, and records the freshness marker in
+this fixed order:
+
+```text
+build -> audit -> cluster -> marker
+```
+
+The marker binds the completed cache to the exact Git revision and manifest
+that Graphify indexed. A failed build, audit, or cluster stage leaves no
+current marker, so readers cannot accept a partial cache. Linked worktrees must
+not refresh or record the shared cache.
+
+The controller runs Graphify through this isolated uv tool invocation:
+
+```powershell
+uv tool run --with tree-sitter-sql --from graphifyy graphify
+```
+
+`graphifyy` is the distribution name, while `graphify` is its command. The
+ephemeral `tree-sitter-sql` dependency enables SQL parsing without changing a
+persistent global tool installation.
+
+Audit an existing cache without modifying it:
+
+```powershell
+py -3 tools/repository-map/graphify_maintenance.py audit --root .
+```
+
+The audit compares every normalized manifest path with graph node sources and
+reports four classifications:
+
+| Classification | Meaning | Result |
+|---|---|---|
+| `covered` | Graphify emitted at least one node for the source | Pass |
+| `expected_data_only` | A JSON data file emitted no code node | Visible in the report, but nonfatal |
+| `missing_optional_parser` | A SQL source emitted no node | Actionable failure |
+| `unexpected_parser_gap` | Any other source emitted no node | Actionable failure |
+
+Zero-node JSON files remain visible because they are expected data inputs, not
+proof of parser coverage. Zero-node SQL or other source files fail the audit;
+fix the parser or upstream extraction gap before accepting the cache.
+
+Only one refresh may run for a repository at a time. The controller holds a
+nonblocking advisory operating-system lock across build, audit, cluster, and
+marker recording. A contender fails before cache mutation. The operating
+system releases the lock if the process exits or is killed, so there is no
+stale lock file to delete.
 
 Agents check the shared cache with
 `py -3 tools/repository-map/resolve_graph_out.py --check`. The command exits
@@ -184,9 +228,10 @@ Missing caches report `absent`; unmarked, changed, or revision-mismatched
 caches report `stale`. In either degraded mode, use targeted `rg` and Memory
 instead of treating the map as current evidence.
 
-The daily `graphify-refresh` Scheduled Task rebuilds and re-clusters the map,
-then records the marker only after both stages succeed. See
-`tools/repository-map/README.md` in SHAFT_ENGINE for the shared-cache contract.
+The daily `graphify-refresh` Scheduled Task uses the same controller and safety
+rules. See the
+[repository-map runbook](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/tools/repository-map/README.md)
+for the executable shared-cache contract.
 
 ## MCP servers and plugins
 
@@ -205,3 +250,8 @@ curl http://127.0.0.1:11434/api/tags    # ollama up, nomic-embed-text present
 docker ps --format '{{.Names}} {{.Status}}' | grep gbrain-ollama
 py -3 scripts/ci/validate_agent_setup.py   # in SHAFT_ENGINE
 ```
+
+## Related
+
+- [Maintainer overview](/docs/maintainers/overview)
+- [Agent guidance maintenance](/docs/maintainers/agent-guidance)
