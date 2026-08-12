@@ -2104,6 +2104,146 @@ Context transitions are trace events too. A call such as
 requested context, and resulting context when the Appium provider supports
 context inspection.
 
+## Read Android performance data
+
+Use `driver.mobile().performance()` when the live Appium driver exposes its
+performance-data interface. Check the provider's advertised types, then request
+one tabular sample for the application package and type you need.
+
+```java
+var performance = driver.mobile().performance();
+
+if (performance.supportedTypes().contains("memoryinfo")) {
+ var sample = performance.sample("com.example.app", "memoryinfo");
+
+ System.out.println(sample.columns());
+ System.out.println(sample.rows());
+}
+
+performance.clear();
+```
+
+Each `MobilePerformanceSample` contains its capture time, application ID, data
+type, columns, and rows. The model copies the provider table and exposes
+immutable lists. `history()` returns an immutable snapshot of the newest 100
+successful samples for that driver identity; `clear()` removes that session's
+history.
+
+:::warning
+Performance data is available only when the live Appium driver implements the
+exact performance-data interface. Android drivers normally expose it. iOS,
+Windows, Mac2, generic, closed, and custom drivers without that interface fail
+with `UnsupportedOperationException` instead of inferring support from a
+platform name.
+:::
+
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/performance` event for each
+operation. Events include counts, not the application ID, requested type,
+columns, rows, or provider payload. Submitted and returned values are registered
+with the failure-trace redactor before later reports are rendered.
+
+## Record the mobile screen
+
+Use `driver.mobile().recording()` when the live Appium driver supports screen
+recording. Start one bounded recording, then stop it for decoded media bytes or
+publish it to an exact local path.
+
+```java
+
+var recording = driver.mobile().recording();
+var options = new MobileRecordingOptions(
+ Duration.ofSeconds(30),
+ 32L * 1024 * 1024);
+
+recording.start(options);
+// Exercise the mobile application.
+Path saved = recording.stopAndSave(Path.of("artifacts", "mobile-recording.mp4"));
+System.out.println(saved);
+```
+
+`start()` uses a three-minute provider limit and a 64 MiB decoded-result limit.
+Explicit options accept one second through 30 minutes and one byte through 256
+MiB. `stop()` returns a fresh byte array. `stopAndSave()` uses SHAFT's safe
+exact-target publisher and returns the normalized target path.
+
+Recording state belongs to the driver session and is shared with SHAFT's
+automatic failure-video recorder. One owner cannot start over or stop the
+other owner's recording. A failed provider start returns the session to idle;
+a provider stop failure keeps ownership active so the same caller can retry.
+Driver teardown closes the recording state without issuing another provider
+command.
+
+:::warning
+The Appium Java interface does not guarantee that a remote provider implements
+the screen-recording command. BrowserStack App Automate rejected the command on
+the tested Android and iOS real-device paths, including Appium 3.3.0. Keep the
+positive recording flow for a compatible Appium server; do not substitute a
+provider's session-video feature for these returned bytes.
+:::
+
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/recording` event for each
+public operation. Metadata contains only configured seconds or decoded byte
+counts. Media, target paths, provider payloads, DOM, and screenshots are not
+attached; target paths and provider failures are registered with the
+failure-trace redactor before later reports are rendered.
+
+## Capture a bounded mobile evidence archive
+
+Use `driver.mobile().evidence()` to publish one bounded, redaction-aware
+snapshot of the current live Appium session. Supply the exact ZIP target and
+keep the returned immutable descriptor for typed log, performance, metadata,
+omission, and artifact-reference access.
+
+```java
+
+var evidence = driver.mobile().evidence();
+var bundle = evidence.capture(Path.of("artifacts", "mobile-evidence.zip"));
+
+System.out.println(bundle.archive());
+for (var artifact : bundle.artifacts()) {
+ System.out.printf("%s: %s%n", artifact.kind(),
+ artifact.omitted() ? "omitted" : artifact.path());
+}
+```
+
+The archive contains `mobile-evidence.json` plus stable entries for the
+current screenshot, current-context source, and the latest retained recording.
+Each artifact reference resolves to content or to an explicit omission marker.
+The descriptor also exposes immutable, redacted snapshots of SHAFT-owned mobile
+logs and performance history. `omissions()` distinguishes unsupported,
+not-started, empty, sensitive, oversized, provider-failed, active, missing, and
+changed components, including changes during capture and the absence of a
+retained recording, without copying provider messages.
+
+Capture does not switch context, start or clear log collection, clear
+performance history, or stop an active recording. A recording is eligible only
+after `stopAndSave()` publishes it successfully. If the context changes during
+capture, SHAFT discards the inconsistent screenshot and source. Capture and
+driver teardown share one lifecycle boundary; once teardown wins that boundary,
+the closed session cannot publish a stale archive.
+
+The existing `shaft.trace.maxArtifactMb` setting is one aggregate limit for the
+manifest and every archive entry. Text is UTF-8 byte-bounded, saved recordings
+are verified by size and SHA-256 before copying, and the exact target uses
+SHAFT's recoverable, symlink-safe publisher. Screenshot and source collection
+also follow the existing sensitive-evidence suppression policy.
+
+:::danger
+Capture can replace the exact target you provide. The ZIP can contain
+application screenshots, source, logs, performance values, and recording
+bytes. Store and share it as sensitive test evidence. Use a test-specific
+artifact path, and treat an omitted artifact as unavailable rather than reading
+a provider-managed session video or another external file.
+:::
+
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/evidence` event for each
+capture. Success metadata contains counts only. Archive paths, screenshot
+pixels, source, logs, performance values, recording bytes, DOM, URLs,
+attachments, and provider messages do not enter the event.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
