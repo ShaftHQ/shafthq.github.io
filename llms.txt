@@ -39,6 +39,7 @@
 ## Integrations
 - [BrowserStack](https://shafthq.github.io/docs/integrations/browserstack): Choose direct BrowserStack sessions or the optional SDK orchestration module.
 - [Desktop and video](https://shafthq.github.io/docs/integrations/desktop-and-video): Optional local desktop recording and SikuliX image-based desktop automation.
+- [OCR and visible-text automation](https://shafthq.github.io/docs/integrations/ocr): Recognize, assert, and interact with visible text in images, web pages, mobile apps, and desktop applications.
 - [Visual testing](https://shafthq.github.io/docs/integrations/visual): Add reference-image assertions and image-based touch operations.
 
 ## Reference

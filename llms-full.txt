@@ -7112,6 +7112,7 @@ capability they own.
 | `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
 | `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
 | `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
+| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. |
 | `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
 | `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
 
@@ -7130,6 +7131,7 @@ relocation POM for older coordinates, not a new-project dependency.
 | Appium Android/iOS driver-native recording | `shaft-engine` |
 | Local non-headless desktop recording | `shaft-video` |
 | Reference-image assertions and image-path touch actions | `shaft-visual` |
+| Visible-text actions and OCR assertions | `shaft-ocr` |
 | SikuliX image-based desktop automation | `shaft-sikulix` |
 | Deterministic explainable web element recovery | `shaft-heal` |
 | Screenshot highlighting, animated GIFs, and `compareImageFolders(...)` | `shaft-engine` |
@@ -7855,6 +7857,152 @@ Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-
 - [Visual testing](/docs/integrations/visual)
 - [Upgrade](/docs/start/upgrade)
 - [BrowserStack](/docs/integrations/browserstack)
+
+---
+
+# OCR and visible-text automation
+
+Canonical URL: https://shafthq.github.io/docs/integrations/ocr
+
+# OCR and visible-text automation
+
+Add `io.github.shafthq:shaft-ocr` when you need to recognize text from pixels. The module runs Tesseract locally through bundled native JavaCPP libraries; it does not require a system Tesseract installation or a cloud OCR service.
+
+## Add the module
+
+Import the SHAFT BOM, then add `shaft-engine` and `shaft-ocr` without module versions:
+
+```xml
+ 
+ 
+ 
+ io.github.shafthq 
+ shaft-bom 
+ ${shaft.version} 
+ pom 
+ import 
+ 
+ 
+ 
+
+ 
+ 
+ io.github.shafthq 
+ shaft-engine 
+ 
+ 
+ io.github.shafthq 
+ shaft-ocr 
+ 
+ 
+```
+
+Without `shaft-ocr`, OCR calls fail with a message that names the missing optional dependency.
+
+## Target visible text
+
+Create exact or partial OCR targets through the usual locator namespace. Use the target with WebDriver, Appium, or Playwright element actions:
+
+```java
+var exactText = SHAFT.GUI.Locator.hasOcrText("Checkout");
+var partialText = SHAFT.GUI.Locator.containsOcrText("Check");
+
+driver.element().click(exactText);
+driver.element().hover(partialText);
+driver.element().doubleClick(exactText);
+```
+
+The default target requires one match. Select a zero-based occurrence when the same text appears more than once:
+
+```java
+driver.element().click(
+ SHAFT.GUI.Locator.containsOcrText("Save").occurrence(1)
+);
+```
+
+SHAFT maps recognized screenshot coordinates to the active backend. WebDriver uses the browser viewport, Appium uses touch input, and Playwright uses its page mouse. Add `shaft-sikulix` to use the same OCR targets for desktop screen actions:
+
+```java
+new SHAFT.GUI.SikuliX().element()
+ .click(SHAFT.GUI.Locator.hasOcrText("Calculator"));
+```
+
+## Assert recognized text
+
+Assert an element screenshot with the same native string assertion syntax used elsewhere in SHAFT:
+
+```java
+driver.element().assertThat(By.id("receipt"))
+ .ocrText()
+ .contains("Payment complete");
+```
+
+Assert an encoded image or image file directly:
+
+```java
+SHAFT.Validations.assertThat()
+ .image(Path.of("test-data/receipt.png"))
+ .ocrText()
+ .contains("Total");
+
+SHAFT.Validations.verifyThat()
+ .image(imageBytes)
+ .ocrText()
+ .contains("Order number");
+```
+
+OCR recognition attaches the source image and recognition details to the report. OCR targeting also attaches the selected match, including its text, confidence, and bounds.
+
+## Tune recognition
+
+Start from `OcrOptions.defaults()` when asserting an image or element. Tune a target directly when interacting with visible text:
+
+```java
+var options = OcrOptions.defaults()
+ .withLanguages("English", "Arabic")
+ .withMinimumConfidence(0.80)
+ .withPreprocessingMode(OcrPreprocessingMode.GRAYSCALE)
+ .withPageSegmentationMode(OcrPageSegmentationMode.SPARSE_TEXT)
+ .within(new OcrRectangle(0, 0, 900, 500));
+
+SHAFT.Validations.assertThat()
+ .image(Path.of("test-data/bilingual-receipt.png"))
+ .ocrText(options)
+ .contains("الإجمالي");
+```
+
+Available preprocessing modes are `AUTO`, `NONE`, `GRAYSCALE`, `BINARY`, and `INVERT`. Page segmentation modes cover automatic text, a single block, line, or word, and sparse text.
+
+## Configure language models
+
+English and Arabic are the default languages. Pass Tesseract three-letter model codes or supported human-readable names for other languages. SHAFT downloads missing models on first use from a pinned `tessdata_fast` revision, verifies their integrity, and stores them in the user cache.
+
+Configure provisioning through the typed property namespace:
+
+```java
+SHAFT.Properties.ocr.set()
+ .cacheDirectory("build/shaft-ocr-models")
+ .downloadEnabled(false);
+```
+
+Use `shaft.ocr.cacheDirectory` and `shaft.ocr.downloadEnabled` in `custom.properties` or as system properties when code configuration is not appropriate.
+
+:::warning
+When downloads are disabled, every requested language model must already exist in the configured cache and pass integrity verification. SHAFT fails before recognition if a model is missing or altered.
+:::
+
+## Choose OCR for pixel-only text
+
+Prefer semantic locators when the application exposes a stable DOM, accessibility tree, or native element hierarchy. Use OCR for canvases, remote desktops, streamed applications, rendered documents, screenshots, inaccessible native surfaces, and other cases where text exists only as pixels.
+
+OCR accuracy depends on image resolution, contrast, font rendering, language models, and segmentation. Restrict the region, choose a suitable preprocessing mode, and raise the confidence threshold when the screen contains unrelated text.
+
+## Related
+
+- [Visual testing](./visual.md)
+- [Desktop and video automation](./desktop-and-video.md)
+- [Modular dependencies](../features/modules.md)
+- [Mobile testing](../testing/mobile.md)
 
 ---
 
