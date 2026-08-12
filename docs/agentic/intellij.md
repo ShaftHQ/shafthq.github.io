@@ -122,14 +122,18 @@ setup inputs. Test failures stay inline with categorized
 troubleshooting, client-specific next steps, copyable diagnostic output,
 copyable SHAFT MCP docs link, and the retry action remains enabled.
 
-Selecting **Gemini in IntelliJ** from **Agent** shows a **Gemini API key**
-field. Paste a Google AI Studio API key; **Check setup**
-stores it in IntelliJ Password Safe, saves the Cloud/Gemini Assistant route
-with a default model, and enables passing the stored key to the SHAFT MCP
-process. The installer target switches to `intellij-plugin` because Gemini
-prompts run through SHAFT MCP provider chat instead of an external agent CLI.
-If no key is stored, **Check setup** fails inline with a reminder to paste the
-key and check again.
+Selecting **Gemini in IntelliJ** from **Agent** detects configured Gemini
+environment variables. When no still-present source was selected previously,
+`GOOGLE_API_KEY` is the automatic default before `GEMINI_API_KEY`; select the
+detected variable to use it without copying its value into plugin settings or
+IntelliJ Password Safe. **Check setup** validates
+the selected credential against Gemini before it reports the route as ready.
+If neither variable is present, paste a Google AI Studio API key into the
+masked field. The plugin stores a pasted key in IntelliJ Password Safe, saves
+the Cloud/Gemini Assistant route with a default model, and passes only the
+selected credential to the SHAFT MCP process. The installer target switches to
+`intellij-plugin` because Gemini prompts run through SHAFT MCP provider chat
+instead of an external agent CLI.
 
 ![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
@@ -403,12 +407,15 @@ is blocked when the required `shaft-developer` or `shaft-recording-codegen`
 skill is missing; the repair action rechecks the files before it resends that
 prompt.
 
-Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. Their keys
-are stored in IntelliJ Password Safe; only the selected cloud provider key is
-passed to the MCP process. Cloud `AGENT` mode is disabled because direct
-provider chat cannot mutate the local workspace. A cloud route selected during
-first-run setup (such as Gemini) stays active in the basic UI; switching
-providers ad hoc remains an advanced-mode control.
+Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. For each
+provider, select a detected environment variable or store a key in IntelliJ
+Password Safe. The plugin recognizes `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`,
+`GOOGLE_API_KEY` then `GEMINI_API_KEY`, and `GH_TOKEN` then `GITHUB_TOKEN` in
+the stated precedence order. It stores only the selected variable name and
+passes only that provider credential to the MCP process. Cloud `AGENT` mode is
+disabled because direct provider chat cannot mutate the local workspace. A
+cloud route selected during first-run setup (such as Gemini) stays active in
+the basic UI; switching providers ad hoc remains an advanced-mode control.
 
 Use `Ctrl+Enter` or `Command+Enter` to send a prompt. Newly sent prompts scroll
 into view immediately, so the chat shows visible feedback before a long-running
@@ -645,11 +652,16 @@ evidence when exporting for issue review.
 Use this preferred launch path for the recording workflow from a clean, disposable
 IntelliJ sandbox/profile so onboarding state stays isolated:
 
-`gradle -p shaft-intellij runIde --args C:/Users/Mohab/IdeaProjects/SHAFT_ENGINE`
+```powershell
+$env:JAVA_HOME = '<absolute path to a JDK 25 installation>'
+shaft-intellij\gradlew.bat -p shaft-intellij runIde --args C:/path/to/SHAFT_ENGINE
+```
 
-On Windows JDK21 onboarding, SHAFT now ensures `%JAVA_HOME%\Packages` exists
-before instrumentation starts. The flow shows explicit diagnostics for missing,
-invalid, or unwritable `JAVA_HOME` values instead of opaque startup failures.
+Use JDK 25 for the checked-in Gradle 9.3 wrapper. The plugin still targets Java
+17 bytecode for IntelliJ compatibility. Run the repository's
+`tools/intellij-plugin-recording/record-onboarding.ps1` helper explicitly when
+you need its Windows-specific preflight diagnostics; the direct wrapper command
+above relies on Gradle's normal runtime diagnostics.
 
 Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
 Ask/Plan browser-control prompts should be resent in Agent mode when MCP tools
@@ -812,8 +824,10 @@ four sections:
   reveal advanced commands in the Assistant composer.
 - **Advanced**: Configure cloud provider selection for MCP tools and enable
   advanced workflows.
-- **Credentials**: Store OpenAI, Anthropic, Gemini, and GitHub API keys in
-  IntelliJ Password Safe for use by MCP tools that request provider assistance.
+- **Credentials**: Select a detected provider environment variable, or store
+  OpenAI, Anthropic, Gemini, and GitHub API keys in IntelliJ Password Safe for
+  use by MCP tools that request provider assistance. Environment selections
+  persist only the variable name, never the secret value.
 
 ### Expert mode
 
@@ -932,13 +946,17 @@ locators, and project settings remain unchanged.
 Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
 plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
 
-Optional OpenAI, Anthropic, Gemini, and GitHub tokens are stored in IntelliJ
-Password Safe and can be passed as MCP process environment variables for the
-selected provider. Settings also lets you select the configured SHAFT AI
-provider and model used by MCP tools that explicitly request provider
-assistance. Direct provider calls remain controlled by `shaft-ai` and the
-[provider controls](/docs/agentic/providers); the plugin only selects and
-passes the provider configuration.
+Optional OpenAI, Anthropic, Gemini, and GitHub tokens can come from a selected
+environment variable or IntelliJ Password Safe. Settings lists only variables
+that are present, stores only the selected variable name, validates the live
+selection with the provider-specific **Test** action, and never renders the
+secret in labels or diagnostics. If a selected variable disappears, the
+plugin fails closed instead of silently forwarding a different inherited key.
+Settings also lets you select the configured SHAFT AI provider and model used
+by MCP tools that explicitly request provider assistance. Direct provider
+calls remain controlled by `shaft-ai` and the [provider
+controls](/docs/agentic/providers); the plugin only selects and passes the
+provider configuration.
 
 Settings show whether each provider key is stored, provide explicit clear
 controls, and keep a test action for validating the current stdio command before
