@@ -28,6 +28,7 @@ capability they own.
 | `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
 | `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
 | `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
+| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. |
 | `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
 | `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
 
@@ -46,6 +47,7 @@ relocation POM for older coordinates, not a new-project dependency.
 | Appium Android/iOS driver-native recording                                                       | `shaft-engine`       |
 | Local non-headless desktop recording                                                             | `shaft-video`        |
 | Reference-image assertions and image-path touch actions                                          | `shaft-visual`       |
+| Visible-text actions and OCR assertions                                                          | `shaft-ocr`          |
 | SikuliX image-based desktop automation                                                           | `shaft-sikulix`      |
 | Deterministic explainable web element recovery                                                    | `shaft-heal`         |
 | Screenshot highlighting, animated GIFs, and `compareImageFolders(...)`                           | `shaft-engine`       |
