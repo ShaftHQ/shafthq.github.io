@@ -196,6 +196,62 @@ Media, target paths, provider payloads, DOM, and screenshots are not attached;
 target paths and provider failures are registered with the failure-trace
 redactor before later reports are rendered.
 
+## Capture a bounded mobile evidence archive
+
+Use `driver.mobile().evidence()` to publish one bounded, redaction-aware
+snapshot of the current live Appium session. Supply the exact ZIP target and
+keep the returned immutable descriptor for typed log, performance, metadata,
+omission, and artifact-reference access.
+
+```java
+import java.nio.file.Path;
+
+var evidence = driver.mobile().evidence();
+var bundle = evidence.capture(Path.of("artifacts", "mobile-evidence.zip"));
+
+System.out.println(bundle.archive());
+for (var artifact : bundle.artifacts()) {
+    System.out.printf("%s: %s%n", artifact.kind(),
+            artifact.omitted() ? "omitted" : artifact.path());
+}
+```
+
+The archive contains `mobile-evidence.json` plus stable entries for the
+current screenshot, current-context source, and the latest retained recording.
+Each artifact reference resolves to content or to an explicit omission marker.
+The descriptor also exposes immutable, redacted snapshots of SHAFT-owned mobile
+logs and performance history. `omissions()` distinguishes unsupported,
+not-started, empty, sensitive, oversized, provider-failed, active, missing, and
+changed components, including changes during capture and the absence of a
+retained recording, without copying provider messages.
+
+Capture does not switch context, start or clear log collection, clear
+performance history, or stop an active recording. A recording is eligible only
+after `stopAndSave()` publishes it successfully. If the context changes during
+capture, SHAFT discards the inconsistent screenshot and source. Capture and
+driver teardown share one lifecycle boundary; once teardown wins that boundary,
+the closed session cannot publish a stale archive.
+
+The existing `shaft.trace.maxArtifactMb` setting is one aggregate limit for the
+manifest and every archive entry. Text is UTF-8 byte-bounded, saved recordings
+are verified by size and SHA-256 before copying, and the exact target uses
+SHAFT's recoverable, symlink-safe publisher. Screenshot and source collection
+also follow the existing sensitive-evidence suppression policy.
+
+:::danger
+Capture can replace the exact target you provide. The ZIP can contain
+application screenshots, source, logs, performance values, and recording
+bytes. Store and share it as sensitive test evidence. Use a test-specific
+artifact path, and treat an omitted artifact as unavailable rather than reading
+a provider-managed session video or another external file.
+:::
+
+When failure tracing is enabled and the call is not under nested trace
+suppression, SHAFT records one backend-only `mobile/evidence` event for each
+capture. Success metadata contains counts only. Archive paths, screenshot
+pixels, source, logs, performance values, recording bytes, DOM, URLs,
+attachments, and provider messages do not enter the event.
+
 ## Flutter applications
 
 SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
