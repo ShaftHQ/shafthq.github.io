@@ -21,6 +21,7 @@
 - [Agentic testing](https://shafthq.github.io/docs/agentic/overview): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 - [Connect shaft-mcp](https://shafthq.github.io/docs/agentic/mcp): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 - [Diagnose failures with Doctor](https://shafthq.github.io/docs/agentic/doctor): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
+- [Install ChaosEngine](https://shafthq.github.io/docs/agentic/chaos-engine): Install or upgrade the project-local SHAFT agent harness from the latest main commit.
 - [Install SHAFT agent skills](https://shafthq.github.io/docs/agentic/skills): Install the first-party SHAFT testing skill pack for agent-native projects.
 - [IntelliJ IDEA plugin](https://shafthq.github.io/docs/agentic/intellij): Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
 - [Optional AI providers](https://shafthq.github.io/docs/agentic/providers): Consent, redaction, budgets, and provider controls for optional SHAFT AI advice.

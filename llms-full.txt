@@ -2932,6 +2932,10 @@ flowchart TD
 
 ## Install SHAFT agent tools
 
+Install the project-local [ChaosEngine harness](/docs/agentic/chaos-engine) when
+you want one canonical agent workflow plus verified host adapters and local
+Memory, MemPalace, and Graphify tooling.
+
 Install the first-party skill pack without configuring an MCP client. The
 [SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
 routes, native directories, upgrade behavior, and packaging tradeoffs.
@@ -2991,6 +2995,7 @@ MCP commands live on /docs/agentic/mcp#mcp-command-reference
 
 ## Related
 
+- [ChaosEngine](/docs/agentic/chaos-engine)
 - [SHAFT agent skills](/docs/agentic/skills)
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
@@ -4251,6 +4256,74 @@ mvn -pl shaft-doctor -am javadoc:javadoc
 - [MCP](/docs/agentic/mcp)
 - [Pilot](/docs/agentic/pilot)
 - [Providers](/docs/agentic/providers)
+
+---
+
+# Install ChaosEngine
+
+Canonical URL: https://shafthq.github.io/docs/agentic/chaos-engine
+
+# Install ChaosEngine
+
+ChaosEngine is SHAFT's project-local agent harness. It makes one canonical
+skill the entrypoint for supported coding agents, installs the matching host
+adapters, and provisions its tracked local tools without relying on a global
+machine setup.
+
+## Give the install command to your agent
+
+Open the SHAFT project that should receive the harness and give this command to
+Codex, Claude, Grok, Gemini, or another coding agent:
+
+```text
+Install or upgrade ChaosEngine in this project from the latest commit of ShaftHQ/SHAFT_ENGINE main. Fetch and inspect https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/bootstrap.py, run it with Python 3, --project ., --repository ShaftHQ/SHAFT_ENGINE, and --branch main; then run Python 3 with .chaos-engine/install.py status --project . Do not stop until status reports the resolved 40-character commit and healthy core, host adapters, and local tools. Treat the installed ChaosEngine skill as the canonical harness and route existing agent guidance through it without deleting unrelated user content.
+```
+
+The agent chooses the available Python 3 command on Windows, macOS, or Linux.
+It must inspect the bootstrap before running it and report any network or
+permission boundary instead of bypassing it.
+
+## Verify and upgrade
+
+Run the installed status command from the project root:
+
+```shell
+python3 .chaos-engine/install.py status --project .
+```
+
+On Windows, use `py -3` in place of `python3`. Re-run the same agent command to
+upgrade. The bootstrap resolves `main` to an immutable commit, validates the
+downloaded archive, and records its repository, branch, and commit provenance.
+If resolution, download, validation, or tool setup fails, ChaosEngine preserves
+the last verified installation.
+
+The project may be a SHAFT Git checkout, another Git checkout, or a non-Git
+folder. The bootstrap uses the configured SHAFT upstream and never infers it
+from the consumer project's Git remote.
+
+## What gets installed
+
+ChaosEngine installs and owns these project-local surfaces:
+
+- the verified core and canonical skill under `.chaos-engine/`;
+- native discovery adapters for Codex, Claude, Gemini, Copilot, and compatible
+ agents;
+- a private dependency runtime for the tracked Memory, MemPalace, Graphify,
+ and supporting tools;
+- receipts and transaction state used by status, repair, rollback, and
+ uninstall.
+
+It preserves unrelated project instructions, skills, configuration, and tool
+entries. Its self-learning flow queues only privacy-screened, confirmed
+lessons and contributes them upstream as reviewable GitHub issues, never as an
+automatic pull request.
+
+## Related
+
+- [Install SHAFT agent skills](/docs/agentic/skills)
+- [Agentic testing overview](/docs/agentic/overview)
+- [Connect SHAFT MCP](/docs/agentic/mcp)
+- [SHAFT CLI](/docs/agentic/cli)
 
 ---
 
