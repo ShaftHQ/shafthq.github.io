@@ -74,6 +74,7 @@ const sidebars = {
       items: [
         'integrations/browserstack',
         'integrations/visual',
+        'integrations/ocr',
         'integrations/desktop-and-video',
       ],
     },
