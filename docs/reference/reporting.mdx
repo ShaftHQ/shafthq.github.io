@@ -44,7 +44,7 @@ The **Allure Report** is the primary report in SHAFT. It opens automatically in 
 - Test history and trend graphs across multiple runs
 - Environment information and categories
 
-### Failure Trace Viewer
+### Failure trace viewer
 
 When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
 The viewer collects the ordered Selenium action timeline, exception and
@@ -52,24 +52,66 @@ stacktrace, source-code frame fallback, available page or native source
 snapshot, locator health summary, and related artifacts without generating
 heavy trace artifacts for passing tests.
 
-Allure receives one SHAFT trace-report attachment on failed tests:
+Allure receives two complementary SHAFT trace attachments on failed tests:
 
-- `shaft-trace.zip`, which contains `shaft-trace.json`, `SHAFT Trace Report.html`,
-  `shaft-network.har`, per-action screenshots,
-  and the native Playwright trace ZIP when Playwright tracing is enabled and
-  available
+- `shaft-trace.html`, a self-contained one-click viewer that embeds the trace
+  data and references no sibling files
+- `shaft-trace.zip`, the full-fidelity offline archive containing
+  `shaft-trace.json`, `SHAFT Trace Report.html`, `shaft-network.har`, per-action
+  screenshots, and the native Playwright trace ZIP when Playwright tracing is
+  enabled and available
 
-The archive is fully self-contained: no loose HTML file is attached outside it.
-The embedded offline viewer opens on a unified **Timeline** tab that merges
-every recorded action, network exchange, and console message into one
-chronological list with relative offsets and clickable action entries. The
-**Network** and **Console** tabs render interactive tables (click a request for
-headers and a bounded body preview) and highlight rows that overlap the
-selected action's time window. An **Environment** tab shows the SHAFT version,
-OS, Java version, target platform, browser, execution address, headless flag,
-and executing thread from the trace's `environment` section, and the **Source**
-tab renders the full redacted failing source file (`source.fileContent`,
-bounded to 100k characters) with the failing line marked.
+Open the direct HTML attachment for in-report debugging, or open `SHAFT Trace
+Report.html` from the archive for the downloadable offline workflow. Neither
+viewer needs an upload or sibling resource. The shared navigator combines two
+range controls, **Show all**, and an action screenshot filmstrip. Select an
+action from the filmstrip or action list to update the URL deep link and inspect
+the same action and time range across the detail panels. Use Arrow Left and
+Arrow Right while the filmstrip has focus to move between actions.
+
+Use **Timeline** to review actions, validations, network exchanges, and console
+messages in chronological order. Use **Comparison** to inspect the available
+before-action DOM, action screenshot, and after-action DOM together. The
+selected action also owns its exception, DOM snapshot, screenshot, and detail
+data such as locator, parameters, result, and metadata. Trace-level **Source**,
+**Snapshot**, **Locator Health**, **Observability**, **Environment**,
+**Attachments**, **Test Log**, and **JSON** panels remain available beside that
+selection. Missing screenshots or snapshots produce explicit empty states
+instead of fabricated evidence.
+
+Use **Network** and **Console** to filter, search, and sort the evidence inside
+the selected range. Open a row's native **View request details** or **View
+message details** button to read structured details. Untimed legacy entries
+remain visible as `Unknown` and are not classified as inside the selected
+range. Missing sortable values stay last in both sort directions.
+
+Use **Mobile** to filter Appium trace actions by **App**, **Context**,
+**Device**, **Logs**, **Performance**, **Recording**, or **Evidence**. The
+**All** category also keeps unrecognized `mobile/*` categories visible as
+**Other**, which preserves older and newer trace data without claiming support
+that SHAFT did not record.
+
+Use **Artifacts** to inspect the archive-relative path, kind, media type, and
+status for every schema artifact. The schema and `index.json` carry the same
+artifact references. Available entries and explicit omissions remain distinct;
+omission reasons distinguish unavailable, unreadable, and oversized native
+trace evidence, while traces with no artifact graph show a legacy empty state.
+When a native Playwright trace is available, extract its archive-relative ZIP
+entry and pass that entry to Playwright `show-trace`. SHAFT's cross-backend
+timeline remains the canonical view.
+
+The standalone viewer applies a restrictive content security policy, keeps DOM
+snapshots in sandboxed frames, strips active and resource-bearing markup, and
+does not make external requests. Captured evidence is bounded and redaction-aware,
+not guaranteed to be free of application data.
+
+:::danger
+Treat both `shaft-trace.html` and `shaft-trace.zip` as sensitive test evidence.
+The HTML embeds trace data, screenshots, and DOM snapshots. The ZIP can also
+contain native source, logs, request details, console messages, metadata,
+recording artifacts, and the native Playwright trace. Store and share either
+attachment only with people who may inspect the tested application data.
+:::
 
 The archived `shaft-trace.json` includes an `actions` array with stable fields
 for automation agents. Each action also records `caller` — the first
@@ -229,11 +271,11 @@ provider errors in the trace.
 
 When `shaft.trace.includeNetwork=true`, Selenium browser sessions also add
 redacted `network` entries to `shaft-trace.json` and a HAR-like
-`shaft-network.har` file to the archive. The trace viewer exposes Network,
-Console, and Observability tabs so you can inspect HTTP method, URL, status,
-duration, bounded body preview, browser console logs, and unsupported-driver
-warnings. Common headers, cookies, passwords, tokens, and sensitive URL values
-are masked before attachment.
+`shaft-network.har` file to the archive. The **Network**, **Console**, and
+**Observability** panels let you inspect HTTP method, URL, status, duration,
+bounded body preview, browser console logs, and unsupported-driver warnings.
+Common headers, cookies, passwords, tokens, and sensitive URL values are masked
+before attachment.
 
 SHAFT also persists the archive and a local index under
 `target/shaft-traces/<safe-test-id>/`:
