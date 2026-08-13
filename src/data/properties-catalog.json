@@ -2303,7 +2303,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Compatibility consent flag; missing models still require an explicitly reviewed setup plan."
+    "description": "Allows a missing verified OCR runtime to be downloaded."
   },
   {
     "section": "Pilot",
