@@ -81,17 +81,53 @@ test('anchor auto-correction stops as soon as the user scrolls manually (no scro
       upgradePath.click(),
     ]);
 
-    // Let the fixed retry schedule run at least once, then take over with a
-    // real wheel gesture (a trusted input event, not a programmatic
-    // window.scrollTo -- Root.tsx specifically listens for wheel/touchmove/
-    // keydown to distinguish genuine user intent from its own scrollIntoView
-    // calls, which never dispatch those) while Mermaid is still slowly
-    // rendering -- exactly the window in which the late MutationObserver-
-    // driven correction would otherwise still be armed.
+    // Let the fixed retry schedule run at least once. Require a stable
+    // pre-gesture baseline so the expected wheel destination is computed from
+    // an observed state rather than from an in-flight anchor correction.
     await page.waitForTimeout(200);
+    let previousScrollY = await page.evaluate(() => Math.round(window.scrollY));
+    let stableSamples = 0;
+    await expect.poll(async () => {
+      const currentScrollY = await page.evaluate(() => Math.round(window.scrollY));
+      stableSamples = currentScrollY === previousScrollY ? stableSamples + 1 : 0;
+      previousScrollY = currentScrollY;
+      return stableSamples;
+    }, {
+      message: 'anchor position did not settle before the trusted wheel gesture',
+      timeout: 5_000,
+      intervals: [50],
+    }).toBeGreaterThanOrEqual(10);
+
+    const wheelState = await page.evaluate(() => {
+      const start = Math.round(window.scrollY);
+      const maximum = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      window.__hashScrollEnd = new Promise((resolve) => {
+        document.addEventListener('scrollend', () => resolve(Math.round(window.scrollY)), {once: true});
+      });
+      return {
+        start,
+        expected: Math.min(start + 120, Math.round(maximum)),
+      };
+    });
+
+    // A real wheel gesture is required: Root.tsx listens for trusted user
+    // input to disarm its own MutationObserver-driven corrections. Playwright
+    // does not wait for the wheel's default scroll action, so install the
+    // semantic scrollend listener first, then require the exact clamped delta.
     await page.mouse.wheel(0, 120);
-    await page.waitForTimeout(50);
-    const scrollYAfterUserTookOver = await page.evaluate(() => window.scrollY);
+    await page.evaluate(() => Promise.race([
+      window.__hashScrollEnd,
+      new Promise((_, reject) => setTimeout(() => reject(new Error('trusted wheel did not emit scrollend')), 5_000)),
+    ]));
+    await expect.poll(
+      () => page.evaluate(() => Math.round(window.scrollY)),
+      {
+        message: `trusted wheel did not reach expected position ${wheelState.expected}`,
+        timeout: 5_000,
+        intervals: [25, 50, 100],
+      },
+    ).toBe(wheelState.expected);
+    const scrollYAfterUserTookOver = await page.evaluate(() => Math.round(window.scrollY));
 
     // Whether or not Mermaid has finished by now, the auto-correction must
     // never override the user's own position from this point on.
@@ -100,7 +136,7 @@ test('anchor auto-correction stops as soon as the user scrolls manually (no scro
     // Give any (incorrectly) still-armed auto-correction every chance to fire.
     await page.waitForTimeout(1500);
 
-    const finalScrollY = await page.evaluate(() => window.scrollY);
+    const finalScrollY = await page.evaluate(() => Math.round(window.scrollY));
     expect(
       finalScrollY,
       `scroll position moved from ${scrollYAfterUserTookOver} to ${finalScrollY} after the user took over -- ` +

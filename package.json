@@ -26,6 +26,7 @@
     "test:api": "node tests/chatbot-api.test.js",
     "test:e2e": "npm run test:shaft",
     "test:playwright": "npx playwright test",
+    "test:playwright:stability": "playwright test tests/e2e/composited-contrast.spec.js tests/e2e/hash-scroll-sync.spec.js --project=chromium --workers=1 --grep \"audience lane heading|auto-correction stops\" && playwright test tests/e2e/composited-contrast.spec.js tests/e2e/hash-scroll-sync.spec.js --project=chromium --workers=4 --repeat-each=5 --grep \"audience lane heading|auto-correction stops\"",
     "test:shaft": "node scripts/run-shaft-tests.mjs",
     "verify-models": "node scripts/verify-models.js",
     "build:llms": "node scripts/build-llms-txt.mjs",
