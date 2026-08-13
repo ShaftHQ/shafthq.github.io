@@ -195,7 +195,7 @@ text, a single block, line, or word, and sparse text.
 
 ## Configure language models
 
-English and Arabic are the default recognition languages. Provision the verified models before recognition through SHAFT's reviewed setup flow. Every supported Tesseract language is pinned to one `tessdata_fast` revision, SHA-256, and byte size.
+English and Arabic are the default recognition languages. Provision the verified models before recognition through SHAFT's reviewed setup flow. Every supported Tesseract language is pinned to one `tessdata_fast` revision and SHA-256; downloads also stop at the setup artifact safety ceiling.
 
 ```bash
 shaft-cli setup plan --profile OCR --mode MANAGED \

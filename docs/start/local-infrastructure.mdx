@@ -68,7 +68,7 @@ Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
 
-For OCR, omit `--language` to use the baseline bundle, or repeat it with exact Tesseract codes on plan, install, and verify:
+For OCR, omit `--language` to use the baseline bundle, or repeat exact Tesseract codes on plan and selected status/verify commands. Install recovers them from the reviewed plan:
 
 ```bash
 shaft-cli setup plan --profile OCR --mode MANAGED \
@@ -98,7 +98,7 @@ Pass any non-default option to both commands. You may also pass an absolute
 `--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
 root or a relative path.
 
-The current `REPORTING` provider enforces `--offline`. It has no owned service,
+The `REPORTING` and `OCR` providers enforce `--offline`. OCR accepts an already verified installed model, a verified legacy model, or a verified artifact-cache entry without network access. Reporting has no owned service,
 so auto-start, process reuse, and lifecycle timeouts are policy-bound for
 provider parity but do not change a reporting install. Reporting installs
 SHAFT-owned portable tools rather than adopting system Node or Allure.
@@ -229,6 +229,8 @@ An install is atomic per action, not across the entire plan. If a later action
 fails, an earlier verified action can remain installed while the final profile
 receipt is absent. Fix the failure and retry the same approved plan; SHAFT
 re-verifies compatible completed state before continuing.
+
+If setup reports that both an artifact destination and its `.quarantine` recovery file exist, preserve both files and stop. Verify each against the reviewed action checksum, then deliberately retain the valid copy before retrying. Never blindly delete the quarantine: it may be the only known-good pre-replacement artifact.
 
 `start` and `stop` return unsupported for profiles without an owned service.
 SHAFT does not adopt or stop an unknown process. Use
