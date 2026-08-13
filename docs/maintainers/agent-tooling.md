@@ -189,15 +189,27 @@ that Graphify indexed. A failed build, audit, or cluster stage leaves no
 current marker, so readers cannot accept a partial cache. Linked worktrees must
 not refresh or record the shared cache.
 
-The controller runs Graphify through this isolated uv tool invocation:
+The controller pins Graphify and runs it through an isolated uv tool invocation:
 
 ```powershell
-uv tool run --with tree-sitter-sql --from graphifyy graphify
+uv tool run --with tree-sitter-sql --from graphifyy==0.9.42 graphify
 ```
 
 `graphifyy` is the distribution name, while `graphify` is its command. The
 ephemeral `tree-sitter-sql` dependency enables SQL parsing without changing a
 persistent global tool installation.
+
+Accepted caches use Graphify's deterministic hub-derived community labels.
+Before clustering, the controller removes saved label and membership-signature
+sidecars, clears Graphify's ambient backend selectors for that subprocess, and
+uses an isolated home inside the ignored cache. This prevents user or repository
+provider configuration, an API key, or a local endpoint from silently turning
+refresh into a networked, model-dependent labeling run. It also prevents a
+previous semantic label from being reused after community membership changes.
+
+Semantic labels are optional and are not part of cache freshness. Run
+`graphify label .` separately when you want an ephemeral model-generated view;
+the next accepted refresh replaces those names with current hub-derived labels.
 
 Audit an existing cache without modifying it:
 

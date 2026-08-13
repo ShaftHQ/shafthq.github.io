@@ -20,6 +20,24 @@ CLASSIFICATIONS = (
     "unexpected_parser_gap",
 )
 DEFAULT_GRAPH_OUT = Path("graphify-out")
+GRAPHIFY_VERSION = "0.9.42"
+LABEL_BACKEND_ENV = (
+    "GOOGLE_API_KEY",
+    "GEMINI_API_KEY",
+    "MOONSHOT_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "OPENAI_API_KEY",
+    "DEEPSEEK_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "AZURE_OPENAI_ENDPOINT",
+    "AWS_PROFILE",
+    "AWS_REGION",
+    "AWS_DEFAULT_REGION",
+    "OLLAMA_BASE_URL",
+    "OLLAMA_HOST",
+    "OLLAMA_API_KEY",
+    "GRAPHIFY_ALLOW_LOCAL_PROVIDERS",
+)
 
 
 def normalized_source(value: str) -> str:
@@ -79,10 +97,12 @@ def audit_graph(root: Path, graph_out: Path) -> dict[str, object]:
     return result
 
 
-def run_stage(name: str, command: list[str], root: Path) -> None:
+def run_stage(
+    name: str, command: list[str], root: Path, env: dict[str, str] | None = None
+) -> None:
     """Run one refresh stage and preserve its failure as a named error."""
     try:
-        subprocess.run(command, cwd=root, check=True)  # nosec B603
+        subprocess.run(command, cwd=root, check=True, env=env)  # nosec B603
     except subprocess.CalledProcessError as error:
         raise RuntimeError(f"Graphify {name} stage failed with exit {error.returncode}") from error
 
@@ -198,7 +218,7 @@ def refresh(root: Path, graph_out: Path) -> None:
         "--with",
         "tree-sitter-sql",
         "--from",
-        "graphifyy",
+        f"graphifyy=={GRAPHIFY_VERSION}",
         "graphify",
     ]
     resolver = Path(__file__).with_name("resolve_graph_out.py")
@@ -210,7 +230,22 @@ def refresh(root: Path, graph_out: Path) -> None:
             root,
         )
         run_audit(root, graph_out)
-        run_stage("cluster", [uv, *graphify[1:], "cluster-only", "."], root)
+        for name in (".graphify_labels.json", ".graphify_labels.json.sig"):
+            (requested_output / name).unlink(missing_ok=True)
+        cluster_env = {
+            name: value
+            for name, value in os.environ.items()
+            if name not in LABEL_BACKEND_ENV
+        }
+        isolated_home = requested_output / ".shaft-home"
+        cluster_env["HOME"] = str(isolated_home)
+        cluster_env["USERPROFILE"] = str(isolated_home)
+        run_stage(
+            "cluster",
+            [uv, *graphify[1:], "cluster-only", ".", "--no-viz"],
+            root,
+            env=cluster_env,
+        )
         run_stage("record", [sys.executable, str(resolver), "--record-current"], root)
 
 
