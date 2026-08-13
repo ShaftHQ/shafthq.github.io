@@ -14,7 +14,7 @@ diagnoses the host without downloading, installing, or starting anything.
 
 The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
 local-AI profiles. Managed installation is currently available for
-`REPORTING` and `OCR`. Reporting installs SHA-256-verified portable Node and Allure 3 artifacts. OCR installs a reviewed set of pinned tessdata models; its default bundle is `eng` and `ara`.
+`REPORTING`. It installs SHA-256-verified portable Node and Allure 3 artifacts.
 The other profiles are cataloged for the shared contract but currently return
 unsupported from provider-backed diagnosis and lifecycle commands.
 
@@ -28,7 +28,6 @@ profiles:
 shaft-cli setup catalog
 shaft-cli setup doctor --profile REPORTING
 shaft-cli setup status --profile REPORTING
-shaft-cli setup status --profile OCR
 ```
 
 Add `--json` to `catalog`, `doctor`, `status`, or `verify` when a script needs a
@@ -68,7 +67,18 @@ Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
 
-For OCR, omit `--language` to use the baseline bundle, or repeat exact Tesseract codes on plan and selected status/verify commands. Install recovers them from the reviewed plan:
+<!-- managed-ocr-preview:start -->
+## Preview: managed OCR setup
+
+:::warning[Not released]
+This workflow is not yet available on `SHAFT_ENGINE` `main` or in a published
+SHAFT release. Keep using the [current OCR first-use model flow](../integrations/ocr.md#configure-language-models)
+until a release that contains the complete setup stack is available.
+
+The preview defaults to the `eng` and `ara` model bundle. Omit `--language` to
+use that bundle, or repeat exact Tesseract codes on plan and selected
+status/verify commands. Install recovers the selected languages from the
+reviewed plan:
 
 ```bash
 shaft-cli setup plan --profile OCR --mode MANAGED \
@@ -79,7 +89,13 @@ shaft-cli setup install --plan /absolute/path/ocr-plan.json \
 shaft-cli setup verify --profile OCR --language fra --language deu
 ```
 
-The reviewed actions bind the normalized component set. Repeating `--language` during install is optional and must match when supplied. OCR has no start, stop, or logs lifecycle.
+The reviewed actions bind the normalized component set. Repeating `--language`
+during install is optional and must match when supplied. The planned OCR
+provider enforces `--offline`: it can accept a verified installed model, legacy
+model, or artifact-cache entry without network access. It has no start, stop,
+or logs lifecycle.
+:::
+<!-- managed-ocr-preview:end -->
 
 ## Keep policy options identical
 
@@ -98,7 +114,7 @@ Pass any non-default option to both commands. You may also pass an absolute
 `--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
 root or a relative path.
 
-The `REPORTING` and `OCR` providers enforce `--offline`. OCR accepts an already verified installed model, a verified legacy model, or a verified artifact-cache entry without network access. Reporting has no owned service,
+The current `REPORTING` provider enforces `--offline`. It has no owned service,
 so auto-start, process reuse, and lifecycle timeouts are policy-bound for
 provider parity but do not change a reporting install. Reporting installs
 SHAFT-owned portable tools rather than adopting system Node or Allure.
