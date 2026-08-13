@@ -159,12 +159,26 @@ function drawScaled(image, x, y, width, height) {
   }
 }
 
+function drawScaledContain(image, x, y, width, height, background) {
+  fillRect(x, y, width, height, background);
+  const scale = Math.min(width / image.width, height / image.height);
+  const scaledWidth = Math.round(image.width * scale);
+  const scaledHeight = Math.round(image.height * scale);
+  drawScaled(
+    image,
+    x + Math.floor((width - scaledWidth) / 2),
+    y + Math.floor((height - scaledHeight) / 2),
+    scaledWidth,
+    scaledHeight,
+  );
+}
+
 async function generateCard(output) {
   const logoSvg = await readFile(path.join(repoRoot, 'static', 'img', 'shaft.svg'), 'utf8');
   const embeddedLogo = logoSvg.match(/base64,([^"']+)/)?.[1];
   if (!embeddedLogo) throw new Error('SHAFT identity SVG does not contain its embedded PNG source.');
   const logo = decodePng(Buffer.from(embeddedLogo, 'base64'));
-  const overview = decodePng(await readFile(path.join(repoRoot, 'static', 'img', 'allure-shaft-overview-panel.png')));
+  const reportDashboard = decodePng(await readFile(path.join(repoRoot, 'static', 'img', 'allure-shaft-report-dashboard.png')));
 
   fillRect(0, 0, WIDTH, HEIGHT, [16, 42, 49, 255]);
   fillRect(0, 0, 18, HEIGHT, [0, 110, 192, 255]);
@@ -174,7 +188,7 @@ async function generateCard(output) {
   roundedRect(358, 48, 790, 534, 18, [7, 17, 31, 150]);
   roundedRect(370, 36, 790, 534, 18, [245, 253, 255, 255]);
   fillRect(392, 58, 746, 6, [0, 110, 192, 255]);
-  drawScaled(overview, 392, 82, 746, 466);
+  drawScaledContain(reportDashboard, 392, 82, 746, 466, [43, 52, 64, 255]);
   fillRect(66, 458, 260, 8, [0, 110, 192, 255]);
   fillRect(66, 480, 190, 6, [76, 194, 255, 220]);
   fillRect(66, 502, 230, 6, [200, 214, 231, 160]);
