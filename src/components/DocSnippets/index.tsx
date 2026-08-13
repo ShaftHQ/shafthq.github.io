@@ -62,6 +62,14 @@ export function BrowserSelectionProperties(): JSX.Element {
   );
 }
 
+export function LighthouseSetupCommands(): JSX.Element {
+  return (
+    <CodeBlock language="bash" title="Prepare managed Lighthouse">
+      {snippets.lighthouseSetupCommands}
+    </CodeBlock>
+  );
+}
+
 export function AllureReportPath(): JSX.Element {
   return <code>{snippets.allureReportPath}</code>;
 }

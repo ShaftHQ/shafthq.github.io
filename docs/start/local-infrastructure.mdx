@@ -3,8 +3,10 @@ id: local-infrastructure
 title: Set up local infrastructure
 description: Diagnose, plan, approve, and install SHAFT-owned local tools through shaft-cli or Java.
 slug: /start/local-infrastructure
-tags: [installation, infrastructure, cli, allure, reporting]
+tags: [installation, infrastructure, cli, allure, reporting, lighthouse]
 ---
+
+import {LighthouseSetupCommands} from '@site/src/components/DocSnippets';
 
 # Set up local infrastructure
 
@@ -13,9 +15,9 @@ tools into SHAFT-owned user directories. The safe default is `EXTERNAL`: SHAFT
 diagnoses the host without downloading, installing, or starting anything.
 
 The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
-local-AI profiles. Managed installation is currently available for
-`REPORTING`. It installs SHA-256-verified portable Node and Allure 3 artifacts.
-The other profiles are cataloged for the shared contract but currently return
+local-AI profiles. Managed installation is currently available for `REPORTING`.
+It uses SHAFT's pinned, SHA-256-verified portable Node and adds Allure 3. The
+other profiles are cataloged for the shared contract but currently return
 unsupported from provider-backed diagnosis and lifecycle commands.
 
 ## Inspect the catalog and host
@@ -65,6 +67,39 @@ checksum does not match before publishing it as installed.
 Treat the plan digest as a one-plan approval, not a general consent switch.
 Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
+:::
+
+## Install managed Lighthouse
+
+:::warning[Not released]
+This workflow depends on
+[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
+It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
+release. Keep using the current Lighthouse flow until a release that contains
+the managed `LIGHTHOUSE` provider is available.
+
+Install the `LIGHTHOUSE` profile before a test calls
+`generateLightHouseReport()`. SHAFT manages its own Node 24.19.0 and Lighthouse
+13.4.1 under the configured tool root. It does not use a global Node or npm
+installation.
+
+<LighthouseSetupCommands />
+
+Stop after `plan` and review the JSON plus its printed digest before running
+`install`. The plan binds the exact Node artifact, Lighthouse package archive,
+bundled dependency lock, destinations, and policy. Report generation only uses
+an already verified installation; it never installs a missing toolchain.
+
+For a cold offline install, pass `--offline` to both `plan` and `install`. The
+SHAFT cache must already contain the verified Node and Lighthouse artifacts
+and the complete transitive npm cache required by the bundled lock. An already
+verified managed installation can be reused without those cached downloads. A
+missing or corrupt entry needed by a cold install fails without network access
+or a partially published Lighthouse installation.
+
+Use the default SHAFT roots for this preview. The CLI can bind separate custom
+cache and data roots, but the Browser Actions runtime currently exposes only
+`infrastructure.cacheDirectory` and cannot reproduce every such layout.
 :::
 
 <!-- managed-ocr-preview:start -->
@@ -117,7 +152,8 @@ root or a relative path.
 The current `REPORTING` provider enforces `--offline`. It has no owned service,
 so auto-start, process reuse, and lifecycle timeouts are policy-bound for
 provider parity but do not change a reporting install. Reporting installs
-SHAFT-owned portable tools rather than adopting system Node or Allure.
+SHAFT-owned portable tools rather than adopting system Node or Allure. The
+unreleased `LIGHTHOUSE` provider follows the same lifecycle shape.
 
 :::warning
 Custom roots become mutable SHAFT-owned storage. Use dedicated, user-scoped
@@ -229,7 +265,7 @@ An explicit remote execution address keeps endpoint-backed profiles external,
 even when `infrastructure.mode=MANAGED`. This applies to web, Selenium Grid,
 mobile, and Healenium profiles, so a remote test configuration cannot
 unexpectedly provision local infrastructure. It does not change unrelated
-profiles such as `REPORTING`.
+profiles such as `REPORTING` or `LIGHTHOUSE`.
 
 ## Interpret CLI failures
 

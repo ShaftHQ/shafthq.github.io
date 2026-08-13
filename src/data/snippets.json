@@ -3,6 +3,7 @@
   "firstRunNoOpenCommand": "mvn test -Dallure.automaticallyOpen=false -Dallure.open=false",
   "allureReportPath": "allure-results and the generated Allure report under the project target output",
   "browserSelectionProperties": "targetBrowserName=CHROME\nheadlessExecution=true\ncreateAnimatedGif=true\nallure.singleFile=true",
+  "lighthouseSetupCommands": "shaft-cli setup status --profile LIGHTHOUSE\nshaft-cli setup plan \\\n  --profile LIGHTHOUSE \\\n  --mode MANAGED \\\n  --output /absolute/path/lighthouse-plan.json\nshaft-cli setup install \\\n  --plan /absolute/path/lighthouse-plan.json \\\n  --approve sha256:<reviewed-digest>\nshaft-cli setup verify --profile LIGHTHOUSE",
   "githubRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
   "skillsInstaller": {
     "windows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-skills')\"",
