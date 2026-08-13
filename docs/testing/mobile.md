@@ -111,6 +111,8 @@ context inspection.
 
 ## Scroll to screenshot or OCR targets
 
+CI jobs that use OCR should prewarm the exact model set through `shaft-cli setup plan/install/verify --profile OCR`, then run tests without relying on first-use network access. Repeat selected languages for readiness checks; install recovers them from the reviewed plan.
+
 Use typed targets when native accessibility identifiers are unavailable. SHAFT
 checks the current screenshot before every gesture and supports vertical and
 horizontal searches in either direction:
