@@ -59,7 +59,7 @@ const SECTION_NAME_OVERRIDES = {
 // yet -- see design/properties-generator.md §2/§6 and the follow-up issue filed alongside this).
 const SECTION_ORDER = [
   'Platform', 'Web', 'Playwright', 'Mobile', 'API', 'Capture', 'Flags', 'Reporting', 'Allure',
-  'Timeouts', 'Visuals', 'Jira', 'Cucumber', 'Healenium', 'Healing', 'Natural Actions', 'Pilot',
+  'Timeouts', 'Visuals', 'Jira', 'Cucumber', 'Healenium', 'Healing', 'Natural Actions', 'Infrastructure', 'Ocr', 'Pilot',
   'Paths', 'Pattern', 'Tinkey', 'Internal', 'BrowserStack', 'LambdaTest', 'Performance', 'TestNG',
   'Log4j',
 ];
@@ -87,6 +87,15 @@ const DEFAULT_VALUE_CONSTANTS = {
 // Keys with neither an mdx "Default Values" row nor Javadoc to source a description from.
 // Kept intentionally small -- each one is a real coverage gap in PropertiesList.mdx today.
 const MANUAL_DESCRIPTIONS = {
+  'infrastructure.mode': 'Ownership mode for setup operations; EXTERNAL is the non-mutating default.',
+  'infrastructure.profile': 'Local infrastructure profile selected by SHAFT.Infrastructure.',
+  'infrastructure.cacheDirectory': 'Optional absolute root for SHAFT-owned setup cache and durable data.',
+  'infrastructure.offline': 'Requires setup to use verified cached artifacts without network access.',
+  'infrastructure.autoStart': 'Requests startup after verification for providers that own a service.',
+  'infrastructure.preferSystemTools': 'Allows supporting providers to prefer compatible tools already on the host.',
+  'infrastructure.reuseOwnedProcesses': 'Allows supporting providers to reuse compatible SHAFT-owned processes.',
+  'infrastructure.startupTimeout': 'Positive ISO-8601 timeout for providers that start owned services.',
+  'infrastructure.shutdownTimeout': 'Positive ISO-8601 timeout for providers that stop owned services.',
   'recovery-tries': 'Number of Healenium self-healing recovery attempts before giving up on a broken locator.',
   'score-cap': 'Minimum Healenium similarity score (0.0-1.0) required to accept a healed locator candidate.',
   'heal-enabled': 'Enables the Healenium self-healing proxy for this run.',
@@ -265,7 +274,7 @@ function capitalizeSentence(text) {
 // `\s*`, since `\s*` also matches `\r?\n` and would reopen the same kind of overlap with this
 // group's own newline-consuming loop, which showed up as quadratic -- not exponential, but still
 // avoidable -- blowup on long comment-free blank-line runs during verification).
-const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)\s*\r?\n\s*@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:[ \t]*(?:\/\/[^\r\n]*)?\r?\n)*)[ \t]*(?:@\w+(?:\([^)]*\))?[ \t]*\r?\n[ \t]*)*(?:private\s+)?(boolean|Boolean|int|Integer|long|Long|double|float|String)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
+const propertyRe = /@Key\(\s*"((?:\\.|[^"\\])*)"\s*\)[ \t]*(?:\r?\n[ \t]*)?@DefaultValue\(\s*(?:"((?:\\.|[^"\\])*)"|([A-Za-z_][\w.]*))\s*\)((?:[ \t]*(?:\/\/[^\r\n]*)?\r?\n)*)[ \t]*(?:@\w+(?:\([^)]*\))?[ \t]*\r?\n[ \t]*)*(?:private\s+)?([A-Za-z_]\w*)\s+([A-Za-z_]\w*)\s*\(\s*\)\s*;/gu;
 
 /** Parses one interface file's `@Key`/`@DefaultValue` getters, in source order (pure -- no I/O). */
 export function parseJavaSource(content) {
@@ -310,7 +319,7 @@ export function parseJavaSource(content) {
       key,
       defaultValue: rawDefault,
       type: returnType === 'boolean' || returnType === 'Boolean' ? 'boolean'
-        : returnType === 'String' ? 'text' : 'number',
+        : ['int', 'Integer', 'long', 'Long', 'double', 'float'].includes(returnType) ? 'number' : 'text',
       javadocDescription: descriptionFromJavadoc(javadoc),
       sourceOrder: matchStart,
     });

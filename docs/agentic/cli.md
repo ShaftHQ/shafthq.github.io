@@ -78,6 +78,13 @@ prints the port and pid; `status` prints
 - `shaft-cli guide search` (stateless)
 - `shaft-cli doctor analyze|suggest` (stateless)
 
+**`shaft-cli setup ...`** — diagnose local prerequisites and create an exact,
+reviewable plan for SHAFT-owned tools. Setup commands run directly and do not
+require an MCP session. Follow the
+[local infrastructure setup guide](/docs/start/local-infrastructure) for the
+plan, digest approval, policy options, readiness exit codes, and current
+provider coverage.
+
 ## Examples
 
 ```text
@@ -110,6 +117,7 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout h
 ## Related
 
 - [MCP](/docs/agentic/mcp)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
 - [Overview](/docs/agentic/overview)
 - [Capture](/docs/agentic/capture)
 - [Doctor](/docs/agentic/doctor)
