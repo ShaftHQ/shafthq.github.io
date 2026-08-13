@@ -12,6 +12,10 @@ const wcagTags = [
 
 const scan = (page) => new AxeBuilder({page}).withTags(wcagTags).analyze();
 
+test.beforeEach(async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+});
+
 test('built homepage has no automatically detectable WCAG A or AA violations', async ({page}) => {
   await page.goto('/');
   await expect(page.getByTestId('landing-main')).toBeVisible();

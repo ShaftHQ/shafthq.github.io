@@ -14,6 +14,10 @@ const prBuild = fs.readFileSync(
   path.join(repoRoot, '.github', 'workflows', 'pr-build.yml'),
   'utf8',
 );
+const accessibilityAudit = fs.readFileSync(
+  path.join(repoRoot, 'tests', 'e2e', 'accessibility.spec.js'),
+  'utf8',
+);
 
 assert.strictEqual(
   packageJson.devDependencies['@playwright/test'],
@@ -65,6 +69,11 @@ assert.match(
   prBuild,
   /^\s+run: yarn test:a11y$/m,
   'The PR gate must run the canonical accessibility audit.',
+);
+assert.match(
+  accessibilityAudit,
+  /test\.beforeEach[\s\S]*page\.emulateMedia\(\{reducedMotion: 'reduce'\}\)/,
+  'The audit must disable reveal animations so axe scans a stable rendered state.',
 );
 
 console.log('Accessibility audit contract checks passed.');
