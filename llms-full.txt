@@ -22221,10 +22221,12 @@ DNS for this GitHub Pages recovery path.
 
 ## Local development
 
-Use Node.js 20 and Yarn:
+Use Node.js 20 and Yarn 1.22.22. Install the repository's version-matched
+Chromium once after installing dependencies:
 
 ```bash
 yarn install
+yarn playwright install chromium
 yarn start
 ```
 
@@ -22261,12 +22263,16 @@ API with CORS enabled for that origin.
 yarn test
 yarn typecheck
 yarn build
+yarn test:a11y
 yarn test:playwright
 ```
 
 The build fails on broken Markdown links and duplicated long prose or code
 blocks. The Playwright suite covers desktop and mobile rendering, canonical
-routes, code copying, and dark mode.
+routes, code copying, and dark mode. The focused accessibility command audits
+the built homepage in headless Playwright-managed Chromium with axe-core. It
+does not depend on an installed browser or ChromeDriver. After changing the
+Playwright version, run `yarn playwright install chromium` before the audit.
 
 ## Search and AutoBot
 
