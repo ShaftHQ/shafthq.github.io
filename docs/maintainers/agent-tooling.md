@@ -180,6 +180,10 @@ this fixed order:
 build -> audit -> cluster -> marker
 ```
 
+Refresh requires clean tracked sources. The resolver also reports a cache as
+stale while staged or unstaged tracked changes exist, so a marker can never
+mislabel worktree content as the checked-out `HEAD`.
+
 The marker binds the completed cache to the exact Git revision and manifest
 that Graphify indexed. A failed build, audit, or cluster stage leaves no
 current marker, so readers cannot accept a partial cache. Linked worktrees must
@@ -214,6 +218,12 @@ reports four classifications:
 Zero-node JSON files remain visible because they are expected data inputs, not
 proof of parser coverage. Zero-node SQL or other source files fail the audit;
 fix the parser or upstream extraction gap before accepting the cache.
+
+This user-guide repository defines its credential-free code/configuration corpus
+in the root `.graphifyignore`. YAML, plain-text, standalone HTML, SVG, and raster media
+are explicit code-only exclusions, so they never enter the manifest as false
+parser gaps. Keep supported JavaScript, TypeScript, Markdown, MDX, and JSON
+inputs in the corpus; do not make an uncovered supported source nonfatal.
 
 Only one refresh may run for a repository at a time. The controller holds a
 nonblocking advisory operating-system lock across build, audit, cluster, and
