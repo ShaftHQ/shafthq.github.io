@@ -7,6 +7,8 @@ keywords: [SHAFT, browser actions, navigation, window management, cookies, scree
 tags: [web, browser, actions, navigation]
 ---
 
+import {LighthouseSetupCommands} from '@site/src/components/DocSnippets';
+
 ## Getting Started
 
 To interact with web pages, create an instance of `SHAFT.GUI.WebDriver`:
@@ -294,14 +296,45 @@ Captures and serializes the current page DOM data and attaches it to the Allure 
 
 ### generateLightHouseReport()
 
+:::warning[Managed setup is not released]
+The managed flow below depends on
+[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
+It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
+release. Keep using the current Lighthouse flow until a release that contains
+the managed `LIGHTHOUSE` provider is available.
+:::
+
+Install and verify the managed Lighthouse profile before running the test. The
+report action does not install tools or use a global Node or npm command. Use
+the default SHAFT roots for this preview so the setup CLI and Browser Actions
+resolve the same managed installation.
+
+<LighthouseSetupCommands />
+
+See [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-lighthouse)
+for the canonical plan, install, policy, and offline-cache instructions.
+
 ```java title="LightHouseReport.java"
+SHAFT.Properties.performance.set().isEnabled(true);
 driver.browser().generateLightHouseReport();
 ```
 
-Triggers a Google Lighthouse performance audit on the currently open page. The generated report is attached to the Allure output. Useful for catching performance regressions in CI/CD pipelines.
+Run a desktop performance audit on the currently open page. SHAFT invokes its
+managed Lighthouse 13.4.1 CLI with managed Node 24.19.0 and connects to the
+debugging port of the local Chromium browser owned by WebDriver. SHAFT does not
+install Chromium as part of the `LIGHTHOUSE` profile.
 
-:::tip
-Configure `openLighthouseReportWhileExecution=true` in your properties file to automatically open the Lighthouse report during test execution.
+The action writes a validated HTML file under `lighthouse-reports/` and attaches
+its contents to the Allure output. It creates no executable JavaScript in the
+project. A missing or degraded managed toolchain stops the action with the
+setup command needed to repair it.
+
+:::warning[Report opening is opt-in]
+`openLighthouseReportWhileExecution` defaults to `false`, which is suitable for
+headless and CI runs. Set `openLighthouseReportWhileExecution=true` only when
+you want a desktop test run to open the generated HTML report and Java has a
+supported desktop/default-browser handler. If the handler is unavailable or
+opening fails, the report action fails before attaching the HTML to Allure.
 :::
 
 ## Wait Actions
