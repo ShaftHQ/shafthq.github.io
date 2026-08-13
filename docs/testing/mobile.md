@@ -109,6 +109,38 @@ Context transitions are trace events too. A call such as
 requested context, and resulting context when the Appium provider supports
 context inspection.
 
+## Scroll to screenshot or OCR targets
+
+Use typed targets when native accessibility identifiers are unavailable. SHAFT
+checks the current screenshot before every gesture and supports vertical and
+horizontal searches in either direction:
+
+```java
+var image = ImageTarget.fromPath(Path.of("src/test/resources/pay.png"));
+var text = OcrTarget.exact("Pay now");
+
+driver.touch()
+        .swipeElementIntoView(image, TouchActions.SwipeDirection.DOWN)
+        .tap(image)
+        .swipeElementIntoView(text, TouchActions.SwipeDirection.LEFT)
+        .tap(text);
+```
+
+Pass a container locator first when the target is inside a nested list or
+carousel:
+
+```java
+driver.touch().swipeElementIntoView(
+        AppiumBy.id("checkout_carousel"),
+        image,
+        TouchActions.SwipeDirection.RIGHT);
+```
+
+Android uses Appium's `mobile: scrollGesture` boundary result. iOS and generic
+touch sessions stop after the searched screenshot region remains unchanged.
+SHAFT maps native screenshot pixels directly to touch coordinates and scales
+mobile-web screenshots to the browser viewport.
+
 ## Read Android performance data
 
 Use `driver.mobile().performance()` when the live Appium driver exposes its

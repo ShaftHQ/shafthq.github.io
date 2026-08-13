@@ -57,23 +57,54 @@ flowchart TD
 
 | API                                                            | Functionality                                                |
 |----------------------------------------------------------------|--------------------------------------------------------------|
-| `matchesReferenceImage()`                                      | Reference-image comparison. WebDriver/Appium default to Shutterbug; Playwright uses OpenCV screenshot-byte comparison. |
+| `matchesReferenceImage()`                                      | Exact OpenCV reference-image comparison for WebDriver, Appium, and Playwright. |
 | `matchesReferenceImage(VisualValidationEngine)`                | OpenCV, Shutterbug, or Eyes comparison selected by the enum. Playwright routes `Locator.screenshot()` bytes through the provider; Shutterbug requests fall back to OpenCV because Shutterbug is Selenium-backed. |
 | `doesNotMatchReferenceImage()` and its overload                | Negative OpenCV/visual-engine comparison.                    |
 | `TouchActions.tap(String)`                                     | Finds and taps an image inside the current screen.           |
+| `TouchActions.tap(ImageTarget)`                                | Finds a typed image target and taps its mapped screenshot center. |
 | `TouchActions.type(String, ...)`                               | Finds an image, taps it, then types into the active field.   |
 | `TouchActions.waitUntilElementIsVisible(String)`               | Waits for an image match.                                    |
 | `TouchActions.waitUntilElementIsNotVisible(String)`            | Waits until an image match disappears from the screen.       |
 | `TouchActions.swipeElementIntoView(String, ...)`               | Swipes until the reference image is found.                   |
+| `TouchActions.swipeElementIntoView(ImageTarget, ...)`          | Searches while scrolling up, down, left, or right. The overload with `By` restricts search and gestures to a container. |
 | `ImageProcessingActions.findImageWithinCurrentPage(...)`       | Direct OpenCV-backed image lookup.                           |
 | `ImageProcessingActions.compareAgainstBaseline(...)`           | Direct baseline comparison.                                  |
 | `ImageProcessingActions.loadOpenCV()`                          | Explicit provider/native-library loading.                    |
 | Built-in Cucumber OpenCV, Shutterbug, and Eyes assertion steps | Delegates to the same provider.                              |
 
-Image-path touch actions compare against viewport screenshots and return
-viewport-relative coordinates for Selenium/Appium pointer actions. OpenCV
-matching is scale-tolerant, so a cropped reference image can be captured at a
-different DPI or display scale than the current app screenshot.
+Use `ImageTarget` when you need confidence, occurrence, region, or algorithm
+control. SHAFT validates the encoded image before native processing, requires a
+unique match unless you select an occurrence, and maps screenshot pixels to the
+active viewport:
+
+```java title="TypedImageTarget.java"
+import com.shaft.gui.element.TouchActions;
+import com.shaft.gui.image.ImageMatchingMode;
+import com.shaft.gui.image.ImageRectangle;
+import com.shaft.gui.image.ImageTarget;
+
+var payButton = ImageTarget.fromPath(Path.of("src/test/resources/pay.png"))
+        .minimumConfidence(0.94)
+        .within(new ImageRectangle(0, 300, 1080, 1200))
+        .matchingMode(ImageMatchingMode.AUTO);
+
+driver.touch()
+        .swipeElementIntoView(payButton, TouchActions.SwipeDirection.DOWN)
+        .tap(payButton);
+```
+
+`AUTO` uses color-aware, alpha-masked, multi-scale template matching first. If
+that cannot establish a match, it tries SIFT feature matching with RANSAC
+homography verification for rotated or perspective-shifted targets. Choose
+`TEMPLATE` or `FEATURE` to require one path. Feature matching resolves one
+geometrically verified occurrence, so narrow the search region when repeated
+rotated copies are present.
+
+On Appium, SHAFT tries local OpenCV first. It can use Appium Images as a
+capability fallback for an unconstrained target, temporarily applying SHAFT's
+visual threshold and restoring the session setting afterward. Explicit target
+confidence, region, or matching-mode constraints fail closed when the fallback
+cannot enforce them.
 
 The bundled TestNG/JUnit web samples use:
 
@@ -99,7 +130,7 @@ driver.assertThat().element(By.id("logo"))
       .matchesReferenceImage(ValidationEnums.VisualValidationEngine.EXACT_OPENCV);
 ```
 
-The no-argument Playwright overload uses `EXACT_OPENCV`. Applitools Eyes engines
+The no-argument overload uses `EXACT_OPENCV` on every backend. Applitools Eyes engines
 also receive Playwright screenshot bytes. Selenium Shutterbug remains available
 for WebDriver/Appium visual checks.
 
@@ -122,7 +153,7 @@ and image-file operations continue to work.
 
 ## Comparison engines
 
-`shaft-visual` supports five visual validation engines through the `VisualValidationEngine` enum:
+`shaft-visual` supports the visual validation engines in the `VisualValidationEngine` enum:
 
 | Engine | Description | Best for |
 |---|---|---|

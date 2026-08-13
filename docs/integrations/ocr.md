@@ -114,7 +114,10 @@ SHAFT.Validations.assertThat()
     .contains("الإجمالي");
 ```
 
-Available preprocessing modes are `AUTO`, `NONE`, `GRAYSCALE`, `BINARY`, and `INVERT`. Page segmentation modes cover automatic text, a single block, line, or word, and sparse text.
+Available preprocessing modes are `AUTO`, `NONE`, `GRAYSCALE`, `BINARY`, and
+`INVERT`. `AUTO` derives an Otsu threshold from the image, composites alpha onto
+white, and preserves pixel coordinates. Page segmentation modes cover automatic
+text, a single block, line, or word, and sparse text.
 
 ## Configure language models
 
