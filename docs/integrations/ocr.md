@@ -96,6 +96,80 @@ SHAFT.Validations.verifyThat()
 
 OCR recognition attaches the source image and recognition details to the report. OCR targeting also attaches the selected match, including its text, confidence, and bounds.
 
+## Process PDF documents
+
+Use `PdfFileManager` to read native text and recognize text from scanned or mixed pages in the same PDF. SHAFT processes every page, keeps native positioned text when it is available, and calls `shaft-ocr` with a whole-page render only for pages that need pixel recognition.
+
+```java
+var document = new PdfFileManager("test-data/invoice.pdf").process();
+
+String text = document.fullText();
+var firstPage = document.pages().getFirst();
+
+System.out.println(firstPage.source());      // NATIVE, OCR, or HYBRID
+System.out.println(firstPage.confidence());
+System.out.println(firstPage.tables());
+```
+
+Each page result contains page, block, paragraph, line, and word geometry. It also reports any applied orientation or deskew correction, inferred tables, confidence, and warnings. Result lists are immutable. Table inference uses aligned word geometry; validate irregular, borderless, or merged-cell results before using them as structured data.
+
+Request exports explicitly. SHAFT writes each export through a temporary sibling file and then moves it into place:
+
+```java
+Files.createDirectories(Path.of("build"));
+
+var result = new PdfFileManager("test-data/scanned-invoice.pdf").process(
+    PdfExportRequest.to(PdfExportFormat.SEARCHABLE_PDF, Path.of("build/invoice-searchable.pdf")),
+    PdfExportRequest.to(PdfExportFormat.HOCR, Path.of("build/invoice.hocr")),
+    PdfExportRequest.to(PdfExportFormat.TSV, Path.of("build/invoice.tsv")),
+    PdfExportRequest.to(PdfExportFormat.JSON, Path.of("build/invoice.json"))
+);
+
+result.exports().forEach(export ->
+    System.out.println(export.output() + " " + export.sha256())
+);
+```
+
+Existing output files are rejected by default. Call `replacingExisting()` on an export request when replacement is intentional. Searchable export of a signed PDF is also rejected because changing the document invalidates its signatures; call `allowingSignatureInvalidation()` only when that consequence is acceptable.
+
+Process independent PDFs as an ordered batch:
+
+```java
+var requests = List.of(
+    PdfDocumentRequest.of(Path.of("test-data/one.pdf")),
+    PdfDocumentRequest.of(Path.of("test-data/two.pdf"))
+);
+
+PdfBatchResult batch = PdfFileManager.processAll(
+    requests,
+    new PdfBatchOptions(4, 256L * 1024 * 1024, false)
+);
+
+batch.items().forEach(item ->
+    System.out.println(item.source() + " successful=" + item.successful())
+);
+```
+
+The batch keeps request order and records item failures without discarding successful results. Set `failFast` to `true` to stop before later requests can publish exports; fail-fast execution is serial for that reason.
+
+Set per-call recognition and safety limits through `PdfDocumentOptions`:
+
+```java
+var options = PdfDocumentOptions.defaults()
+    .withRenderDpi(240)
+    .withResourceLimits(100L * 1024 * 1024, 250, 20_000_000)
+    .withPageTimeout(Duration.ofSeconds(60))
+    .withAllureEvidence(false);
+
+var document = new PdfFileManager("test-data/archive.pdf").process(options);
+```
+
+PDF processing attaches a JSON document summary and page-level recognition details to Allure by default. Those details can contain recognized document text, geometry, tables, warnings, and the source path. Disable them with `withAllureEvidence(false)` when the document is sensitive. `shaft.ocr.document.maximumAllureArtifactBytes` controls whether explicit export files are attached or represented by a size and checksum manifest; it does not cap page-level JSON details.
+
+:::warning
+SHAFT accepts PDF input only; it does not add Tabula or an ML table runtime. It rejects encrypted PDFs, inputs and page counts above their limits, and individually oversized rendered pages. Concurrent raster work is throttled by the batch byte budget. Treat OCR page timeouts as caller-side bounds: a native OCR library call may finish in its background thread after the timed operation has returned.
+:::
+
 ## Tune recognition
 
 Start from `OcrOptions.defaults()` when asserting an image or element. Tune a target directly when interacting with visible text:
@@ -128,10 +202,13 @@ Configure provisioning through the typed property namespace:
 ```java
 SHAFT.Properties.ocr.set()
     .cacheDirectory("build/shaft-ocr-models")
-    .downloadEnabled(false);
+    .downloadEnabled(false)
+    .documentRenderDpi(300)
+    .documentMaximumPages(500)
+    .documentMaximumInFlightRasterBytes(256L * 1024 * 1024);
 ```
 
-Use `shaft.ocr.cacheDirectory` and `shaft.ocr.downloadEnabled` in `custom.properties` or as system properties when code configuration is not appropriate.
+Use the matching `shaft.ocr.*` keys in `custom.properties` or as system properties when code configuration is not appropriate. Document options passed to `process(...)` override the defaults for that call.
 
 :::warning
 When downloads are disabled, every requested language model must already exist in the configured cache and pass integrity verification. SHAFT fails before recognition if a model is missing or altered.
