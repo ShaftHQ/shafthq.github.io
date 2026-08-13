@@ -7,7 +7,7 @@ const {expect, test} = require('@playwright/test');
 // a fixed retry schedule (0/150/450/900ms) alone -- fine for ordinary pages,
 // but a slow-rendering client-side widget positioned above the target (e.g.
 // the Mermaid "Workflow map" diagram on docs/start/quick-start.mdx, above
-// `#new-project-generation`) can, on a cold cache/JIT, finish growing the
+// `#existing-project-upgrade`) can, on a cold cache/JIT, finish growing the
 // page *after* that fixed schedule is exhausted. Nothing then re-corrects the
 // scroll, permanently stranding the target far below where the last retry
 // landed -- a real bug for first-time/slow-device visitors, not just a test
@@ -25,8 +25,8 @@ test('anchor scroll self-corrects when a Mermaid diagram above the target render
   const client = await context.newCDPSession(page);
 
   await page.goto('/');
-  const installCta = page.getByTestId('landing-hero-install-cta');
-  await installCta.waitFor({state: 'visible'});
+  const upgradePath = page.getByTestId('landing-pathfinder').getByRole('link', {name: /Upgrade an existing project/});
+  await upgradePath.scrollIntoViewIfNeeded();
 
   // Throttle CPU only for the navigation itself, so the click action and
   // initial homepage hydration aren't affected -- this isolates the slowdown
@@ -38,8 +38,8 @@ test('anchor scroll self-corrects when a Mermaid diagram above the target render
   await client.send('Emulation.setCPUThrottlingRate', {rate: 2});
   try {
     await Promise.all([
-      page.waitForURL('**/docs/start/quick-start#new-project-generation'),
-      installCta.click(),
+      page.waitForURL('**/docs/start/quick-start#existing-project-upgrade'),
+      upgradePath.click(),
     ]);
 
     // Confirm this test actually exercises the slow-render path it claims to
@@ -61,7 +61,7 @@ test('anchor scroll self-corrects when a Mermaid diagram above the target render
     const navbar = document.querySelector('.navbar');
     if (!target || !navbar) return null;
     return Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
-  }, 'new-project-generation');
+  }, 'existing-project-upgrade');
 
   expect(gap, `anchor gap after cold Mermaid render: ${gap}, needs [8,120]`).toBeGreaterThanOrEqual(8);
   expect(gap, `anchor gap after cold Mermaid render: ${gap}, needs [8,120]`).toBeLessThanOrEqual(120);
@@ -71,14 +71,14 @@ test('anchor auto-correction stops as soon as the user scrolls manually (no scro
   const client = await context.newCDPSession(page);
 
   await page.goto('/');
-  const installCta = page.getByTestId('landing-hero-install-cta');
-  await installCta.waitFor({state: 'visible'});
+  const upgradePath = page.getByTestId('landing-pathfinder').getByRole('link', {name: /Upgrade an existing project/});
+  await upgradePath.scrollIntoViewIfNeeded();
 
   await client.send('Emulation.setCPUThrottlingRate', {rate: 2});
   try {
     await Promise.all([
-      page.waitForURL('**/docs/start/quick-start#new-project-generation'),
-      installCta.click(),
+      page.waitForURL('**/docs/start/quick-start#existing-project-upgrade'),
+      upgradePath.click(),
     ]);
 
     // Let the fixed retry schedule run at least once, then take over with a

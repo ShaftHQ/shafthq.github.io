@@ -1,64 +1,23 @@
 const {expect, test} = require('@playwright/test');
 
-async function expectAnchorBelowNavbar(page, targetId) {
-  const readGap = () => page.evaluate((id) => {
-    const target = document.getElementById(id);
-    const navbar = document.querySelector('.navbar');
-    if (!target || !navbar) return NaN;
-    return Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
-  }, targetId);
-
-  // src/theme/Root.tsx's HashTargetScrollSync re-issues target.scrollIntoView()
-  // at staggered delays (HASH_SCROLL_RETRY_DELAYS_MS = [0, 150, 450, 900]ms) to
-  // correct the anchor position against async layout shifts after the hash
-  // navigation. Each retry leaves its own short-lived "settled" plateau before
-  // the next fires, so the gap swings through [8,120] transiently at an early
-  // plateau (measured directly: 296 -> 504 -> 195 -> 80 -> ... -> 16) before
-  // its true final value. Poll until two consecutive reads agree (the page has
-  // actually stopped moving), not the first sample that happens to land in
-  // range -- see the warm-up comment in the test below for the actual root
-  // cause this is defending against.
-  let previous = NaN;
-  let stableGap;
-  await expect.poll(async () => {
-    const current = await readGap();
-    const isStable = !Number.isNaN(current) && current === previous;
-    previous = current;
-    if (isStable) stableGap = current;
-    return isStable;
-  }).toBe(true);
-
-  expect(stableGap).toBeGreaterThanOrEqual(8);
-  expect(stableGap).toBeLessThanOrEqual(120);
-}
-
 test('landing page exposes clear onboarding links with stable hooks', async ({page}) => {
-  // Root cause of #855's flake: this test navigates (via the hero install CTA)
-  // to /docs/start/quick-start#new-project-generation, a page with a Mermaid
-  // flowchart ("Workflow map") ABOVE the target heading. Mermaid renders
-  // client-side after mount, and on a cold cache/JIT that first render can take
-  // longer than HashTargetScrollSync's fixed 900ms retry budget (src/theme/
-  // Root.tsx) -- when it does, the diagram finishes growing the page *after*
-  // the last scroll retry has already fired, permanently leaving the target
-  // ~480px further down than the scroll landed (confirmed empirically: with a
-  // cold mermaid cache this reproduced 100% of the time; with mermaid
-  // pre-warmed, 0/6). No amount of test-side waiting after the click fixes
-  // this -- the site never re-scrolls once its retries are exhausted, so the
-  // wrong position is permanent, not transient. Pre-warm mermaid's one-time
-  // render cost with a throwaway visit before the real navigation, matching
-  // what any returning visitor's browser cache would already have done.
-  await page.goto('/docs/start/quick-start#new-project-generation');
-  await expect(page.locator('.docusaurus-mermaid-container svg')).toBeVisible();
-
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
-  await expect(page.getByRole('heading', {name: /Ship automation evidence, not boilerplate code/})).toBeVisible();
+  const duplicateIds = await page.evaluate(() => {
+    const counts = new Map();
+    document.querySelectorAll('[id]').forEach((element) => {
+      counts.set(element.id, (counts.get(element.id) ?? 0) + 1);
+    });
+    return Array.from(counts.entries()).filter(([, count]) => count > 1);
+  });
+  expect(duplicateIds).toEqual([]);
+  await expect(page.getByRole('heading', {name: /Reliable automation evidence for every release/})).toBeVisible();
   // #898 finding 10: the hero -- including the page's only <h1> and every hero
   // CTA -- must be inside <main> so Docusaurus's "Skip to main content" link
   // (which resolves to main:first-of-type) actually lands on it.
   await expect(page.locator('main[data-testid="landing-main"] h1')).toHaveCount(1);
-  await expect(page.locator('main[data-testid="landing-main"] [data-testid="landing-hero-install-cta"]')).toBeVisible();
+  await expect(page.locator('main[data-testid="landing-main"] [data-testid="landing-hero-generator-cta"]')).toBeVisible();
   await expect(page.getByTestId('landing-command-center')).toHaveCount(0);
   await expect(page.getByTestId('landing-hero-signals')).toHaveCount(0);
   await expect(page.getByTestId('landing-audience-split')).toBeVisible();
@@ -68,12 +27,13 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await expect(page.getByText(/With SHAFT/)).toHaveCount(0);
   await expect(page.getByText('mvn test')).toHaveCount(0);
 
+  await expect(page.getByTestId('landing-hero-generator-cta')).toHaveAttribute('href', '/project-generator');
+  await expect(page.getByText(/No account\. No payment details/)).toBeVisible();
   await Promise.all([
-    page.waitForURL('**/docs/start/quick-start#new-project-generation'),
-    page.getByTestId('landing-hero-install-cta').click(),
+    page.waitForURL('**/project-generator'),
+    page.getByTestId('landing-hero-generator-cta').click(),
   ]);
-  await expect(page).toHaveURL(/\/docs\/start\/quick-start#new-project-generation/);
-  await expectAnchorBelowNavbar(page, 'new-project-generation');
+  await expect(page).toHaveURL(/\/project-generator$/);
 
   await page.goto('/');
   await Promise.all([
@@ -85,11 +45,12 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   await page.goto('/');
   const pathfinder = page.getByTestId('landing-pathfinder');
   await expect(pathfinder).toBeVisible();
-  await expect(pathfinder.getByRole('link', {name: /Start a new SHAFT project/})).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
+  await expect(pathfinder.getByRole('link', {name: /Generate a SHAFT project/})).toHaveAttribute('href', '/project-generator');
   await expect(pathfinder.getByRole('link', {name: /Upgrade an existing project/})).toHaveAttribute('href', '/docs/start/quick-start#existing-project-upgrade');
   await expect(pathfinder.getByRole('link', {name: /Connect MCP after the basics/})).toHaveAttribute('href', '/docs/start/quick-start#mcp-integration');
   await expect(pathfinder.getByRole('link', {name: /Add coverage beyond the browser/})).toHaveAttribute('href', '#testing-surfaces');
-  await expect(page.getByTestId('landing-cta-install')).toHaveAttribute('href', '/docs/start/quick-start#new-project-generation');
+  await expect(page.getByTestId('landing-cta-generator')).toHaveAttribute('href', '/project-generator');
+  await expect(page.getByTestId('landing-cta-star')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
   await expect(page.getByTestId('landing-cta-slack')).toHaveAttribute('href', /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/);
 
   await page.goto('/');
@@ -116,8 +77,9 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   expect(codeProofVisuals.copyButtons).toBe(0);
   expect(codeProofVisuals.titleTopDiff).toBeLessThanOrEqual(2);
   expect(codeProofVisuals.uniqueTokenColors).toBeGreaterThanOrEqual(3);
-  await page.getByTestId('landing-allure-evidence').scrollIntoViewIfNeeded();
-  await expect(page.getByTestId('landing-allure-evidence').getByRole('img', {name: /Official Allure 3 demo report screenshot/})).toBeVisible();
+  await expect(page.getByTestId('landing-allure-evidence').getByRole('img', {name: /SHAFT Overview panel/})).toBeVisible();
+  await page.getByTestId('landing-product-evidence').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('landing-product-evidence').getByRole('img')).toHaveCount(2);
   await expect(page.locator('#comparison-section')).toHaveCount(0);
   await expect(page.locator('#workflow-section')).toHaveCount(0);
   await expect(page.locator('#get-started')).toBeVisible();
@@ -149,7 +111,7 @@ test('landing page links to the canonical MCP command page', async ({page}) => {
 // translateY(-3px) hover-lift as .pathCard/.proofCard, and [data-hover-glow]
 // drives a 260ms scaling radial gradient on pointer move -- both must stop
 // for users who asked for less motion, matching the reduced-motion handling
-// already correct for .pathCard/.proofCard and ParticleBackground.
+// already correct for .pathCard/.proofCard.
 test('landing page neutralizes hover-lift and hover-glow motion under prefers-reduced-motion (#898 findings 12/13)', async ({page}) => {
   await page.emulateMedia({reducedMotion: 'reduce'});
   await page.goto('/');
@@ -159,9 +121,9 @@ test('landing page neutralizes hover-lift and hover-glow motion under prefers-re
   await loopStep.hover();
   await expect.poll(() => loopStep.evaluate((el) => getComputedStyle(el).transform)).toBe('none');
 
-  const heroInstallCta = page.getByTestId('landing-hero-install-cta');
-  await heroInstallCta.hover();
-  const glowTransitionDuration = await heroInstallCta.evaluate(
+  const heroGeneratorCta = page.getByTestId('landing-hero-generator-cta');
+  await heroGeneratorCta.hover();
+  const glowTransitionDuration = await heroGeneratorCta.evaluate(
     (el) => getComputedStyle(el, '::before').transitionDuration,
   );
   expect(glowTransitionDuration).toBe('0s');
@@ -195,18 +157,7 @@ test('landing page keeps mobile motion and CTAs inside the viewport', async ({pa
   await page.goto('/');
 
   await expect(page.getByTestId('landing-hero')).toBeVisible();
-  await expect(page.locator('canvas[aria-hidden="true"]')).toHaveCount(2);
-  await expect.poll(async () => {
-    return page.locator('canvas[aria-hidden="true"]').first().evaluate((canvas) => {
-      const context = canvas.getContext('2d');
-      if (!context || canvas.width === 0 || canvas.height === 0) return false;
-      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-      for (let index = 3; index < pixels.length; index += 40) {
-        if (pixels[index] > 0) return true;
-      }
-      return false;
-    });
-  }).toBe(true);
+  await expect(page.locator('canvas[aria-hidden="true"]')).toHaveCount(0);
 
   const overflowingButtons = await page.evaluate(() => {
     const viewportWidth = document.documentElement.clientWidth;

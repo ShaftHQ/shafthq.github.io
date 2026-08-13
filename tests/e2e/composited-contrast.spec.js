@@ -329,7 +329,7 @@ test('hero primary CTA clears WCAG AA contrast against its own button fill', asy
   await assertClearsContrast(
     page,
     'hero button--primary',
-    '[data-testid="landing-hero-install-cta"]',
+    '[data-testid="landing-hero-generator-cta"]',
     interiorSampler(10),
   );
 });

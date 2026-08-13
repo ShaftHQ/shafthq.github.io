@@ -1,19 +1,25 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const {execFileSync} = require('child_process');
 
 const index = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.tsx'), 'utf8');
 const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.module.css'), 'utf8');
 const customStyles = fs.readFileSync(path.join(__dirname, '..', 'src', 'css', 'custom.css'), 'utf8');
+const config = fs.readFileSync(path.join(__dirname, '..', 'docusaurus.config.js'), 'utf8');
 const particleBackgroundPath = path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'index.tsx');
-const particleBackground = fs.readFileSync(particleBackgroundPath, 'utf8');
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(index.includes('One Java test suite for web, mobile, API, DB, and CLI.'), 'Homepage must state the core product message plainly.');
-assert(index.includes('Ship automation evidence, not boilerplate code.'), 'Homepage must use the evidence-first hero message.');
-assert(index.includes('Start a new project'), 'Homepage hero must use a first-project CTA.');
+assert(index.includes('Reliable automation evidence for every release.'), 'Homepage must lead with a mature reliability proposition.');
+assert(index.includes('One Java framework for web, mobile, API, database, and CLI testing.'), 'Homepage must state the product scope plainly.');
+assert(index.includes('Generate a free project'), 'Homepage hero must use the free generator CTA.');
+assert(index.includes('data-testid="landing-hero-generator-cta"') && index.includes('to="/project-generator"'), 'Homepage generator CTA must expose a stable hook and link directly to the generator.');
+assert(index.includes('No account. No payment details.'), 'Homepage must remove adoption ambiguity beside the primary CTA.');
+assert(index.includes('ready-to-run Maven project') && index.includes('first evidence report'), 'Homepage must state what the generator produces and the next successful outcome.');
+assert(index.includes('className={styles.heroLogo}') && index.includes('src="/img/shaft.svg"'), 'Homepage hero must make the S identity prominent.');
 assert(index.includes('landing-hero-star-cta'), 'Homepage hero must expose a GitHub star CTA hook.');
 assert(index.includes('Star on GitHub'), 'Homepage hero must ask successful evaluators to star the project.');
 assert(!index.includes('landing-command-center'), 'Homepage hero must not render the redundant command-center block.');
@@ -22,8 +28,16 @@ assert(index.includes('landing-audience-split'), 'Homepage must expose the engin
 assert(index.includes('landing-surface-matrix'), 'Homepage must expose the surface coverage matrix.');
 assert(index.includes('landing-evidence-loop'), 'Homepage must expose the evidence loop chart.');
 assert(index.includes('landing-allure-evidence'), 'Homepage must expose the Allure evidence visual.');
-assert(index.includes('/img/allure3_main_light.png'), 'Homepage must render the official Allure 3 evidence image.');
-assert(!index.includes('/img/allure-evidence-report.svg'), 'Homepage must not use the generated Allure evidence placeholder.');
+for (const image of [
+  '/img/allure-shaft-overview-panel.png',
+  '/img/capture-locator-picker.png',
+  '/img/agentic/intellij-plugin-assistant.png',
+]) {
+  assert(index.includes(image), `Homepage must render the real SHAFT product image ${image}.`);
+}
+assert(!index.includes('/img/allure3_main_light.png'), 'Homepage must not use the generic third-party Allure screenshot.');
+assert(index.includes('width={1600}') && index.includes('height={1000}'), 'Homepage must reserve dimensions for the SHAFT Overview proof image.');
+assert((index.match(/loading="lazy"/g) || []).length >= 2, 'Below-fold product screenshots must lazy-load.');
 assert(index.includes('landing-footer'), 'Homepage must use the custom landing footer.');
 assert(index.includes('MIT licensed'), 'Homepage footer must use the real SHAFT license.');
 assert(index.includes('codeCompare'), 'Homepage must include the focused code proof.');
@@ -37,7 +51,7 @@ assert(!index.includes('firstRunNoOpenCommand') && !index.includes('mvn test'), 
 assert(!/plumbing/i.test(index), 'Homepage must use boilerplate-code language instead of plumbing language.');
 assert(!index.includes('telemetryRows'), 'Homepage hero must not render fake telemetry.');
 assert(index.includes('/docs/start/quick-start'), 'Homepage must expose the quick-start CTA.');
-assert(index.includes('/docs/start/quick-start#new-project-generation'), 'Homepage must link to the new-project quick-start anchor.');
+assert(index.includes('/project-generator'), 'Homepage must link directly to the free project generator.');
 assert(index.includes('/docs/start/quick-start#existing-project-upgrade'), 'Homepage must link to the upgrade quick-start anchor.');
 assert(index.includes('/docs/start/quick-start#mcp-integration'), 'Homepage must link to the MCP quick-start anchor.');
 assert(index.includes('/docs/agentic/mcp'), 'Homepage must expose MCP setup.');
@@ -51,6 +65,49 @@ assert(
   'Homepage must link to the canonical MCP page instead of rendering MCP commands.',
 );
 assert(index.includes('Maven Central'), 'Homepage claims must link to evidence.');
+for (const signal of ['MIT license', 'Build history', 'Security policy', 'Release history', 'Selenium ecosystem', 'Google Open Source Peer Bonus', 'Community support']) {
+  assert(index.includes(signal), `Homepage trust evidence must include ${signal}.`);
+}
+assert(index.includes('data-testid="landing-adoption-answers"'), 'Homepage must answer adoption-risk questions in a dedicated section.');
+assert(index.includes('Move an existing suite') && index.includes('Run where your team already builds') && index.includes('Extend without replacing native tools'), 'Homepage must address migration, execution, and extension risk.');
+assert(!/trusted by|enterprise-ready|customers|\d+[,+]\s*(teams|companies|users)/i.test(index), 'Homepage must not invent customer, enterprise, or adoption claims.');
+assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
+assert(/property: 'og:image:width',[\s\S]{0,80}content: '1200'/.test(config), 'Open Graph metadata width must match the 1200px shipped card.');
+assert(/property: 'og:image:height',[\s\S]{0,80}content: '630'/.test(config), 'Open Graph metadata height must match the 630px shipped card.');
+const socialCardPath = path.join(__dirname, '..', 'static', 'img', 'shaft-social-card.png');
+assert(fs.existsSync(socialCardPath), 'The Open Graph social card referenced by metadata must be shipped.');
+const socialCard = fs.readFileSync(socialCardPath);
+assert(socialCard.subarray(0, 8).toString('hex') === '89504e470d0a1a0a', 'The shipped social card must have the complete PNG signature.');
+assert(socialCard.readUInt32BE(16) === 1200 && socialCard.readUInt32BE(20) === 630, 'The shipped social card must be exactly 1200x630.');
+const socialCardGenerator = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'generate-homepage-social-card.mjs'), 'utf8');
+assert(!/chromium|font-family|Arial|Helvetica|Consolas/.test(socialCardGenerator), 'Social-card bytes must not depend on a browser or host-installed font renderer.');
+const socialCardTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shaft-social-card-'));
+try {
+  const generatorPath = path.join(__dirname, '..', 'scripts', 'generate-homepage-social-card.mjs');
+  const inspectPng = (file) => JSON.parse(execFileSync(process.execPath, [generatorPath, '--inspect', file], {encoding: 'utf8'}));
+  const regeneratedPath = path.join(socialCardTempDir, 'regenerated.png');
+  execFileSync(process.execPath, [generatorPath, regeneratedPath]);
+  const shippedPixels = inspectPng(socialCardPath);
+  const regeneratedPixels = inspectPng(regeneratedPath);
+  assert(shippedPixels.width === 1200 && shippedPixels.height === 630 && shippedPixels.bitDepth === 8 && shippedPixels.colorType === 6, 'The shipped social card must decode as 1200x630 8-bit RGBA.');
+  assert(
+    shippedPixels.width === regeneratedPixels.width &&
+      shippedPixels.height === regeneratedPixels.height &&
+      shippedPixels.bitDepth === regeneratedPixels.bitDepth &&
+      shippedPixels.colorType === regeneratedPixels.colorType,
+    'The shipped social card dimensions and PNG color format must match generated output.',
+  );
+  assert(shippedPixels.pixelHash === regeneratedPixels.pixelHash, 'The shipped social card must pixel-match generated RGBA output.');
+  const recompressedPath = path.join(socialCardTempDir, 'recompressed.png');
+  execFileSync(process.execPath, [generatorPath, '--reencode', regeneratedPath, recompressedPath, '1']);
+  assert(!fs.readFileSync(regeneratedPath).equals(fs.readFileSync(recompressedPath)), 'The compression mutation must produce different PNG bytes.');
+  assert(inspectPng(recompressedPath).pixelHash === regeneratedPixels.pixelHash, 'Equivalent PNG compression must preserve the decoded pixel contract.');
+  const pixelMutatedPath = path.join(socialCardTempDir, 'pixel-mutated.png');
+  execFileSync(process.execPath, [generatorPath, '--mutate-first-pixel', regeneratedPath, pixelMutatedPath]);
+  assert(inspectPng(pixelMutatedPath).pixelHash !== regeneratedPixels.pixelHash, 'A decoded-pixel mutation must fail the social-card pixel contract.');
+} finally {
+  fs.rmSync(socialCardTempDir, {recursive: true, force: true});
+}
 assert(index.indexOf('Maven Central') === index.lastIndexOf('Maven Central'), 'Homepage should not duplicate trust-link groups.');
 assert(!index.includes('40,000'), 'Homepage must not contain unsupported adoption claims.');
 assert(index.includes('data-testid="landing-hero"'), 'Homepage must expose a stable hero test hook.');
@@ -59,9 +116,9 @@ assert(index.includes('data-testid="landing-agent"'), 'Homepage must expose an a
 assert(index.includes('data-testid="landing-final"'), 'Homepage must expose final CTA test hook.');
 assert(index.includes('data-testid="landing-main"'), 'Homepage must expose a main-content test hook.');
 assert(index.includes('landing-hero-quickstart-cta'), 'Landing hero should expose quick-start CTA hook.');
-assert(index.includes('data-testid="landing-cta-install"'), 'Landing final CTA should expose install hook.');
+assert(index.includes('data-testid="landing-cta-generator"'), 'Landing final CTA should expose generator hook.');
 assert(!index.includes('data-testid="landing-cta-quickstart"'), 'Landing final CTA should not duplicate the hero quick-start CTA (#898 finding 2).');
-assert(!index.includes('data-testid="landing-cta-star"'), 'Landing final CTA should not duplicate the hero star CTA (#898 finding 2).');
+assert(index.includes('data-testid="landing-cta-star"'), 'Landing final CTA should repeat the secondary GitHub star path after proof.');
 assert(index.includes('data-testid="landing-cta-slack"') && index.includes('faSlack'), 'Landing final CTA should link to Slack with a Slack icon.');
 assert(index.includes('data-testid="landing-hero-star-cta"'), 'Landing hero must keep a star CTA hook, demoted into the trust-links row (#898 finding 1).');
 assert(!index.includes('Star SHAFT on GitHub.'), 'Landing final CTA heading must not contradict its own primary button (#898 finding 3).');
@@ -83,7 +140,9 @@ assert(!index.includes('Use Playwright for browser-only suites.'), 'Homepage sho
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage must respect reduced motion.');
 assert(styles.includes('@media (max-width: 760px)'), 'Homepage must include a mobile layout.');
 assert(styles.includes("data-reveal-state='rolled-back'"), 'Homepage must include rollback styling for reversible scroll reveal.');
-assert(styles.includes('.heroParticles') && styles.includes('.finalParticles'), 'Homepage must keep particle backgrounds.');
+assert(!index.includes('ParticleBackground') && !index.includes('BrowserOnly'), 'Homepage must not load decorative particle runtime code.');
+assert(!styles.includes('.heroParticles') && !styles.includes('.finalParticles'), 'Homepage must remove particle-only styles.');
+assert(!fs.existsSync(particleBackgroundPath), 'Dead ParticleBackground component must be deleted after its final caller is removed.');
 assert(!styles.includes('font-weight: 800'), 'Landing styles must use approved font-weight tokens instead of 800.');
 assert(styles.includes('font-weight: var(--site-font-weight-bold)'), 'Landing styles must use the shared bold weight token.');
 assert(!styles.includes('#061b22') && !styles.includes('#f7d47b') && !styles.includes('#f8fbfe'), 'Landing reusable colors must use site tokens instead of raw hex values.');
@@ -116,9 +175,6 @@ assert(
 );
 assert(!index.includes('revealElements.forEach((element, index) => {'), 'Reveal stagger must not compute delay from a global document-order index (#898 finding 15).');
 assert(index.includes('.indexOf(element)'), 'Reveal stagger must compute delay from each element\'s position within its own group (#898 finding 15).');
-assert(!particleBackground.includes('37, 194, 160'), 'ParticleBackground must not hardcode the off-palette Docusaurus green (#898 finding 22).');
-assert(!particleBackground.includes('ENABLE_PARTICLE_WORKERS'), 'ParticleBackground must not gate ~300 lines of dead worker code behind a hardcoded flag (#898 finding 24).');
-assert(!particleBackground.includes('particleWorker'), 'ParticleBackground must not reference the deleted particle worker module (#898 finding 24).');
 assert(
   !fs.existsSync(path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'particleWorker.ts')),
   'Dead particleWorker.ts file must be deleted (#898 finding 24).',
@@ -152,8 +208,7 @@ assert(
   'useHoverGlow must attach a pointerenter listener to cache each target\'s rect once per hover (#898 finding 17).',
 );
 assert(
-  /@media \(max-width: 1180px\) \{[^}]*\.pathGrid/.test(styles.replace(/\n/g, '')) ||
-    /@media \(max-width: 1180px\)[\s\S]{0,400}\.pathGrid/.test(styles),
+  styles.slice(styles.indexOf('@media (max-width: 1180px)'), styles.indexOf('@media (max-width: 980px)')).includes('.pathGrid'),
   'A 1180px breakpoint must give the 5-column path/loop/badge grids an intermediate 2-column step before the 980px single-column collapse (#898 finding 19).',
 );
 assert(
@@ -256,6 +311,14 @@ for (const href of [
   'https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine',
   'https://www.selenium.dev/ecosystem/#frameworks',
   'https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html',
+]) {
+  assert(index.includes(`href: '${href}'`), `Expected trustSignals to contain ${href}.`);
+}
+assert(
+  index.includes('href={signal.href} target="_blank" rel="noreferrer"'),
+  'Every source-backed trust signal must open safely in a new tab.',
+);
+for (const href of [
   'https://github.com/ShaftHQ/SHAFT_ENGINE/discussions',
   'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
 ]) {
@@ -279,8 +342,8 @@ assert(
 assert(index.includes('faArrowUpRightFromSquare'), 'Homepage must import an external-link affordance icon (#898 finding 29).');
 const arrowIconUsages = (index.match(/faArrowUpRightFromSquare/g) || []).length - 1;
 assert(
-  arrowIconUsages === 6,
-  `Homepage must render the external-link icon on all 6 previously-inconsistent external links (#898 finding 29). Found ${arrowIconUsages}.`,
+  (index.match(/icon: true/g) || []).length === 3 && arrowIconUsages === 4,
+  'Homepage must mark three trust links plus all three external footer links with the external-link affordance.',
 );
 
 assert(

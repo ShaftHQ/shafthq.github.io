@@ -48,7 +48,28 @@ const config = {
       tagName: 'meta',
       attributes: {
         property: 'og:image',
-        content: siteAsset('/img/shaft.svg'),
+        content: siteAsset('/img/shaft-social-card.png'),
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image:width',
+        content: '1200',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image:height',
+        content: '630',
+      },
+    },
+    {
+      tagName: 'meta',
+      attributes: {
+        property: 'og:image:alt',
+        content: 'SHAFT Engine S identity beside a real SHAFT Overview report',
       },
     },
     {
