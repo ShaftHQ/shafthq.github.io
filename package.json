@@ -26,6 +26,7 @@
     "test:shaft": "node scripts/run-shaft-tests.mjs",
     "verify-models": "node scripts/verify-models.js",
     "build:llms": "node scripts/build-llms-txt.mjs",
+    "generate:homepage-social-card": "node scripts/generate-homepage-social-card.mjs",
     "generate:properties-catalog": "node scripts/generate-properties-catalog.mjs"
   },
   "dependencies": {
