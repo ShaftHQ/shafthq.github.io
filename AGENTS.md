@@ -31,5 +31,7 @@
 
 ## Accessibility
 
-- UI/visual doc-page changes: run the `a11ymcp` MCP server (configured in `.mcp.json`, npm `a11y-mcp-server`, axe-core based) against the affected built pages, complementing the heuristic `accessibility-review` skill.
+- UI/visual homepage changes: run `yarn build` and then `yarn test:a11y`. The
+  command uses headless Playwright-managed Chromium and axe-core; it does not
+  use an installed browser or ChromeDriver.
 - Treat axe-core violations as review evidence for the changed pages; the heuristic skill covers what automated rules cannot (focus order, meaningful labels, reduced-motion intent).

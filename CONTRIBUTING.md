@@ -45,7 +45,7 @@ git switch -c <short-topic-branch>
 Required:
 
 - Node.js 20.
-- Yarn.
+- Yarn 1.22.22.
 - Git.
 
 Verify the active tools:
@@ -105,8 +105,14 @@ Run the full documentation contract:
 yarn test
 yarn typecheck
 yarn build
+yarn test:a11y
 yarn test:playwright
 ```
+
+`yarn test:a11y` runs the homepage audit headlessly with Playwright-managed
+Chromium and axe-core. It does not use the machine's browser or ChromeDriver.
+Run `yarn playwright install chromium` again after changing the Playwright
+version so the browser revision matches the test runner.
 
 For visual changes, also inspect the affected built page in a browser and add
 screenshots or browser evidence to the pull request.

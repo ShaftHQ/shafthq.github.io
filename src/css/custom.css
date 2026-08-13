@@ -27,6 +27,7 @@ html {
   --ifm-color-primary-lightest: #4b9bd6;
   --aa-primary-color-rgb: 0, 110, 192 !important;
   --ifm-code-font-size: 95%;
+  --ifm-navbar-search-input-placeholder-color: var(--ifm-color-emphasis-700);
   --docusaurus-highlighted-code-line-bg: rgba(var(--site-color-primary-rgb), 0.12);
   --site-color-primary: #006ec0;
   --site-color-primary-rgb: 0, 110, 192;
@@ -85,6 +86,7 @@ body.dark {
   --ifm-color-primary-lighter: #7bcfff;
   --ifm-color-primary-lightest: #a9dfff;
   --aa-primary-color-rgb: 76, 194, 255 !important;
+  --ifm-navbar-search-input-placeholder-color: var(--site-color-muted);
   --docusaurus-highlighted-code-line-bg: rgba(var(--site-color-primary-rgb), 0.24);
   --site-color-primary: #4cc2ff;
   --site-color-primary-rgb: 76, 194, 255;

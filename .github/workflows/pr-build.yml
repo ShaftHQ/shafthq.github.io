@@ -20,8 +20,14 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile
 
+      - name: Install Chromium
+        run: yarn playwright install --with-deps chromium
+
       - name: Security regressions
         run: yarn test:security
 
       - name: Build
         run: yarn build
+
+      - name: Homepage accessibility audit
+        run: yarn test:a11y
