@@ -5,6 +5,7 @@
 ## Start
 - [Install SHAFT](https://shafthq.github.io/docs/start/installation): Generate a new SHAFT project or upgrade an existing automation project.
 - [Quick start](https://shafthq.github.io/docs/start/quick-start): Choose the right SHAFT setup path, then run a first test.
+- [Set up local infrastructure](https://shafthq.github.io/docs/start/local-infrastructure): Diagnose, plan, approve, and install SHAFT-owned local tools through shaft-cli or Java.
 - [SHAFT at a glance](https://shafthq.github.io/docs/start/overview): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
 - [Upgrade to modular SHAFT](https://shafthq.github.io/docs/start/upgrade): Transactionally migrate legacy or native Maven projects to modular SHAFT.
 

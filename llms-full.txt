@@ -105,6 +105,7 @@ fails.
 ## Related
 
 - [Quick start](/docs/start/quick-start)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
 - [Upgrade an existing project](/docs/start/upgrade)
 - [Features and modules](/docs/features/modules)
 
@@ -563,6 +564,216 @@ complete method matrix.
 - [Upgrade](/docs/start/upgrade)
 - [SHAFT MCP](/docs/agentic/mcp)
 - [Modules](/docs/features/modules)
+
+---
+
+# Set up local infrastructure
+
+Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure
+
+# Set up local infrastructure
+
+Use SHAFT's setup surface to inspect external prerequisites or install supported
+tools into SHAFT-owned user directories. The safe default is `EXTERNAL`: SHAFT
+diagnoses the host without downloading, installing, or starting anything.
+
+The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
+local-AI profiles. Managed installation is currently available for
+`REPORTING`. It installs SHA-256-verified portable Node and Allure 3 artifacts.
+The other profiles are cataloged for the shared contract but currently return
+unsupported from provider-backed diagnosis and lifecycle commands.
+
+## Inspect the catalog and host
+
+Install `shaft-cli` through the
+[shaft-cli installation flow](/docs/agentic/cli#install), then list the setup
+profiles:
+
+```bash
+shaft-cli setup catalog
+shaft-cli setup doctor --profile REPORTING
+shaft-cli setup status --profile REPORTING
+```
+
+Add `--json` to `catalog`, `doctor`, `status`, or `verify` when a script needs a
+versioned machine-readable result. Readiness commands exit with `0` when ready
+and `3` when the profile is missing or degraded.
+
+## Review and approve an installation
+
+Create an exact plan before allowing any mutation. Use an absolute path for
+the plan file:
+
+```bash
+shaft-cli setup plan \
+ --profile REPORTING \
+ --mode MANAGED \
+ --output /absolute/path/reporting-plan.json
+```
+
+Review the JSON plan and copy the printed `sha256:` digest. Apply that exact
+plan with the same policy options used to create it:
+
+```bash
+shaft-cli setup install \
+ --plan /absolute/path/reporting-plan.json \
+ --approve sha256: 
+
+shaft-cli setup verify --profile REPORTING
+```
+
+`apply` and `update` are aliases for `install`. SHAFT rejects a changed or stale
+plan, a mismatched policy, a missing license acceptance, or an artifact whose
+checksum does not match before publishing it as installed.
+
+:::warning
+Treat the plan digest as a one-plan approval, not a general consent switch.
+Changing a version, source, checksum, destination, timeout, or policy option
+changes the digest and requires a new review.
+:::
+
+## Keep policy options identical
+
+Plan and install accept the same execution policy:
+
+| Option | Default | Effect |
+|---|---:|---|
+| `--offline` | `false` | Require verified cached artifacts and disable network access. |
+| `--auto-start` | `false` | Bind a startup request for providers that own a service. |
+| `--prefer-system-tools=true\|false` | `true` | Bind whether a provider may prefer a compatible host tool. |
+| `--reuse-owned-processes=true\|false` | `true` | Bind whether a provider may reuse compatible SHAFT-owned processes. |
+| `--startup-timeout ` | `PT2M` | Bind a positive ISO-8601 startup timeout for providers with lifecycle support. |
+| `--shutdown-timeout ` | `PT30S` | Bind a positive ISO-8601 shutdown timeout for providers with lifecycle support. |
+
+Pass any non-default option to both commands. You may also pass an absolute
+`--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
+root or a relative path.
+
+The current `REPORTING` provider enforces `--offline`. It has no owned service,
+so auto-start, process reuse, and lifecycle timeouts are policy-bound for
+provider parity but do not change a reporting install. Reporting installs
+SHAFT-owned portable tools rather than adopting system Node or Allure.
+
+:::warning
+Custom roots become mutable SHAFT-owned storage. Use dedicated, user-scoped
+directories. Do not point them at a repository, shared or system directory, or
+a path reached through a symlink alias.
+:::
+
+## Use the Java API
+
+Configure the same policy through `SHAFT.Properties.infrastructure`, then plan
+and explicitly approve the immutable result:
+
+```java title="ReportingInfrastructure.java"
+
+public final class ReportingInfrastructure {
+ public static void main(String[] args) throws Exception {
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.MANAGED)
+ .offline(false)
+ .autoStart(false);
+
+ SetupPlan plan = SHAFT.Infrastructure.plan();
+ SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
+
+ // Stop this phase and review the written JSON plus this digest.
+ System.out.println(plan.digest());
+ }
+}
+```
+
+Run the mutation in a separate phase. Supply the digest you reviewed instead
+of deriving it from a newly generated plan:
+
+```java title="InstallReviewedReportingPlan.java"
+
+public final class InstallReviewedReportingPlan {
+ public static void main(String[] args) throws Exception {
+ SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
+ String reviewedDigest = System.getenv("SHAFT_APPROVED_SETUP_DIGEST");
+
+ // Recreate every policy value used by the planning phase.
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.MANAGED)
+ .offline(false)
+ .autoStart(false);
+
+ if (!plan.executionPolicyDigest().equals(
+ SHAFT.Infrastructure.options().policyDigest())) {
+ throw new IllegalStateException(
+ "Current setup policy differs from the reviewed plan");
+ }
+
+ SetupApproval approval = new SetupApproval(
+ reviewedDigest, Instant.now(), Set.of());
+ SetupReceipt receipt = SHAFT.Infrastructure.install(plan, approval);
+ System.out.println(receipt.planDigest());
+ }
+}
+```
+
+Use `SHAFT.Infrastructure.catalog()`, `doctor()`, `status()`, and `verify()` for
+read-only inspection. `install(...)` and `start(...)` require both the exact
+plan and its approval; there is no unapproved mutation overload.
+
+Use an absolute plan path in both Java phases. Reproduce every property and
+path from the planning phase before installation; schema 3 rejects even a
+single policy or destination difference.
+
+The configuration defaults are:
+
+```properties
+infrastructure.mode=EXTERNAL
+infrastructure.profile=REPORTING
+infrastructure.cacheDirectory=
+infrastructure.offline=false
+infrastructure.autoStart=false
+infrastructure.preferSystemTools=true
+infrastructure.reuseOwnedProcesses=true
+infrastructure.startupTimeout=PT2M
+infrastructure.shutdownTimeout=PT30S
+```
+
+Set `infrastructure.cacheDirectory` only to an absolute path. An empty value
+uses the platform-specific SHAFT cache and application-data locations.
+
+## Understand remote precedence
+
+An explicit remote execution address keeps endpoint-backed profiles external,
+even when `infrastructure.mode=MANAGED`. This applies to web, Selenium Grid,
+mobile, and Healenium profiles, so a remote test configuration cannot
+unexpectedly provision local infrastructure. It does not change unrelated
+profiles such as `REPORTING`.
+
+## Interpret CLI failures
+
+| Exit code | Meaning |
+|---:|---|
+| `0` | Ready or successful. |
+| `2` | Invalid input, policy, or approval. |
+| `3` | Missing or degraded readiness. |
+| `4` | No provider supports the requested operation. |
+| `5` | Execution or integrity failure. |
+
+An install is atomic per action, not across the entire plan. If a later action
+fails, an earlier verified action can remain installed while the final profile
+receipt is absent. Fix the failure and retry the same approved plan; SHAFT
+re-verifies compatible completed state before continuing.
+
+`start` and `stop` return unsupported for profiles without an owned service.
+SHAFT does not adopt or stop an unknown process. Use
+`shaft-cli setup logs --profile REPORTING` to read an existing provider log;
+it returns `3` when no owned log exists.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
 
 ---
 
@@ -6861,6 +7072,13 @@ prints the port and pid; `status` prints
 - `shaft-cli guide search` (stateless)
 - `shaft-cli doctor analyze|suggest` (stateless)
 
+**`shaft-cli setup ...`** — diagnose local prerequisites and create an exact,
+reviewable plan for SHAFT-owned tools. Setup commands run directly and do not
+require an MCP session. Follow the
+[local infrastructure setup guide](/docs/start/local-infrastructure) for the
+plan, digest approval, policy options, readiness exit codes, and current
+provider coverage.
+
 ## Examples
 
 ```text
@@ -6900,6 +7118,7 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout h
 ## Related
 
 - [MCP](/docs/agentic/mcp)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
 - [Overview](/docs/agentic/overview)
 - [Capture](/docs/agentic/capture)
 - [Doctor](/docs/agentic/doctor)
@@ -10639,6 +10858,10 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 | playwright.artifactsDirectory | `target/playwright-artifacts` | relative or absolute path | Directory for Playwright traces and artifacts. |
 | playwright.downloadsDirectory | ` ` | relative or absolute path | Optional downloads directory. Empty uses Playwright defaults. |
 | playwright.acceptDownloads | `true` | `true`, `false` | Allow Playwright browser contexts to accept downloads. |
+| playwright.timezoneId | ` ` | IANA time zone identifier | Optional time zone for new browser contexts. Empty uses the browser default. |
+| playwright.locale | ` ` | locale identifier | Optional locale for new browser contexts. Empty uses the browser default. |
+| playwright.userAgent | ` ` | user-agent string | Optional user agent for new browser contexts. Empty uses the browser or device default. |
+| playwright.javaScriptEnabled | `true` | `true`, `false` | Enables JavaScript in new browser contexts. |
 | playwright.tracing.enabled | `false` | `true`, `false` | Start Playwright tracing for the session. |
 | playwright.tracing.onRetryOnly | `true` | `true`, `false` | Enable tracing automatically only during SHAFT retry evidence capture. |
 | playwright.tracing.screenshots | `true` | `true`, `false` | Include screenshots in trace artifacts. |
@@ -11390,6 +11613,100 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | naturalActions.aiFallback.threshold | `0` | `0`-`1` | Confidence threshold below which AI fallback is triggered. |
 | naturalActions.allowedActions | `browser,element,touch` | comma-separated `browser`, `element`, `touch` | Restricts which action categories natural actions may execute. |
 
+## Infrastructure
+
+- These properties select the local setup profile and bind the ownership,
+ storage, network, reuse, and lifecycle policy reviewed in a setup plan.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+ import com.shaft.infrastructure.SetupMode;
+ import com.shaft.infrastructure.SetupProfile;
+
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.EXTERNAL)
+ .offline(false)
+ .autoStart(false);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-Dinfrastructure.profile=REPORTING" "-Dinfrastructure.mode=EXTERNAL"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ infrastructure.mode=EXTERNAL
+ infrastructure.profile=REPORTING
+ infrastructure.cacheDirectory=
+ infrastructure.offline=false
+ infrastructure.autoStart=false
+ infrastructure.preferSystemTools=true
+ infrastructure.reuseOwnedProcesses=true
+ infrastructure.startupTimeout=PT2M
+ infrastructure.shutdownTimeout=PT30S
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| infrastructure.mode | `EXTERNAL` | `EXTERNAL`, `MANAGED`, `HYBRID` | Selects setup ownership; `EXTERNAL` is non-mutating. |
+| infrastructure.profile | `REPORTING` | setup profile name | Selects the profile used by `SHAFT.Infrastructure`. |
+| infrastructure.cacheDirectory | ` ` | absolute path | Overrides SHAFT-owned setup storage when non-empty. |
+| infrastructure.offline | `false` | `true`, `false` | Requires verified cached artifacts and disables network access. |
+| infrastructure.autoStart | `false` | `true`, `false` | Requests startup for providers that own a service. |
+| infrastructure.preferSystemTools | `true` | `true`, `false` | Allows supporting providers to prefer compatible host tools. |
+| infrastructure.reuseOwnedProcesses | `true` | `true`, `false` | Allows supporting providers to reuse compatible SHAFT-owned processes. |
+| infrastructure.startupTimeout | `PT2M` | positive ISO-8601 duration | Sets the startup timeout for supporting lifecycle providers. |
+| infrastructure.shutdownTimeout | `PT30S` | positive ISO-8601 duration | Sets the shutdown timeout for supporting lifecycle providers. |
+
+## Ocr
+
+- These properties control the SHAFT-owned OCR runtime cache and whether a
+ missing verified runtime may be downloaded.
+
+ 
+ 
+
+ ```java showLineNumbers
+ SHAFT.Properties.ocr.set()
+ .cacheDirectory("")
+ .downloadEnabled(true);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-Dshaft.ocr.downloadEnabled=true"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ shaft.ocr.cacheDirectory=
+ shaft.ocr.downloadEnabled=true
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
+| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+
 ## Pilot
 
 - These properties control SHAFT's optional Pilot AI provider integrations
@@ -11582,6 +11899,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.ollama.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an on-prem Ollama gateway credential. |
 | pilot.ai.ollama.apiKeyHeader | `Authorization` | | Optional Ollama gateway credential header. |
 | pilot.ai.ollama.apiKeyPrefix | `Bearer ` | | Optional Ollama gateway credential prefix. |
+| pilot.ai.lmstudio.endpoint | `http://127.0.0.1:1234/v1/responses` | | LM Studio OpenAI-compatible Responses endpoint. |
+| pilot.ai.lmstudio.model | ` ` | | Configured LM Studio model. |
+| pilot.ai.lmstudio.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an LM Studio gateway credential. |
 
 ## Paths
 
@@ -16389,6 +16709,27 @@ boolean isHeadless = SHAFT.Properties.web.headlessExecution();
 
 ---
 
+## Local Infrastructure Properties
+
+Configure setup ownership and policy before calling `SHAFT.Infrastructure`:
+
+```java title="ProgrammaticConfig.java"
+
+SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.MANAGED)
+ .offline(false)
+ .autoStart(false)
+ .startupTimeout("PT2M")
+ .shutdownTimeout("PT30S");
+```
+
+The default `EXTERNAL` mode performs diagnosis without local mutation. Read
+the [local infrastructure setup guide](/docs/start/local-infrastructure)
+before approving a managed plan.
+
+---
+
 ## Complete Example
 
 ```java title="ProgrammaticConfigTest.java"
@@ -16464,6 +16805,7 @@ Avoid setting properties in parallel test methods without careful thread-isolati
 - [Property Types](/docs/reference/properties/PropertyTypes)
 - [Properties List](/docs/reference/properties/PropertiesList)
 - [Common Examples](/docs/reference/properties/CommonExamples)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
 
 ---
 
