@@ -579,7 +579,7 @@ diagnoses the host without downloading, installing, or starting anything.
 
 The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
 local-AI profiles. Managed installation is currently available for
-`REPORTING` and `OCR`. Reporting installs SHA-256-verified portable Node and Allure 3 artifacts. OCR installs a reviewed set of pinned tessdata models; its default bundle is `eng` and `ara`.
+`REPORTING`. It installs SHA-256-verified portable Node and Allure 3 artifacts.
 The other profiles are cataloged for the shared contract but currently return
 unsupported from provider-backed diagnosis and lifecycle commands.
 
@@ -593,7 +593,6 @@ profiles:
 shaft-cli setup catalog
 shaft-cli setup doctor --profile REPORTING
 shaft-cli setup status --profile REPORTING
-shaft-cli setup status --profile OCR
 ```
 
 Add `--json` to `catalog`, `doctor`, `status`, or `verify` when a script needs a
@@ -633,7 +632,17 @@ Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
 
-For OCR, omit `--language` to use the baseline bundle, or repeat exact Tesseract codes on plan and selected status/verify commands. Install recovers them from the reviewed plan:
+## Preview: managed OCR setup
+
+:::warning[Not released]
+This workflow is not yet available on `SHAFT_ENGINE` `main` or in a published
+SHAFT release. Keep using the [current OCR first-use model flow](../integrations/ocr.md#configure-language-models)
+until a release that contains the complete setup stack is available.
+
+The preview defaults to the `eng` and `ara` model bundle. Omit `--language` to
+use that bundle, or repeat exact Tesseract codes on plan and selected
+status/verify commands. Install recovers the selected languages from the
+reviewed plan:
 
 ```bash
 shaft-cli setup plan --profile OCR --mode MANAGED \
@@ -644,7 +653,12 @@ shaft-cli setup install --plan /absolute/path/ocr-plan.json \
 shaft-cli setup verify --profile OCR --language fra --language deu
 ```
 
-The reviewed actions bind the normalized component set. Repeating `--language` during install is optional and must match when supplied. OCR has no start, stop, or logs lifecycle.
+The reviewed actions bind the normalized component set. Repeating `--language`
+during install is optional and must match when supplied. The planned OCR
+provider enforces `--offline`: it can accept a verified installed model, legacy
+model, or artifact-cache entry without network access. It has no start, stop,
+or logs lifecycle.
+:::
 
 ## Keep policy options identical
 
@@ -663,7 +677,7 @@ Pass any non-default option to both commands. You may also pass an absolute
 `--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
 root or a relative path.
 
-The `REPORTING` and `OCR` providers enforce `--offline`. OCR accepts an already verified installed model, a verified legacy model, or a verified artifact-cache entry without network access. Reporting has no owned service,
+The current `REPORTING` provider enforces `--offline`. It has no owned service,
 so auto-start, process reuse, and lifecycle timeouts are policy-bound for
 provider parity but do not change a reporting install. Reporting installs
 SHAFT-owned portable tools rather than adopting system Node or Allure.
@@ -2333,7 +2347,12 @@ context inspection.
 
 ## Scroll to screenshot or OCR targets
 
-CI jobs that use OCR should prewarm the exact model set through `shaft-cli setup plan/install/verify --profile OCR`, then run tests without relying on first-use network access. Repeat selected languages for readiness checks; install recovers them from the reviewed plan.
+The unreleased source-preview OCR runtime downloads missing pinned models on first use when
+`shaft.ocr.downloadEnabled` is `true`. For CI, run a representative OCR smoke
+step while network access is available, retain its model cache, then run the
+test job with downloads disabled. Use this only for source-build evaluation
+until a containing SHAFT release is published. Every requested model must exist
+in that cache and pass integrity verification.
 
 Use typed targets when native accessibility identifiers are unavailable. SHAFT
 checks the current screenshot before every gesture and supports vertical and
@@ -7381,7 +7400,6 @@ capability they own.
 | `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
 | `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
 | `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
-| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. It consumes verified tessdata provisioned by the shared infrastructure module. |
 | `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
 | `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
 
@@ -7389,6 +7407,10 @@ capability they own.
 normal consumer entry point. `report-aggregate` builds reactor-wide reports
 but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
 relocation POM for older coordinates, not a new-project dependency.
+
+`shaft-ocr` is present in `SHAFT_ENGINE` source as an unreleased preview. It is
+not part of the current published BOM; wait for a containing release before
+adding it as a project dependency.
 
 ## Feature-to-module map
 
@@ -8135,11 +8157,23 @@ Canonical URL: https://shafthq.github.io/docs/integrations/ocr
 
 # OCR and visible-text automation
 
-Add `io.github.shafthq:shaft-ocr` when you need to recognize text from pixels. The module runs Tesseract locally through bundled native JavaCPP libraries; it does not require a system Tesseract installation or a cloud OCR service.
+:::warning[Preview: module not released]
+`shaft-ocr` is available in `SHAFT_ENGINE` source but is not included in the
+current published SHAFT release. Do not add the dependency below to a released
+BOM project yet. Build the current source reactor only when you are evaluating
+this preview, and wait for a containing release before using it in a released
+project.
+:::
+
+Use `io.github.shafthq:shaft-ocr` in a source-build preview when you need to
+recognize text from pixels. The module runs Tesseract locally through bundled
+native JavaCPP libraries; it does not require a system Tesseract installation
+or a cloud OCR service.
 
 ## Add the module
 
-Import the SHAFT BOM, then add `shaft-engine` and `shaft-ocr` without module versions:
+After a containing release is published, import its SHAFT BOM, then add
+`shaft-engine` and `shaft-ocr` without module versions:
 
 ```xml
  
@@ -8321,7 +8355,40 @@ text, a single block, line, or word, and sparse text.
 
 ## Configure language models
 
-English and Arabic are the default recognition languages. Provision the verified models before recognition through SHAFT's reviewed setup flow. Every supported Tesseract language is pinned to one `tessdata_fast` revision and SHA-256; downloads also stop at the setup artifact safety ceiling.
+English and Arabic are the default languages. Pass Tesseract three-letter model
+codes or supported human-readable names for other languages. SHAFT downloads
+missing models on first use from a pinned `tessdata_fast` revision, verifies
+their integrity, and stores them in the user cache.
+
+Configure provisioning through the typed property namespace:
+
+```java
+SHAFT.Properties.ocr.set()
+ .cacheDirectory("build/shaft-ocr-models")
+ .downloadEnabled(false)
+ .documentRenderDpi(300)
+ .documentMaximumPages(500)
+ .documentMaximumInFlightRasterBytes(256L * 1024 * 1024);
+```
+
+Use the matching `shaft.ocr.*` keys in `custom.properties` or as system properties when code configuration is not appropriate. Document options passed to `process(...)` override the defaults for that call.
+
+:::warning
+When downloads are disabled, every requested language model must already exist
+in the configured cache and pass integrity verification. SHAFT fails before
+recognition if a model is missing or altered.
+:::
+
+## Preview: managed OCR setup
+
+:::warning[Not released]
+The selection-aware managed setup workflow below is not yet available on
+`SHAFT_ENGINE` `main` or in a published SHAFT release. Do not run these commands
+or compile against these overloads until a containing release is available.
+
+The planned provider pins every supported Tesseract language to one
+`tessdata_fast` revision and SHA-256 checksum. It also applies the setup
+artifact safety ceiling. Create and review an immutable plan before install:
 
 ```bash
 shaft-cli setup plan --profile OCR --mode MANAGED \
@@ -8335,23 +8402,22 @@ shaft-cli setup verify --profile OCR \
  --language eng --language ara
 ```
 
-Omit `--language` for the baseline `eng` and `ara` bundle. Repeat it with three-letter Tesseract codes such as `fra` and `deu` to provision another exact set. Java callers can pass `new SetupSelection(List.of("fra", "deu"))` to the selection-aware `SHAFT.Infrastructure.plan`, `status`, `verify`, and `install` overloads (or the equivalent low-level service overloads). CLI install recovers the selection from the reviewed actions; repeating `--language` is optional and must match when supplied.
-
-Configure provisioning through the typed property namespace:
+Omit `--language` for the baseline `eng` and `ara` bundle. Repeat it with
+three-letter Tesseract codes such as `fra` and `deu` to provision another exact
+set. Java callers will be able to pass
 
 ```java
-SHAFT.Properties.ocr.set()
- .cacheDirectory(Path.of("build/shaft-ocr-models").toAbsolutePath().toString())
- .downloadEnabled(false)
- .documentRenderDpi(300)
- .documentMaximumPages(500)
- .documentMaximumInFlightRasterBytes(256L * 1024 * 1024);
+new SetupSelection(List.of("fra", "deu"))
 ```
 
-Use the matching `shaft.ocr.*` keys in `custom.properties` or as system properties when code configuration is not appropriate. Document options passed to `process(...)` override the defaults for that call.
-
-:::warning
-`shaft.ocr.downloadEnabled` is retained for compatibility, but it never bypasses setup approval. Missing models always fail before native recognition with the exact `shaft-cli setup plan --profile OCR --language ...` remediation. A configured custom cache must be absolute. SHAFT prefers it only when the complete requested set verifies there; otherwise it uses the platform-native shared setup cache when that complete set verifies. This safely covers empty, partial, or corrupt legacy custom caches without reading an unverified model.
+to the selection-aware `SHAFT.Infrastructure.plan`,
+`SHAFT.Infrastructure.status`, `SHAFT.Infrastructure.verify`, and
+`SHAFT.Infrastructure.install` overloads (or the equivalent low-level service
+overloads). CLI install recovers the selection from the reviewed actions; repeating
+`--language` is optional and must match when supplied. A custom cache must be
+absolute. The provider will prefer it only when the complete requested set
+verifies there, otherwise it will use the platform-native shared setup cache
+when that complete set verifies.
 :::
 
 ## Choose OCR for pixel-only text
@@ -11704,8 +11770,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 ## Ocr
 
-- These properties control the SHAFT-owned OCR runtime cache and preserve the
- legacy download-consent setting; missing models still require reviewed setup.
+- These properties control the SHAFT-owned OCR runtime cache and whether a
+ missing verified runtime may be downloaded.
 
  
  
@@ -11737,7 +11803,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | Property Name | Default Value | Possible Values | Description |
 | --- | --- | --- | --- |
 | shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
-| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Compatibility consent flag; missing models still require an explicitly reviewed setup plan. |
+| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
 
 ## Pilot
 
