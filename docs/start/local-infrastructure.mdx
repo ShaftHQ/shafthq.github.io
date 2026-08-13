@@ -14,7 +14,7 @@ diagnoses the host without downloading, installing, or starting anything.
 
 The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
 local-AI profiles. Managed installation is currently available for
-`REPORTING`. It installs SHA-256-verified portable Node and Allure 3 artifacts.
+`REPORTING` and `OCR`. Reporting installs SHA-256-verified portable Node and Allure 3 artifacts. OCR installs a reviewed set of pinned tessdata models; its default bundle is `eng` and `ara`.
 The other profiles are cataloged for the shared contract but currently return
 unsupported from provider-backed diagnosis and lifecycle commands.
 
@@ -28,6 +28,7 @@ profiles:
 shaft-cli setup catalog
 shaft-cli setup doctor --profile REPORTING
 shaft-cli setup status --profile REPORTING
+shaft-cli setup status --profile OCR
 ```
 
 Add `--json` to `catalog`, `doctor`, `status`, or `verify` when a script needs a
@@ -66,6 +67,19 @@ Treat the plan digest as a one-plan approval, not a general consent switch.
 Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
+
+For OCR, omit `--language` to use the baseline bundle, or repeat it with exact Tesseract codes on plan, install, and verify:
+
+```bash
+shaft-cli setup plan --profile OCR --mode MANAGED \
+  --language fra --language deu \
+  --output /absolute/path/ocr-plan.json
+shaft-cli setup install --plan /absolute/path/ocr-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile OCR --language fra --language deu
+```
+
+The reviewed actions bind the normalized component set. Repeating `--language` during install is optional and must match when supplied. OCR has no start, stop, or logs lifecycle.
 
 ## Keep policy options identical
 
