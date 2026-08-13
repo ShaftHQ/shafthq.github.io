@@ -160,7 +160,7 @@ const refreshSource = controllerSource.slice(
 );
 const build = refreshSource.indexOf('"build"');
 const audit = refreshSource.indexOf('run_audit(');
-const cluster = refreshSource.indexOf('run_stage("cluster"');
+const cluster = refreshSource.indexOf('"cluster",');
 const record = refreshSource.indexOf('"record"');
 assert.ok(build >= 0 && build < audit && audit < cluster && cluster < record,
   'refresh must preserve build -> audit -> cluster -> marker ordering');
@@ -171,5 +171,80 @@ assert.match(maintainerGuide, /root `\.graphifyignore`/);
 assert.match(maintainerGuide, /YAML, plain-text, standalone HTML, SVG, and raster media/);
 assert.match(maintainerGuide, /credential-free code\/configuration corpus/);
 assert.match(maintainerGuide, /clean tracked sources/);
+assert.match(maintainerGuide, /deterministic hub-derived community labels/);
+assert.match(maintainerGuide, /Semantic labels are optional and are not part of cache freshness/);
+
+const labelingContract = String.raw`
+import contextlib
+import importlib.util
+import os
+import pathlib
+import tempfile
+
+controller_path = pathlib.Path(r"${CONTROLLER.replace(/\\/g, '\\\\')}")
+spec = importlib.util.spec_from_file_location("shaft_graphify_maintenance", controller_path)
+controller = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(controller)
+
+backend_selectors = (
+    "GOOGLE_API_KEY",
+    "GEMINI_API_KEY",
+    "MOONSHOT_API_KEY",
+    "ANTHROPIC_API_KEY",
+    "OPENAI_API_KEY",
+    "DEEPSEEK_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "AZURE_OPENAI_ENDPOINT",
+    "AWS_PROFILE",
+    "AWS_REGION",
+    "AWS_DEFAULT_REGION",
+    "OLLAMA_BASE_URL",
+    "OLLAMA_HOST",
+    "OLLAMA_API_KEY",
+    "GRAPHIFY_ALLOW_LOCAL_PROVIDERS",
+)
+for key in backend_selectors:
+    os.environ[key] = "must-not-reach-labeling"
+
+stages = []
+@contextlib.contextmanager
+def unlocked(_common_dir):
+    yield
+
+def fake_stage(name, command, root, env=None):
+    stages.append(name)
+    graph_out = root / "graphify-out"
+    if name == "build":
+        graph_out.mkdir(parents=True, exist_ok=True)
+        (graph_out / "manifest.json").write_text("{}", encoding="utf-8")
+        (graph_out / "graph.json").write_text('{"nodes": [], "links": []}', encoding="utf-8")
+        (graph_out / ".graphify_labels.json").write_text('{"0": "Stale semantic label"}', encoding="utf-8")
+        (graph_out / ".graphify_labels.json.sig").write_text('{"0": "stale-members"}', encoding="utf-8")
+    elif name == "cluster":
+        assert not (graph_out / ".graphify_labels.json").exists(), "cluster must not reuse stale labels"
+        assert not (graph_out / ".graphify_labels.json.sig").exists(), "cluster must not reuse stale signatures"
+        assert env is not None, "cluster must receive a deterministic environment"
+        leaked = [key for key in backend_selectors if key in env and env[key]]
+        assert not leaked, f"cluster inherited label backend selectors: {leaked}"
+        isolated_home = str(graph_out / ".shaft-home")
+        assert env.get("HOME") == isolated_home, "cluster must not load user-level custom providers"
+        assert env.get("USERPROFILE") == isolated_home, "Windows cluster must isolate user-level custom providers"
+        assert "graphifyy==0.9.42" in command, "hub-label behavior must be pinned to its verified Graphify release"
+
+controller.require_primary_checkout = lambda root: root / ".git"
+controller.require_clean_tracked_sources = lambda _root: None
+controller.refresh_lock = unlocked
+controller.run_audit = lambda _root, _out: {}
+controller.run_stage = fake_stage
+controller.shutil.which = lambda command: command
+
+with tempfile.TemporaryDirectory(prefix="shaft-guide-label-contract-") as temporary:
+    controller.refresh(pathlib.Path(temporary), pathlib.Path("graphify-out"))
+
+assert stages == ["build", "cluster", "record"], stages
+`;
+const labelingResult = runPython('-c', [labelingContract]);
+assert.strictEqual(labelingResult.status, 0,
+  `Graphify deterministic labeling contract failed:\n${labelingResult.stdout}${labelingResult.stderr}`);
 
 console.log('Graphify maintenance contract passed');
