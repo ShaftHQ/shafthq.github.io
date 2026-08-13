@@ -31,3 +31,6 @@ jobs:
 
       - name: Homepage accessibility audit
         run: yarn test:a11y
+
+      - name: Playwright concurrency stability
+        run: yarn test:playwright:stability

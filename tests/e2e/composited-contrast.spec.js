@@ -109,7 +109,10 @@ async function measureContrast(page, selector, samplePoints) {
     };
   });
 
-  const screenshot = (await page.screenshot()).toString('base64');
+  const screenshot = (await page.screenshot({
+    animations: 'disabled',
+    scale: 'css',
+  })).toString('base64');
   const points = samplePoints(info.rect);
 
   const bgSamples = await page.evaluate(async ({screenshot, points}) => {
@@ -240,7 +243,10 @@ async function measureBorderContrast(page, selector) {
   // own fill/border/box-shadow and of any neighbouring button.
   const bgPoint = {x: info.rect.x + info.rect.width / 2, y: info.rect.y - 10};
 
-  const screenshot = (await page.screenshot()).toString('base64');
+  const screenshot = (await page.screenshot({
+    animations: 'disabled',
+    scale: 'css',
+  })).toString('base64');
   const bg = await page.evaluate(async ({screenshot, point}) => {
     const img = new Image();
     img.src = `data:image/png;base64,${screenshot}`;

@@ -90,7 +90,17 @@ test('anchor auto-correction stops as soon as the user scrolls manually (no scro
     // driven correction would otherwise still be armed.
     await page.waitForTimeout(200);
     await page.mouse.wheel(0, 120);
-    await page.waitForTimeout(50);
+
+    // `mouse.wheel()` dispatches the trusted input event but does not wait for
+    // the browser's resulting scroll to finish. Under worker contention the
+    // old fixed 50ms wait sampled before the 120px wheel delta landed, then
+    // blamed that delayed user-owned movement on HashTargetScrollSync. Wait on
+    // render frames instead of elapsed wall time so the trusted gesture and
+    // its default scroll action have painted before taking the protected
+    // position (including when the document edge clamps the requested delta).
+    await page.evaluate(() => new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    }));
     const scrollYAfterUserTookOver = await page.evaluate(() => window.scrollY);
 
     // Whether or not Mermaid has finished by now, the auto-correction must
