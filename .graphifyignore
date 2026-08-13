@@ -1,0 +1,13 @@
+# The maintained map is deterministic and credential-free: source and docs only.
+# Graphify's code-only mode cannot emit nodes for these data/media inputs.
+*.yml
+*.yaml
+*.txt
+*.html
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.ico
