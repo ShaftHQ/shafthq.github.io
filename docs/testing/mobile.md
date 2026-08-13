@@ -111,7 +111,12 @@ context inspection.
 
 ## Scroll to screenshot or OCR targets
 
-CI jobs that use OCR should prewarm the exact model set through `shaft-cli setup plan/install/verify --profile OCR`, then run tests without relying on first-use network access. Repeat selected languages for readiness checks; install recovers them from the reviewed plan.
+The unreleased source-preview OCR runtime downloads missing pinned models on first use when
+`shaft.ocr.downloadEnabled` is `true`. For CI, run a representative OCR smoke
+step while network access is available, retain its model cache, then run the
+test job with downloads disabled. Use this only for source-build evaluation
+until a containing SHAFT release is published. Every requested model must exist
+in that cache and pass integrity verification.
 
 Use typed targets when native accessibility identifiers are unavailable. SHAFT
 checks the current screenshot before every gesture and supports vertical and

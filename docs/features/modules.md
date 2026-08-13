@@ -28,7 +28,6 @@ capability they own.
 | `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
 | `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
 | `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
-| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. It consumes verified tessdata provisioned by the shared infrastructure module. |
 | `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
 | `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
 
@@ -36,6 +35,10 @@ capability they own.
 normal consumer entry point. `report-aggregate` builds reactor-wide reports
 but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
 relocation POM for older coordinates, not a new-project dependency.
+
+`shaft-ocr` is present in `SHAFT_ENGINE` source as an unreleased preview. It is
+not part of the current published BOM; wait for a containing release before
+adding it as a project dependency.
 
 ## Feature-to-module map
 

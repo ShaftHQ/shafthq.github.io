@@ -180,20 +180,36 @@ this fixed order:
 build -> audit -> cluster -> marker
 ```
 
+Refresh requires clean tracked sources. The resolver also reports a cache as
+stale while staged or unstaged tracked changes exist, so a marker can never
+mislabel worktree content as the checked-out `HEAD`.
+
 The marker binds the completed cache to the exact Git revision and manifest
 that Graphify indexed. A failed build, audit, or cluster stage leaves no
 current marker, so readers cannot accept a partial cache. Linked worktrees must
 not refresh or record the shared cache.
 
-The controller runs Graphify through this isolated uv tool invocation:
+The controller pins Graphify and runs it through an isolated uv tool invocation:
 
 ```powershell
-uv tool run --with tree-sitter-sql --from graphifyy graphify
+uv tool run --with tree-sitter-sql --from graphifyy==0.9.42 graphify
 ```
 
 `graphifyy` is the distribution name, while `graphify` is its command. The
 ephemeral `tree-sitter-sql` dependency enables SQL parsing without changing a
 persistent global tool installation.
+
+Accepted caches use Graphify's deterministic hub-derived community labels.
+Before clustering, the controller removes saved label and membership-signature
+sidecars, clears Graphify's ambient backend selectors for that subprocess, and
+uses an isolated home inside the ignored cache. This prevents user or repository
+provider configuration, an API key, or a local endpoint from silently turning
+refresh into a networked, model-dependent labeling run. It also prevents a
+previous semantic label from being reused after community membership changes.
+
+Semantic labels are optional and are not part of cache freshness. Run
+`graphify label .` separately when you want an ephemeral model-generated view;
+the next accepted refresh replaces those names with current hub-derived labels.
 
 Audit an existing cache without modifying it:
 
@@ -214,6 +230,12 @@ reports four classifications:
 Zero-node JSON files remain visible because they are expected data inputs, not
 proof of parser coverage. Zero-node SQL or other source files fail the audit;
 fix the parser or upstream extraction gap before accepting the cache.
+
+This user-guide repository defines its credential-free code/configuration corpus
+in the root `.graphifyignore`. YAML, plain-text, standalone HTML, SVG, and raster media
+are explicit code-only exclusions, so they never enter the manifest as false
+parser gaps. Keep supported JavaScript, TypeScript, Markdown, MDX, and JSON
+inputs in the corpus; do not make an uncovered supported source nonfatal.
 
 Only one refresh may run for a repository at a time. The controller holds a
 nonblocking advisory operating-system lock across build, audit, cluster, and
