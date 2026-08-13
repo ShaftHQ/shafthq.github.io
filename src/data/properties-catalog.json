@@ -361,6 +361,42 @@
   },
   {
     "section": "Playwright",
+    "key": "playwright.timezoneId",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "IANA time zone identifier",
+    "description": "Optional time zone for new browser contexts. Empty uses the browser default."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.locale",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "locale identifier",
+    "description": "Optional locale for new browser contexts. Empty uses the browser default."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.userAgent",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "user-agent string",
+    "description": "Optional user agent for new browser contexts. Empty uses the browser or device default."
+  },
+  {
+    "section": "Playwright",
+    "key": "playwright.javaScriptEnabled",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Enables JavaScript in new browser contexts."
+  },
+  {
+    "section": "Playwright",
     "key": "playwright.tracing.enabled",
     "targetFile": "custom.properties",
     "type": "boolean",
@@ -2171,6 +2207,105 @@
     "description": "Restricts which action categories natural actions may execute."
   },
   {
+    "section": "Infrastructure",
+    "key": "infrastructure.mode",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "EXTERNAL",
+    "possibleValues": "EXTERNAL, MANAGED, HYBRID",
+    "description": "Selects setup ownership; EXTERNAL is non-mutating."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.profile",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "REPORTING",
+    "possibleValues": "setup profile name",
+    "description": "Selects the profile used by SHAFT.Infrastructure."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.cacheDirectory",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "absolute path",
+    "description": "Overrides SHAFT-owned setup storage when non-empty."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.offline",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Requires verified cached artifacts and disables network access."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.autoStart",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Requests startup for providers that own a service."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.preferSystemTools",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Allows supporting providers to prefer compatible host tools."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.reuseOwnedProcesses",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Allows supporting providers to reuse compatible SHAFT-owned processes."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.startupTimeout",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "PT2M",
+    "possibleValues": "positive ISO-8601 duration",
+    "description": "Sets the startup timeout for supporting lifecycle providers."
+  },
+  {
+    "section": "Infrastructure",
+    "key": "infrastructure.shutdownTimeout",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "PT30S",
+    "possibleValues": "positive ISO-8601 duration",
+    "description": "Sets the shutdown timeout for supporting lifecycle providers."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.cacheDirectory",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "absolute path or empty",
+    "description": "Optional OCR runtime cache override. Empty uses the platform default."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.downloadEnabled",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Allows a missing verified OCR runtime to be downloaded."
+  },
+  {
     "section": "Pilot",
     "key": "pilot.ai.enabled",
     "targetFile": "custom.properties",
@@ -2549,6 +2684,33 @@
     "description": "Optional Ollama gateway credential prefix."
   },
   {
+    "section": "Pilot",
+    "key": "pilot.ai.lmstudio.endpoint",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "http://127.0.0.1:1234/v1/responses",
+    "possibleValues": "",
+    "description": "LM Studio OpenAI-compatible Responses endpoint."
+  },
+  {
+    "section": "Pilot",
+    "key": "pilot.ai.lmstudio.model",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "",
+    "description": "Configured LM Studio model."
+  },
+  {
+    "section": "Pilot",
+    "key": "pilot.ai.lmstudio.apiKeyEnvironmentVariable",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "",
+    "description": "Optional environment variable containing an LM Studio gateway credential."
+  },
+  {
     "section": "Paths",
     "key": "propertiesFolderPath",
     "targetFile": "custom.properties",
@@ -2753,7 +2915,7 @@
     "key": "shaftEngineVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "10.3.20260801",
+    "defaultValue": "10.3.20260809",
     "possibleValues": "version string",
     "description": "Engine version used by update checks, telemetry metadata, and internal tooling."
   },
@@ -2780,7 +2942,7 @@
     "key": "nodeLtsVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "24.18.1",
+    "defaultValue": "24.19.0",
     "possibleValues": "Node.js version",
     "description": "Portable Node.js version downloaded when neither allure nor npx is available on PATH."
   },
@@ -2816,7 +2978,7 @@
     "key": "appiumXcuitestDriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "12.1.4",
+    "defaultValue": "12.3.0",
     "possibleValues": "Appium driver version",
     "description": "Appium XCUITest driver version used by SHAFT MCP for iOS."
   },

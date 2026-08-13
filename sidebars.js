@@ -19,6 +19,7 @@ const sidebars = {
         // category (issue #842 architecture note).
         'start/overview',
         'start/installation',
+        'start/local-infrastructure',
         'start/quick-start',
         'features/reporting',
         'reference/guides/CI_CD_Integration',

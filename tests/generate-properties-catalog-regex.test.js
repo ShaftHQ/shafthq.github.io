@@ -106,14 +106,16 @@ public interface TestSection extends EngineProperties<TestSection> {
     @Key("browser.name")
     @DefaultValue("chrome")
     String browserName();
+
+    @Key("infrastructure.mode") @DefaultValue("EXTERNAL") SetupMode infrastructureMode();
 }
 `;
 
   const {interfaceName, properties} = parseJavaSource(snippet);
   assert.strictEqual(interfaceName, 'TestSection', `Expected interface name 'TestSection', got '${interfaceName}'`);
-  assert.strictEqual(properties.length, 3, `Expected 3 extracted properties, got ${properties.length}: ${JSON.stringify(properties.map((p) => p.key))}`);
+  assert.strictEqual(properties.length, 4, `Expected 4 extracted properties, got ${properties.length}: ${JSON.stringify(properties.map((p) => p.key))}`);
 
-  const [headless, retry, browser] = properties;
+  const [headless, retry, browser, infrastructureMode] = properties;
 
   assert.strictEqual(headless.key, 'headlessExecution');
   assert.strictEqual(headless.defaultValue, 'false');
@@ -129,6 +131,11 @@ public interface TestSection extends EngineProperties<TestSection> {
   assert.strictEqual(browser.key, 'browser.name');
   assert.strictEqual(browser.defaultValue, 'chrome');
   assert.strictEqual(browser.type, 'text');
+
+  assert.strictEqual(infrastructureMode.key, 'infrastructure.mode');
+  assert.strictEqual(infrastructureMode.defaultValue, 'EXTERNAL');
+  assert.strictEqual(infrastructureMode.type, 'text',
+    'Same-line annotations and enum-returning getters must be included in the property catalog');
 
   // --- ReDoS regression guard: CodeQL's exact adversarial shapes must resolve in linear time,
   // not blow up exponentially. The unfixed regex took ~400ms at n=20 reps and >8s at n=25; a

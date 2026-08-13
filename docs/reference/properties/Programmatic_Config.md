@@ -81,6 +81,29 @@ boolean isHeadless = SHAFT.Properties.web.headlessExecution();
 
 ---
 
+## Local Infrastructure Properties
+
+Configure setup ownership and policy before calling `SHAFT.Infrastructure`:
+
+```java title="ProgrammaticConfig.java"
+import com.shaft.infrastructure.SetupMode;
+import com.shaft.infrastructure.SetupProfile;
+
+SHAFT.Properties.infrastructure.set()
+    .profile(SetupProfile.REPORTING)
+    .mode(SetupMode.MANAGED)
+    .offline(false)
+    .autoStart(false)
+    .startupTimeout("PT2M")
+    .shutdownTimeout("PT30S");
+```
+
+The default `EXTERNAL` mode performs diagnosis without local mutation. Read
+the [local infrastructure setup guide](/docs/start/local-infrastructure)
+before approving a managed plan.
+
+---
+
 ## Complete Example
 
 ```java title="ProgrammaticConfigTest.java"
@@ -161,3 +184,4 @@ Avoid setting properties in parallel test methods without careful thread-isolati
 - [Property Types](/docs/reference/properties/PropertyTypes)
 - [Properties List](/docs/reference/properties/PropertiesList)
 - [Common Examples](/docs/reference/properties/CommonExamples)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
