@@ -295,6 +295,10 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 | playwright.artifactsDirectory              | `target/playwright-artifacts` | relative or absolute path | Directory for Playwright traces and artifacts. |
 | playwright.downloadsDirectory              | ` `                           | relative or absolute path | Optional downloads directory. Empty uses Playwright defaults. |
 | playwright.acceptDownloads                 | `true`                        | `true`, `false` | Allow Playwright browser contexts to accept downloads. |
+| playwright.timezoneId                      | ` `                           | IANA time zone identifier | Optional time zone for new browser contexts. Empty uses the browser default. |
+| playwright.locale                          | ` `                           | locale identifier | Optional locale for new browser contexts. Empty uses the browser default. |
+| playwright.userAgent                       | ` `                           | user-agent string | Optional user agent for new browser contexts. Empty uses the browser or device default. |
+| playwright.javaScriptEnabled               | `true`                        | `true`, `false` | Enables JavaScript in new browser contexts. |
 | playwright.tracing.enabled                 | `false`                       | `true`, `false` | Start Playwright tracing for the session. |
 | playwright.tracing.onRetryOnly             | `true`                        | `true`, `false` | Enable tracing automatically only during SHAFT retry evidence capture. |
 | playwright.tracing.screenshots             | `true`                        | `true`, `false` | Include screenshots in trace artifacts. |
@@ -1090,6 +1094,106 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
   </TabItem>
 </Tabs>
 
+## Infrastructure
+
+- These properties select the local setup profile and bind the ownership,
+  storage, network, reuse, and lifecycle policy reviewed in a setup plan.
+
+<Tabs groupId="PropertyTypes" queryString="Infrastructure">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  import com.shaft.driver.SHAFT;
+  import com.shaft.infrastructure.SetupMode;
+  import com.shaft.infrastructure.SetupProfile;
+
+  SHAFT.Properties.infrastructure.set()
+    .profile(SetupProfile.REPORTING)
+    .mode(SetupMode.EXTERNAL)
+    .offline(false)
+    .autoStart(false);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```powershell
+  mvn test "-Dinfrastructure.profile=REPORTING" "-Dinfrastructure.mode=EXTERNAL"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  infrastructure.mode=EXTERNAL
+  infrastructure.profile=REPORTING
+  infrastructure.cacheDirectory=
+  infrastructure.offline=false
+  infrastructure.autoStart=false
+  infrastructure.preferSystemTools=true
+  infrastructure.reuseOwnedProcesses=true
+  infrastructure.startupTimeout=PT2M
+  infrastructure.shutdownTimeout=PT30S
+  ```
+
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| infrastructure.mode | `EXTERNAL` | `EXTERNAL`, `MANAGED`, `HYBRID` | Selects setup ownership; `EXTERNAL` is non-mutating. |
+| infrastructure.profile | `REPORTING` | setup profile name | Selects the profile used by `SHAFT.Infrastructure`. |
+| infrastructure.cacheDirectory | ` ` | absolute path | Overrides SHAFT-owned setup storage when non-empty. |
+| infrastructure.offline | `false` | `true`, `false` | Requires verified cached artifacts and disables network access. |
+| infrastructure.autoStart | `false` | `true`, `false` | Requests startup for providers that own a service. |
+| infrastructure.preferSystemTools | `true` | `true`, `false` | Allows supporting providers to prefer compatible host tools. |
+| infrastructure.reuseOwnedProcesses | `true` | `true`, `false` | Allows supporting providers to reuse compatible SHAFT-owned processes. |
+| infrastructure.startupTimeout | `PT2M` | positive ISO-8601 duration | Sets the startup timeout for supporting lifecycle providers. |
+| infrastructure.shutdownTimeout | `PT30S` | positive ISO-8601 duration | Sets the shutdown timeout for supporting lifecycle providers. |
+
+  </TabItem>
+</Tabs>
+
+## Ocr
+
+- These properties control the SHAFT-owned OCR runtime cache and whether a
+  missing verified runtime may be downloaded.
+
+<Tabs groupId="PropertyTypes" queryString="Ocr">
+  <TabItem value="code-based" label="Code-based">
+
+  ```java showLineNumbers
+  SHAFT.Properties.ocr.set()
+    .cacheDirectory("")
+    .downloadEnabled(true);
+  ```
+
+  </TabItem>
+  <TabItem value="cli-based" label="CLI-based">
+
+  ```powershell
+  mvn test "-Dshaft.ocr.downloadEnabled=true"
+  ```
+
+  </TabItem>
+  <TabItem value="file-based" label="File-based">
+
+  ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+  shaft.ocr.cacheDirectory=
+  shaft.ocr.downloadEnabled=true
+  ```
+
+  </TabItem>
+  <TabItem value="defaults" label="Default Values">
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
+| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+
+  </TabItem>
+</Tabs>
+
 ## Pilot
 
 - These properties control SHAFT's optional Pilot AI provider integrations
@@ -1282,6 +1386,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | pilot.ai.ollama.apiKeyEnvironmentVariable        | ` `            |                   | Optional environment variable containing an on-prem Ollama gateway credential. |
 | pilot.ai.ollama.apiKeyHeader                     | `Authorization` |                  | Optional Ollama gateway credential header. |
 | pilot.ai.ollama.apiKeyPrefix                     | `Bearer `      |                   | Optional Ollama gateway credential prefix. |
+| pilot.ai.lmstudio.endpoint                       | `http://127.0.0.1:1234/v1/responses` | | LM Studio OpenAI-compatible Responses endpoint. |
+| pilot.ai.lmstudio.model                          | ` `            |                   | Configured LM Studio model. |
+| pilot.ai.lmstudio.apiKeyEnvironmentVariable      | ` `            |                   | Optional environment variable containing an LM Studio gateway credential. |
 
   </TabItem>
 </Tabs>
