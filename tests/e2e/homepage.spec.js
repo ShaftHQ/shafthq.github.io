@@ -77,7 +77,7 @@ test('landing page exposes clear onboarding links with stable hooks', async ({pa
   expect(codeProofVisuals.copyButtons).toBe(0);
   expect(codeProofVisuals.titleTopDiff).toBeLessThanOrEqual(2);
   expect(codeProofVisuals.uniqueTokenColors).toBeGreaterThanOrEqual(3);
-  await expect(page.getByTestId('landing-allure-evidence').getByRole('img', {name: /SHAFT Overview panel/})).toBeVisible();
+  await expect(page.getByTestId('landing-allure-evidence').getByRole('img', {name: /SHAFT logo.*current-status pie chart.*execution history/})).toBeVisible();
   await page.getByTestId('landing-product-evidence').scrollIntoViewIfNeeded();
   await expect(page.getByTestId('landing-product-evidence').getByRole('img')).toHaveCount(2);
   await expect(page.locator('#comparison-section')).toHaveCount(0);

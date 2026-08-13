@@ -29,14 +29,16 @@ assert(index.includes('landing-surface-matrix'), 'Homepage must expose the surfa
 assert(index.includes('landing-evidence-loop'), 'Homepage must expose the evidence loop chart.');
 assert(index.includes('landing-allure-evidence'), 'Homepage must expose the Allure evidence visual.');
 for (const image of [
-  '/img/allure-shaft-overview-panel.png',
+  '/img/allure-shaft-report-dashboard.png',
   '/img/capture-locator-picker.png',
   '/img/agentic/intellij-plugin-assistant.png',
 ]) {
   assert(index.includes(image), `Homepage must render the real SHAFT product image ${image}.`);
 }
 assert(!index.includes('/img/allure3_main_light.png'), 'Homepage must not use the generic third-party Allure screenshot.');
-assert(index.includes('width={1600}') && index.includes('height={1000}'), 'Homepage must reserve dimensions for the SHAFT Overview proof image.');
+assert(!index.includes('/img/allure-shaft-overview-panel.png'), 'Homepage must not reuse the superseded SHAFT Overview checkpoint capture.');
+assert(index.includes('width={1265}') && index.includes('height={712}'), 'Homepage must reserve the fresh Allure dashboard capture dimensions.');
+assert(index.includes('SHAFT logo') && index.includes('current-status pie chart') && index.includes('execution history'), 'Homepage alternative text must describe the visible branded report evidence.');
 assert((index.match(/loading="lazy"/g) || []).length >= 2, 'Below-fold product screenshots must lazy-load.');
 assert(index.includes('landing-footer'), 'Homepage must use the custom landing footer.');
 assert(index.includes('MIT licensed'), 'Homepage footer must use the real SHAFT license.');
@@ -80,6 +82,10 @@ const socialCard = fs.readFileSync(socialCardPath);
 assert(socialCard.subarray(0, 8).toString('hex') === '89504e470d0a1a0a', 'The shipped social card must have the complete PNG signature.');
 assert(socialCard.readUInt32BE(16) === 1200 && socialCard.readUInt32BE(20) === 630, 'The shipped social card must be exactly 1200x630.');
 const socialCardGenerator = fs.readFileSync(path.join(__dirname, '..', 'scripts', 'generate-homepage-social-card.mjs'), 'utf8');
+assert(
+  socialCardGenerator.includes('drawScaledContain(reportDashboard'),
+  'The social card must preserve the real Allure dashboard aspect ratio instead of stretching the capture.',
+);
 assert(!/chromium|font-family|Arial|Helvetica|Consolas/.test(socialCardGenerator), 'Social-card bytes must not depend on a browser or host-installed font renderer.');
 const socialCardTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shaft-social-card-'));
 try {

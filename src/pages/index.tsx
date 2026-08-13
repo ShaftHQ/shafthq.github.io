@@ -307,9 +307,9 @@ function Hero(): JSX.Element {
           </div>
         </div>
         <figure className={styles.heroEvidence} data-testid="landing-allure-evidence">
-          <div className={styles.evidenceHeader}><span>Real SHAFT report</span><strong>Suite evidence at a glance</strong></div>
-          <img src="/img/allure-shaft-overview-panel.png" width={1600} height={1000} fetchPriority="high" alt="SHAFT Overview panel in an Allure report showing suite totals, validations, captured traces, and pass ratio" />
-          <figcaption>SHAFT Overview groups suite checkpoints, validations, and captured traces inside the generated Allure report.</figcaption>
+          <div className={styles.evidenceHeader}><span>Real SHAFT report</span><strong>Run health across launches</strong></div>
+          <img src="/img/allure-shaft-report-dashboard.png" width={1265} height={712} fetchPriority="high" alt="Branded Allure report showing the SHAFT logo, current-status pie chart, and execution history" />
+          <figcaption>A fresh SHAFT run rendered in Allure: current status and six-launch execution history in one branded dashboard.</figcaption>
         </figure>
       </div>
     </header>
