@@ -28,7 +28,7 @@ capability they own.
 | `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
 | `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
 | `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
-| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. |
+| `shaft-ocr` | Tests need local Tesseract recognition, visible-text actions, or OCR assertions. It consumes verified tessdata provisioned by the shared infrastructure module. |
 | `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
 | `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
 

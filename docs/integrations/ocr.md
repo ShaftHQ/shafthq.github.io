@@ -195,13 +195,27 @@ text, a single block, line, or word, and sparse text.
 
 ## Configure language models
 
-English and Arabic are the default languages. Pass Tesseract three-letter model codes or supported human-readable names for other languages. SHAFT downloads missing models on first use from a pinned `tessdata_fast` revision, verifies their integrity, and stores them in the user cache.
+English and Arabic are the default recognition languages. Provision the verified models before recognition through SHAFT's reviewed setup flow. Every supported Tesseract language is pinned to one `tessdata_fast` revision and SHA-256; downloads also stop at the setup artifact safety ceiling.
+
+```bash
+shaft-cli setup plan --profile OCR --mode MANAGED \
+  --language eng --language ara \
+  --output /absolute/path/ocr-plan.json
+
+# Review the JSON and copy its digest, then repeat every policy option.
+shaft-cli setup install --plan /absolute/path/ocr-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile OCR \
+  --language eng --language ara
+```
+
+Omit `--language` for the baseline `eng` and `ara` bundle. Repeat it with three-letter Tesseract codes such as `fra` and `deu` to provision another exact set. Java callers can pass `new SetupSelection(List.of("fra", "deu"))` to the selection-aware `SHAFT.Infrastructure.plan`, `status`, `verify`, and `install` overloads (or the equivalent low-level service overloads). CLI install recovers the selection from the reviewed actions; repeating `--language` is optional and must match when supplied.
 
 Configure provisioning through the typed property namespace:
 
 ```java
 SHAFT.Properties.ocr.set()
-    .cacheDirectory("build/shaft-ocr-models")
+    .cacheDirectory(Path.of("build/shaft-ocr-models").toAbsolutePath().toString())
     .downloadEnabled(false)
     .documentRenderDpi(300)
     .documentMaximumPages(500)
@@ -211,7 +225,7 @@ SHAFT.Properties.ocr.set()
 Use the matching `shaft.ocr.*` keys in `custom.properties` or as system properties when code configuration is not appropriate. Document options passed to `process(...)` override the defaults for that call.
 
 :::warning
-When downloads are disabled, every requested language model must already exist in the configured cache and pass integrity verification. SHAFT fails before recognition if a model is missing or altered.
+`shaft.ocr.downloadEnabled` is retained for compatibility, but it never bypasses setup approval. Missing models always fail before native recognition with the exact `shaft-cli setup plan --profile OCR --language ...` remediation. A configured custom cache must be absolute. SHAFT prefers it only when the complete requested set verifies there; otherwise it uses the platform-native shared setup cache when that complete set verifies. This safely covers empty, partial, or corrupt legacy custom caches without reading an unverified model.
 :::
 
 ## Choose OCR for pixel-only text
