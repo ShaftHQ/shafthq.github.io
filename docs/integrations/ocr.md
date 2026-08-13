@@ -209,7 +209,7 @@ shaft-cli setup verify --profile OCR \
   --language eng --language ara
 ```
 
-Omit `--language` for the baseline `eng` and `ara` bundle. Repeat it with three-letter Tesseract codes such as `fra` and `deu` to provision another exact set. Java callers can pass `new SetupSelection(List.of("fra", "deu"))` to the selection-aware `InfrastructureSetupService.plan`, `status`, and `install` overloads. CLI install recovers the selection from the reviewed actions; repeating `--language` is optional and must match when supplied.
+Omit `--language` for the baseline `eng` and `ara` bundle. Repeat it with three-letter Tesseract codes such as `fra` and `deu` to provision another exact set. Java callers can pass `new SetupSelection(List.of("fra", "deu"))` to the selection-aware `SHAFT.Infrastructure.plan`, `status`, `verify`, and `install` overloads (or the equivalent low-level service overloads). CLI install recovers the selection from the reviewed actions; repeating `--language` is optional and must match when supplied.
 
 Configure provisioning through the typed property namespace:
 
@@ -225,7 +225,7 @@ SHAFT.Properties.ocr.set()
 Use the matching `shaft.ocr.*` keys in `custom.properties` or as system properties when code configuration is not appropriate. Document options passed to `process(...)` override the defaults for that call.
 
 :::warning
-`shaft.ocr.downloadEnabled` is retained for compatibility, but it never bypasses setup approval. Missing models always fail before native recognition with the exact `shaft-cli setup plan --profile OCR --language ...` remediation. A configured custom cache must be absolute; when it is empty, SHAFT uses the platform-native shared setup cache. A verified shared setup cache is also the fallback for an empty custom cache.
+`shaft.ocr.downloadEnabled` is retained for compatibility, but it never bypasses setup approval. Missing models always fail before native recognition with the exact `shaft-cli setup plan --profile OCR --language ...` remediation. A configured custom cache must be absolute. SHAFT prefers it only when the complete requested set verifies there; otherwise it uses the platform-native shared setup cache when that complete set verifies. This safely covers empty, partial, or corrupt legacy custom caches without reading an unverified model.
 :::
 
 ## Choose OCR for pixel-only text
