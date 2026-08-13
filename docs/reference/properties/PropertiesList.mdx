@@ -1156,8 +1156,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 ## Ocr
 
-- These properties control the SHAFT-owned OCR runtime cache and whether a
-  missing verified runtime may be downloaded.
+- These properties control the SHAFT-owned OCR runtime cache and preserve the
+  legacy download-consent setting; missing models still require reviewed setup.
 
 <Tabs groupId="PropertyTypes" queryString="Ocr">
   <TabItem value="code-based" label="Code-based">
@@ -1189,7 +1189,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | Property Name | Default Value | Possible Values | Description |
 | --- | --- | --- | --- |
 | shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
-| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Compatibility consent flag; missing models still require an explicitly reviewed setup plan. |
 
   </TabItem>
 </Tabs>
