@@ -23,7 +23,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | Repository controller using an isolated uv tool environment |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
-| maven-tools-mcp | Live Maven Central facts MCP | Docker `arvindand/maven-tools-mcp` (project `.mcp.json`) |
+| maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR managed by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
 | Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
 
 The `fable` and `superpowers` plugins were removed in the 2026-07-17 harness
@@ -257,11 +257,15 @@ for the executable shared-cache contract.
 
 ## MCP servers and plugins
 
-Project-scoped servers live in SHAFT_ENGINE `.mcp.json` (context7 via npx,
-maven-tools-mcp via Docker) and need Node and Docker present. The gbrain MCP
-server is user-scoped (`~/.claude.json`): `gbrain serve` over stdio. Claude
-Code plugins install themselves from `.claude/settings.json`
-`enabledPlugins`/`extraKnownMarketplaces` on first session start.
+Context7 is project-scoped in SHAFT_ENGINE `.mcp.json` and runs through `npx`,
+so it needs Node. Maven Tools is an optional native Java 25 server: the
+[ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp)
+discovers a verified, receipt-pinned JAR and writes the project host entries.
+It omits those entries when no verified runtime is installed; Docker is not
+required. The gbrain MCP server is user-scoped (`~/.claude.json`): `gbrain
+serve` over stdio. Claude Code plugins install themselves from
+`.claude/settings.json` `enabledPlugins`/`extraKnownMarketplaces` on first
+session start.
 
 ## Health checklist
 
