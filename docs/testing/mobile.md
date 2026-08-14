@@ -83,7 +83,52 @@ current accessibility tree/source and prefers Appium-style locators such as
 accessibility id, id/resource-id, Android UiAutomator, and XPath before falling
 back to coordinates.
 
-For native execution, either connect a real Appium target or let `mobile_inspector_record_start` guide the agent through local setup. If no Android device is connected, SHAFT MCP can use a cached AVD or, after confirmation, install the user-cache Android command-line tools, Appium server, Inspector plugin, and Android driver, then create a Pixel 8 API 36 Google APIs emulator with the proposed RAM and CPU settings. When the recording stops, SHAFT-managed emulator and Appium processes are stopped and the same JSON recording plus replay-code flow used by `capture_stop` is returned. iOS recording attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create iOS simulators.
+For native execution, either connect a real Appium target or let
+`mobile_inspector_record_start` guide the agent through local setup. Android
+proposals now delegate to the shared infrastructure provider and owned
+lifecycle described in the
+[local infrastructure guide](/docs/start/local-infrastructure#install-managed-android-and-appium).
+MCP does not maintain a second Android downloader, npm project, SDK installer,
+or emulator process owner. Confirmation is translated into the same reviewed
+plan, `android-sdk-license` approval, compatible receipt, and lease used by the
+CLI and Java API. When recording stops, MCP releases its lease and returns the
+same JSON recording plus replay-code flow used by `capture_stop`. iOS recording
+attaches to an existing Appium/Xcode-capable target; SHAFT MCP does not create
+iOS simulators.
+
+## Run a test on the managed Android runtime
+
+Install the reviewed `MOBILE_ANDROID` plan before creating the driver. Managed
+engine bootstrap requires a compatible managed setup receipt and does not
+install missing tools. Set local Android execution and enable approved runtime
+startup in your test properties:
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=local
+targetOperatingSystem=ANDROID
+mobile_automationName=UiAutomator2
+mobile_deviceName=emulator-5554
+
+infrastructure.profile=MOBILE_ANDROID
+infrastructure.mode=MANAGED
+infrastructure.autoStart=true
+```
+
+Then create and close the driver normally:
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.element().touch()
+        .tap(SHAFT.GUI.Locator.accessibilityId("Views"));
+driver.quit();
+```
+
+An explicit remote execution address always wins. When `executionAddress`
+points to a Grid, device farm, or another non-local Appium endpoint, SHAFT does
+not inspect, install, start, or stop the local managed Android runtime. For a
+local managed session, SHAFT passes `APPIUM_HOME`, `ANDROID_HOME`,
+`ANDROID_SDK_ROOT`, `ANDROID_AVD_HOME`, and Android tool paths only to owned
+child processes; it does not change the parent process or shell environment.
 
 ## Mobile failure trace evidence
 

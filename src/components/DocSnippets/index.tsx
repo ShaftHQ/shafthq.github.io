@@ -70,6 +70,14 @@ export function LighthouseSetupCommands(): JSX.Element {
   );
 }
 
+export function AndroidSetupCommands(): JSX.Element {
+  return (
+    <CodeBlock language="bash" title="Prepare and run managed Android">
+      {snippets.androidSetupCommands}
+    </CodeBlock>
+  );
+}
+
 export function AllureReportPath(): JSX.Element {
   return <code>{snippets.allureReportPath}</code>;
 }
