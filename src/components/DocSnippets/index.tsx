@@ -78,6 +78,14 @@ export function AndroidSetupCommands(): JSX.Element {
   );
 }
 
+export function PlaywrightSetupCommands(): JSX.Element {
+  return (
+    <CodeBlock language="bash" title="Prepare managed Playwright browsers">
+      {snippets.playwrightSetupCommands}
+    </CodeBlock>
+  );
+}
+
 export function AllureReportPath(): JSX.Element {
   return <code>{snippets.allureReportPath}</code>;
 }
