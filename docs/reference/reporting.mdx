@@ -100,6 +100,63 @@ When a native Playwright trace is available, extract its archive-relative ZIP
 entry and pass that entry to Playwright `show-trace`. SHAFT's cross-backend
 timeline remains the canonical view.
 
+### Browser and provider fidelity
+
+Read parity as one investigation workflow, not identical browser internals.
+Every supported browser writes the same bounded SHAFT archive and opens in the
+same offline viewer. The evidence inside that archive depends on the active
+automation backend and the protocol features exposed by the browser or remote
+provider.
+
+| Route | Browser proof | Evidence in the SHAFT viewer | Expected degradation |
+|---|---|---|---|
+| Playwright local | Native-trace acceptance runs on Chromium, Firefox, and WebKit. Chrome and Edge channels use the Chromium engine and also run the Playwright action suite. | SHAFT actions plus imported native actions, action logs and errors, before/input/after snapshots, console and network evidence, and the original native trace ZIP when it fits the artifact budget. | Native action source is shown when the trace contains a stack sidecar. When it does not, the action records `sourceStatus: unavailable` and explains why. |
+| Selenium Chrome or Edge | WebDriver capture acceptance runs on Chromium; the regular browser suite also exercises Chrome and Edge. | SHAFT actions, screenshots, structural DOM snapshots, console, network, and WebSocket evidence exposed through CDP. | No Playwright-native action or trace ZIP is advertised. |
+| Selenium Firefox or another WebDriver provider | The regular browser suite exercises Firefox, while unit contracts bind BiDi and unsupported-driver states. | SHAFT actions, screenshots, structural DOM snapshots, plus console or network evidence when the session exposes the required BiDi capability. | Missing protocol features produce an explicit warning or an absent evidence namespace. They do not fall back to a different test session or claim native Playwright fidelity. |
+| Appium native or mobile web | Android and iOS evidence contracts exercise the mobile action namespaces and native source path. | Mobile actions, screenshots, bounded native source, device/context metadata, performance data, recording, and provider evidence when available. | Rejected, unreadable, unsupported, and oversized provider artifacts remain explicit omissions. |
+
+Enable native Playwright tracing before you create the driver. Select
+`chromium`, `firefox`, or `webkit` as the browser engine:
+
+```properties title="src/main/resources/properties/custom.properties"
+playwright.browserName=firefox
+playwright.connectionMode=local
+playwright.tracing.enabled=true
+playwright.tracing.screenshots=true
+playwright.tracing.snapshots=true
+playwright.tracing.sources=true
+
+shaft.trace.enabled=true
+shaft.trace.mode=failure
+shaft.trace.includeFullPageSnapshots=true
+shaft.trace.includeNativePageSource=true
+shaft.trace.includeNetwork=true
+shaft.trace.includeConsole=true
+```
+
+To launch an installed branded Chromium browser, keep
+`playwright.browserName=chromium` and add exactly one channel:
+
+```properties title="Chrome or Edge channel override"
+# Google Chrome
+playwright.channel=chrome
+
+# Microsoft Edge (use this instead of the chrome line)
+# playwright.channel=msedge
+```
+
+Run the same test with another engine by changing only
+`playwright.browserName` to `chromium` or `webkit`. Review the
+`environment.browser` value in `shaft-trace.json` before comparing archives.
+It records the active Playwright engine instead of the WebDriver default.
+
+Use the [Playwright browser guide](https://playwright.dev/java/docs/browsers)
+to install the matching browser binary. Use the
+[Playwright trace viewer guide](https://playwright.dev/java/docs/trace-viewer)
+only for the native ZIP handoff; keep `SHAFT Trace Report.html` as the portable
+cross-backend view. Selenium protocol evidence follows the browser's
+[WebDriver BiDi support](https://www.selenium.dev/documentation/webdriver/bidi/).
+
 The standalone viewer applies a restrictive content security policy, keeps DOM
 snapshots in sandboxed frames, strips active and resource-bearing markup, and
 does not make external requests. Captured evidence is bounded and redaction-aware,
