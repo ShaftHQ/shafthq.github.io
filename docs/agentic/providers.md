@@ -59,6 +59,31 @@ The environment variable names are configurable, but credential values are
 never SHAFT properties. Provider endpoints and models are configured through
 `SHAFT.Properties.pilot`; no model is selected implicitly.
 
+## Managed local preview
+
+The optional `shaft-ai` module also contains SHAFT's managed-local provider.
+Set `managedLocalAi.enabled=true` to select it for the current thread and grant
+local-processing consent. This setting does not grant remote or on-premises
+consent, and the provider does not require a credential or caller-selected
+endpoint.
+
+Use the review-first configuration while evaluating it:
+
+```properties title="src/main/resources/properties/custom.properties"
+managedLocalAi.enabled=true
+managedLocalAi.transparentProvisioning=false
+managedLocalAi.model=qwen3-0.6b-q8_0
+```
+
+Provision and maintain the reviewed runtime/model pair through the
+[managed local AI setup flow](/docs/start/local-infrastructure#preview-managed-local-ai).
+Set `managedLocalAi.transparentProvisioning=true` only when an approved request
+may provision a missing reviewed pair without a separate CLI install phase.
+
+The compact candidate is manual-only because its current recommendation-quality
+benchmark failed. Keep the request's deterministic fallback authoritative; do
+not use this preview to enable automatic advisory decisions.
+
 ## Approval and evidence
 
 Every request carries an `ApprovalPolicy`, and the effective SHAFT properties

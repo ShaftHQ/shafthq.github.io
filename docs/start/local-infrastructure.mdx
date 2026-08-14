@@ -6,7 +6,7 @@ slug: /start/local-infrastructure
 tags: [installation, infrastructure, cli, allure, reporting, lighthouse, android, appium]
 ---
 
-import {AndroidSetupCommands, LighthouseSetupCommands, PlaywrightSetupCommands} from '@site/src/components/DocSnippets';
+import {AndroidSetupCommands, LighthouseSetupCommands, ManagedLocalAiSetupCommands, PlaywrightSetupCommands} from '@site/src/components/DocSnippets';
 
 # Set up local infrastructure
 
@@ -70,6 +70,121 @@ Treat the plan digest as a one-plan approval, not a general consent switch.
 Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
+
+## Preview managed local AI
+
+:::warning[Not in a published release yet]
+The `LOCAL_AI` managed provider is tracked by
+[engine PR #4921](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4921). Use this
+workflow with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when you want SHAFT to own a pinned `llama.cpp` runtime and a
+reviewed GGUF model. You do not need a model manager, container, service,
+endpoint, credential, administrator install, or machine-wide daemon. SHAFT
+starts an authenticated loopback child process only when an approved AI request
+needs it.
+
+Start with explicit provisioning. Enable managed local processing, select the
+manual compact candidate, and prevent an inference request from downloading
+missing artifacts before you review the setup plan:
+
+```properties title="src/main/resources/properties/custom.properties"
+managedLocalAi.enabled=true
+managedLocalAi.transparentProvisioning=false
+managedLocalAi.model=qwen3-0.6b-q8_0
+```
+
+Run the shared review flow. Stop after `plan`, inspect both actions and the
+printed digest, then install that exact plan:
+
+<ManagedLocalAiSetupCommands />
+
+The plan binds the exact runtime and model URL, version or revision, SHA-256,
+license, and artifact size. Installation reports phase, completed bytes, total
+bytes, and integer percentage on stderr, so `--json` output on stdout stays
+machine-readable. An interrupted, failed, or cancelled operation returns no
+receipt; fix the reported condition and retry the same still-current approved
+plan.
+
+Leave `--cache-root` and `--data-root` unset to use the effective managed-local
+cache and the normal SHAFT data root. If you supply roots, pass both as absolute
+paths on plan and install, and make `--cache-root` exactly equal to
+`managedLocalAi.cacheDirectory`. SHAFT rejects a different cache instead of
+provisioning files that inference will not use.
+
+### Inspect readiness and privacy-safe diagnostics
+
+Use `setup status` or `setup verify` for the two managed targets. Use
+`doctor local-ai-status` for the shared lifecycle snapshot. The MCP equivalents
+are `setup_status`, `setup_plan`, `setup_install`, and
+`doctor_managed_local_ai_status`; IntelliJ uses those generic MCP setup tools
+instead of a second lifecycle implementation.
+
+The Doctor/MCP projection includes reviewed runtime and model identity,
+licenses, artifact bytes, eligibility reasons, phase, and progress. It excludes
+absolute cache paths, filenames, checksums, executable names, and exact host
+RAM, CPU, and free-disk values.
+
+:::warning
+Managed-local enablement grants local-processing consent only. It does not
+grant remote or on-premises processing consent. The compact candidate failed
+the current recommendation-quality gates, so use it only for manual evaluation
+and keep deterministic SHAFT results authoritative.
+:::
+
+### Clean, update, and roll back
+
+Create and approve a separate plan for every maintenance operation. Clean
+removes only unchanged installations owned by the current reviewed manifest;
+changed, unknown, and other-version content is preserved. If changed or unknown
+owned content blocks cleanup, the command returns a generic failure without a
+receipt rather than listing each preserved installation:
+
+```bash
+shaft-cli setup plan \
+  --profile LOCAL_AI \
+  --mode MANAGED \
+  --operation CLEAN \
+  --output /absolute/path/local-ai-clean.json
+shaft-cli setup install \
+  --plan /absolute/path/local-ai-clean.json \
+  --approve sha256:<reviewed-digest> \
+  --accept-license MIT \
+  --accept-license Apache-2.0
+```
+
+Clean also clears the active/previous activation record before removing current
+reviewed artifacts. Any retained older files therefore stop being an approved
+rollback candidate. Provision and activate two different reviewed pairs again
+before expecting `ROLLBACK` planning to succeed.
+
+For an update, create a new `INSTALL` plan from the current release and apply
+it with `setup install` or its `setup update` alias. SHAFT provisions the new
+content-addressed pair before activation and retains one exact prior reviewed
+pair.
+
+Rollback is available only after two different reviewed pairs have activated
+successfully and the prior pair still verifies exactly. It swaps the cached
+active and previous pairs without downloading or deleting artifacts:
+
+```bash
+shaft-cli setup plan \
+  --profile LOCAL_AI \
+  --mode MANAGED \
+  --operation ROLLBACK \
+  --output /absolute/path/local-ai-rollback.json
+shaft-cli setup install \
+  --plan /absolute/path/local-ai-rollback.json \
+  --approve sha256:<reviewed-digest> \
+  --accept-license MIT \
+  --accept-license Apache-2.0
+```
+
+SHAFT rechecks the approved candidate, complete owned file inventories, and
+current host eligibility under the cache lock before changing activation. A
+missing, changed, corrupt, or newly ineligible prior pair fails without a
+rollback receipt.
 
 ## Install managed Android and Appium
 

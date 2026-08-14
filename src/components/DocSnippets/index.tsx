@@ -86,6 +86,14 @@ export function PlaywrightSetupCommands(): JSX.Element {
   );
 }
 
+export function ManagedLocalAiSetupCommands(): JSX.Element {
+  return (
+    <CodeBlock language="bash" title="Review and install managed local AI">
+      {snippets.managedLocalAiSetupCommands}
+    </CodeBlock>
+  );
+}
+
 export function AllureReportPath(): JSX.Element {
   return <code>{snippets.allureReportPath}</code>;
 }
