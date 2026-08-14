@@ -578,10 +578,12 @@ tools into SHAFT-owned user directories. The safe default is `EXTERNAL`: SHAFT
 diagnoses the host without downloading, installing, or starting anything.
 
 The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
-local-AI profiles. Provider-backed managed installation includes `REPORTING`
-and `MOBILE_ANDROID`. Reporting uses SHAFT's pinned, SHA-256-verified portable
-Node and adds Allure 3. Android uses the same portable Node owner and adds a
-reviewed Android SDK, Appium project, emulator, and SHAFT-owned virtual device.
+local-AI profiles. Provider-backed managed installation includes `REPORTING`,
+`PLAYWRIGHT`, and `MOBILE_ANDROID`. Reporting uses SHAFT's pinned,
+SHA-256-verified portable Node and adds Allure 3. Playwright adds reviewed
+Chromium, Firefox, WebKit, and FFmpeg payloads. Android uses the same portable
+Node owner and adds a reviewed Android SDK, Appium project, emulator, and
+SHAFT-owned virtual device.
 
 ## Inspect the catalog and host
 
@@ -786,6 +788,64 @@ public final class RunReviewedAndroid {
 
 Closing `ManagedEnvironment` releases this caller's lease. Another compatible
 caller can keep the same runtime alive until its own release.
+
+## Install managed Playwright browsers
+
+:::warning[Not in a published release yet]
+The `PLAYWRIGHT` provider is tracked by
+[engine PR #4922](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4922). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use the managed profile when local Playwright tests need SHAFT-owned browser
+payloads. The plan couples Playwright Java 1.62.0 to Chromium revision 1234,
+Firefox revision 1538, WebKit revision 2336, FFmpeg revision 1011, and the
+shared Node 24.19.0 owner. Each official archive URL, size, and SHA-256 digest
+is part of the reviewed release manifest and plan.
+
+Run the shared command sequence. Stop after `plan`, inspect all five actions
+and the printed digest, then install that exact plan:
+
+ 
+
+SHAFT downloads each archive through the verified artifact store first. It
+then points Playwright's downloader at a temporary `127.0.0.1` mirror that
+serves only those verified files. Setup never runs `install-deps`, `sudo`,
+`apt`, `dnf`, `brew`, a GUI installer, or a package-manager elevation flow.
+Install required host libraries separately when a Linux browser diagnostic
+reports a missing shared library.
+
+The release accepts Windows x64 or ARM64, Ubuntu 24.04 x64, and macOS 15 on
+x64 or ARM64. It rejects a different Linux distribution, Ubuntu release,
+macOS major version, or unsupported architecture instead of substituting a
+nearby browser build.
+
+Pass `--offline` to both `plan` and `install` to prohibit network access. A
+warm verified artifact cache or a compatible published receipt can be reused.
+A cold, incomplete, corrupt, wrong-version, or linked state fails without an
+outbound fallback or partial final receipt.
+
+Configure the engine to consume the reviewed installation:
+
+```properties title="src/main/resources/properties/custom.properties"
+infrastructure.mode=MANAGED
+infrastructure.profile=PLAYWRIGHT
+infrastructure.cacheDirectory=/absolute/path/shaft-playwright-cache
+
+playwright.connectionMode=local
+playwright.channel=
+playwright.browserName=chromium
+headlessExecution=true
+```
+
+Use an absolute cache directory. For a local session with no channel override,
+SHAFT validates the compatible receipt and supplies the owned browser root only
+to the Playwright child process. It does not install a missing browser during
+driver creation and does not change the parent process environment.
+
+An explicit remote connection, Chromium channel, or existing
+`PLAYWRIGHT_BROWSERS_PATH` wins over managed lookup. This keeps caller-owned
+browser paths and remote endpoints unchanged.
 
 ## Install managed Lighthouse
 
@@ -16724,6 +16784,13 @@ also provides current-device aliases for `Galaxy S26 Ultra` and
 `iPhone 17 Pro Max`. When `playwright.browserName` is empty, SHAFT uses the
 descriptor's default browser type; an explicit `playwright.browserName` still
 wins.
+
+For reviewed local browser ownership, configure `infrastructure.profile` as
+`PLAYWRIGHT` and use the [managed Playwright browser setup
+flow](/docs/start/local-infrastructure#install-managed-playwright-browsers).
+SHAFT requires a compatible receipt before local driver creation. Remote
+connections, explicit browser channels, and an existing
+`PLAYWRIGHT_BROWSERS_PATH` keep their caller-owned precedence.
 
 ```properties title="src/main/resources/properties/custom.properties"
 targetBrowserName=chrome
