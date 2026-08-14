@@ -78,6 +78,13 @@ also provides current-device aliases for `Galaxy S26 Ultra` and
 descriptor's default browser type; an explicit `playwright.browserName` still
 wins.
 
+For reviewed local browser ownership, configure `infrastructure.profile` as
+`PLAYWRIGHT` and use the [managed Playwright browser setup
+flow](/docs/start/local-infrastructure#install-managed-playwright-browsers).
+SHAFT requires a compatible receipt before local driver creation. Remote
+connections, explicit browser channels, and an existing
+`PLAYWRIGHT_BROWSERS_PATH` keep their caller-owned precedence.
+
 ```properties title="src/main/resources/properties/custom.properties"
 targetBrowserName=chrome
 headlessExecution=true
