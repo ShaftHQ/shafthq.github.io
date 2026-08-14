@@ -85,6 +85,11 @@ endpoint, credential, administrator install, or machine-wide daemon. SHAFT
 starts an authenticated loopback child process only when an approved AI request
 needs it.
 
+SHAFT continuously measures aggregate resident memory for the managed process
+tree. If the tree exceeds 4 GiB, or its live memory inventory cannot be read
+safely, SHAFT retires the session and returns the request's deterministic
+fallback.
+
 Start with explicit provisioning. Enable managed local processing, select the
 manual compact candidate, and prevent an inference request from downloading
 missing artifacts before you review the setup plan:
@@ -154,10 +159,12 @@ shaft-cli setup install \
   --accept-license Apache-2.0
 ```
 
-Clean also clears the active/previous activation record before removing current
-reviewed artifacts. Any retained older files therefore stop being an approved
-rollback candidate. Provision and activate two different reviewed pairs again
-before expecting `ROLLBACK` planning to succeed.
+Clean verifies the activation record and every selected installation before it
+removes anything. If changed or unknown content blocks cleanup, SHAFT preserves
+the verified active/previous record and its rollback candidate. After the
+reviewed artifacts clean successfully, SHAFT clears the activation record, so
+provision and activate two different reviewed pairs again before expecting
+`ROLLBACK` planning to succeed.
 
 For an update, create a new `INSTALL` plan from the current release and apply
 it with `setup install` or its `setup update` alias. SHAFT provisions the new
