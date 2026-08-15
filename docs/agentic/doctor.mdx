@@ -97,8 +97,12 @@ Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
 must independently enable the provider, processing location, model, and every
 submitted evidence category.
 
-Local Ollama follows the same Doctor command path after Pilot properties enable
-local advisory analysis.
+The managed local runtime follows the same Doctor command path. Set
+`managedLocalAi.enabled=true` only after reviewing and installing the managed
+runtime and model. This selects the `managed-local` provider for an explicitly
+requested advisory; it does not make Doctor analysis automatic or replace the
+offline result. Local Ollama remains available through the Pilot provider
+properties.
 
 Ollama defaults to `http://127.0.0.1:11434/api/chat`. Changing the endpoint does
 not weaken consent, redaction, minimization, schema validation, or evidence-ID
@@ -113,11 +117,25 @@ fields.
 Doctor submits the deterministic diagnosis, its explicit uncertainty, and only
 the textual evidence cited by deterministic findings. Unknown cases may submit
 the smallest available textual evidence set. Provider output must match the
-versioned `shaft-doctor-advisory-1.0` schema and may contain observations,
-hypotheses with confidence, missing evidence, recommended actions, and
-limitations. References outside the submitted evidence-ID allowlist reject the
-entire advisory. Uncited claims and hypotheses that contradict the
-deterministic primary cause are visibly marked.
+versioned `shaft-doctor-advisory-2.0` schema and may contain cited observations,
+hypotheses with confidence, missing evidence, typed recommended actions, and
+limitations. Every observation, hypothesis, and action must cite at least one
+submitted evidence ID. Missing, empty, or invented citations reject the entire
+advisory.
+
+Recommended actions contain an allowlisted operation and its matching target,
+not provider-authored instructions. SHAFT owns the displayed title and action
+text. The accepted pairs cover evidence collection, configuration review,
+locator review, wait-condition review, test-data review, and infrastructure
+rechecks. An unknown operation, unknown target, or mismatched pair rejects the
+response, so generated prose cannot become a repair command.
+
+When a successful provider call returns invalid JSON, citations, enums, or an
+invalid action pair, Doctor sends one corrective schema request. It stops after
+that single correction. Provider failures such as a timeout or unavailable
+runtime do not trigger the correction. Each execution records its attempt
+number, provider, model, status, and duration through the existing safe audit
+event without recording prompts, evidence, or raw responses.
 
 Timeout, rate limit, invalid credentials, unavailable provider, malformed JSON,
 schema violation, oversized output, invented evidence, and budget exhaustion
