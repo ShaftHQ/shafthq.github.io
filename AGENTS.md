@@ -19,10 +19,14 @@
 
 ## Graphify
 
-- Before PRs, refresh Graphify for every changed repository from that
-  repository's primary checkout. Use the repository-owned maintenance
-  controller with an explicit, relative `--root`; linked worktrees only read
-  the shared cache. Report tool, parser, and cache blockers.
+- Query Graphify only when it answers a concrete structure question. Treat a
+  shared cache as an untrusted lead, verify returned paths in live files, and
+  use targeted `rg` before concluding blast radius.
+- Missing, stale, timed-out, or inaccessible caches never block ordinary task
+  work or completion. Do not refresh, repair, poll, or watch Graphify per task.
+- Explicit maintenance runs from the repository's primary checkout through
+  the repository-owned controller with a relative `--root`. Linked worktrees
+  only read the shared cache. Maintenance and doctor failures remain strict.
 
 ## Validation
 

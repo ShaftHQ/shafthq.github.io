@@ -45,6 +45,30 @@ The project may be a SHAFT Git checkout, another Git checkout, or a non-Git
 folder. The bootstrap uses the configured SHAFT upstream and never infers it
 from the consumer project's Git remote.
 
+## Read health and ownership
+
+Both `status` and `doctor` report each component's health with four capability
+fields:
+
+| Field | Values | Meaning |
+|---|---|---|
+| `owner` | `installer`, `project`, `user` | Who may change or remove the component |
+| `scope` | `project`, `repository`, `user` | Where the component is shared |
+| `lifecycle` | `receipt-owned`, `persistent-data`, `derived-single-writer`, `user-managed-cache` | How the component is maintained |
+| `taskImpact` | `required`, `advisory`, `optional` | Whether its health affects ordinary task work |
+
+Memory, MemPalace, and Graphify have advisory task impact. An ordinary task can
+continue when any of them is missing, stale, corrupt, timed out, or
+inaccessible. Use one scoped query only when it answers a concrete question,
+verify any returned path against live files, and use targeted repository search
+before deciding impact. Do not retry, repair, refresh, poll, or watch a store as
+part of task completion.
+
+Installation, upgrade, explicit maintenance, `status`, and `doctor` remain
+strict. An unhealthy selected component makes requested `status` or `doctor`
+health `recovery-required`. Advisory task impact does not weaken those operator
+checks.
+
 ## What gets installed
 
 ChaosEngine installs and owns these project-local surfaces:
@@ -61,6 +85,12 @@ It preserves unrelated project instructions, skills, configuration, and tool
 entries. Its self-learning flow queues only privacy-screened, confirmed
 lessons and contributes them upstream as reviewable GitHub issues, never as an
 automatic pull request.
+
+The optional Maven Tools MCP uses an immutable user-managed cache. Multiple
+projects can reuse one verified JAR and receipt, and uninstalling ChaosEngine
+from a project never removes that cache. See the [agent tooling cache
+runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
+purge, and manual population commands.
 
 ## Related
 

@@ -23,7 +23,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | Repository controller using an isolated uv tool environment |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
-| maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR managed by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
+| maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR in a user-managed cache discovered by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
 | Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
 
 The `fable` and `superpowers` plugins were removed in the 2026-07-17 harness
@@ -35,6 +35,28 @@ UI evidence gathering moved from `webapp-testing`/`accessibility-review`/
 config (`~/.claude`) now deploys from the source-controlled
 `.claude/user-harness/` via `scripts/agents/sync_user_harness.py`
 (`--check`/`--apply`) instead of being hand-maintained.
+
+## Task-time knowledge retrieval
+
+Treat Memory, MemPalace, and Graphify as advisory for ordinary implementation
+tasks. Keep session-start summaries best effort, and make one task-specific
+query only when it answers a concrete question. Verify retrieved paths and
+claims against current files, then use targeted `rg` to confirm callers and
+blast radius.
+
+A missing, stale, corrupt, timed-out, or inaccessible store never blocks
+ordinary task work or completion. Do not retry, repair, refresh, mine,
+checkpoint, poll, or watch a store per task. The scheduled or explicitly
+requested maintenance owner updates derived stores. Installation, upgrade,
+explicit maintenance, `status`, and `doctor` remain strict. An unhealthy
+selected component makes requested `status` or `doctor` health
+`recovery-required`.
+
+Installed `status` and `doctor` output also identifies each component's
+`owner`, `scope`, `lifecycle`, and `taskImpact`. Use those fields to distinguish
+installer-owned project files, persistent project data, single-writer derived
+repository data, and the optional user-managed Maven cache. Do not infer
+cleanup authority from a health key alone.
 
 ## memory CLI
 
@@ -167,6 +189,16 @@ Deterministic repository map, complementary to gbrain — graphify answers
 *structure* (which files/modules relate, zero DB locking, works offline);
 gbrain answers *meaning* (semantic retrieval). Both stay.
 
+For an ordinary task, query an available shared cache only as an untrusted
+lead. Check it once when a concrete structure question justifies the query,
+verify every returned path against live files, and supplement caller searches
+with targeted `rg`. Never infer completeness or "no callers" from the graph.
+An absent, stale, or inaccessible cache is a non-blocking degraded result; do
+not refresh or watch it from the task.
+
+The following refresh command is for the explicit maintenance owner, not a
+per-task or pre-PR requirement:
+
 ```powershell
 py -3 tools/repository-map/graphify_maintenance.py refresh --root .
 ```
@@ -243,12 +275,13 @@ marker recording. A contender fails before cache mutation. The operating
 system releases the lock if the process exits or is killed, so there is no
 stale lock file to delete.
 
-Agents check the shared cache with
-`py -3 tools/repository-map/resolve_graph_out.py --check`. The command exits
-successfully only when the marker matches the revision being inspected.
+When a concrete task question needs it, agents can check the shared cache once
+with `py -3 tools/repository-map/resolve_graph_out.py --check`. The command
+exits successfully only when the marker matches the revision being inspected.
 Missing caches report `absent`; unmarked, changed, or revision-mismatched
-caches report `stale`. In either degraded mode, use targeted `rg` and Memory
-instead of treating the map as current evidence.
+caches report `stale`. In either degraded mode, continue with live files and
+targeted `rg` instead of treating the map as current evidence or starting
+maintenance.
 
 The daily `graphify-refresh` Scheduled Task uses the same controller and safety
 rules. See the
@@ -266,6 +299,36 @@ required. The gbrain MCP server is user-scoped (`~/.claude.json`): `gbrain
 serve` over stdio. Claude Code plugins install themselves from
 `.claude/settings.json` `enabledPlugins`/`extraKnownMarketplaces` on first
 session start.
+
+### Maven Tools MCP cache
+
+The Maven Tools MCP version directory is an immutable, user-managed cache.
+Parallel projects may reuse the same verified JAR and `install-receipt.json`
+pair without mutation. Project install and uninstall change only project host
+configuration; they never install, reference-count, purge, or remove the shared
+cache automatically.
+
+Inspect the selected cache or purge exactly version `3.2.0`:
+
+```text
+python .chaos-engine/install.py cache status --component maven-tools-mcp
+python .chaos-engine/install.py cache purge --component maven-tools-mcp --version 3.2.0
+```
+
+`cache status` validates the path, reparse points, receipt, version, pinned
+commit, and SHA-256, then reports `healthy`, `absent`, `invalid`, or `busy`.
+`cache purge` takes a non-waiting user-cache lock and removes only the exact
+verified version's receipt-owned files. It refuses modified, unknown, linked,
+broad, or busy targets. An absent version is already a successful result.
+
+Populate the cache manually only after building the pinned upstream source.
+Create a fresh unique version staging directory on the same filesystem as the
+user data directory, place the JAR and exact receipt in it, then publish it with
+a no-overwrite rename. Ignore incomplete or invalid pairs. Do not add automatic
+download, build, installation, reference counting, or cache removal. Use the
+[portable ChaosEngine manual population
+sequence](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp)
+for the pinned version, commit, receipt shape, and platform-specific commands.
 
 ## Health checklist
 
