@@ -914,6 +914,50 @@ public final class RunReviewedAndroid {
 Closing `ManagedEnvironment` releases this caller's lease. Another compatible
 caller can keep the same runtime alive until its own release.
 
+## Install managed iOS and Windows Appium drivers
+
+Use `MOBILE_IOS` on macOS to install SHAFT's pinned Appium, Inspector, and
+XCUITest driver bundle. Install full Xcode 14.3 or newer and create at least
+one Simulator device first. SHAFT diagnoses those host prerequisites but does
+not install Xcode, download Simulator runtimes, or change signing and device
+trust settings.
+
+```bash
+shaft-cli setup plan \
+ --profile MOBILE_IOS \
+ --mode MANAGED \
+ --output /absolute/path/mobile-ios-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/mobile-ios-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile MOBILE_IOS --mode MANAGED
+```
+
+The default iOS plan binds the existing Simulator selection and Appium port
+`4723`. Java callers can bind one exact available Simulator UDID and a
+different loopback port; reuse the same reviewed plan for installation.
+
+Use `MOBILE_WINDOWS` on Windows to install SHAFT's pinned Appium, Inspector,
+and Windows driver bundle. Enable Developer Mode and install WinAppDriver
+1.2.1 separately before planning. SHAFT verifies that prerequisite but never
+runs the privileged WinAppDriver MSI or changes Developer Mode.
+
+```powershell
+shaft-cli setup plan `
+ --profile MOBILE_WINDOWS `
+ --mode MANAGED `
+ --output C:\plans\mobile-windows-plan.json
+shaft-cli setup install `
+ --plan C:\plans\mobile-windows-plan.json `
+ --approve sha256: 
+shaft-cli setup verify --profile MOBILE_WINDOWS --mode MANAGED
+```
+
+Both profiles keep their npm projects in separate versioned SHAFT roots. A
+lock checksum, direct package checksum, selected host metadata, execution
+policy, and destination roots are part of the approved plan. External mode
+remains diagnostic-only and creates no setup roots.
+
 ## Install managed Playwright browsers
 
 :::warning[Not in a published release yet]
