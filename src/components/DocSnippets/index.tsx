@@ -50,6 +50,10 @@ export function FirstRunCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.firstRunCommand}</CodeBlock>;
 }
 
+export function ReflectionReceiptCommand(): JSX.Element {
+  return <CodeBlock language="bash">{snippets.reflectionReceiptCommand}</CodeBlock>;
+}
+
 export function FirstRunNoOpenCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.firstRunNoOpenCommand}</CodeBlock>;
 }
