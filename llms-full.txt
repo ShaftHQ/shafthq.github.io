@@ -5042,6 +5042,37 @@ strict. An unhealthy selected component makes requested `status` or `doctor`
 health `recovery-required`. Advisory task impact does not weaken those operator
 checks.
 
+## Respond to reflection checkpoints
+
+ChaosEngine pauses implementation mutation after two attempted failures in one
+task. Different failure fingerprints require task-level reflection; the same
+fingerprint twice requires deep reflection. Read-only diagnosis, tracker
+updates, and a changed diagnostic check remain available, but an unchanged
+retry or third speculative fix does not.
+
+Copy each hash after `Sanitized fingerprints:` in the checkpoint message. Use
+the session token printed by the lifecycle hook to append the bounded receipt:
+
+ 
+
+On Windows, use `py -3` instead of `python3` and quote the JSON for your shell.
+The receipt accepts bounded conclusions, not raw logs, prompts, credentials, or
+host paths. Knowledge stores and GitHub remain optional for this local control
+flow.
+
+After more than one hour, finish implementation and delivery first. Then record
+the terminal receipt and use these exact labels in the final summary:
+
+- `elapsed estimate`
+- `main time consumer`
+- `repeated failures or corrections`
+- `changed assumption or approach`
+- `successful proof`
+- `remaining risk or follow-up`
+- `learning loop disposition`
+
+Later work or failure invalidates an earlier terminal receipt.
+
 ## What gets installed
 
 ChaosEngine installs and owns these project-local surfaces:
