@@ -33,7 +33,7 @@ Pair ARIA locators with [Smart Locators](#smart-locators) for the most readable 
 
 For current SHAFT projects, start with [SHAFT Heal](/docs/agentic/heal): add `shaft-heal` and opt in with `healing.strategy=shaft-heal`. It is deterministic, explainable, disabled by default, and writes reviewable locator recovery reports.
 
-Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server:
+Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server. Install that backend with the [managed Healenium setup flow](/docs/start/local-infrastructure#install-managed-healenium):
 
 ```java title="SelfHealingLocators.java"
 import com.shaft.driver.SHAFT;
@@ -196,4 +196,5 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe —
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [SHAFT Heal](/docs/agentic/heal)
+- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-healenium)
 - [Web](/docs/testing/web)
