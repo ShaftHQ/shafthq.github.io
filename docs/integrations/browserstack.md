@@ -10,7 +10,9 @@ tags: [browserstack, cloud]
 
 `io.github.shafthq:shaft-browserstack` adds the BrowserStack Java SDK runtime.
 It does not add or replace SHAFT WebDriver methods. Direct BrowserStack
-WebDriver/Appium support remains in `shaft-engine`.
+WebDriver/Appium support remains in `shaft-engine`. For a SHAFT-owned local
+testing tunnel, use the
+[managed BrowserStack Local setup flow](/docs/start/local-infrastructure#install-managed-browserstack-local).
 
 ## Direct session or SDK orchestration?
 
@@ -107,5 +109,6 @@ For the SDK's runtime behavior, see
 
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
+- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-browserstack-local)
 - [Visual](/docs/integrations/visual)
 - [Desktop and video](/docs/integrations/desktop-and-video#video-recording)
