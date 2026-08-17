@@ -577,13 +577,18 @@ Use SHAFT's setup surface to inspect external prerequisites or install supported
 tools into SHAFT-owned user directories. The safe default is `EXTERNAL`: SHAFT
 diagnoses the host without downloading, installing, or starting anything.
 
-The setup catalog includes web, mobile, Grid, reporting, OCR, agent-tool, and
-local-AI profiles. Provider-backed managed installation includes `REPORTING`,
-`PLAYWRIGHT`, and `MOBILE_ANDROID`. Reporting uses SHAFT's pinned,
-SHA-256-verified portable Node and adds Allure 3. Playwright adds reviewed
-Chromium, Firefox, WebKit, and FFmpeg payloads. Android uses the same portable
-Node owner and adds a reviewed Android SDK, Appium project, emulator, and
-SHAFT-owned virtual device.
+The setup catalog includes web, mobile, Grid, reporting, OCR, Healenium,
+ReportPortal, BrowserStack Local, agent-tool, and local-AI profiles.
+Provider-backed managed installation includes `REPORTING`, `PLAYWRIGHT`,
+`MOBILE_ANDROID`, `MOBILE_IOS`, `MOBILE_WINDOWS`, `SELENIUM_GRID`, `HEALENIUM`,
+`REPORT_PORTAL`, `BROWSERSTACK_LOCAL`, and `AGENT_TOOLS`. `LOCAL_AI` uses the
+existing ServiceLoader provider. `WEB_LOCAL` has no provider: Selenium Manager
+and a host browser remain the local-web path.
+
+Reporting uses SHAFT's pinned, SHA-256-verified portable Node and adds Allure 3.
+Playwright adds reviewed Chromium, Firefox, WebKit, and FFmpeg payloads. Android
+uses the same portable Node owner and adds a reviewed Android SDK, Appium
+project, emulator, and SHAFT-owned virtual device.
 
 ## Inspect the catalog and host
 
@@ -958,6 +963,220 @@ lock checksum, direct package checksum, selected host metadata, execution
 policy, and destination roots are part of the approved plan. External mode
 remains diagnostic-only and creates no setup roots.
 
+### Start Appium without owning the host device
+
+`start` launches only the SHAFT-owned Appium process from a verified
+`MOBILE_IOS` or `MOBILE_WINDOWS` receipt. It does not boot or shut down a
+Simulator. It does not launch WinAppDriver and does not stop an existing
+WinAppDriver process. Pre-boot the Simulator yourself. Keep Developer Mode and
+WinAppDriver 1.2.1 already installed on Windows.
+
+Those start rules are always in force. The engine also has optional live host
+tests that skip unless you set `SHAFT_SETUP_IOS_ACCEPTANCE=true` and
+`SHAFT_SETUP_IOS_UDID` to an existing booted Simulator, or
+`SHAFT_SETUP_WINDOWS_ACCEPTANCE=true` on a Windows host that already has
+WinAppDriver. The values `1` and `yes` do not enable those tests. The
+variables do not change `shaft-cli setup start`.
+
+## Install managed Selenium Grid
+
+:::warning[Not in a published release yet]
+The `SELENIUM_GRID` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5042](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5042). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when you want SHAFT to own a local Selenium Grid compose
+project. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it does
+not install the engine or daemon.
+
+The release plan binds image tag `4.47.0-20260808` for `selenium/hub`,
+`selenium/node-chrome`, `selenium/node-edge`, and `selenium/node-firefox`. The
+compose project name is `shaft-selenium-grid`. CLI planning uses the release
+defaults: hub port `4444`, one Chrome replica, zero Edge replicas, and zero
+Firefox replicas. Bind a different port or replica count through Java
+selection components such as `port_4445` and `chrome_2`. Those tokens are
+not CLI flags.
+
+SHAFT never sets `container_name` and never adopts an unknown compose project
+or port.
+
+```bash
+shaft-cli setup status --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup plan \
+ --profile SELENIUM_GRID \
+ --mode MANAGED \
+ --output /absolute/path/selenium-grid-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile SELENIUM_GRID
+shaft-cli setup stop \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+```
+
+`start` brings up only the owned `shaft-selenium-grid` project and accepts the
+hub when `/wd/hub/status` is healthy. `stop` runs compose down for that project
+only.
+
+## Install managed Healenium
+
+:::warning[Not in a published release yet]
+The `HEALENIUM` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5044](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5044). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when tests need a local Healenium backend. Docker 26.1.4+ is
+a host prerequisite. SHAFT diagnoses Docker; it does not install the engine or
+daemon. The release plan pins `healenium/hlm-backend:3.4.6`,
+`healenium/hlm-selector-imitator:1.4`, and `postgres:15.5-alpine` in compose
+project `shaft-healenium`. CLI defaults are backend port `7878` and imitator
+port `8000`. Bind different ports through Java selection components
+`backend_7879` and `imitate_8001`; the two ports must differ. Those tokens
+are not CLI flags.
+
+```bash
+shaft-cli setup status --profile HEALENIUM --mode MANAGED
+shaft-cli setup plan \
+ --profile HEALENIUM \
+ --mode MANAGED \
+ --output /absolute/path/healenium-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile HEALENIUM --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile HEALENIUM
+shaft-cli setup stop \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+```
+
+Point `SHAFT.Properties.healenium` at `localhost` and the reviewed backend
+port. See [self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#self-healing-locators)
+for the opt-in engine property.
+
+## Install managed ReportPortal
+
+:::warning[Not in a published release yet]
+The `REPORT_PORTAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5046](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5046). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile only for local development. SHAFT owns an official-core
+ReportPortal compose project named `shaft-reportportal` and does not start the
+analyzer. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it
+does not install the engine or daemon. The CLI default UI port is `8080`.
+Bind a different UI port through Java selection component `ui_8081`. That
+token is not a CLI flag.
+
+```bash
+shaft-cli setup status --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup plan \
+ --profile REPORT_PORTAL \
+ --mode MANAGED \
+ --output /absolute/path/reportportal-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile REPORT_PORTAL
+shaft-cli setup stop \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+```
+
+The stack uses official ReportPortal local-dev defaults. Change those
+credentials before exposing the UI beyond loopback.
+
+## Install managed BrowserStack Local
+
+:::warning[Not in a published release yet]
+The `BROWSERSTACK_LOCAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5048](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5048) and
+[stop-until-dead follow-up #5049](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5049).
+Use these commands with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when cloud sessions need a SHAFT-owned BrowserStack Local
+tunnel to a private network. The plan pins official BrowserStack Local v8.9
+archives for Windows, Linux x64, and macOS. Linux ARM64 has no versioned v8.9
+archive; use x64 or a later pin.
+
+```bash
+shaft-cli setup status --profile BROWSERSTACK_LOCAL --mode MANAGED
+shaft-cli setup plan \
+ --profile BROWSERSTACK_LOCAL \
+ --mode MANAGED \
+ --output /absolute/path/browserstack-local-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile BROWSERSTACK_LOCAL --mode MANAGED
+```
+
+Set `BROWSERSTACK_ACCESS_KEY` in the environment before `start`. Do not put
+the key in the plan file or in a checked-in properties example.
+
+```bash
+shaft-cli setup start \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile BROWSERSTACK_LOCAL
+shaft-cli setup stop \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+```
+
+`stop` waits until the owned process is dead. A later `start` then cannot race
+the dying tunnel.
+
+See [BrowserStack sessions](/docs/integrations/browserstack) for direct cloud
+sessions and the optional SDK module.
+
+## Diagnose agent tools
+
+:::warning[Not in a published release yet]
+The `AGENT_TOOLS` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5052](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5052). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile to diagnose host agent prerequisites. `JAVA`, `MAVEN`,
+`PYTHON`, and `NODE` stay diagnose-only: Java 25+, Maven 3.9.0+, Python 3.10+,
+and Node 20+. SHAFT does not install those host tools.
+
+In `MANAGED` mode the `AGENT_CLI` action writes a pinned `agent-clients.json`
+that detects `gh`. It does not download vendor CLIs.
+
+```bash
+shaft-cli setup status --profile AGENT_TOOLS --mode MANAGED
+shaft-cli setup plan \
+ --profile AGENT_TOOLS \
+ --mode MANAGED \
+ --output /absolute/path/agent-tools-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/agent-tools-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile AGENT_TOOLS --mode MANAGED
+```
+
+`start` and `stop` are unsupported. Install a missing JDK, Maven, Python, or
+Node yourself, then rerun `status` or `verify`.
+
 ## Install managed Playwright browsers
 
 :::warning[Not in a published release yet]
@@ -1222,6 +1441,8 @@ it returns `3` when no owned log exists.
 - [shaft-cli command line](/docs/agentic/cli)
 - [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
 - [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
 
 ---
 
@@ -8513,7 +8734,9 @@ Canonical URL: https://shafthq.github.io/docs/integrations/browserstack
 
 `io.github.shafthq:shaft-browserstack` adds the BrowserStack Java SDK runtime.
 It does not add or replace SHAFT WebDriver methods. Direct BrowserStack
-WebDriver/Appium support remains in `shaft-engine`.
+WebDriver/Appium support remains in `shaft-engine`. For a SHAFT-owned local
+testing tunnel, use the
+[managed BrowserStack Local setup flow](/docs/start/local-infrastructure#install-managed-browserstack-local).
 
 ## Direct session or SDK orchestration?
 
@@ -8610,6 +8833,7 @@ For the SDK's runtime behavior, see
 
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
+- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-browserstack-local)
 - [Visual](/docs/integrations/visual)
 - [Desktop and video](/docs/integrations/desktop-and-video#video-recording)
 
@@ -22032,7 +22256,7 @@ Pair ARIA locators with [Smart Locators](#smart-locators) for the most readable 
 
 For current SHAFT projects, start with [SHAFT Heal](/docs/agentic/heal): add `shaft-heal` and opt in with `healing.strategy=shaft-heal`. It is deterministic, explainable, disabled by default, and writes reviewable locator recovery reports.
 
-Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server:
+Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server. Install that backend with the [managed Healenium setup flow](/docs/start/local-infrastructure#install-managed-healenium):
 
 ```java title="SelfHealingLocators.java"
 
@@ -22191,6 +22415,7 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe —
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [SHAFT Heal](/docs/agentic/heal)
+- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-healenium)
 - [Web](/docs/testing/web)
 
 ---
