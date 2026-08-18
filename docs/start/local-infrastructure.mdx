@@ -128,16 +128,20 @@ provisioning files that inference will not use.
 
 ### Inspect readiness and privacy-safe diagnostics
 
-Use `setup status` or `setup verify` for the two managed targets. Use
-`doctor local-ai-status` for the shared lifecycle snapshot. The MCP equivalents
-are `setup_status`, `setup_plan`, `setup_install`, and
-`doctor_managed_local_ai_status`; IntelliJ uses those generic MCP setup tools
-instead of a second lifecycle implementation.
+Use `setup status` or `setup verify` for the two managed targets. Those
+commands, and their Status/Setup diagnostics, list the reviewed pin inventory.
 
-The Doctor/MCP projection includes reviewed runtime and model identity,
-licenses, artifact bytes, eligibility reasons, phase, and progress. It excludes
-absolute cache paths, filenames, checksums, executable names, and exact host
-RAM, CPU, and free-disk values.
+Use `doctor local-ai-status` or MCP `doctor_managed_local_ai_status` for
+enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
+
+The MCP setup equivalents are `setup_status`, `setup_verify`, `setup_plan`,
+and `setup_install`. IntelliJ uses those generic MCP setup tools instead of a
+second lifecycle implementation.
+
+Setup status and verify diagnostics include reviewed runtime and model
+identity, licenses, provenance, artifact bytes, resource floors, update,
+cleanup, and fallback. They exclude absolute cache paths, filenames,
+checksums, executable names, and exact host RAM, CPU, and free-disk values.
 
 :::warning
 Managed-local enablement grants local-processing consent only. It does not
@@ -150,8 +154,8 @@ automatically.
 
 ### Inventory, defaults, and troubleshooting
 
-`setup status`, `setup verify`, and `doctor local-ai-status` list the reviewed
-pin even when the cache is missing or the feature is still disabled:
+`setup status` and `setup verify` list the reviewed pin even when the cache is
+missing or the feature is still disabled:
 
 | Field | Compact preview pin |
 |---|---|
@@ -171,14 +175,17 @@ remains active. An interrupted upgrade returns no receipt and does not activate
 the new pair. Offline setup reuses a ready cache and never downloads or
 substitutes a fallback URL.
 
-Use the same inventory from each surface:
+Use the same inventory from each setup surface:
 
 | Surface | Command |
 |---|---|
-| CLI | `shaft-cli setup status --profile LOCAL_AI --mode MANAGED` and `shaft-cli doctor local-ai-status` |
-| MCP | `setup_status` and `doctor_managed_local_ai_status` |
-| IntelliJ | the generic MCP setup and Doctor tools; there is no second lifecycle |
+| CLI | `shaft-cli setup status --profile LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode MANAGED` |
+| MCP | `setup_status` and `setup_verify` |
+| IntelliJ | the generic MCP setup tools; there is no second lifecycle |
 | CI / headless | keep `managedLocalAi.enabled=false`; normal Maven never provisions or downloads; always pass `-Dallure.automaticallyOpen=false` |
+
+`shaft-cli doctor local-ai-status` and `doctor_managed_local_ai_status` report
+enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
 
 If Maven or CI needs a local-AI assertion, run the unit tests that inspect
 status, setup, cache, and properties. Do not add a `provision` or `benchmark`

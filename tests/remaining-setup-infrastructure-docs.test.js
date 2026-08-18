@@ -106,19 +106,37 @@ assert(
 );
 
 const localAi = section('## Preview managed local AI');
+const localAiText = localAi.replace(/\s+/g, ' ');
 for (const fact of [
   'defaults to `false`',
   'SHAFT_USER_CACHE',
   'explicit reviewed plan; pin-bound; no silent float',
   'owner-manifest only; unknown siblings preserved',
   'deterministic SHAFT result remains authoritative',
+  'shaft-cli setup status --profile LOCAL_AI --mode MANAGED',
+  'shaft-cli setup verify --profile LOCAL_AI --mode MANAGED',
+  'setup_verify',
   'shaft-cli doctor local-ai-status',
   'doctor_managed_local_ai_status',
+  'enablement, eligibility, and the DISABLED snapshot',
+  'do not list the reviewed pin table',
   'normal Maven never provisions or downloads',
   '-Dallure.automaticallyOpen=false',
+  'b10400',
+  '23749fefcc72300e3a2ad315e1317431b06b590a',
+  '639446688',
+  '`MIT` / `Apache-2.0`',
 ]) {
-  assert(localAi.includes(fact), `The managed local AI section must document ${fact}.`);
+  assert(localAiText.includes(fact), `The managed local AI section must document ${fact}.`);
 }
+assert(
+  /`setup status` and `setup verify` list the reviewed pin/.test(localAiText),
+  'Inventory belongs on setup status and setup verify, including Status/Setup diagnostics.',
+);
+assert(
+  !/`setup status`, `setup verify`, and `doctor local-ai-status` list the reviewed/.test(localAiText),
+  'Doctor/MCP doctor managed-local status must not be said to list the reviewed pin table.',
+);
 
 const doctor = read('docs/agentic/doctor.mdx');
 const providers = read('docs/agentic/providers.md');
@@ -141,6 +159,32 @@ for (const [name, body] of [
     `${name} must link to the managed local AI inventory and troubleshooting section.`,
   );
 }
+const collapse = (body) => body.replace(/\s+/g, ' ');
+assert(
+  collapse(cli).includes('shaft-cli setup verify --profile LOCAL_AI --mode MANAGED'),
+  'CLI must send inventory to setup status and setup verify.',
+);
+assert(
+  /enablement, eligibility, and the DISABLED snapshot/.test(collapse(cli))
+    && !/doctor local-ai-status` list the reviewed inventory/.test(collapse(cli)),
+  'CLI must not say doctor local-ai-status lists the reviewed inventory.',
+);
+assert(
+  mcp.includes('setup_verify')
+    && /enablement, eligibility, and the DISABLED snapshot/.test(collapse(mcp))
+    && !/inventory through `doctor_managed_local_ai_status`/.test(collapse(mcp)),
+  'MCP inventory is setup_status/setup_verify; doctor reports the DISABLED snapshot.',
+);
+assert(
+  /enablement, eligibility, and the DISABLED snapshot/.test(collapse(doctor))
+    && !/Inspect the reviewed pin[\s\S]{0,160}doctor local-ai-status/.test(doctor),
+  'Doctor must not say its managed-local status command lists the reviewed pin.',
+);
+assert(
+  intellij.includes('setup_verify')
+    && /DISABLED snapshot/.test(intellij),
+  'IntelliJ must separate setup inventory from the doctor DISABLED snapshot.',
+);
 
 const locators = read('docs/reference/actions/GUI/Locators_And_Self_Healing.md');
 assert(

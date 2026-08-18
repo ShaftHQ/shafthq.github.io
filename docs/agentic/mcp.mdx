@@ -557,10 +557,11 @@ The packaged server supports:
   `playwright_doctor_analyze_failed_allure`), restricted to explicit input
   paths and allowed roots, with an optional separately identified provider
   advisory when Pilot AI is explicitly enabled;
-- managed local AI inventory through `doctor_managed_local_ai_status` and
-  `setup_status`; defaults stay off, consent is local-only, and the reviewed
-  pin, storage class, update/cleanup policy, and deterministic fallback are
-  documented in
+- managed local AI inventory through `setup_status` and `setup_verify`;
+  `doctor_managed_local_ai_status` reports enablement, eligibility, and the
+  DISABLED snapshot, not the reviewed pin table. Defaults stay off, consent is
+  local-only, and the reviewed pin, storage class, update/cleanup policy, and
+  deterministic fallback are documented in
   [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting);
 - persisted trace discovery and deterministic trace analysis through
   `trace_latest`, `trace_read`, `trace_summarize`, and `doctor_analyze_trace`,

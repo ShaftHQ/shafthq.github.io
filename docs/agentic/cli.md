@@ -84,8 +84,11 @@ require an MCP session. Follow the
 [local infrastructure setup guide](/docs/start/local-infrastructure) for the
 plan, digest approval, policy options, readiness exit codes, and current
 provider coverage. For managed local AI, `shaft-cli setup status --profile
-LOCAL_AI --mode MANAGED` and `shaft-cli doctor local-ai-status` list the
-reviewed inventory; defaults stay off and CI/headless Maven never downloads.
+LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode
+MANAGED` list the reviewed inventory. `shaft-cli doctor local-ai-status`
+reports enablement, eligibility, and the DISABLED snapshot; it does not list
+the reviewed pin table. Defaults stay off and CI/headless Maven never
+downloads.
 See
 [inventory and troubleshooting](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 
