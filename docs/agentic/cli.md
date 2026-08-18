@@ -83,7 +83,17 @@ reviewable plan for SHAFT-owned tools. Setup commands run directly and do not
 require an MCP session. Follow the
 [local infrastructure setup guide](/docs/start/local-infrastructure) for the
 plan, digest approval, policy options, readiness exit codes, and current
-provider coverage.
+provider coverage. For managed local AI, `shaft-cli setup status --profile
+LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode
+MANAGED` print `target readiness version detail`. Version is empty unless
+READY. Commands report readiness/version/action.
+
+`shaft-cli doctor local-ai-status` reports enablement, eligibility, and the
+DISABLED snapshot; it does not list the reviewed pin table. Defaults stay off.
+Enablement is local-processing consent only; it is not remote consent or tool
+approval. CI/headless Maven never downloads.
+See
+[inventory and troubleshooting](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 
 ## Examples
 
