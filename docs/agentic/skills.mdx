@@ -34,7 +34,7 @@ Run from the project that should receive the skills.
 <SkillsInstallerCommands />
 
 When the installer has a client target, it writes to that client's native
-directory: `.agents/skills` for Codex, `.claude/skills` for Claude clients, or
+directory: `.agents/skills` for Codex and Grok, `.claude/skills` for Claude clients, or
 `.github/skills` for Copilot clients. The IntelliJ plugin target installs all
 three layouts for project portability. A skills-only run with no client target
 also installs all three layouts.
@@ -48,7 +48,7 @@ components to install; skills default to yes. A non-interactive run must pass a
 component selector. Use `--install-shaft-skills` to install skills without a
 prompt or `--skip-shaft-skills` to decline them in an interactive selection.
 When also configuring MCP, select one client with `--codex`, `--claude`,
-`--claude-desktop`, `--copilot`, `--copilot-intellij`, or
+`--claude-desktop`, `--copilot`, `--copilot-intellij`, `--grok`, or
 `--intellij-plugin`. A client selector alone configures MCP but does not install
 skills, so combine it with `--install-shaft-skills` when both are required.
 
@@ -87,7 +87,7 @@ layout without overwriting existing files:
 {"tool": "shaft_project_init_agents", "arguments": {"loop": "all", "targetDirectory": ".", "overwrite": false}}
 ```
 
-Use a single loop such as `codex`, `claude`, `opencode`, or `vscode` when the
+Use a single loop such as `codex`, `claude`, `grok`, `opencode`, or `vscode` when the
 project targets only one host. Review the returned skipped-file warnings before
 using `overwrite: true`.
 

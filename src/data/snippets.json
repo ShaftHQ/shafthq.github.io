@@ -61,6 +61,14 @@
         "platforms": ["windows", "macos", "linux"]
       },
       {
+        "id": "grok",
+        "name": "Grok CLI",
+        "detail": "User-level ~/.grok/config.toml",
+        "flag": "--grok",
+        "logo": "/img/mcp-clients/grok.svg",
+        "platforms": ["windows", "macos", "linux"]
+      },
+      {
         "id": "intellij-plugin",
         "name": "SHAFT IntelliJ IDEA plugin",
         "detail": "Install shaft-mcp for plugin inference",
