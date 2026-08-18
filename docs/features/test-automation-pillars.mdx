@@ -129,14 +129,17 @@ test logic, and supporting common automation design patterns.
 | `SHAFT` facade | Test code uses one entry point for GUI, API, CLI, DB, test data, properties, reporting, and validations. |
 | Fluent action chains | Tests and page objects read as workflows instead of low-level WebDriver calls. |
 | Page Object Model and thin base-class patterns | Locators, page actions, and lifecycle setup stay in predictable places. |
-| Smart Locators | `inputField(...)` and `clickableField(...)` target user-facing labels, text, placeholders, and ARIA signals. |
-| Locator Builder | Complex locators can be composed fluently instead of handwritten XPath strings. |
+| Locator Builder | Generated and repository locators use `hasAnyTagName().hasId(...)`, then `hasRole(...)`, then native relative `By.xpath(...)` only. |
+| Smart Locators | `inputField(...)` and `clickableField(...)` stay for human exploration only; generated code must not emit them. |
 | Native WebDriver access | Teams can drop to Selenium/Appium APIs only when a specialized case needs it. |
 | External test data | JSON, CSV, Excel, YAML, and properties files keep data and environment values out of test methods. |
 | Programmatic and file-based properties | Environment changes can be made through properties or Maven `-D` overrides. |
 | Optional SHAFT Heal | Web locator recovery is explicit, trust-gated, reported, and kept separate from normal test code. |
 
 ```java title="MaintainableLoginTest.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.enums.internal.Role;
+
 public class LoginTest {
     private SHAFT.GUI.WebDriver driver;
     private SHAFT.TestData.JSON users;
@@ -151,9 +154,9 @@ public class LoginTest {
     public void userCanLogIn() {
         driver.browser().navigateToURL("/login");
         driver.element()
-                .type(SHAFT.GUI.Locator.inputField("Email"), users.getTestData("valid.email"))
-                .type(SHAFT.GUI.Locator.inputField("Password"), users.getTestData("valid.password"))
-                .click(SHAFT.GUI.Locator.clickableField("Log in"));
+                .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build(), users.getTestData("valid.email"))
+                .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build(), users.getTestData("valid.password"))
+                .click(SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Log in").build());
         driver.assertThat().browser().url().contains("/dashboard");
     }
 
@@ -172,7 +175,7 @@ public class LoginTest {
 | Wider platform coverage | `executionAddress`, `targetOperatingSystem`, `targetBrowserName`, BrowserStack, Appium, and CrossBrowserMode. |
 | Less UI timing noise | Built-in synchronization, explicit waits, and a low retry budget with retry evidence. |
 | Better failure triage | Allure evidence, screenshots, full logs, retry artifacts, Doctor, video, and Playwright tracing where used. |
-| Lower selector churn | Smart Locators, ARIA locators, Locator Builder, Page Objects, and optional SHAFT Heal. |
+| Lower selector churn | Author-written ids via the locator builder, ARIA roles, Page Objects, and optional SHAFT Heal. |
 | Cleaner test data changes | `SHAFT.TestData` with JSON, CSV, Excel, YAML, or properties files. |
 | Smaller dependency footprint | `shaft-engine` plus only the optional SHAFT modules the project actually uses. |
 
@@ -184,6 +187,7 @@ public class LoginTest {
 - [How SHAFT reduces flakiness](/docs/testing/flakiness)
 - [Parallel Execution](/docs/reference/configuration/parallelExecution)
 - [Solution Design](/docs/reference/guides/Solution_Design)
+- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
 - [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
 - [Reporting and evidence](/docs/features/reporting)
 - [SHAFT Heal](/docs/agentic/heal)

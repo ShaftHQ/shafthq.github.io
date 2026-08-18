@@ -25,6 +25,14 @@ persisted recording is `/codegen`. See
 [IntelliJ IDEA plugin](/docs/agentic/intellij#assistant) for the
 composer-level command reference.
 
+Generated Capture output follows the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
+unique author-written id via `hasAnyTagName().hasId(...)`, then ARIA role,
+then native relative `By.xpath(...)` only. Record first, confirm the flow with
+`capture_generate_replay` (`replay=true`) or `verify_run_focused`, then trust
+the snippets. `test_code_guardrails_check` rejects Smart Locators and raw
+locator factories.
+
 ## Managed browser recording
 
 The recorder launches a fresh SHAFT-managed Chrome, Chromium, or Edge session.
@@ -344,12 +352,13 @@ capture checkpoint --kind FLOW_END --description "login as admin"
 public void replayCheckout() throws Exception {
     driver.browser().navigateToURL("https://shop.example/login");
     loginAsAdmin();
-    driver.element().click(SHAFT.GUI.Locator.clickableField("Checkout"));
+    driver.element().click(SHAFT.GUI.Locator.hasAnyTagName().hasId("checkout-submit").build());
 }
 
 private void loginAsAdmin() throws Exception {
-    driver.element().click(SHAFT.GUI.Locator.inputField("Username"));
-    driver.element().type(SHAFT.GUI.Locator.inputField("Username"), requiredData("username"));
+    By username = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+    driver.element().click(username);
+    driver.element().type(username, requiredData("username"));
 }
 ```
 
@@ -521,8 +530,8 @@ returns the primary locator so SHAFT fails on the intended target.
 
 ```java
 driver.element().click(captureReplayLocator(
-    SHAFT.GUI.Locator.inputField("Username"),
-    SHAFT.GUI.Locator.cssSelector("form input:nth-child(1)")));
+    SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build(),
+    By.xpath(".//form//input[@name='username']")));
 ```
 
 Use `--control-flow-preview` to write deterministic suggestions for common

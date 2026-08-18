@@ -69,17 +69,27 @@ then browser installation, then `targetBrowserName` and `headlessExecution`.
 
 ## Locator strategy
 
-Use the most user-facing locator that is stable enough for the product:
+Stop at the first unique match. Generated and repository web code uses this
+ladder:
 
-1. Prefer semantic locators such as visible text, labels, placeholders, and ARIA
-   names.
-2. Use `SHAFT.GUI.Locator` when you need a precise composed locator.
-3. Use native `By.xpath(...)` only as a last fallback for complex locators that
-   cannot be expressed with Smart Locators or the locator builder.
-4. Keep waits and retries as evidence-backed safety nets, not as a substitute
-   for a stable locator.
-5. Use [SHAFT Heal](/docs/agentic/heal) only after deterministic locator
-   strategies cannot survive expected UI changes.
+1. A unique, author-written `id` through the SHAFT locator builder:
+   `SHAFT.GUI.Locator.hasAnyTagName().hasId("checkout-submit").build()`.
+   Never a framework-recycled id such as `:r1:`, `mat-input-3`,
+   `cdk-overlay-0`, `ember1234`, `j_idt42`, `ctl00_...`, or `sc-bdVaJa`.
+2. The same builder's ARIA role, chained until unique:
+   `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Create Account").build()`.
+3. Native relative `By.xpath(...)` only when the element has neither an
+   eligible id nor a usable role.
+
+Never generate `SHAFT.GUI.Locator.xpath(...)`, the raw
+`SHAFT.GUI.Locator.id/name/cssSelector/className/tagName(...)` factories, or a
+Smart Locator (`inputField` / `clickableField`) in generated or repository
+code. Smart Locators stay legitimate only for a human's throwaway exploration
+snippet. See [Locators and self-healing](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy).
+
+Keep waits and retries as evidence-backed safety nets, not as a substitute
+for a stable locator. Use [SHAFT Heal](/docs/agentic/heal) only after
+deterministic locator strategies cannot survive expected UI changes.
 
 ## Playwright backend
 

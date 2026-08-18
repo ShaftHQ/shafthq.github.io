@@ -721,6 +721,15 @@ Role-based locators improve accessibility coverage in your tests and make your t
 
 SHAFT provides two high-level smart locators — `inputField()` and `clickableField()` — that automatically resolve to the most relevant element based on visible labels, placeholders, and ARIA attributes.
 
+:::warning
+Smart Locators are for a human's throwaway exploration only. Generated and
+repository code must follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
+unique author-written id via the SHAFT locator builder, then ARIA role, then
+native relative xpath only. `test_code_guardrails_check` flags
+`inputField` / `clickableField` as `SMART_LOCATOR`.
+:::
+
 ### inputField()
 
 Locates an editable field (text input, textarea, etc.) by its associated label text, `placeholder`, or `aria-label`:

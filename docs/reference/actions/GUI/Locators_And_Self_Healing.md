@@ -9,6 +9,49 @@ tags: [web, locator, tips, self-healing, shadow-dom, aria, iframe]
 
 Deeper locator tips beyond the [Element Identification](/docs/reference/actions/GUI/Element_Identification) reference — resilient locator strategies and recovery from broken locators.
 
+## Generated and repository locator policy {/* #generated-locator-policy */}
+
+This is the official `SHAFT-GUIDE` locator policy for generated and
+repository web code. Stop at the first unique match:
+
+1. A unique, author-written id via the SHAFT locator builder:
+   `SHAFT.GUI.Locator.hasAnyTagName().hasId("checkout-submit").build()`.
+2. The same builder's ARIA role, chained with
+   `hasNormalizedText` / `hasAttribute` / context until unique.
+3. Native relative xpath only: `By.xpath(...)` when the element has neither.
+
+Never emit `SHAFT.GUI.Locator.xpath(...)`, the raw
+`SHAFT.GUI.Locator.id/name/cssSelector/className/tagName(...)` factories, or
+Smart Locators (`inputField` / `clickableField`) into generated or checked-in
+code. `test_code_guardrails_check` flags those as `SMART_LOCATOR` and
+`NON_ARIA_LOCATOR`. Smart Locators remain legitimate only for a human's
+throwaway exploration snippet.
+
+### Human steps
+
+1. Inspect the live DOM, ARIA snapshot, or mobile accessibility tree.
+2. Prefer an existing verified locator owned by the current page object.
+3. If you must add one, walk the three-tier ladder above.
+4. Prove uniqueness, then run the nearest focused test.
+
+### AI codegen details
+
+- Locator policy: unique author-written id via SHAFT locator builder, then
+  ARIA role, then native relative xpath only.
+- Replay-proven snippets: record with `capture_start`, confirm the flow with
+  `capture_generate_replay` (`replay=true`) or `verify_run_focused`, then
+  generate with `capture_code_blocks` / `capture_record_at_target_code_blocks`.
+- Properties: no extra property is required for the locator ladder. Heal stays
+  opt-in (`healing.strategy=shaft-heal`). Pilot AI stays default-off
+  (`pilot.ai.enabled=false`).
+- Exact commands:
+
+```bash
+shaft-cli call test_code_guardrails_check --args '{"source":"<generated Java>"}'
+shaft-cli call capture_generate_replay sessionPath=recordings/checkout.json replay=true
+shaft-cli call verify_run_focused
+```
+
 ## ARIA role-based locators {/* #aria-locators */}
 
 `SHAFT.GUI.Locator.hasRole()` finds elements by their semantic ARIA role rather than fragile IDs or CSS classes, using the `Role` enum (`BUTTON`, `SEARCHBOX`, `NAVIGATION`, `DIALOG`, `ALERT`, `CHECKBOX`, `LINK`, `LISTBOX`, `TEXTBOX`, and more):
@@ -26,7 +69,8 @@ driver.element().type(searchInput, "test query");
 ```
 
 :::tip
-Pair ARIA locators with [Smart Locators](#smart-locators) for the most readable and maintainable locator strategy.
+For generated or repository code, chain `hasRole(...)` with text or attributes
+until the match is unique. Do not pair it with a Smart Locator.
 :::
 
 ## Self-healing locators {/* #self-healing-locators */}
