@@ -203,7 +203,7 @@ By login = SHAFT.GUI.Locator.clickableField("Log In");
 | Approach | Example | Generated or repository rank |
 |---|---|---|
 | Author-written id | `SHAFT.GUI.Locator.hasAnyTagName().hasId("login-submit").build()` | First, when unique and not recycled |
-| ARIA role | `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Log In").build()` | Second |
+| ARIA role | `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log In").build()` | Second |
 | Native relative xpath | `By.xpath(".//form//button[@type='submit']")` | Third, only when the element has neither |
 | Smart Locator | `clickableField("Log In")` | Human exploration only; never generated or repository code |
 

@@ -17,7 +17,7 @@ for exact locator syntax.
 
 ## Supported Locator Types
 
-SHAFT Engine supports all standard Selenium locator strategies through the `By` class:
+SHAFT Engine supports all standard Selenium locator strategies through the `By` class. Raw Selenium `By` syntax below is a reference for existing locators. Generated and repository code follow the [generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy): unique author-written id via the SHAFT locator builder, then ARIA role, then native relative xpath only.
 
 ### 1. ID
 
@@ -62,7 +62,7 @@ By elementLocator = By.cssSelector("#login-form > input.username");
 
 ### 6. XPath
 
-Locates elements using XPath expressions - very powerful but can be slower than CSS selectors.
+Locates elements using XPath expressions. Generated and repository code use native relative `By.xpath(...)` only when the element has neither a unique author-written id nor a usable ARIA role.
 
 ```java
 By elementLocator = By.xpath("//input[@id='username']");
@@ -756,12 +756,14 @@ The `@FindBy` annotation (from Selenium's `PageFactory`) has several drawbacks c
 Define your locators as `By` constants in your Page Object class instead:
 
 ```java title="LoginPage.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.enums.internal.Role;
 import org.openqa.selenium.By;
 
 public class LoginPage {
-    private final By usernameInput = By.id("username");
-    private final By passwordInput = By.id("password");
-    private final By loginButton = By.cssSelector("button[type='submit']");
+    private final By usernameInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+    private final By passwordInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build();
+    private final By loginButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log In").build();
 }
 ```
 
@@ -816,14 +818,14 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 
 ## Best Practices
 
-1. **Prefer ID locators** when available - they're the fastest and most reliable
-2. **Use SHAFT Locator Builder** for complex locators - it's more readable and maintainable
-3. **Avoid XPath when possible** - CSS selectors are generally faster
-4. **Use relative locators** for dynamic layouts where absolute positions might change
-5. **Keep locators simple** - complex locators are fragile and hard to maintain
-6. **Use data attributes** (e.g., `data-test`) specifically for testing when you control the HTML
-7. **Document complex locators** - add comments explaining why a particular strategy was chosen
-8. **Test locators in isolation** - verify your locators work before building tests around them
+1. **Use a unique author-written id** through `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)` when one exists. Never a framework-recycled id such as `:r1:`, `mat-input-3`, or `cdk-overlay-0`.
+2. **Then use an ARIA role** through `hasRole(...)`, chained with `hasNormalizedText`, `hasAttribute`, or context until unique.
+3. **Use native relative `By.xpath(...)` only** when the element has neither. Do not prefer CSS over that fallback, and do not emit `SHAFT.GUI.Locator.xpath(...)`.
+4. **Keep Smart Locators for human exploration only.** Generated and repository code must not use `inputField` or `clickableField`.
+5. **Keep locators simple** - complex locators are fragile and hard to maintain.
+6. **Use data attributes** (e.g., `data-test`) specifically for testing when you control the HTML.
+7. **Document complex locators** - add comments explaining why a particular strategy was chosen.
+8. **Test locators in isolation** - verify your locators work before building tests around them.
 
 ## Related
 

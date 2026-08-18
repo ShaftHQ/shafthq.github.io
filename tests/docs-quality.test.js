@@ -265,4 +265,45 @@ assert(
   'The maintainer overview must link repository-local operational README files.',
 );
 
+const elementIdentification = readFileSync(
+  join(docsRoot, 'reference/actions/GUI/Element_Identification.md'),
+  'utf8',
+);
+const locatorsAndSelfHealing = readFileSync(
+  join(docsRoot, 'reference/actions/GUI/Locators_And_Self_Healing.md'),
+  'utf8',
+);
+
+assert(
+  !/Prefer ID locators/i.test(elementIdentification),
+  'Element_Identification.md Best Practices must not prefer raw ID locators over the generated locator policy.',
+);
+assert(
+  !/Avoid XPath when possible/i.test(elementIdentification),
+  'Element_Identification.md must not tell readers to prefer CSS over native relative xpath.',
+);
+assert(
+  !/CSS selectors are generally faster/i.test(elementIdentification),
+  'Element_Identification.md must not rank CSS faster than native relative xpath.',
+);
+assert(
+  /hasAnyTagName\(\)\.hasId\("username"\)/.test(elementIdentification),
+  'Element_Identification.md LoginPage must use the SHAFT locator builder for a unique author-written id.',
+);
+assert(
+  !/private final By loginButton = By\.cssSelector/.test(elementIdentification),
+  'Element_Identification.md LoginPage must not recommend raw By.cssSelector as the generated form.',
+);
+
+assert(
+  !/ARIA role \| `SHAFT\.GUI\.Locator\.hasRole\(Role\.BUTTON\)\.hasText\("Log In"\)\.build\(\)`/.test(
+    locatorsAndSelfHealing,
+  ),
+  'Locators_And_Self_Healing.md ranking table must not teach hasText as the official second rung.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Log In"\)/.test(locatorsAndSelfHealing),
+  'Locators_And_Self_Healing.md ranking table must show hasNormalizedText.',
+);
+
 console.log('Documentation quality checks passed.');
