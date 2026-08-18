@@ -719,66 +719,22 @@ Role-based locators improve accessibility coverage in your tests and make your t
 
 ## Smart Locators
 
-SHAFT provides two high-level smart locators — `inputField()` and `clickableField()` — that automatically resolve to the most relevant element based on visible labels, placeholders, and ARIA attributes.
+`inputField()` and `clickableField()` resolve an element from a visible
+label, placeholder, button text, or ARIA name. They exist for a human's
+throwaway exploration only. They are not the official form strategy, and
+generated or repository code must not use them.
 
-:::warning
-Smart Locators are for a human's throwaway exploration only. Generated and
-repository code must follow the
-[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
-unique author-written id via the SHAFT locator builder, then ARIA role, then
-native relative xpath only. `test_code_guardrails_check` flags
+Follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
+instead: unique author-written id via the SHAFT locator builder, then ARIA
+role, then native relative xpath only. `test_code_guardrails_check` flags
 `inputField` / `clickableField` as `SMART_LOCATOR`.
-:::
 
-### inputField()
-
-Locates an editable field (text input, textarea, etc.) by its associated label text, `placeholder`, or `aria-label`:
-
-```java title="SmartInputLocator.java"
-// Resolves to the input associated with the "Email" label
-By emailField = SHAFT.GUI.Locator.inputField("Email");
-
-// Resolves to the input with placeholder "Search..."
-By searchField = SHAFT.GUI.Locator.inputField("Search...");
-
-// Resolves to the input with aria-label "Password"
-By passwordField = SHAFT.GUI.Locator.inputField("Password");
-
-driver.element()
-      .type(emailField, "user@example.com")
-      .and().type(passwordField, "secret");
+```java title="ThrowawayExploration.java"
+// Human exploration only. Do not generate or check this in.
+By email = SHAFT.GUI.Locator.inputField("Email");
+By login = SHAFT.GUI.Locator.clickableField("Log In");
 ```
-
-### clickableField()
-
-Locates a clickable element (button, link, etc.) by its visible text, `value` attribute, or `aria-label`:
-
-```java title="SmartClickableLocator.java"
-// Resolves to a button or link with visible text "Log In"
-By loginButton = SHAFT.GUI.Locator.clickableField("Log In");
-
-// Resolves to a button with value="Sign Up"
-By signUpButton = SHAFT.GUI.Locator.clickableField("Sign Up");
-
-driver.element().click(loginButton);
-```
-
-### Complete Example
-
-```java title="SmartLocatorsExample.java"
-driver.browser().navigateToURL("https://example.com/register");
-
-driver.element()
-      .type(SHAFT.GUI.Locator.inputField("First Name"), "Alice")
-      .and().type(SHAFT.GUI.Locator.inputField("Last Name"), "Smith")
-      .and().type(SHAFT.GUI.Locator.inputField("Email"), "alice@example.com")
-      .and().type(SHAFT.GUI.Locator.inputField("Password"), "Secure@123")
-      .and().click(SHAFT.GUI.Locator.clickableField("Create Account"));
-```
-
-:::tip
-Smart locators are the most resilient option for forms: they target semantic meaning rather than brittle selectors. When the DOM changes, the label or button text usually stays the same.
-:::
 
 ---
 

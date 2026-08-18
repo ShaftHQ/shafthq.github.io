@@ -16,6 +16,8 @@ repository web code. Stop at the first unique match:
 
 1. A unique, author-written id via the SHAFT locator builder:
    `SHAFT.GUI.Locator.hasAnyTagName().hasId("checkout-submit").build()`.
+   Never a framework-recycled id such as `:r1:`, `mat-input-3`,
+   `cdk-overlay-0`, `ember1234`, `j_idt42`, `ctl00_...`, or `sc-bdVaJa`.
 2. The same builder's ARIA role, chained with
    `hasNormalizedText` / `hasAttribute` / context until unique.
 3. Native relative xpath only: `By.xpath(...)` when the element has neither.
@@ -185,33 +187,28 @@ For more locator strategies, see [LocatorBuilderTest examples on GitHub](https:/
 
 ## Smart locators {/* #smart-locators */}
 
-`inputField()` and `clickableField()` find elements by their **user-facing meaning** — labels, placeholders, button text — rather than technical attributes. For the order of locator choices in a new web test, start with the [web locator strategy](/docs/testing/web#locator-strategy).
+`inputField()` and `clickableField()` find elements by user-facing labels,
+placeholders, and button text. That is a human-exploration helper only.
+Generated and repository code follow the
+[generated locator policy](#generated-locator-policy), not this API.
 
-```java title="SmartLocators.java"
+```java title="ThrowawayExploration.java"
 import com.shaft.driver.SHAFT;
 
-// inputField(): matches label text, placeholder, name attribute, or aria-label, in that order
-By emailField = SHAFT.GUI.Locator.inputField("Email");
-By passwordField = SHAFT.GUI.Locator.inputField("Password");
-
-// clickableField(): matches visible text, value attribute, or aria-label
-// on <button>, <input type="submit">, <a>, and role="button" elements
-By loginButton = SHAFT.GUI.Locator.clickableField("Log In");
-
-driver.element()
-      .type(emailField, "user@example.com")
-      .and().type(passwordField, "secret")
-      .and().click(loginButton);
+// Human exploration only. Do not generate or check this in.
+By email = SHAFT.GUI.Locator.inputField("Email");
+By login = SHAFT.GUI.Locator.clickableField("Log In");
 ```
 
-| Approach | Example | Resilience |
+| Approach | Example | Generated or repository rank |
 |---|---|---|
-| ID / CSS class | `By.id("btn-login-123")` | Low |
-| XPath | `//button[@data-testid='login']` | Medium |
-| Smart Locator | `clickableField("Log In")` | High |
+| Author-written id | `SHAFT.GUI.Locator.hasAnyTagName().hasId("login-submit").build()` | First, when unique and not recycled |
+| ARIA role | `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Log In").build()` | Second |
+| Native relative xpath | `By.xpath(".//form//button[@type='submit']")` | Third, only when the element has neither |
+| Smart Locator | `clickableField("Log In")` | Human exploration only; never generated or repository code |
 
 :::note
-When multiple elements match the same label or text, Smart Locators return the first match in DOM order. Use a more specific locator (e.g., scoped to a parent container) when disambiguation is needed.
+When multiple elements match the same label or text, Smart Locators return the first match in DOM order. That is another reason they stay out of generated and repository code.
 :::
 
 ## iFrame handling {/* #iframe-handling */}
