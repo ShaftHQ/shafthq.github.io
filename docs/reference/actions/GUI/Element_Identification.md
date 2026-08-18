@@ -21,10 +21,10 @@ SHAFT Engine supports all standard Selenium locator strategies through the `By` 
 
 ### 1. ID
 
-Locates elements by their unique `id` attribute - the most reliable and fastest method when available.
+Existing locators may still use Selenium `By.id`. Generated and repository code emit a unique author-written id through the SHAFT locator builder:
 
 ```java
-By elementLocator = By.id("username");
+By elementLocator = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
 ```
 
 ### 2. Name
@@ -62,11 +62,10 @@ By elementLocator = By.cssSelector("#login-form > input.username");
 
 ### 6. XPath
 
-Locates elements using XPath expressions. Generated and repository code use native relative `By.xpath(...)` only when the element has neither a unique author-written id nor a usable ARIA role.
+Locates elements using XPath expressions. Generated and repository code use native relative `By.xpath(...)` only when the element has neither a unique author-written id nor a usable ARIA role. Do not target an id that should have taken the first rung.
 
 ```java
-By elementLocator = By.xpath("//input[@id='username']");
-By elementLocator = By.xpath("//button[contains(text(),'Submit')]");
+By elementLocator = By.xpath(".//form//button[@type='submit']");
 ```
 
 ### 7. Link Text
@@ -110,13 +109,9 @@ By button = By.xpath("//button[@data-test='submit']");
 
 **SHAFT Locator Builder Approach:**
 ```java
-// More readable and self-documenting
-By button = SHAFT.GUI.Locator.hasTagName("button")
-    .hasAttribute("data-test", "submit")
-    .build();
+By button = SHAFT.GUI.Locator.hasAnyTagName().hasId("submit-btn").build();
 
-// Or using ID
-By button = SHAFT.GUI.Locator.hasId("submit-btn").build();
+By button = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
 ```
 
 ### Example 2: Complex Element
@@ -157,8 +152,8 @@ By button = By.cssSelector("button.action-button"); // Can't filter by text with
 
 **SHAFT Locator Builder Approach:**
 ```java
-By button = SHAFT.GUI.Locator.hasTagName("button")
-    .containsText("Add to Cart")
+By button = SHAFT.GUI.Locator.hasRole(Role.BUTTON)
+    .hasNormalizedText("Add to Cart")
     .build();
 ```
 
@@ -183,8 +178,8 @@ SHAFT.GUI.Locator.hasAttribute("data-test").build();
 // Element with attribute and value
 SHAFT.GUI.Locator.hasAttribute("data-test", "add-to-cart").build();
 
-// Element with ID
-SHAFT.GUI.Locator.hasId("username").build();
+// Unique author-written id (generated and repository form)
+SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
 
 // Element containing a class
 SHAFT.GUI.Locator.containsClass("btn-primary").build();
@@ -570,7 +565,7 @@ driver.element().switchToDefaultContent();
 
 ```java
 By shadowHost = SHAFT.GUI.Locator.hasTagName("custom-component").build();
-By referenceElement = SHAFT.GUI.Locator.hasId("reference")
+By referenceElement = SHAFT.GUI.Locator.hasAnyTagName().hasId("reference")
     .insideShadowDom(shadowHost)
     .build();
 
@@ -682,7 +677,7 @@ import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Role;
 
 // Locate a submit button by role and visible text
-By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Submit").build();
+By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
 
 // Locate a search input by role
 By searchInput = SHAFT.GUI.Locator.hasRole(Role.SEARCHBOX).build();
@@ -773,11 +768,13 @@ Sometimes a locator depends on runtime data — a product name, a row index, or 
 
 ```java title="DynamicLocators.java"
 public By getProductAddToCartButton(String productName) {
-    return By.cssSelector("div[data-product='" + productName + "'] button.add-to-cart");
+    return SHAFT.GUI.Locator.hasRole(Role.BUTTON)
+        .hasAttribute("data-product", productName)
+        .build();
 }
 
 public By getTableCell(int row, int col) {
-    return By.cssSelector("table tr:nth-child(" + row + ") td:nth-child(" + col + ")");
+    return By.xpath(".//table//tr[" + row + "]//td[" + col + "]");
 }
 ```
 
