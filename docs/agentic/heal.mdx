@@ -157,6 +157,8 @@ healing.ai.trigger=ambiguous
 AI uses the provider-neutral controls from `shaft-pilot-core`. Add `shaft-ai`
 only for direct OpenAI, Anthropic, Gemini, or Ollama calls, and configure the
 Pilot approval, evidence, budget, timeout, and provider properties separately.
+Managed local AI stays off by default and is local-consent only; see
+[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 Only minimized candidate records are eligible for transfer. Provider output may
 rerank supplied candidate IDs but cannot invent an element or override
 deterministic acceptance. The default trigger keeps AI fallback deterministic
