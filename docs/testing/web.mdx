@@ -77,7 +77,7 @@ ladder:
    Never a framework-recycled id such as `:r1:`, `mat-input-3`,
    `cdk-overlay-0`, `ember1234`, `j_idt42`, `ctl00_...`, or `sc-bdVaJa`.
 2. The same builder's ARIA role, chained until unique:
-   `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Create Account").build()`.
+   `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Create Account").build()`.
 3. Native relative `By.xpath(...)` only when the element has neither an
    eligible id nor a usable role.
 

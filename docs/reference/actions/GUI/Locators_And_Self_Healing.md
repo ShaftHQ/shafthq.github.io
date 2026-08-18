@@ -62,7 +62,7 @@ shaft-cli call verify_run_focused
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Role;
 
-By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Submit").build();
+By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
 By searchInput = SHAFT.GUI.Locator.hasRole(Role.SEARCHBOX).build();
 By errorAlert = SHAFT.GUI.Locator.hasRole(Role.ALERT).containsText("error").build();
 
@@ -71,8 +71,9 @@ driver.element().type(searchInput, "test query");
 ```
 
 :::tip
-For generated or repository code, chain `hasRole(...)` with text or attributes
-until the match is unique. Do not pair it with a Smart Locator.
+For generated or repository code, chain `hasRole(...)` with
+`hasNormalizedText`, `hasAttribute`, or context until the match is unique.
+Do not pair it with a Smart Locator.
 :::
 
 ## Self-healing locators {/* #self-healing-locators */}
@@ -203,7 +204,7 @@ By login = SHAFT.GUI.Locator.clickableField("Log In");
 | Approach | Example | Generated or repository rank |
 |---|---|---|
 | Author-written id | `SHAFT.GUI.Locator.hasAnyTagName().hasId("login-submit").build()` | First, when unique and not recycled |
-| ARIA role | `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Log In").build()` | Second |
+| ARIA role | `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log In").build()` | Second |
 | Native relative xpath | `By.xpath(".//form//button[@type='submit']")` | Third, only when the element has neither |
 | Smart Locator | `clickableField("Log In")` | Human exploration only; never generated or repository code |
 

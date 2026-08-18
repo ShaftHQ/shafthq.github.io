@@ -265,4 +265,175 @@ assert(
   'The maintainer overview must link repository-local operational README files.',
 );
 
+const officialLocatorPages = {
+  elementIdentification: readFileSync(
+    join(docsRoot, 'reference/actions/GUI/Element_Identification.md'),
+    'utf8',
+  ),
+  locatorsAndSelfHealing: readFileSync(
+    join(docsRoot, 'reference/actions/GUI/Locators_And_Self_Healing.md'),
+    'utf8',
+  ),
+  web: readFileSync(join(docsRoot, 'testing/web.mdx'), 'utf8'),
+  pillars: readFileSync(join(docsRoot, 'features/test-automation-pillars.mdx'), 'utf8'),
+  solutionDesign: readFileSync(join(docsRoot, 'reference/guides/Solution_Design.md'), 'utf8'),
+  flakiness: readFileSync(join(docsRoot, 'testing/flakiness.mdx'), 'utf8'),
+};
+
+const generatedHasTextForm = /hasRole\([^)]*\)\.hasText\(/;
+for (const {fullPath, relativePath} of docs) {
+  const content = readFileSync(fullPath, 'utf8');
+  assert(
+    !generatedHasTextForm.test(content),
+    `${relativePath} must not teach hasRole(...).hasText( as the generated/repo form; use hasNormalizedText.`,
+  );
+}
+
+function titledJavaFences(content, titlePattern) {
+  return content.match(new RegExp('```java title="' + titlePattern + '"[\\s\\S]*?```', 'g')) || [];
+}
+
+for (const [name, content] of Object.entries(officialLocatorPages)) {
+  assert(
+    !/Prefer ID locators|most reliable and fastest/i.test(content),
+    `${name} must not rank raw ID as fastest or preferred over the generated locator policy.`,
+  );
+}
+
+assert(
+  !/Avoid XPath when possible/i.test(officialLocatorPages.elementIdentification),
+  'Element_Identification.md must not tell readers to prefer CSS over native relative xpath.',
+);
+assert(
+  !/CSS selectors are generally faster/i.test(officialLocatorPages.elementIdentification),
+  'Element_Identification.md must not rank CSS faster than native relative xpath.',
+);
+assert(
+  !/SHAFT\.GUI\.Locator\.hasId\(/.test(officialLocatorPages.elementIdentification),
+  'Element_Identification.md must start unique ids at hasAnyTagName().hasId(...), not Locator.hasId(.',
+);
+assert(
+  !/By\.xpath\("\/\/input\[@id='username'\]"\)/.test(officialLocatorPages.elementIdentification),
+  'Element_Identification.md must not show xpath-by-id after saying use xpath only when there is no unique id.',
+);
+assert(
+  !/By elementLocator = By\.id\("username"\)/.test(officialLocatorPages.elementIdentification),
+  'Element_Identification.md catalog must not present By.id("username") as the generated form.',
+);
+
+const elementIdentificationLoginPages = titledJavaFences(
+  officialLocatorPages.elementIdentification,
+  'LoginPage\\.java',
+);
+assert(
+  elementIdentificationLoginPages.length === 1,
+  'Element_Identification.md must keep one titled LoginPage.java sample.',
+);
+assert(
+  /private final By loginButton = SHAFT\.GUI\.Locator\.hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Log In"\)\.build\(\);/.test(
+    elementIdentificationLoginPages[0],
+  ),
+  'Element_Identification.md LoginPage loginButton must use hasRole + hasNormalizedText.',
+);
+assert(
+  !/private final By loginButton = By\.cssSelector/.test(elementIdentificationLoginPages[0]),
+  'Element_Identification.md LoginPage must not recommend raw By.cssSelector as the generated form.',
+);
+assert(
+  /hasAnyTagName\(\)\.hasId\("username"\)/.test(elementIdentificationLoginPages[0]),
+  'Element_Identification.md LoginPage must use the SHAFT locator builder for a unique author-written id.',
+);
+
+const dynamicLocators = titledJavaFences(
+  officialLocatorPages.elementIdentification,
+  'DynamicLocators\\.java',
+);
+assert(dynamicLocators.length === 1, 'Element_Identification.md must keep a DynamicLocators.java sample.');
+assert(
+  !/By\.cssSelector/.test(dynamicLocators[0]),
+  'Element_Identification.md DynamicLocators.java must not lead with By.cssSelector.',
+);
+
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Create Account"\)/.test(officialLocatorPages.web),
+  'web.mdx official second rung must use hasNormalizedText.',
+);
+assert(
+  !/hasRole\(Role\.BUTTON\)\.hasText\("Create Account"\)/.test(officialLocatorPages.web),
+  'web.mdx official second rung must not teach hasText.',
+);
+
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Log in"\)/.test(officialLocatorPages.pillars),
+  'test-automation-pillars.mdx login click must use hasNormalizedText.',
+);
+assert(
+  !/hasRole\(Role\.BUTTON\)\.hasText\("Log in"\)/.test(officialLocatorPages.pillars),
+  'test-automation-pillars.mdx login click must not teach hasText.',
+);
+
+const solutionLoginPages = titledJavaFences(
+  officialLocatorPages.solutionDesign,
+  '[^"]*LoginPage\\.java',
+);
+assert(
+  solutionLoginPages.length >= 1,
+  'Solution_Design.md must keep a titled LoginPage.java sample.',
+);
+for (const fence of solutionLoginPages) {
+  assert(
+    !/\bBy\.id\(/.test(fence),
+    'Solution_Design.md titled LoginPage.java samples must not teach raw By.id as the generated/repo form.',
+  );
+  assert(
+    /hasAnyTagName\(\)\.hasId\(/.test(fence),
+    'Solution_Design.md titled LoginPage.java samples must use the SHAFT locator builder for unique author-written ids.',
+  );
+}
+
+assert(
+  !/ARIA role \| `SHAFT\.GUI\.Locator\.hasRole\(Role\.BUTTON\)\.hasText\("Log In"\)\.build\(\)`/.test(
+    officialLocatorPages.locatorsAndSelfHealing,
+  ),
+  'Locators_And_Self_Healing.md ranking table must not teach hasText as the official second rung.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Log In"\)/.test(officialLocatorPages.locatorsAndSelfHealing),
+  'Locators_And_Self_Healing.md ranking table must show hasNormalizedText.',
+);
+
+const ariaLocators = titledJavaFences(
+  officialLocatorPages.locatorsAndSelfHealing,
+  'ARIALocators\\.java',
+);
+assert(
+  ariaLocators.length === 1,
+  'Locators_And_Self_Healing.md must keep a titled ARIALocators.java sample.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Submit"\)/.test(ariaLocators[0]),
+  'ARIALocators.java must use hasNormalizedText as the generated second rung.',
+);
+assert(
+  !generatedHasTextForm.test(ariaLocators[0]),
+  'ARIALocators.java must not teach hasRole(...).hasText( as the generated form.',
+);
+
+const semanticLocators = titledJavaFences(
+  officialLocatorPages.flakiness,
+  'SemanticLocators\\.java',
+);
+assert(
+  semanticLocators.length === 1,
+  'flakiness.mdx must keep a titled SemanticLocators.java sample.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Apply filter"\)/.test(semanticLocators[0]),
+  'SemanticLocators.java must use hasNormalizedText as the generated second rung.',
+);
+assert(
+  !generatedHasTextForm.test(semanticLocators[0]),
+  'SemanticLocators.java must not teach hasRole(...).hasText( as the generated form.',
+);
+
 console.log('Documentation quality checks passed.');

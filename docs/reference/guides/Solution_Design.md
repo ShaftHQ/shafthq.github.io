@@ -21,9 +21,9 @@ import org.openqa.selenium.By;
 
 public class LoginPage {
     private final SHAFT.GUI.WebDriver driver;
-    private final By usernameInput = By.id("username");
-    private final By passwordInput = By.id("password");
-    private final By loginButton = By.id("login-btn");
+    private final By usernameInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+    private final By passwordInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build();
+    private final By loginButton = SHAFT.GUI.Locator.hasAnyTagName().hasId("login-btn").build();
 
     public LoginPage(SHAFT.GUI.WebDriver driver) {
         this.driver = driver;
@@ -67,9 +67,9 @@ import org.openqa.selenium.By;
 
 public class FluentLoginPage {
     private final SHAFT.GUI.WebDriver driver;
-    private final By usernameInput = By.id("username");
-    private final By passwordInput = By.id("password");
-    private final By loginButton = By.id("login-btn");
+    private final By usernameInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+    private final By passwordInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build();
+    private final By loginButton = SHAFT.GUI.Locator.hasAnyTagName().hasId("login-btn").build();
 
     public FluentLoginPage(SHAFT.GUI.WebDriver driver) {
         this.driver = driver;
