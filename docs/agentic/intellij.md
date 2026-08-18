@@ -50,9 +50,10 @@ support is available. First run shows a six-step setup inside the tool window:
    after the upgrade finishes. See the [Upgrade guide](/docs/start/upgrade)
    for what that command does.
 2. **Choose agent** defaults to Codex CLI. Choose one complete route: Codex CLI,
-   Claude Code, Claude Desktop, GitHub Copilot CLI, GitHub Copilot in IntelliJ,
+   Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI, GitHub Copilot in IntelliJ,
    or Gemini in IntelliJ. Gemini uses a Google AI Studio API key instead of a
-   local runtime. The step shows **Done** only when the plugin can verify the
+   local runtime. The Grok route installs `--client grok` and verifies the `grok`
+   executable on PATH. The step shows **Done** only when the plugin can verify the
    selected route. External desktop and IDE runtimes stay unverified when the
    plugin cannot observe their state.
 3. **Copy setup command** copies the right installer command for the selected
