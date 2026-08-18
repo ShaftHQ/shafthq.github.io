@@ -251,9 +251,13 @@ Use the plugin as the default front door when you are already in IntelliJ:
   Page Objects, locator fields, and action methods before suggesting new code.
 - For generated GUI code, reuse existing project code first. If a needed action
   or locator is missing, record the complete flow, then insert only the missing
-  locators/actions into the planned source anchor. Use Smart Locators and the
-  SHAFT locator builder before native `By.xpath(...)`; do not use
-  `SHAFT.GUI.Locator.xpath(...)`.
+  locators/actions into the planned source anchor. Use a unique author-written
+  id through `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)`, then an ARIA role
+  through the same builder, then native relative `By.xpath(...)` only. Do not
+  use `SHAFT.GUI.Locator.xpath(...)`, the raw
+  `SHAFT.GUI.Locator.id/name/cssSelector/className/tagName(...)` factories, or
+  Smart Locators (`inputField` / `clickableField`) in generated or repository
+  code.
 - Ask to diagnose or heal failed runs; proposed fixes stay review-only until you
   apply and verify them.
 - Keep WebDriver as the default backend unless the project already uses

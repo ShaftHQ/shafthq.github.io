@@ -35,34 +35,34 @@ flowchart TD
 
 Raw Selenium locators often bind tests to implementation details: generated
 IDs, CSS classes, absolute XPath, or DOM depth. SHAFT gives tests a higher
-level locator vocabulary:
+level locator vocabulary. Generated and repository code must still follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
+unique author-written id, then ARIA role, then native relative xpath only.
 
-- `SHAFT.GUI.Locator.inputField("Email")` resolves inputs by user-facing
-  signals such as placeholders, ARIA labels, IDs, adjacent labels, and nearby
-  text.
-- `SHAFT.GUI.Locator.clickableField("Sign in")` resolves buttons, links,
-  submit inputs, ARIA-labelled controls, role-based controls, and visible text.
+- `SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build()` is the first
+  generated-code rung when the product owns a stable author-written id.
+- `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Sign in").build()` targets
+  semantic roles and text instead of brittle markup structure.
+- `SHAFT.GUI.Locator.inputField("Email")` and
+  `SHAFT.GUI.Locator.clickableField("Sign in")` are Smart Locators for a
+  human's throwaway exploration only. Do not emit them into generated or
+  repository code.
 - `driver.element().type("Email", value)` and
   `driver.element().click("Sign in")` are intent-shaped overloads that route
   through those Smart Locators in both WebDriver and Playwright sessions.
-- ARIA role locators let tests target semantic roles and text instead of
-  brittle markup structure.
 - `driver.act(...)` can express a guarded workflow intent, then SHAFT plans it
   into ordinary browser, element, and touch actions only when natural actions
   are enabled and the plan passes the configured trust threshold.
 
 ```java title="SemanticLocators.java"
-driver.element()
-        .type("Email", "qa@example.com")
-        .type("Search", "invoice 1001")
-        .click("Apply filter");
+import com.shaft.enums.internal.Role;
 
-By search = SHAFT.GUI.Locator.inputField("Search");
-By save = SHAFT.GUI.Locator.clickableField("Save");
+By email = SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build();
+By apply = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Apply filter").build();
 
 driver.element()
-        .type(search, "invoice 1001")
-        .click(save);
+        .type(email, "qa@example.com")
+        .click(apply);
 ```
 
 The practical effect is simple: when a team renames a CSS class or wraps a
@@ -230,7 +230,7 @@ show why a candidate was accepted or rejected.
 
 | Flakiness source | First SHAFT feature to use | Why |
 | --- | --- | --- |
-| Generated IDs, wrapper markup, or CSS churn | Smart Locators and ARIA locators | Tests follow user-facing meaning instead of DOM implementation. |
+| Generated IDs, wrapper markup, or CSS churn | Author-written ids via the locator builder, then ARIA roles | Tests follow stable product identity instead of DOM implementation. |
 | Clicks before render, XHR, or framework settling | Built-in synchronization and explicit waits | Timing policy lives in one engine path. |
 | Unknown action or assertion slowdown | Flake profiler | Allure shows action, wait, retry, and evidence timings separately. |
 | Intermittent CI browser or infrastructure blips | Small retry budget with retry evidence | The suite can classify a transient failure without losing the original signal. |
@@ -240,8 +240,9 @@ show why a candidate was accepted or rejected.
 ## Related
 
 - [Web testing](/docs/testing/web)
-- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
+- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
 - [ARIA Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#aria-locators)
+- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
 - [Explicit Waits](/docs/reference/actions/GUI/Waits_And_Synchronization#explicit-waits)
 - [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions)
 - [SHAFT Heal](/docs/agentic/heal)
