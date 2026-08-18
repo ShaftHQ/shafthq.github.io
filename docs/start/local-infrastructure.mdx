@@ -143,8 +143,47 @@ RAM, CPU, and free-disk values.
 Managed-local enablement grants local-processing consent only. It does not
 grant remote or on-premises processing consent. The compact candidate failed
 the current recommendation-quality gates, so use it only for manual evaluation
-and keep deterministic SHAFT results authoritative.
+and keep deterministic SHAFT results authoritative. `managedLocalAi.enabled`
+defaults to `false`. Do not flip that default to enable managed-local
+automatically.
 :::
+
+### Inventory, defaults, and troubleshooting
+
+`setup status`, `setup verify`, and `doctor local-ai-status` list the reviewed
+pin even when the cache is missing or the feature is still disabled:
+
+| Field | Compact preview pin |
+|---|---|
+| Revision | runtime `b10400` / model `23749fefcc72300e3a2ad315e1317431b06b590a` |
+| License | `MIT` / `Apache-2.0` |
+| Provenance | `github.com/ggml-org/llama.cpp` and `huggingface.co/Qwen/Qwen3-0.6B-GGUF` |
+| Size | platform runtime archive plus `639446688` model bytes |
+| Storage | `SHAFT_USER_CACHE` — never an absolute cache path |
+| Resources | compact floor `2` GB RAM, `2` CPUs, `3` GB free disk |
+| Update | explicit reviewed plan; pin-bound; no silent float |
+| Cleanup | owner-manifest only; unknown siblings preserved |
+| Fallback | deterministic SHAFT result remains authoritative |
+
+Release automation cannot float or silently replace model or runtime bytes. A
+revoked or hash-mismatched artifact stays unpublished; the last good activation
+remains active. An interrupted upgrade returns no receipt and does not activate
+the new pair. Offline setup reuses a ready cache and never downloads or
+substitutes a fallback URL.
+
+Use the same inventory from each surface:
+
+| Surface | Command |
+|---|---|
+| CLI | `shaft-cli setup status --profile LOCAL_AI --mode MANAGED` and `shaft-cli doctor local-ai-status` |
+| MCP | `setup_status` and `doctor_managed_local_ai_status` |
+| IntelliJ | the generic MCP setup and Doctor tools; there is no second lifecycle |
+| CI / headless | keep `managedLocalAi.enabled=false`; normal Maven never provisions or downloads; always pass `-Dallure.automaticallyOpen=false` |
+
+If Maven or CI needs a local-AI assertion, run the unit tests that inspect
+status, setup, cache, and properties. Do not add a `provision` or `benchmark`
+step to a default pipeline. If a job must stay offline, pass `--offline` on
+both `plan` and `install`; a missing or revoked pin fails closed.
 
 ### Clean, update, and roll back
 

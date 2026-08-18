@@ -63,9 +63,12 @@ never SHAFT properties. Provider endpoints and models are configured through
 
 The optional `shaft-ai` module also contains SHAFT's managed-local provider.
 Set `managedLocalAi.enabled=true` to select it for the current thread and grant
-local-processing consent. This setting does not grant remote or on-premises
-consent, and the provider does not require a credential or caller-selected
-endpoint.
+local-processing consent. The property defaults to `false`. This setting does
+not grant remote or on-premises consent, and the provider does not require a
+credential or caller-selected endpoint. Status and setup list the reviewed
+revision, license, provenance, size, storage class, resource floors, update
+policy, cleanup rule, and deterministic fallback; see
+[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 
 Use the review-first configuration while evaluating it:
 

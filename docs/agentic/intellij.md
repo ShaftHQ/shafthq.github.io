@@ -600,6 +600,7 @@ The Assistant routes plain-language intent to the right MCP tools:
 | Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `driver_initialize` (`engine=mobile_native`/`mobile_web` with a nested `mobileOptions` request), `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_record_at_target_code_blocks`, `capture_generate_replay` (dispatching to the active mobile session), `mobile_inspector_record_start` |
 | Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
+| Managed local AI status | "show managed local AI status" | `doctor_managed_local_ai_status`, `setup_status` — defaults stay off; see [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting) |
 | Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
 | Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
 

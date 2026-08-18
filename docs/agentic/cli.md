@@ -83,7 +83,11 @@ reviewable plan for SHAFT-owned tools. Setup commands run directly and do not
 require an MCP session. Follow the
 [local infrastructure setup guide](/docs/start/local-infrastructure) for the
 plan, digest approval, policy options, readiness exit codes, and current
-provider coverage.
+provider coverage. For managed local AI, `shaft-cli setup status --profile
+LOCAL_AI --mode MANAGED` and `shaft-cli doctor local-ai-status` list the
+reviewed inventory; defaults stay off and CI/headless Maven never downloads.
+See
+[inventory and troubleshooting](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 
 ## Examples
 

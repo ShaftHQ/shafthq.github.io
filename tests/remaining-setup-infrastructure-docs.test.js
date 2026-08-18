@@ -105,6 +105,43 @@ assert(
   'Do not invent a --chrome CLI flag; Grid scale is Java SetupSelection only.',
 );
 
+const localAi = section('## Preview managed local AI');
+for (const fact of [
+  'defaults to `false`',
+  'SHAFT_USER_CACHE',
+  'explicit reviewed plan; pin-bound; no silent float',
+  'owner-manifest only; unknown siblings preserved',
+  'deterministic SHAFT result remains authoritative',
+  'shaft-cli doctor local-ai-status',
+  'doctor_managed_local_ai_status',
+  'normal Maven never provisions or downloads',
+  '-Dallure.automaticallyOpen=false',
+]) {
+  assert(localAi.includes(fact), `The managed local AI section must document ${fact}.`);
+}
+
+const doctor = read('docs/agentic/doctor.mdx');
+const providers = read('docs/agentic/providers.md');
+const heal = read('docs/agentic/heal.mdx');
+const capture = read('docs/agentic/capture.md');
+const cli = read('docs/agentic/cli.md');
+const intellij = read('docs/agentic/intellij.md');
+const mcp = read('docs/agentic/mcp.mdx');
+for (const [name, body] of [
+  ['Doctor', doctor],
+  ['providers', providers],
+  ['Heal', heal],
+  ['Capture', capture],
+  ['CLI', cli],
+  ['IntelliJ', intellij],
+  ['MCP', mcp],
+]) {
+  assert(
+    body.includes('/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting'),
+    `${name} must link to the managed local AI inventory and troubleshooting section.`,
+  );
+}
+
 const locators = read('docs/reference/actions/GUI/Locators_And_Self_Healing.md');
 assert(
   locators.includes('/docs/start/local-infrastructure#install-managed-healenium'),
