@@ -4085,6 +4085,9 @@ GitHub Copilot CLI (linux): `curl -fsSL https://raw.githubusercontent.com/ShaftH
 GitHub Copilot in IntelliJ IDEA (windows): `powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client copilot-intellij --install-shaft-skills"`
 GitHub Copilot in IntelliJ IDEA (macos): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --copilot-intellij --install-shaft-skills`
 GitHub Copilot in IntelliJ IDEA (linux): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --copilot-intellij --install-shaft-skills`
+Grok CLI (windows): `powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client grok --install-shaft-skills"`
+Grok CLI (macos): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --grok --install-shaft-skills`
+Grok CLI (linux): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --grok --install-shaft-skills`
 SHAFT IntelliJ IDEA plugin (windows): `powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Client intellij-plugin --install-shaft-skills"`
 SHAFT IntelliJ IDEA plugin (macos): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --intellij-plugin --install-shaft-skills`
 SHAFT IntelliJ IDEA plugin (linux): `curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --intellij-plugin --install-shaft-skills`
@@ -4227,8 +4230,10 @@ the `shaft-mcp` jar, so the generated set always tracks the shaft-mcp build
 instead of a hand-duplicated copy. Existing files are left untouched unless
 `overwrite: true`; a skipped file is reported as a warning instead of failing
 the call, since `targetDirectory` is expected to be an existing repository
-that may already carry its own agent configuration. `opencode` uses the same
-layout under `.opencode/skills/`, and `vscode` writes
+that may already carry its own agent configuration. `loop: "grok"` writes the
+`AGENTS.md` managed block and uses `.agents/skills/` (Grok already scans that
+tree; SHAFT does not create a `.grok/skills` policy copy). `opencode` uses the
+same layout under `.opencode/skills/`, and `vscode` writes
 `.github/instructions/ .instructions.md` files instead. Skills marked
 `distribution: full` in their frontmatter (such as the `act-as-shaft-dev`
 methodology skill) are scaffolded as their complete SKILL.md text rather than
@@ -5399,7 +5404,7 @@ Run from the project that should receive the skills.
  
 
 When the installer has a client target, it writes to that client's native
-directory: `.agents/skills` for Codex, `.claude/skills` for Claude clients, or
+directory: `.agents/skills` for Codex and Grok, `.claude/skills` for Claude clients, or
 `.github/skills` for Copilot clients. The IntelliJ plugin target installs all
 three layouts for project portability. A skills-only run with no client target
 also installs all three layouts.
@@ -5413,7 +5418,7 @@ components to install; skills default to yes. A non-interactive run must pass a
 component selector. Use `--install-shaft-skills` to install skills without a
 prompt or `--skip-shaft-skills` to decline them in an interactive selection.
 When also configuring MCP, select one client with `--codex`, `--claude`,
-`--claude-desktop`, `--copilot`, `--copilot-intellij`, or
+`--claude-desktop`, `--copilot`, `--copilot-intellij`, `--grok`, or
 `--intellij-plugin`. A client selector alone configures MCP but does not install
 skills, so combine it with `--install-shaft-skills` when both are required.
 
@@ -5452,7 +5457,7 @@ layout without overwriting existing files:
 {"tool": "shaft_project_init_agents", "arguments": {"loop": "all", "targetDirectory": ".", "overwrite": false}}
 ```
 
-Use a single loop such as `codex`, `claude`, `opencode`, or `vscode` when the
+Use a single loop such as `codex`, `claude`, `grok`, `opencode`, or `vscode` when the
 project targets only one host. Review the returned skipped-file warnings before
 using `overwrite: true`.
 
@@ -5523,9 +5528,10 @@ support is available. First run shows a six-step setup inside the tool window:
  after the upgrade finishes. See the [Upgrade guide](/docs/start/upgrade)
  for what that command does.
 2. **Choose agent** defaults to Codex CLI. Choose one complete route: Codex CLI,
- Claude Code, Claude Desktop, GitHub Copilot CLI, GitHub Copilot in IntelliJ,
+ Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI, GitHub Copilot in IntelliJ,
  or Gemini in IntelliJ. Gemini uses a Google AI Studio API key instead of a
- local runtime. The step shows **Done** only when the plugin can verify the
+ local runtime. The Grok route installs `--client grok` and verifies the `grok`
+ executable on PATH. The step shows **Done** only when the plugin can verify the
  selected route. External desktop and IDE runtimes stay unverified when the
  plugin cannot observe their state.
 3. **Copy setup command** copies the right installer command for the selected
@@ -7726,6 +7732,7 @@ June 12, 2026:
 | --- | --- | --- |
 | ChatGPT apps/developer mode | Public HTTPS Streamable HTTP `/mcp`. See [Connect from ChatGPT](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt). | Hosted ChatGPT cannot start the local JAR; workspace plan and administrator controls apply. |
 | Codex CLI and IDE extension | Local stdio or Streamable HTTP, configured by CLI or shared `config.toml`. See [Codex MCP](https://developers.openai.com/codex/mcp). | Tool approval remains a Codex client policy. |
+| Grok CLI | Local stdio via `~/.grok/config.toml` (`[mcp_servers.shaft-mcp]`). Install with `--client grok`. Autobot ASK/PLAN stay read-only; AGENT mutates only with explicit approval and never defaults to `--yolo`. | Grok already loads `AGENTS.md` and `.agents/skills/`; do not add a second policy tree. |
 | Claude Code and Desktop | Local stdio; Claude Code also supports HTTP and can import Desktop configuration. See [Claude Code MCP](https://docs.anthropic.com/en/docs/claude-code/mcp). | The Claude Messages API uses its separate remote [MCP connector](https://docs.anthropic.com/en/docs/agents-and-tools/mcp-connector). |
 | Gemini CLI | Local stdio, SSE, or Streamable HTTP through `settings.json`. See [Gemini CLI MCP](https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md). | Server trust and tool confirmation are controlled by Gemini CLI. |
 | GitHub Copilot | MCP-capable IDEs and CLI can use local or remote servers; cloud agent uses repository MCP configuration. See [GitHub Copilot MCP](https://docs.github.com/en/copilot/concepts/context/mcp). | Cloud agent/code review currently consume tools only, and organization policy may restrict MCP. |
