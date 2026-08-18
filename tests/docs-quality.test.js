@@ -277,7 +277,17 @@ const officialLocatorPages = {
   web: readFileSync(join(docsRoot, 'testing/web.mdx'), 'utf8'),
   pillars: readFileSync(join(docsRoot, 'features/test-automation-pillars.mdx'), 'utf8'),
   solutionDesign: readFileSync(join(docsRoot, 'reference/guides/Solution_Design.md'), 'utf8'),
+  flakiness: readFileSync(join(docsRoot, 'testing/flakiness.mdx'), 'utf8'),
 };
+
+const generatedHasTextForm = /hasRole\([^)]*\)\.hasText\(/;
+for (const {fullPath, relativePath} of docs) {
+  const content = readFileSync(fullPath, 'utf8');
+  assert(
+    !generatedHasTextForm.test(content),
+    `${relativePath} must not teach hasRole(...).hasText( as the generated/repo form; use hasNormalizedText.`,
+  );
+}
 
 function titledJavaFences(content, titlePattern) {
   return content.match(new RegExp('```java title="' + titlePattern + '"[\\s\\S]*?```', 'g')) || [];
@@ -390,6 +400,40 @@ assert(
 assert(
   /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Log In"\)/.test(officialLocatorPages.locatorsAndSelfHealing),
   'Locators_And_Self_Healing.md ranking table must show hasNormalizedText.',
+);
+
+const ariaLocators = titledJavaFences(
+  officialLocatorPages.locatorsAndSelfHealing,
+  'ARIALocators\\.java',
+);
+assert(
+  ariaLocators.length === 1,
+  'Locators_And_Self_Healing.md must keep a titled ARIALocators.java sample.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Submit"\)/.test(ariaLocators[0]),
+  'ARIALocators.java must use hasNormalizedText as the generated second rung.',
+);
+assert(
+  !generatedHasTextForm.test(ariaLocators[0]),
+  'ARIALocators.java must not teach hasRole(...).hasText( as the generated form.',
+);
+
+const semanticLocators = titledJavaFences(
+  officialLocatorPages.flakiness,
+  'SemanticLocators\\.java',
+);
+assert(
+  semanticLocators.length === 1,
+  'flakiness.mdx must keep a titled SemanticLocators.java sample.',
+);
+assert(
+  /hasRole\(Role\.BUTTON\)\.hasNormalizedText\("Apply filter"\)/.test(semanticLocators[0]),
+  'SemanticLocators.java must use hasNormalizedText as the generated second rung.',
+);
+assert(
+  !generatedHasTextForm.test(semanticLocators[0]),
+  'SemanticLocators.java must not teach hasRole(...).hasText( as the generated form.',
 );
 
 console.log('Documentation quality checks passed.');

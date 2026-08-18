@@ -62,7 +62,7 @@ shaft-cli call verify_run_focused
 import com.shaft.driver.SHAFT;
 import com.shaft.enums.internal.Role;
 
-By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasText("Submit").build();
+By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
 By searchInput = SHAFT.GUI.Locator.hasRole(Role.SEARCHBOX).build();
 By errorAlert = SHAFT.GUI.Locator.hasRole(Role.ALERT).containsText("error").build();
 
@@ -71,8 +71,9 @@ driver.element().type(searchInput, "test query");
 ```
 
 :::tip
-For generated or repository code, chain `hasRole(...)` with text or attributes
-until the match is unique. Do not pair it with a Smart Locator.
+For generated or repository code, chain `hasRole(...)` with
+`hasNormalizedText`, `hasAttribute`, or context until the match is unique.
+Do not pair it with a Smart Locator.
 :::
 
 ## Self-healing locators {/* #self-healing-locators */}
