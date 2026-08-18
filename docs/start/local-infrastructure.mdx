@@ -129,7 +129,8 @@ provisioning files that inference will not use.
 ### Inspect readiness and privacy-safe diagnostics
 
 Use `setup status` or `setup verify` for the two managed targets. Those
-commands, and their Status/Setup diagnostics, list the reviewed pin inventory.
+commands print `target readiness version detail`. Version is empty unless
+READY. They report readiness/version/action, not the reviewed pin table.
 
 Use `doctor local-ai-status` or MCP `doctor_managed_local_ai_status` for
 enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
@@ -138,10 +139,10 @@ The MCP setup equivalents are `setup_status`, `setup_verify`, `setup_plan`,
 and `setup_install`. IntelliJ uses those generic MCP setup tools instead of a
 second lifecycle implementation.
 
-Setup status and verify diagnostics include reviewed runtime and model
-identity, licenses, provenance, artifact bytes, resource floors, update,
-cleanup, and fallback. They exclude absolute cache paths, filenames,
-checksums, executable names, and exact host RAM, CPU, and free-disk values.
+The pin table on this page is the documented inventory. Setup commands do not
+print revision, license, provenance, size, floors, update, cleanup, or
+fallback. Diagnostics exclude absolute cache paths, filenames, checksums,
+executable names, and exact host RAM, CPU, and free-disk values.
 
 :::warning
 Managed-local enablement grants local-processing consent only. It does not
@@ -154,8 +155,10 @@ automatically.
 
 ### Inventory, defaults, and troubleshooting
 
-`setup status` and `setup verify` list the reviewed pin even when the cache is
-missing or the feature is still disabled:
+The pin table on this page is the documented inventory. `setup status` and
+`setup verify` print `target readiness version detail` even when the cache is
+missing or the feature is still disabled. Version is empty unless READY.
+Commands report readiness/version/action, not those pin-table fields:
 
 | Field | Compact preview pin |
 |---|---|
@@ -175,7 +178,7 @@ remains active. An interrupted upgrade returns no receipt and does not activate
 the new pair. Offline setup reuses a ready cache and never downloads or
 substitutes a fallback URL.
 
-Use the same inventory from each setup surface:
+Inspect readiness from each setup surface:
 
 | Surface | Command |
 |---|---|

@@ -104,9 +104,10 @@ requested advisory; it does not make Doctor analysis automatic or replace the
 offline result. The property defaults to `false` and grants local-processing
 consent only. Inspect enablement, eligibility, and the DISABLED snapshot with
 `doctor local-ai-status` or `doctor_managed_local_ai_status`. They do not list
-the reviewed pin table. Use `setup status` or `setup verify` for the reviewed
-pin, storage class, update/cleanup policy, and deterministic fallback, as
-documented in
+the reviewed pin table. Use `setup status` or `setup verify` for
+`target readiness version detail` (version is empty unless READY;
+readiness/version/action). The pin table on the setup page is the documented
+inventory. See
 [managed local AI setup](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
 Local Ollama remains available through the Pilot provider
 properties.
