@@ -188,10 +188,27 @@ healing.sourcePatch.enabled=true
 | `doctor_propose_advisory_locator` | Low-trust / `BELOW_THRESHOLD` report | Review comment proposal only; never replaces the locator |
 
 Both tools require explicit `sourcePatchConsent=true`, never edit the live
-worktree, and never publish. Feed an approved proposal into the separate Doctor
-CLI `propose-fix` / `publish-draft-pr` path documented on
+worktree, and never publish. Manifests under
+`target/shaft-doctor/healing-proposals`
+(`healing-locator-proposal-*.json` / `healing-locator-advisory-*.json`) are
+Heal locator proposals, not Doctor repair proposals. Do not pass them to
+`publish-draft-pr`.
+
+To open a draft PR from an approved *replace* proposal
+(`doctor_propose_healed_locator`):
+
+1. Map the proposal's `patch` object into a `repair-input.json` `patches` array
+   (same `path`, `operation`, `content`, `rationale`, and `evidenceIds`), and
+   add approved Maven `validationCommands`.
+2. Run `doctor analyze`, then `doctor propose-fix` with `--diagnosis`,
+   `--base-sha`, `--issue`, `--allowed-path`, and `--repair-input`.
+3. After review, run `publish-draft-pr` on the *repair* manifest
+   (`repair-proposal-*.json`) and its approval token.
+
+Advisory proposals stay review comments only. Full CLI shape lives on
 [Diagnose failures with Doctor](/docs/agentic/doctor#reviewed-repair-proposals)
-when you want a draft pull request.
+and in the
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference).
 
 ```bash
 shaft-cli call doctor_propose_healed_locator \

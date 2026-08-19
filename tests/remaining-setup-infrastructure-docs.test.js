@@ -179,6 +179,23 @@ for (const [name, body] of [
     `${name} must link to the managed local AI inventory and troubleshooting section.`,
   );
 }
+assert(
+  !/Feed an approved proposal into the separate Doctor\s+CLI `propose-fix` \/ `publish-draft-pr`/.test(heal),
+  'Heal must not imply healing manifests feed directly into propose-fix / publish-draft-pr.',
+);
+assert(
+  !/publish-draft-pr --manifest <healing/.test(heal)
+    && !/publish-draft-pr`[^`\n]*healing-/.test(heal),
+  'Heal must not show publish-draft-pr against healing-*.json manifests.',
+);
+assert(
+  /repair-input\.json/.test(heal)
+    && /repair-proposal-/.test(heal)
+    && /`patch`/.test(heal)
+    && /doctor analyze/.test(heal)
+    && /propose-fix/.test(heal),
+  'Heal must document mapping proposal.patch into repair-input.json, then analyze + propose-fix, then publish the repair manifest.',
+);
 const collapse = (body) => body.replace(/\s+/g, ' ');
 const setupListsPin = (body) => [
   'list the reviewed pin inventory',
