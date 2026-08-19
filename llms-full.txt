@@ -4568,10 +4568,16 @@ The packaged server supports:
 - managed recording through `capture_start`, `capture_status`, and
  `capture_stop`, with no AI provider required;
 - web API traffic capture through `capture_api_start`, `capture_api_status`,
- `capture_api_stop`, and `capture_api_transactions` for recordings that include HTTP
- request/response events, with automatic secret-reference handling, size limiting,
- first-party/asset filtering, and privacy enforcement; Chrome/Edge browsers with
- DevTools Protocol support only;
+ `capture_api_stop`, `capture_api_transactions`, and
+ `capture_api_response_leaves` (classified stable/volatile/sensitive body leaves
+ for a pin-this-path picker before `capture_api_generate`) for recordings that
+ include HTTP request/response events, with automatic secret-reference handling,
+ size limiting, first-party/asset filtering, and privacy enforcement;
+ Chrome/Edge browsers with DevTools Protocol support only;
+- live recorder authoring mode through `capture_set_mode` (`record` default or
+ `inspect` for locator picking without appending ordinary steps) plus
+ `capture_checkpoint` for USER_MARKER / ASSERTION / PAGE_TRANSITION / RECOVERY /
+ FLOW_START / FLOW_END markers;
 - deterministic WebDriver TestNG generation through `capture_generate_replay`,
  `capture_code_blocks`, and `capture_record_at_target_code_blocks`, with
  compile, optional replay, local
@@ -4603,6 +4609,10 @@ The packaged server supports:
  `playwright_doctor_analyze_failed_allure`), restricted to explicit input
  paths and allowed roots, with an optional separately identified provider
  advisory when Pilot AI is explicitly enabled;
+- review-only Heal locator proposals through `doctor_propose_healed_locator`
+ (verified recovery) and `doctor_propose_advisory_locator` (low-trust comment),
+ gated by `healing.sourcePatch.enabled` and explicit `sourcePatchConsent`;
+ full-file `doctor propose-fix` / `doctor publish-draft-pr` remain CLI-only;
 - managed local AI readiness through `setup_status` and `setup_verify`, which
  print `target readiness version detail` (version empty unless READY) and
  report readiness/version/action;
@@ -4612,8 +4622,12 @@ The packaged server supports:
  at
  [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting);
 - persisted trace discovery and deterministic trace analysis through
- `trace_latest`, `trace_read`, `trace_summarize`, and `doctor_analyze_trace`,
- restricted to the MCP workspace and bounded for raw trace reads;
+ `trace_latest`, `trace_read`, `trace_summarize`, `trace_open_viewer`, and
+ `doctor_analyze_trace`, restricted to the MCP workspace and bounded for raw
+ trace reads;
+- cross-shard Allure merge through `report_merge_shards` (same `ShardMerger`
+ path as `ShardMergeCli`; see
+ [Sharded Execution](/docs/reference/guides/Sharded_Execution));
 - guarded test healing through `healer_run_failed_test`, with an optional
  `backend` (web|playwright, defaults to web) selecting the generated
  snippets' engine (absorbs the former `playwright_healer_run_failed_test`),
@@ -5248,9 +5262,19 @@ branch, and creates or reuses an open draft pull request through authenticated
 switches the user's current worktree. The temporary worktree is removed after
 publication or explicit cancellation; the published branch remains.
 
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. The latter requires the same separate `approved`
-boolean and exact proposal token.
+Full-file repair proposal and draft publication stay on the local Doctor CLI
+(`doctor propose-fix`, `doctor publish-draft-pr` via the MCP main class). They
+are not MCP tools — `doctor_publish_draft_pr` is deliberately absent from the
+packaged tool catalog. Publication still requires the separate `--approve` flag
+and the exact proposal token from the reviewed manifest.
+
+For locator-only proposals built from a SHAFT Heal report, use the MCP tools
+`doctor_propose_healed_locator` (verified recovery) and
+`doctor_propose_advisory_locator` (low-trust advisory comment). Both require
+`healing.sourcePatch.enabled=true` plus explicit `sourcePatchConsent`, write
+under `target/shaft-doctor/healing-proposals` by default, and never edit or
+publish source. See
+[Recover locators with Heal](/docs/agentic/heal#reviewed-locator-proposals-doctor-mcp).
 
 ## Evidence
 
@@ -5932,7 +5956,11 @@ The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
 in the bottom composer. Local CLI prompts call the MCP
 `autobot_local_agent_run` tool, which delegates to the engine-side local agent
 service in `shaft-pilot-core`. Cloud Ask and Plan prompts call
-`autobot_provider_chat` with the selected provider and model.
+`autobot_provider_chat` with the selected provider and model. Readiness helpers
+are `autobot_local_agent_clients` (installed local CLIs),
+`autobot_provider_status` (configured cloud provider, model, API-key presence
+without the value, structured-output support), and `autobot_provider_models`
+(catalog for the selected provider).
 
 Supported local routes are:
 
@@ -6343,11 +6371,12 @@ Use **Tools | SHAFT | Pick Locator from Live Session** (also on the editor
 popup menu, visible in SHAFT projects with a Java editor context) to call
 `capture_pick_locator` and insert the returned `SHAFT.GUI.Locator...` snippet
 at the caret — the same idea as Playwright's "Pick Locator". Start a SHAFT
-Capture session first and switch the recorder to inspect mode, then click the
-target element in the managed browser; the action warns instead of inserting
-anything when no pick is available yet. This v1 requires the recorder-side
-pick to already exist in the live session; full session pick-state plumbing is
-tracked in
+Capture session first and switch the recorder to inspect mode
+(`capture_set_mode` with `mode=inspect`, or the overlay's pick-locator
+control), then click the target element in the managed browser; the action
+warns instead of inserting anything when no pick is available yet. This v1
+requires the recorder-side pick to already exist in the live session; full
+session pick-state plumbing is tracked in
 [ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
 
 ## Coding partner plan
@@ -6869,6 +6898,20 @@ recording. The browser panel
 and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
 avoid horizontal scrolling during review. The overlay follows the OS dark theme, aligned with the SHAFT report visual language.
+
+### Record vs inspect mode
+
+`capture_set_mode` reads or toggles the active recorder's live authoring mode.
+`record` (default) captures interactions as replayable steps. `inspect` keeps
+the session alive for locator picking without appending ordinary click/type
+steps — required before `capture_pick_locator` / IntelliJ **Pick Locator from
+Live Session**. Omit `mode` to read the current value.
+
+```bash
+shaft-cli call capture_set_mode mode=inspect
+shaft-cli call capture_pick_locator
+shaft-cli call capture_set_mode mode=record
+```
 
 ### Recorder overlay status
 
@@ -7493,6 +7536,19 @@ The generated test class includes:
 - External test-data references for typed body values
 - Request/response body files linked as supporting artifacts
 
+#### Response leaf picker
+
+Before generating, call `capture_api_response_leaves` on the saved session path
+to list classified JSON leaves per transaction (`stable`, `volatile`,
+`sensitive`) without writing test source. Sensitive values stay redacted. Use
+that list as a pin-this-path picker, then pass the chosen session into
+`capture_api_generate`.
+
+```bash
+shaft-cli call capture_api_response_leaves \
+ sessionPath=recordings/checkout-with-api.json
+```
+
 #### Response validation depth
 
 `capture_api_generate` accepts a `validationDepth` controlling how thoroughly each recorded response is asserted:
@@ -7684,10 +7740,61 @@ needed.
 
 ## Source changes and limits
 
-SHAFT Heal never edits test source during runtime. The
-`healing.sourcePatch.enabled=false` property is a consent gate reserved for a
-separate reviewed SHAFT Doctor proposal workflow; this module always reports
-`sourcePatchProposed=false`.
+SHAFT Heal never edits test source during runtime. It always reports
+`sourcePatchProposed=false`. Turning on
+`healing.sourcePatch.enabled=true` only unlocks a separate, review-gated Doctor
+proposal workflow; it never patches Java while a test is running.
+
+### Reviewed locator proposals (Doctor MCP)
+
+After a Heal report exists under `target/shaft-heal/reports`, enable the consent
+gate and call the Doctor MCP tools (or `shaft-cli call`):
+
+```properties
+healing.sourcePatch.enabled=true
+```
+
+| Tool | When to use | What it writes |
+| --- | --- | --- |
+| `doctor_propose_healed_locator` | Verified recovery (`RECOVERED`) mapped to exactly one Java expression in an allowlisted source file | Reviewable replace proposal under `target/shaft-doctor/healing-proposals` |
+| `doctor_propose_advisory_locator` | Low-trust / `BELOW_THRESHOLD` report | Review comment proposal only; never replaces the locator |
+
+Both tools require explicit `sourcePatchConsent=true`, never edit the live
+worktree, and never publish. Manifests under
+`target/shaft-doctor/healing-proposals`
+(`healing-locator-proposal-*.json` / `healing-locator-advisory-*.json`) are
+Heal locator proposals, not Doctor repair proposals. Do not pass them to
+`publish-draft-pr`.
+
+To open a draft PR from an approved *replace* proposal
+(`doctor_propose_healed_locator`):
+
+1. Map the proposal's `patch` object into a `repair-input.json` `patches` array
+ (same `path`, `operation`, `content`, `rationale`, and `evidenceIds`), and
+ add approved Maven `validationCommands`.
+2. Run `doctor analyze`, then `doctor propose-fix` with `--diagnosis`,
+ `--base-sha`, `--issue`, `--allowed-path`, and `--repair-input`.
+3. After review, run `publish-draft-pr` on the *repair* manifest
+ (`repair-proposal-*.json`) and its approval token.
+
+Advisory proposals stay review comments only. Full CLI shape lives on
+[Diagnose failures with Doctor](/docs/agentic/doctor#reviewed-repair-proposals)
+and in the
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference).
+
+```bash
+shaft-cli call doctor_propose_healed_locator \
+ repositoryRoot=. \
+ healingReportPath=target/shaft-heal/reports/ .json \
+ sourcePath=src/test/java/com/example/LoginPage.java \
+ sourcePatchConsent=true
+
+shaft-cli call doctor_propose_advisory_locator \
+ repositoryRoot=. \
+ healingReportPath=target/shaft-heal/reports/ .json \
+ sourcePath=src/test/java/com/example/LoginPage.java \
+ sourcePatchConsent=true
+```
 
 The current provider supports web element actions in the active browsing
 context. Native mobile recovery is excluded. Frame identity is retained, and
@@ -7810,9 +7917,11 @@ Doctor creates and validates a temporary isolated worktree. It does not modify
 the current branch or write to GitHub. After reviewing the diff and validation
 result, publish only a draft pull request with the exact returned token.
 
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. Publication cannot merge, bypass branch protection,
-or proceed without separate explicit approval.
+Full-file repair stays on the Doctor CLI (`doctor propose-fix`,
+`doctor publish-draft-pr`). Those names are not MCP tools. Locator-only Heal
+proposals use `doctor_propose_healed_locator` /
+`doctor_propose_advisory_locator` instead. Publication cannot merge, bypass
+branch protection, or proceed without separate explicit approval.
 
 ## MCP clients
 
@@ -20024,6 +20133,15 @@ java -cp report-aggregate.jar com.shaft.reportaggregate.ShardMergeCli \
 Both forms accept `--output ` followed by one or more shard blob
 directories. The merged Allure results directory, the speedboard HTML path,
 and any flaky-clustering warnings print to stdout when the merge finishes.
+
+MCP clients and `shaft-cli call` can run the same merge through
+`report_merge_shards` (arguments: `shardBlobPaths` list and optional
+`outputDirectory`, default `target/shaft-merged-report`):
+
+```bash
+shaft-cli call report_merge_shards \
+ --args '{"shardBlobPaths":["target/shard-blobs/1","target/shard-blobs/2"],"outputDirectory":"target/shaft-merged-report"}'
+```
 
 ## GitHub Actions Matrix Example
 
