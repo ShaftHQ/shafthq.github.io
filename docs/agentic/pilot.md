@@ -109,9 +109,11 @@ Doctor creates and validates a temporary isolated worktree. It does not modify
 the current branch or write to GitHub. After reviewing the diff and validation
 result, publish only a draft pull request with the exact returned token.
 
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. Publication cannot merge, bypass branch protection,
-or proceed without separate explicit approval.
+Full-file repair stays on the Doctor CLI (`doctor propose-fix`,
+`doctor publish-draft-pr`). Those names are not MCP tools. Locator-only Heal
+proposals use `doctor_propose_healed_locator` /
+`doctor_propose_advisory_locator` instead. Publication cannot merge, bypass
+branch protection, or proceed without separate explicit approval.
 
 ## MCP clients
 

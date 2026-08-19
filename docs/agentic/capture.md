@@ -155,6 +155,20 @@ and generated capture workbench follow the same SHAFT report visual language as
 Allure-attached HTML reports, including status chips and wrapping layouts that
 avoid horizontal scrolling during review. The overlay follows the OS dark theme, aligned with the SHAFT report visual language.
 
+### Record vs inspect mode
+
+`capture_set_mode` reads or toggles the active recorder's live authoring mode.
+`record` (default) captures interactions as replayable steps. `inspect` keeps
+the session alive for locator picking without appending ordinary click/type
+steps — required before `capture_pick_locator` / IntelliJ **Pick Locator from
+Live Session**. Omit `mode` to read the current value.
+
+```bash
+shaft-cli call capture_set_mode mode=inspect
+shaft-cli call capture_pick_locator
+shaft-cli call capture_set_mode mode=record
+```
+
 ### Recorder overlay status
 
 The status line shows a pill stack at the top of the overlay:
@@ -776,6 +790,19 @@ The generated test class includes:
 - Executable `SHAFT.API` request/response calls with correlated values chained through variables
 - External test-data references for typed body values
 - Request/response body files linked as supporting artifacts
+
+#### Response leaf picker
+
+Before generating, call `capture_api_response_leaves` on the saved session path
+to list classified JSON leaves per transaction (`stable`, `volatile`,
+`sensitive`) without writing test source. Sensitive values stay redacted. Use
+that list as a pin-this-path picker, then pass the chosen session into
+`capture_api_generate`.
+
+```bash
+shaft-cli call capture_api_response_leaves \
+  sessionPath=recordings/checkout-with-api.json
+```
 
 #### Response validation depth
 

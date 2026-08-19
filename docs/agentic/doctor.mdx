@@ -272,9 +272,19 @@ branch, and creates or reuses an open draft pull request through authenticated
 switches the user's current worktree. The temporary worktree is removed after
 publication or explicit cancellation; the published branch remains.
 
-The MCP equivalents are `doctor_propose_fix` and
-`doctor_publish_draft_pr`. The latter requires the same separate `approved`
-boolean and exact proposal token.
+Full-file repair proposal and draft publication stay on the local Doctor CLI
+(`doctor propose-fix`, `doctor publish-draft-pr` via the MCP main class). They
+are not MCP tools — `doctor_publish_draft_pr` is deliberately absent from the
+packaged tool catalog. Publication still requires the separate `--approve` flag
+and the exact proposal token from the reviewed manifest.
+
+For locator-only proposals built from a SHAFT Heal report, use the MCP tools
+`doctor_propose_healed_locator` (verified recovery) and
+`doctor_propose_advisory_locator` (low-trust advisory comment). Both require
+`healing.sourcePatch.enabled=true` plus explicit `sourcePatchConsent`, write
+under `target/shaft-doctor/healing-proposals` by default, and never edit or
+publish source. See
+[Recover locators with Heal](/docs/agentic/heal#reviewed-locator-proposals-doctor-mcp).
 
 ## Evidence
 

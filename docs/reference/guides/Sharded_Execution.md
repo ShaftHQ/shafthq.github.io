@@ -118,6 +118,15 @@ Both forms accept `--output <dir>` followed by one or more shard blob
 directories. The merged Allure results directory, the speedboard HTML path,
 and any flaky-clustering warnings print to stdout when the merge finishes.
 
+MCP clients and `shaft-cli call` can run the same merge through
+`report_merge_shards` (arguments: `shardBlobPaths` list and optional
+`outputDirectory`, default `target/shaft-merged-report`):
+
+```bash
+shaft-cli call report_merge_shards \
+  --args '{"shardBlobPaths":["target/shard-blobs/1","target/shard-blobs/2"],"outputDirectory":"target/shaft-merged-report"}'
+```
+
 ## GitHub Actions Matrix Example
 
 A generic CI shape: one matrix job per shard uploads its blob as an
