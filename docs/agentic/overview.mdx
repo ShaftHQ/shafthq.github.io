@@ -39,12 +39,25 @@ routes, native directories, upgrade behavior, and packaging tradeoffs.
 Install `shaft-cli` without configuring an MCP client. This also installs its
 internal `shaft-mcp` runtime prerequisite.
 
+Change into the target project first. Public one-liners install SHAFT Agentic
+Tools (MCP, CLI, and skills):
+
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.ps1" | iex
 ```
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-mcp.sh | sh -s -- --install-shaft-cli
+curl -fsSL "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.sh" | bash
+```
+
+CLI-only install still uses the inner Agentic Tools script:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-cli
 ```
 
 | Capability | Default behavior | Start here |
