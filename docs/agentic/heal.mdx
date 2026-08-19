@@ -168,10 +168,44 @@ needed.
 
 ## Source changes and limits
 
-SHAFT Heal never edits test source during runtime. The
-`healing.sourcePatch.enabled=false` property is a consent gate reserved for a
-separate reviewed SHAFT Doctor proposal workflow; this module always reports
-`sourcePatchProposed=false`.
+SHAFT Heal never edits test source during runtime. It always reports
+`sourcePatchProposed=false`. Turning on
+`healing.sourcePatch.enabled=true` only unlocks a separate, review-gated Doctor
+proposal workflow; it never patches Java while a test is running.
+
+### Reviewed locator proposals (Doctor MCP)
+
+After a Heal report exists under `target/shaft-heal/reports`, enable the consent
+gate and call the Doctor MCP tools (or `shaft-cli call`):
+
+```properties
+healing.sourcePatch.enabled=true
+```
+
+| Tool | When to use | What it writes |
+| --- | --- | --- |
+| `doctor_propose_healed_locator` | Verified recovery (`RECOVERED`) mapped to exactly one Java expression in an allowlisted source file | Reviewable replace proposal under `target/shaft-doctor/healing-proposals` |
+| `doctor_propose_advisory_locator` | Low-trust / `BELOW_THRESHOLD` report | Review comment proposal only; never replaces the locator |
+
+Both tools require explicit `sourcePatchConsent=true`, never edit the live
+worktree, and never publish. Feed an approved proposal into the separate Doctor
+CLI `propose-fix` / `publish-draft-pr` path documented on
+[Diagnose failures with Doctor](/docs/agentic/doctor#reviewed-repair-proposals)
+when you want a draft pull request.
+
+```bash
+shaft-cli call doctor_propose_healed_locator \
+  repositoryRoot=. \
+  healingReportPath=target/shaft-heal/reports/<attempt>.json \
+  sourcePath=src/test/java/com/example/LoginPage.java \
+  sourcePatchConsent=true
+
+shaft-cli call doctor_propose_advisory_locator \
+  repositoryRoot=. \
+  healingReportPath=target/shaft-heal/reports/<attempt>.json \
+  sourcePath=src/test/java/com/example/LoginPage.java \
+  sourcePatchConsent=true
+```
 
 The current provider supports web element actions in the active browsing
 context. Native mobile recovery is excluded. Frame identity is retained, and

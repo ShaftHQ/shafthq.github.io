@@ -375,7 +375,11 @@ The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
 in the bottom composer. Local CLI prompts call the MCP
 `autobot_local_agent_run` tool, which delegates to the engine-side local agent
 service in `shaft-pilot-core`. Cloud Ask and Plan prompts call
-`autobot_provider_chat` with the selected provider and model.
+`autobot_provider_chat` with the selected provider and model. Readiness helpers
+are `autobot_local_agent_clients` (installed local CLIs),
+`autobot_provider_status` (configured cloud provider, model, API-key presence
+without the value, structured-output support), and `autobot_provider_models`
+(catalog for the selected provider).
 
 Supported local routes are:
 
@@ -786,11 +790,12 @@ Use **Tools | SHAFT | Pick Locator from Live Session** (also on the editor
 popup menu, visible in SHAFT projects with a Java editor context) to call
 `capture_pick_locator` and insert the returned `SHAFT.GUI.Locator...` snippet
 at the caret — the same idea as Playwright's "Pick Locator". Start a SHAFT
-Capture session first and switch the recorder to inspect mode, then click the
-target element in the managed browser; the action warns instead of inserting
-anything when no pick is available yet. This v1 requires the recorder-side
-pick to already exist in the live session; full session pick-state plumbing is
-tracked in
+Capture session first and switch the recorder to inspect mode
+(`capture_set_mode` with `mode=inspect`, or the overlay's pick-locator
+control), then click the target element in the managed browser; the action
+warns instead of inserting anything when no pick is available yet. This v1
+requires the recorder-side pick to already exist in the live session; full
+session pick-state plumbing is tracked in
 [ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
 
 ## Coding partner plan

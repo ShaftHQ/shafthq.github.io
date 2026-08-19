@@ -526,10 +526,16 @@ The packaged server supports:
 - managed recording through `capture_start`, `capture_status`, and
   `capture_stop`, with no AI provider required;
 - web API traffic capture through `capture_api_start`, `capture_api_status`,
-  `capture_api_stop`, and `capture_api_transactions` for recordings that include HTTP
-  request/response events, with automatic secret-reference handling, size limiting,
-  first-party/asset filtering, and privacy enforcement; Chrome/Edge browsers with
-  DevTools Protocol support only;
+  `capture_api_stop`, `capture_api_transactions`, and
+  `capture_api_response_leaves` (classified stable/volatile/sensitive body leaves
+  for a pin-this-path picker before `capture_api_generate`) for recordings that
+  include HTTP request/response events, with automatic secret-reference handling,
+  size limiting, first-party/asset filtering, and privacy enforcement;
+  Chrome/Edge browsers with DevTools Protocol support only;
+- live recorder authoring mode through `capture_set_mode` (`record` default or
+  `inspect` for locator picking without appending ordinary steps) plus
+  `capture_checkpoint` for USER_MARKER / ASSERTION / PAGE_TRANSITION / RECOVERY /
+  FLOW_START / FLOW_END markers;
 - deterministic WebDriver TestNG generation through `capture_generate_replay`,
   `capture_code_blocks`, and `capture_record_at_target_code_blocks`, with
   compile, optional replay, local
@@ -561,6 +567,10 @@ The packaged server supports:
   `playwright_doctor_analyze_failed_allure`), restricted to explicit input
   paths and allowed roots, with an optional separately identified provider
   advisory when Pilot AI is explicitly enabled;
+- review-only Heal locator proposals through `doctor_propose_healed_locator`
+  (verified recovery) and `doctor_propose_advisory_locator` (low-trust comment),
+  gated by `healing.sourcePatch.enabled` and explicit `sourcePatchConsent`;
+  full-file `doctor propose-fix` / `doctor publish-draft-pr` remain CLI-only;
 - managed local AI readiness through `setup_status` and `setup_verify`, which
   print `target readiness version detail` (version empty unless READY) and
   report readiness/version/action;
@@ -570,8 +580,12 @@ The packaged server supports:
   at
   [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting);
 - persisted trace discovery and deterministic trace analysis through
-  `trace_latest`, `trace_read`, `trace_summarize`, and `doctor_analyze_trace`,
-  restricted to the MCP workspace and bounded for raw trace reads;
+  `trace_latest`, `trace_read`, `trace_summarize`, `trace_open_viewer`, and
+  `doctor_analyze_trace`, restricted to the MCP workspace and bounded for raw
+  trace reads;
+- cross-shard Allure merge through `report_merge_shards` (same `ShardMerger`
+  path as `ShardMergeCli`; see
+  [Sharded Execution](/docs/reference/guides/Sharded_Execution));
 - guarded test healing through `healer_run_failed_test`, with an optional
   `backend` (web|playwright, defaults to web) selecting the generated
   snippets' engine (absorbs the former `playwright_healer_run_failed_test`),
