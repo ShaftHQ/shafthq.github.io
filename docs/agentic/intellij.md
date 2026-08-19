@@ -58,7 +58,7 @@ support is available. First run shows a six-step setup inside the tool window:
    `--client grok` and verifies the `grok` executable on PATH. This step has no
    **Check** button. External desktop and IDE runtimes stay unverified when the
    plugin cannot observe their state.
-3. **Setup tools & skills** (accessible name: Setup SHAFT Tools & Skills) copies
+3. **Setup SHAFT Tools & Skills** copies
    the Agentic Tools installer command for the selected route and opens an
    IntelliJ terminal with the command pre-typed. Press Enter there to run it.
    The copied command downloads `scripts/mcp/install-shaft-agentic-tools` from
@@ -68,7 +68,7 @@ support is available. First run shows a six-step setup inside the tool window:
 4. **Check agent connection** is the existing agent-readiness probe. It confirms
    the selected CLI or cloud route can run. It does not claim that SHAFT tools
    are installed.
-5. **Check tools installation** finds the installed SHAFT MCP command
+5. **Check SHAFT agentic tools installation** finds the installed SHAFT MCP command
    automatically, verifies the workspace, and additionally asks the selected
    agent CLI itself whether it can access `shaft-mcp` (for example via
    `claude mcp get shaft-mcp` or `grok` / `codex` equivalents), so after a
@@ -107,14 +107,14 @@ one-liners stay `scripts/mcp/install.ps1` and `install.sh`.
 After a command has passed setup, opening SHAFT shows the Assistant view.
 Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until **Check
-tools installation** passes.
+SHAFT agentic tools installation** passes.
 
-![SHAFT IntelliJ Assistant setup wizard with Prerequisites marked Done, Choose agent expanded on Select an option, Setup tools and skills next, then Check agent connection and Check tools installation](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ Assistant setup wizard with Prerequisites marked Done, Choose agent expanded on Select an option, Setup SHAFT Tools and Skills next, then Check agent connection and Check SHAFT agentic tools installation](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
 stepper with visible state chips, only showing the buttons relevant to the
 current step, so the path reads as
-**Prerequisites -> Upgrade project -> Choose agent -> Setup tools & skills -> Check agent connection -> Check tools installation -> Start chatting**.
+**Prerequisites -> Upgrade project -> Choose agent -> Setup SHAFT Tools & Skills -> Check agent connection -> Check SHAFT agentic tools installation -> Start chatting**.
 Every state chip reflects a real verification of what is on the machine or in
 the project — never a "you clicked the button" heuristic — and a check that
 ran and did not pass shows an explicit red **Failed** chip with recovery
@@ -145,9 +145,9 @@ instead of an external agent CLI.
 
 ![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
-![Completed SHAFT IntelliJ Assistant setup showing Check tools installation marked Done, Choose agent still waiting on Select an option, and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ Assistant setup showing Check SHAFT agentic tools installation marked Done, Choose agent still waiting on Select an option, and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
-![SHAFT IntelliJ Assistant setup in dark mode with Check tools installation marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+![SHAFT IntelliJ Assistant setup in dark mode with Check SHAFT agentic tools installation marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
 Troubleshooting details distinguish the failure type when the plugin can infer
 it:
@@ -160,10 +160,10 @@ it:
   MCP configuration file.
 - **Client runtime**: install the selected client CLI or add it to `PATH`, then
   retry.
-- **MCP command**: rerun the terminal installer, then click **Check tools
-  installation** so SHAFT can find the installed command automatically.
-- **MCP probe**: rerun the installer command, then click **Check tools
-  installation** once it finishes.
+- **MCP command**: rerun the terminal installer, then click **Check SHAFT
+  agentic tools installation** so SHAFT can find the installed command automatically.
+- **MCP probe**: rerun the installer command, then click **Check SHAFT
+  agentic tools installation** once it finishes.
 
 The setup pane includes one-click actions for copying the SHAFT upgrade
 command, copying the installer command, opening the IntelliJ terminal for
