@@ -20,11 +20,13 @@ const {expect, test} = require('@playwright/test');
 //     deep-to-deep-alt gradient. Demoted from h2 to h3 in #898 finding 23, once
 //     AudienceSection gained its own section-level h2.
 //   - `.eyebrow` (src/pages/index.module.css .eyebrow) -- section kicker labels
-//     ("Guided paths", "Testing surfaces", etc.) on the normal flipping Infima
-//     page background layered with a subtle primary-tinted gradient. Found
-//     genuinely failing in light theme (~1.3-1.5:1) during #851's audit --
+//     ("Testing surfaces", "Architecture proof", etc.) on the normal flipping
+//     Infima page background layered with a subtle primary-tinted gradient.
+//     Found genuinely failing in light theme (~1.3-1.5:1) during #851's audit --
 //     `--site-color-muted` is designed for the fixed-dark deep/deep-alt family,
 //     not this flipping background. Repointed to `--ifm-color-emphasis-800`.
+//     Guard a flipping-page instance (not `.audienceSection .eyebrow`, which
+//     correctly keeps muted on the fixed-dark family -- #898 finding 23 / #996).
 //   - `.heroMeta` span (src/pages/index.module.css .heroMeta) -- the
 //     "io.github.shafthq : shaft-engine" coordinates line (trimmed to just the
 //     coordinate in #898 finding 29, since Java 25/MIT/Allure native already
@@ -84,18 +86,20 @@ async function measureContrast(page, selector, samplePoints) {
   await locator.scrollIntoViewIfNeeded();
 
   // Sections below the hero use a scroll-triggered reveal (`[data-reveal]` /
-  // `.reveal`, src/pages/index.module.css:971-991): opacity 0 -> 1 over a
-  // 540ms transition (plus up to 240ms of stagger delay) once scrolled into
-  // view. Sampling before that settles reads a still-fading-in (or, on a
-  // fresh page load, still fully transparent/white) element instead of its
-  // real composited color. Poll for the reveal to finish instead of guessing
-  // a fixed wait, matching tests/e2e/homepage.spec.js's own reveal-state checks.
+  // `.reveal`): once `html[data-reveal-ready]` flips, unseen roots transition
+  // opacity 1 -> 0, then IntersectionObserver adds `.revealVisible` and they
+  // transition 0 -> 1. Polling opacity alone can false-pass during the initial
+  // hide (still near 1); a later `animations: 'disabled'` screenshot then
+  // fast-forwards that hide to 0 and samples white through the transparent
+  // section (#996). Require the visible class, then opacity 1.
   await expect.poll(() =>
     locator.evaluate((el) => {
       const revealRoot = el.closest('[data-reveal]');
-      return revealRoot ? getComputedStyle(revealRoot).opacity : '1';
+      if (!revealRoot) return true;
+      const visible = [...revealRoot.classList].some((c) => c.includes('revealVisible'));
+      return visible && getComputedStyle(revealRoot).opacity === '1';
     }),
-  ).toBe('1');
+  ).toBe(true);
 
   const info = await locator.evaluate((el) => {
     const rect = el.getBoundingClientRect();
@@ -320,7 +324,16 @@ test('audience lane heading clears WCAG AA contrast against its real composited 
 });
 
 test('section eyebrow labels clear WCAG AA contrast against their real composited background', async ({page}) => {
-  await assertClearsContrast(page, '.eyebrow', '[class*="eyebrow"]', adjacentSampler);
+  // Target a flipping-page-background eyebrow. `[class*="eyebrow"]` `.first()` is
+  // `.audienceSection .eyebrow` ("One evidence model"), which intentionally uses
+  // `--site-color-muted` on the fixed-dark deep family. Sampling 4px above that
+  // label can also catch the white trust section and false-fail (#996).
+  await assertClearsContrast(
+    page,
+    '.eyebrow',
+    '[data-testid="landing-surfaces"] [class*="eyebrow"]',
+    adjacentSampler,
+  );
 });
 
 test('hero coordinates line clears WCAG AA contrast against its real composited background', async ({page}) => {
