@@ -112,7 +112,7 @@ there.
 The command downloads a repository-hosted bootstrap script. The bootstrapper
 uses Python 3.9+ when available, or installs a checksum-verified portable Python
 runtime in the per-user SHAFT cache when Python is missing. The shared Python
-installer prints the SHAFT MCP banner, shows the selected client, resolves
+installer prints the SHAFT Agentic Tools banner, shows the selected client, resolves
 `io.github.shafthq:shaft-mcp:LATEST` from Maven Central without requiring a
 local project, verifies checksums, shows progress for long downloads, downloads
 the thin JAR to versioned per-user application data, resolves its runtime
@@ -152,9 +152,10 @@ front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector,
 Projects, and Guide search, while still calling the same MCP tools and keeping
 engine, local agent, and provider behavior outside plugin code. It does not run
 installer scripts inside the IDE; its first-run setup lets you choose the
-target agent or SHAFT IntelliJ plugin, copy the matching installer command, run
-it in the IntelliJ terminal, then checks the installation and stores the local
-stdio command automatically.
+target agent or SHAFT IntelliJ plugin (starting from an unselected placeholder,
+never a Codex default), copy the matching Agentic Tools installer command, run
+it in the IntelliJ terminal, then check the agent connection and the tools
+installation and store the local stdio command automatically.
 
 ## Runtime workspace
 
