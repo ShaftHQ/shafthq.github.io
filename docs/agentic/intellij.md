@@ -232,7 +232,10 @@ my last failure) plus a dismissible first-run coach: "Finish setup → Record a
 sample → Review code" with a **Got it** button that hides it permanently. The
 composer placeholder invites a plain-language request (record, generate a test,
 diagnose failures, upgrade) and wraps to the panel width so it is always fully
-readable. The Assistant opens in **Agent** mode with **Allow source edits**
+readable. **Run settings** stays collapsed as a chip until you expand it to
+change the agent, effort, **Allow source edits**, or Verbose. Until setup
+selects a route, that chip does not name Codex and does not invent a default
+agent. The Assistant still opens in **Agent** mode with **Allow source edits**
 checked, so a first request like "generate a test" can actually land code in
 the project; uncheck it for suggestion-only runs. Recording requests such as
 "Record my browser actions on https://..." always run on the plugin's own
@@ -606,9 +609,9 @@ findings (flaky steps, unsupported events, required inputs, fallback
 locators) also surface as file-level IDE annotations directly on the
 generated class.
 
-![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box](/img/agentic/intellij-plugin-assistant.png)
+![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box, and a compact Run settings chip before an agent route is selected](/img/agentic/intellij-plugin-assistant.png)
 
-![SHAFT IntelliJ Assistant empty composer](/img/agentic/intellij-plugin-assistant-empty.png)
+![SHAFT IntelliJ Assistant empty composer with Record a sample flow, Ask how to assert, and Diagnose my last failure chips, a compact Run settings chip, and an attach control](/img/agentic/intellij-plugin-assistant-empty.png)
 
 The Assistant routes plain-language intent to the right MCP tools:
 
