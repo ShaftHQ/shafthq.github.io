@@ -78,13 +78,13 @@ support is available. First run shows a six-step setup inside the tool window:
    **Copy** button copies a terminal command that stops stale
    CLI processes and re-verifies access. Success reveals **Start chatting**.
 
-Setup readiness has two lanes. The recorder, codegen, Doctor, and Healer only
-need the verified SHAFT MCP — no agent at all — so when the MCP check passes
-but the selected agent is missing or unreachable, setup still completes with a
-**Start without an agent** button and honest copy ("Recorder, codegen, and
-doctor are ready now — connecting an agent adds chat and is optional"), while
-the agent diagnostics and restart recovery stay visible for the optional
-second lane. The wizard is also project-aware: the Upgrade step distinguishes
+Setup readiness has two lanes. The recorder, persisted-recording codegen,
+Doctor, and Healer only need the verified SHAFT MCP, so when the MCP check
+passes but the selected agent is missing or unreachable, setup still completes
+with a **Start without an agent** button. Free-text scenario codegen needs the
+Codex local CLI in addition to the verified MCP. The agent diagnostics and
+restart recovery stay visible for that optional second lane. The wizard is also
+project-aware: the Upgrade step distinguishes
 "already on the latest SHAFT" (green), "SHAFT upgrade available", "Maven
 project without SHAFT" (adopt via the upgrade command), and "no `pom.xml` at
 all" (scaffold a project first), so an empty folder is never told to upgrade.
@@ -204,17 +204,10 @@ the command list.
 - "Record my mobile actions on the Android emulator" starts a mobile recording
   with an attached emulator session.
 - "Generate a SHAFT test from recordings/checkout.json" converts a saved
-  recording directly into compile-validated SHAFT code — no live session
-  needed. A natural-language scenario such as "generate code for opening
-  Chrome, navigating to https://shafthq.github.io/, asserting Reliable
-  automation evidence for every release." is the same request in the plugin
-  Assistant and in Grok, Claude, or Codex. The plugin is a light wrapper: it
-  sends that text to the selected agent and does not drive `capture_start`,
-  replay, or generate itself. Installed SHAFT skills route it through
-  `shaft-developer` to `shaft-test-recording` then `shaft-recording-codegen`
-  (record, persist, replay+heal, generate). Use `/codegen` followed by a
-  journey description only when you already want a persisted recording file
-  as the starting point.
+  recording directly into compile-validated SHAFT code without a live capture
+  session. Use `/codegen <scenario>` when AutoBot should record the journey,
+  propose reuse, generate the code after approval, replay it, and heal one
+  failure. See [Record and generate a new scenario](#record-and-generate-a-new-scenario).
 - "Diagnose my last failed test run" triages the most recent Allure evidence in
   the project automatically — no report path required.
 - "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
@@ -311,29 +304,61 @@ Use `basic` when you only want the POM updated, `session` when the agent should
 also migrate supported Selenium session setup, and `full` only after reviewing
 the higher-risk action rewrites.
 
-### Record a new scenario into existing Page Objects
+### Record and generate a new scenario
 
-For the DuckDuckGo example, ask in Agent mode with **Allow source edits**:
+Select the Codex local CLI route and complete **Check SHAFT agentic tools
+installation** before you start. The protected free-text workflow needs both
+the local CLI and a verified `shaft-mcp` connection. Other Assistant chat and
+persisted-recording codegen remain available through their supported routes.
+
+Send the scenario from the Assistant composer:
 
 ```text
-Write a scenario where the user searches for shaft_engine, opens the first result,
-and asserts the page title of the first result. Reuse the existing DuckDuckGo
-search and results page objects, add only missing locators/actions, create a
-first-result page object only if none exists, and use SHAFT assertion builders.
+/codegen Navigate to https://example.test/login, sign in as a valid user, and verify the account page.
 ```
 
-```mermaid
-flowchart TD
-    Prompt[User asks for new scenario] --> Plan[shaft_coding_partner_plan]
-    Plan --> Reuse[Existing SearchPage and ResultsPage reuse plan]
-    Reuse --> Record[capture_start, WebDriver or Playwright engine]
-    Record --> Browser[Agent performs search, opens first result, records checkpoints]
-    Browser --> Codegen[capture_record_at_target_code_blocks]
-    Codegen --> Guardrails[test_code_guardrails_check]
-    Guardrails --> Patch[Agent patches only missing locators, actions, page, and test method]
-    Patch --> Verify[Focused compile or test command]
-    Verify --> Approval[User reviews and approves generated code]
+AutoBot resolves the target URL from the scenario first. If the scenario has no
+URL, it reads `baseURL` from
+`src/main/resources/properties/custom.properties`:
+
+```properties
+baseURL=https://example.test/login
 ```
+
+If neither source provides a URL, AutoBot asks one URL question before
+recording. A missing URL after that question cancels the workflow instead of
+guessing a target.
+
+AutoBot then runs these phases:
+
+1. **RECORD** keeps project source read-only. AutoBot opens the
+   managed browser, performs the described actions through the negotiated SHAFT
+   browser and Capture tools, stops the session, and saves
+   `recordings/intellij-capture.json`.
+2. **AWAITING_EDIT_CONFIRMATION** shows the saved recording and a proposal that
+   names reusable test classes and Page Objects. No source edit or replay runs
+   until you send `approve edits`. Send `deny`, `cancel`, or `stop` to finish
+   without source changes.
+3. **GENERATE** applies the approved plan. Reuse existing test classes, Page
+   Objects, locator fields, and action methods before creating anything. Create
+   a class only when no suitable owner exists. For a new locator, prefer a
+   stable unique ID with `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)`, then
+   follow the project's existing locator conventions and the
+   [generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy).
+4. **REPLAY** runs the generated scenario once. If it fails, **HEAL** analyzes
+   the failed locator or action, applies one repair, and replays once more by
+   default. Request a larger limit explicitly in the original scenario, for
+   example `allow 3 heal retries`. AutoBot never weakens assertions to pass.
+
+The terminal response lists each phase outcome, every changed or created class,
+and the final scenario status. When the run produced a real
+`allure-report/AllureReport.html`, the response links that single-file report;
+it does not invent a link when the file is absent.
+
+Cancellation stops the active workflow and prevents later output from changing
+the panel. Unsupported CLI routes and custom agent commands fail closed before
+RECORD because they cannot enforce the source-read-only boundary. This failure
+only blocks protected free-text `/codegen`; it does not disable other chat.
 
 Checkpoint notes are review intent only. Generated assertions must be real SHAFT
 builder calls such as `driver.assertThat().browser()...` or
@@ -545,13 +570,12 @@ the replay step fails, the generated and compiling code blocks are still
 returned together with the replay diagnostics, so a replay hiccup never turns
 into an empty "no code" response. Repeating the request regenerates the
 deterministic output in place instead of failing because the class already
-exists. `/codegen <plain-language scenario>` routes directly to `capture_start`
-and stores the full description as `sessionGoal`. Perform the actions in the
-recording browser, send `stop recording`, review the returned code, then send
-`approve`. The local agent reads the installed SHAFT skills, preserves the
-project build descriptor, creates separate Page Object and test classes, and
-uses SHAFT locator, action, and assertion syntax. Keep the result only after
-the generated project compiles and `test_code_guardrails_check` passes.
+exists. `/codegen <plain-language scenario>` uses the consent-gated AutoBot
+workflow described in
+[Record and generate a new scenario](#record-and-generate-a-new-scenario).
+The plugin coordinates progress, cancellation, confirmation, and result
+presentation; AutoBot owns recording, source planning, generation, replay, and
+healing.
 
 "Upgrade this project to the latest SHAFT" in **Agent** mode with
 **Allow source edits** enabled performs the project upgrade itself: the agent

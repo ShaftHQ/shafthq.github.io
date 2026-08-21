@@ -20,10 +20,12 @@ redacted representation after the separate Pilot approval checks succeed.
 
 The IntelliJ Assistant and other SHAFT front doors expose this recorder as the
 `/record` slash command (aliases `/record-web`, `/rec`, `/capture`) and its
-mobile counterpart as `/record-mobile`; generating replay-proven code from a
-persisted recording is `/codegen`. See
-[IntelliJ IDEA plugin](/docs/agentic/intellij#assistant) for the
-composer-level command reference.
+mobile counterpart as `/record-mobile`. Use `/codegen recordings/flow.json`
+to generate replay-proven code from an existing persisted recording. In the
+IntelliJ Assistant, `/codegen <scenario>` instead runs the consent-gated
+AutoBot record, generate, replay, and heal workflow. See
+[Record and generate a new scenario](/docs/agentic/intellij#record-and-generate-a-new-scenario)
+for that flow; the persisted-recording route remains unchanged.
 
 Generated Capture output follows the
 [generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
