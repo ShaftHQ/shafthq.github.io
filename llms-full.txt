@@ -5365,11 +5365,11 @@ mvn -pl shaft-doctor -am javadoc:javadoc
 
 ---
 
-# Install ChaosEngine
+# Install and operate ChaosEngine
 
 Canonical URL: https://shafthq.github.io/docs/agentic/chaos-engine
 
-# Install ChaosEngine
+# Install and operate ChaosEngine
 
 ChaosEngine is SHAFT's project-local agent harness. It makes one canonical
 skill the entrypoint for supported coding agents, installs the matching host
@@ -5391,17 +5391,17 @@ permission boundary instead of bypassing it.
 
 ## Verify and upgrade
 
-Run the installed status command from the project root:
+Run the operator commands from the project root. `status --json` and
+`explain --json` emit deterministic, secret-free schema v1 objects.
+Use `explain` to inspect one normalized host event without executing it.
 
-```shell
-python3 .chaos-engine/install.py status --project .
-```
+ 
 
-On Windows, use `py -3` in place of `python3`. Re-run the same agent command to
-upgrade. The bootstrap resolves `main` to an immutable commit, validates the
-downloaded archive, and records its repository, branch, and commit provenance.
-If resolution, download, validation, or tool setup fails, ChaosEngine preserves
-the last verified installation.
+Re-run the same agent install command to upgrade. The bootstrap resolves
+`main` to an immutable commit, validates the downloaded archive, and records
+its repository, branch, and commit provenance. If resolution, download,
+validation, or tool setup fails, ChaosEngine preserves the last verified
+installation.
 
 The project may be a SHAFT Git checkout, another Git checkout, or a non-Git
 folder. The bootstrap uses the configured SHAFT upstream and never infers it
@@ -5430,6 +5430,58 @@ Installation, upgrade, explicit maintenance, `status`, and `doctor` remain
 strict. An unhealthy selected component makes requested `status` or `doctor`
 health `recovery-required`. Advisory task impact does not weaken those operator
 checks.
+
+## Understand startup and retrieval
+
+Session startup loads compact tracked locators, not full companion skill bodies.
+Each SessionStart payload stays at or below 4 KiB, while aggregate always-loaded
+guidance stays at or below 16 KiB. Startup never calls Memory, MemPalace, or
+Graphify synchronously.
+
+For ordinary work, ask Memory, MemPalace, or Graphify one bounded question only
+when it can shorten the task. Verify every useful result against current files.
+A missing, stale, timed-out, or inaccessible store becomes a non-blocking
+degraded result; do not repair, refresh, poll, or retry it during the task.
+
+## Follow the installed topology
+
+All five host adapters normalize their native lifecycle events into one
+provider-neutral kernel. Codex, Claude, Gemini, Grok, and GitHub Copilot keep
+their native configuration shapes and preserve foreign handlers. Copilot CLI
+hooks run live; Copilot cloud and IDE configuration receive static validation.
+
+```mermaid
+flowchart LR
+ Codex[Codex] --> Kernel[ChaosEngine kernel]
+ Claude[Claude] --> Kernel
+ Gemini[Gemini] --> Kernel
+ Grok[Grok] --> Kernel
+ Copilot[GitHub Copilot] --> Kernel
+ Kernel --> Runtime[Immutable active generation]
+ Runtime --> Memory[Memory]
+ Runtime --> MemPalace[MemPalace]
+ Runtime --> Graphify[Graphify]
+```
+
+The installer provisions missing Memory, MemPalace, Graphify, uv, and managed
+Python dependencies automatically. It repairs a damaged managed runtime by
+building and verifying a complete candidate generation before switching the
+active pointer. The prior verified generation remains available for rollback.
+Foreign files and foreign host handlers stay outside installer ownership.
+
+## Use the final-batch lifecycle
+
+Complete implementation as one coherent batch. Do not run tests, reviews,
+commits, or hooks after every edit. After the final scope commit, clear CI
+failures, annotations, bot findings, and review comments in batches, then run
+no more than two selected terminal adversarial reviews and consolidated tests.
+
+Do not run final holistic acceptance until the exact pull request head is fully
+green and no bot finding, comment, annotation, or review thread remains
+unresolved. Map that acceptance to the approved plan and every closing ticket,
+then arm merge-commit auto-merge immediately. A changed head or new remote
+feedback makes the acceptance stale; unchanged state never triggers another
+acceptance run.
 
 ## Respond to reflection checkpoints
 
