@@ -1,6 +1,10 @@
 {
   "firstRunCommand": "mvn test",
   "reflectionReceiptCommand": "python3 .chaos-engine/hooks/reflection.py receipt \\\n  --session-id SESSION_ID \\\n  --session-token SESSION_TOKEN \\\n  --json '{\"schemaVersion\":1,\"taskId\":\"issue-123\",\"trigger\":\"repeated-fingerprint\",\"failureFingerprints\":[\"COPY_HASH_FROM_CHECKPOINT\"],\"failedAssumption\":\"The unchanged retry would add evidence.\",\"approachesCompared\":[\"Inspect the bounded state\",\"Change one diagnostic input\"],\"chosenExperiment\":\"Run the changed diagnostic check.\",\"changedApproach\":\"Stopped the unchanged retry.\",\"proofCommandOrCheck\":\"focused check\",\"proofOutcome\":\"The focused check passed.\",\"durableDisposition\":\"nothing-durable\"}'",
+  "chaosEngineOperatorCommands": {
+    "windows": "py -3 .chaos-engine/install.py status --project . --json\npy -3 .chaos-engine/install.py explain SessionStart --project . --host codex --json\npy -3 .chaos-engine/install.py rollback --project .",
+    "posix": "python3 .chaos-engine/install.py status --project . --json\npython3 .chaos-engine/install.py explain SessionStart --project . --host codex --json\npython3 .chaos-engine/install.py rollback --project ."
+  },
   "firstRunNoOpenCommand": "mvn test -Dallure.automaticallyOpen=false -Dallure.open=false",
   "allureReportPath": "allure-results and the generated Allure report under the project target output",
   "browserSelectionProperties": "targetBrowserName=CHROME\nheadlessExecution=true\ncreateAnimatedGif=true\nallure.singleFile=true",

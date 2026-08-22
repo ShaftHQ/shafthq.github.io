@@ -54,6 +54,19 @@ export function ReflectionReceiptCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.reflectionReceiptCommand}</CodeBlock>;
 }
 
+export function ChaosEngineOperatorCommands(): JSX.Element {
+  return (
+    <>
+      <CodeBlock language="powershell" title="Windows">
+        {snippets.chaosEngineOperatorCommands.windows}
+      </CodeBlock>
+      <CodeBlock language="bash" title="macOS and Linux">
+        {snippets.chaosEngineOperatorCommands.posix}
+      </CodeBlock>
+    </>
+  );
+}
+
 export function FirstRunNoOpenCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.firstRunNoOpenCommand}</CodeBlock>;
 }
