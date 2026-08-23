@@ -16,6 +16,57 @@ skill the entrypoint for supported coding agents, installs the matching host
 adapters, and provisions its tracked local tools without relying on a global
 machine setup.
 
+## Install from a terminal
+
+Run the command for your operating system from the project root. The installer
+prints its logo, current operation, completed and remaining work, elapsed time,
+estimated remaining time, and every download to standard error. Its final
+machine-readable JSON result remains the only standard-output record, so you
+can redirect or parse it without stripping progress messages.
+
+On macOS or Linux, run the default non-interactive install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh
+```
+
+Add `--interactive` to approve each bootstrap, source, runtime, package, Maven
+Tools, and activation operation before it starts:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh --interactive
+```
+
+On Windows PowerShell, run the default pipeline install:
+
+```powershell
+irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex
+```
+
+For an interactive pipeline install, set the opt-in environment variable for
+that command:
+
+```powershell
+$env:CHAOS_ENGINE_INTERACTIVE = "1"; irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex; Remove-Item Env:CHAOS_ENGINE_INTERACTIVE
+```
+
+If you downloaded the script first, use its native switch instead:
+
+```powershell
+./install.ps1 -Interactive
+```
+
+Interactive mode accepts only `y` or `yes`, ignoring letter case. Any other
+answer cancels before the named operation. If no controlling terminal is
+available, the installer fails before its first network download. A cancelled
+or failed operation never replaces the last verified installation.
+
+When standard error is a terminal, the current status refreshes in place. In
+CI or a redirected stream, every transition is a durable newline with no ANSI
+animation.
+
+![ChaosEngine terminal installer showing the ASCII logo, source download, completed work, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
+
 ## Give the install command to your agent
 
 Open the SHAFT project that should receive the harness and give this command to
