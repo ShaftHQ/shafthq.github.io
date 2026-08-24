@@ -19,8 +19,8 @@ machine setup.
 ## Install from a terminal
 
 Run the command for your operating system from the project root. The installer
-prints a fixed-height checklist, elapsed time, estimated remaining time, and
-the current detail to standard error. Its final
+prints the Quantum Mandate mark, a fixed-height checklist, elapsed time,
+estimated remaining time, and the current detail to standard error. Its final
 machine-readable JSON result remains the only standard-output record, so you
 can redirect or parse it without stripping progress messages.
 
@@ -55,32 +55,77 @@ The `CHAOS_ENGINE_INTERACTIVE` environment variable does not enable prompts.
 Only `--interactive` or `-Interactive` opts in.
 
 Interactive mode accepts only `y` or `yes`, ignoring letter case. Any other
-answer cancels before the named operation. If no controlling terminal is
-available, the installer fails before its first network download. A cancelled
-or failed operation never replaces the last verified installation.
+answer, or Ctrl+C, cancels before the named operation. If no controlling
+terminal is available, the installer fails before its first network download.
+A cancelled or failed operation never replaces the last verified installation.
+
+The header is the Quantum Mandate ASCII: an open C, three gates, and an offset
+spine. On a color TTY the core is cybernetic red (`#FF3B4D`). The tagline is
+QUANTUM MANDATE. When `COLUMNS` is below 28, the wrappers and bootstrap print
+the narrow fallback `/C|*|E/` instead. `install.sh`, `install.ps1`, and
+`bootstrap.py` share that art.
 
 When standard error is a terminal, the checklist refreshes once per second.
 Green checks mark completed work, a cyan marker identifies the running item,
-and amber timing shows elapsed time and ETA. Set `NO_COLOR` to any value to
-disable colors. `TERM=dumb`, an incompatible encoding, or unavailable Windows
-virtual-terminal support selects a safe plain-text fallback.
+and amber timing shows elapsed time and ETA. After the first completed stage,
+ETA is remaining time from completed-stage elapsed divided by completed
+weight. The current stage remainder is
+`max(0, predicted_current - elapsed_on_current)`. Nested in-flight stages stay
+in remaining weight, so ETA does not grow while the current stage overruns.
+Set `NO_COLOR` to any value to disable colors. `TERM=dumb`, an incompatible
+encoding, or unavailable Windows virtual-terminal support selects a safe
+plain-text fallback.
 
 In CI or a redirected stream, each `START` and `DONE` transition is a durable
 newline. Redirected output has no cursor movement, animation, or timer spam.
 The reporter stops its ticker on success, cancellation, rollback, and errors.
 
-![ChaosEngine terminal installer showing the ASCII logo, source download, completed work, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
+![ChaosEngine terminal installer showing the Quantum Mandate ASCII mark, completed stages, the running stage, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
 
 ## Installer errors
 
-Installer failures exit with status `1`, preserve the original detail, and
-print this section's URL. Use the stable code to choose the next action:
+Installer failures exit with status `1`. After the reporter closes and a blank
+line, the installer prints a stable `CE-*` code, a Help URL to this section,
+and the `status` and `doctor` commands. Unexpected failures use
+`CE-INSTALL-FAILED` and include a GitHub `issues/new` URL. The installer
+prints a traceback only when `CHAOS_ENGINE_DEBUG=1`. Use the code to choose
+the next action:
 
 | Code | Meaning | Action |
 |---|---|---|
 | `CE-CLAUDE-MARKETPLACE-CONFLICT` | An existing Claude plugin uses a ChaosEngine, Caveman, or Ponytail name with a different source or identity. | Inspect `.claude-plugin/marketplace.json`. Rename or remove only the conflicting entry, then run the installer again. |
 | `CE-INTERACTIVE-TERMINAL` | Explicit interactive mode cannot open a controlling terminal. | Run from a terminal, or omit the interactive flag for unattended installation. |
-| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, run status and doctor, then retry after fixing that cause. |
+| `CE-INSTALL-CANCELLED` | Ctrl+C or a declined interactive confirm. | The last verified generation is kept. Rerun the same install command. |
+| `CE-INSTALL-CHECKSUM` | An artifact checksum failed. | The last verified generation is kept. Rerun the same install command. |
+| `CE-INSTALL-UNSUPPORTED-PLATFORM` | The OS or architecture is not in the supported matrix (Windows, Linux, and macOS on x64 or arm64). | Run on a supported OS and architecture. |
+| `CE-INSTALL-PROBE-FAILED` | A dependency entrypoint probe failed. | Run `status` and `doctor`. Memory probes dispatch owned Node plus package JavaScript (`dist/cli/main.js`, `dist/mcp/server.js`), never npm's extensionless POSIX `.bin` shim. |
+| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, use the printed GitHub `issues/new` URL if the cause is unexpected, run status and doctor, then retry after fixing that cause. |
+
+An example cancelled install record:
+
+```text
+CE-INSTALL-CANCELLED: installation interrupted
+Last verified generation was kept.
+Rerun the same install command to continue.
+
+Help: https://shafthq.github.io/docs/agentic/chaos-engine#installer-errors
+Status: python3 .chaos-engine/install.py status
+Doctor: python3 .chaos-engine/install.py doctor
+```
+
+Set `CHAOS_ENGINE_DEBUG=1` before the install command to print a traceback
+after that record:
+
+```bash
+CHAOS_ENGINE_DEBUG=1 curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:CHAOS_ENGINE_DEBUG=1
+irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex
+```
 
 ChaosEngine appends only its missing entries to any valid Claude marketplace.
 It preserves the marketplace name, owner, description, custom fields, plugin
@@ -97,8 +142,12 @@ python3 .chaos-engine/install.py doctor --project . --json
 python3 .chaos-engine/install.py rollback --project .
 ```
 
-On Windows, replace `python3` with `py -3`. Retry installation after `status`
-or `doctor` identifies the repaired prerequisite.
+On Windows, replace `python3` with `py -3`. Installer and doctor Memory probes
+dispatch the owned `node.exe` against
+`npm/node_modules/@aictx/memory/dist/cli/main.js` and `dist/mcp/server.js`.
+They never run the extensionless `node_modules/.bin` POSIX shim as a Node
+script. Retry installation after `status` or `doctor` identifies the repaired
+prerequisite.
 
 ## Give the install command to your agent
 
