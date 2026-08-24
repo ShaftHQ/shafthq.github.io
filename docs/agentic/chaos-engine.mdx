@@ -19,8 +19,8 @@ machine setup.
 ## Install from a terminal
 
 Run the command for your operating system from the project root. The installer
-prints its logo, current operation, completed and remaining work, elapsed time,
-estimated remaining time, and every download to standard error. Its final
+prints a fixed-height checklist, elapsed time, estimated remaining time, and
+the current detail to standard error. Its final
 machine-readable JSON result remains the only standard-output record, so you
 can redirect or parse it without stripping progress messages.
 
@@ -37,35 +37,68 @@ Tools, and activation operation before it starts:
 curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh --interactive
 ```
 
-On Windows PowerShell, run the default pipeline install:
+On Windows PowerShell, run the default unattended pipeline install:
 
 ```powershell
 irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex
 ```
 
-For an interactive pipeline install, set the opt-in environment variable for
-that command:
+To approve each operation in PowerShell, invoke the downloaded script with its
+explicit switch:
 
 ```powershell
-$env:CHAOS_ENGINE_INTERACTIVE = "1"; irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex; Remove-Item Env:CHAOS_ENGINE_INTERACTIVE
-```
-
-If you downloaded the script first, use its native switch instead:
-
-```powershell
+irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 -OutFile install.ps1
 ./install.ps1 -Interactive
 ```
+
+The `CHAOS_ENGINE_INTERACTIVE` environment variable does not enable prompts.
+Only `--interactive` or `-Interactive` opts in.
 
 Interactive mode accepts only `y` or `yes`, ignoring letter case. Any other
 answer cancels before the named operation. If no controlling terminal is
 available, the installer fails before its first network download. A cancelled
 or failed operation never replaces the last verified installation.
 
-When standard error is a terminal, the current status refreshes in place. In
-CI or a redirected stream, every transition is a durable newline with no ANSI
-animation.
+When standard error is a terminal, the checklist refreshes once per second.
+Green checks mark completed work, a cyan marker identifies the running item,
+and amber timing shows elapsed time and ETA. Set `NO_COLOR` to any value to
+disable colors. `TERM=dumb`, an incompatible encoding, or unavailable Windows
+virtual-terminal support selects a safe plain-text fallback.
+
+In CI or a redirected stream, each `START` and `DONE` transition is a durable
+newline. Redirected output has no cursor movement, animation, or timer spam.
+The reporter stops its ticker on success, cancellation, rollback, and errors.
 
 ![ChaosEngine terminal installer showing the ASCII logo, source download, completed work, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
+
+## Installer errors
+
+Installer failures exit with status `1`, preserve the original detail, and
+print this section's URL. Use the stable code to choose the next action:
+
+| Code | Meaning | Action |
+|---|---|---|
+| `CE-CLAUDE-MARKETPLACE-CONFLICT` | An existing Claude plugin uses a ChaosEngine, Caveman, or Ponytail name with a different source or identity. | Inspect `.claude-plugin/marketplace.json`. Rename or remove only the conflicting entry, then run the installer again. |
+| `CE-INTERACTIVE-TERMINAL` | Explicit interactive mode cannot open a controlling terminal. | Run from a terminal, or omit the interactive flag for unattended installation. |
+| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, run status and doctor, then retry after fixing that cause. |
+
+ChaosEngine appends only its missing entries to any valid Claude marketplace.
+It preserves the marketplace name, owner, description, custom fields, plugin
+order, and unrelated plugins. Uninstall restores the original marketplace
+bytes. Malformed JSON or a same-name ownership conflict fails before mutation.
+If Claude is absent, installation still writes portable project configuration
+and skips Claude activation without failing.
+
+Check health and recovery state from the project root:
+
+```shell
+python3 .chaos-engine/install.py status --project . --json
+python3 .chaos-engine/install.py doctor --project . --json
+python3 .chaos-engine/install.py rollback --project .
+```
+
+On Windows, replace `python3` with `py -3`. Retry installation after `status`
+or `doctor` identifies the repaired prerequisite.
 
 ## Give the install command to your agent
 
