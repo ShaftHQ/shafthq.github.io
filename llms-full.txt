@@ -5378,11 +5378,12 @@ machine setup.
 
 ## Install from a terminal
 
-Run the command for your operating system from the project root. The installer
-prints the Quantum Mandate mark, a fixed-height checklist, elapsed time,
-estimated remaining time, and the current detail to standard error. Its final
-machine-readable JSON result remains the only standard-output record, so you
-can redirect or parse it without stripping progress messages.
+Run the command for your operating system from the project root. `curl | bash`
+does not change directory; it installs into the shell's current working
+directory and prints that absolute install root. The Python reporter owns the
+brand and live checklist so the wrapper cannot double-paint them. Standard
+error carries progress. The final machine-readable JSON result remains the
+only standard-output record.
 
 On macOS or Linux, run the default non-interactive install:
 
@@ -5419,37 +5420,39 @@ answer, or Ctrl+C, cancels before the named operation. If no controlling
 terminal is available, the installer fails before its first network download.
 A cancelled or failed operation never replaces the last verified installation.
 
-The header is the Quantum Mandate ASCII: an open C, three gates, and an offset
-spine. On a color TTY the core is cybernetic red (`#FF3B4D`). The tagline is
-QUANTUM MANDATE. When `COLUMNS` is below 28, the wrappers and bootstrap print
-the narrow fallback `/C|*|E/` instead. `install.sh`, `install.ps1`, and
-`bootstrap.py` share that art.
+The header is the Quantum Mandate mark: an open C, three gates, an offset
+spine, and a cybernetic-red core (`#FF3B4D`). The wordmark is `ChaosEngine`.
+When `COLUMNS` is below 28, the reporter prints the narrow fallback `/C|*|E/`.
 
-When standard error is a terminal, the checklist refreshes once per second.
-Green checks mark completed work, a cyan marker identifies the running item,
-and amber timing shows elapsed time and ETA. After the first completed stage,
-ETA is remaining time from completed-stage elapsed divided by completed
-weight. The current stage remainder is
-`max(0, predicted_current - elapsed_on_current)`. Nested in-flight stages stay
-in remaining weight, so ETA does not grow while the current stage overruns.
-Set `NO_COLOR` to any value to disable colors. `TERM=dumb`, an incompatible
-encoding, or unavailable Windows virtual-terminal support selects a safe
-plain-text fallback.
+When standard error is a terminal, the checklist refreshes once per second on
+a dedicated ticker thread. Completed stages are green, the running stage is
+cyan, and the metrics line uses the same cyan style for elapsed time, download
+speed when bytes are moving, and remaining time **only** during a sized
+download. There is no phase ETA. A bounded Trace list records retries, byte
+counts, and doctor reasons. Set `NO_COLOR` to any value to disable colors.
+`TERM=dumb`, an incompatible encoding, or unavailable Windows virtual-terminal
+support selects a safe plain-text fallback.
+
+A root `pom.xml` installs Maven Tools MCP automatically (Java 17+ on
+`PATH`/`JAVA_HOME`/`CHAOSENGINE_JAVA`, otherwise pinned Temurin 25).
+`--skip-tools` still skips it.
 
 In CI or a redirected stream, each `START` and `DONE` transition is a durable
 newline. Redirected output has no cursor movement, animation, or timer spam.
 The reporter stops its ticker on success, cancellation, rollback, and errors.
 
-![ChaosEngine terminal installer showing the Quantum Mandate ASCII mark, completed stages, the running stage, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
+![ChaosEngine terminal installer showing the Quantum Mandate mark, stages, elapsed time, and trace.](/img/agentic/chaos-engine-installer.png)
 
 ## Installer errors
 
 Installer failures exit with status `1`. After the reporter closes and a blank
 line, the installer prints a stable `CE-*` code, a Help URL to this section,
-and the `status` and `doctor` commands. Unexpected failures use
-`CE-INSTALL-FAILED` and include a GitHub `issues/new` URL. The installer
-prints a traceback only when `CHAOS_ENGINE_DEBUG=1`. Use the code to choose
-the next action:
+and the `status` and `doctor` commands **only when** `.chaos-engine/install.py`
+is on disk. First-install verify failures keep that generation so those
+commands exist. Unexpected failures use `CE-INSTALL-FAILED` and an explicit
+"click this link" GitHub issue form URL that prefills
+`chaos-engine-installer.yml`. The installer prints a traceback only when
+`CHAOS_ENGINE_DEBUG=1`. Use the code to choose the next action:
 
 | Code | Meaning | Action |
 |---|---|---|
@@ -5459,7 +5462,7 @@ the next action:
 | `CE-INSTALL-CHECKSUM` | An artifact checksum failed. | The last verified generation is kept. Rerun the same install command. |
 | `CE-INSTALL-UNSUPPORTED-PLATFORM` | The OS or architecture is not in the supported matrix (Windows, Linux, and macOS on x64 or arm64). | Run on a supported OS and architecture. |
 | `CE-INSTALL-PROBE-FAILED` | A dependency entrypoint probe failed. | Run `status` and `doctor`. Memory probes dispatch owned Node plus package JavaScript (`dist/cli/main.js`, `dist/mcp/server.js`), never npm's extensionless POSIX `.bin` shim. |
-| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, use the printed GitHub `issues/new` URL if the cause is unexpected, run status and doctor, then retry after fixing that cause. |
+| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, click the printed GitHub issue form link if the cause is unexpected, run status and doctor when those files exist, then retry after fixing that cause. |
 
 An example cancelled install record:
 
@@ -5664,9 +5667,10 @@ entries. Its self-learning flow queues only privacy-screened, confirmed
 lessons and contributes them upstream as reviewable GitHub issues, never as an
 automatic pull request.
 
-The optional Maven Tools MCP uses an immutable user-managed cache. Multiple
-projects can reuse one verified JAR and receipt, and uninstalling ChaosEngine
-from a project never removes that cache. See the [agent tooling cache
+Maven Tools MCP installs automatically when the project has a root `pom.xml`.
+It uses an immutable user-managed cache. Multiple projects can reuse one
+verified JAR and receipt, and uninstalling ChaosEngine from a project never
+removes that cache. See the [agent tooling cache
 runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
 purge, and manual population commands.
 
