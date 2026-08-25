@@ -18,11 +18,12 @@ machine setup.
 
 ## Install from a terminal
 
-Run the command for your operating system from the project root. The installer
-prints its logo, current operation, completed and remaining work, elapsed time,
-estimated remaining time, and every download to standard error. Its final
-machine-readable JSON result remains the only standard-output record, so you
-can redirect or parse it without stripping progress messages.
+Run the command for your operating system from the project root. `curl | bash`
+does not change directory; it installs into the shell's current working
+directory and prints that absolute install root. The Python reporter owns the
+brand and live checklist so the wrapper cannot double-paint them. Standard
+error carries progress. The final machine-readable JSON result remains the
+only standard-output record.
 
 On macOS or Linux, run the default non-interactive install:
 
@@ -37,35 +38,119 @@ Tools, and activation operation before it starts:
 curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh --interactive
 ```
 
-On Windows PowerShell, run the default pipeline install:
+On Windows PowerShell, run the default unattended pipeline install:
 
 ```powershell
 irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex
 ```
 
-For an interactive pipeline install, set the opt-in environment variable for
-that command:
+To approve each operation in PowerShell, invoke the downloaded script with its
+explicit switch:
 
 ```powershell
-$env:CHAOS_ENGINE_INTERACTIVE = "1"; irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex; Remove-Item Env:CHAOS_ENGINE_INTERACTIVE
-```
-
-If you downloaded the script first, use its native switch instead:
-
-```powershell
+irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 -OutFile install.ps1
 ./install.ps1 -Interactive
 ```
 
+The `CHAOS_ENGINE_INTERACTIVE` environment variable does not enable prompts.
+Only `--interactive` or `-Interactive` opts in.
+
 Interactive mode accepts only `y` or `yes`, ignoring letter case. Any other
-answer cancels before the named operation. If no controlling terminal is
-available, the installer fails before its first network download. A cancelled
-or failed operation never replaces the last verified installation.
+answer, or Ctrl+C, cancels before the named operation. If no controlling
+terminal is available, the installer fails before its first network download.
+A cancelled or failed operation never replaces the last verified installation.
 
-When standard error is a terminal, the current status refreshes in place. In
-CI or a redirected stream, every transition is a durable newline with no ANSI
-animation.
+The header is the Quantum Mandate mark: an open C, three gates, an offset
+spine, and a cybernetic-red core (`#FF3B4D`). The wordmark is `ChaosEngine`.
+When `COLUMNS` is below 28, the reporter prints the narrow fallback `/C|*|E/`.
 
-![ChaosEngine terminal installer showing the ASCII logo, source download, completed work, remaining work, elapsed time, and ETA.](/img/agentic/chaos-engine-installer.png)
+When standard error is a terminal, the checklist refreshes once per second on
+a dedicated ticker thread. Completed stages are green, the running stage is
+cyan, and the metrics line uses the same cyan style for elapsed time, download
+speed when bytes are moving, and remaining time **only** during a sized
+download. There is no phase ETA. A bounded Trace list records retries, byte
+counts, and doctor reasons. Set `NO_COLOR` to any value to disable colors.
+`TERM=dumb`, an incompatible encoding, or unavailable Windows virtual-terminal
+support selects a safe plain-text fallback.
+
+A root `pom.xml` installs Maven Tools MCP automatically (Java 17+ on
+`PATH`/`JAVA_HOME`/`CHAOSENGINE_JAVA`, otherwise pinned Temurin 25).
+`--skip-tools` still skips it.
+
+In CI or a redirected stream, each `START` and `DONE` transition is a durable
+newline. Redirected output has no cursor movement, animation, or timer spam.
+The reporter stops its ticker on success, cancellation, rollback, and errors.
+
+![ChaosEngine terminal installer showing the Quantum Mandate mark, stages, elapsed time, and trace.](/img/agentic/chaos-engine-installer.png)
+
+## Installer errors
+
+Installer failures exit with status `1`. After the reporter closes and a blank
+line, the installer prints a stable `CE-*` code, a Help URL to this section,
+and the `status` and `doctor` commands **only when** `.chaos-engine/install.py`
+is on disk. First-install verify failures keep that generation so those
+commands exist. Unexpected failures use `CE-INSTALL-FAILED` and an explicit
+"click this link" GitHub issue form URL that prefills
+`chaos-engine-installer.yml`. The installer prints a traceback only when
+`CHAOS_ENGINE_DEBUG=1`. Use the code to choose the next action:
+
+| Code | Meaning | Action |
+|---|---|---|
+| `CE-CLAUDE-MARKETPLACE-CONFLICT` | An existing Claude plugin uses a ChaosEngine, Caveman, or Ponytail name with a different source or identity. | Inspect `.claude-plugin/marketplace.json`. Rename or remove only the conflicting entry, then run the installer again. |
+| `CE-INTERACTIVE-TERMINAL` | Explicit interactive mode cannot open a controlling terminal. | Run from a terminal, or omit the interactive flag for unattended installation. |
+| `CE-INSTALL-CANCELLED` | Ctrl+C or a declined interactive confirm. | The last verified generation is kept. Rerun the same install command. |
+| `CE-INSTALL-CHECKSUM` | An artifact checksum failed. | The last verified generation is kept. Rerun the same install command. |
+| `CE-INSTALL-UNSUPPORTED-PLATFORM` | The OS or architecture is not in the supported matrix (Windows, Linux, and macOS on x64 or arm64). | Run on a supported OS and architecture. |
+| `CE-INSTALL-PROBE-FAILED` | A dependency entrypoint probe failed. | Run `status` and `doctor`. Memory probes dispatch owned Node plus package JavaScript (`dist/cli/main.js`, `dist/mcp/server.js`), never npm's extensionless POSIX `.bin` shim. |
+| `CE-INSTALL-FAILED` | Another install, download, validation, or activation step failed. | Read the original detail, click the printed GitHub issue form link if the cause is unexpected, run status and doctor when those files exist, then retry after fixing that cause. |
+
+An example cancelled install record:
+
+```text
+CE-INSTALL-CANCELLED: installation interrupted
+Last verified generation was kept.
+Rerun the same install command to continue.
+
+Help: https://shafthq.github.io/docs/agentic/chaos-engine#installer-errors
+Status: python3 .chaos-engine/install.py status
+Doctor: python3 .chaos-engine/install.py doctor
+```
+
+Set `CHAOS_ENGINE_DEBUG=1` before the install command to print a traceback
+after that record:
+
+```bash
+CHAOS_ENGINE_DEBUG=1 curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh | bash -s -- https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:CHAOS_ENGINE_DEBUG=1
+irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1 | iex
+```
+
+ChaosEngine appends only its missing entries to any valid Claude marketplace.
+It preserves the marketplace name, owner, description, custom fields, plugin
+order, and unrelated plugins. Uninstall restores the original marketplace
+bytes. Malformed JSON or a same-name ownership conflict fails before mutation.
+If Claude is absent, installation still writes portable project configuration
+and skips Claude activation without failing.
+
+Check health and recovery state from the project root:
+
+```shell
+python3 .chaos-engine/install.py status --project . --json
+python3 .chaos-engine/install.py doctor --project . --json
+python3 .chaos-engine/install.py rollback --project .
+```
+
+On Windows, replace `python3` with `py -3`. Installer and doctor Memory probes
+dispatch the owned `node.exe` against
+`npm/node_modules/@aictx/memory/dist/cli/main.js` and `dist/mcp/server.js`.
+They never run the extensionless `node_modules/.bin` POSIX shim as a Node
+script. Retry installation after `status` or `doctor` identifies the repaired
+prerequisite.
 
 ## Give the install command to your agent
 
@@ -222,9 +307,10 @@ entries. Its self-learning flow queues only privacy-screened, confirmed
 lessons and contributes them upstream as reviewable GitHub issues, never as an
 automatic pull request.
 
-The optional Maven Tools MCP uses an immutable user-managed cache. Multiple
-projects can reuse one verified JAR and receipt, and uninstalling ChaosEngine
-from a project never removes that cache. See the [agent tooling cache
+Maven Tools MCP installs automatically when the project has a root `pom.xml`.
+It uses an immutable user-managed cache. Multiple projects can reuse one
+verified JAR and receipt, and uninstalling ChaosEngine from a project never
+removes that cache. See the [agent tooling cache
 runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
 purge, and manual population commands.
 
