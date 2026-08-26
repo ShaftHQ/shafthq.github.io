@@ -49,3 +49,22 @@ test('footer Slack CTA retains its trusted invite destination', async ({page}) =
     /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/,
   );
 });
+
+test('landing preserves semantic IDs, internal navigation, and safe external links', async ({page, context}) => {
+  await page.goto('/');
+  const ids = await page.locator('[id]').evaluateAll((nodes) => nodes.map((node) => node.id));
+  expect(new Set(ids).size).toBe(ids.length);
+  await expect(page.getByTestId('landing-hero-actions')).toContainText('Create new project');
+  await page.getByTestId('landing-hero-create-project').click();
+  await expect(page).toHaveURL(/\/project-generator$/);
+  await page.goto('/');
+  await page.getByTestId('landing-hero-documentation').click();
+  await expect(page).toHaveURL(/\/docs\/start\/overview$/);
+  await page.goto('/');
+  const star = page.getByTestId('landing-hero-star');
+  await expect(star).toHaveAttribute('target', '_blank');
+  await expect(star).toHaveAttribute('rel', /noreferrer/);
+  const social = page.getByRole('link', {name: 'Star SHAFT on GitHub'});
+  await expect(social).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
+  expect(context.pages().length).toBeGreaterThan(0);
+});
