@@ -37,7 +37,7 @@ test('landing evidence remains visible and decorative motion stops when reduced'
   await expect(page.locator('main')).toHaveCount(1);
   await expect(page.getByRole('heading', {name: 'Release decisions backed by inspectable evidence.'})).toBeVisible();
   await expect(page.locator('#evidence-heading')).toHaveCount(1);
-  await expect(page.getByTestId('landing-evidence').getByRole('img')).toHaveCount(3);
+  await expect(page.getByTestId('landing-evidence').getByRole('img')).toHaveCount(5);
   expect(await page.locator('svg[aria-hidden="true"] path').first().evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
 });

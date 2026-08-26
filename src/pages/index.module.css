@@ -114,6 +114,36 @@
 :global(html[data-theme='dark']) .evidenceCard strong {
   color: var(--site-color-on-dark);
 }
+
+.visualPlate {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--site-color-deep);
+}
+
+.visualPlate > div {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+  padding: 1rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.visualPlate span {
+  color: var(--ifm-font-color-base);
+  font-size: var(--site-font-small);
+  font-weight: var(--site-font-weight-bold);
+}
+
+.visualPlate img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
 .evidenceCard span { line-height: 1.5; }
 .proofBand { background: rgba(var(--site-color-primary-rgb), 0.08); }
 
@@ -223,4 +253,6 @@
   .actions { display: grid; grid-template-columns: 1fr; }
   .actions :global(.button) { width: 100%; }
   .evidenceConstellation { right: -22rem; width: 48rem; }
+
+  .visualPlate > div { padding: 0.6rem; }
 }

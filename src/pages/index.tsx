@@ -12,14 +12,14 @@ const github = 'https://github.com/ShaftHQ/SHAFT_ENGINE';
 const evidence = [
   {title: 'Passed steps, attached proof', body: 'Inspect actions and captured evidence in the same run.', image: '/img/evidence/allure-passed-evidence.png', alt: 'Real SHAFT Allure report showing report status and execution history.'},
   {title: 'Failure context, ready to inspect', body: 'Move from a failed assertion to the report details without reconstructing the run.', image: '/img/evidence/allure-failed-evidence.png', alt: 'Real SHAFT Allure overview panel showing failed test details and captured traces.'},
-  {title: 'Visual evidence belongs with the result', body: 'Compare the SHAFT logo baseline and actual image directly in the execution record.', image: '/img/evidence/allure-visual-diff-evidence.png', alt: 'Real SHAFT Allure visual-comparison attachment showing the SHAFT logo actual and expected images side by side.'},
+  {title: 'Visual evidence belongs with the result', body: 'Compare the SHAFT logo baseline, actual image, and derived pixel difference from a native Allure attachment.', image: '/img/evidence/allure-visual-diff-evidence.png', alt: 'Real SHAFT Allure visual-validation failure with a native visual-comparison attachment.'},
 ];
 
 const capabilities = ['Web', 'Mobile', 'API', 'Database', 'CLI', 'Allure reporting', 'Capture', 'Doctor', 'Heal', 'Visual testing', 'IntelliJ', 'MCP'];
 const sponsors = [
-  {name: 'JetBrains', href: 'https://jb.gg/OpenSourceSupport', logo: 'https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg'},
+  {name: 'JetBrains', href: 'https://jb.gg/OpenSourceSupport'},
   {name: 'BrowserStack', href: 'https://www.browserstack.com/'},
-  {name: 'LambdaTest / TestMu', href: 'https://www.lambdatest.com/', logo: 'https://assets.testmuai.com/resources/images/logos/logo.svg'},
+  {name: 'LambdaTest / TestMu', href: 'https://www.lambdatest.com/'},
   {name: 'Applitools', href: 'https://applitools.com/'},
 ];
 const reportedUse = ['_VOIS / Vodafone', 'GET Group', 'MOMRA', 'Vodafone Egypt', 'Solutions by STC', 'GIZA Systems', 'Euronet', 'Terkwaz', 'Incorta', 'BayanTech', 'adam.ai', 'ACT', 'elmenus', 'IDEMIA', 'iHorizons', 'Robusta', 'Paymob', 'Jahez', 'Salt Bank', 'Baianat', 'DXC', 'EFG Holding'];
@@ -43,6 +43,14 @@ function Ctas({placement}: {placement: Placement}): JSX.Element {
   </div>;
 }
 
+function VisualEvidencePlate(): JSX.Element {
+  return <div className={styles.visualPlate} aria-label="SHAFT visual comparison plate derived from a native Allure attachment">
+    <div><span>Baseline</span><img src="/img/evidence/visual-expected.png" width="32" height="32" loading="lazy" alt="Baseline image from the native Allure visual-comparison attachment." /></div>
+    <div><span>Actual</span><img src="/img/evidence/visual-actual.png" width="32" height="32" loading="lazy" alt="Actual SHAFT logo image from the native Allure visual-comparison attachment." /></div>
+    <div><span>Difference</span><img src="/img/evidence/visual-difference.png" width="512" height="512" loading="lazy" alt="Pixel difference derived directly from the baseline and actual images in the native Allure attachment." /></div>
+  </div>;
+}
+
 export default function Home(): JSX.Element {
   return <Layout title="SHAFT Engine" description="Release decisions backed by inspectable test evidence.">
     <main data-testid="landing-main">
@@ -54,15 +62,15 @@ export default function Home(): JSX.Element {
         </div>
       </header>
 
-      <section className={styles.section} aria-labelledby="evidence-heading" data-testid="landing-evidence"><div className="container"><Heading as="h2" id="evidence-heading">Evidence that survives scrutiny</Heading><p className={styles.intro}>A release result is more useful when its steps, attachments, diagnostics, and visual checks remain inspectable.</p><div className={styles.evidenceGrid}>{evidence.map((item, index) => <figure className={styles.evidenceCard} key={item.title}><img src={item.image} width={index === 0 ? 1265 : 1600} height={index === 0 ? 712 : 900} loading="lazy" alt={item.alt} /><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
+      <section className={styles.section} aria-labelledby="evidence-heading" data-testid="landing-evidence"><div className="container"><Heading as="h2" id="evidence-heading">Evidence that survives scrutiny</Heading><p className={styles.intro}>A release result is more useful when its steps, attachments, diagnostics, and visual checks remain inspectable.</p><div className={styles.evidenceGrid}>{evidence.map((item, index) => <figure className={styles.evidenceCard} key={item.title}>{index === 2 ? <VisualEvidencePlate /> : <img src={item.image} width={index === 0 ? 1265 : 1440} height={index === 0 ? 712 : 1000} loading="lazy" alt={item.alt} />}<figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
 
       <section className={`${styles.section} ${styles.proofBand}`} data-testid="landing-proof"><div className="container"><Heading as="h2">For researchers, stakeholders, and engineers</Heading><div><p><a href="#evidence-heading"><strong>Inspectable</strong> artifacts make results easier to review.</a></p><p><a href="https://github.com/ShaftHQ/SHAFT_ENGINE/actions" target="_blank" rel="noreferrer"><strong>Reproducible</strong> workflows retain test context with evidence.</a></p><p><a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank" rel="noreferrer"><strong>Open source</strong> means the implementation and history can be examined.</a></p></div></div></section>
 
-      <section className={styles.section} data-testid="landing-capabilities"><div className="container"><Heading as="h2">One evidence model across your test surfaces</Heading><ul className={styles.capabilityRail}>{capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul></div></section>
+      <section className={styles.section} data-testid="landing-capabilities"><div className="container"><Heading as="h2">One evidence model across your test surfaces</Heading><p className={styles.intro}>Use visual checks for deterministic comparisons; <a href="/docs/features/ai-assisted-healing">AI-assisted Heal</a> is a separate recovery capability.</p><ul className={styles.capabilityRail}>{capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul></div></section>
 
       <section className={styles.final} id="get-started" data-testid="landing-final"><Constellation /><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
 
-      <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer">{logo ? <img src={logo} width="132" height="36" loading="lazy" alt={`${name} logo`} /> : <span>{name}</span>}</a>)}</div></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.reported}>{reportedUse.map((name) => <span key={name}>{name}</span>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section></div></footer>
+      <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href}) => <a href={href} key={name} target="_blank" rel="noreferrer"><span>{name}</span></a>)}</div></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.reported}>{reportedUse.map((name) => <span key={name}>{name}</span>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section></div></footer>
     </main>
   </Layout>;
 }

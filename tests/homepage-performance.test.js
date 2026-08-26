@@ -18,6 +18,11 @@ for (const image of ['allure-passed-evidence.png', 'allure-failed-evidence.png',
   assert(index.includes(`/img/evidence/${image}`), `Homepage must render authentic evidence image ${image}.`);
   assert(fs.existsSync(path.join(root, 'static', 'img', 'evidence', image)), `Evidence asset ${image} must ship.`);
 }
+for (const [image, width, height] of [['visual-expected.png', 32, 32], ['visual-actual.png', 32, 32], ['visual-difference.png', 512, 512]]) {
+  const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
+  assert(asset.readUInt32BE(16) === width && asset.readUInt32BE(20) === height, `${image} must retain its native PNG dimensions.`);
+  assert(index.includes(`/img/evidence/${image}`) && index.includes(`width=\"${width}\" height=\"${height}\"`), `${image} markup dimensions must match its PNG IHDR.`);
+}
 assert(index.includes('loading="lazy"'), 'Below-fold evidence images must lazy-load.');
 assert(index.includes('landing_conversion') && index.includes('cta_name') && index.includes('placement') && index.includes('destination'), 'CTA analytics must use the approved optional gtag event contract.');
 assert(index.includes('typeof window') && index.includes('browser.gtag?.'), 'CTA analytics must be SSR-safe and no-op without gtag.');
