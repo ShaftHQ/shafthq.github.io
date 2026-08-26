@@ -299,11 +299,11 @@ test('evidence figure captions clear WCAG AA contrast on their rendered cards', 
   await assertClearsContrast(page, 'evidence figure caption', '[data-testid="landing-evidence"] strong', adjacentSampler);
 });
 
-test('stakeholder proof links clear WCAG AA contrast on their real background', async ({page}) => {
+test('stakeholder trust links clear WCAG AA contrast on their real background', async ({page}) => {
   await assertClearsContrast(
     page,
-    'stakeholder proof link',
-    '[data-testid="landing-proof"] a',
+    'stakeholder trust link',
+    '[data-testid="landing-trust"] strong',
     adjacentSampler,
   );
 });
