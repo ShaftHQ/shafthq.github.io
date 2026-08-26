@@ -171,6 +171,7 @@ wait-heavy, stale, healed, or failing actions.
 
 ## Related
 
+- [What's new: evidence](/docs/features/whats-new/evidence)
 - [Architecture](/docs/features/architecture)
 - [Modules](/docs/features/modules)
 - [Underlying technology](/docs/features/modules#technology)

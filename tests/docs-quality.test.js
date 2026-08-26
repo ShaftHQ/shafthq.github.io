@@ -213,6 +213,8 @@ const pillarsGuide = readFileSync(join(docsRoot, 'features/test-automation-pilla
 const skillsPath = join(docsRoot, 'agentic/skills.mdx');
 const agenticOverview = readFileSync(join(docsRoot, 'agentic/overview.mdx'), 'utf8');
 const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8');
+const whatsNewRoot = join(docsRoot, 'features/whats-new');
+const whatsNewPages = ['index.mdx', 'platform.md', 'agentic.md', 'evidence.md', 'testing.md', 'modules.md', 'missed.md'];
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
@@ -246,6 +248,38 @@ assert(
   sidebars.includes("'agentic/skills'"),
   'sidebars.js must list agentic/skills in the Agentic section.',
 );
+assert(existsSync(whatsNewRoot), 'docs/features/whats-new/ must exist.');
+const whatsNewCategoryIndex = sidebars.search(/label: 'What\\'s new'/);
+assert(
+  sidebars.indexOf("label: 'Start'") < whatsNewCategoryIndex &&
+    whatsNewCategoryIndex < sidebars.indexOf("label: 'Testing'"),
+  'sidebars.js must place the What\'s new category after Start and before Testing.',
+);
+const whatsNewSidebarItems = whatsNewPages.map((page) =>
+  page === 'index.mdx' ? "'features/whats-new/index'" : `'features/whats-new/${page.replace(/\.md$/, '')}'`,
+);
+for (const item of whatsNewSidebarItems) {
+  assert(sidebars.includes(item), `sidebars.js must list ${item} in What's new.`);
+}
+assert(
+  sidebars.indexOf("'features/whats-new/missed'") > sidebars.indexOf("'features/whats-new/modules'"),
+  'sidebars.js must list features/whats-new/missed last in the What\'s new category.',
+);
+for (const page of whatsNewPages) {
+  const pagePath = join(whatsNewRoot, page);
+  assert(existsSync(pagePath), `docs/features/whats-new/${page} must exist.`);
+  const content = readFileSync(pagePath, 'utf8');
+  for (const entry of content.split(/^###\s+/m).slice(1)) {
+    assert(entry.includes('Why use it:'), `docs/features/whats-new/${page} entries need "Why use it:".`);
+    assert(
+      entry.includes('How to enable:') || entry.includes('How to start:'),
+      `docs/features/whats-new/${page} entries need "How to enable:" or "How to start:".`,
+    );
+    assert(entry.includes('Full docs:'), `docs/features/whats-new/${page} entries need "Full docs:".`);
+  }
+}
+const whatsNewCover = readFileSync(join(whatsNewRoot, 'index.mdx'), 'utf8');
+assert(whatsNewCover.includes('```mermaid'), 'docs/features/whats-new/index.mdx must include a Mermaid visual.');
 for (const artifact of [
   'shaft-engine',
   'shaft-pilot-core',

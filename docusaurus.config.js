@@ -491,6 +491,7 @@ const config = {
             position: 'left',
             label: 'Docs',
           },
+          {to: '/docs/features/whats-new', label: 'What\'s new', position: 'left'},
           {to: '/blog', label: 'Blog', position: 'left'},
           // {
           //   type:'html',
@@ -582,4 +583,3 @@ const config = {
 };
 
 export default config;
-
