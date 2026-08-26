@@ -196,9 +196,9 @@ browserStack.browserstackAutomation=true
 
 ## Related
 
+- [What's new since modularization](/docs/features/whats-new/modules)
 - [Architecture](/docs/features/architecture)
 - [Upgrade and module selection](/docs/start/upgrade)
 - [Visual processing module](/docs/integrations/visual)
 - [Desktop and video](/docs/integrations/desktop-and-video)
 - [BrowserStack integration](/docs/integrations/browserstack)
-

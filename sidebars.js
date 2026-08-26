@@ -27,6 +27,20 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: 'What\'s new',
+      collapsed: false,
+      items: [
+        'features/whats-new/index',
+        'features/whats-new/platform',
+        'features/whats-new/agentic',
+        'features/whats-new/evidence',
+        'features/whats-new/testing',
+        'features/whats-new/modules',
+        'features/whats-new/missed',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Testing',
       collapsed: false,
       items: [

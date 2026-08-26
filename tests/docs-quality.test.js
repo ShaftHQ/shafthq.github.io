@@ -5,6 +5,7 @@ import {fileURLToPath} from 'url';
 
 const docsRoot = fileURLToPath(new URL('../docs/', import.meta.url));
 const sidebarsPath = fileURLToPath(new URL('../sidebars.js', import.meta.url));
+const configPath = fileURLToPath(new URL('../docusaurus.config.js', import.meta.url));
 const publicDirectories = new Set(['start', 'testing', 'agentic', 'features', 'integrations', 'reference']);
 const relatedHeading =
   /^##\s+(Related|Related Pages|Related Documentation|Related Locator Pages|Additional Resources|Next Steps|See Also|Continue|Learn More)\b/im;
@@ -213,9 +214,12 @@ const pillarsGuide = readFileSync(join(docsRoot, 'features/test-automation-pilla
 const skillsPath = join(docsRoot, 'agentic/skills.mdx');
 const agenticOverview = readFileSync(join(docsRoot, 'agentic/overview.mdx'), 'utf8');
 const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8');
+const whatsNewRoot = join(docsRoot, 'features/whats-new');
+const whatsNewPages = ['index.mdx', 'platform.md', 'agentic.md', 'evidence.md', 'testing.md', 'modules.md', 'missed.md'];
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
+const siteConfig = readFileSync(configPath, 'utf8');
 const agenticImagesRoot = fileURLToPath(new URL('../static/img/agentic/', import.meta.url));
 const installerEvidencePath = join(agenticImagesRoot, 'chaos-engine-installer-managed-runtimes.png');
 
@@ -246,6 +250,60 @@ assert(
   sidebars.includes("'agentic/skills'"),
   'sidebars.js must list agentic/skills in the Agentic section.',
 );
+assert(existsSync(whatsNewRoot), 'docs/features/whats-new/ must exist.');
+const whatsNewCategoryIndex = sidebars.search(/label: 'What\\'s new'/);
+assert(
+  sidebars.indexOf("label: 'Start'") < whatsNewCategoryIndex &&
+    whatsNewCategoryIndex < sidebars.indexOf("label: 'Testing'"),
+  'sidebars.js must place the What\'s new category after Start and before Testing.',
+);
+const whatsNewSidebarItems = whatsNewPages.map((page) =>
+  page === 'index.mdx' ? "'features/whats-new/index'" : `'features/whats-new/${page.replace(/\.md$/, '')}'`,
+);
+for (const item of whatsNewSidebarItems) {
+  assert(sidebars.includes(item), `sidebars.js must list ${item} in What's new.`);
+}
+assert(
+  sidebars.indexOf("'features/whats-new/missed'") > sidebars.indexOf("'features/whats-new/modules'"),
+  'sidebars.js must list features/whats-new/missed last in the What\'s new category.',
+);
+for (const page of whatsNewPages) {
+  const pagePath = join(whatsNewRoot, page);
+  assert(existsSync(pagePath), `docs/features/whats-new/${page} must exist.`);
+  const content = readFileSync(pagePath, 'utf8');
+  for (const entry of content.split(/^###\s+/m).slice(1)) {
+    assert(entry.includes('Why use it:'), `docs/features/whats-new/${page} entries need "Why use it:".`);
+    assert(
+      entry.includes('How to enable:') || entry.includes('How to start:'),
+      `docs/features/whats-new/${page} entries need "How to enable:" or "How to start:".`,
+    );
+    assert(entry.includes('Full docs:'), `docs/features/whats-new/${page} entries need "Full docs:".`);
+  }
+}
+const whatsNewCover = readFileSync(join(whatsNewRoot, 'index.mdx'), 'utf8');
+assert(
+  whatsNewCover.includes('WhatsNewMap'),
+  'docs/features/whats-new/index.mdx must render the clickable What\'s new map.',
+);
+assert(
+  !/catalog-(desktop|mobile)\.png/.test(whatsNewCover),
+  'docs/features/whats-new/index.mdx must not embed screenshots of itself.',
+);
+const whatsNewMap = readFileSync(join(docsRoot, '../src/components/WhatsNewMap/index.tsx'), 'utf8');
+for (const destination of [
+  '/docs/features/whats-new/platform',
+  '/docs/features/whats-new/agentic',
+  '/docs/features/whats-new/evidence',
+  '/docs/features/whats-new/testing',
+  '/docs/features/whats-new/modules',
+  '/docs/features/whats-new/missed',
+]) {
+  assert(whatsNewMap.includes(destination), `WhatsNewMap must link ${destination}.`);
+}
+assert(siteConfig.includes("label: 'What\\'s new'"), 'The navbar must expose What\'s new.');
+const whatsNewEvidence = readFileSync(join(whatsNewRoot, 'evidence.md'), 'utf8');
+const playwrightTraceEntry = whatsNewEvidence.split('### Native Playwright traces')[1].split('## Related')[0];
+assert(!playwrightTraceEntry.includes('shaft.trace'), 'Native Playwright traces must not document SHAFT trace properties.');
 for (const artifact of [
   'shaft-engine',
   'shaft-pilot-core',
