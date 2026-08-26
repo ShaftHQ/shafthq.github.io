@@ -324,11 +324,15 @@ irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/in
 url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"; curl -fsSL "$url" | bash -s -- "$url"
 ```
 
+![Terminal capture of a ChaosEngine install with python and python3 absent from PATH, uv installing managed CPython 3.14, ChaosEngine-managed Node 24.19.0, and every installer stage completing successfully.](/img/agentic/chaos-engine-managed-runtimes.png)
+
 Install Maven Tools on POSIX:
 
 ```sh
 url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"; curl -fsSL "$url" | bash -s -- "$url" --with-maven-tools
 ```
+
+![Terminal capture of ChaosEngine install --with-maven-tools showing the Install Maven Tools stage completed, then doctor JSON with healthy python, node, uv, and java runtimes and maven-tools-mcp 3.2.0 healthy.](/img/agentic/chaos-engine-maven-tools.png)
 
 Install Maven Tools from PowerShell:
 
