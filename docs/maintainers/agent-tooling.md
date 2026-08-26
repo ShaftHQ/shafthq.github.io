@@ -336,6 +336,13 @@ Install Maven Tools from PowerShell:
 $installer = irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1"; & ([scriptblock]::Create($installer)) -WithMavenTools
 ```
 
+The capture below is a real `--with-maven-tools` install in a throwaway
+directory whose `PATH` had no `python` or `python3`. The wrapper bootstrapped
+CPython through uv, verified managed Python 3.14.7, Node 24.19.0, uv 0.12.6,
+and Temurin 25.0.4+7, and reported a healthy native Maven Tools MCP.
+
+![ChaosEngine --with-maven-tools install with no preinstalled Python: uv bootstraps CPython, Install Maven Tools and Verify installation pass, managed Python Node uv and Temurin 25 report latestVersionVerified, and Maven Tools MCP is healthy as java -jar maven-tools-mcp-3.2.1.jar.](/img/agentic/chaos-engine-installer-managed-runtimes.png)
+
 Wrappers verify uv 0.11.29 before using uv-managed Python 3.10. Checksum,
 extraction, or health failures leave the previous immutable generation active.
 
