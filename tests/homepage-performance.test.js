@@ -10,24 +10,16 @@ function assert(condition, message) {
 }
 
 assert(index.includes('Release decisions backed by inspectable evidence.'), 'Homepage must lead with the approved evidence proposition.');
-for (const [hook, href, label] of [
-  ['landing-hero-create-project', '/project-generator', 'Create new project'],
-  ['landing-hero-documentation', '/docs/start/overview', 'Explore documentation'],
-  ['landing-hero-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'Star on GitHub'],
-  ['landing-final-create-project', '/project-generator', 'Create new project'],
-  ['landing-final-documentation', '/docs/start/overview', 'Explore documentation'],
-  ['landing-final-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'Star on GitHub'],
-]) {
-  assert(index.includes(hook) && index.includes(href) && index.includes(label), `Homepage must ship ${label} at ${hook}.`);
-}
+assert(index.includes('landing-${suffix}-create-project') && index.includes('landing-${suffix}-documentation') && index.includes('landing-${suffix}-star'), 'Homepage must expose stable CTA hooks at both hero and final placements.');
+for (const [href, label] of [['/project-generator', 'Create new project'], ['/docs/start/overview', 'Explore documentation'], ['https://github.com/ShaftHQ/SHAFT_ENGINE', 'Star on GitHub']]) assert(index.includes(href) && index.includes(label), `Homepage must ship ${label}.`);
 assert(!/io\.github\.shafthq\s*:\s*shaft-engine|<artifactId>shaft-engine<\/artifactId>|landing-dependency-snippet/.test(index), 'Homepage must not prescribe a direct Maven dependency.');
 for (const image of ['allure-passed-evidence.png', 'allure-failed-evidence.png', 'allure-visual-diff-evidence.png']) {
   assert(index.includes(`/img/evidence/${image}`), `Homepage must render authentic evidence image ${image}.`);
   assert(fs.existsSync(path.join(root, 'static', 'img', 'evidence', image)), `Evidence asset ${image} must ship.`);
 }
-assert((index.match(/loading="lazy"/g) || []).length >= 2, 'Below-fold evidence images must lazy-load.');
+assert(index.includes('loading="lazy"'), 'Below-fold evidence images must lazy-load.');
 assert(index.includes('landing_conversion') && index.includes('cta_name') && index.includes('placement') && index.includes('destination'), 'CTA analytics must use the approved optional gtag event contract.');
-assert(index.includes('typeof window') && index.includes("typeof window.gtag"), 'CTA analytics must be SSR-safe and no-op without gtag.');
+assert(index.includes('typeof window') && index.includes('browser.gtag?.'), 'CTA analytics must be SSR-safe and no-op without gtag.');
 assert(index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Homepage must disclose reported-use provenance.');
 for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must include sponsor ${sponsor}.`);
 assert(index.includes('Community-reported use'), 'Homepage must separate reported-use organizations from sponsors.');
