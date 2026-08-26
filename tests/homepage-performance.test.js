@@ -42,7 +42,7 @@ for (const logo of ['jetbrains.svg', 'browserstack.svg', 'testmu.svg', 'applitoo
   assert(fs.existsSync(path.join(root, 'static', 'img', 'supporters', logo)), `Supporter logo ${logo} must ship locally.`);
 }
 assert(index.includes('Community-reported use'), 'Homepage must separate reported-use organizations from sponsors.');
-assert(index.includes('https://github.com/ShaftHQ/SHAFT_ENGINE/actions') && index.includes('href="#evidence-heading"'), 'Homepage proof statements must link readers to their primary evidence.');
+assert(/href="https:\/\/github\.com\/ShaftHQ\/SHAFT_ENGINE\/actions"/.test(index) && /href="#evidence-heading"/.test(index), 'Homepage proof statements must link readers to their exact primary evidence destinations.');
 assert(index.includes('evidenceConstellation') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative constellation.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage motion must respect reduced-motion.');
 assert(!index.includes('IntersectionObserver') && !index.includes('data-reveal'), 'Homepage must not hide content behind scroll reveals.');
