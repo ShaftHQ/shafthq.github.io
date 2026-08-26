@@ -11,6 +11,9 @@ flowchart LR
   Evidence --> Allure
   Evidence --> Trace
   Evidence --> Diagnostics
+  click Allure "/docs/features/whats-new/evidence#allure-shaft-overview-panel" "Allure SHAFT overview"
+  click Trace "/docs/features/whats-new/evidence#failure-trace-viewer-on-by-default" "Failure Trace Viewer"
+  click Diagnostics "/docs/features/whats-new/evidence#failure-diagnostics-bundle-on-by-default" "Failure diagnostics bundle"
 ```
 
 ## Catalog

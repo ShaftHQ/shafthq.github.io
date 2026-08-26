@@ -281,7 +281,25 @@ for (const page of whatsNewPages) {
   }
 }
 const whatsNewCover = readFileSync(join(whatsNewRoot, 'index.mdx'), 'utf8');
-assert(whatsNewCover.includes('```mermaid'), 'docs/features/whats-new/index.mdx must include a Mermaid visual.');
+assert(
+  whatsNewCover.includes('WhatsNewMap'),
+  'docs/features/whats-new/index.mdx must render the clickable What\'s new map.',
+);
+assert(
+  !/catalog-(desktop|mobile)\.png/.test(whatsNewCover),
+  'docs/features/whats-new/index.mdx must not embed screenshots of itself.',
+);
+const whatsNewMap = readFileSync(join(docsRoot, '../src/components/WhatsNewMap/index.tsx'), 'utf8');
+for (const destination of [
+  '/docs/features/whats-new/platform',
+  '/docs/features/whats-new/agentic',
+  '/docs/features/whats-new/evidence',
+  '/docs/features/whats-new/testing',
+  '/docs/features/whats-new/modules',
+  '/docs/features/whats-new/missed',
+]) {
+  assert(whatsNewMap.includes(destination), `WhatsNewMap must link ${destination}.`);
+}
 assert(siteConfig.includes("label: 'What\\'s new'"), 'The navbar must expose What\'s new.');
 const whatsNewEvidence = readFileSync(join(whatsNewRoot, 'evidence.md'), 'utf8');
 const playwrightTraceEntry = whatsNewEvidence.split('### Native Playwright traces')[1].split('## Related')[0];

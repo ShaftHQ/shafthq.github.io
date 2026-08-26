@@ -12,6 +12,11 @@ flowchart LR
   Engine --> Visual
   Engine --> SikuliX
   Source --> OCR[shaft-ocr preview]
+  click BrowserStack "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
+  click Video "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
+  click Visual "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
+  click SikuliX "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
+  click OCR "/docs/features/whats-new/modules#shaft-ocr-preview" "shaft-ocr preview"
 ```
 
 ## Catalog

@@ -10,6 +10,9 @@ flowchart LR
   Explore --> Smart[Smart Locators]
   StableCode --> Aria[ARIA locators]
   Report --> Allure[Allure 3]
+  click Smart "/docs/features/whats-new/missed#smart-locators" "Smart Locators"
+  click Aria "/docs/features/whats-new/missed#aria-role-locators" "ARIA role locators"
+  click Allure "/docs/features/whats-new/missed#allure-3-compatibility-mode" "Allure 3 compatibility"
 ```
 
 ## Catalog

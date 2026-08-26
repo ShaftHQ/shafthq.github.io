@@ -460,6 +460,7 @@ const config = {
           dark: 'neutral',
         },
         options: {
+          securityLevel: 'loose',
           themeVariables: {
             primaryColor: '#006ec0',
             primaryTextColor: '#102a31',

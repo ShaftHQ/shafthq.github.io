@@ -11,6 +11,10 @@ flowchart LR
   UIAPI[UI and API] --> Contracts
   Terminal --> SSH[SFTP, SSH, forwarding]
   Audit --> Accessibility
+  click Playwright "/docs/features/whats-new/testing#playwright-gui-backend" "Playwright GUI backend"
+  click Contracts "/docs/features/whats-new/testing#ui-and-api-contract-replay" "UI and API contract replay"
+  click SSH "/docs/features/whats-new/testing#remote-terminal-sftp-ssh-and-port-forwarding" "Remote terminal"
+  click Accessibility "/docs/features/whats-new/testing#accessibility-reports-and-audit" "Accessibility reports"
 ```
 
 ## Catalog

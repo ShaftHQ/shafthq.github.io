@@ -11,6 +11,11 @@ flowchart LR
   MCP --> Capture --> Code[Reviewable code]
   Evidence --> Doctor --> Diagnosis
   ChangedLocator --> Heal --> Review
+  click IDE "/docs/features/whats-new/agentic#intellij-coding-partner" "IntelliJ coding partner"
+  click MCP "/docs/features/whats-new/agentic#shaft-mcp" "SHAFT MCP"
+  click Capture "/docs/features/whats-new/agentic#capture" "Capture"
+  click Doctor "/docs/features/whats-new/agentic#shaft-doctor" "SHAFT Doctor"
+  click Heal "/docs/features/whats-new/agentic#shaft-heal" "SHAFT Heal"
 ```
 
 ## Catalog

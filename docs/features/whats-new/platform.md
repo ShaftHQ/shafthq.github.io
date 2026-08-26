@@ -11,6 +11,10 @@ flowchart LR
   Legacy --> Upgrade[Automated upgrader]
   New --> Generator[Project Generator]
   Generator --> Properties[Properties Generator]
+  click BOM "/docs/features/whats-new/platform#modular-artifacts-and-bom" "Modular artifacts and BOM"
+  click Upgrade "/docs/features/whats-new/platform#automated-upgrade-tool" "Automated upgrade tool"
+  click Generator "/docs/features/whats-new/platform#project-generator" "Project Generator"
+  click Properties "/docs/features/whats-new/platform#properties-generator" "Properties Generator"
 ```
 
 ## Catalog
