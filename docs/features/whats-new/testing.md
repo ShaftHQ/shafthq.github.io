@@ -53,10 +53,12 @@ Why use it: collect actionable audit output alongside the test evidence.
 
 How to start: use the accessibility workflow documented for the active test surface.
 
-Full docs: [Web testing](/docs/testing/web)
+Full docs: [Accessibility testing](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#accessibility-testing)
 
 ```java
-SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://example.com")
+      .accessibility()
+      .assertNoCriticalViolations("Home Page");
 ```
 
 ## Related

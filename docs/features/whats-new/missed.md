@@ -10,7 +10,6 @@ flowchart LR
   Explore --> Smart[Smart Locators]
   StableCode --> Aria[ARIA locators]
   Report --> Allure[Allure 3]
-  Assertions --> Locale[Localization]
 ```
 
 ## Catalog
@@ -39,21 +38,11 @@ Full docs: [Element identification](/docs/reference/actions/GUI/Element_Identifi
 
 SHAFT can generate Allure 3 reports while retaining explicit compatibility behavior for Allure 2.
 
-Why use it: choose the reporting mode deliberately while teams migrate report tooling.
+Why use it: use managed Allure 3 resolution or retain PATH-first behavior while teams migrate report tooling.
 
-How to enable: configure the report mode from the reporting reference.
+How to enable: keep `allure.forceConfiguredCliVersion=true` for managed Allure 3; set it to `false` to let a PATH 2.x CLI activate compatibility mode.
 
 Full docs: [Reporting reference](/docs/reference/reporting)
-
-### Localization-aware text assertions
-
-SHAFT validation and test-data workflows support locale-aware expected text.
-
-Why use it: keep assertions readable while a product is tested in more than one locale.
-
-How to start: define localized expected values through the linked test-data guidance.
-
-Full docs: [Test data management](/docs/reference/actions/TestData_Management)
 
 ```java
 By loginButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();

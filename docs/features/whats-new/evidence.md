@@ -66,7 +66,7 @@ The profiler records flake risk and auto-wait behavior for investigation.
 
 Why use it: distinguish unstable behavior from a one-off failed run.
 
-How to enable: set `shaft.flakeProfiler.enabled=true`; leave `failOnSevereFlakeRisk=false` until thresholds exist.
+How to enable: set `shaft.flakeProfiler.enabled=true`; leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` until thresholds exist.
 
 Full docs: [Reporting reference](/docs/reference/reporting)
 
@@ -80,8 +80,6 @@ How to start: generate and open the Allure report after a test run.
 
 Full docs: [Reporting and evidence](/docs/features/reporting)
 
-![SHAFT Overview panel in a generated Allure report.](/img/whats-new/allure-overview-headed.png)
-
 ```mermaid
 flowchart LR
   Result[allure-results] --> Report[Allure report] --> Overview[SHAFT overview]
@@ -93,13 +91,13 @@ Playwright runs can retain their native trace ZIP alongside SHAFT evidence.
 
 Why use it: open native Playwright timing and browser evidence when the backend produced it.
 
-How to enable: enable Playwright tracing before the driver is created.
+How to enable: set `playwright.tracing.enabled=true`; traces run only on retries while `playwright.tracing.onRetryOnly=true` (the default).
 
 Full docs: [Reporting reference](/docs/reference/reporting)
 
 ```properties
-shaft.trace.mode=auto
-shaft.trace.retainFailedAttempts=true
+playwright.tracing.enabled=true
+playwright.tracing.onRetryOnly=true
 ```
 
 ## Related

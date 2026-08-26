@@ -31,7 +31,7 @@ Capture records browser and API flows, then produces reviewable replay code thro
 
 Why use it: turn an observed journey into code that the team can inspect and maintain.
 
-How to start: install `shaft-capture`, then start recording from MCP or IntelliJ.
+How to start: install `shaft-capture`, then use IntelliJ `/record` or `/codegen`; deterministic Capture works with `pilot.ai.enabled=false`.
 
 Full docs: [Capture](/docs/agentic/capture)
 
@@ -71,7 +71,7 @@ SHAFT MCP exposes local stdio tools for browser actions, Capture, Doctor, Heal, 
 
 Why use it: connect a coding agent without storing model credentials in MCP.
 
-How to start: install the MCP route from the agentic tools installer.
+How to start: install the `shaft-mcp` route from the agentic tools installer.
 
 Full docs: [Connect MCP](/docs/agentic/mcp)
 

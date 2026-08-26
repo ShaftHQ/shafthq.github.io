@@ -5,6 +5,7 @@ import {fileURLToPath} from 'url';
 
 const docsRoot = fileURLToPath(new URL('../docs/', import.meta.url));
 const sidebarsPath = fileURLToPath(new URL('../sidebars.js', import.meta.url));
+const configPath = fileURLToPath(new URL('../docusaurus.config.js', import.meta.url));
 const publicDirectories = new Set(['start', 'testing', 'agentic', 'features', 'integrations', 'reference']);
 const relatedHeading =
   /^##\s+(Related|Related Pages|Related Documentation|Related Locator Pages|Additional Resources|Next Steps|See Also|Continue|Learn More)\b/im;
@@ -218,6 +219,7 @@ const whatsNewPages = ['index.mdx', 'platform.md', 'agentic.md', 'evidence.md', 
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
+const siteConfig = readFileSync(configPath, 'utf8');
 const agenticImagesRoot = fileURLToPath(new URL('../static/img/agentic/', import.meta.url));
 const installerEvidencePath = join(agenticImagesRoot, 'chaos-engine-installer-managed-runtimes.png');
 
@@ -280,6 +282,10 @@ for (const page of whatsNewPages) {
 }
 const whatsNewCover = readFileSync(join(whatsNewRoot, 'index.mdx'), 'utf8');
 assert(whatsNewCover.includes('```mermaid'), 'docs/features/whats-new/index.mdx must include a Mermaid visual.');
+assert(siteConfig.includes("label: 'What\\'s new'"), 'The navbar must expose What\'s new.');
+const whatsNewEvidence = readFileSync(join(whatsNewRoot, 'evidence.md'), 'utf8');
+const playwrightTraceEntry = whatsNewEvidence.split('### Native Playwright traces')[1].split('## Related')[0];
+assert(!playwrightTraceEntry.includes('shaft.trace'), 'Native Playwright traces must not document SHAFT trace properties.');
 for (const artifact of [
   'shaft-engine',
   'shaft-pilot-core',
