@@ -32,10 +32,17 @@
 - [shaft-cli command line](https://shafthq.github.io/docs/agentic/cli): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
 
 ## Features
+- [Agentic updates](https://shafthq.github.io/docs/features/whats-new/agentic): Find SHAFT's deterministic agentic tools and optional provider controls.
 - [Architecture](https://shafthq.github.io/docs/features/architecture): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
+- [Evidence updates](https://shafthq.github.io/docs/features/whats-new/evidence): Find failure evidence, reporting, and trace surfaces.
 - [Features and modules](https://shafthq.github.io/docs/features/modules): Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
+- [Features you might have missed](https://shafthq.github.io/docs/features/whats-new/missed): Find older user-facing SHAFT capabilities that are easy to overlook.
+- [Module updates](https://shafthq.github.io/docs/features/whats-new/modules): Find optional SHAFT artifacts and the OCR preview.
 - [Pillars of successful test automation](https://shafthq.github.io/docs/features/test-automation-pillars): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
+- [Platform updates](https://shafthq.github.io/docs/features/whats-new/platform): Find modular dependency, upgrade, and project setup changes.
 - [Reporting and evidence](https://shafthq.github.io/docs/features/reporting): How SHAFT records actions, screenshots, logs, and Allure results.
+- [Testing updates](https://shafthq.github.io/docs/features/whats-new/testing): Find newer test backends, replay, terminal, and accessibility surfaces.
+- [What's new since modularization](https://shafthq.github.io/docs/features/whats-new): Scan user-facing SHAFT capabilities added since the modular release.
 
 ## Integrations
 - [BrowserStack](https://shafthq.github.io/docs/integrations/browserstack): Choose direct BrowserStack sessions or the optional SDK orchestration module.
