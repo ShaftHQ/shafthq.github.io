@@ -26,6 +26,16 @@ This file is the canonical reference for visual styling changes in the Docusauru
 - Muted RGB: `223, 245, 244` (`--site-color-muted-rgb`)
 - On-dark: `#f5fdff` (`--site-color-on-dark`)
 
+### Semantic status colors
+
+- Light pass: `#14804a`; dark pass: `#4ade80`.
+- Light warning: `#8a5a00`; dark warning: `#fbbf24`.
+- Light fail: `#c53030`; dark fail: `#ff6b6b`.
+- Primary indicates action, selection, focus, or progress. Progress never uses pass or fail colors.
+- Pass indicates an explicitly passed checkpoint only. Ordinary successful actions remain primary.
+- Fail indicates a failed checkpoint, error, exception, or throwable only.
+- Warning indicates an actionable warning.
+
 ## Typography tokens
 
 - `--site-font-heading`
