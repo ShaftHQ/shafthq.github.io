@@ -287,74 +287,42 @@ test.beforeEach(async ({page}) => {
   await page.goto('/');
 });
 
-test('hero wordmark clears WCAG AA contrast against its real composited background', async ({page}) => {
-  // Sample the plate's horizontal padding gutters (before "S" / after "T") at
-  // vertical mid-height: at the pill's vertical center the `border-radius: 999px`
-  // curvature hasn't cut in yet (rounding only bites near the top/bottom), so
-  // this stays on the flat solid plate and clear of the glyph ink regardless of
-  // sample-block size.
-  const samplePoints = (rect) => {
-    const midY = rect.y + rect.height / 2;
-    return [{x: rect.x + 4, y: midY}, {x: rect.x + rect.width - 4, y: midY}];
-  };
-  // Non-interactive span since #898 finding 29 (was a self-referential Link
-  // from / to /); selector drops the `a` tag requirement accordingly.
-  await assertClearsContrast(page, '.heroBrand', '[class*="heroBrand"]', samplePoints);
+test('hero proposition clears WCAG AA contrast against its real composited background', async ({page}) => {
+  await assertClearsContrast(page, 'hero proposition', '[data-testid="landing-hero"] h1', adjacentSampler);
 });
 
-test('status chip clears WCAG AA contrast against its real composited background', async ({page}) => {
-  // Sample the pill's left/right interior edges at vertical mid-height: inside
-  // the rounded pill's straight side, clear of the short uppercase label.
-  const samplePoints = (rect) => {
-    const midY = rect.y + rect.height / 2;
-    return [{x: rect.x + 3, y: midY}, {x: rect.x + rect.width - 3, y: midY}];
-  };
-  await assertClearsContrast(page, '.statusChip', '[class*="statusChip"]', samplePoints);
+test('hero evidence statement clears WCAG AA contrast against its real composited background', async ({page}) => {
+  await assertClearsContrast(page, 'hero evidence statement', '[data-testid="landing-hero"] p', adjacentSampler);
 });
 
-test('audience lane heading clears WCAG AA contrast against its real composited background', async ({page}) => {
-  // The h3 is a block-level grid cell wider than its own text run; sample its
-  // empty right-hand margin and a thin sliver above the cap-height, both clear
-  // of the glyphs regardless of the lane's actual heading text.
-  const samplePoints = (rect) => [
-    {x: rect.x + rect.width - 5, y: rect.y + rect.height / 2},
-    {x: rect.x + rect.width - 5, y: rect.y + 2},
-  ];
-  await assertClearsContrast(page, '.audienceLane h3', '[class*="audienceLane"] h3', samplePoints);
+test('evidence figure captions clear WCAG AA contrast on their rendered cards', async ({page}) => {
+  await assertClearsContrast(page, 'evidence figure caption', '[data-testid="landing-evidence"] strong', adjacentSampler);
 });
 
-test('section eyebrow labels clear WCAG AA contrast against their real composited background', async ({page}) => {
-  // Target a flipping-page-background eyebrow. `[class*="eyebrow"]` `.first()` is
-  // `.audienceSection .eyebrow` ("One evidence model"), which intentionally uses
-  // `--site-color-muted` on the fixed-dark deep family. Sampling 4px above that
-  // label can also catch the white trust section and false-fail (#996).
+test('stakeholder proof links clear WCAG AA contrast on their real background', async ({page}) => {
   await assertClearsContrast(
     page,
-    '.eyebrow',
-    '[data-testid="landing-surfaces"] [class*="eyebrow"]',
+    'stakeholder proof link',
+    '[data-testid="landing-proof"] a',
     adjacentSampler,
   );
 });
 
-test('hero coordinates line clears WCAG AA contrast against its real composited background', async ({page}) => {
-  await assertClearsContrast(page, '.heroMeta span', '[class*="heroMeta"] span', adjacentSampler);
-});
-
-test('final CTA kicker clears WCAG AA contrast against its real composited background', async ({page}) => {
-  await assertClearsContrast(page, '.finalKicker', '[class*="finalKicker"]', adjacentSampler);
+test('final evidence proposition clears WCAG AA contrast against its real composited background', async ({page}) => {
+  await assertClearsContrast(page, 'final proposition', '[data-testid="landing-final"] h2', adjacentSampler);
 });
 
 test('hero primary CTA clears WCAG AA contrast against its own button fill', async ({page}) => {
   await assertClearsContrast(
     page,
     'hero button--primary',
-    '[data-testid="landing-hero-generator-cta"]',
+    '[data-testid="landing-hero-create-project"]',
     interiorSampler(10),
   );
 });
 
 test('hero secondary CTA border clears WCAG 1.4.11 non-text contrast (#898 finding 14)', async ({page}) => {
-  const {ratio, border, bg} = await measureBorderContrast(page, '[data-testid="landing-hero-quickstart-cta"]');
+  const {ratio, border, bg} = await measureBorderContrast(page, '[data-testid="landing-hero-documentation"]');
   expect(
     ratio,
     `secondary button border rgba(${border.r},${border.g},${border.b},${border.a}) composited over measured bg ` +
@@ -362,6 +330,6 @@ test('hero secondary CTA border clears WCAG 1.4.11 non-text contrast (#898 findi
   ).toBeGreaterThanOrEqual(3);
 });
 
-test('hero trust links clear WCAG AA text contrast against their real composited background (#898 finding 14)', async ({page}) => {
-  await assertClearsContrast(page, '.heroTrustLinks a', '[class*="heroTrustLinks"] a', adjacentSampler);
+test('final GitHub CTA clears WCAG AA text contrast against its own button fill', async ({page}) => {
+  await assertClearsContrast(page, 'final GitHub CTA', '[data-testid="landing-final-star"]', interiorSampler(10));
 });
