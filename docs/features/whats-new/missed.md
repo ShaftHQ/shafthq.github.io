@@ -42,7 +42,7 @@ Why use it: use managed Allure 3 resolution or retain PATH-first behavior while 
 
 How to enable: keep `allure.forceConfiguredCliVersion=true` for managed Allure 3; set it to `false` to let a PATH 2.x CLI activate compatibility mode.
 
-Full docs: [Reporting reference](/docs/reference/reporting)
+Full docs: [Properties catalog](/docs/reference/properties/PropertiesList#allure)
 
 ```java
 By loginButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();

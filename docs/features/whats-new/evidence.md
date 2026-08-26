@@ -87,16 +87,16 @@ flowchart LR
 
 ### Native Playwright traces
 
-Playwright runs can retain their native trace ZIP alongside SHAFT evidence.
+Playwright runs retain their native trace ZIP alongside SHAFT evidence.
 
-Why use it: open native Playwright timing and browser evidence when the backend produced it.
+Why use it: open native Playwright timing and browser evidence when a retry produces it.
 
-How to enable: set `playwright.tracing.enabled=true`; traces run only on retries while `playwright.tracing.onRetryOnly=true` (the default).
+How to enable: leave tracing off by default. With retry evidence capture and `playwright.tracing.onRetryOnly=true` (default), retry ZIPs attach automatically; set `playwright.tracing.enabled=true` only for a full-session trace.
 
-Full docs: [Reporting reference](/docs/reference/reporting)
+Full docs: [Playwright backend](/docs/reference/actions/GUI/Playwright_Backend)
 
 ```properties
-playwright.tracing.enabled=true
+playwright.tracing.enabled=false
 playwright.tracing.onRetryOnly=true
 ```
 
