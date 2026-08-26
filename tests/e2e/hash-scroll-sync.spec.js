@@ -25,7 +25,7 @@ test('anchor scroll self-corrects when a Mermaid diagram above the target render
   const client = await context.newCDPSession(page);
 
   await page.goto('/');
-  const upgradePath = page.getByTestId('landing-pathfinder').getByRole('link', {name: /Upgrade an existing project/});
+  const upgradePath = page.getByRole('link', {name: /Upgrade an existing project/});
   await upgradePath.scrollIntoViewIfNeeded();
 
   // Throttle CPU only for the navigation itself, so the click action and
@@ -71,7 +71,7 @@ test('anchor auto-correction stops as soon as the user scrolls manually (no scro
   const client = await context.newCDPSession(page);
 
   await page.goto('/');
-  const upgradePath = page.getByTestId('landing-pathfinder').getByRole('link', {name: /Upgrade an existing project/});
+  const upgradePath = page.getByRole('link', {name: /Upgrade an existing project/});
   await upgradePath.scrollIntoViewIfNeeded();
 
   await client.send('Emulation.setCPUThrottlingRate', {rate: 2});
