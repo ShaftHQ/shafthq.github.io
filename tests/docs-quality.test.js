@@ -1,4 +1,5 @@
 import {existsSync, readFileSync, readdirSync} from 'fs';
+import {createHash} from 'crypto';
 import {extname, join, relative} from 'path';
 import {fileURLToPath} from 'url';
 
@@ -215,6 +216,8 @@ const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8')
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
+const agenticImagesRoot = fileURLToPath(new URL('../static/img/agentic/', import.meta.url));
+const installerEvidencePath = join(agenticImagesRoot, 'chaos-engine-installer-managed-runtimes.png');
 
 assert(existsSync(skillsPath), 'The public guide must include agentic/skills.mdx.');
 const skillsGuide = readFileSync(skillsPath, 'utf8');
@@ -266,8 +269,16 @@ assert(
   'The maintainer overview must link repository-local operational README files.',
 );
 assert(
-  existsSync(join(fileURLToPath(new URL('../static/img/agentic/', import.meta.url)), 'chaos-engine-installer-managed-runtimes.png')),
+  existsSync(installerEvidencePath),
   'agent-tooling.md must ship the installer evidence capture.',
+);
+const installerEvidence = readFileSync(installerEvidencePath);
+const installerEvidenceBlobHash = createHash('sha1')
+  .update(Buffer.concat([Buffer.from(`blob ${installerEvidence.length}\0`), installerEvidence]))
+  .digest('hex');
+assert(
+  installerEvidenceBlobHash === '12de318c6498807ccb96b3058b019601bf4443b5',
+  'agent-tooling.md must ship the verified installer evidence asset bytes.',
 );
 assert(
   agentToolingGuide.includes('`PATH` had no `python`, `python3`, `node`, or `npm`') &&
@@ -283,6 +294,11 @@ assert(
   !agentToolingGuide.includes('/img/agentic/chaos-engine-managed-runtimes.png') &&
     !agentToolingGuide.includes('/img/agentic/chaos-engine-maven-tools.png'),
   'agent-tooling.md must not reference superseded installer evidence captures.',
+);
+assert(
+  !existsSync(join(agenticImagesRoot, 'chaos-engine-managed-runtimes.png')) &&
+    !existsSync(join(agenticImagesRoot, 'chaos-engine-maven-tools.png')),
+  'agent-tooling.md must not ship superseded installer evidence captures.',
 );
 
 const officialLocatorPages = {
