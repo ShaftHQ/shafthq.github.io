@@ -80,6 +80,8 @@ How to start: generate and open the Allure report after a test run.
 
 Full docs: [Reporting and evidence](/docs/features/reporting)
 
+![SHAFT Overview panel in a generated Allure report.](/img/whats-new/allure-overview-headed.png)
+
 ```mermaid
 flowchart LR
   Result[allure-results] --> Report[Allure report] --> Overview[SHAFT overview]
