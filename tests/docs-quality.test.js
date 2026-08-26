@@ -1,4 +1,5 @@
 import {existsSync, readFileSync, readdirSync} from 'fs';
+import {createHash} from 'crypto';
 import {extname, join, relative} from 'path';
 import {fileURLToPath} from 'url';
 
@@ -213,7 +214,10 @@ const skillsPath = join(docsRoot, 'agentic/skills.mdx');
 const agenticOverview = readFileSync(join(docsRoot, 'agentic/overview.mdx'), 'utf8');
 const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8');
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
+const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
+const agenticImagesRoot = fileURLToPath(new URL('../static/img/agentic/', import.meta.url));
+const installerEvidencePath = join(agenticImagesRoot, 'chaos-engine-installer-managed-runtimes.png');
 
 assert(existsSync(skillsPath), 'The public guide must include agentic/skills.mdx.');
 const skillsGuide = readFileSync(skillsPath, 'utf8');
@@ -263,6 +267,38 @@ for (const artifact of [
 assert(
   maintainersOverview.includes('.github/workflows/README.md'),
   'The maintainer overview must link repository-local operational README files.',
+);
+assert(
+  existsSync(installerEvidencePath),
+  'agent-tooling.md must ship the installer evidence capture.',
+);
+const installerEvidence = readFileSync(installerEvidencePath);
+const installerEvidenceBlobHash = createHash('sha1')
+  .update(Buffer.concat([Buffer.from(`blob ${installerEvidence.length}\0`), installerEvidence]))
+  .digest('hex');
+assert(
+  installerEvidenceBlobHash === '12de318c6498807ccb96b3058b019601bf4443b5',
+  'agent-tooling.md must ship the verified installer evidence asset bytes.',
+);
+assert(
+  agentToolingGuide.includes('`PATH` had no `python`, `python3`, `node`, or `npm`') &&
+    agentToolingGuide.includes('CPython 3.14.6 through uv') &&
+    agentToolingGuide.includes('Install Maven Tools and\nVerify installation both passed.'),
+  'agent-tooling.md must describe the source-backed missing-runtime probes, CPython 3.14.6 bootstrap, and passed Maven Tools verification.',
+);
+assert(
+  agentToolingGuide.includes('![ChaosEngine --with-maven-tools install with no preinstalled Python or Node: command -v python, python3, node, and npm miss, uv bootstraps cpython-3.14.6, and Install Maven Tools plus Verify installation pass.](/img/agentic/chaos-engine-installer-managed-runtimes.png)'),
+  'agent-tooling.md must use the accurate single installer evidence capture and alt text.',
+);
+assert(
+  !agentToolingGuide.includes('/img/agentic/chaos-engine-managed-runtimes.png') &&
+    !agentToolingGuide.includes('/img/agentic/chaos-engine-maven-tools.png'),
+  'agent-tooling.md must not reference superseded installer evidence captures.',
+);
+assert(
+  !existsSync(join(agenticImagesRoot, 'chaos-engine-managed-runtimes.png')) &&
+    !existsSync(join(agenticImagesRoot, 'chaos-engine-maven-tools.png')),
+  'agent-tooling.md must not ship superseded installer evidence captures.',
 );
 
 const officialLocatorPages = {
