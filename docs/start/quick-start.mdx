@@ -141,24 +141,22 @@ project setup.
 4. Use Capture and Doctor output as evidence, then review generated code before
    committing it.
 
-The IntelliJ plugin's first-run setup walks through the same steps in its
-tool window: upgrade the project, pick an agent (starts unselected; Codex is
-never the default), copy the route-specific SHAFT Agentic Tools command, check
-the agent connection, then check the tools installation. Every
-command-transfer action is labeled **Copy**. The plugin opens a terminal with
-copied setup commands pre-typed, and you press Enter to run them. The plugin
-never executes the installer.
+The IntelliJ plugin's first-run wizard starts with prerequisites, then asks you
+to choose an agent, install the route-specific SHAFT tools, and verify setup.
+Runnable commands use **Open in Terminal** and copy the same command as a
+fallback; copy-only output and links use **Copy**. The plugin never executes
+the installer. Project upgrade unlocks after setup is verified.
 
-![SHAFT IntelliJ Assistant first-run setup wizard with Prerequisites marked Done, Choose agent expanded on Select an option, then Setup SHAFT Tools and Skills, Check agent connection, and Check SHAFT agentic tools installation](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ Assistant first-run setup wizard with Prerequisites marked Done and Choose agent expanded](/img/agentic/intellij-plugin-mcp-setup.png)
 
-Once **Check SHAFT agentic tools installation** passes, the wizard collapses the finished
+Once **Verify setup** passes, the wizard collapses the finished
 steps and shows a **Ready** row confirming the MCP connection, workspace, and
 agent, plus **Start chatting** or **Start without an agent**:
 
-![Completed SHAFT IntelliJ Assistant setup showing Check SHAFT agentic tools installation marked Done and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ Assistant setup showing Verify setup marked Done and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
-See the [IntelliJ plugin guide](/docs/agentic/intellij) for the full six-step
-setup, including Prerequisites detection, Gemini's cloud API key field, and
+See the [IntelliJ plugin guide](/docs/agentic/intellij) for the full wizard,
+including prerequisite detection, Gemini's cloud API key field, and
 setup failure recovery.
 
 Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for
