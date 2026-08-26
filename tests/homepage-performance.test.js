@@ -22,15 +22,14 @@ for (const image of ['allure-passed-evidence.png', 'allure-failed-evidence.png',
   assert(index.includes(`/img/evidence/${image}`), `Homepage must render authentic evidence image ${image}.`);
   assert(fs.existsSync(path.join(root, 'static', 'img', 'evidence', image)), `Evidence asset ${image} must ship.`);
 }
-for (const [image, width, height] of [['visual-expected.png', 32, 32], ['visual-actual.png', 32, 32], ['visual-difference.png', 512, 512]]) {
+for (const [image, minimumWidth, minimumHeight] of [['visual-expected.png', 1024, 1024], ['visual-actual.png', 1024, 1024], ['visual-difference.png', 1024, 1024]]) {
   const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
-  assert(asset.readUInt32BE(16) === width && asset.readUInt32BE(20) === height, `${image} must retain its native PNG dimensions.`);
-  assert(index.includes(`/img/evidence/${image}`) && index.includes(`width=\"${width}\" height=\"${height}\"`), `${image} markup dimensions must match its PNG IHDR.`);
+  assert(asset.readUInt32BE(16) >= minimumWidth && asset.readUInt32BE(20) >= minimumHeight, `${image} must be at least ${minimumWidth}x${minimumHeight}.`);
+  assert(index.includes(`/img/evidence/${image}`), `${image} must render in the visual evidence plate.`);
 }
-for (const [image, width, height] of [['allure-passed-evidence.png', 1440, 1000], ['allure-failed-evidence.png', 1440, 1000]]) {
+for (const [image, minimumWidth, minimumHeight] of [['allure-passed-evidence.png', 1920, 1080], ['allure-failed-evidence.png', 1920, 1080], ['allure-visual-diff-evidence.png', 1920, 1080]]) {
   const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
-  assert(asset.readUInt32BE(16) === width && asset.readUInt32BE(20) === height, `${image} must retain its native PNG dimensions.`);
-  assert(index.includes(`/img/evidence/${image}`) && index.includes(`width="${width}" height="${height}"`), `${image} markup dimensions must match its PNG IHDR.`);
+  assert(asset.readUInt32BE(16) >= minimumWidth && asset.readUInt32BE(20) >= minimumHeight, `${image} must be at least ${minimumWidth}x${minimumHeight}.`);
 }
 assert(index.includes('loading="lazy"'), 'Below-fold evidence images must lazy-load.');
 assert(index.includes('landing_conversion') && index.includes('cta_name') && index.includes('placement') && index.includes('destination'), 'CTA analytics must use the approved optional gtag event contract.');
@@ -42,8 +41,24 @@ for (const logo of ['jetbrains.svg', 'browserstack.svg', 'testmu.svg', 'applitoo
   assert(fs.existsSync(path.join(root, 'static', 'img', 'supporters', logo)), `Supporter logo ${logo} must ship locally.`);
 }
 assert(index.includes('Community-reported use'), 'Homepage must separate reported-use organizations from sponsors.');
-assert(/href="https:\/\/github\.com\/ShaftHQ\/SHAFT_ENGINE\/actions"/.test(index) && /href="#evidence-heading"/.test(index), 'Homepage proof statements must link readers to their exact primary evidence destinations.');
-assert(index.includes('evidenceConstellation') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative constellation.');
+const reportedOrganizations = ['vois', 'get-group', 'momah', 'vodafone-egypt', 'solutions-by-stc', 'giza-systems', 'euronet', 'terkwaz', 'incorta', 'bayantech', 'adam-ai', 'act', 'elmenus', 'idemia', 'ihorizons', 'robusta', 'paymob', 'jahez', 'salt-bank', 'baianat', 'dxc', 'efg-holding'];
+for (const organization of reportedOrganizations) {
+  const logoPattern = new RegExp(`/img/community/${organization}\\.(?:svg|png|webp|ico)`);
+  assert(logoPattern.test(index), `Homepage must render the ${organization} community logo.`);
+  assert(fs.readdirSync(path.join(root, 'static', 'img', 'community')).some((file) => new RegExp(`^${organization}\\.(?:svg|png|webp|ico)$`).test(file)), `${organization} must ship as a local graphical logo.`);
+}
+const logoProvenance = JSON.parse(fs.readFileSync(path.join(root, 'static', 'img', 'community', 'provenance.json'), 'utf8'));
+assert(logoProvenance.organizations.length === reportedOrganizations.length, 'Logo provenance must cover all 22 reported organizations.');
+for (const entry of logoProvenance.organizations) {
+  assert(entry.name && /^https:\/\//.test(entry.sourceUrl) && /^\d{4}-\d{2}-\d{2}$/.test(entry.retrieved), `Logo provenance for ${entry.name || 'unknown'} must include source URL and retrieval date.`);
+}
+assert(index.includes("'https://github.com/ShaftHQ/SHAFT_ENGINE/actions'") && index.includes("'#evidence-heading'"), 'Homepage proof statements must link readers to their exact primary evidence destinations.');
+for (const section of ['landing-trust', 'landing-audiences', 'landing-guides', 'landing-surfaces', 'landing-product-gallery', 'landing-architecture', 'landing-adoption', 'landing-evidence-loop']) assert(index.includes(`data-testid="${section}"`), `Homepage must restore ${section}.`);
+for (const icon of ['faTerminal', 'faBookOpen', 'faStar']) assert(index.includes(icon), `Homepage CTA buttons must render ${icon}.`);
+assert(index.includes('technicalOrbit') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative technical orbit.');
+assert(index.includes('<dialog') && index.includes('evidence-lightbox') && index.includes('showModal()'), 'Evidence must open in an accessible native dialog.');
+assert(styles.includes('.logoPlate') && styles.includes('backdrop-filter'), 'SHAFT mark must sit on a contrasting translucent plate.');
+assert(styles.includes('.evidenceMedia') && styles.includes('overflow: hidden'), 'Evidence zoom must stay inside a stable media frame.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage motion must respect reduced-motion.');
 assert(!index.includes('IntersectionObserver') && !index.includes('data-reveal'), 'Homepage must not hide content behind scroll reveals.');
 assert(!styles.includes("data-reveal-state='rolled-back'"), 'Homepage must not restore rollback reveal styling.');

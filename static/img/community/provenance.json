@@ -1,0 +1,28 @@
+{
+  "retrieved": "2026-08-26",
+  "purpose": "Nominative identification of organizations reported by anonymous SHAFT community surveys; no endorsement implied.",
+  "organizations": [
+    {"name": "_VOIS / Vodafone", "file": "vois.png", "sourceUrl": "https://images.ctfassets.net/ulongypzq83s/6UVvnDOxsPSkZothlYj9qq/a167b9e6cad8ac60c8115e3e439fc614/VOIS_Og.png", "retrieved": "2026-08-26", "checksum": "sha256:9572a68ba6036707727da0eb83dbe2d8d992b6277cf96814cf7301492a7e4a8d"},
+    {"name": "GET Group", "file": "get-group.ico", "sourceUrl": "https://www.getgroup.com/favicon.ico", "retrieved": "2026-08-26", "checksum": "sha256:a9a77fa4df59f454342904ffe997823a4adca43b895925d78f17c118e651f43a"},
+    {"name": "Ministry of Municipalities and Housing", "file": "momah.png", "sourceUrl": "https://momah.gov.sa/themes/custom/momrah/assets/images/mh-logo-full.png", "retrieved": "2026-08-26", "checksum": "sha256:0502a8a974b32306093be17115def876731e7703362335bbf224f95be3076c49"},
+    {"name": "Vodafone Egypt", "file": "vodafone-egypt.svg", "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vodafone_logo_2017.svg", "retrieved": "2026-08-26", "checksum": "sha256:3dacc0dafd18d81dd27a513477c21592bae7503d91b40da8a48ba0bea502834c"},
+    {"name": "Solutions by STC", "file": "solutions-by-stc.svg", "sourceUrl": "https://solutions.com.sa/wp-content/uploads/2019/11/logo.svg", "retrieved": "2026-08-26", "checksum": "sha256:48ee8c9efb3fc53b9107745a86d40748dcf56aa49c6c803a1f093d2c29f2cc9a"},
+    {"name": "GIZA Systems", "file": "giza-systems.png", "sourceUrl": "https://gizasystems.com/media-kit", "retrieved": "2026-08-26", "checksum": "sha256:c0cf0c9c9add43a99f74c7e414998e23e9108c31aecaea8222e9e1c6c5739199"},
+    {"name": "Euronet", "file": "euronet.png", "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Euronet_Worldwide_logo.svg/1920px-Euronet_Worldwide_logo.svg.png", "retrieved": "2026-08-26", "checksum": "sha256:88906f28a58c2601a7efe126a50941d9d6cc91c34467b0645063d5a1d3bbd7c0"},
+    {"name": "Terkwaz", "file": "terkwaz.png", "sourceUrl": "https://images.wuzzuf-data.net/files/company_logo/Terkwaz-Solutions-Jordan-35434-1578830823.png", "retrieved": "2026-08-26", "checksum": "sha256:e3f628a1146b1f749189da01b55b586982da7de1c196db6cd9242082d0917515"},
+    {"name": "Incorta", "file": "incorta.png", "sourceUrl": "https://cdn.prod.website-files.com/67b7abfbb037e687d0a415ec/67e995f5f8e375bbfa13e76c_Incorta-Site-Icon.png", "retrieved": "2026-08-26", "checksum": "sha256:d4bc892c87afc1f2370217af46fa926866a43f9c39a22396b89fb0f42a29f1e4"},
+    {"name": "BayanTech", "file": "bayantech.png", "sourceUrl": "https://bayan-tech.com/wp-content/uploads/2020/01/Bayan-Logo-2.png", "retrieved": "2026-08-26", "checksum": "sha256:39f8aa7a1d39befc048eac19e07eb2ff6e1567348389b69530f63de2ce84dca3"},
+    {"name": "adam.ai", "file": "adam-ai.svg", "sourceUrl": "https://images.prismic.io/adamdotai/8e6625b0-e32b-4bee-b1b8-ebdc1d30cbfe_full-logo.svg", "retrieved": "2026-08-26", "checksum": "sha256:ba451a882a325e0e8965bcfd0ac8e7d81bd274097246290777496fd81e02da62"},
+    {"name": "ACT", "file": "act.png", "sourceUrl": "https://www.act.eg/assets/ACT%20Logo%20White.png", "retrieved": "2026-08-26", "checksum": "sha256:1fd291769f6fe4bcddf2cde5aaa3c54d8a47368ec70a1577db8e0d0b1342461c"},
+    {"name": "elmenus", "file": "elmenus.png", "sourceUrl": "https://assets-global.website-files.com/625d19c77d49d0aa53047be3/625d19c77d49d0142c047d36_615c77e71175c38163bca403_elmenus.png", "retrieved": "2026-08-26", "checksum": "sha256:1c3e1c10f239c5823f10fb1a47bec739f75507161a0096fa68adced6757fa37b"},
+    {"name": "IDEMIA", "file": "idemia.png", "sourceUrl": "https://www.idemia.com/pressroom", "retrieved": "2026-08-26", "checksum": "sha256:a86fed195ed1de9cfe5b14c37f33dbfcd9f7138fcc1f00e2f296d04196eb72fd"},
+    {"name": "iHorizons", "file": "ihorizons.png", "sourceUrl": "https://www.ihorizons.com/themes/gavias_meipaly/logo.png", "retrieved": "2026-08-26", "checksum": "sha256:613392d82bd59462d1ba83cc43aa0a4ab021a90f523ebf519649e3ed813a9cce"},
+    {"name": "Robusta", "file": "robusta.png", "sourceUrl": "https://robustagroup.com/images/rtg-logo.png", "retrieved": "2026-08-26", "checksum": "sha256:ee34e56b93b8e5f7fa34de4d9d47b7f7e17cc22883262656baa97119234555e9"},
+    {"name": "Paymob", "file": "paymob.png", "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paymob.png", "retrieved": "2026-08-26", "checksum": "sha256:082d92c98922df8348ef676ddf6ae854d35cfb5f0bff95d9a1510f816a1e39ff"},
+    {"name": "Jahez", "file": "jahez.png", "sourceUrl": "https://jahezgroup.com/wp-content/uploads/2021/10/", "retrieved": "2026-08-26", "checksum": "sha256:5da13ad62519f8006f6c9b6e1b08c3822d43815f3e5f775932a6963dd5d1aac5"},
+    {"name": "Salt Bank", "file": "salt-bank.svg", "sourceUrl": "https://salt.bank/themes/ideabank/assets/logos/salt.svg", "retrieved": "2026-08-26", "checksum": "sha256:908abadddb5fbb00d53236f716540817c9f1583f8321d2d79716e97ad6851d63"},
+    {"name": "Baianat", "file": "baianat.png", "sourceUrl": "https://www.baianat.com/brand/downloads", "retrieved": "2026-08-26", "checksum": "sha256:4e9ce89f969d5c3a34f99b390ab878ef07b0bdc40cd9f0a0e406f356f4c5c26c"},
+    {"name": "DXC Technology", "file": "dxc.png", "sourceUrl": "https://dxc.com/au/en/newsroom/logo", "retrieved": "2026-08-26", "checksum": "sha256:89219b3a90ce53e8f76cd02de884af06ba18d5ca77b3a4203bddfd28ac41ddda"},
+    {"name": "EFG Holding", "file": "efg-holding.png", "sourceUrl": "https://efgholding.com/en/media/media-kit", "retrieved": "2026-08-26", "checksum": "sha256:6aafd4cd7cadbc6b5ac90f4cceabc6d5a6f1266ff53eff7b4192be648a983d45"}
+  ]
+}

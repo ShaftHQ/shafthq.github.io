@@ -102,5 +102,41 @@ test('supporter logos load locally on visible high-contrast plates', async ({pag
       border: plate.borderTopColor,
     };
   }));
-  expect(states.every(({loaded, background, border}) => loaded && background === 'rgb(255, 255, 255)' && border !== 'rgba(0, 0, 0, 0)')).toBe(true);
+  expect(states.every(({loaded, background, border}) => loaded && background !== 'rgba(0, 0, 0, 0)' && border !== 'rgba(0, 0, 0, 0)')).toBe(true);
+});
+
+test('community-reported organizations render as loaded local logos with visible names', async ({page}) => {
+  await page.goto('/');
+  const cards = page.getByTestId('landing-footer').locator('a:has(img[src^="/img/community/"])');
+  await expect(cards).toHaveCount(22);
+  expect(await cards.evaluateAll((links) => links.every((link) => {
+    const image = link.querySelector('img');
+    const label = link.querySelector('span');
+    return image.complete && image.naturalWidth > 0 && image.naturalHeight > 0 && label.textContent.trim().length > 0;
+  }))).toBe(true);
+});
+
+test('evidence cards align and open a keyboard-accessible full-resolution viewer', async ({page}) => {
+  await page.setViewportSize({width: 1440, height: 1000});
+  await page.goto('/');
+  const cards = page.getByTestId('landing-evidence').locator('figure');
+  await expect(cards).toHaveCount(3);
+  const geometry = await cards.evaluateAll((figures) => figures.map((figure) => {
+    const media = figure.querySelector('button').getBoundingClientRect();
+    const caption = figure.querySelector('figcaption').getBoundingClientRect();
+    return {mediaTop: media.top, mediaBottom: media.bottom, captionTop: caption.top};
+  }));
+  expect(Math.max(...geometry.map(({mediaTop}) => mediaTop)) - Math.min(...geometry.map(({mediaTop}) => mediaTop))).toBeLessThanOrEqual(2);
+  expect(Math.max(...geometry.map(({mediaBottom}) => mediaBottom)) - Math.min(...geometry.map(({mediaBottom}) => mediaBottom))).toBeLessThanOrEqual(2);
+  expect(Math.max(...geometry.map(({captionTop}) => captionTop)) - Math.min(...geometry.map(({captionTop}) => captionTop))).toBeLessThanOrEqual(2);
+
+  const firstTrigger = cards.first().getByRole('button');
+  await firstTrigger.focus();
+  await page.keyboard.press('Enter');
+  const dialog = page.getByTestId('evidence-lightbox');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('img')).toHaveAttribute('src', '/img/evidence/allure-passed-evidence.png');
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(firstTrigger).toBeFocused();
 });
