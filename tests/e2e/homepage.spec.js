@@ -41,3 +41,11 @@ test('landing evidence remains visible and decorative motion stops when reduced'
   expect(await page.locator('svg[aria-hidden="true"] path').first().evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
 });
+
+test('footer Slack CTA retains its trusted invite destination', async ({page}) => {
+  await page.goto('/');
+  await expect(page.getByRole('link', {name: 'Slack'})).toHaveAttribute(
+    'href',
+    /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/,
+  );
+});
