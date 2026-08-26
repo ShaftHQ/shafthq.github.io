@@ -41,5 +41,10 @@ assert.match(
   /^\s+run: yarn test:security$/m,
   'The PR build must run the security regression before building the site.',
 );
+assert.match(
+  prBuild,
+  /^ {6}- name: Homepage contract\r?\n {8}run: yarn test:homepage$/m,
+  'The PR build must run the homepage contract unconditionally before building the site.',
+);
 
 console.log('Security regression checks passed.');

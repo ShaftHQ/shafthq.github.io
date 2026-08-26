@@ -26,6 +26,9 @@ jobs:
       - name: Security regressions
         run: yarn test:security
 
+      - name: Homepage contract
+        run: yarn test:homepage
+
       - name: Build
         run: yarn build
 

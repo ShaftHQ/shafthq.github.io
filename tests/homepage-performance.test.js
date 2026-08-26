@@ -7,6 +7,7 @@ const index = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.
 const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'pages', 'index.module.css'), 'utf8');
 const customStyles = fs.readFileSync(path.join(__dirname, '..', 'src', 'css', 'custom.css'), 'utf8');
 const config = fs.readFileSync(path.join(__dirname, '..', 'docusaurus.config.js'), 'utf8');
+const imgbotConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '.imgbotconfig'), 'utf8'));
 const particleBackgroundPath = path.join(__dirname, '..', 'src', 'components', 'ParticleBackground', 'index.tsx');
 
 function assert(condition, message) {
@@ -74,6 +75,7 @@ assert(index.includes('data-testid="landing-adoption-answers"'), 'Homepage must 
 assert(index.includes('Move an existing suite') && index.includes('Run where your team already builds') && index.includes('Extend without replacing native tools'), 'Homepage must address migration, execution, and extension risk.');
 assert(!/trusted by|enterprise-ready|customers|\d+[,+]\s*(teams|companies|users)/i.test(index), 'Homepage must not invent customer, enterprise, or adoption claims.');
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
+assert(imgbotConfig.ignoredFiles.includes('shaft-social-card.png'), 'ImgBot must ignore the deterministic social-card filename.');
 assert(/property: 'og:image:width',[\s\S]{0,80}content: '1200'/.test(config), 'Open Graph metadata width must match the 1200px shipped card.');
 assert(/property: 'og:image:height',[\s\S]{0,80}content: '630'/.test(config), 'Open Graph metadata height must match the 630px shipped card.');
 const socialCardPath = path.join(__dirname, '..', 'static', 'img', 'shaft-social-card.png');
