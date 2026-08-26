@@ -75,9 +75,32 @@ test('landing CTAs remain contained at mobile and 800px widths', async ({page}) 
   for (const viewport of [{width: 390, height: 844}, {width: 800, height: 900}]) {
     await page.setViewportSize(viewport);
     await page.goto('/');
-    const box = await page.getByTestId('landing-hero-actions').boundingBox();
-    expect(box.x).toBeGreaterThanOrEqual(0);
-    expect(box.x + box.width).toBeLessThanOrEqual(viewport.width + 1);
+    for (const placement of ['hero', 'final']) {
+      const problems = await page.getByTestId(`landing-${placement}-actions`).locator('a').evaluateAll((links) => links.map((link) => {
+        const rect = link.getBoundingClientRect();
+        const parent = link.parentElement.getBoundingClientRect();
+        return {
+          horizontal: rect.left < parent.left - 1 || rect.right > parent.right + 1 || rect.left < -1 || rect.right > document.documentElement.clientWidth + 1,
+          vertical: link.scrollHeight > link.clientHeight + 1,
+        };
+      }).filter(({horizontal, vertical}) => horizontal || vertical));
+      expect(problems).toEqual([]);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
   }
+});
+
+test('supporter logos load locally on visible high-contrast plates', async ({page}) => {
+  await page.goto('/');
+  const logos = page.getByTestId('landing-footer').locator('img[alt$=" logo"]');
+  await expect(logos).toHaveCount(4);
+  const states = await logos.evaluateAll((images) => images.map((image) => {
+    const plate = getComputedStyle(image.parentElement);
+    return {
+      loaded: image.complete && image.naturalWidth > 0 && image.naturalHeight > 0,
+      background: plate.backgroundColor,
+      border: plate.borderTopColor,
+    };
+  }));
+  expect(states.every(({loaded, background, border}) => loaded && background === 'rgb(255, 255, 255)' && border !== 'rgba(0, 0, 0, 0)')).toBe(true);
 });

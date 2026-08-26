@@ -207,25 +207,29 @@
 .wordmarks a {
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 12rem;
   min-height: 3.25rem;
   padding: 0.65rem 0.8rem;
-  color: var(--site-color-on-dark);
-  border-bottom: 2px solid var(--site-color-primary);
-  font-weight: var(--site-font-weight-bold);
+  border: 2px solid var(--site-color-primary);
+  border-radius: 0.5rem;
+  background: rgb(255 255 255);
 }
 
 .wordmarks img {
   display: block;
-  width: 132px;
-  height: 36px;
+  width: 160px;
+  height: 48px;
   object-fit: contain;
-  object-position: left center;
-  filter: brightness(0) invert(1);
+  object-position: center;
 }
+
+.wordmarks a:focus-visible { outline: 3px solid var(--site-color-on-dark); outline-offset: 3px; }
 
 .reported span { border-color: rgba(var(--site-color-on-dark-rgb), 0.25); }
 
-.disclaimer {
+.disclaimer,
+.attribution {
   max-width: 68ch;
   margin: 1.25rem 0 0;
   color: var(--site-color-muted);

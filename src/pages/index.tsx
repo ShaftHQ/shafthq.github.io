@@ -17,10 +17,10 @@ const evidence = [
 
 const capabilities = ['Web', 'Mobile', 'API', 'Database', 'CLI', 'Allure reporting', 'Capture', 'Doctor', 'Heal', 'Visual testing', 'IntelliJ', 'MCP'];
 const sponsors = [
-  {name: 'JetBrains', href: 'https://jb.gg/OpenSourceSupport'},
-  {name: 'BrowserStack', href: 'https://www.browserstack.com/'},
-  {name: 'LambdaTest / TestMu', href: 'https://www.lambdatest.com/'},
-  {name: 'Applitools', href: 'https://applitools.com/'},
+  {name: 'JetBrains', href: 'https://jb.gg/OpenSourceSupport', logo: '/img/supporters/jetbrains.svg'},
+  {name: 'BrowserStack', href: 'https://www.browserstack.com/', logo: '/img/supporters/browserstack.svg'},
+  {name: 'LambdaTest / TestMu', href: 'https://www.lambdatest.com/', logo: '/img/supporters/testmu.svg'},
+  {name: 'Applitools', href: 'https://applitools.com/', logo: '/img/supporters/applitools.svg'},
 ];
 const reportedUse = ['_VOIS / Vodafone', 'GET Group', 'MOMRA', 'Vodafone Egypt', 'Solutions by STC', 'GIZA Systems', 'Euronet', 'Terkwaz', 'Incorta', 'BayanTech', 'adam.ai', 'ACT', 'elmenus', 'IDEMIA', 'iHorizons', 'Robusta', 'Paymob', 'Jahez', 'Salt Bank', 'Baianat', 'DXC', 'EFG Holding'];
 
@@ -70,7 +70,7 @@ export default function Home(): JSX.Element {
 
       <section className={styles.final} id="get-started" data-testid="landing-final"><Constellation /><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
 
-      <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href}) => <a href={href} key={name} target="_blank" rel="noreferrer"><span>{name}</span></a>)}</div></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.reported}>{reportedUse.map((name) => <span key={name}>{name}</span>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section></div></footer>
+      <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} /></a>)}</div><p className={styles.attribution}>JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.reported}>{reportedUse.map((name) => <span key={name}>{name}</span>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section></div></footer>
     </main>
   </Layout>;
 }

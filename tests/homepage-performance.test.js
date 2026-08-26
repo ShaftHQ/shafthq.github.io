@@ -1,9 +1,13 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const {execFileSync} = require('child_process');
 
 const root = path.join(__dirname, '..');
 const index = fs.readFileSync(path.join(root, 'src', 'pages', 'index.tsx'), 'utf8');
 const styles = fs.readFileSync(path.join(root, 'src', 'pages', 'index.module.css'), 'utf8');
+const config = fs.readFileSync(path.join(root, 'docusaurus.config.js'), 'utf8');
+const imgbotConfig = JSON.parse(fs.readFileSync(path.join(root, '.imgbotconfig'), 'utf8'));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -23,14 +27,55 @@ for (const [image, width, height] of [['visual-expected.png', 32, 32], ['visual-
   assert(asset.readUInt32BE(16) === width && asset.readUInt32BE(20) === height, `${image} must retain its native PNG dimensions.`);
   assert(index.includes(`/img/evidence/${image}`) && index.includes(`width=\"${width}\" height=\"${height}\"`), `${image} markup dimensions must match its PNG IHDR.`);
 }
+for (const [image, width, height] of [['allure-passed-evidence.png', 1440, 1000], ['allure-failed-evidence.png', 1440, 1000]]) {
+  const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
+  assert(asset.readUInt32BE(16) === width && asset.readUInt32BE(20) === height, `${image} must retain its native PNG dimensions.`);
+  assert(index.includes(`/img/evidence/${image}`) && index.includes(`width="${width}" height="${height}"`), `${image} markup dimensions must match its PNG IHDR.`);
+}
 assert(index.includes('loading="lazy"'), 'Below-fold evidence images must lazy-load.');
 assert(index.includes('landing_conversion') && index.includes('cta_name') && index.includes('placement') && index.includes('destination'), 'CTA analytics must use the approved optional gtag event contract.');
 assert(index.includes('typeof window') && index.includes('browser.gtag?.'), 'CTA analytics must be SSR-safe and no-op without gtag.');
 assert(index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Homepage must disclose reported-use provenance.');
 for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must include sponsor ${sponsor}.`);
+for (const logo of ['jetbrains.svg', 'browserstack.svg', 'testmu.svg', 'applitools.svg']) {
+  assert(index.includes(`/img/supporters/${logo}`), `Homepage must render supporter logo ${logo}.`);
+  assert(fs.existsSync(path.join(root, 'static', 'img', 'supporters', logo)), `Supporter logo ${logo} must ship locally.`);
+}
 assert(index.includes('Community-reported use'), 'Homepage must separate reported-use organizations from sponsors.');
 assert(index.includes('https://github.com/ShaftHQ/SHAFT_ENGINE/actions') && index.includes('href="#evidence-heading"'), 'Homepage proof statements must link readers to their primary evidence.');
 assert(index.includes('evidenceConstellation') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative constellation.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage motion must respect reduced-motion.');
 assert(!index.includes('IntersectionObserver') && !index.includes('data-reveal'), 'Homepage must not hide content behind scroll reveals.');
 assert(!styles.includes("data-reveal-state='rolled-back'"), 'Homepage must not restore rollback reveal styling.');
+
+assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
+assert(imgbotConfig.ignoredFiles.includes('shaft-social-card.png'), 'ImgBot must ignore the deterministic social-card filename.');
+assert(/property: 'og:image:width',[\s\S]{0,80}content: '1200'/.test(config), 'Open Graph metadata width must match the 1200px shipped card.');
+assert(/property: 'og:image:height',[\s\S]{0,80}content: '630'/.test(config), 'Open Graph metadata height must match the 630px shipped card.');
+const socialCardPath = path.join(root, 'static', 'img', 'shaft-social-card.png');
+const socialCard = fs.readFileSync(socialCardPath);
+assert(socialCard.subarray(0, 8).toString('hex') === '89504e470d0a1a0a', 'The shipped social card must have the complete PNG signature.');
+assert(socialCard.readUInt32BE(16) === 1200 && socialCard.readUInt32BE(20) === 630, 'The shipped social card must be exactly 1200x630.');
+const socialCardGenerator = fs.readFileSync(path.join(root, 'scripts', 'generate-homepage-social-card.mjs'), 'utf8');
+assert(socialCardGenerator.includes('drawScaledContain(reportDashboard'), 'The social card must preserve the report aspect ratio.');
+assert(!/chromium|font-family|Arial|Helvetica|Consolas/.test(socialCardGenerator), 'Social-card bytes must not depend on a browser or host-installed font renderer.');
+const socialCardTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shaft-social-card-'));
+try {
+  const generatorPath = path.join(root, 'scripts', 'generate-homepage-social-card.mjs');
+  const inspectPng = (file) => JSON.parse(execFileSync(process.execPath, [generatorPath, '--inspect', file], {encoding: 'utf8'}));
+  const regeneratedPath = path.join(socialCardTempDir, 'regenerated.png');
+  execFileSync(process.execPath, [generatorPath, regeneratedPath]);
+  const shippedPixels = inspectPng(socialCardPath);
+  const regeneratedPixels = inspectPng(regeneratedPath);
+  assert(shippedPixels.width === 1200 && shippedPixels.height === 630 && shippedPixels.bitDepth === 8 && shippedPixels.colorType === 6, 'The shipped social card must decode as 1200x630 8-bit RGBA.');
+  assert(shippedPixels.pixelHash === regeneratedPixels.pixelHash, 'The shipped social card must pixel-match generated RGBA output.');
+  const recompressedPath = path.join(socialCardTempDir, 'recompressed.png');
+  execFileSync(process.execPath, [generatorPath, '--reencode', regeneratedPath, recompressedPath, '1']);
+  assert(!fs.readFileSync(regeneratedPath).equals(fs.readFileSync(recompressedPath)), 'The compression mutation must produce different PNG bytes.');
+  assert(inspectPng(recompressedPath).pixelHash === regeneratedPixels.pixelHash, 'Equivalent PNG compression must preserve decoded pixels.');
+  const pixelMutatedPath = path.join(socialCardTempDir, 'pixel-mutated.png');
+  execFileSync(process.execPath, [generatorPath, '--mutate-first-pixel', regeneratedPath, pixelMutatedPath]);
+  assert(inspectPng(pixelMutatedPath).pixelHash !== regeneratedPixels.pixelHash, 'A decoded-pixel mutation must fail the social-card pixel contract.');
+} finally {
+  fs.rmSync(socialCardTempDir, {recursive: true, force: true});
+}
