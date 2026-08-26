@@ -38,13 +38,13 @@ test('landing evidence remains visible and decorative motion stops when reduced'
   await expect(page.getByRole('heading', {name: 'Release decisions backed by inspectable evidence.'})).toBeVisible();
   await expect(page.locator('#evidence-heading')).toHaveCount(1);
   await expect(page.getByTestId('landing-evidence').getByRole('img')).toHaveCount(5);
-  expect(await page.locator('svg[aria-hidden="true"] path').first().evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
+  expect(await page.locator('svg[aria-hidden="true"] ellipse').first().evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
 });
 
 test('footer Slack CTA retains its trusted invite destination', async ({page}) => {
   await page.goto('/');
-  await expect(page.getByRole('link', {name: 'Slack'})).toHaveAttribute(
+  await expect(page.getByTestId('landing-footer').getByRole('link', {name: 'Slack'})).toHaveAttribute(
     'href',
     /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/,
   );
@@ -67,7 +67,7 @@ test('landing preserves semantic IDs, internal navigation, and safe external lin
   const star = page.getByTestId('landing-hero-star');
   await expect(star).toHaveAttribute('target', '_blank');
   await expect(star).toHaveAttribute('rel', /noreferrer/);
-  const social = page.getByRole('link', {name: 'Star SHAFT on GitHub'});
+  const social = page.getByTestId('landing-footer').getByRole('link', {name: 'Star SHAFT on GitHub'});
   await expect(social).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
 });
 
@@ -92,8 +92,9 @@ test('landing CTAs remain contained at mobile and 800px widths', async ({page}) 
 
 test('supporter logos load locally on visible high-contrast plates', async ({page}) => {
   await page.goto('/');
-  const logos = page.getByTestId('landing-footer').locator('img[alt$=" logo"]');
+  const logos = page.getByTestId('landing-footer').locator('img[src^="/img/supporters/"]');
   await expect(logos).toHaveCount(4);
+  for (const logo of await logos.all()) await logo.scrollIntoViewIfNeeded();
   const states = await logos.evaluateAll((images) => images.map((image) => {
     const plate = getComputedStyle(image.parentElement);
     return {
@@ -109,11 +110,15 @@ test('community-reported organizations render as loaded local logos with visible
   await page.goto('/');
   const cards = page.getByTestId('landing-footer').locator('a:has(img[src^="/img/community/"])');
   await expect(cards).toHaveCount(22);
+  for (const card of await cards.all()) await card.scrollIntoViewIfNeeded();
   expect(await cards.evaluateAll((links) => links.every((link) => {
     const image = link.querySelector('img');
     const label = link.querySelector('span');
     return image.complete && image.naturalWidth > 0 && image.naturalHeight > 0 && label.textContent.trim().length > 0;
   }))).toBe(true);
+  const lightWordmarks = cards.locator('img[src$="/act.png"], img[src$="/ihorizons.png"], img[src$="/efg-holding.png"]');
+  await expect(lightWordmarks).toHaveCount(3);
+  expect(await lightWordmarks.evaluateAll((images) => images.every((image) => getComputedStyle(image).backgroundColor === 'rgb(29, 37, 53)'))).toBe(true);
 });
 
 test('evidence cards align and open a keyboard-accessible full-resolution viewer', async ({page}) => {

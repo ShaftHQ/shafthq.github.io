@@ -280,7 +280,7 @@
 .surfaceSection h3 { color: var(--site-color-on-dark); }
 .surfaceGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: rgba(var(--site-color-on-dark-rgb), 0.24); }
 .surfaceGrid article { min-width: 0; padding: 1.25rem; background: var(--site-color-deep-alt); }
-.surfaceGrid strong { color: var(--site-color-primary); }
+.surfaceGrid strong { color: rgb(116 204 255); }
 .surfaceGrid p { color: rgba(var(--site-color-on-dark-rgb), 0.82); line-height: 1.5; }
 
 .productGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
@@ -288,10 +288,11 @@
 .productGrid img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top left; }
 
 .architectureSection { background: rgba(var(--site-color-primary-rgb), 0.07); }
-.architectureSection > div { display: grid; grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); align-items: center; gap: 3rem; }
+.architectureSection > div { display: grid; width: auto; grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr); align-items: center; gap: 3rem; }
 .architectureSection p,
 .architectureSection li { line-height: 1.55; }
 .architectureSection li { margin-block: 0.55rem; }
+:global(html[data-theme='light']) .architectureSection :global(.token.function) { color: rgb(160 28 48) !important; }
 
 .evidenceLoop { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; padding: 0; margin: 2rem 0; list-style: none; counter-reset: evidence-step; }
 .evidenceLoop li { position: relative; display: grid; align-content: start; gap: 0.55rem; min-height: 10rem; padding: 3.4rem 1rem 1rem; border-top: 2px solid var(--ifm-color-primary); counter-increment: evidence-step; }
@@ -318,6 +319,9 @@
 .communityLogos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.65rem; }
 .communityLogos a { min-width: 0; min-height: 7.5rem; flex-direction: column; gap: 0.65rem; padding: 0.75rem; color: rgb(29 37 53); text-align: center; }
 .communityLogos img { display: block; width: 100%; max-width: 112px; height: 44px; object-fit: contain; }
+.communityLogos img[src$="/act.png"],
+.communityLogos img[src$="/ihorizons.png"],
+.communityLogos img[src$="/efg-holding.png"] { padding: 0.35rem; border-radius: 0.25rem; background: rgb(29 37 53); }
 .communityLogos span { font-size: 0.78rem; font-weight: var(--site-font-weight-bold); line-height: 1.25; }
 
 .disclaimer,
@@ -351,7 +355,7 @@
 
 @media (max-width: 980px) {
   .heroLayout,
-  .architectureSection > div { grid-template-columns: 1fr; }
+  .architectureSection > div { grid-template-columns: minmax(0, 1fr); }
   .heroFigure { max-width: 52rem; }
   .trustGrid,
   .evidenceGrid,
