@@ -50,7 +50,7 @@ test('footer Slack CTA retains its trusted invite destination', async ({page}) =
   );
 });
 
-test('landing preserves semantic IDs, internal navigation, and safe external links', async ({page, context}) => {
+test('landing preserves semantic IDs, internal navigation, and safe external links', async ({page}) => {
   await page.goto('/');
   const ids = await page.locator('[id]').evaluateAll((nodes) => nodes.map((node) => node.id));
   expect(new Set(ids).size).toBe(ids.length);
@@ -61,10 +61,23 @@ test('landing preserves semantic IDs, internal navigation, and safe external lin
   await page.getByTestId('landing-hero-documentation').click();
   await expect(page).toHaveURL(/\/docs\/start\/overview$/);
   await page.goto('/');
+  await page.getByRole('link', {name: 'AI-assisted Heal'}).click();
+  await expect(page).toHaveURL(/\/docs\/agentic\/heal$/);
+  await page.goto('/');
   const star = page.getByTestId('landing-hero-star');
   await expect(star).toHaveAttribute('target', '_blank');
   await expect(star).toHaveAttribute('rel', /noreferrer/);
   const social = page.getByRole('link', {name: 'Star SHAFT on GitHub'});
   await expect(social).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
-  expect(context.pages().length).toBeGreaterThan(0);
+});
+
+test('landing CTAs remain contained at mobile and 800px widths', async ({page}) => {
+  for (const viewport of [{width: 390, height: 844}, {width: 800, height: 900}]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    const box = await page.getByTestId('landing-hero-actions').boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(viewport.width + 1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
+  }
 });
