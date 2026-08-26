@@ -23,7 +23,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | gbrain-ollama | Embedding backend for gbrain | Docker `ollama/ollama` + `nomic-embed-text` model |
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | Repository controller using an isolated uv tool environment |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
-| maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR in a user-managed cache discovered by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
+| maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR in an installer-owned shared cache discovered by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
 | Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
 
 The `fable` and `superpowers` plugins were removed in the 2026-07-17 harness
@@ -55,7 +55,7 @@ selected component makes requested `status` or `doctor` health
 Installed `status` and `doctor` output also identifies each component's
 `owner`, `scope`, `lifecycle`, and `taskImpact`. Use those fields to distinguish
 installer-owned project files, persistent project data, single-writer derived
-repository data, and the optional user-managed Maven cache. Do not infer
+repository data, and the optional installer-owned Maven cache. Do not infer
 cleanup authority from a health key alone.
 
 ## memory CLI
@@ -291,7 +291,9 @@ for the executable shared-cache contract.
 ## MCP servers and plugins
 
 Context7 is project-scoped in SHAFT_ENGINE `.mcp.json` and runs through `npx`,
-so it needs Node. Maven Tools is an optional native Java 25 server: the
+so it needs Node. ChaosEngine installs its own pinned Node.js 24.19.0 and does
+not depend on ambient Node, npm, or Python after installation. Maven Tools is
+an optional native Java 25 server: the
 [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp)
 discovers a verified, receipt-pinned JAR and writes the project host entries.
 It omits those entries when no verified runtime is installed; Docker is not
@@ -302,11 +304,40 @@ session start.
 
 ### Maven Tools MCP cache
 
-The Maven Tools MCP version directory is an immutable, user-managed cache.
+The Maven Tools MCP version directory is an immutable, installer-owned cache.
 Parallel projects may reuse the same verified JAR and `install-receipt.json`
 pair without mutation. Project install and uninstall change only project host
 configuration; they never install, reference-count, purge, or remove the shared
-cache automatically.
+cache automatically. Install it with `--with-maven-tools`; this cannot be
+combined with `--skip-tools`. Java selection prefers `CHAOSENGINE_JAVA`, then
+`JAVA_HOME`, then `PATH`, followed by verified Temurin 25.0.4+7. Windows arm64
+uses the official Windows x64 build through Windows 11 x64 emulation and fails
+closed if its Java 25 probe cannot run.
+
+Normal installation needs no preinstalled Python or Node:
+
+```powershell
+irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1" | iex
+```
+
+```sh
+url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"; curl -fsSL "$url" | bash -s -- "$url"
+```
+
+Install Maven Tools on POSIX:
+
+```sh
+url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"; curl -fsSL "$url" | bash -s -- "$url" --with-maven-tools
+```
+
+Install Maven Tools from PowerShell:
+
+```powershell
+$installer = irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.ps1"; & ([scriptblock]::Create($installer)) -WithMavenTools
+```
+
+Wrappers verify uv 0.11.29 before using uv-managed Python 3.10. Checksum,
+extraction, or health failures leave the previous immutable generation active.
 
 Inspect the selected cache or purge exactly version `3.2.0`:
 
@@ -321,14 +352,13 @@ commit, and SHA-256, then reports `healthy`, `absent`, `invalid`, or `busy`.
 verified version's receipt-owned files. It refuses modified, unknown, linked,
 broad, or busy targets. An absent version is already a successful result.
 
-Populate the cache manually only after building the pinned upstream source.
-Create a fresh unique version staging directory on the same filesystem as the
-user data directory, place the JAR and exact receipt in it, then publish it with
-a no-overwrite rename. Ignore incomplete or invalid pairs. Do not add automatic
-download, build, installation, reference counting, or cache removal. Use the
-[portable ChaosEngine manual population
-sequence](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp)
-for the pinned version, commit, receipt shape, and platform-specific commands.
+Project uninstall removes its Python and Node generations but retains this
+shared cache. Exact-version purge removes only receipt-verified owned files.
+
+Plan Mode stays read-only. It may finish in a checkout that was already dirty
+without demanding commits, pushes, harness synchronization, tracker writes,
+cleanup, or mutation of unrelated work. Confirmed NUL corruption still blocks
+because it is an immediate repository-safety condition.
 
 ## Health checklist
 
