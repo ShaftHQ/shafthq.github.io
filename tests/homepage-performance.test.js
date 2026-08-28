@@ -78,6 +78,7 @@ assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Hom
 assert(index.includes('EvidenceTrail') && !index.includes('TechnicalOrbit'), 'Hero must replace the generic orbit with a product-specific trail.');
 assert(styles.includes('3.6s') && !styles.includes('infinite') && styles.includes('.evidenceTrail { display: none; }'), 'Trail must run once under four seconds and disappear for reduced motion.');
 assert(styles.includes('180ms') && styles.includes('240ms'), 'Interactive transitions must stay within the approved duration range.');
+assert(!/stroke-dash|transition:[^;]*(?:color|background)/.test(styles), 'Homepage must animate only transform and opacity.');
 assert(!/IntersectionObserver|data-reveal|Lottie|three\.js|parallax|cursor chase|counter/.test(`${index}\n${styles}`), 'Homepage must not add forbidden animation or runtime patterns.');
 
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');

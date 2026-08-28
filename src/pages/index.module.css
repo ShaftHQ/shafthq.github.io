@@ -115,16 +115,17 @@
   top: 12%;
   right: -4rem;
   width: min(54rem, 70vw);
-  opacity: 0.52;
+  opacity: 0;
   pointer-events: none;
+  transform: translateX(0.75rem);
+  animation: trailSettle 3.6s ease-out both;
 }
 
-.evidenceTrail path { fill: none; stroke: var(--site-color-primary); stroke-width: 2; stroke-dasharray: 920; stroke-dashoffset: 920; animation: trailDraw 3.6s ease-out both; }
-.evidenceTrail circle { fill: var(--site-color-on-dark); opacity: 0; animation: trailFade 240ms ease-out 3.2s both; }
-.evidenceTrail text { fill: rgba(var(--site-color-on-dark-rgb), 0.82); font: var(--site-font-label); opacity: 0; animation: trailFade 240ms ease-out 3.35s both; }
+.evidenceTrail path { fill: none; stroke: var(--site-color-primary); stroke-width: 2; }
+.evidenceTrail circle { fill: var(--site-color-on-dark); }
+.evidenceTrail text { fill: rgba(var(--site-color-on-dark-rgb), 0.82); font: var(--site-font-label); }
 
-@keyframes trailDraw { to { stroke-dashoffset: 0; } }
-@keyframes trailFade { to { opacity: 1; } }
+@keyframes trailSettle { to { opacity: 0.52; transform: translateX(0); } }
 
 .section { padding: 5rem 0; }
 
@@ -137,7 +138,7 @@
 .workflowSection { background: var(--ifm-background-surface-color); }
 .tabs { min-width: 0; margin-top: 2rem; }
 .tabList { display: flex; max-width: max-content; gap: 0.5rem; padding: 0.35rem; overflow-x: auto; border: 1px solid rgba(var(--site-color-deep-rgb), 0.18); border-radius: 0.5rem; background: var(--ifm-background-color); }
-.tab { min-height: 2.75rem; padding: 0.55rem 0.9rem; border: 0; border-radius: 0.3rem; color: var(--ifm-font-color-base); background: transparent; font: var(--site-font-label); cursor: pointer; transition: color 180ms ease, background-color 180ms ease; white-space: nowrap; }
+.tab { min-height: 2.75rem; padding: 0.55rem 0.9rem; border: 0; border-radius: 0.3rem; color: var(--ifm-font-color-base); background: transparent; font: var(--site-font-label); cursor: pointer; white-space: nowrap; }
 .tab[aria-selected='true'] { color: var(--site-color-on-dark); background: var(--site-color-primary); }
 .tab:focus-visible { outline: 3px solid var(--site-color-primary); outline-offset: 2px; }
 .tabPanel { min-width: 0; margin-top: 1rem; }
