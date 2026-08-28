@@ -40,6 +40,10 @@ How to start: install `shaft-capture`, then use IntelliJ `/record` or `/codegen`
 
 Full docs: [Capture](/docs/agentic/capture)
 
+![SHAFT Capture locator picker over the current browser acceptance fixture, showing scored generated locator choices for the selected element.](/img/whats-new/capture-locator-picker.png)
+
+![SHAFT Capture assertion mode over the current browser acceptance fixture, with the assertion panel open and an element target selected.](/img/whats-new/capture-assertion-mode.png)
+
 ```mermaid
 flowchart LR
   Record --> Review --> Replay --> Commit
@@ -99,6 +103,8 @@ Why use it: keep recording, diagnosis, and reviewed changes beside the Java proj
 How to start: install the SHAFT IntelliJ plugin and follow its setup guide.
 
 Full docs: [IntelliJ IDEA plugin](/docs/agentic/intellij)
+
+![SHAFT IntelliJ Assistant renderer showing project-scoped guidance, MCP tools, and a reviewed response inside the IDE.](/img/whats-new/intellij-assistant.png)
 
 ### SHAFT agent skills
 

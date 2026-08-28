@@ -4,7 +4,9 @@ const path = require('path');
 const {execFileSync} = require('child_process');
 
 const root = path.join(__dirname, '..');
+const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 const index = fs.readFileSync(path.join(root, 'src', 'pages', 'index.tsx'), 'utf8');
+const viewer = fs.readFileSync(path.join(root, 'src', 'components', 'ImageViewer.tsx'), 'utf8');
 const styles = fs.readFileSync(path.join(root, 'src', 'pages', 'index.module.css'), 'utf8');
 const config = fs.readFileSync(path.join(root, 'docusaurus.config.js'), 'utf8');
 const imgbotConfig = JSON.parse(fs.readFileSync(path.join(root, '.imgbotconfig'), 'utf8'));
@@ -56,7 +58,15 @@ assert(index.includes("'https://github.com/ShaftHQ/SHAFT_ENGINE/actions'") && in
 for (const section of ['landing-trust', 'landing-audiences', 'landing-guides', 'landing-surfaces', 'landing-product-gallery', 'landing-architecture', 'landing-adoption', 'landing-evidence-loop']) assert(index.includes(`data-testid="${section}"`), `Homepage must restore ${section}.`);
 for (const icon of ['faTerminal', 'faBookOpen', 'faStar']) assert(index.includes(icon), `Homepage CTA buttons must render ${icon}.`);
 assert(index.includes('technicalOrbit') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative technical orbit.');
-assert(index.includes('<dialog') && index.includes('evidence-lightbox') && index.includes('showModal()'), 'Evidence must open in an accessible native dialog.');
+assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Homepage viewer must use the approved exact lightbox version.');
+assert(viewer.includes("import 'yet-another-react-lightbox/styles.css'"), 'Homepage viewer must import the lightbox core styles.');
+assert(viewer.includes("React.lazy(async ()") && viewer.includes("import('yet-another-react-lightbox')"), 'Homepage viewer must lazy-load after activation.');
+assert(viewer.includes('yet-another-react-lightbox/plugins/zoom') && viewer.includes('maxZoomPixelRatio: 64'), 'Homepage viewer must provide the Zoom plugin with 64x deep zoom.');
+assert(index.includes('SharedImageViewer') && index.includes('ImageViewerTrigger') && viewer.includes('export type ProductImage'), 'Homepage must route product imagery through typed shared viewer and trigger components.');
+assert(!index.includes('<dialog') && !index.includes('showModal()'), 'Homepage must not retain the custom native dialog viewer.');
+assert(viewer.includes('data-testid="image-viewer"') && viewer.includes('data-testid="image-viewer-trigger"'), 'Homepage must expose stable shared viewer hooks.');
+assert(styles.includes('--image-preview-x') && styles.includes('--image-preview-y') && styles.includes('scale(2)'), 'Fine-pointer preview must stay centered on the cursor at 2x.');
+assert(styles.includes('.evidenceMedia:hover .visualPlate') && !styles.includes('scale(1.12)') && !styles.includes('.zoomHint'), 'Every evidence trigger, including the visual comparison plate, must use the shared 2x preview without superseded styles.');
 assert(styles.includes('.logoPlate') && styles.includes('backdrop-filter'), 'SHAFT mark must sit on a contrasting translucent plate.');
 assert(styles.includes('.evidenceMedia') && styles.includes('overflow: hidden'), 'Evidence zoom must stay inside a stable media frame.');
 assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage motion must respect reduced-motion.');
