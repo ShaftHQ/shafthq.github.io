@@ -150,6 +150,10 @@
 .surfacePanel p { line-height: 1.6; }
 .workflowGrid :global(.theme-code-block),
 .surfacePanel :global(.theme-code-block) { margin-bottom: 0; }
+.workflowGrid :global(.token.function),
+.workflowGrid :global(.token.string),
+.surfacePanel :global(.token.function),
+.surfacePanel :global(.token.string) { color: var(--site-color-primary) !important; }
 
 .workflowEvidence { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; align-content: start; }
 .evidenceMedia { position: relative; display: grid; min-width: 0; padding: 0; overflow: hidden; place-items: center; border: 1px solid rgba(var(--site-color-deep-rgb), 0.18); border-radius: 0.35rem; background: var(--ifm-background-surface-color); cursor: zoom-in; }
@@ -174,6 +178,8 @@
 .surfaceSection h2,
 .surfaceSection h3 { color: var(--site-color-on-dark); }
 .surfaceSection .intro { color: rgba(var(--site-color-on-dark-rgb), 0.86); }
+.surfaceSection .eyebrow,
+.surfaceSection .surfacePanel a { color: var(--site-color-on-dark); }
 .surfaceSection .tabList,
 .surfaceSection .workflowGrid,
 .surfaceSection .surfacePanel { border-color: rgba(var(--site-color-on-dark-rgb), 0.22); background: var(--site-color-deep); }
