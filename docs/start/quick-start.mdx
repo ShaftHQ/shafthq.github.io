@@ -142,16 +142,17 @@ project setup.
    committing it.
 
 The IntelliJ plugin's first-run wizard starts with prerequisites, then asks you
-to choose an agent, install the route-specific SHAFT tools, and verify setup.
-Runnable commands use **Open in Terminal** and copy the same command as a
-fallback; copy-only output and links use **Copy**. The plugin never executes
-the installer. Project upgrade unlocks after setup is verified.
+to choose a setup route, open the route-specific SHAFT tools command, and verify
+setup. SHAFT tools are required; connecting an AI agent is optional. Runnable
+setup commands use **Open setup command in terminal** and copy the command as a
+fallback; review the pre-typed command and press Enter yourself because the
+plugin never executes installers. Project upgrade unlocks after setup is verified.
 
-![SHAFT IntelliJ Assistant first-run setup wizard with Prerequisites marked Done and Choose agent expanded](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Once **Verify setup** passes, the wizard collapses the finished
 steps and shows a **Ready** row confirming the MCP connection, workspace, and
-agent, plus **Start chatting** or **Start without an agent**:
+agent, plus **Open Assistant** or **Start without an agent**:
 
 ![Completed SHAFT IntelliJ Assistant setup showing Verify setup marked Done and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
