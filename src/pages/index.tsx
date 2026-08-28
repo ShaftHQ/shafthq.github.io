@@ -5,20 +5,22 @@ import Heading from '@theme/Heading';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlack} from '@fortawesome/free-brands-svg-icons';
-import {faArrowUpRightFromSquare, faBookOpen, faStar, faTerminal, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faArrowUpRightFromSquare, faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
 import styles from './index.module.css';
 
 type ConversionName = 'create_project' | 'explore_documentation' | 'star_github';
 type Placement = 'hero' | 'final';
-type Evidence = {title: string; body: string; image: string; alt: string};
 
 const github = 'https://github.com/ShaftHQ/SHAFT_ENGINE';
 const slack = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
 
-const evidence: Evidence[] = [
-  {title: 'Passed steps, attached proof', body: 'Inspect actions and captured evidence in the same run.', image: '/img/evidence/allure-passed-evidence.png', alt: 'Real SHAFT Allure report showing a passed visual-validation test, expanded steps, and an opened screenshot attachment.'},
-  {title: 'Failure context, ready to inspect', body: 'Move from the failed action to its screenshot and trace without reconstructing the run.', image: '/img/evidence/allure-failed-evidence.png', alt: 'Real SHAFT Allure report showing a failed browser action with its screenshot and exception evidence.'},
-  {title: 'Visual evidence beside the result', body: 'Review the expected image, actual image, and deterministic OpenCV difference together.', image: '/img/evidence/allure-visual-diff-evidence.png', alt: 'Real SHAFT Allure visual-validation result with a native expected, actual, and difference attachment.'},
+const productImages: ProductImage[] = [
+  {id: 'passed-evidence', title: 'Passed steps, attached proof', body: 'Inspect actions and captured evidence in the same run.', image: '/img/evidence/allure-passed-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a passed visual-validation test, expanded steps, and an opened screenshot attachment.'},
+  {id: 'failed-evidence', title: 'Failure context, ready to inspect', body: 'Move from the failed action to its screenshot and trace without reconstructing the run.', image: '/img/evidence/allure-failed-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a failed browser action with its screenshot and exception evidence.'},
+  {id: 'visual-evidence', title: 'Visual evidence beside the result', body: 'Review the expected image, actual image, and deterministic OpenCV difference together.', image: '/img/evidence/allure-visual-diff-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure visual-validation result with a native expected, actual, and difference attachment.'},
+  {id: 'capture', title: 'Capture the real interaction', body: 'Record browser activity, inspect locators, and retain evidence for generation.', image: '/img/capture-locator-picker.png', width: 1600, height: 900, alt: 'SHAFT Capture showing locator inspection and captured browser evidence.'},
+  {id: 'assistant', title: 'Keep guidance in the IDE', body: 'Connect project context, MCP tools, and focused assistance where engineers work.', image: '/img/agentic/intellij-plugin-assistant.png', width: 1600, height: 900, alt: 'SHAFT IntelliJ Assistant showing agentic project guidance inside the IDE.'},
 ];
 
 const trustSignals = [
@@ -126,28 +128,18 @@ function VisualEvidencePlate(): JSX.Element {
   ].map(([label, image, alt]) => <div key={label}><span>{label}</span><img src={image} width="1024" height="1024" loading="lazy" alt={alt} /></div>)}</div>;
 }
 
-function EvidenceTrigger({item, children, onOpen, hero = false}: {item: Evidence; children?: React.ReactNode; onOpen: (item: Evidence, opener: HTMLButtonElement) => void; hero?: boolean}): JSX.Element {
-  return <button className={`${styles.evidenceMedia} ${hero ? styles.heroMedia : ''}`} type="button" aria-label={`Inspect ${item.title}`} onClick={(event) => onOpen(item, event.currentTarget)}>{children ?? <img src={item.image} width="1920" height="1333" loading={hero ? 'eager' : 'lazy'} fetchPriority={hero ? 'high' : 'auto'} alt={item.alt} />}<span className={styles.zoomHint}>Click to inspect</span></button>;
-}
-
-function EvidenceLightbox({item, dialogRef, onClose}: {item: Evidence | null; dialogRef: React.RefObject<HTMLDialogElement | null>; onClose: () => void}): JSX.Element {
-  return <dialog ref={dialogRef} className={styles.lightbox} data-testid="evidence-lightbox" aria-labelledby="evidence-lightbox-title" onClose={onClose} onClick={(event) => { if (event.target === event.currentTarget) event.currentTarget.close(); }}>{item && <div className={styles.lightboxPanel}><button className={styles.lightboxClose} type="button" aria-label="Close evidence viewer" onClick={() => dialogRef.current?.close()}><FontAwesomeIcon icon={faXmark} aria-hidden="true" /></button><Heading as="h2" id="evidence-lightbox-title">{item.title}</Heading><p>{item.body}</p><img src={item.image} width="1920" height="1333" alt={item.alt} /></div>}</dialog>;
-}
-
 export default function Home(): JSX.Element {
-  const [activeEvidence, setActiveEvidence] = React.useState<Evidence | null>(null);
-  const dialogRef = React.useRef<HTMLDialogElement>(null);
+  const [activeImage, setActiveImage] = React.useState<ProductImage | null>(null);
   const openerRef = React.useRef<HTMLButtonElement | null>(null);
-  const openEvidence = (item: Evidence, opener: HTMLButtonElement): void => { openerRef.current = opener; setActiveEvidence(item); };
-  React.useEffect(() => { if (activeEvidence && dialogRef.current && !dialogRef.current.open) dialogRef.current.showModal(); }, [activeEvidence]);
-  const closeEvidence = (): void => { setActiveEvidence(null); openerRef.current?.focus(); };
+  const openImage = (item: ProductImage, opener: HTMLButtonElement): void => { openerRef.current = opener; setActiveImage(item); };
+  const closeImage = (): void => { setActiveImage(null); window.setTimeout(() => openerRef.current?.focus(), 0); };
 
   return <Layout title="SHAFT Engine" description="Release decisions backed by inspectable test evidence."><main data-testid="landing-main">
-    <header className={styles.hero} data-testid="landing-hero"><TechnicalOrbit /><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}><div className={styles.logoPlate}><img className={styles.logo} src="/img/shaft.svg" width="92" height="92" alt="SHAFT" /></div><h1>Release decisions backed by inspectable evidence.</h1><p className={styles.lead}>Run across web, mobile, API, database, and CLI. Keep the evidence close to the decision it informs.</p><Ctas placement="hero" /></div><figure className={styles.heroFigure}><EvidenceTrigger item={evidence[0]} onOpen={openEvidence} hero /><figcaption><strong>Real SHAFT execution.</strong> Open the report evidence and inspect it.</figcaption></figure></div></header>
+    <header className={styles.hero} data-testid="landing-hero"><TechnicalOrbit /><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}><div className={styles.logoPlate}><img className={styles.logo} src="/img/shaft.svg" width="92" height="92" alt="SHAFT" /></div><h1>Release decisions backed by inspectable evidence.</h1><p className={styles.lead}>Run across web, mobile, API, database, and CLI. Keep the evidence close to the decision it informs.</p><Ctas placement="hero" /></div><figure className={styles.heroFigure}><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={`${styles.evidenceMedia} ${styles.heroMedia}`} imageClassName={styles.evidenceImage} eager /><figcaption><strong>Real SHAFT execution.</strong> Open the report evidence and inspect it.</figcaption></figure></div></header>
 
     <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="project-evidence"><div className="container"><Heading as="h2" id="project-evidence">Verify the project before you adopt it</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <a href={href} key={title} target="_blank" rel="noreferrer"><strong>{title}</strong><span>{detail}</span><FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" /></a>)}</div></div></section>
 
-    <section className={styles.section} aria-labelledby="evidence-heading" data-testid="landing-evidence"><div className="container"><Heading as="h2" id="evidence-heading">Evidence that survives scrutiny</Heading><p className={styles.intro}>Steps, attachments, diagnostics, and visual checks remain inspectable after the run.</p><div className={styles.evidenceGrid}>{evidence.map((item, index) => <figure className={styles.evidenceCard} key={item.title}><EvidenceTrigger item={item} onOpen={openEvidence}>{index === 2 ? <VisualEvidencePlate /> : undefined}</EvidenceTrigger><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
+    <section className={styles.section} aria-labelledby="evidence-heading" data-testid="landing-evidence"><div className="container"><Heading as="h2" id="evidence-heading">Evidence that survives scrutiny</Heading><p className={styles.intro}>Steps, attachments, diagnostics, and visual checks remain inspectable after the run.</p><div className={styles.evidenceGrid}>{productImages.slice(0, 3).map((item, index) => <figure className={styles.evidenceCard} key={item.id}><ImageViewerTrigger item={item} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage}>{index === 2 ? <VisualEvidencePlate /> : undefined}</ImageViewerTrigger><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
 
     <section className={`${styles.section} ${styles.audienceSection}`} data-testid="landing-audiences" aria-labelledby="audiences-heading"><div className="container"><Heading as="h2" id="audiences-heading">Useful at the keyboard and in the release room</Heading><div className={styles.audienceGrid}>{audienceLanes.map((lane) => <article key={lane.title}><Heading as="h3">{lane.title}</Heading><p>{lane.body}</p><ul>{lane.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}</div></div></section>
 
@@ -155,7 +147,7 @@ export default function Home(): JSX.Element {
 
     <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="testing-surfaces"><div className="container"><Heading as="h2" id="testing-surfaces">One evidence model across five test surfaces</Heading><div className={styles.surfaceGrid}>{testSurfaces.map(([name, engine, detail]) => <article key={name}><Heading as="h3">{name}</Heading><strong>{engine}</strong><p>{detail}</p></article>)}</div></div></section>
 
-    <section className={styles.section} data-testid="landing-product-gallery" aria-labelledby="product-heading"><div className="container"><Heading as="h2" id="product-heading">Move from observation to maintainable automation</Heading><div className={styles.productGrid}><figure><img src="/img/capture-locator-picker.png" width="1600" height="900" loading="lazy" alt="SHAFT Capture showing locator inspection and captured browser evidence." /><figcaption><strong>Capture the real interaction</strong><span>Record browser activity, inspect locators, and retain evidence for generation.</span></figcaption></figure><figure><img src="/img/agentic/intellij-plugin-assistant.png" width="1600" height="900" loading="lazy" alt="SHAFT IntelliJ Assistant showing agentic project guidance inside the IDE." /><figcaption><strong>Keep guidance in the IDE</strong><span>Connect project context, MCP tools, and focused assistance where engineers work.</span></figcaption></figure></div></div></section>
+    <section className={styles.section} data-testid="landing-product-gallery" aria-labelledby="product-heading"><div className="container"><Heading as="h2" id="product-heading">Move from observation to maintainable automation</Heading><div className={styles.productGrid}>{productImages.slice(3).map((item) => <figure key={item.id}><ImageViewerTrigger item={item} onOpen={openImage} className={styles.productMedia} imageClassName={styles.productImage} /><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
 
     <section className={`${styles.section} ${styles.architectureSection}`} data-testid="landing-architecture" aria-labelledby="architecture-heading"><div className="container"><div><Heading as="h2" id="architecture-heading">Write intent. Keep control.</Heading><p>SHAFT reduces repeated lifecycle and evidence plumbing without hiding the native engines beneath it.</p><ul><li>Driver lifecycle, waits, retries, and synchronization</li><li>Screenshots, logs, steps, and attachments</li><li>Configuration and data isolation</li><li>Allure evidence that Doctor and Heal can inspect</li></ul></div><CodeBlock language="java" title="A readable SHAFT test">{`driver.browser().navigateToURL(appUrl);\ndriver.element().type(username, user);\ndriver.element().click(signIn);\ndriver.element().assertThat(home).exists();`}</CodeBlock></div></section>
 
@@ -166,6 +158,6 @@ export default function Home(): JSX.Element {
     <section className={styles.final} id="get-started" data-testid="landing-final"><TechnicalOrbit /><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
 
     <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} /></a>)}</div><p className={styles.attribution}>JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="Star SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></footer>
-    <EvidenceLightbox item={activeEvidence} dialogRef={dialogRef} onClose={closeEvidence} />
+    <SharedImageViewer items={productImages} activeItem={activeImage} onClose={closeImage} />
   </main></Layout>;
 }

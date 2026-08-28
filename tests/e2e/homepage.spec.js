@@ -121,7 +121,7 @@ test('community-reported organizations render as loaded local logos with visible
   expect(await lightWordmarks.evaluateAll((images) => images.every((image) => getComputedStyle(image).backgroundColor === 'rgb(29, 37, 53)'))).toBe(true);
 });
 
-test('evidence cards align and open a keyboard-accessible full-resolution viewer', async ({page}) => {
+test('product screenshots share a keyboard-accessible deep-zoom viewer', async ({page}) => {
   await page.setViewportSize({width: 1440, height: 1000});
   await page.goto('/');
   const cards = page.getByTestId('landing-evidence').locator('figure');
@@ -138,10 +138,12 @@ test('evidence cards align and open a keyboard-accessible full-resolution viewer
   const firstTrigger = cards.first().getByRole('button');
   await firstTrigger.focus();
   await page.keyboard.press('Enter');
-  const dialog = page.getByTestId('evidence-lightbox');
-  await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole('img')).toHaveAttribute('src', '/img/evidence/allure-passed-evidence.png');
+  await expect(page.getByTestId('image-viewer')).toBeVisible();
+  const viewer = page.locator('.yarl__root');
+  await expect(viewer).toBeVisible();
+  await expect(viewer.locator('img[src="/img/evidence/allure-passed-evidence.png"]')).toBeVisible();
+  await expect(page.getByTestId('image-viewer-trigger')).toHaveCount(6);
   await page.keyboard.press('Escape');
-  await expect(dialog).not.toBeVisible();
+  await expect(page.getByTestId('image-viewer')).toHaveCount(0);
   await expect(firstTrigger).toBeFocused();
 });
