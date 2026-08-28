@@ -5,68 +5,56 @@ import Heading from '@theme/Heading';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlack} from '@fortawesome/free-brands-svg-icons';
-import {faArrowUpRightFromSquare, faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {AccessibleTabs} from '../components/AccessibleTabs';
 import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
+import snippets from '../data/snippets.json';
+import releases from '../data/releases.json';
 import styles from './index.module.css';
 
-type ConversionName = 'create_project' | 'explore_documentation' | 'star_github';
+type ConversionName = 'create_project' | 'explore_documentation' | 'star_github' | 'view_agent_workflow';
 type Placement = 'hero' | 'final';
 
 const github = 'https://github.com/ShaftHQ/SHAFT_ENGINE';
 const slack = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
 
+const preview = (name: string): Pick<ProductImage, 'preview' | 'previewSrcSet' | 'previewSizes'> => ({
+  preview: `/img/evidence/previews/${name}-480.webp`,
+  previewSrcSet: `/img/evidence/previews/${name}-480.webp 480w, /img/evidence/previews/${name}-960.webp 960w`,
+  previewSizes: '(min-width: 996px) 42vw, 100vw',
+});
+
 const productImages: ProductImage[] = [
-  {id: 'passed-evidence', title: 'Passed steps, attached proof', body: 'Inspect actions and captured evidence in the same run.', image: '/img/evidence/allure-passed-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a passed visual-validation test, expanded steps, and an opened screenshot attachment.'},
-  {id: 'failed-evidence', title: 'Failure context, ready to inspect', body: 'Move from the failed action to its screenshot and trace without reconstructing the run.', image: '/img/evidence/allure-failed-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a failed browser action with its screenshot and exception evidence.'},
-  {id: 'visual-evidence', title: 'Visual evidence beside the result', body: 'Review the expected image, actual image, and deterministic OpenCV difference together.', image: '/img/evidence/allure-visual-diff-evidence.png', width: 1920, height: 1333, alt: 'Real SHAFT Allure visual-validation result with a native expected, actual, and difference attachment.'},
-  {id: 'capture', title: 'Capture the real interaction', body: 'Record browser activity, inspect locators, and retain evidence for generation.', image: '/img/capture-locator-picker.png', width: 1600, height: 900, alt: 'SHAFT Capture showing locator inspection and captured browser evidence.'},
-  {id: 'assistant', title: 'Keep guidance in the IDE', body: 'Connect project context, MCP tools, and focused assistance where engineers work.', image: '/img/agentic/intellij-plugin-assistant.png', width: 1600, height: 900, alt: 'SHAFT IntelliJ Assistant showing agentic project guidance inside the IDE.'},
+  {id: 'passed-evidence', title: 'Passed steps, attached proof', body: 'Inspect actions and captured evidence in the same run.', image: '/img/evidence/allure-passed-evidence.png', ...preview('allure-passed-evidence'), width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a passed visual-validation test, expanded steps, and an opened screenshot attachment.'},
+  {id: 'failed-evidence', title: 'Failure context, ready to inspect', body: 'Move from the failed action to its screenshot and trace without reconstructing the run.', image: '/img/evidence/allure-failed-evidence.png', ...preview('allure-failed-evidence'), width: 1920, height: 1333, alt: 'Real SHAFT Allure report showing a failed browser action with its screenshot and exception evidence.'},
+  {id: 'visual-evidence', title: 'Visual evidence beside the result', body: 'Review the expected image, actual image, and deterministic OpenCV difference together.', image: '/img/evidence/allure-visual-diff-evidence.png', ...preview('allure-visual-diff-evidence'), width: 1920, height: 3200, alt: 'Real SHAFT Allure visual-validation result with native expected, actual, and difference attachments.'},
+  {id: 'capture', title: 'Capture the real interaction', body: 'Record browser activity, inspect locators, and retain evidence for generation.', image: '/img/capture-locator-picker.png', ...preview('capture-locator-picker'), width: 1280, height: 900, alt: 'SHAFT Capture showing locator inspection and captured browser evidence.'},
+  {id: 'assistant', title: 'Keep guidance in the IDE', body: 'Connect project context, MCP tools, and focused assistance where engineers work.', image: '/img/agentic/intellij-plugin-assistant.png', ...preview('intellij-plugin-assistant'), width: 860, height: 780, alt: 'SHAFT IntelliJ Assistant showing agentic project guidance inside the IDE.'},
 ];
 
-const trustSignals = [
+const trustSignals: Array<[string, string, string]> = [
+  ['SHAFT release', `Inspect SHAFT ${releases.engineVersion} releases and changes.`, `${github}/releases`],
+  ['Java baseline', `Build the current release on Java ${releases.javaVersion}.`, '/docs/start/installation'],
   ['MIT license', 'Use and inspect SHAFT under a permissive open-source license.', `${github}/blob/main/LICENSE`],
-  ['Build history', 'Review the same pull-request gate used by the project.', 'https://github.com/ShaftHQ/SHAFT_ENGINE/actions'],
+  ['CI gate', 'Review the same pull-request checks used by the project.', `${github}/actions`],
   ['Security policy', 'Check supported versions and private disclosure guidance.', `${github}/security/policy`],
   ['Release history', 'Inspect published versions, dates, and changes.', `${github}/releases`],
   ['Selenium ecosystem', 'Find SHAFT in Selenium’s official ecosystem directory.', 'https://www.selenium.dev/ecosystem/#frameworks'],
-  ['Peer Bonus', 'Review Google’s 2023 open-source recipient announcement.', 'https://opensource.googleblog.com/2023/05/google-open-source-peer-bonus-program-announces-first-group-of-winners-2023.html'],
-  ['Execution evidence', 'Inspect passed, failed, and visual evidence from real SHAFT runs.', '#evidence-heading'],
 ];
 
-const audienceLanes = [
-  {title: 'For engineers', body: 'Keep native Java control while SHAFT owns repeatable suite mechanics.', points: ['Run browser, mobile, API, database, and CLI checks together.', 'Move lifecycle, synchronization, screenshots, and logs out of test intent.', 'Start debugging with evidence already attached.']},
-  {title: 'For delivery leaders', body: 'Make automation results inspectable before they inform a release.', points: ['Use one onboarding path for new and existing projects.', 'Review steps, screenshots, traces, and diagnostics together.', 'Audit license, releases, CI, security, and support from primary sources.']},
+const outcomes = [
+  {title: 'Start a new suite', body: 'Generate a Maven project, then run its first test with the checked-in command.', to: '/project-generator', action: 'Generate a project'},
+  {title: 'Migrate an existing suite', body: 'Upgrade supported Selenium, Appium, REST Assured, or older SHAFT projects in controlled steps.', to: '/docs/start/quick-start#existing-project-upgrade', action: 'Read upgrade guide'},
+  {title: 'Add another testing surface', body: 'Keep web, mobile, API, database, and CLI checks in one Java project and evidence model.', to: '#surface-explorer', action: 'Explore surfaces'},
+  {title: 'Diagnose a failed run', body: 'Use failed Allure or trace evidence to classify a cause before reviewing a remediation proposal.', to: '#agent-workflow', action: 'Review diagnosis flow'},
 ];
 
-const guidePaths = [
-  ['First run', 'Generate a SHAFT project', 'Choose test surfaces and download a ready-to-run project.', '/project-generator', 'Open generator'],
-  ['Quick start', 'Run your first test', 'Move from setup to an evidence report through one short guide.', '/docs/start/quick-start#choose-your-path', 'Read quick start'],
-  ['Migration', 'Upgrade an existing suite', 'Adopt SHAFT by test surface without rewriting everything at once.', '/docs/start/quick-start#existing-project-upgrade', 'Plan the upgrade'],
-  ['Expansion', 'Add another test surface', 'Bring mobile, API, database, CLI, or Grid evidence into the same run.', '#testing-surfaces', 'Compare surfaces'],
-  ['Agentic', 'Connect MCP after the basics', 'Expose Capture, Doctor, Heal, and browser tools after the project compiles.', '/docs/start/quick-start#mcp-integration', 'Connect MCP'],
-];
-
-const testSurfaces = [
-  ['Web GUI', 'Selenium + Playwright', 'Actions, synchronization, locators, screenshots, and report steps.'],
-  ['Mobile GUI', 'Appium', 'Android, iOS, mobile web, emulators, real devices, and clouds.'],
-  ['API', 'REST Assured', 'Requests, schemas, authentication, assertions, and payload evidence.'],
-  ['Database', 'JDBC', 'Connections, queries, updates, and result validation.'],
-  ['CLI', 'Local, Docker, SSH', 'Commands, containers, remote shells, files, and captured output.'],
-];
-
-const adoptionAnswers = [
-  ['Move an existing suite', 'Adopt SHAFT by surface. Keep useful tests and migrate in controlled steps.', '/docs/start/quick-start#existing-project-upgrade', 'Read migration guidance'],
-  ['Run where your team builds', 'Use the same Maven project on developer machines and CI.', '/docs/start/quick-start#choose-your-path', 'Review first-run guidance'],
-  ['Keep native-tool access', 'Use underlying automation APIs directly when a case needs them.', '/docs/features/modules', 'Compare modules'],
-  ['Evaluate stewardship', 'Inspect project terms, releases, security, CI, and public support.', '#project-evidence', 'Review project evidence'],
-];
-
-const evidenceLoop = [
-  ['Execute', 'Run web, mobile, API, database, and CLI checks.'],
-  ['Collect', 'Capture screenshots, logs, requests, responses, and data facts.'],
-  ['Report', 'Keep the timeline and attachments in Allure.'],
-  ['Diagnose', 'Use the report and Doctor to understand the failure path.'],
-  ['Improve', 'Apply a deterministic fix; use Heal when evidence supports recovery.'],
+const surfaceTabs = [
+  {id: 'web', label: 'Web', engine: 'Selenium WebDriver', evidence: 'Actions, screenshots, trace context, and Allure steps.', guide: '/docs/testing/web', code: 'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser().navigateToURL("https://example.com");\ndriver.element().click(By.id("submit"));'},
+  {id: 'mobile', label: 'Mobile', engine: 'Appium', evidence: 'Touch actions, device context, screenshots, and native trace evidence.', guide: '/docs/testing/mobile', code: 'driver.touch().tap(SHAFT.GUI.Locator.accessibilityId("Views"));\ndriver.assertThat().element(By.id("screen")).exists().perform();'},
+  {id: 'api', label: 'API', engine: 'REST Assured', evidence: 'Requests, responses, assertions, and report attachments.', guide: '/docs/testing/api', code: 'SHAFT.API api = new SHAFT.API(apiFixtureUrl);\napi.get("users").performRequest();'},
+  {id: 'database', label: 'Database', engine: 'JDBC', evidence: 'Connection target, query result, validation, and report evidence.', guide: '/docs/testing/database', code: 'SHAFT.DB database = new SHAFT.DB("jdbc:h2:mem:test");\nResultSet rows = database.executeSelectQuery("SELECT 1");'},
+  {id: 'cli', label: 'CLI', engine: 'Local, Docker, SSH', evidence: 'Commands, captured output, and validation in the same report.', guide: '/docs/testing/cli', code: 'String output = SHAFT.CLI.terminal()\n        .performTerminalCommand("echo Hello SHAFT");'},
 ];
 
 const sponsors = [
@@ -77,28 +65,7 @@ const sponsors = [
 ];
 
 const reportedUse = [
-  ['_VOIS / Vodafone', 'https://www.voiscentre.com/', '/img/community/vois.png'],
-  ['GET Group', 'https://www.getgroup.com/', '/img/community/get-group.ico'],
-  ['Ministry of Municipalities and Housing', 'https://momah.gov.sa/', '/img/community/momah.png'],
-  ['Vodafone Egypt', 'https://web.vodafone.com.eg/', '/img/community/vodafone-egypt.svg'],
-  ['Solutions by STC', 'https://solutions.com.sa/', '/img/community/solutions-by-stc.svg'],
-  ['GIZA Systems', 'https://gizasystems.com/', '/img/community/giza-systems.png'],
-  ['Euronet', 'https://www.euronetworldwide.com/', '/img/community/euronet.png'],
-  ['Terkwaz', 'https://www.linkedin.com/company/terkwazjo', '/img/community/terkwaz.png'],
-  ['Incorta', 'https://www.incorta.com/', '/img/community/incorta.png'],
-  ['BayanTech', 'https://bayan-tech.com/', '/img/community/bayantech.png'],
-  ['adam.ai', 'https://adam.ai/', '/img/community/adam-ai.svg'],
-  ['ACT', 'https://www.act.eg/', '/img/community/act.png'],
-  ['elmenus', 'https://www.elmenus.com/', '/img/community/elmenus.png'],
-  ['IDEMIA', 'https://www.idemia.com/', '/img/community/idemia.png'],
-  ['iHorizons', 'https://www.ihorizons.com/', '/img/community/ihorizons.png'],
-  ['Robusta', 'https://robustagroup.com/', '/img/community/robusta.png'],
-  ['Paymob', 'https://paymob.com/', '/img/community/paymob.png'],
-  ['Jahez', 'https://jahezgroup.com/', '/img/community/jahez.png'],
-  ['Salt Bank', 'https://salt.bank/', '/img/community/salt-bank.svg'],
-  ['Baianat', 'https://www.baianat.com/', '/img/community/baianat.png'],
-  ['DXC Technology', 'https://dxc.com/', '/img/community/dxc.png'],
-  ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
+  ['_VOIS / Vodafone', 'https://www.voiscentre.com/', '/img/community/vois.png'], ['GET Group', 'https://www.getgroup.com/', '/img/community/get-group.ico'], ['Ministry of Municipalities and Housing', 'https://momah.gov.sa/', '/img/community/momah.png'], ['Vodafone Egypt', 'https://web.vodafone.com.eg/', '/img/community/vodafone-egypt.svg'], ['Solutions by STC', 'https://solutions.com.sa/', '/img/community/solutions-by-stc.svg'], ['GIZA Systems', 'https://gizasystems.com/', '/img/community/giza-systems.png'], ['Euronet', 'https://www.euronetworldwide.com/', '/img/community/euronet.png'], ['Terkwaz', 'https://www.linkedin.com/company/terkwazjo', '/img/community/terkwaz.png'], ['Incorta', 'https://www.incorta.com/', '/img/community/incorta.png'], ['BayanTech', 'https://bayan-tech.com/', '/img/community/bayantech.png'], ['adam.ai', 'https://adam.ai/', '/img/community/adam-ai.svg'], ['ACT', 'https://www.act.eg/', '/img/community/act.png'], ['elmenus', 'https://www.elmenus.com/', '/img/community/elmenus.png'], ['IDEMIA', 'https://www.idemia.com/', '/img/community/idemia.png'], ['iHorizons', 'https://www.ihorizons.com/', '/img/community/ihorizons.png'], ['Robusta', 'https://robustagroup.com/', '/img/community/robusta.png'], ['Paymob', 'https://paymob.com/', '/img/community/paymob.png'], ['Jahez', 'https://jahezgroup.com/', '/img/community/jahez.png'], ['Salt Bank', 'https://salt.bank/', '/img/community/salt-bank.svg'], ['Baianat', 'https://www.baianat.com/', '/img/community/baianat.png'], ['DXC Technology', 'https://dxc.com/', '/img/community/dxc.png'], ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
 ];
 
 function track(ctaName: ConversionName, placement: Placement, destination: string): void {
@@ -107,8 +74,8 @@ function track(ctaName: ConversionName, placement: Placement, destination: strin
   browser.gtag?.('event', 'landing_conversion', {cta_name: ctaName, placement, destination});
 }
 
-function TechnicalOrbit(): JSX.Element {
-  return <svg className={styles.technicalOrbit} viewBox="0 0 720 520" aria-hidden="true" focusable="false"><ellipse cx="360" cy="260" rx="300" ry="116" /><ellipse cx="360" cy="260" rx="238" ry="188" transform="rotate(-24 360 260)" /><ellipse cx="360" cy="260" rx="156" ry="232" transform="rotate(34 360 260)" /><circle cx="646" cy="225" r="6" /><circle cx="173" cy="139" r="5" /><circle cx="424" cy="477" r="7" /></svg>;
+function EvidenceTrail(): JSX.Element {
+  return <svg className={styles.evidenceTrail} viewBox="0 0 760 280" aria-hidden="true" focusable="false"><path d="M48 196C162 42 271 252 380 126S573 45 704 112" /><circle cx="48" cy="196" r="6" /><circle cx="380" cy="126" r="6" /><circle cx="704" cy="112" r="6" /><text x="58" y="232">Intent · Java · Run · Evidence</text></svg>;
 }
 
 function Ctas({placement}: {placement: Placement}): JSX.Element {
@@ -116,16 +83,9 @@ function Ctas({placement}: {placement: Placement}): JSX.Element {
   return <div className={styles.actions} data-testid={`landing-${suffix}-actions`}>
     <Link className="button button--primary button--lg" data-testid={`landing-${suffix}-create-project`} to="/project-generator" onClick={() => track('create_project', placement, '/project-generator')}><FontAwesomeIcon icon={faTerminal} aria-hidden="true" />Create new project</Link>
     <Link className="button button--secondary button--lg" data-testid={`landing-${suffix}-documentation`} to="/docs/start/overview" onClick={() => track('explore_documentation', placement, '/docs/start/overview')}><FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />Explore documentation</Link>
-    <a className="button button--secondary button--lg" data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" />Star on GitHub</a>
+    {placement === 'hero' && <a className={styles.workflowLink} data-testid="landing-hero-workflow" href="#agent-workflow" onClick={() => track('view_agent_workflow', placement, '#agent-workflow')}>See agent-to-evidence workflow</a>}
+    {placement === 'final' && <a className="button button--secondary button--lg" data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" />Star on GitHub</a>}
   </div>;
-}
-
-function VisualEvidencePlate(): JSX.Element {
-  return <div className={styles.visualPlate} aria-label="SHAFT visual comparison generated by the deterministic OpenCV engine">{[
-    ['Expected', '/img/evidence/visual-expected.png', 'Expected SHAFT logo used by the visual comparison.'],
-    ['Actual', '/img/evidence/visual-actual.png', 'Actual SHAFT logo with a controlled visual change.'],
-    ['Difference', '/img/evidence/visual-difference.png', 'OpenCV difference highlighting changed logo pixels.'],
-  ].map(([label, image, alt]) => <div key={label}><span>{label}</span><img src={image} width="1024" height="1024" loading="lazy" alt={alt} /></div>)}</div>;
 }
 
 export default function Home(): JSX.Element {
@@ -133,31 +93,26 @@ export default function Home(): JSX.Element {
   const openerRef = React.useRef<HTMLButtonElement | null>(null);
   const openImage = (item: ProductImage, opener: HTMLButtonElement): void => { openerRef.current = opener; setActiveImage(item); };
   const closeImage = (): void => { setActiveImage(null); window.setTimeout(() => openerRef.current?.focus(), 0); };
+  const workflowTabs = [
+    {id: 'author-prove', label: 'Author and prove', panel: <div className={styles.workflowGrid}><div><p className={styles.eyebrow}>Capture lifecycle</p><Heading as="h3"><code>capture_start</code> <span aria-hidden="true">·</span> <code>capture_stop</code> <span aria-hidden="true">·</span> <code>capture_generate_replay</code></Heading><p>Capture an approved flow, review generated native Java, then retain replay evidence with the recording.</p><CodeBlock language="java" title="Reviewed native Java">{'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser().navigateToURL("https://example.com");\ndriver.element().click(By.id("submit"));'}</CodeBlock></div><div className={styles.workflowEvidence}><ImageViewerTrigger item={productImages[3]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /><ImageViewerTrigger item={productImages[4]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /></div></div>},
+    {id: 'diagnose-review', label: 'Diagnose and review', panel: <div className={styles.workflowGrid}><div><p className={styles.eyebrow}>Evidence first</p><Heading as="h3">Failed Allure or trace evidence <span aria-hidden="true">·</span> classified cause <span aria-hidden="true">·</span> review-only remediation guidance</Heading><p>Run <code>doctor_analyze_failed_allure</code> or <code>doctor_analyze_trace</code> to classify evidence before reviewing a proposal.</p><CodeBlock language="text" title="Doctor output">{'classification: locator\nevidence: failed Allure action and trace context\nnext step: review remediation guidance'}</CodeBlock></div><div className={styles.workflowEvidence}><ImageViewerTrigger item={productImages[1]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /><ImageViewerTrigger item={productImages[2]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /></div></div>},
+  ];
+  const explorerTabs = surfaceTabs.map((surface) => ({id: surface.id, label: surface.label, panel: <div className={styles.surfacePanel}><div><p className={styles.eyebrow}>Native engine</p><Heading as="h3">{surface.engine}</Heading><p>{surface.evidence}</p><Link to={surface.guide}>Read {surface.label.toLowerCase()} guide</Link></div><CodeBlock language="java" title={`${surface.label} SHAFT snippet`}>{surface.code}</CodeBlock></div>}));
 
   return <Layout title="SHAFT Engine" description="Release decisions backed by inspectable test evidence."><main data-testid="landing-main">
-    <header className={styles.hero} data-testid="landing-hero"><TechnicalOrbit /><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}><div className={styles.logoPlate}><img className={styles.logo} src="/img/shaft.svg" width="92" height="92" alt="SHAFT" /></div><h1>Release decisions backed by inspectable evidence.</h1><p className={styles.lead}>Run across web, mobile, API, database, and CLI. Keep the evidence close to the decision it informs.</p><Ctas placement="hero" /></div><figure className={styles.heroFigure}><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={`${styles.evidenceMedia} ${styles.heroMedia}`} imageClassName={styles.evidenceImage} eager /><figcaption><strong>Real SHAFT execution.</strong> Open the report evidence and inspect it.</figcaption></figure></div></header>
+    <header className={styles.hero} data-testid="landing-hero"><EvidenceTrail /><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}><div className={styles.logoPlate}><img className={styles.logo} src="/img/shaft.svg" width="92" height="92" alt="SHAFT" /></div><h1>Release decisions backed by inspectable evidence.</h1><p className={styles.lead}>Run one Java project across web, mobile, API, database, and CLI. Keep native engine control, then connect Capture, Doctor, Heal, and MCP when they add evidence.</p><Ctas placement="hero" /><ol className={styles.proofRail} aria-label="First run proof"><li>Generate project</li><li><code>{snippets.firstRunCommand}</code></li><li>Inspect report</li></ol></div><figure className={styles.heroFigure}><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={`${styles.evidenceMedia} ${styles.heroMedia}`} imageClassName={styles.evidenceImage} eager /><figcaption><strong>Real SHAFT execution.</strong> Open the report evidence and inspect it.</figcaption></figure></div></header>
 
-    <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="project-evidence"><div className="container"><Heading as="h2" id="project-evidence">Verify the project before you adopt it</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <a href={href} key={title} target="_blank" rel="noreferrer"><strong>{title}</strong><span>{detail}</span><FontAwesomeIcon icon={faArrowUpRightFromSquare} aria-hidden="true" /></a>)}</div></div></section>
+    <section className={`${styles.section} ${styles.workflowSection}`} data-testid="landing-agent-workflow" aria-labelledby="agent-workflow"><div className="container"><Heading as="h2" id="agent-workflow">From intent to reviewable Java and evidence.</Heading><p className={styles.intro}>Use evidence to keep engineers in control and give delivery leaders a reviewable release signal.</p><AccessibleTabs id="agent-workflow-tabs" label="Agent-to-evidence workflow" tabs={workflowTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /><p className={styles.boundary}>Model choice remains with the MCP client. Tests remain ordinary Java. Proposals do not silently edit, approve, or merge.</p></div></section>
 
-    <section className={styles.section} aria-labelledby="evidence-heading" data-testid="landing-evidence"><div className="container"><Heading as="h2" id="evidence-heading">Evidence that survives scrutiny</Heading><p className={styles.intro}>Steps, attachments, diagnostics, and visual checks remain inspectable after the run.</p><div className={styles.evidenceGrid}>{productImages.slice(0, 3).map((item, index) => <figure className={styles.evidenceCard} key={item.id}><ImageViewerTrigger item={item} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage}>{index === 2 ? <VisualEvidencePlate /> : undefined}</ImageViewerTrigger><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
+    <section className={styles.section} data-testid="landing-outcomes" aria-labelledby="outcomes-heading"><div className="container"><Heading as="h2" id="outcomes-heading">Start from the job in front of you</Heading><p className={styles.intro}>For engineers, preserve native Java control. For delivery leaders, make release evidence easy to inspect.</p><div className={styles.outcomeGrid}>{outcomes.map((outcome) => <article key={outcome.title}><Heading as="h3">{outcome.title}</Heading><p>{outcome.body}</p><Link to={outcome.to}>{outcome.action}</Link></article>)}</div></div></section>
 
-    <section className={`${styles.section} ${styles.audienceSection}`} data-testid="landing-audiences" aria-labelledby="audiences-heading"><div className="container"><Heading as="h2" id="audiences-heading">Useful at the keyboard and in the release room</Heading><div className={styles.audienceGrid}>{audienceLanes.map((lane) => <article key={lane.title}><Heading as="h3">{lane.title}</Heading><p>{lane.body}</p><ul>{lane.points.map((point) => <li key={point}>{point}</li>)}</ul></article>)}</div></div></section>
+    <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="surface-explorer"><div className="container"><Heading as="h2" id="surface-explorer">One evidence model across five test surfaces</Heading><p className={styles.intro}>Start with the native engine. Keep the evidence and Java suite in one place.</p><AccessibleTabs id="surface-explorer-tabs" label="Testing surfaces" tabs={explorerTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /></div></section>
 
-    <section className={styles.section} data-testid="landing-guides" aria-labelledby="guides-heading"><div className="container"><Heading as="h2" id="guides-heading">Choose the shortest path to evidence</Heading><div className={styles.guideGrid}>{guidePaths.map(([audience, title, description, to, label]) => <article key={title}><span className={styles.pathLabel}>{audience}</span><Heading as="h3">{title}</Heading><p>{description}</p><Link to={to}>{label}<span aria-hidden="true"> →</span></Link></article>)}</div></div></section>
+    <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Trust, performance, and community</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div></div></section>
 
-    <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="testing-surfaces"><div className="container"><Heading as="h2" id="testing-surfaces">One evidence model across five test surfaces</Heading><div className={styles.surfaceGrid}>{testSurfaces.map(([name, engine, detail]) => <article key={name}><Heading as="h3">{name}</Heading><strong>{engine}</strong><p>{detail}</p></article>)}</div></div></section>
+    <section className={styles.final} id="get-started" data-testid="landing-final"><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
 
-    <section className={styles.section} data-testid="landing-product-gallery" aria-labelledby="product-heading"><div className="container"><Heading as="h2" id="product-heading">Move from observation to maintainable automation</Heading><div className={styles.productGrid}>{productImages.slice(3).map((item) => <figure key={item.id}><ImageViewerTrigger item={item} onOpen={openImage} className={styles.productMedia} imageClassName={styles.productImage} /><figcaption><strong>{item.title}</strong><span>{item.body}</span></figcaption></figure>)}</div></div></section>
-
-    <section className={`${styles.section} ${styles.architectureSection}`} data-testid="landing-architecture" aria-labelledby="architecture-heading"><div className="container"><div><Heading as="h2" id="architecture-heading">Write intent. Keep control.</Heading><p>SHAFT reduces repeated lifecycle and evidence plumbing without hiding the native engines beneath it.</p><ul><li>Driver lifecycle, waits, retries, and synchronization</li><li>Screenshots, logs, steps, and attachments</li><li>Configuration and data isolation</li><li>Allure evidence that Doctor and Heal can inspect</li></ul></div><CodeBlock language="java" title="A readable SHAFT test">{`driver.browser().navigateToURL(appUrl);\ndriver.element().type(username, user);\ndriver.element().click(signIn);\ndriver.element().assertThat(home).exists();`}</CodeBlock></div></section>
-
-    <section className={styles.section} data-testid="landing-adoption" aria-labelledby="adoption-heading"><div className="container"><Heading as="h2" id="adoption-heading">Adopt without a rewrite mandate</Heading><div className={styles.adoptionGrid}>{adoptionAnswers.map(([title, body, to, label]) => <article key={title}><Heading as="h3">{title}</Heading><p>{body}</p><Link to={to}>{label}<span aria-hidden="true"> →</span></Link></article>)}</div></div></section>
-
-    <section className={`${styles.section} ${styles.loopSection}`} data-testid="landing-evidence-loop" aria-labelledby="loop-heading"><div className="container"><Heading as="h2" id="loop-heading">Evidence improves the next run</Heading><ol className={styles.evidenceLoop}>{evidenceLoop.map(([title, body]) => <li key={title}><strong>{title}</strong><span>{body}</span></li>)}</ol><p>Visual comparison is deterministic. <Link to="/docs/agentic/heal">AI-assisted Heal</Link> is a separate recovery capability; <Link to="/docs/agentic/doctor">Doctor</Link> explains evidence-backed failure paths; <Link to="/docs/start/quick-start#mcp-integration">MCP</Link> connects those tools to supported assistants.</p></div></section>
-
-    <section className={styles.final} id="get-started" data-testid="landing-final"><TechnicalOrbit /><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
-
-    <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} /></a>)}</div><p className={styles.attribution}>JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="Star SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></footer>
+    <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} /></a>)}</div><p className={styles.attribution}>JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><details className={styles.communityDetails}><summary>View community-reported use</summary><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div></details><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="Star SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></footer>
     <SharedImageViewer items={productImages} activeItem={activeImage} onClose={closeImage} />
   </main></Layout>;
 }
