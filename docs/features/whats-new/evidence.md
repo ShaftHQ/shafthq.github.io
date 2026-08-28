@@ -28,6 +28,8 @@ How to enable: it is already on with `shaft.trace.enabled=true` and `shaft.trace
 
 Full docs: [Reporting and evidence](/docs/features/reporting)
 
+![SHAFT Trace Viewer populated with a failed action timeline, filters, and evidence detail from the browser acceptance fixture.](/img/whats-new/trace-viewer-timeline.png)
+
 ```mermaid
 flowchart LR
   FailedAttempt --> TraceArchive --> Viewer[SHAFT Trace Report.html]
@@ -52,6 +54,8 @@ Why use it: see a concise failure summary and find every attached artifact.
 How to enable: run the test normally and open the generated report artifacts.
 
 Full docs: [Failure briefs and attachment manifest](/docs/features/reporting#failure-briefs-and-attachment-manifest)
+
+![Generated Allure report showing a failed SHAFT browser action, expanded failure step, and its attached screenshot evidence.](/img/evidence/allure-failed-evidence.png)
 
 ### Locator health reports (opt-in)
 
