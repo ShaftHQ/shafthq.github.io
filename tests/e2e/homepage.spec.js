@@ -135,14 +135,29 @@ test('product screenshots share a keyboard-accessible deep-zoom viewer', async (
   expect(Math.max(...geometry.map(({mediaBottom}) => mediaBottom)) - Math.min(...geometry.map(({mediaBottom}) => mediaBottom))).toBeLessThanOrEqual(2);
   expect(Math.max(...geometry.map(({captionTop}) => captionTop)) - Math.min(...geometry.map(({captionTop}) => captionTop))).toBeLessThanOrEqual(2);
 
+  const triggers = page.getByTestId('image-viewer-trigger');
+  await expect(triggers).toHaveCount(6);
+  for (const trigger of await triggers.all()) {
+    await trigger.hover({position: {x: 20, y: 20}});
+    await expect.poll(() => trigger.locator(':scope > :first-child').evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeCloseTo(2, 1);
+  }
+
   const firstTrigger = cards.first().getByRole('button');
   await firstTrigger.focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByTestId('image-viewer')).toBeVisible();
+  await expect(page.getByTestId('image-viewer')).toHaveCount(1);
   const viewer = page.locator('.yarl__root');
   await expect(viewer).toBeVisible();
   await expect(viewer.locator('img[src="/img/evidence/allure-passed-evidence.png"]')).toBeVisible();
-  await expect(page.getByTestId('image-viewer-trigger')).toHaveCount(6);
+  const zoomWrapper = viewer.locator('.yarl__slide_current .yarl__slide_wrapper');
+  await page.getByRole('button', {name: 'Zoom in'}).click();
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThanOrEqual(2);
+  await page.keyboard.press('+');
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThanOrEqual(4);
+  const beforeWheel = await zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a);
+  await zoomWrapper.hover();
+  await page.mouse.wheel(0, -500);
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThan(beforeWheel);
   await page.keyboard.press('Escape');
   await expect(page.getByTestId('image-viewer')).toHaveCount(0);
   await expect(firstTrigger).toBeFocused();

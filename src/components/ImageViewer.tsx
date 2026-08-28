@@ -1,5 +1,7 @@
 import React from 'react';
 import type {LightboxProps, Slide} from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
+import styles from './ImageViewer.module.css';
 
 export type ProductImage = {id: string; title: string; body: string; image: string; alt: string; width: number; height: number};
 type ViewerProps = Pick<LightboxProps, 'close' | 'index' | 'on' | 'open' | 'slides'>;
@@ -26,5 +28,5 @@ export function SharedImageViewer({items, activeItem, onClose}: {items: readonly
   const activeIndex = activeItem ? items.findIndex(({id}) => id === activeItem.id) : -1;
   const slides: Slide[] = items.map(({image, alt, width, height}) => ({src: image, alt, width, height}));
   if (activeIndex < 0) return null;
-  return <div data-testid="image-viewer"><React.Suspense fallback={<div className="imageViewerLoading" aria-live="polite">Loading image viewer</div>}><LazyLightbox open close={onClose} index={activeIndex} slides={slides} on={{exited: onClose}} /></React.Suspense></div>;
+  return <div data-testid="image-viewer"><React.Suspense fallback={<div className={styles.loading} aria-live="polite">Loading image viewer</div>}><LazyLightbox open close={onClose} index={activeIndex} slides={slides} on={{exited: onClose}} /></React.Suspense></div>;
 }
