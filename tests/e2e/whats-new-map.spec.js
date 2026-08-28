@@ -1,19 +1,43 @@
 const {expect, test} = require('@playwright/test');
 
-test('whats-new map nodes navigate to catalog sections', async ({page}) => {
+test('capability atlas searches, filters, resets, and opens direct feature links', async ({page}) => {
   await page.goto('/docs/features/whats-new');
-  const map = page.getByRole('navigation', {name: "What's new map"});
-  await expect(map).toBeVisible();
-  await map.getByRole('link', {name: 'Platform', exact: true}).click();
-  await expect(page).toHaveURL(/\/docs\/features\/whats-new\/platform\/?$/);
+  const atlas = page.getByRole('region', {name: 'Find the feature for your goal'});
+  await expect(atlas.getByText('54 features')).toBeVisible();
+
+  await atlas.getByLabel('Search capabilities').fill('GraphQL');
+  await expect(atlas.getByRole('link', {name: /GraphQL API actions/})).toBeVisible();
+  await expect(atlas.getByText('1 feature')).toBeVisible();
+  await atlas.getByRole('link', {name: /GraphQL API actions/}).click();
+  await expect(page).toHaveURL(/\/docs\/features\/whats-new\/testing#graphql$/);
+  await expect(page.locator('#graphql')).toBeVisible();
 
   await page.goto('/docs/features/whats-new');
-  await page.getByRole('navigation', {name: "What's new map"}).getByRole('link', {name: 'Capture'}).click();
-  await expect(page).toHaveURL(/\/docs\/features\/whats-new\/agentic#capture/);
+  await atlas.getByRole('button', {name: 'Test mobile'}).click();
+  await expect(atlas.getByRole('button', {name: 'Test mobile'})).toHaveAttribute('aria-pressed', 'true');
+  await expect(atlas.getByRole('link', {name: /Flutter mobile API/})).toBeVisible();
+  await atlas.getByLabel('Search capabilities').fill('not-a-feature');
+  await expect(atlas.getByText('No matching capabilities')).toBeVisible();
+  await atlas.getByRole('button', {name: 'Reset filters'}).click();
+  await expect(atlas.getByText('54 features')).toBeVisible();
 });
 
-test('whats-new cover does not embed screenshots of itself', async ({page}) => {
+test('atlas and trace rail remain usable on mobile, dark mode, and reduced motion', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'dark', reducedMotion: 'reduce'});
+  await page.setViewportSize({width: 390, height: 844});
   await page.goto('/docs/features/whats-new');
-  await expect(page.locator('img[src*="catalog-desktop"]')).toHaveCount(0);
-  await expect(page.locator('img[src*="catalog-mobile"]')).toHaveCount(0);
+  const search = page.getByLabel('Search capabilities');
+  await expect(search).toBeVisible();
+  await search.focus();
+  await expect(search).toBeFocused();
+  await page.goto('/docs/features/whats-new/capture#recorder-workbench');
+  await expect(page.locator('#recorder-workbench')).toBeVisible();
+  await expect(page.getByRole('navigation', {name: "What's new groups"})).toBeVisible();
+});
+
+test('whats-new cover has one atlas and no duplicated group-card grid or BOM snippet', async ({page}) => {
+  await page.goto('/docs/features/whats-new');
+  await expect(page.locator('#capability-atlas-title')).toHaveCount(1);
+  await expect(page.locator('.doc-card-grid')).toHaveCount(0);
+  await expect(page.getByText('shaft-bom', {exact: true})).toHaveCount(0);
 });

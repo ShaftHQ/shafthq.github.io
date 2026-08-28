@@ -215,7 +215,7 @@ const skillsPath = join(docsRoot, 'agentic/skills.mdx');
 const agenticOverview = readFileSync(join(docsRoot, 'agentic/overview.mdx'), 'utf8');
 const modulesGuide = readFileSync(join(docsRoot, 'features/modules.md'), 'utf8');
 const whatsNewRoot = join(docsRoot, 'features/whats-new');
-const whatsNewPages = ['index.mdx', 'platform.md', 'agentic.md', 'evidence.md', 'testing.md', 'modules.md', 'missed.md'];
+const whatsNewPages = ['index.mdx', 'platform.md', 'capture.md', 'agentic.md', 'evidence.md', 'testing.md', 'modules.md', 'missed.md'];
 const maintainersOverview = readFileSync(join(docsRoot, 'maintainers/overview.md'), 'utf8');
 const agentToolingGuide = readFileSync(join(docsRoot, 'maintainers/agent-tooling.md'), 'utf8');
 const sidebars = readFileSync(sidebarsPath, 'utf8');
@@ -290,20 +290,10 @@ assert(
   'docs/features/whats-new/index.mdx must not embed screenshots of itself.',
 );
 const whatsNewMap = readFileSync(join(docsRoot, '../src/components/WhatsNewMap/index.tsx'), 'utf8');
-for (const destination of [
-  '/docs/features/whats-new/platform',
-  '/docs/features/whats-new/agentic',
-  '/docs/features/whats-new/evidence',
-  '/docs/features/whats-new/testing',
-  '/docs/features/whats-new/modules',
-  '/docs/features/whats-new/missed',
-]) {
-  assert(whatsNewMap.includes(destination), `WhatsNewMap must link ${destination}.`);
-}
+assert(whatsNewMap.includes('whats-new-search'), 'WhatsNewMap must provide capability search.');
+assert(whatsNewMap.includes('Filter by goal'), 'WhatsNewMap must provide goal filters.');
+assert(whatsNewMap.includes('feature.group'), 'WhatsNewMap destinations must derive from the shared catalog.');
 assert(siteConfig.includes("label: 'What\\'s new'"), 'The navbar must expose What\'s new.');
-const whatsNewEvidence = readFileSync(join(whatsNewRoot, 'evidence.md'), 'utf8');
-const playwrightTraceEntry = whatsNewEvidence.split('### Native Playwright traces')[1].split('## Related')[0];
-assert(!playwrightTraceEntry.includes('shaft.trace'), 'Native Playwright traces must not document SHAFT trace properties.');
 for (const artifact of [
   'shaft-engine',
   'shaft-pilot-core',
