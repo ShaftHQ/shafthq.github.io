@@ -146,7 +146,7 @@ organization MCP policy, and SHAFT IntelliJ plugin users should run the
 `intellij-plugin` target before checking setup.
 
 After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
-and **Start chatting** action without showing the managed stdio command or
+and **Open Assistant** action without showing the managed stdio command or
 probe logs. The plugin starts the configured stdio command on the first tool
 invocation and keeps that MCP server process alive across tool calls, so
 session-based tools (a running Capture recording, an initialized live
