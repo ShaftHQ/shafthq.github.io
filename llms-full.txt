@@ -240,16 +240,17 @@ project setup.
  committing it.
 
 The IntelliJ plugin's first-run wizard starts with prerequisites, then asks you
-to choose an agent, install the route-specific SHAFT tools, and verify setup.
-Runnable commands use **Open in Terminal** and copy the same command as a
-fallback; copy-only output and links use **Copy**. The plugin never executes
-the installer. Project upgrade unlocks after setup is verified.
+to choose a setup route, open the route-specific SHAFT tools command, and verify
+setup. SHAFT tools are required; connecting an AI agent is optional. Runnable
+setup commands use **Open setup command in terminal** and copy the command as a
+fallback; review the pre-typed command and press Enter yourself because the
+plugin never executes installers. Project upgrade unlocks after setup is verified.
 
-![SHAFT IntelliJ Assistant first-run setup wizard with Prerequisites marked Done and Choose agent expanded](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
 
 Once **Verify setup** passes, the wizard collapses the finished
 steps and shows a **Ready** row confirming the MCP connection, workspace, and
-agent, plus **Start chatting** or **Start without an agent**:
+agent, plus **Open Assistant** or **Start without an agent**:
 
 ![Completed SHAFT IntelliJ Assistant setup showing Verify setup marked Done and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
@@ -5826,21 +5827,23 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a short wizard inside the tool window:
+support is available. First run shows **Set up SHAFT tools** inside the tool
+window. SHAFT tools are required; connecting an AI agent is optional:
 
 0. **Prerequisites** detects Python 3, Java, Maven, Node.js when needed, and the
  selected agent CLI. Missing tools and the optional SHAFT Engine warm-up use
  **Open in Terminal**; **Recheck** detects them again after installation.
-1. **Choose agent** starts unselected with a **Select an option** placeholder.
+1. **Choose setup route** starts unselected with a **Select an option** placeholder.
  Choose Codex CLI, Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI,
  GitHub Copilot in IntelliJ, or Gemini in IntelliJ. **Check** validates the
  chosen route when the plugin can observe it.
-2. **Install SHAFT tools** prepares the route-specific Agentic Tools installer
- through **Open in Terminal**. Press Enter in Terminal to run it. The plugin
- copies the command as a fallback but never executes the installer itself.
+2. **Open setup command** prepares the route-specific Agentic Tools installer
+ through **Open setup command in terminal**. The plugin copies the command,
+ opens IntelliJ Terminal, and pre-types it. Review the command and press Enter
+ yourself; the plugin never executes the installer.
 3. **Verify setup** finds the installed SHAFT MCP command, verifies the
  workspace, and asks the selected local agent whether it can access
- `shaft-mcp`. Success reveals **Ready** and **Start chatting**. When a stale
+ `shaft-mcp`. Success reveals **Ready** and **Open Assistant**. When a stale
  CLI session blocks access, recovery also uses **Open in Terminal**.
 
 After verification, **Optional: Upgrade project** unlocks. It reads the open
@@ -5882,12 +5885,11 @@ Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until
 **Verify setup** passes.
 
-![SHAFT IntelliJ Assistant setup wizard with Prerequisites marked Done and Choose agent expanded](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
 
-Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
-stepper with visible state chips, only showing the buttons relevant to the
-current step, so the path reads as
-**Prerequisites -> Choose agent -> Install SHAFT tools -> Verify setup -> Ready -> Optional: Upgrade project**.
+Setup opens with a simple vertical stepper with visible state chips, only
+showing the buttons relevant to the current step. The path reads as
+**Prerequisites -> Choose setup route -> Open setup command -> Verify setup -> Ready -> Optional: Upgrade project**.
 Every state chip reflects a real verification of what is on the machine or in
 the project — never a "you clicked the button" heuristic — and a check that
 ran and did not pass shows an explicit red **Failed** chip with recovery
@@ -5918,7 +5920,7 @@ instead of an external agent CLI.
 
 ![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
-![Completed SHAFT IntelliJ Assistant setup showing Verify setup marked Done, Choose agent still waiting on Select an option, and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ setup showing verified MCP tools and Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
 ![SHAFT IntelliJ Assistant setup in dark mode with Verify setup marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
@@ -5938,9 +5940,9 @@ it:
 - **MCP probe**: rerun the installer command, then click **Verify setup** once
  it finishes.
 
-The setup pane uses **Open in Terminal** for runnable commands and **Copy** for
-diagnostic output or links. Every terminal action also copies its command as a
-fallback.
+The setup pane uses **Open setup command in terminal** for runnable setup
+commands and **Copy** for diagnostic output or links. A terminal action copies
+and pre-types its command, but never runs it.
 Codex users should verify `codex mcp list`, Claude users should
 verify `claude mcp list` or restart Claude Desktop after desktop config changes,
 GitHub Copilot users should check the Copilot MCP configuration and
@@ -5948,7 +5950,7 @@ organization MCP policy, and SHAFT IntelliJ plugin users should run the
 `intellij-plugin` target before checking setup.
 
 After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
-and **Start chatting** action without showing the managed stdio command or
+and **Open Assistant** action without showing the managed stdio command or
 probe logs. The plugin starts the configured stdio command on the first tool
 invocation and keeps that MCP server process alive across tool calls, so
 session-based tools (a running Capture recording, an initialized live
@@ -5964,7 +5966,9 @@ nearest-match tool name instead of silently doing nothing.
 
 ## Tool window
 
-Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
+Open **Tools | SHAFT | Open SHAFT** to show the tool window in a detected SHAFT
+project. The SHAFT action and tool window stay hidden in unrelated projects.
+The plugin opens on
 the **Assistant** — the only view regular users see — and the Assistant
 understands what you need in plain language. There are no commands to learn:
 describe the outcome, and the Assistant routes the request to the right SHAFT
@@ -5992,10 +5996,11 @@ tool was chosen. When a tool fails, the result leads with a short headline
 ("` ` couldn't finish"), the humanized error, and exactly one next action,
 so a failure is easy to scan and act on rather than a wall of exception text.
 
-An empty chat keeps the surface uncluttered. The Assistant offers three chips
-that pre-fill the composer (Record a sample flow / Ask how to assert / Diagnose
-my last failure) plus a dismissible first-run coach: "Finish setup → Record a
-sample → Review code" with a **Got it** button that hides it permanently. The
+An empty chat starts with three outcome actions: **Plan a test from a scenario**,
+**Record a sample flow**, and **Diagnose a failure**. Each action only pre-fills
+the composer; review or edit the request before you send it. The Assistant also
+shows a dismissible first-run coach: "Finish setup → Record a sample → Review
+code" with a **Got it** button that hides it permanently. The
 composer placeholder invites a plain-language request (record, generate a test,
 diagnose failures, upgrade) and wraps to the panel width so it is always fully
 readable. **Run settings** stays collapsed as a chip until you expand it to
@@ -6247,16 +6252,22 @@ Compact Assistant controls keep JetBrains-style glyphs, including Copy all,
 Clear, and Rerun transcript actions. All controls retain accessible names,
 status metadata, and tooltips. Code blocks use a light editor-style palette in
 light mode and a distinct dark surface in dark mode.
+
+The header keeps a trust summary visible while you work:
+`Agent · Status · Mode · Access · Context`. It reports **Not configured** when
+no route is selected, distinguishes connected, authentication-needed, and
+unavailable provider states, identifies read-only, source-edits-with-approval,
+or unrestricted access, and counts attached context. Narrow tool windows keep
+model, effort, Verbose, and Auto-compact controls inside **Run settings**.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
-output is finalized. While the stop is in flight, the run timeline shows a
-live **Cancelling…** status (or **Killing…** when the underlying process needs
-a hard stop) instead of leaving the previous running entry in place, and the
-run always resolves to exactly one terminal timeline entry -- never a
-duplicate or a stale in-progress row. Every terminal entry (completed,
-cancelled, or failed) carries an elapsed-time suffix such as `Completed (12s)`
-so you can see how long the run actually took at a glance. A token-usage line
+output is finalized. While the stop is in flight, the compact status strip
+shows **Cancelling…** (or **Killing…** when the underlying process needs a
+hard stop). The strip collapses when the run finishes; the transcript keeps
+the substantive result, cancellation, or failure response without adding a
+duplicate terminal milestone. Duration appears only when the underlying tool
+or agent reports a real duration. A token-usage line
 appears under the response only when the wrapped CLI reports real usage
 metadata (input/output token counts); SHAFT never fabricates or estimates a
 count when the CLI stays silent about usage.
@@ -6279,6 +6290,14 @@ expand it to inspect that one result's raw payload without turning on
 Verbose for the whole session. Like Verbose's raw-response echo, this raw
 evidence is transient view state only; it is never written to persisted
 chat history (see below).
+
+Assistant output is grouped into labeled run records such as **Run · Result**,
+**Run · Action and evidence**, **Run · Raw activity**, and **Run · Failed**.
+Action and raw-activity details start collapsed; use **Show run details** and
+**Hide run details** to inspect them. Evidence image previews are buttons, so
+you can reach and open them with the keyboard. Raw evidence uses the visible
+**Show raw output** and **Hide raw output** controls instead of a tooltip-only
+state.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -6380,13 +6399,13 @@ ends with a factual **Local agent activity** footer whenever the run created
 or edited files or lost tool calls to permission denials, listing the touched
 paths and the denied tools with per-tool counts.
 
-The run timeline and action controls stay hidden
-until the current prompt, selected tool, running, approval, completion,
-cancellation, or failure state makes them useful. Type `@` for workflow
-starters (plain-language prefills such as "Record my browser actions on
-https://") and `#` for the current file or known project artifacts; the
-dropdown filters live as you keep typing. The former "+" context button was
-removed in favor of these typed triggers.
+The run status strip and action controls stay hidden until a request is active.
+Substantive tool selections and progress milestones appear as transcript run
+records; approval requests appear inline when a decision is needed. Type `@`
+for workflow starters (plain-language prefills such as "Record my browser
+actions on https://") and `#` for the current file or known project artifacts;
+the dropdown filters live as you keep typing. The former "+" context button
+was removed in favor of these typed triggers.
 
 Pasting raw Selenium/Appium Java into the composer proactively offers a
 one-click **"Selenium detected — convert to SHAFT + guardrails"** action that
@@ -6408,7 +6427,11 @@ generated class.
 
 ![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box, and a compact Run settings chip before an agent route is selected](/img/agentic/intellij-plugin-assistant.png)
 
-![SHAFT IntelliJ Assistant empty composer with Record a sample flow, Ask how to assert, and Diagnose my last failure chips, a compact Run settings chip, and an attach control](/img/agentic/intellij-plugin-assistant-empty.png)
+![SHAFT IntelliJ Assistant empty state with a visible trust summary and three outcome actions that prefill the composer](/img/agentic/intellij-plugin-assistant-empty.png)
+
+![SHAFT IntelliJ Assistant narrow dark view showing active work, progress, and cancellation controls](/img/agentic/intellij-plugin-assistant-active-status-narrow.png)
+
+![SHAFT IntelliJ Assistant run result with the raw output disclosure expanded](/img/agentic/intellij-plugin-assistant-tool-result-raw-output.png)
 
 The Assistant routes plain-language intent to the right MCP tools:
 
@@ -6720,8 +6743,8 @@ runs: they are first-party capabilities of the Assistant, so Claude Code Agent
 commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
 (mirroring the Codex launch-time `default_tools_approval_mode="approve"`
 flag), and any SHAFT tool request that still reaches the approval bridge is
-auto-allowed with an `Auto-approved SHAFT tool` timeline entry. Shell commands
-and third-party MCP servers keep the interactive approval bubble.
+auto-allowed with an `Auto-approved SHAFT tool` transcript milestone. Shell
+commands and third-party MCP servers keep the interactive approval bubble.
 
 ### Connection & agents
 
