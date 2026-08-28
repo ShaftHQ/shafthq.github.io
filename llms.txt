@@ -32,17 +32,18 @@
 - [shaft-cli command line](https://shafthq.github.io/docs/agentic/cli): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
 
 ## Features
-- [Agentic updates](https://shafthq.github.io/docs/features/whats-new/agentic): Find SHAFT's deterministic agentic tools and optional provider controls.
+- [Agentic tool updates](https://shafthq.github.io/docs/features/whats-new/agentic): Configure deterministic local tools, IntelliJ workflows, and optional providers.
 - [Architecture](https://shafthq.github.io/docs/features/architecture): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine-vs-framework distinction.
-- [Evidence updates](https://shafthq.github.io/docs/features/whats-new/evidence): Find failure evidence, reporting, and trace surfaces.
+- [Capture and generation updates](https://shafthq.github.io/docs/features/whats-new/capture): Record browser, API, and mobile journeys and generate replayed SHAFT code.
+- [Evidence and report updates](https://shafthq.github.io/docs/features/whats-new/evidence): Configure portable failure evidence, structured checkpoints, and merged reports.
 - [Features and modules](https://shafthq.github.io/docs/features/modules): Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
-- [Features you might have missed](https://shafthq.github.io/docs/features/whats-new/missed): Find older user-facing SHAFT capabilities that are easy to overlook.
-- [Module updates](https://shafthq.github.io/docs/features/whats-new/modules): Find optional SHAFT artifacts and the OCR preview.
+- [Features you might have missed](https://shafthq.github.io/docs/features/whats-new/missed): Find useful locator, localization, and report compatibility features.
+- [Integrations and modules](https://shafthq.github.io/docs/features/whats-new/modules): Add focused SHAFT integrations and understand OCR release status.
 - [Pillars of successful test automation](https://shafthq.github.io/docs/features/test-automation-pillars): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
-- [Platform updates](https://shafthq.github.io/docs/features/whats-new/platform): Find modular dependency, upgrade, and project setup changes.
+- [Platform and setup updates](https://shafthq.github.io/docs/features/whats-new/platform): Configure modular dependencies and local or remote test infrastructure.
 - [Reporting and evidence](https://shafthq.github.io/docs/features/reporting): How SHAFT records actions, screenshots, logs, and Allure results.
-- [Testing updates](https://shafthq.github.io/docs/features/whats-new/testing): Find newer test backends, replay, terminal, and accessibility surfaces.
-- [What's new since modularization](https://shafthq.github.io/docs/features/whats-new): Scan user-facing SHAFT capabilities added since the modular release.
+- [Testing API updates](https://shafthq.github.io/docs/features/whats-new/testing): Use newer web, mobile, API, contract, visual, and accessibility capabilities.
+- [What's new since modularization](https://shafthq.github.io/docs/features/whats-new): Find and use user-facing SHAFT capabilities added since the modular release.
 
 ## Integrations
 - [BrowserStack](https://shafthq.github.io/docs/integrations/browserstack): Choose direct BrowserStack sessions or the optional SDK orchestration module.

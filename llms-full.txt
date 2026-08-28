@@ -8410,170 +8410,28 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout h
 
 ---
 
-# Agentic updates
+# Agentic tool updates
 
 Canonical URL: https://shafthq.github.io/docs/features/whats-new/agentic
 
-# Agentic updates
+# Agentic tool updates
 
-```mermaid
-flowchart LR
- IDE[IntelliJ or MCP client] --> MCP[SHAFT MCP]
- MCP --> Capture --> Code[Reviewable code]
- Evidence --> Doctor --> Diagnosis
- ChangedLocator --> Heal --> Review
- click IDE "/docs/features/whats-new/agentic#intellij-coding-partner" "IntelliJ coding partner"
- click MCP "/docs/features/whats-new/agentic#shaft-mcp" "SHAFT MCP"
- click Capture "/docs/features/whats-new/agentic#capture" "Capture"
- click Doctor "/docs/features/whats-new/agentic#shaft-doctor" "SHAFT Doctor"
- click Heal "/docs/features/whats-new/agentic#shaft-heal" "SHAFT Heal"
-```
+Choose the smallest local interface that fits your workflow. Provider-backed
+advice remains optional; deterministic tools continue to work without it.
 
-## Catalog
+ 
 
-### SHAFT Pilot
-
-Pilot provides provider-neutral contracts and local orchestration through `shaft-pilot-core`.
-
-Why use it: keep optional model access behind SHAFT's provider controls.
-
-How to start: add `shaft-pilot-core` when an integration needs Pilot contracts.
-
-Full docs: [SHAFT Pilot](/docs/agentic/pilot)
-
-### Capture
-
-Capture records browser and API flows, then produces reviewable replay code through `shaft-capture`.
-
-Why use it: turn an observed journey into code that the team can inspect and maintain.
-
-How to start: install `shaft-capture`, then use IntelliJ `/record` or `/codegen`; deterministic Capture works with `pilot.ai.enabled=false`.
-
-Full docs: [Capture](/docs/agentic/capture)
-
-![SHAFT Capture locator picker over the current browser acceptance fixture, showing scored generated locator choices for the selected element.](/img/whats-new/capture-locator-picker.png)
-
-![SHAFT Capture assertion mode over the current browser acceptance fixture, with the assertion panel open and an element target selected.](/img/whats-new/capture-assertion-mode.png)
-
-```mermaid
-flowchart LR
- Record --> Review --> Replay --> Commit
-```
-
-### SHAFT Doctor
-
-Doctor analyzes allowlisted Allure evidence and failure traces through `shaft-doctor`.
-
-Why use it: triage a failed run from its artifacts without sending evidence to a provider.
-
-How to start: add `shaft-doctor` and point it at the failed run's evidence.
-
-Full docs: [SHAFT Doctor](/docs/agentic/doctor)
-
-### SHAFT Heal
-
-Heal proposes deterministic, explainable recovery for eligible changed web locators through `shaft-heal`.
-
-Why use it: review a targeted locator recovery instead of guessing at a replacement.
-
-How to start: add `shaft-heal` and run the documented healer workflow.
-
-Full docs: [SHAFT Heal](/docs/agentic/heal)
-
-```mermaid
-flowchart LR
- Failure --> Candidate --> Review --> Rerun
-```
-
-### SHAFT MCP
-
-SHAFT MCP exposes local stdio tools for browser actions, Capture, Doctor, Heal, and guide search.
-
-Why use it: connect a coding agent without storing model credentials in MCP.
-
-How to start: install the `shaft-mcp` route from the agentic tools installer.
-
-Full docs: [Connect MCP](/docs/agentic/mcp)
-
-### shaft-cli
-
-`shaft-cli` gives scripts and CI repeatable one-shot access to the SHAFT tool catalog.
-
-Why use it: use the same local tools without configuring an MCP client.
-
-How to start: run the documented installer with `--install-shaft-cli`.
-
-Full docs: [SHAFT CLI](/docs/agentic/cli)
-
-### IntelliJ coding partner
-
-The IntelliJ plugin brings Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and guide search into the IDE.
-
-Why use it: keep recording, diagnosis, and reviewed changes beside the Java project.
-
-How to start: install the SHAFT IntelliJ plugin and follow its setup guide.
-
-Full docs: [IntelliJ IDEA plugin](/docs/agentic/intellij)
-
-![SHAFT IntelliJ Assistant renderer showing project-scoped guidance, MCP tools, and a reviewed response inside the IDE.](/img/whats-new/intellij-assistant.png)
-
-### SHAFT agent skills
-
-SHAFT agent skills provide task-specific instructions without requiring an MCP client.
-
-Why use it: give supported coding agents a shared project workflow.
-
-How to start: use the installation route in the skills guide.
-
-Full docs: [SHAFT agent skills](/docs/agentic/skills)
-
-### ChaosEngine harness
-
-ChaosEngine installs a project-local agent harness with verified host adapters and local tooling.
-
-Why use it: give agents one repeatable workspace workflow.
-
-How to start: follow the project-local installation guide.
-
-Full docs: [ChaosEngine harness](/docs/agentic/chaos-engine)
-
-### Optional AI providers
-
-Provider adapters are optional and remain disabled until explicitly configured and approved.
-
-Why use it: add provider advice only when the project accepts that integration.
-
-How to enable: configure a provider through the documented controls; Copilot can connect through MCP.
-
-Full docs: [Provider controls](/docs/agentic/providers)
-
-### Planning test coverage
-
-MCP can crawl same-origin content deterministically and draft Markdown test plans into `specs/`.
-
-Why use it: start coverage discussion from a repeatable crawl rather than an untracked prompt.
-
-How to start: run the planning workflow from MCP.
-
-Full docs: [Planning test coverage](/docs/agentic/mcp#planning-test-coverage)
-
-### Trust-gated natural-language actions
-
-Natural-language GUI actions are a separate, trust-gated surface and are disabled by default.
-
-Why use it: opt into intent-based actions only with the project controls you want.
-
-How to enable: configure the trust-gated action workflow from its reference.
-
-Full docs: [Natural-language actions](/docs/reference/actions/GUI/Natural_Language_Actions)
+Install only the tool route your environment uses:
 
 ```text
-Install agentic tools with the commands in the linked guide.
+MCP, CLI, IntelliJ, or agent skills
 ```
+
+![SHAFT IntelliJ Assistant showing project guidance, local MCP tools, and a reviewed response.](/img/whats-new/intellij-assistant.png)
 
 ## Related
 
-- [Agentic testing](/docs/agentic/overview)
+- [Agentic testing overview](/docs/agentic/overview)
 - [What's new since modularization](/docs/features/whats-new)
 
 ---
@@ -8791,113 +8649,55 @@ desktop-image action facade without shadowing `shaft-engine` classes.
 
 ---
 
-# Evidence updates
+# Capture and generation updates
+
+Canonical URL: https://shafthq.github.io/docs/features/whats-new/capture
+
+# Capture and generation updates
+
+Use Capture to record a working journey, correct its intent, and generate code
+that passes replay before you keep it.
+
+ 
+
+Open the local Capture workflow through its documented client:
+
+```text
+/record
+```
+
+![SHAFT Capture locator picker showing scored locator choices for the selected browser element.](/img/whats-new/capture-locator-picker.png)
+
+![SHAFT Capture assertion mode with the assertion panel open and a browser target selected.](/img/whats-new/capture-assertion-mode.png)
+
+## Related
+
+- [Capture guide](/docs/agentic/capture)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Evidence and report updates
 
 Canonical URL: https://shafthq.github.io/docs/features/whats-new/evidence
 
-# Evidence updates
+# Evidence and report updates
 
-```mermaid
-flowchart LR
- Test --> Evidence[Evidence]
- Evidence --> Allure
- Evidence --> Trace
- Evidence --> Diagnostics
- click Allure "/docs/features/whats-new/evidence#allure-shaft-overview-panel" "Allure SHAFT overview"
- click Trace "/docs/features/whats-new/evidence#failure-trace-viewer-on-by-default" "Failure Trace Viewer"
- click Diagnostics "/docs/features/whats-new/evidence#failure-diagnostics-bundle-on-by-default" "Failure diagnostics bundle"
-```
+Use the lightest evidence profile that answers the team's diagnostic needs.
+Failed runs can retain portable reports, bundles, manifests, and structured checks.
 
-## Catalog
+ 
 
-### Failure Trace Viewer (on by default)
-
-A self-contained trace viewer attaches to failed-test evidence with actions, DOM snapshots, network, console, and locator health where available.
-
-Why use it: inspect a failure without rerunning it; `SHAFT Trace Report.html` opens without sibling files.
-
-How to enable: it is already on with `shaft.trace.enabled=true` and `shaft.trace.mode=auto`; failed attempts are retained with `shaft.trace.retainFailedAttempts=true`.
-
-Full docs: [Reporting and evidence](/docs/features/reporting)
-
-![SHAFT Trace Viewer populated with a failed action timeline, filters, and evidence detail from the current browser acceptance output.](/img/whats-new/trace-viewer.png)
-
-```mermaid
-flowchart LR
- FailedAttempt --> TraceArchive --> Viewer[SHAFT Trace Report.html]
-```
-
-### Failure diagnostics bundle (on by default)
-
-Failed and broken tests attach `shaft-diagnostics.zip`, including sanitized metadata, bounded logs, and referenced artifacts.
-
-Why use it: hand one portable evidence bundle to a human, Doctor, or MCP client.
-
-How to enable: it is already on; set `shaft.diagnostics.enabled=false` only to disable it.
-
-Full docs: [Failure diagnostics bundle](/docs/features/reporting#failure-diagnostics-bundle)
-
-### Failure brief and attachment manifest (on by default)
-
-Failure evidence includes `SHAFT Failure Brief.html` and `shaft-attachments-manifest.json`; Allure 3 runs also receive `categories.json`.
-
-Why use it: see a concise failure summary and find every attached artifact.
-
-How to enable: run the test normally and open the generated report artifacts.
-
-Full docs: [Failure briefs and attachment manifest](/docs/features/reporting#failure-briefs-and-attachment-manifest)
-
-![Generated static Allure report with the SHAFT Failure Brief attachment opened, showing its redacted failed-test summary and attachment manifest.](/img/whats-new/failure-brief.png)
-
-### Locator health reports (opt-in)
-
-Locator health records score and stability information for the locators a run uses.
-
-Why use it: find fragile locators before they become recurrent failures.
-
-How to enable: set `shaft.locatorHealth.enabled=true`.
-
-Full docs: [Reporting reference](/docs/reference/reporting)
-
-### Flake and auto-wait profiler (opt-in)
-
-The profiler records flake risk and auto-wait behavior for investigation.
-
-Why use it: distinguish unstable behavior from a one-off failed run.
-
-How to enable: set `shaft.flakeProfiler.enabled=true`; leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` until thresholds exist.
-
-Full docs: [Reporting reference](/docs/reference/reporting)
-
-### Allure SHAFT overview panel
-
-SHAFT adds its overview surface to the generated Allure report.
-
-Why use it: begin report review with SHAFT-specific run and evidence context.
-
-How to start: generate and open the Allure report after a test run.
-
-Full docs: [Reporting and evidence](/docs/features/reporting)
-
-```mermaid
-flowchart LR
- Result[allure-results] --> Report[Allure report] --> Overview[SHAFT overview]
-```
-
-### Native Playwright traces
-
-Playwright runs retain their native trace ZIP alongside SHAFT evidence.
-
-Why use it: open native Playwright timing and browser evidence when a retry produces it.
-
-How to enable: leave tracing off by default. With retry evidence capture and `playwright.tracing.onRetryOnly=true` (default), retry ZIPs attach automatically; set `playwright.tracing.enabled=true` only for a full-session trace.
-
-Full docs: [Playwright backend](/docs/reference/actions/GUI/Playwright_Backend)
+Keep the default automatic trace profile unless the project needs another level:
 
 ```properties
-playwright.tracing.enabled=false
-playwright.tracing.onRetryOnly=true
+shaft.trace.enabled=true
+shaft.trace.mode=auto
 ```
+
+![SHAFT Trace Viewer populated with a failed action timeline, filters, and evidence detail.](/img/whats-new/trace-viewer.png)
+
+![Generated Allure report with the SHAFT Failure Brief attachment open.](/img/whats-new/failure-brief.png)
 
 ## Related
 
@@ -9114,100 +8914,36 @@ Canonical URL: https://shafthq.github.io/docs/features/whats-new/missed
 
 # Features you might have missed
 
-```mermaid
-flowchart LR
- Explore --> Smart[Smart Locators]
- StableCode --> Aria[ARIA locators]
- Report --> Allure[Allure 3]
- click Smart "/docs/features/whats-new/missed#smart-locators" "Smart Locators"
- click Aria "/docs/features/whats-new/missed#aria-role-locators" "ARIA role locators"
- click Allure "/docs/features/whats-new/missed#allure-3-compatibility-mode" "Allure 3 compatibility"
-```
+Use these focused capabilities when exact text, stable locators, or report
+tooling need more than the basic path.
 
-## Catalog
+ 
 
-### Smart Locators
-
-`inputField(...)` and `clickableField(...)` help a human explore a page when a stable locator is not yet known.
-
-Why use it: move quickly during throwaway exploration before you write a durable locator.
-
-How to start: use a Smart Locator only while exploring, then replace it with a stable locator in repository code.
-
-Full docs: [Locators and self-healing](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
-
-### ARIA role locators
-
-`SHAFT.GUI.Locator.hasRole(...)` builds locators from an element's accessible role and normalized text.
-
-Why use it: express the user-facing control semantics in a stable, readable locator.
-
-How to start: build a role locator and use it in the page object.
-
-Full docs: [Element identification](/docs/reference/actions/GUI/Element_Identification)
-
-### Allure 3 compatibility mode
-
-SHAFT can generate Allure 3 reports while retaining explicit compatibility behavior for Allure 2.
-
-Why use it: use managed Allure 3 resolution or retain PATH-first behavior while teams migrate report tooling.
-
-How to enable: keep `allure.forceConfiguredCliVersion=true` for managed Allure 3; set it to `false` to let a PATH 2.x CLI activate compatibility mode.
-
-Full docs: [Properties catalog](/docs/reference/properties/PropertiesList#allure)
+Build an accessible role locator for durable page-object code:
 
 ```java
-By loginButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();
+By login = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();
 ```
 
 ## Related
 
-- [Pillars of successful test automation](/docs/features/test-automation-pillars)
+- [Validations](/docs/reference/actions/Validations)
 - [What's new since modularization](/docs/features/whats-new)
 
 ---
 
-# Module updates
+# Integrations and modules
 
 Canonical URL: https://shafthq.github.io/docs/features/whats-new/modules
 
-# Module updates
+# Integrations and modules
 
-```mermaid
-flowchart LR
- Engine[shaft-engine] --> BrowserStack
- Engine --> Video
- Engine --> Visual
- Engine --> SikuliX
- Source --> OCR[shaft-ocr preview]
- click BrowserStack "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
- click Video "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
- click Visual "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
- click SikuliX "/docs/features/whats-new/modules#optional-artifacts" "Optional artifacts"
- click OCR "/docs/features/whats-new/modules#shaft-ocr-preview" "shaft-ocr preview"
-```
+Add only the artifact that owns the required capability. Let the SHAFT BOM
+manage published module versions.
 
-## Catalog
+ 
 
-### Optional artifacts
-
-`shaft-browserstack`, `shaft-video`, `shaft-visual`, and `shaft-sikulix` add focused integration capabilities to the core engine.
-
-Why use it: keep specialized dependencies out of projects that do not use them.
-
-How to start: add the artifact that owns the needed capability, with the BOM managing versions.
-
-Full docs: [Features and modules](/docs/features/modules)
-
-### shaft-ocr preview
-
-`shaft-ocr` exists in engine source as an unreleased preview and is not a published BOM artifact.
-
-Why use it: track the visible-text and OCR direction without treating preview code as a supported dependency.
-
-How to start: wait for a containing published release before adding it to a project.
-
-Full docs: [Features and modules](/docs/features/modules)
+Add a selected artifact without repeating its BOM-managed version:
 
 ```xml
  shaft-visual 
@@ -9215,7 +8951,7 @@ Full docs: [Features and modules](/docs/features/modules)
 
 ## Related
 
-- [Integrations](/docs/integrations/visual)
+- [Features and modules](/docs/features/modules)
 - [What's new since modularization](/docs/features/whats-new)
 
 ---
@@ -9408,73 +9144,18 @@ public class LoginTest {
 
 ---
 
-# Platform updates
+# Platform and setup updates
 
 Canonical URL: https://shafthq.github.io/docs/features/whats-new/platform
 
-# Platform updates
+# Platform and setup updates
 
-```mermaid
-flowchart LR
- Project --> BOM[shaft-bom]
- Legacy --> Upgrade[Automated upgrader]
- New --> Generator[Project Generator]
- Generator --> Properties[Properties Generator]
- click BOM "/docs/features/whats-new/platform#modular-artifacts-and-bom" "Modular artifacts and BOM"
- click Upgrade "/docs/features/whats-new/platform#automated-upgrade-tool" "Automated upgrade tool"
- click Generator "/docs/features/whats-new/platform#project-generator" "Project Generator"
- click Properties "/docs/features/whats-new/platform#properties-generator" "Properties Generator"
-```
+Start here when you need to install SHAFT, upgrade a project, or prepare an
+execution service. Open the full guide for exact commands and environment rules.
 
-## Catalog
+ 
 
-### Modular artifacts and BOM
-
-Published capabilities are split into `shaft-engine` and optional artifacts, with `shaft-bom` aligning their versions.
-
-Why use it: add only the dependencies a project needs while keeping versions aligned.
-
-How to start: import `shaft-bom` in dependency management.
-
-Full docs: [Features and modules](/docs/features/modules)
-
-### Automated upgrade tool
-
-The upgrader moves supported Selenium, Appium, REST Assured, and older SHAFT projects to current APIs and coordinates.
-
-Why use it: make the migration reviewable instead of changing every dependency and call by hand.
-
-How to start: run the documented command from the project root.
-
-Full docs: [Automated upgrade tool](/docs/start/upgrade)
-
-### Project Generator
-
-The Project Generator creates a ready-to-run Maven project after you choose the runner and test surfaces.
-
-Why use it: begin from a configured sample instead of assembling a POM manually.
-
-How to start: open the generator from the installation guide.
-
-Full docs: [Project Generator](/docs/start/installation)
-
-![Desktop Project Generator view with its project setup choices.](/img/whats-new/setup-wizard-desktop.png)
-
-![Mobile Project Generator view with its project setup choices.](/img/whats-new/setup-wizard-mobile.png)
-
-### Properties Generator
-
-The Properties Generator helps create a custom properties file from the supported configuration catalog.
-
-Why use it: make configuration choices visible and copy a focused file into the project.
-
-How to start: open the generator and select only the properties you need.
-
-Full docs: [Properties Generator](/docs/reference/properties/custom-properties-generator)
-
-![Desktop Properties Generator view listing selectable SHAFT properties.](/img/whats-new/properties-generator-desktop.png)
-
-![Mobile Properties Generator view listing selectable SHAFT properties.](/img/whats-new/properties-generator-mobile.png)
+Verify the selected setup with a focused run:
 
 ```bash
 mvn test
@@ -9482,8 +9163,8 @@ mvn test
 
 ## Related
 
-- [What's new since modularization](/docs/features/whats-new)
 - [Installation](/docs/start/installation)
+- [What's new since modularization](/docs/features/whats-new)
 
 ---
 
@@ -9664,75 +9345,26 @@ wait-heavy, stale, healed, or failing actions.
 
 ---
 
-# Testing updates
+# Testing API updates
 
 Canonical URL: https://shafthq.github.io/docs/features/whats-new/testing
 
-# Testing updates
+# Testing API updates
 
-```mermaid
-flowchart LR
- GUI --> Playwright
- UIAPI[UI and API] --> Contracts
- Terminal --> SSH[SFTP, SSH, forwarding]
- Audit --> Accessibility
- click Playwright "/docs/features/whats-new/testing#playwright-gui-backend" "Playwright GUI backend"
- click Contracts "/docs/features/whats-new/testing#ui-and-api-contract-replay" "UI and API contract replay"
- click SSH "/docs/features/whats-new/testing#remote-terminal-sftp-ssh-and-port-forwarding" "Remote terminal"
- click Accessibility "/docs/features/whats-new/testing#accessibility-reports-and-audit" "Accessibility reports"
-```
+Pick the test surface that owns the behavior, then follow its full guide for
+exact Java APIs and lifecycle rules.
 
-## Catalog
+ 
 
-### Playwright GUI backend
-
-`SHAFT.GUI.Playwright` runs SHAFT GUI actions through Microsoft Playwright.
-
-Why use it: choose a Playwright session while keeping the SHAFT GUI API.
-
-How to start: create `new SHAFT.GUI.Playwright()` in the supported test setup.
-
-Full docs: [Playwright backend](/docs/reference/actions/GUI/Playwright_Backend)
-
-### UI and API contract replay
-
-Contract replay records and checks UI and API interactions against reviewable contracts.
-
-Why use it: detect behavior drift without relying only on a full end-to-end assertion.
-
-How to start: follow the contract capture and replay workflow.
-
-Full docs: [Contract testing](/docs/testing/contracts)
-
-### Remote terminal SFTP, SSH, and port forwarding
-
-CLI actions support remote SFTP and SSH operations, including port forwarding.
-
-Why use it: include remote-system setup and verification in the test workflow.
-
-How to start: configure a remote terminal session from the reference guide.
-
-Full docs: [SSH terminal actions](/docs/reference/actions/CLI/SSH_Terminal)
-
-### Accessibility reports and audit
-
-SHAFT exposes accessibility audit and report surfaces through its web and MCP workflows.
-
-Why use it: collect actionable audit output alongside the test evidence.
-
-How to start: use the accessibility workflow documented for the active test surface.
-
-Full docs: [Accessibility testing](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#accessibility-testing)
+Create a supported Playwright session explicitly:
 
 ```java
-driver.browser().navigateToURL("https://example.com")
- .accessibility()
- .assertNoCriticalViolations("Home Page");
+SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 ```
 
 ## Related
 
-- [Testing guides](/docs/testing/web)
+- [Web testing](/docs/testing/web)
 - [What's new since modularization](/docs/features/whats-new)
 
 ---
@@ -9743,45 +9375,21 @@ Canonical URL: https://shafthq.github.io/docs/features/whats-new
 
 # What's new since modularization
 
-Use this catalog to find user-facing capabilities added since `10.2.20260610`
-(2026-06-10). Keep the deeper configuration and API details in the linked
-canonical guides. Select a node in the map to open that section.
-
-:::note
-When a user-facing feature ships, add or refresh its short entry here in the
-same documentation PR as its deep guide.
-:::
-
-## Browse by group
+Find user-facing capabilities added since `10.2.20260610` (2026-06-10). Search
+by feature name or filter by the job you need to complete. Each result opens a
+focused page with setup, usage, and canonical guide links.
 
  
- Platform Modular dependencies, upgrading, and generators. 
- Agentic Deterministic tools and optional providers. 
- Evidence Failure evidence and reporting surfaces. 
- Testing Newer testing and audit surfaces. 
- Modules Optional artifacts and preview work. 
- Features you might have missed Older, useful capabilities. 
- 
 
-Import the BOM before combining published modules:
+Use the search field directly. No setup is required:
 
-```xml title="pom.xml"
- 
- 
- 
- io.github.shafthq 
- shaft-bom 
- ${shaft.version} 
- pom 
- import 
- 
- 
- 
+```text
+GraphQL
 ```
 
 ## Related
 
-- [Upgrade](/docs/start/upgrade)
+- [Upgrade an existing project](/docs/start/upgrade)
 - [Features and modules](/docs/features/modules)
 
 ---
@@ -24220,6 +23828,44 @@ A good pattern is to use **one hard assertion** to confirm the test precondition
 :::info
 Soft assertion failures are accumulated per-test and reported at the end of the test method. In TestNG, SHAFT triggers a test failure after the `@AfterMethod` completes, so all soft failures for a test are visible in the Allure report.
 :::
+
+## Localization assertions
+
+Validate the script used by element or browser text with `language()`. SHAFT
+supports Arabic, English, Spanish, French, and German presets. You can pass the
+matching `ValidationEnums.TextLanguage` value or its two-letter code.
+
+```java title="LocalizationValidation.java"
+
+driver.assertThat().element(By.id("welcome")).text().language().is(TextLanguage.ARABIC);
+driver.verifyThat().element(By.id("welcome")).text().language().isNot("en");
+driver.assertThat().element(By.id("welcome")).text().direction().is(TextDirection.RTL);
+driver.verifyThat().element(By.id("welcome")).text().direction().isRightToLeft();
+```
+
+Call `language()` or `direction()` only after a text validation. Language
+detection checks whether the value contains characters from the selected
+language family. Direction checks the text-direction metadata collected for
+the element or browser text.
+
+Use `isArabic()` when you need the convenience check for Arabic characters and
+right-to-left direction:
+
+```java title="ArabicTextValidation.java"
+driver.assertThat().element(By.id("welcome")).text().isArabic();
+```
+
+## Soft verification evidence
+
+Each `verifyThat()` condition records its checkpoint while execution continues.
+Open the test's validation evidence to review every collected checkpoint and
+the final aggregated result. Keep independent observations as separate chains
+so each failed condition has its own report entry.
+
+```java title="VerificationEvidence.java"
+driver.verifyThat().element(By.id("name")).text().contains("John");
+driver.verifyThat().element(By.id("email")).text().contains("@");
+```
 
 ## Related
 
