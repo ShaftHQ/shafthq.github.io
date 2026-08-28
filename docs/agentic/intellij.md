@@ -162,7 +162,9 @@ nearest-match tool name instead of silently doing nothing.
 
 ## Tool window
 
-Open **Tools | SHAFT | Open SHAFT** to show the tool window. The plugin opens on
+Open **Tools | SHAFT | Open SHAFT** to show the tool window in a detected SHAFT
+project. The SHAFT action and tool window stay hidden in unrelated projects.
+The plugin opens on
 the **Assistant** — the only view regular users see — and the Assistant
 understands what you need in plain language. There are no commands to learn:
 describe the outcome, and the Assistant routes the request to the right SHAFT
