@@ -80,7 +80,18 @@ assert(styles.includes('3.6s') && !styles.includes('infinite') && styles.include
 assert(styles.includes('180ms') && styles.includes('240ms'), 'Interactive transitions must stay within the approved duration range.');
 assert(!/stroke-dash|transition:[^;]*(?:color|background)/.test(styles), 'Homepage must animate only transform and opacity.');
 assert(styles.includes('.workflowGrid :global(.token.function)') && styles.includes('.surfacePanel :global(.token.string)') && styles.includes('.surfaceSection .eyebrow'), 'Landing code and dark-surface labels must retain tokenized contrast overrides.');
-assert(!/IntersectionObserver|data-reveal|Lottie|three\.js|parallax|cursor chase|counter/.test(`${index}\n${styles}`), 'Homepage must not add forbidden animation or runtime patterns.');
+assert(!/IntersectionObserver|data-reveal|Lottie|three\.js|parallax|cursor chase|counter/.test(`${index}\n${styles}\n${viewer}`), 'Homepage must not add forbidden animation or runtime patterns.');
+const forbiddenViewerCursorRuntime = [
+  [/\bonPointerMove\b/, 'pointer-move cursor tracking'],
+  [/\bgetBoundingClientRect\s*\(/, 'pointer geometry reads'],
+  [/\.style\.setProperty\s*\(\s*['"]--image-preview-(?:x|y)['"]/, 'image-preview coordinate style writes'],
+  [/--image-preview-(?:x|y)\b/, 'image-preview coordinate custom properties'],
+];
+const cursorChaseMutation = 'onPointerMove={preview}; event.currentTarget.getBoundingClientRect(); event.currentTarget.style.setProperty("--image-preview-x", "50%");';
+for (const [pattern, description] of forbiddenViewerCursorRuntime) {
+  assert(!pattern.test(viewer), `ImageViewer must not restore ${description}.`);
+  assert(pattern.test(cursorChaseMutation), `Cursor-chase guard must reject ${description}.`);
+}
 
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
 assert(imgbotConfig.ignoredFiles.includes('shaft-social-card.png'), 'ImgBot must ignore the deterministic social-card filename.');
