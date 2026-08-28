@@ -11,6 +11,14 @@ test('hero routes users to the workflow without a GitHub distraction', async ({p
   await expect(page.getByTestId('landing-final').getByRole('link', {name: 'Star on GitHub'})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
 });
 
+test('footer Slack CTA retains its trusted invite destination', async ({page}) => {
+  await page.goto('/');
+  await expect(page.getByTestId('landing-footer').getByRole('link', {name: 'Slack'})).toHaveAttribute(
+    'href',
+    /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/,
+  );
+});
+
 async function assertTabs(page, tablistName, first, second, last = second) {
   const tablist = page.getByRole('tablist', {name: tablistName});
   const firstTab = tablist.getByRole('tab', {name: first});
