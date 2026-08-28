@@ -295,8 +295,19 @@ test('hero evidence statement clears WCAG AA contrast against its real composite
   await assertClearsContrast(page, 'hero evidence statement', '[data-testid="landing-hero"] p', adjacentSampler);
 });
 
-test('evidence figure captions clear WCAG AA contrast on their rendered cards', async ({page}) => {
-  await assertClearsContrast(page, 'evidence figure caption', '[data-testid="landing-evidence"] strong', adjacentSampler);
+test('hero evidence caption clears WCAG AA contrast on its rendered card', async ({page}) => {
+  await assertClearsContrast(page, 'hero evidence caption', '[data-testid="landing-hero"] figcaption strong', adjacentSampler);
+});
+
+test('selected tabs clear WCAG AA contrast in dark theme', async ({page}) => {
+  await page.getByRole('button', {name: /Switch between dark and light mode/}).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await assertClearsContrast(
+    page,
+    'dark selected workflow tab',
+    '[data-testid="landing-agent-workflow"] [role="tab"][aria-selected="true"]',
+    interiorSampler(10),
+  );
 });
 
 test('stakeholder trust links clear WCAG AA contrast on their real background', async ({page}) => {
