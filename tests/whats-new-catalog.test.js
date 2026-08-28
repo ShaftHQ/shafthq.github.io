@@ -18,6 +18,10 @@ assert.deepEqual(
   'Catalog must expose every approved capability group in journey order.',
 );
 assert(catalog.features.length >= 40, 'Parity catalog must include at least 40 capability-level entries.');
+assert(
+  catalog.features.find(({id}) => id === 'flake-profiler')?.configure.includes('shaft.flakeProfiler.failOnSevereFlakeRisk=false'),
+  'Flake profiler must use the canonical fail-on-severe-risk property key.',
+);
 
 for (const feature of catalog.features) {
   assert(!featureIds.has(feature.id), `Duplicate feature id: ${feature.id}`);
