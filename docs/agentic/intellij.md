@@ -23,21 +23,23 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows a short wizard inside the tool window:
+support is available. First run shows **Set up SHAFT tools** inside the tool
+window. SHAFT tools are required; connecting an AI agent is optional:
 
 0. **Prerequisites** detects Python 3, Java, Maven, Node.js when needed, and the
    selected agent CLI. Missing tools and the optional SHAFT Engine warm-up use
    **Open in Terminal**; **Recheck** detects them again after installation.
-1. **Choose agent** starts unselected with a **Select an option** placeholder.
+1. **Choose setup route** starts unselected with a **Select an option** placeholder.
    Choose Codex CLI, Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI,
    GitHub Copilot in IntelliJ, or Gemini in IntelliJ. **Check** validates the
    chosen route when the plugin can observe it.
-2. **Install SHAFT tools** prepares the route-specific Agentic Tools installer
-   through **Open in Terminal**. Press Enter in Terminal to run it. The plugin
-   copies the command as a fallback but never executes the installer itself.
+2. **Open setup command** prepares the route-specific Agentic Tools installer
+   through **Open setup command in terminal**. The plugin copies the command,
+   opens IntelliJ Terminal, and pre-types it. Review the command and press Enter
+   yourself; the plugin never executes the installer.
 3. **Verify setup** finds the installed SHAFT MCP command, verifies the
    workspace, and asks the selected local agent whether it can access
-   `shaft-mcp`. Success reveals **Ready** and **Start chatting**. When a stale
+   `shaft-mcp`. Success reveals **Ready** and **Open Assistant**. When a stale
    CLI session blocks access, recovery also uses **Open in Terminal**.
 
 After verification, **Optional: Upgrade project** unlocks. It reads the open
@@ -79,12 +81,11 @@ Without a verified MCP command, the landing view keeps the click-through setup
 visible. Unverified settings stay behind the same setup gate until
 **Verify setup** passes.
 
-![SHAFT IntelliJ Assistant setup wizard with Prerequisites marked Done and Choose agent expanded](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
 
-Setup opens with a **Connect SHAFT Assistant** summary and a simple vertical
-stepper with visible state chips, only showing the buttons relevant to the
-current step, so the path reads as
-**Prerequisites -> Choose agent -> Install SHAFT tools -> Verify setup -> Ready -> Optional: Upgrade project**.
+Setup opens with a simple vertical stepper with visible state chips, only
+showing the buttons relevant to the current step. The path reads as
+**Prerequisites -> Choose setup route -> Open setup command -> Verify setup -> Ready -> Optional: Upgrade project**.
 Every state chip reflects a real verification of what is on the machine or in
 the project — never a "you clicked the button" heuristic — and a check that
 ran and did not pass shows an explicit red **Failed** chip with recovery
@@ -115,7 +116,7 @@ instead of an external agent CLI.
 
 ![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
 
-![Completed SHAFT IntelliJ Assistant setup showing Verify setup marked Done, Choose agent still waiting on Select an option, and a Ready row with Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+![Completed SHAFT IntelliJ setup showing verified MCP tools and Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
 
 ![SHAFT IntelliJ Assistant setup in dark mode with Verify setup marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
 
@@ -135,9 +136,9 @@ it:
 - **MCP probe**: rerun the installer command, then click **Verify setup** once
   it finishes.
 
-The setup pane uses **Open in Terminal** for runnable commands and **Copy** for
-diagnostic output or links. Every terminal action also copies its command as a
-fallback.
+The setup pane uses **Open setup command in terminal** for runnable setup
+commands and **Copy** for diagnostic output or links. A terminal action copies
+and pre-types its command, but never runs it.
 Codex users should verify `codex mcp list`, Claude users should
 verify `claude mcp list` or restart Claude Desktop after desktop config changes,
 GitHub Copilot users should check the Copilot MCP configuration and
@@ -189,10 +190,11 @@ tool was chosen. When a tool fails, the result leads with a short headline
 ("`<tool>` couldn't finish"), the humanized error, and exactly one next action,
 so a failure is easy to scan and act on rather than a wall of exception text.
 
-An empty chat keeps the surface uncluttered. The Assistant offers three chips
-that pre-fill the composer (Record a sample flow / Ask how to assert / Diagnose
-my last failure) plus a dismissible first-run coach: "Finish setup → Record a
-sample → Review code" with a **Got it** button that hides it permanently. The
+An empty chat starts with three outcome actions: **Plan a test from a scenario**,
+**Record a sample flow**, and **Diagnose a failure**. Each action only pre-fills
+the composer; review or edit the request before you send it. The Assistant also
+shows a dismissible first-run coach: "Finish setup → Record a sample → Review
+code" with a **Got it** button that hides it permanently. The
 composer placeholder invites a plain-language request (record, generate a test,
 diagnose failures, upgrade) and wraps to the panel width so it is always fully
 readable. **Run settings** stays collapsed as a chip until you expand it to
@@ -444,6 +446,13 @@ Compact Assistant controls keep JetBrains-style glyphs, including Copy all,
 Clear, and Rerun transcript actions. All controls retain accessible names,
 status metadata, and tooltips. Code blocks use a light editor-style palette in
 light mode and a distinct dark surface in dark mode.
+
+The header keeps a trust summary visible while you work:
+`Agent · Status · Mode · Access · Context`. It reports **Not configured** when
+no route is selected, distinguishes connected, authentication-needed, and
+unavailable provider states, identifies read-only, source-edits-with-approval,
+or unrestricted access, and counts attached context. Narrow tool windows keep
+model, effort, Verbose, and Auto-compact controls inside **Run settings**.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
@@ -476,6 +485,14 @@ expand it to inspect that one result's raw payload without turning on
 Verbose for the whole session. Like Verbose's raw-response echo, this raw
 evidence is transient view state only; it is never written to persisted
 chat history (see below).
+
+Assistant output is grouped into labeled run records such as **Run · Result**,
+**Run · Action and evidence**, **Run · Raw activity**, and **Run · Failed**.
+Action and raw-activity details start collapsed; use **Show run details** and
+**Hide run details** to inspect them. Evidence image previews are buttons, so
+you can reach and open them with the keyboard. Raw evidence uses the visible
+**Show raw output** and **Hide raw output** controls instead of a tooltip-only
+state.
 Local Agent mode is blocked from
 source mutation until the user explicitly approves it for that request. For
 browser-only tasks, leave `Allow source edits` off; enable it when the request
@@ -605,7 +622,11 @@ generated class.
 
 ![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box, and a compact Run settings chip before an agent route is selected](/img/agentic/intellij-plugin-assistant.png)
 
-![SHAFT IntelliJ Assistant empty composer with Record a sample flow, Ask how to assert, and Diagnose my last failure chips, a compact Run settings chip, and an attach control](/img/agentic/intellij-plugin-assistant-empty.png)
+![SHAFT IntelliJ Assistant empty state with a visible trust summary and three outcome actions that prefill the composer](/img/agentic/intellij-plugin-assistant-empty.png)
+
+![SHAFT IntelliJ Assistant narrow dark view showing active work, progress, and cancellation controls](/img/agentic/intellij-plugin-assistant-active-status-narrow.png)
+
+![SHAFT IntelliJ Assistant run result with the raw output disclosure expanded](/img/agentic/intellij-plugin-assistant-tool-result-raw-output.png)
 
 The Assistant routes plain-language intent to the right MCP tools:
 
