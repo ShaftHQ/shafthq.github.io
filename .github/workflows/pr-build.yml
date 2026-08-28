@@ -20,8 +20,8 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile
 
-      - name: Install Chromium
-        run: yarn playwright install --with-deps chromium
+      - name: Install browsers
+        run: yarn playwright install --with-deps chromium firefox webkit
 
       - name: Security regressions
         run: yarn test:security
@@ -32,8 +32,14 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Web performance budgets
+        run: yarn test:web-budgets
+
       - name: Homepage accessibility audit
         run: yarn test:a11y
+
+      - name: Project generator cross-browser smoke test
+        run: yarn test:project-generator:cross-browser
 
       - name: Playwright concurrency stability
         run: yarn test:playwright:stability

@@ -35,6 +35,15 @@ test('built homepage dark theme has no automatically detectable WCAG A or AA vio
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });
 
+test('project generator has no automatically detectable WCAG A or AA violations', async ({page}) => {
+  await page.goto('/project-generator');
+  await expect(page.getByRole('heading', {name: 'SHAFT Project Generator'})).toBeVisible();
+
+  const {violations} = await scan(page);
+
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+});
+
 test('audit detects an injected unnamed button', async ({page}) => {
   await page.goto('/');
   await expect(page.getByTestId('landing-main')).toBeVisible();

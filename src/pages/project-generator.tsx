@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Head from '@docusaurus/Head';
 import {
   addOptionalDependencies,
@@ -72,6 +72,10 @@ export default function ProjectGenerator(): JSX.Element {
   const [includeDependabot, setIncludeDependabot] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
+  const [generationError, setGenerationError] = useState(false);
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null);
+  const feedbackRef = useRef<HTMLElement>(null);
+  const previousStepRef = useRef(step);
 
   useEffect(() => {
     let active = true;
@@ -84,6 +88,15 @@ export default function ProjectGenerator(): JSX.Element {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (previousStepRef.current !== step) stepHeadingRef.current?.focus();
+    previousStepRef.current = step;
+  }, [step]);
+
+  useEffect(() => {
+    if (generated || generationError) feedbackRef.current?.focus();
+  }, [generated, generationError]);
 
   function selectRunner(runner: string): void {
     setSelectedRunner(runner);
@@ -128,6 +141,7 @@ export default function ProjectGenerator(): JSX.Element {
   }
 
   async function generateProject(): Promise<void> {
+    setGenerationError(false);
     setGenerating(true);
     try {
       await ensureJsZip();
@@ -171,7 +185,7 @@ export default function ProjectGenerator(): JSX.Element {
       setGenerated(true);
     } catch (error) {
       console.error('Error generating project:', error);
-      alert('Error generating project. Please try again or check the browser console for details.');
+      setGenerationError(true);
     } finally {
       setGenerating(false);
     }
@@ -188,6 +202,7 @@ export default function ProjectGenerator(): JSX.Element {
     setIncludeGithubActions(true);
     setIncludeDependabot(true);
     setGenerated(false);
+    setGenerationError(false);
   }
 
   const runners = Object.keys(projectData)
@@ -201,22 +216,39 @@ export default function ProjectGenerator(): JSX.Element {
         <title>SHAFT Project Generator</title>
       </Head>
       <main className={styles.page}>
-        <section className={styles.container}>
+        <section className={styles.container} aria-busy={loading || generating} inert={generating}>
           <header className={styles.header}>
             <img className={styles.logo} src="/img/shaft.svg" alt="SHAFT logo" />
             <h1>SHAFT Project Generator</h1>
             <p>Create your test automation project in seconds</p>
           </header>
 
-          <div className={styles.progressBar} aria-hidden="true">
-            <div className={styles.progressFill} style={{width: `${(step / totalSteps) * 100}%`}} />
+          <div
+            className={styles.progress}
+            role="progressbar"
+            aria-label="Project setup progress"
+            aria-valuemin={1}
+            aria-valuemax={totalSteps}
+            aria-valuenow={step}
+          >
+            <span>Step {step} of {totalSteps}</span>
+            <div className={styles.progressBar} aria-hidden="true">
+              <div className={styles.progressFill} style={{transform: `scaleX(${step / totalSteps})`}} />
+            </div>
           </div>
 
           {!generated && step === 1 && (
             <section>
-              <h2 className={styles.stepTitle}>Which test runner do you want to use?</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>Which test runner do you want to use?</h2>
               <div className={styles.optionGrid}>
-                {loading && <p className={styles.muted}>Loading available options...</p>}
+                {loading && (
+                  <div role="status" aria-label="Loading project options" className={styles.loadingState}>
+                    <span className={styles.muted}>Loading available options...</span>
+                    <div className={styles.optionSkeleton} data-testid="project-options-skeleton" aria-hidden="true">
+                      <span /><span /><span />
+                    </div>
+                  </div>
+                )}
                 {!loading && runners.map(runner => (
                   <label
                     className={`${styles.option} ${selectedRunner === runner ? styles.selected : ''}`}
@@ -243,7 +275,7 @@ export default function ProjectGenerator(): JSX.Element {
 
           {!generated && step === 2 && (
             <section>
-              <h2 className={styles.stepTitle}>Which platform would you like to start testing first?</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>Which platform would you like to start testing first?</h2>
               <div className={styles.optionGrid}>
                 {platforms.map(platform => (
                   <label
@@ -272,7 +304,7 @@ export default function ProjectGenerator(): JSX.Element {
 
           {!generated && step === 3 && (
             <section>
-              <h2 className={styles.stepTitle}>What would you like to name your new project?</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>What would you like to name your new project?</h2>
               <label className={styles.inputGroup}>
                 <span>Group ID</span>
                 <input value={groupId} onChange={event => setGroupId(event.target.value)} />
@@ -297,7 +329,7 @@ export default function ProjectGenerator(): JSX.Element {
 
           {!generated && step === 4 && (
             <section>
-              <h2 className={styles.stepTitle}>Optional SHAFT modules</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>Optional SHAFT modules</h2>
               <p className={styles.muted}>Add only the modules your sample project should resolve.</p>
               <div className={styles.moduleGrid}>
                 {optionalModules.map(module => {
@@ -335,7 +367,7 @@ export default function ProjectGenerator(): JSX.Element {
 
           {!generated && step === 5 && (
             <section>
-              <h2 className={styles.stepTitle}>Would you like to create a sample GitHub Actions workflow to execute your tests?</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>Would you like to create a sample GitHub Actions workflow to execute your tests?</h2>
               <label className={styles.option}>
                 <input
                   type="checkbox"
@@ -353,7 +385,7 @@ export default function ProjectGenerator(): JSX.Element {
 
           {!generated && step === 6 && (
             <section>
-              <h2 className={styles.stepTitle}>Would you like GitHub to open a PR automatically when a new SHAFT version is released?</h2>
+              <h2 className={styles.stepTitle} ref={stepHeadingRef} tabIndex={-1}>Would you like GitHub to open a PR automatically when a new SHAFT version is released?</h2>
               <label className={styles.option}>
                 <input
                   type="checkbox"
@@ -364,13 +396,23 @@ export default function ProjectGenerator(): JSX.Element {
               </label>
               <div className={styles.buttonGroup}>
                 <button className={styles.secondaryButton} type="button" onClick={prevStep}>Back</button>
-                <button className={styles.primaryButton} type="button" onClick={generateProject}>Generate Project</button>
+                <button className={styles.primaryButton} type="button" onClick={generateProject} disabled={generating}>Generate Project</button>
               </div>
+              {generationError && (
+                <section className={styles.errorMessage} role="alert" ref={feedbackRef} tabIndex={-1}>
+                  <h3>We could not generate your project</h3>
+                  <p>Check your connection, then retry. Your selections are preserved.</p>
+                  <div className={styles.buttonGroup}>
+                    <button className={styles.primaryButton} type="button" onClick={generateProject}>Retry</button>
+                    <button className={styles.secondaryButton} type="button" onClick={() => {setGenerationError(false); prevStep();}}>Back</button>
+                  </div>
+                </section>
+              )}
             </section>
           )}
 
           {generated && (
-            <section className={styles.successMessage} aria-live="polite">
+            <section className={styles.successMessage} aria-live="polite" ref={feedbackRef} tabIndex={-1}>
               <div className={styles.successIcon}>✓</div>
               <h2>Project Generated Successfully</h2>
               <p>Your SHAFT project has been generated and the download should start automatically.</p>
@@ -390,9 +432,8 @@ export default function ProjectGenerator(): JSX.Element {
       </main>
 
       {generating && (
-        <div className={styles.generationOverlay}>
+        <div className={styles.generationOverlay} role="status" aria-live="polite" aria-label="Generating project">
           <div className={styles.generationContent}>
-            <div className={styles.spinner} aria-hidden="true" />
             <strong>Generating your project</strong>
             <span>Please wait while we prepare your files.</span>
           </div>
