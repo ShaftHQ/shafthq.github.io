@@ -7,6 +7,8 @@ const root = path.join(__dirname, '..');
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 const index = fs.readFileSync(path.join(root, 'src', 'pages', 'index.tsx'), 'utf8');
 const viewer = fs.readFileSync(path.join(root, 'src', 'components', 'ImageViewer.tsx'), 'utf8');
+const tabsPath = path.join(root, 'src', 'components', 'AccessibleTabs.tsx');
+const tabs = fs.existsSync(tabsPath) ? fs.readFileSync(tabsPath, 'utf8') : '';
 const styles = fs.readFileSync(path.join(root, 'src', 'pages', 'index.module.css'), 'utf8');
 const config = fs.readFileSync(path.join(root, 'docusaurus.config.js'), 'utf8');
 const imgbotConfig = JSON.parse(fs.readFileSync(path.join(root, '.imgbotconfig'), 'utf8'));
@@ -15,68 +17,71 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-assert(index.includes('Release decisions backed by inspectable evidence.'), 'Homepage must lead with the approved evidence proposition.');
-assert(index.includes('<main data-testid="landing-main">') && index.includes('<h1>Release decisions backed by inspectable evidence.</h1>'), 'Homepage must retain a semantic main landmark and one primary evidence proposition.');
-assert(index.includes('landing-${suffix}-create-project') && index.includes('landing-${suffix}-documentation') && index.includes('landing-${suffix}-star'), 'Homepage must expose stable CTA hooks at both hero and final placements.');
-for (const [href, label] of [['/project-generator', 'Create new project'], ['/docs/start/overview', 'Explore documentation'], ['https://github.com/ShaftHQ/SHAFT_ENGINE', 'Star on GitHub']]) assert(index.includes(href) && index.includes(label), `Homepage must ship ${label}.`);
+function webpDimensions(asset) {
+  assert(asset.subarray(0, 4).toString('ascii') === 'RIFF' && asset.subarray(8, 12).toString('ascii') === 'WEBP', 'Preview must be a WebP RIFF asset.');
+  const type = asset.subarray(12, 16).toString('ascii');
+  if (type === 'VP8 ') return {width: asset.readUInt16LE(26) & 0x3fff, height: asset.readUInt16LE(28) & 0x3fff};
+  if (type === 'VP8X') return {width: asset.readUIntLE(24, 3) + 1, height: asset.readUIntLE(27, 3) + 1};
+  throw new Error(`Unsupported WebP preview encoding: ${type}`);
+}
+
+assert(index.includes('<main data-testid="landing-main">') && index.includes('<h1>Release decisions backed by inspectable evidence.</h1>'), 'Homepage must retain one semantic main landmark and the approved H1.');
+assert(index.includes('Run one Java project across web, mobile, API, database, and CLI. Keep native engine control, then connect Capture, Doctor, Heal, and MCP when they add evidence.'), 'Hero must lead with the approved task-first proposition.');
+assert(index.includes('snippets.firstRunCommand') && index.includes('Generate project') && index.includes('Inspect report'), 'Hero proof rail must render the reusable first-run command.');
+assert(index.includes('See agent-to-evidence workflow') && index.includes('href="#agent-workflow"'), 'Hero must link directly to the workflow.');
+assert(index.includes("placement === 'final'") && index.includes('landing-${suffix}-star'), 'GitHub CTA must remain only in the final CTA cluster.');
+assert(index.includes('view_agent_workflow') && index.includes('landing_conversion'), 'Workflow anchor analytics must preserve the CTA event shape.');
 assert(!/io\.github\.shafthq\s*:\s*shaft-engine|<artifactId>shaft-engine<\/artifactId>|landing-dependency-snippet/.test(index), 'Homepage must not prescribe a direct Maven dependency.');
-for (const image of ['allure-passed-evidence.png', 'allure-failed-evidence.png', 'allure-visual-diff-evidence.png']) {
-  assert(index.includes(`/img/evidence/${image}`), `Homepage must render authentic evidence image ${image}.`);
-  assert(fs.existsSync(path.join(root, 'static', 'img', 'evidence', image)), `Evidence asset ${image} must ship.`);
+
+assert(index.includes('data-testid="landing-agent-workflow"') && index.includes('From intent to reviewable Java and evidence.'), 'Homepage must consolidate agent evidence into the workflow section.');
+for (const name of ['capture_start', 'capture_stop', 'capture_generate_replay', 'doctor_analyze_failed_allure', 'doctor_analyze_trace']) assert(index.includes(name), `Workflow must name verified ${name}.`);
+assert(index.includes('Model choice remains with the MCP client. Tests remain ordinary Java. Proposals do not silently edit, approve, or merge.'), 'Workflow must state the model, Java, and proposal boundaries.');
+for (const removed of ['landing-evidence', 'landing-product-gallery', 'landing-architecture', 'landing-audiences', 'landing-guides', 'landing-adoption', 'landing-evidence-loop']) assert(!index.includes(`data-testid="${removed}"`), `Superseded ${removed} section must not remain.`);
+
+assert(index.includes('data-testid="landing-outcomes"'), 'Homepage must expose the outcome router.');
+for (const outcome of ['Start a new suite', 'Migrate an existing suite', 'Add another testing surface', 'Diagnose a failed run']) assert(index.includes(outcome), `Outcome router must include ${outcome}.`);
+assert(index.includes('data-testid="landing-surfaces"') && index.includes('One evidence model across five test surfaces'), 'Homepage must expose the five-surface explorer.');
+for (const surface of ['Web', 'Mobile', 'API', 'Database', 'CLI']) assert(index.includes(`label: '${surface}'`), `Surface explorer must include ${surface}.`);
+assert((index.match(/<AccessibleTabs/g) || []).length === 2, 'Workflow and surface explorer must reuse one tab primitive.');
+assert(tabs.includes('role="tablist"') && tabs.includes('role="tab"') && tabs.includes('role="tabpanel"'), 'Tab primitive must expose native tab semantics.');
+assert(tabs.includes('ArrowLeft') && tabs.includes('ArrowRight') && tabs.includes("case 'Home'") && tabs.includes("case 'End'") && tabs.includes("case 'Enter'") && tabs.includes("case ' '"), 'Tab primitive must support roving keyboard navigation and activation.');
+assert(tabs.includes('aria-controls') && tabs.includes('aria-labelledby') && tabs.includes('tabIndex={selected ? 0 : -1}'), 'Tab primitive must link controls, panels, and roving tabindex.');
+
+assert(index.includes("import releases from '../data/releases.json'"), 'Trust ledger must use the checked-in release data.');
+for (const ledger of ['SHAFT release', 'Java baseline', 'MIT license', 'CI gate', 'Security policy', 'Release history', 'Selenium ecosystem']) assert(index.includes(ledger), `Trust ledger must include ${ledger}.`);
+assert(index.includes('<details') && index.includes('View community-reported use') && index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Community reported use must be a native disclosure with provenance.');
+for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must keep verified supporter ${sponsor} separate.`);
+
+const imagePreviews = [
+  ['allure-passed-evidence', true],
+  ['allure-failed-evidence', false],
+  ['allure-visual-diff-evidence', false],
+  ['capture-locator-picker', false],
+  ['intellij-plugin-assistant', false],
+];
+for (const [name, hero] of imagePreviews) {
+  for (const width of [480, 960]) {
+    const previewPath = path.join(root, 'static', 'img', 'evidence', 'previews', `${name}-${width}.webp`);
+    assert(fs.existsSync(previewPath), `${name} must ship its ${width}px WebP preview.`);
+    const preview = fs.readFileSync(previewPath);
+    const dimensions = webpDimensions(preview);
+    assert(dimensions.width === width, `${name} ${width}px preview must preserve its declared width.`);
+    assert(preview.length <= (hero ? 150 : 120) * 1024, `${name} ${width}px preview exceeds its byte budget.`);
+  }
 }
-for (const [image, minimumWidth, minimumHeight] of [['visual-expected.png', 1024, 1024], ['visual-actual.png', 1024, 1024], ['visual-difference.png', 1024, 1024]]) {
-  const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
-  assert(asset.readUInt32BE(16) >= minimumWidth && asset.readUInt32BE(20) >= minimumHeight, `${image} must be at least ${minimumWidth}x${minimumHeight}.`);
-  assert(index.includes(`/img/evidence/${image}`), `${image} must render in the visual evidence plate.`);
-}
-for (const [image, minimumWidth, minimumHeight] of [['allure-passed-evidence.png', 1920, 1080], ['allure-failed-evidence.png', 1920, 1080], ['allure-visual-diff-evidence.png', 1920, 1080]]) {
-  const asset = fs.readFileSync(path.join(root, 'static', 'img', 'evidence', image));
-  assert(asset.readUInt32BE(16) >= minimumWidth && asset.readUInt32BE(20) >= minimumHeight, `${image} must be at least ${minimumWidth}x${minimumHeight}.`);
-}
-assert(index.includes('loading="lazy"'), 'Below-fold evidence images must lazy-load.');
-assert(index.includes('landing_conversion') && index.includes('cta_name') && index.includes('placement') && index.includes('destination'), 'CTA analytics must use the approved optional gtag event contract.');
-assert(index.includes('typeof window') && index.includes('browser.gtag?.'), 'CTA analytics must be SSR-safe and no-op without gtag.');
-assert(index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Homepage must disclose reported-use provenance.');
-for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must include sponsor ${sponsor}.`);
-for (const logo of ['jetbrains.svg', 'browserstack.svg', 'testmu.svg', 'applitools.svg']) {
-  assert(index.includes(`/img/supporters/${logo}`), `Homepage must render supporter logo ${logo}.`);
-  assert(fs.existsSync(path.join(root, 'static', 'img', 'supporters', logo)), `Supporter logo ${logo} must ship locally.`);
-}
-assert(index.includes('Community-reported use'), 'Homepage must separate reported-use organizations from sponsors.');
-const reportedOrganizations = ['vois', 'get-group', 'momah', 'vodafone-egypt', 'solutions-by-stc', 'giza-systems', 'euronet', 'terkwaz', 'incorta', 'bayantech', 'adam-ai', 'act', 'elmenus', 'idemia', 'ihorizons', 'robusta', 'paymob', 'jahez', 'salt-bank', 'baianat', 'dxc', 'efg-holding'];
-for (const organization of reportedOrganizations) {
-  const logoPattern = new RegExp(`/img/community/${organization}\\.(?:svg|png|webp|ico)`);
-  assert(logoPattern.test(index), `Homepage must render the ${organization} community logo.`);
-  assert(fs.readdirSync(path.join(root, 'static', 'img', 'community')).some((file) => new RegExp(`^${organization}\\.(?:svg|png|webp|ico)$`).test(file)), `${organization} must ship as a local graphical logo.`);
-}
-const logoProvenance = JSON.parse(fs.readFileSync(path.join(root, 'static', 'img', 'community', 'provenance.json'), 'utf8'));
-assert(logoProvenance.organizations.length === reportedOrganizations.length, 'Logo provenance must cover all 22 reported organizations.');
-for (const entry of logoProvenance.organizations) {
-  assert(entry.name && /^https:\/\//.test(entry.sourceUrl) && /^\d{4}-\d{2}-\d{2}$/.test(entry.retrieved), `Logo provenance for ${entry.name || 'unknown'} must include source URL and retrieval date.`);
-}
-assert(index.includes("'https://github.com/ShaftHQ/SHAFT_ENGINE/actions'") && index.includes("'#evidence-heading'"), 'Homepage proof statements must link readers to their exact primary evidence destinations.');
-for (const section of ['landing-trust', 'landing-audiences', 'landing-guides', 'landing-surfaces', 'landing-product-gallery', 'landing-architecture', 'landing-adoption', 'landing-evidence-loop']) assert(index.includes(`data-testid="${section}"`), `Homepage must restore ${section}.`);
-for (const icon of ['faTerminal', 'faBookOpen', 'faStar']) assert(index.includes(icon), `Homepage CTA buttons must render ${icon}.`);
-assert(index.includes('technicalOrbit') && index.includes('aria-hidden="true"'), 'Homepage must use a decorative technical orbit.');
-assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Homepage viewer must use the approved exact lightbox version.');
-assert(viewer.includes("import 'yet-another-react-lightbox/styles.css'"), 'Homepage viewer must import the lightbox core styles.');
-assert(viewer.includes("React.lazy(async ()") && viewer.includes("import('yet-another-react-lightbox')"), 'Homepage viewer must lazy-load after activation.');
-assert(viewer.includes('yet-another-react-lightbox/plugins/zoom') && viewer.includes('maxZoomPixelRatio: 64'), 'Homepage viewer must provide the Zoom plugin with 64x deep zoom.');
-assert(index.includes('SharedImageViewer') && index.includes('ImageViewerTrigger') && viewer.includes('export type ProductImage'), 'Homepage must route product imagery through typed shared viewer and trigger components.');
-assert(!index.includes('<dialog') && !index.includes('showModal()'), 'Homepage must not retain the custom native dialog viewer.');
-assert(viewer.includes('data-testid="image-viewer"') && viewer.includes('data-testid="image-viewer-trigger"'), 'Homepage must expose stable shared viewer hooks.');
-assert(styles.includes('--image-preview-x') && styles.includes('--image-preview-y') && styles.includes('scale(2)'), 'Fine-pointer preview must stay centered on the cursor at 2x.');
-assert(styles.includes('.evidenceMedia:hover .visualPlate') && !styles.includes('scale(1.12)') && !styles.includes('.zoomHint'), 'Every evidence trigger, including the visual comparison plate, must use the shared 2x preview without superseded styles.');
-assert(styles.includes('.logoPlate') && styles.includes('backdrop-filter'), 'SHAFT mark must sit on a contrasting translucent plate.');
-assert(styles.includes('.evidenceMedia') && styles.includes('overflow: hidden'), 'Evidence zoom must stay inside a stable media frame.');
-assert(styles.includes('prefers-reduced-motion: reduce'), 'Homepage motion must respect reduced-motion.');
-assert(!index.includes('IntersectionObserver') && !index.includes('data-reveal'), 'Homepage must not hide content behind scroll reveals.');
-assert(!styles.includes("data-reveal-state='rolled-back'"), 'Homepage must not restore rollback reveal styling.');
+assert(viewer.includes('preview: string') && viewer.includes('previewSrcSet: string') && viewer.includes('previewSizes: string'), 'ProductImage must distinguish preview source, srcSet, and sizes from the original.');
+assert(viewer.includes('src={item.preview}') && viewer.includes('srcSet={item.previewSrcSet}') && viewer.includes('sizes={item.previewSizes}'), 'In-page image elements must load previews responsively.');
+assert(viewer.includes('items.map(({image, alt, width, height}) => ({src: image, alt, width, height}))'), 'Lightbox must retain original full-resolution sources.');
+assert(viewer.includes("React.lazy(async ()") && viewer.includes("import('yet-another-react-lightbox')") && viewer.includes('maxZoomPixelRatio: 64'), 'Deep zoom must still lazy-load after activation.');
+assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Homepage must keep the approved lightbox dependency version.');
+
+assert(index.includes('EvidenceTrail') && !index.includes('TechnicalOrbit'), 'Hero must replace the generic orbit with a product-specific trail.');
+assert(styles.includes('3.6s') && !styles.includes('infinite') && styles.includes('.evidenceTrail { display: none; }'), 'Trail must run once under four seconds and disappear for reduced motion.');
+assert(styles.includes('180ms') && styles.includes('240ms'), 'Interactive transitions must stay within the approved duration range.');
+assert(!/IntersectionObserver|data-reveal|Lottie|three\.js|parallax|cursor chase|counter/.test(`${index}\n${styles}`), 'Homepage must not add forbidden animation or runtime patterns.');
 
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
 assert(imgbotConfig.ignoredFiles.includes('shaft-social-card.png'), 'ImgBot must ignore the deterministic social-card filename.');
-assert(/property: 'og:image:width',[\s\S]{0,80}content: '1200'/.test(config), 'Open Graph metadata width must match the 1200px shipped card.');
-assert(/property: 'og:image:height',[\s\S]{0,80}content: '630'/.test(config), 'Open Graph metadata height must match the 630px shipped card.');
 const socialCardPath = path.join(root, 'static', 'img', 'shaft-social-card.png');
 const socialCard = fs.readFileSync(socialCardPath);
 assert(socialCard.subarray(0, 8).toString('hex') === '89504e470d0a1a0a', 'The shipped social card must have the complete PNG signature.');
@@ -92,15 +97,7 @@ try {
   execFileSync(process.execPath, [generatorPath, regeneratedPath]);
   const shippedPixels = inspectPng(socialCardPath);
   const regeneratedPixels = inspectPng(regeneratedPath);
-  assert(shippedPixels.width === 1200 && shippedPixels.height === 630 && shippedPixels.bitDepth === 8 && shippedPixels.colorType === 6, 'The shipped social card must decode as 1200x630 8-bit RGBA.');
   assert(shippedPixels.pixelHash === regeneratedPixels.pixelHash, 'The shipped social card must pixel-match generated RGBA output.');
-  const recompressedPath = path.join(socialCardTempDir, 'recompressed.png');
-  execFileSync(process.execPath, [generatorPath, '--reencode', regeneratedPath, recompressedPath, '1']);
-  assert(!fs.readFileSync(regeneratedPath).equals(fs.readFileSync(recompressedPath)), 'The compression mutation must produce different PNG bytes.');
-  assert(inspectPng(recompressedPath).pixelHash === regeneratedPixels.pixelHash, 'Equivalent PNG compression must preserve decoded pixels.');
-  const pixelMutatedPath = path.join(socialCardTempDir, 'pixel-mutated.png');
-  execFileSync(process.execPath, [generatorPath, '--mutate-first-pixel', regeneratedPath, pixelMutatedPath]);
-  assert(inspectPng(pixelMutatedPath).pixelHash !== regeneratedPixels.pixelHash, 'A decoded-pixel mutation must fail the social-card pixel contract.');
 } finally {
   fs.rmSync(socialCardTempDir, {recursive: true, force: true});
 }

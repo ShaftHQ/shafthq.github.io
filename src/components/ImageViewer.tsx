@@ -3,7 +3,7 @@ import type {LightboxProps, Slide} from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
 import styles from './ImageViewer.module.css';
 
-export type ProductImage = {id: string; title: string; body: string; image: string; alt: string; width: number; height: number};
+export type ProductImage = {id: string; title: string; body: string; image: string; preview: string; previewSrcSet: string; previewSizes: string; alt: string; width: number; height: number};
 type ViewerProps = Pick<LightboxProps, 'close' | 'index' | 'on' | 'open' | 'slides'>;
 
 const LazyLightbox = React.lazy(async () => {
@@ -21,7 +21,7 @@ export function ImageViewerTrigger({item, onOpen, className, imageClassName, eag
     event.currentTarget.style.setProperty('--image-preview-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
     event.currentTarget.style.setProperty('--image-preview-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
   };
-  return <button className={className} data-testid="image-viewer-trigger" type="button" aria-label={`Inspect ${item.title}`} onPointerMove={preview} onClick={(event) => onOpen(item, event.currentTarget)}>{children ?? <img className={imageClassName} src={item.image} width={item.width} height={item.height} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : 'auto'} alt={item.alt} />}<span>Click to inspect</span></button>;
+  return <button className={className} data-testid="image-viewer-trigger" type="button" aria-label={`Inspect ${item.title}`} onPointerMove={preview} onClick={(event) => onOpen(item, event.currentTarget)}>{children ?? <img className={imageClassName} src={item.preview} srcSet={item.previewSrcSet} sizes={item.previewSizes} width={item.width} height={item.height} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : 'auto'} alt={item.alt} />}<span>Inspect full evidence</span></button>;
 }
 
 export function SharedImageViewer({items, activeItem, onClose}: {items: readonly ProductImage[]; activeItem: ProductImage | null; onClose: () => void}): JSX.Element | null {
