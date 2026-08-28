@@ -290,9 +290,14 @@ assert(
   'docs/features/whats-new/index.mdx must not embed screenshots of itself.',
 );
 const whatsNewMap = readFileSync(join(docsRoot, '../src/components/WhatsNewMap/index.tsx'), 'utf8');
+const whatsNewCatalogComponent = readFileSync(join(docsRoot, '../src/components/WhatsNewCatalog/index.tsx'), 'utf8');
 assert(whatsNewMap.includes('whats-new-search'), 'WhatsNewMap must provide capability search.');
 assert(whatsNewMap.includes('Filter by goal'), 'WhatsNewMap must provide goal filters.');
 assert(whatsNewMap.includes('feature.group'), 'WhatsNewMap destinations must derive from the shared catalog.');
+assert(
+  whatsNewCatalogComponent.includes('useBrokenLinks') && whatsNewCatalogComponent.includes('collectAnchor(feature.id)'),
+  'WhatsNewCatalog must register data-driven feature anchors with Docusaurus.',
+);
 assert(siteConfig.includes("label: 'What\\'s new'"), 'The navbar must expose What\'s new.');
 for (const artifact of [
   'shaft-engine',
