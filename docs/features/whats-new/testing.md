@@ -1,71 +1,24 @@
 ---
-title: Testing updates
-description: Find newer test backends, replay, terminal, and accessibility surfaces.
+title: Testing API updates
+description: Use newer web, mobile, API, contract, visual, and accessibility capabilities.
 ---
 
-# Testing updates
+import WhatsNewCatalog from '@site/src/components/WhatsNewCatalog';
 
-```mermaid
-flowchart LR
-  GUI --> Playwright
-  UIAPI[UI and API] --> Contracts
-  Terminal --> SSH[SFTP, SSH, forwarding]
-  Audit --> Accessibility
-  click Playwright "/docs/features/whats-new/testing#playwright-gui-backend" "Playwright GUI backend"
-  click Contracts "/docs/features/whats-new/testing#ui-and-api-contract-replay" "UI and API contract replay"
-  click SSH "/docs/features/whats-new/testing#remote-terminal-sftp-ssh-and-port-forwarding" "Remote terminal"
-  click Accessibility "/docs/features/whats-new/testing#accessibility-reports-and-audit" "Accessibility reports"
-```
+# Testing API updates
 
-## Catalog
+Pick the test surface that owns the behavior, then follow its full guide for
+exact Java APIs and lifecycle rules.
 
-### Playwright GUI backend
+<WhatsNewCatalog group="testing" />
 
-`SHAFT.GUI.Playwright` runs SHAFT GUI actions through Microsoft Playwright.
-
-Why use it: choose a Playwright session while keeping the SHAFT GUI API.
-
-How to start: create `new SHAFT.GUI.Playwright()` in the supported test setup.
-
-Full docs: [Playwright backend](/docs/reference/actions/GUI/Playwright_Backend)
-
-### UI and API contract replay
-
-Contract replay records and checks UI and API interactions against reviewable contracts.
-
-Why use it: detect behavior drift without relying only on a full end-to-end assertion.
-
-How to start: follow the contract capture and replay workflow.
-
-Full docs: [Contract testing](/docs/testing/contracts)
-
-### Remote terminal SFTP, SSH, and port forwarding
-
-CLI actions support remote SFTP and SSH operations, including port forwarding.
-
-Why use it: include remote-system setup and verification in the test workflow.
-
-How to start: configure a remote terminal session from the reference guide.
-
-Full docs: [SSH terminal actions](/docs/reference/actions/CLI/SSH_Terminal)
-
-### Accessibility reports and audit
-
-SHAFT exposes accessibility audit and report surfaces through its web and MCP workflows.
-
-Why use it: collect actionable audit output alongside the test evidence.
-
-How to start: use the accessibility workflow documented for the active test surface.
-
-Full docs: [Accessibility testing](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#accessibility-testing)
+Create a supported Playwright session explicitly:
 
 ```java
-driver.browser().navigateToURL("https://example.com")
-      .accessibility()
-      .assertNoCriticalViolations("Home Page");
+SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 ```
 
 ## Related
 
-- [Testing guides](/docs/testing/web)
+- [Web testing](/docs/testing/web)
 - [What's new since modularization](/docs/features/whats-new)

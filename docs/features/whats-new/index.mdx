@@ -1,54 +1,27 @@
 ---
 id: index
 title: What's new since modularization
-description: Scan user-facing SHAFT capabilities added since the modular release.
+description: Find and use user-facing SHAFT capabilities added since the modular release.
 slug: /features/whats-new
 ---
 
-import Link from '@docusaurus/Link';
 import WhatsNewMap from '@site/src/components/WhatsNewMap';
 
 # What's new since modularization
 
-Use this catalog to find user-facing capabilities added since `10.2.20260610`
-(2026-06-10). Keep the deeper configuration and API details in the linked
-canonical guides. Select a node in the map to open that section.
-
-:::note
-When a user-facing feature ships, add or refresh its short entry here in the
-same documentation PR as its deep guide.
-:::
+Find user-facing capabilities added since `10.2.20260610` (2026-06-10). Search
+by feature name or filter by the job you need to complete. Each result opens a
+focused page with setup, usage, and canonical guide links.
 
 <WhatsNewMap />
 
-## Browse by group
+Use the search field directly. No setup is required:
 
-<div className="doc-card-grid">
-  <Link className="doc-card" to="/docs/features/whats-new/platform"><strong>Platform</strong><span>Modular dependencies, upgrading, and generators.</span></Link>
-  <Link className="doc-card" to="/docs/features/whats-new/agentic"><strong>Agentic</strong><span>Deterministic tools and optional providers.</span></Link>
-  <Link className="doc-card" to="/docs/features/whats-new/evidence"><strong>Evidence</strong><span>Failure evidence and reporting surfaces.</span></Link>
-  <Link className="doc-card" to="/docs/features/whats-new/testing"><strong>Testing</strong><span>Newer testing and audit surfaces.</span></Link>
-  <Link className="doc-card" to="/docs/features/whats-new/modules"><strong>Modules</strong><span>Optional artifacts and preview work.</span></Link>
-  <Link className="doc-card" to="/docs/features/whats-new/missed"><strong>Features you might have missed</strong><span>Older, useful capabilities.</span></Link>
-</div>
-
-Import the BOM before combining published modules:
-
-```xml title="pom.xml"
-<dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>io.github.shafthq</groupId>
-      <artifactId>shaft-bom</artifactId>
-      <version>${shaft.version}</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
+```text
+GraphQL
 ```
 
 ## Related
 
-- [Upgrade](/docs/start/upgrade)
+- [Upgrade an existing project](/docs/start/upgrade)
 - [Features and modules](/docs/features/modules)
