@@ -458,13 +458,12 @@ model, effort, Verbose, and Auto-compact controls inside **Run settings**.
 While a prompt runs, the submit icon becomes an animated spinner;
 hovering it changes the same square control into cancel. If you cancel, the
 request ends with a dedicated final transcript entry and no capture-generated
-output is finalized. While the stop is in flight, the run timeline shows a
-live **Cancelling…** status (or **Killing…** when the underlying process needs
-a hard stop) instead of leaving the previous running entry in place, and the
-run always resolves to exactly one terminal timeline entry -- never a
-duplicate or a stale in-progress row. Every terminal entry (completed,
-cancelled, or failed) carries an elapsed-time suffix such as `Completed (12s)`
-so you can see how long the run actually took at a glance. A token-usage line
+output is finalized. While the stop is in flight, the compact status strip
+shows **Cancelling…** (or **Killing…** when the underlying process needs a
+hard stop). The strip collapses when the run finishes; the transcript keeps
+the substantive result, cancellation, or failure response without adding a
+duplicate terminal milestone. Duration appears only when the underlying tool
+or agent reports a real duration. A token-usage line
 appears under the response only when the wrapped CLI reports real usage
 metadata (input/output token counts); SHAFT never fabricates or estimates a
 count when the CLI stays silent about usage.
@@ -596,13 +595,13 @@ ends with a factual **Local agent activity** footer whenever the run created
 or edited files or lost tool calls to permission denials, listing the touched
 paths and the denied tools with per-tool counts.
 
-The run timeline and action controls stay hidden
-until the current prompt, selected tool, running, approval, completion,
-cancellation, or failure state makes them useful. Type `@` for workflow
-starters (plain-language prefills such as "Record my browser actions on
-https://") and `#` for the current file or known project artifacts; the
-dropdown filters live as you keep typing. The former "+" context button was
-removed in favor of these typed triggers.
+The run status strip and action controls stay hidden until a request is active.
+Substantive tool selections and progress milestones appear as transcript run
+records; approval requests appear inline when a decision is needed. Type `@`
+for workflow starters (plain-language prefills such as "Record my browser
+actions on https://") and `#` for the current file or known project artifacts;
+the dropdown filters live as you keep typing. The former "+" context button
+was removed in favor of these typed triggers.
 
 Pasting raw Selenium/Appium Java into the composer proactively offers a
 one-click **"Selenium detected — convert to SHAFT + guardrails"** action that
@@ -940,8 +939,8 @@ runs: they are first-party capabilities of the Assistant, so Claude Code Agent
 commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
 (mirroring the Codex launch-time `default_tools_approval_mode="approve"`
 flag), and any SHAFT tool request that still reaches the approval bridge is
-auto-allowed with an `Auto-approved SHAFT tool` timeline entry. Shell commands
-and third-party MCP servers keep the interactive approval bubble.
+auto-allowed with an `Auto-approved SHAFT tool` transcript milestone. Shell
+commands and third-party MCP servers keep the interactive approval bubble.
 
 ### Connection & agents
 
