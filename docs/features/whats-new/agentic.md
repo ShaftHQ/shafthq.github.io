@@ -40,9 +40,9 @@ How to start: install `shaft-capture`, then use IntelliJ `/record` or `/codegen`
 
 Full docs: [Capture](/docs/agentic/capture)
 
-![SHAFT Capture locator picker over a recorded browser page, showing generated locator choices for the selected element.](/img/capture-locator-picker.png)
+![SHAFT Capture locator picker over the current browser acceptance fixture, showing scored generated locator choices for the selected element.](/img/whats-new/capture-locator-picker.png)
 
-![SHAFT Capture assertion mode with the assertion panel open and an element target selected in the browser.](/img/capture-assertion-mode.png)
+![SHAFT Capture assertion mode over the current browser acceptance fixture, with the assertion panel open and an element target selected.](/img/whats-new/capture-assertion-mode.png)
 
 ```mermaid
 flowchart LR
@@ -104,7 +104,7 @@ How to start: install the SHAFT IntelliJ plugin and follow its setup guide.
 
 Full docs: [IntelliJ IDEA plugin](/docs/agentic/intellij)
 
-![SHAFT IntelliJ Assistant tool window showing project-scoped guidance, MCP tools, and a reviewed response inside the IDE.](/img/agentic/intellij-plugin-assistant.png)
+![SHAFT IntelliJ Assistant renderer showing project-scoped guidance, MCP tools, and a reviewed response inside the IDE.](/img/whats-new/intellij-assistant.png)
 
 ### SHAFT agent skills
 
