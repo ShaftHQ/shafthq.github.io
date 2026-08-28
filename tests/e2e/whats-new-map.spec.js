@@ -4,7 +4,7 @@ const AxeBuilder = require('@axe-core/playwright').default;
 test('capability atlas searches, filters, resets, and opens direct feature links', async ({page}) => {
   await page.goto('/docs/features/whats-new');
   const atlas = page.getByRole('region', {name: 'Find the feature for your goal'});
-  await expect(atlas.getByText('54 features')).toBeVisible();
+  await expect(atlas.getByText('61 features')).toBeVisible();
 
   await atlas.getByLabel('Search capabilities').fill('GraphQL');
   await expect(atlas.getByRole('link', {name: /GraphQL API actions/})).toBeVisible();
@@ -20,7 +20,7 @@ test('capability atlas searches, filters, resets, and opens direct feature links
   await atlas.getByLabel('Search capabilities').fill('not-a-feature');
   await expect(atlas.getByText('No matching capabilities')).toBeVisible();
   await atlas.getByRole('button', {name: 'Reset filters'}).click();
-  await expect(atlas.getByText('54 features')).toBeVisible();
+  await expect(atlas.getByText('61 features')).toBeVisible();
 });
 
 test('atlas and trace rail remain usable on mobile, dark mode, and reduced motion', async ({page}) => {
@@ -34,6 +34,8 @@ test('atlas and trace rail remain usable on mobile, dark mode, and reduced motio
   await page.goto('/docs/features/whats-new/capture#recorder-workbench');
   await expect(page.locator('#recorder-workbench')).toBeVisible();
   await expect(page.getByRole('navigation', {name: "What's new groups"})).toBeVisible();
+  const {violations} = await new AxeBuilder({page}).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });
 
 test('whats-new cover has one atlas and no duplicated group-card grid or BOM snippet', async ({page}) => {

@@ -9,6 +9,7 @@ assert(existsSync(catalogPath), 'Shared What\'s New catalog must exist.');
 
 const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
 const groupIds = new Set(catalog.groups.map(({id}) => id));
+const visibleGoals = new Set(['set-up', 'record', 'agentic', 'evidence', 'web', 'mobile', 'api', 'audit', 'validate']);
 const featureIds = new Set();
 
 assert.deepEqual(
@@ -22,6 +23,8 @@ for (const feature of catalog.features) {
   assert(!featureIds.has(feature.id), `Duplicate feature id: ${feature.id}`);
   featureIds.add(feature.id);
   assert(groupIds.has(feature.group), `${feature.id} references unknown group ${feature.group}.`);
+  assert(feature.goals.length > 0, `${feature.id} needs at least one goal.`);
+  for (const goal of feature.goals) assert(visibleGoals.has(goal), `${feature.id} uses hidden goal ${goal}.`);
   for (const field of ['title', 'what', 'why', 'configure', 'use', 'guide']) {
     assert(feature[field]?.trim(), `${feature.id} needs ${field}.`);
   }
@@ -46,6 +49,8 @@ for (const required of [
   'scenario-to-code', 'soft-verification-evidence', 'sharded-report-merge',
   'graphql', 'openapi-coverage', 'network-interception', 'storage-state-har',
   'flutter-api', 'android-performance', 'localization-assertions',
+  'coverage-planning', 'natural-language-actions', 'locator-health',
+  'flake-profiler', 'allure-overview', 'native-playwright-traces', 'remote-terminal',
 ]) {
   assert(featureIds.has(required), `Parity catalog missing ${required}.`);
 }
