@@ -1,6 +1,13 @@
 const {expect, test} = require('@playwright/test');
 
-test('hero routes users to the workflow without a GitHub distraction', async ({page}) => {
+const anchorGap = (page, id) => page.evaluate((targetId) => {
+  const target = document.getElementById(targetId);
+  const navbar = document.querySelector('.navbar');
+  if (!target || !navbar) return null;
+  return Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
+}, id);
+
+test('hero routes users to a workflow H2 clear of the sticky nav without a GitHub distraction', async ({page}) => {
   await page.goto('/');
   await expect(page.getByRole('heading', {name: 'Release decisions backed by inspectable evidence.'})).toBeVisible();
   await expect(page.getByTestId('landing-hero')).toContainText('Run one Java project across web, mobile, API, database, and CLI.');
@@ -8,7 +15,37 @@ test('hero routes users to the workflow without a GitHub distraction', async ({p
   await page.getByTestId('landing-hero-workflow').click();
   await expect(page).toHaveURL(/#agent-workflow$/);
   await expect(page.getByTestId('landing-agent-workflow')).toBeInViewport();
+  await expect.poll(() => anchorGap(page, 'agent-workflow'), {timeout: 5_000}).toBeLessThanOrEqual(120);
+  expect(await anchorGap(page, 'agent-workflow')).toBeGreaterThanOrEqual(8);
   await expect(page.getByTestId('landing-final').getByRole('link', {name: 'Star on GitHub'})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
+});
+
+test('landing CTAs retain destinations and conversion payloads', async ({page}) => {
+  const ctas = [
+    ['landing-hero-create-project', '/project-generator', 'create_project', 'hero'],
+    ['landing-hero-documentation', '/docs/start/overview', 'explore_documentation', 'hero'],
+    ['landing-hero-workflow', '#agent-workflow', 'view_agent_workflow', 'hero'],
+    ['landing-final-create-project', '/project-generator', 'create_project', 'final'],
+    ['landing-final-documentation', '/docs/start/overview', 'explore_documentation', 'final'],
+    ['landing-final-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'star_github', 'final'],
+  ];
+  await page.addInitScript(() => {
+    window.__landingEvents = [];
+    window.gtag = (...args) => window.__landingEvents.push(args);
+  });
+  await page.goto('/');
+  for (const [testId, destination] of ctas) {
+    const link = page.getByTestId(testId);
+    await expect(link).toHaveAttribute('href', destination);
+    await link.evaluate((element) => element.addEventListener('click', (event) => event.preventDefault(), {once: true}));
+    await link.click();
+  }
+  const events = await page.evaluate(() => window.__landingEvents);
+  expect(events).toEqual(ctas.map(([, destination, ctaName, placement]) => [
+    'event',
+    'landing_conversion',
+    {cta_name: ctaName, placement, destination},
+  ]));
 });
 
 test('footer Slack CTA retains its trusted invite destination', async ({page}) => {
@@ -61,7 +98,7 @@ test('landing remains visible, motion-free, and contained at narrow widths', asy
   }
 });
 
-test('full-resolution evidence waits for viewer activation and restores focus', async ({page}) => {
+test('full-resolution evidence waits for activation, supports control/keyboard/wheel zoom, and restores focus', async ({page}) => {
   const fullResolutionRequests = [];
   page.on('request', (request) => {
     if (new URL(request.url()).pathname === '/img/evidence/allure-passed-evidence.png') fullResolutionRequests.push(request.url());
@@ -76,6 +113,16 @@ test('full-resolution evidence waits for viewer activation and restores focus', 
   await expect(page.getByRole('dialog', {name: 'Lightbox'})).toBeVisible();
   await expect(page.locator('.yarl__root img[src="/img/evidence/allure-passed-evidence.png"]')).toBeVisible();
   await expect.poll(() => fullResolutionRequests.length).toBeGreaterThan(0);
+  const zoomWrapper = page.locator('.yarl__slide_current .yarl__slide_wrapper');
+  await page.getByRole('button', {name: 'Zoom in'}).click();
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThan(1);
+  const afterControlZoom = await zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a);
+  await page.keyboard.press('+');
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThan(afterControlZoom);
+  const beforeWheelZoom = await zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a);
+  await zoomWrapper.hover();
+  await page.mouse.wheel(0, -500);
+  await expect.poll(() => zoomWrapper.evaluate((element) => new DOMMatrixReadOnly(getComputedStyle(element).transform).a)).toBeGreaterThan(beforeWheelZoom);
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog', {name: 'Lightbox'})).toHaveCount(0);
   await expect(trigger).toBeFocused();

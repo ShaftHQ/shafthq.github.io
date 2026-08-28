@@ -25,6 +25,16 @@ test('built homepage has no automatically detectable WCAG A or AA violations', a
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });
 
+test('built homepage dark theme has no automatically detectable WCAG A or AA violations', async ({page}) => {
+  await page.goto('/');
+  await page.getByRole('button', {name: /Switch between dark and light mode/}).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+
+  const {violations} = await scan(page);
+
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+});
+
 test('audit detects an injected unnamed button', async ({page}) => {
   await page.goto('/');
   await expect(page.getByTestId('landing-main')).toBeVisible();

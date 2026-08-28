@@ -44,7 +44,7 @@ const trustSignals: Array<[string, string, string]> = [
 
 const outcomes = [
   {title: 'Start a new suite', body: 'Generate a Maven project, then run its first test with the checked-in command.', to: '/project-generator', action: 'Generate a project'},
-  {title: 'Migrate an existing suite', body: 'Upgrade supported Selenium, Appium, REST Assured, or older SHAFT projects in controlled steps.', to: '/docs/start/upgrade', action: 'Read upgrade guide'},
+  {title: 'Migrate an existing suite', body: 'Upgrade supported Selenium, Appium, REST Assured, or older SHAFT projects in controlled steps.', to: '/docs/start/quick-start#existing-project-upgrade', action: 'Read upgrade guide'},
   {title: 'Add another testing surface', body: 'Keep web, mobile, API, database, and CLI checks in one Java project and evidence model.', to: '#surface-explorer', action: 'Explore surfaces'},
   {title: 'Diagnose a failed run', body: 'Use failed Allure or trace evidence to classify a cause before reviewing a remediation proposal.', to: '#agent-workflow', action: 'Review diagnosis flow'},
 ];

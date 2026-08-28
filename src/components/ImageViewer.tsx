@@ -15,13 +15,7 @@ const LazyLightbox = React.lazy(async () => {
 });
 
 export function ImageViewerTrigger({item, onOpen, className, imageClassName, eager = false, children}: {item: ProductImage; onOpen: (item: ProductImage, opener: HTMLButtonElement) => void; className: string; imageClassName?: string; eager?: boolean; children?: React.ReactNode}): JSX.Element {
-  const preview = (event: React.PointerEvent<HTMLButtonElement>): void => {
-    if (event.pointerType !== 'mouse') return;
-    const bounds = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty('--image-preview-x', `${((event.clientX - bounds.left) / bounds.width) * 100}%`);
-    event.currentTarget.style.setProperty('--image-preview-y', `${((event.clientY - bounds.top) / bounds.height) * 100}%`);
-  };
-  return <button className={className} data-testid="image-viewer-trigger" type="button" aria-label={`Inspect ${item.title}`} onPointerMove={preview} onClick={(event) => onOpen(item, event.currentTarget)}>{children ?? <img className={imageClassName} src={item.preview} srcSet={item.previewSrcSet} sizes={item.previewSizes} width={item.width} height={item.height} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : 'auto'} alt={item.alt} />}<span>Inspect full evidence</span></button>;
+  return <button className={className} data-testid="image-viewer-trigger" type="button" aria-label={`Inspect ${item.title}`} onClick={(event) => onOpen(item, event.currentTarget)}>{children ?? <img className={imageClassName} src={item.preview} srcSet={item.previewSrcSet} sizes={item.previewSizes} width={item.width} height={item.height} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : 'auto'} alt={item.alt} />}<span>Inspect full evidence</span></button>;
 }
 
 export function SharedImageViewer({items, activeItem, onClose}: {items: readonly ProductImage[]; activeItem: ProductImage | null; onClose: () => void}): JSX.Element | null {

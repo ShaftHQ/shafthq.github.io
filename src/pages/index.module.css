@@ -123,7 +123,7 @@
 
 .evidenceTrail path { fill: none; stroke: var(--site-color-primary); stroke-width: 2; }
 .evidenceTrail circle { fill: var(--site-color-on-dark); }
-.evidenceTrail text { fill: rgba(var(--site-color-on-dark-rgb), 0.82); font: var(--site-font-label); }
+.evidenceTrail text { fill: rgba(var(--site-color-on-dark-rgb), 0.82); font-size: var(--site-font-label); }
 
 @keyframes trailSettle { to { opacity: 0.52; transform: translateX(0); } }
 
@@ -131,6 +131,7 @@
 
 .section h2,
 .footer h2 { max-width: 28ch; margin-bottom: 1.25rem; font-size: var(--site-font-heading); line-height: 1.1; }
+.section h2[id] { scroll-margin-top: var(--site-anchor-offset); }
 .section h3 { font-size: var(--site-font-card-title-lg); line-height: 1.2; }
 .intro { max-width: 66ch; font-size: var(--site-font-body-large); line-height: 1.6; }
 .eyebrow { margin-bottom: 0.65rem; color: var(--site-color-primary); font-size: var(--site-font-label); font-weight: var(--site-font-weight-bold); letter-spacing: 0.04em; text-transform: uppercase; }
@@ -138,8 +139,9 @@
 .workflowSection { background: var(--ifm-background-surface-color); }
 .tabs { min-width: 0; margin-top: 2rem; }
 .tabList { display: flex; max-width: max-content; gap: 0.5rem; padding: 0.35rem; overflow-x: auto; border: 1px solid rgba(var(--site-color-deep-rgb), 0.18); border-radius: 0.5rem; background: var(--ifm-background-color); }
-.tab { min-height: 2.75rem; padding: 0.55rem 0.9rem; border: 0; border-radius: 0.3rem; color: var(--ifm-font-color-base); background: transparent; font: var(--site-font-label); cursor: pointer; white-space: nowrap; }
+.tab { min-height: 2.75rem; padding: 0.55rem 0.9rem; border: 0; border-radius: 0.3rem; color: var(--ifm-font-color-base); background: transparent; font-size: var(--site-font-label); cursor: pointer; white-space: nowrap; }
 .tab[aria-selected='true'] { color: var(--site-color-on-dark); background: var(--site-color-primary); }
+:global([data-theme='dark']) .tab[aria-selected='true'] { color: var(--site-color-deep); }
 .tab:focus-visible { outline: 3px solid var(--site-color-primary); outline-offset: 2px; }
 .tabPanel { min-width: 0; margin-top: 1rem; }
 
