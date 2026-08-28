@@ -1,4 +1,5 @@
 const {expect, test} = require('@playwright/test');
+const AxeBuilder = require('@axe-core/playwright').default;
 
 test('capability atlas searches, filters, resets, and opens direct feature links', async ({page}) => {
   await page.goto('/docs/features/whats-new');
@@ -40,4 +41,14 @@ test('whats-new cover has one atlas and no duplicated group-card grid or BOM sni
   await expect(page.locator('#capability-atlas-title')).toHaveCount(1);
   await expect(page.locator('.doc-card-grid')).toHaveCount(0);
   await expect(page.getByText('shaft-bom', {exact: true})).toHaveCount(0);
+});
+
+test('atlas and trace rail have no detectable WCAG A or AA violations', async ({page}) => {
+  for (const path of ['/docs/features/whats-new', '/docs/features/whats-new/capture']) {
+    await page.goto(path);
+    const {violations} = await new AxeBuilder({page}).withTags([
+      'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa',
+    ]).analyze();
+    expect(violations, `${path}\n${JSON.stringify(violations, null, 2)}`).toEqual([]);
+  }
 });
