@@ -32,6 +32,7 @@ const sidebars = {
       items: [
         'features/whats-new/index',
         'features/whats-new/platform',
+        'features/whats-new/capture',
         'features/whats-new/agentic',
         'features/whats-new/evidence',
         'features/whats-new/testing',

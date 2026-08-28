@@ -417,6 +417,46 @@ A good pattern is to use **one hard assertion** to confirm the test precondition
 Soft assertion failures are accumulated per-test and reported at the end of the test method. In TestNG, SHAFT triggers a test failure after the `@AfterMethod` completes, so all soft failures for a test are visible in the Allure report.
 :::
 
+## Localization assertions
+
+Validate the script used by element or browser text with `language()`. SHAFT
+supports Arabic, English, Spanish, French, and German presets. You can pass the
+matching `ValidationEnums.TextLanguage` value or its two-letter code.
+
+```java title="LocalizationValidation.java"
+import com.shaft.validation.ValidationEnums.TextDirection;
+import com.shaft.validation.ValidationEnums.TextLanguage;
+
+driver.assertThat().element(By.id("welcome")).text().language().is(TextLanguage.ARABIC);
+driver.verifyThat().element(By.id("welcome")).text().language().isNot("en");
+driver.assertThat().element(By.id("welcome")).text().direction().is(TextDirection.RTL);
+driver.verifyThat().element(By.id("welcome")).text().direction().isRightToLeft();
+```
+
+Call `language()` or `direction()` only after a text validation. Language
+detection checks whether the value contains characters from the selected
+language family. Direction checks the text-direction metadata collected for
+the element or browser text.
+
+Use `isArabic()` when you need the convenience check for Arabic characters and
+right-to-left direction:
+
+```java title="ArabicTextValidation.java"
+driver.assertThat().element(By.id("welcome")).text().isArabic();
+```
+
+## Soft verification evidence
+
+Each `verifyThat()` condition records its checkpoint while execution continues.
+Open the test's validation evidence to review every collected checkpoint and
+the final aggregated result. Keep independent observations as separate chains
+so each failed condition has its own report entry.
+
+```java title="VerificationEvidence.java"
+driver.verifyThat().element(By.id("name")).text().contains("John");
+driver.verifyThat().element(By.id("email")).text().contains("@");
+```
+
 ## Related
 
 - [Custom Report Messages](/docs/reference/reporting#custom-report-messages) — enrich Allure reports with business context
