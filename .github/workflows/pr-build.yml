@@ -26,6 +26,9 @@ jobs:
       - name: Security regressions
         run: yarn test:security
 
+      - name: Playwright worktree isolation contract
+        run: yarn test:playwright:contract
+
       - name: Homepage contract
         run: yarn test:homepage
 
