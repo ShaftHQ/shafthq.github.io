@@ -62,8 +62,8 @@ for (const [name, contents] of [
 
 assert.match(
   prBuild,
-  /^\s+run: yarn playwright install --with-deps chromium$/m,
-  'The PR gate must install Playwright\'s version-matched Chromium and Linux dependencies.',
+  /^\s+run: yarn playwright install --with-deps chromium firefox webkit$/m,
+  'The PR gate must install Playwright\'s version-matched browsers and Linux dependencies.',
 );
 assert.match(
   prBuild,
