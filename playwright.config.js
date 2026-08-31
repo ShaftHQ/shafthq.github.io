@@ -1,4 +1,7 @@
 const { defineConfig, devices } = require('@playwright/test');
+const port = process.env.SHAFT_DOCS_PORT ?? 3000;
+const baseURL = `http://127.0.0.1:${port}`;
+
 module.exports = defineConfig({
   testDir: './tests/e2e',
   testMatch: /.*\.spec\.(ts|js)$/,
@@ -7,13 +10,13 @@ module.exports = defineConfig({
     timeout: 5_000,
   },
   use: {
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL,
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'yarn serve --host 127.0.0.1 --port 3000 --no-open',
-    url: 'http://127.0.0.1:3000',
-    reuseExistingServer: true,
+    command: `yarn serve --host 127.0.0.1 --port ${port} --no-open`,
+    url: baseURL,
+    reuseExistingServer: false,
     timeout: 120_000,
   },
   projects: [
