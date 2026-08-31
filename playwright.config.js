@@ -1,5 +1,9 @@
 const { defineConfig, devices } = require('@playwright/test');
-const port = process.env.SHAFT_DOCS_PORT ?? 3000;
+const configuredPort = process.env.SHAFT_DOCS_PORT ?? '3000';
+if (!/^[1-9]\d{0,4}$/.test(configuredPort) || Number(configuredPort) > 65_535) {
+  throw new Error('SHAFT_DOCS_PORT must be an integer from 1 to 65535');
+}
+const port = Number(configuredPort);
 const baseURL = `http://127.0.0.1:${port}`;
 
 module.exports = defineConfig({
