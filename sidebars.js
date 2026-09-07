@@ -48,6 +48,7 @@ const sidebars = {
         'testing/web',
         'testing/api',
         'testing/mobile',
+        'testing/flutter',
         'testing/database',
         'testing/cli',
         'testing/contracts',

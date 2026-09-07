@@ -340,7 +340,11 @@ attachments, and provider messages do not enter the event.
 
 ## Flutter applications
 
-SHAFT Engine now supports automated testing of Flutter applications using the Appium Flutter Driver. This integration lets you test Flutter apps on both Android and iOS platforms.
+SHAFT Engine supports automated testing of Flutter applications using the Appium Flutter Integration driver. This integration lets you test Flutter apps on both Android and iOS platforms.
+
+:::tip Specialized Flutter guide
+For prerequisites, demo APK build, locator table, pitfalls, and a full tap/type/assert sample using SHAFT.GUI.Locator.flutter*, see the [Flutter testing guide](/docs/testing/flutter).
+:::
 
 ## Prerequisites
 
@@ -352,7 +356,7 @@ First, install Appium with the Flutter driver plugin:
 npm install -g appium
 
 # Install the Flutter driver plugin
-appium driver install --source npm appium-flutter-driver
+appium driver install --source npm appium-flutter-integration-driver
 ```
 
 ### 2. Verify Installation
@@ -362,7 +366,7 @@ Verify that the Flutter driver is installed:
 appium driver list --installed
 ```
 
-You should see `flutter` in the list of installed drivers.
+You should see the Flutter integration driver in the list of installed drivers.
 
 ### 3. Prepare Your Flutter App
 Your Flutter app must be built in either **debug** or **profile** mode. The Appium Flutter Driver does **not** support release mode.
@@ -410,7 +414,6 @@ locators:
 package com.example.tests;
 
 import com.shaft.driver.SHAFT;
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.AfterMethod;
@@ -440,12 +443,12 @@ public class FlutterAppTest {
 
     @Test
     public void testFlutterApp() {
-        driver.element().click(AppiumBy.flutterKey("loginButton"));
+        driver.element().click(SHAFT.GUI.Locator.flutterKey("LoginButton"));
         
-        driver.element().assertThat(AppiumBy.flutterText("Welcome!"))
+        driver.element().assertThat(SHAFT.GUI.Locator.flutterText("Please Login"))
                 .exists();
         
-        driver.element().assertThat(AppiumBy.flutterType("TextField"))
+        driver.element().assertThat(SHAFT.GUI.Locator.flutterType("TextField"))
                 .exists();
     }
 
@@ -498,89 +501,57 @@ SHAFT.Properties.mobile.set().platformVersion("13.0");
 
 ## Locating Flutter Elements
 
-When testing Flutter apps, use java-client's native `AppiumBy` `flutter*` factory
-methods to locate widgets. They ship with the Appium dependency SHAFT Engine
-already declares, so no additional dependency is required.
+Prefer SHAFT.GUI.Locator.flutter* factories (thin wrappers over java-client AppiumBy.flutter*). Full table and sample: [Flutter testing guide](/docs/testing/flutter).
 
 ### Common Flutter Locator Strategies
 
 ```java
-import io.appium.java_client.AppiumBy;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.By;
 
-// By value key
-WebElement element = driver.getDriver().findElement(AppiumBy.flutterKey("myButton"));
-
-// By text
-WebElement element = driver.getDriver().findElement(AppiumBy.flutterText("Submit"));
-
-// By type (widget class name)
-WebElement element = driver.getDriver().findElement(AppiumBy.flutterType("TextField"));
-
-// By semantics label (also covers what Flutter's Tooltip widget exposes as its
-// tooltip message - there is no separate "by tooltip" locator)
-WebElement element = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Login Button"));
-
-// Note: Refer to the java-client AppiumBy documentation for the complete list of
-// available flutter* factory methods.
-// https://github.com/appium/java-client
+By byKey = SHAFT.GUI.Locator.flutterKey("myButton");
+By byText = SHAFT.GUI.Locator.flutterText("Submit");
+By byType = SHAFT.GUI.Locator.flutterType("TextField");
+By bySemantics = SHAFT.GUI.Locator.flutterSemanticsLabel("Login Button");
+By byPartial = SHAFT.GUI.Locator.flutterTextContaining("Sub");
 ```
 
 ### Working with Located Elements
 
-Once you have located an element using a native `flutter*` locator, you can
-interact with it directly - it is a standard Selenium `WebElement`:
-
-```java
-import io.appium.java_client.AppiumBy;
-
-// Find and click a button
-WebElement incrementButton = driver.getDriver().findElement(AppiumBy.flutterKey("increment"));
-incrementButton.click();
-
-// Find and get text from an element
-WebElement counterText = driver.getDriver().findElement(AppiumBy.flutterKey("counterDisplay"));
-String text = counterText.getText();
-
-// Find by semantics label and interact
-WebElement submitButton = driver.getDriver().findElement(AppiumBy.flutterSemanticsLabel("Submit"));
-submitButton.click();
-```
+Once you have a Flutter locator from SHAFT.GUI.Locator.flutter*, use SHAFT fluent
+element actions (`type`, `click`, `assertThat`) rather than raw findElement-only
+checks. See the [Flutter testing guide](/docs/testing/flutter) for a full sample.
 
 ### Using with SHAFT's Fluent API
 
-You can integrate Flutter finders with SHAFT's fluent API:
-
 ```java
-// Build a SHAFT locator
-By loginButton = SHAFT.GUI.Locator.accessibilityId("loginButton");
-By welcomeMessage = SHAFT.GUI.Locator.accessibilityId("welcomeMessage");
+By username = SHAFT.GUI.Locator.flutterKey("username_text_field");
+By loginButton = SHAFT.GUI.Locator.flutterKey("LoginButton");
+By homeTitle = SHAFT.GUI.Locator.flutterText("Samples List");
 
-// Use with SHAFT's fluent element actions
 driver.element()
-      .type(SHAFT.GUI.Locator.accessibilityId("usernameField"), "username")
+      .type(username, "admin")
       .and().click(loginButton)
-      .and().assertThat(welcomeMessage).text().contains("Welcome");
+      .and().assertThat(homeTitle).text().contains("Samples");
 ```
 
 ## Working with Flutter Widgets
 
 ### Text Input
 ```java
-By usernameField = SHAFT.GUI.Locator.accessibilityId("usernameField");
+By usernameField = SHAFT.GUI.Locator.flutterKey("username_text_field");
 driver.element().type(usernameField, "testuser");
 ```
 
 ### Button Clicks
 ```java
-By loginButton = SHAFT.GUI.Locator.accessibilityId("loginButton");
+By loginButton = SHAFT.GUI.Locator.flutterKey("LoginButton");
 driver.element().click(loginButton);
 ```
 
 ### Scrolling
 ```java
 driver.element().touch().swipeElementIntoView(
-    SHAFT.GUI.Locator.accessibilityId("targetWidget"),
+    SHAFT.GUI.Locator.flutterKey("targetWidget"),
     "DOWN"
 );
 ```
@@ -630,7 +601,7 @@ SHAFT.Properties.mobile.set().automationName(AutomationName.FLUTTER_INTEGRATION)
 ### Common Issues
 
 1. **"Could not find Flutter driver"**
-   - Ensure the Flutter driver is installed: `appium driver install --source npm appium-flutter-driver`
+   - Ensure the Flutter driver is installed: `appium driver install --source npm appium-flutter-integration-driver`
    - Verify with: `appium driver list --installed`
 
 2. **"Flutter driver extension not found"**
@@ -708,7 +679,6 @@ Complete example with multiple tests using native `AppiumBy` `flutter*` locators
 package com.example.tests;
 
 import com.shaft.driver.SHAFT;
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.remote.AutomationName;
 import org.openqa.selenium.Platform;
 import org.testng.annotations.*;
@@ -776,7 +746,7 @@ public class FlutterAppTestSuite {
 
 - [Testing overview](/docs/start/overview)
 - [Features](/docs/features/modules)
-- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-driver)
+- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-integration-driver)
 - [Flutter testing guide](https://flutter.dev/docs/testing)
 - [Appium Java client](https://github.com/appium/java-client) for native `AppiumBy.flutter*` locators
 - [SHAFT Engine issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)

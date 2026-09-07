@@ -240,3 +240,20 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe —
 - [SHAFT Heal](/docs/agentic/heal)
 - [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-healenium)
 - [Web](/docs/testing/web)
+
+## Flutter locator factories {/* #flutter-locators */}
+
+For Flutter Integration Driver sessions, prefer `SHAFT.GUI.Locator.flutter*` thin wrappers over Appium java-client `AppiumBy.flutter*`:
+
+| Factory | Purpose |
+| --- | --- |
+| `flutterKey` | Flutter Key / ValueKey |
+| `flutterText` / `flutterTextContaining` | Exact / partial widget text |
+| `flutterType` | Widget type name (e.g. TextField) |
+| `flutterSemanticsLabel` | Semantics label (includes Tooltip text) |
+| `flutterDescendant` / `flutterAncestor` | Hierarchy finders |
+
+The `Locators` enum (`XPATH` / `CSS`) is only the relation-builder strategy enum used by `LocatorBuilder` — not a full By factory catalog.
+
+Full Flutter guide: [Flutter testing](/docs/testing/flutter).
+
