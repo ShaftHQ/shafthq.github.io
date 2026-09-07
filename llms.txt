@@ -13,6 +13,7 @@
 - [API testing](https://shafthq.github.io/docs/testing/api): Build, execute, inspect, and assert REST API requests with SHAFT.
 - [CLI testing](https://shafthq.github.io/docs/testing/cli): Execute and validate local, Docker, and SSH commands with SHAFT.
 - [Database testing](https://shafthq.github.io/docs/testing/database): Connect, query, and validate databases through SHAFT.
+- [Flutter testing guide](https://shafthq.github.io/docs/testing/flutter): SHAFT Flutter guide with Locator.flutter factories and tap/type/assert sample.
 - [How SHAFT reduces flakiness](https://shafthq.github.io/docs/testing/flakiness): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
 - [Mobile and Flutter testing](https://shafthq.github.io/docs/testing/mobile): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
 - [UI and API contract replay](https://shafthq.github.io/docs/testing/contracts): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
