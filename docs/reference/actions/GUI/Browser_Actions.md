@@ -345,7 +345,14 @@ opening fails, the report action fails before attaching the HTML to Allure.
 driver.browser().waitForLazyLoading();
 ```
 
-Waits for lazy-loaded content to finish loading on the page.
+Waits for lazy-loaded content to finish loading on the page. This public
+method uses the **navigation** wait: network/framework readiness plus
+`lazyLoadingDomStabilityOnNavigationQuietWindowMillis` (default `300`ms).
+Cheap per-action waits (element actions, validations) stay on the global
+`lazyLoadingDomStabilityQuietWindowMillis` default of `0`.
+
+For scroll-triggered content, call `scrollToLoadAll()` explicitly. SHAFT
+never auto-sweeps the page during readiness waits.
 
 ### Wait for a page condition
 

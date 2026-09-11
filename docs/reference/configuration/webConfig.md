@@ -59,6 +59,16 @@ lazyLoadingNetworkIdleInitialObservationMillis=200
 # Required network quiet window after observed XHR/fetch/resource activity
 lazyLoadingNetworkIdleQuietWindowMillis=500
 
+# Cheap per-action DOM quiet window (0 = off). Navigation uses the next property.
+lazyLoadingDomStabilityQuietWindowMillis=0
+
+# DOM quiet window after navigateToURL and public waitForLazyLoading()
+lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
+
+# Default: eager. Pair with readinessState=interactive
+pageLoadStrategy=eager
+readinessState=interactive
+
 # Default: 30 seconds to wait for a page navigation to complete
 browserNavigationTimeout=30
 
