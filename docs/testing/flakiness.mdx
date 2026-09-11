@@ -99,12 +99,18 @@ page actually does without any test-code changes:
   every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
   `EventSource`/`WebSocket` connections are observed but never block idle, so
   SSE and long-poll pages don't pin every action at the timeout ceiling.
-- **DOM-stability quiet window** (opt-in, off by default) adds a
-  `MutationObserver`-backed check: once enabled, readiness also requires
-  `lazyLoadingDomStabilityQuietWindowMillis` of DOM-mutation silence. It
-  defaults to `0` (disabled) because carousels, tickers, and React re-renders
-  would otherwise pin every action at the 30-second ceiling; turn it on only
-  for pages you know settle and stay settled.
+- **DOM-stability quiet window** is split: cheap per-action waits use
+  `lazyLoadingDomStabilityQuietWindowMillis` (default `0`, off). After
+  navigation — and when you call `driver.browser().waitForLazyLoading()` —
+  SHAFT also applies `lazyLoadingDomStabilityOnNavigationQuietWindowMillis`
+  (default `300`ms) so in-viewport hydration can settle without turning DOM
+  folding on for every click. That navigation wait is Selenium WebDriver only
+  (including new-tab/window `navigateToURL`); Playwright `waitForLazyLoading()`
+  remains a load-state wait. `pageLoadStrategy=eager` / `readinessState=interactive`
+  unblocks Selenium/BiDi at `DOMContentLoaded`; the JS readiness engine still
+  requires `loaded`/`complete` plus XHR/fetch idle and does not treat
+  `interactive` as document-ready. Long-lived `EventSource`/`WebSocket` and BiDi
+  in-flight counts remain advisory; they never hard-gate the wait.
 - **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
   in-flight requests via WebDriver BiDi network events when BiDi is enabled.
   This signal is advisory only: it can extend the quiet window while requests
@@ -115,6 +121,7 @@ page actually does without any test-code changes:
 ```properties title="src/main/resources/properties/custom.properties"
 lazyLoadingPollingIntervalMillis=200
 lazyLoadingDomStabilityQuietWindowMillis=0
+lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
 waitForLazyLoadingTimeout=30
 ```
 

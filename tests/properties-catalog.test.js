@@ -107,7 +107,10 @@ for (const [lazyKey, expectedDefault] of [
   ['waitForLazyLoadingTimeout', '30'],
   ['lazyLoadingPollingIntervalMillis', '200'],
   ['lazyLoadingDomStabilityQuietWindowMillis', '0'],
+  ['lazyLoadingDomStabilityOnNavigationQuietWindowMillis', '300'],
   ['lazyLoadingScrollSweepMaxSteps', '20'],
+  ['pageLoadStrategy', 'eager'],
+  ['readinessState', 'interactive'],
 ]) {
   const property = catalog.find((p) => p.key === lazyKey);
   assert(property, `Missing expected lazy-loading property ${lazyKey} (SHAFT_ENGINE #3775)`);

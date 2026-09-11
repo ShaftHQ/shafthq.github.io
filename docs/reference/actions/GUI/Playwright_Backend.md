@@ -216,7 +216,7 @@ Legend:
 | `saveStorageState(path)` / `loadStorageState(path)` | Supported; same JSON schema as WebDriver, files are interchangeable between backends |
 | `captureScreenshot()` / `captureScreenshot(type)` | Supported; attached to SHAFT report |
 | `capturePageSnapshot()` / `captureSnapshot()` | Supported as HTML attachment |
-| `waitForLazyLoading()` | Supported through Playwright load state |
+| `waitForLazyLoading()` | Playwright load-state wait (not the Selenium navigation DOM-quiet window) |
 | `getContext()` / `setContext()` / `getContextHandles()` | Supported for the Playwright page context |
 | `mock()` / `intercept()` / `interceptRequest()` / `clearNetworkInterceptors()` / contract recording and replay | Supported through Playwright `BrowserContext` routing while preserving SHAFT's Selenium HTTP request/response contract |
 | `routeFromHar(harPath)` | Supported; same HAR 1.2 replay behavior as WebDriver |

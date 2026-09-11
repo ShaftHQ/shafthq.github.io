@@ -229,7 +229,7 @@
     "key": "pageLoadStrategy",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "none",
+    "defaultValue": "eager",
     "possibleValues": "none, eager, normal",
     "description": "Controls when Selenium considers the page loaded."
   },
@@ -238,7 +238,7 @@
     "key": "readinessState",
     "targetFile": "custom.properties",
     "type": "text",
-    "defaultValue": "none",
+    "defaultValue": "interactive",
     "possibleValues": "interactive, none, complete",
     "description": "Controls the document readiness state to wait for."
   },
@@ -1438,7 +1438,16 @@
     "type": "number",
     "defaultValue": "0",
     "possibleValues": "(milliseconds); 0 disables DOM-stability folding",
-    "description": "Required DOM-mutation quiet window in milliseconds before the browser-readiness wait treats the DOM as stable."
+    "description": "Cheap per-action DOM-mutation quiet window. Default 0 keeps element and validation waits from folding DOM stability."
+  },
+  {
+    "section": "Timeouts",
+    "key": "lazyLoadingDomStabilityOnNavigationQuietWindowMillis",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "300",
+    "possibleValues": "(milliseconds)",
+    "description": "DOM-mutation quiet window applied after navigation and by public driver.browser().waitForLazyLoading()."
   },
   {
     "section": "Timeouts",
