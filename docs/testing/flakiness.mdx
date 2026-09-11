@@ -104,7 +104,12 @@ page actually does without any test-code changes:
   navigation — and when you call `driver.browser().waitForLazyLoading()` —
   SHAFT also applies `lazyLoadingDomStabilityOnNavigationQuietWindowMillis`
   (default `300`ms) so in-viewport hydration can settle without turning DOM
-  folding on for every click. Long-lived `EventSource`/`WebSocket` and BiDi
+  folding on for every click. That navigation wait is Selenium WebDriver only
+  (including new-tab/window `navigateToURL`); Playwright `waitForLazyLoading()`
+  remains a load-state wait. `pageLoadStrategy=eager` / `readinessState=interactive`
+  unblocks Selenium/BiDi at `DOMContentLoaded`; the JS readiness engine still
+  requires `loaded`/`complete` plus XHR/fetch idle and does not treat
+  `interactive` as document-ready. Long-lived `EventSource`/`WebSocket` and BiDi
   in-flight counts remain advisory; they never hard-gate the wait.
 - **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
   in-flight requests via WebDriver BiDi network events when BiDi is enabled.

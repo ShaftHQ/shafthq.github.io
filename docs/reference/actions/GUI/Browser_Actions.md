@@ -345,11 +345,22 @@ opening fails, the report action fails before attaching the HTML to Allure.
 driver.browser().waitForLazyLoading();
 ```
 
-Waits for lazy-loaded content to finish loading on the page. This public
-method uses the **navigation** wait: network/framework readiness plus
+Waits for lazy-loaded content to finish loading on the page. On the
+**Selenium WebDriver** backend this public method uses the **navigation**
+wait: network/framework readiness plus
 `lazyLoadingDomStabilityOnNavigationQuietWindowMillis` (default `300`ms).
+The same navigation wait runs after `navigateToURL` in the current window
+and after `navigateToURL(url, WindowType)` / new-tab / new-window navigation.
 Cheap per-action waits (element actions, validations) stay on the global
 `lazyLoadingDomStabilityQuietWindowMillis` default of `0`.
+
+On the **Playwright** backend, `waitForLazyLoading()` still maps to Playwright
+load-state waiting, not this Selenium DOM-quiet window.
+
+`pageLoadStrategy=eager` and `readinessState=interactive` only unblock Selenium
+and BiDi at `DOMContentLoaded`. SHAFT's JS readiness still waits for
+`loaded`/`complete` plus XHR/fetch idle; it does not treat `interactive` as
+document-ready.
 
 For scroll-triggered content, call `scrollToLoadAll()` explicitly. SHAFT
 never auto-sweeps the page during readiness waits.

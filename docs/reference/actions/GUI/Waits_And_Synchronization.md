@@ -11,7 +11,7 @@ Use these patterns when an application state needs more than SHAFT's automatic e
 
 ## Explicit waits {/* #explicit-waits */}
 
-SHAFT retries normal element lookups with `defaultElementIdentificationTimeout`. For a specific condition, use the generic `driver.element().waitUntil(...)`. Browser sessions also expose `waitForLazyLoading()` (navigation-grade DOM quiet window, default `300`ms) for page content that arrives after the initial load. `scrollToLoadAll()` is explicit only:
+SHAFT retries normal element lookups with `defaultElementIdentificationTimeout`. For a specific condition, use the generic `driver.element().waitUntil(...)`. On Selenium WebDriver, `waitForLazyLoading()` and post-`navigateToURL` (including new tab/window) use the navigation-grade DOM quiet window (default `300`ms). Playwright `waitForLazyLoading()` is still load-state. `scrollToLoadAll()` is explicit only:
 
 ```java title="ExplicitWaits.java"
 import org.openqa.selenium.By;
