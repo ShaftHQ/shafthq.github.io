@@ -110,6 +110,29 @@ See the [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
 reference for configuration, native Playwright access, tracing, and the
 WebDriver-to-Playwright mapping tree.
 
+## Click and type by control kind
+
+`element().click(...)` and `element().type(...)` keep the same fluent API, but
+SHAFT now classifies the target control and picks a safer recipe automatically
+(Selenium, Playwright, Appium mobile, and Windows/UIA desktop).
+
+You do not opt in. Public calls stay unchanged. Typical routing:
+
+- Text-like inputs and textareas: clear strategy (see `clearBeforeTypingMode`) then type; Playwright prefers `fill`, and uses sequential keys when masks/debounce need key events
+- Checkbox / radio / switch: click or toggle, never type
+- Select / listbox / combobox: option or expand → filter → confirm — not blind `sendKeys` of the label alone
+- File inputs: set files via the file path API
+- Overlay / interception: scroll and retry before optional JS click (`clickUsingJavascriptWhenWebDriverClickFails`)
+- Mobile: focus → `sendKeys` / `mobile: type` / hide-keyboard helpers; Compose/Flutter need focus (and tags/semantics) before type
+- Windows desktop (WinAppDriver): UIA control-type map for Edit, Button, CheckBox, ComboBox, and related kinds
+
+Flags such as `attemptToClickBeforeTyping`, `clearBeforeTypingMode`, and
+`clickUsingJavascriptWhenWebDriverClickFails` still apply when you need to tune
+the defaults. Maintainer detail lives in
+`com.shaft.gui.element.internal.interaction` (`ElementClassifier`,
+`ClickStrategies`, `TypeStrategies`) from epic
+[#5732](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/5732).
+
 ## Related
 
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)
