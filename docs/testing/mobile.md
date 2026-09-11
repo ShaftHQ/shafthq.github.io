@@ -34,6 +34,15 @@ flowchart LR
     SHAFT --> Report["Allure evidence"]
 ```
 
+## Click and type by control kind
+
+Mobile and Windows desktop sessions use the same `element().click` /
+`element().type` facade as web. SHAFT classifies Appium/UIA controls and routes
+accordingly (focus → `sendKeys` / `mobile: type`, touch click fallback, checkbox
+toggle, WinAppDriver Edit/Button/CheckBox/ComboBox recipes). See
+[Web testing — Click and type by control kind](/docs/testing/web#click-and-type-by-control-kind)
+for the short cross-surface pointer; no new public API.
+
 ## Windows desktop apps
 
 Windows desktop automation uses the existing Appium dependency in
