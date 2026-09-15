@@ -355,6 +355,38 @@ shaft.trace.maxArtifactMb=50
 
 When retries are enabled and `shaft.trace.retainFailedAttempts=true` (the default), each failed attempt's trace is persisted as `shaft-trace-attempt-<n>.zip` alongside the final `shaft-trace.zip`, so passing retries never erase the failed attempt's evidence. In CI, worst-case artifact size scales roughly with the number of failed attempts multiplied by `shaft.trace.maxArtifactMb`.
 
+### Failure diagnostics bundle
+
+Failed and broken tests attach `shaft-diagnostics.zip` when
+`shaft.diagnostics.enabled=true` (default). The zip contains `diagnostics.json`
+schema version **2**:
+
+- **correlation** — `runId` (test id), `bundleId` (hash of stable redacted
+  fields), optional `captureSessionId` when a Capture session JSON was already
+  attached
+- **provenance** — writer adapter `shaft-engine-failure-diagnostics`
+- **channels** — `framework`, `browser`, `network`, `console`, `screenshot`,
+  `agent-action`, each `present` or `omitted` with a reason
+- **omitted** — explicit list (`budget`, `partial-capture`,
+  `unsupported-browser`, `secret-bearing`, `success-skip`, `retention`) so
+  missing evidence is never treated as complete
+- **cluster.fingerprint** — stable hash of exception type, top project frame,
+  and redacted message shape (no timestamps or host paths). Doctor uses this
+  fingerprint to cluster recurring failures without model judgment
+- existing v1 fields (`test`, `failure`, `codeContext`, `logs`, `artifacts`,
+  `redaction`) stay so older parsers still work
+
+Secrets in headers, cookies, tokens, and password-like assignments are redacted
+before the zip is written. Heavy artifacts stay references; they are not dumped
+as raw HAR or DOM. Successful tests do not attach the zip. Open the zip from
+Allure or pass `allure-results` to `shaft-doctor analyze` /
+`doctor_analyze_failed_allure` — no transcript required.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.diagnostics.enabled=true
+shaft.diagnostics.maxArtifactMb=50
+```
+
 ### Evidence Level Profiles
 
 `evidenceLevel` is the profile-level evidence switch. Its default is
