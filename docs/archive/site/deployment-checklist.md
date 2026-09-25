@@ -184,7 +184,7 @@ Success Rate: 100%
 - Console shows model not found
 
 **Solutions:**
-1. Check Gemini API status: https://status.ai.google.dev
+1. Check Gemini API status: https://aistudio.google.com/status
 2. Verify API key has access to gemini-3-flash and gemini-2.5-flash
 3. Check rate limits haven't been exceeded
 4. Review fallback logic in src/components/AutoBot/index.tsx
