@@ -164,7 +164,7 @@
 
 .category span,
 .categoryActive span {
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-emphasis-700);
   font-size: var(--site-font-caption);
 }
 
