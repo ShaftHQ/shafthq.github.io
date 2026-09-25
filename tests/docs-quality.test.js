@@ -202,8 +202,10 @@ assert(
   'Only agentic/mcp.mdx may contain runnable MCP classpath command snippets.',
 );
 assert(
-  docsContaining(/upgrade_to_modular_shaft\.py/).every((relativePath) => relativePath === 'start/upgrade.mdx'),
-  'Only start/upgrade.mdx may contain the upgrade script name or commands.',
+  docsContaining(/upgrade_to_modular_shaft\.py/).every(
+    (relativePath) => relativePath === 'start/upgrade.mdx' || relativePath.startsWith('start/upgrade/'),
+  ),
+  'Only the upgrade guide (start/upgrade.mdx and its start/upgrade/ pages) may contain the upgrade script name or commands.',
 );
 assert(
   docsContaining(/\/project-generator/).every((relativePath) => relativePath === 'start/installation.mdx'),

@@ -70,7 +70,7 @@ the documented inventory for revision, license, provenance, size, storage
 class, resource floors, update policy, cleanup rule, and deterministic
 fallback. `setup status` and `setup verify` print `target readiness version
 detail` (version empty unless READY) and report readiness/version/action; see
-[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 Use the review-first configuration while evaluating it:
 
@@ -81,7 +81,7 @@ managedLocalAi.model=qwen3-0.6b-q8_0
 ```
 
 Provision and maintain the reviewed runtime/model pair through the
-[managed local AI setup flow](/docs/start/local-infrastructure#preview-managed-local-ai).
+[managed local AI setup flow](/docs/start/local-infrastructure/previews#preview-managed-local-ai).
 Set `managedLocalAi.transparentProvisioning=true` only when an approved request
 may provision a missing reviewed pair without a separate CLI install phase.
 

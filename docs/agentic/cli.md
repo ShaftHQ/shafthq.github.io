@@ -93,7 +93,7 @@ DISABLED snapshot; it does not list the reviewed pin table. Defaults stay off.
 Enablement is local-processing consent only; it is not remote consent or tool
 approval. CI/headless Maven never downloads.
 See
-[inventory and troubleshooting](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[inventory and troubleshooting](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 ## Examples
 

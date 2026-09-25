@@ -22,7 +22,14 @@ const component = read('src/components/DocSnippets/index.tsx');
 assert(component.includes('export function PlaywrightSetupCommands'),
   'DocSnippets must expose the recurring managed Playwright command sequence.');
 
-const infrastructure = read('docs/start/local-infrastructure.mdx');
+// The guide is split by Diátaxis page type (#1079); the contract covers the whole set.
+const infrastructure = [
+  'docs/start/local-infrastructure.mdx',
+  'docs/start/local-infrastructure/mobile.mdx',
+  'docs/start/local-infrastructure/services.mdx',
+  'docs/start/local-infrastructure/previews.mdx',
+  'docs/start/local-infrastructure/reference.mdx',
+].map(read).join('\n');
 assert(infrastructure.includes('<PlaywrightSetupCommands />'),
   'The canonical infrastructure guide must render the shared Playwright command sequence.');
 for (const fact of [
@@ -38,7 +45,7 @@ for (const fact of [
 }
 
 const backend = read('docs/reference/actions/GUI/Playwright_Backend.md');
-assert(backend.includes('/docs/start/local-infrastructure#install-managed-playwright-browsers'),
+assert(backend.includes('/docs/start/local-infrastructure/services#install-managed-playwright-browsers'),
   'The Playwright backend must link to its canonical managed setup flow.');
 
 console.log('Managed Playwright infrastructure documentation contract checks passed.');

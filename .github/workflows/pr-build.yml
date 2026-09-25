@@ -47,6 +47,9 @@ jobs:
       - name: Homepage accessibility audit
         run: yarn test:a11y
 
+      - name: Diátaxis split pages and moved-anchor forwarding
+        run: yarn playwright test tests/e2e/diataxis-split.spec.js --project=chromium
+
       - name: Wide table and first-run layout checks
         run: yarn playwright test tests/e2e/wide-tables.spec.js tests/e2e/homepage.spec.js --project=chromium --grep "wide tables|scrollable-region-focusable|tables that fit|first-run strip"
 

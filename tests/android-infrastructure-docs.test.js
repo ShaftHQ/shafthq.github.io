@@ -26,7 +26,14 @@ const component = read('src/components/DocSnippets/index.tsx');
 assert(component.includes('export function AndroidSetupCommands'),
   'DocSnippets must expose the recurring managed Android command sequence.');
 
-const infrastructure = read('docs/start/local-infrastructure.mdx');
+// The guide is split by Diátaxis page type (#1079); the contract covers the whole set.
+const infrastructure = [
+  'docs/start/local-infrastructure.mdx',
+  'docs/start/local-infrastructure/mobile.mdx',
+  'docs/start/local-infrastructure/services.mdx',
+  'docs/start/local-infrastructure/previews.mdx',
+  'docs/start/local-infrastructure/reference.mdx',
+].map(read).join('\n');
 assert(infrastructure.includes('<AndroidSetupCommands />'),
   'The canonical infrastructure guide must render the shared Android command sequence.');
 for (const heading of [
