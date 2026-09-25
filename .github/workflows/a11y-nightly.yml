@@ -1,0 +1,94 @@
+name: Nightly accessibility scan
+
+# Full-site axe scan (issue #1081): every sitemap page, light and dark themes,
+# WCAG 2.2 A/AA tags, plus a 320px horizontal-overflow sweep. PR CI audits only
+# the homepage, project generator and wide-table pages, so this job catches
+# content regressions anywhere else. It never runs on pull requests. It uploads
+# the report as an artifact and keeps one rolling issue labelled
+# `accessibility`.
+on:
+  schedule:
+    - cron: '43 2 * * *' # daily 02:43 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: a11y-nightly
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    name: Full-site axe scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Install Chromium
+        run: yarn playwright install --with-deps chromium
+
+      - name: Build
+        run: yarn build
+
+      - name: Scan every page
+        id: scan
+        run: |
+          yarn serve --host 127.0.0.1 --port 3000 --no-open > serve.log 2>&1 &
+          for i in $(seq 60); do curl -sf http://127.0.0.1:3000/ > /dev/null && break; sleep 2; done
+          set +e
+          node scripts/a11y-sitewide.mjs --base http://127.0.0.1:3000 --build build --out a11y-report.json --markdown a11y-report.md
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          cat a11y-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: a11y-report
+          path: |
+            a11y-report.json
+            a11y-report.md
+          retention-days: 30
+
+      - name: Open, update, or close the tracking issue
+        if: always() && steps.scan.outputs.exit_code != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCAN_EXIT: ${{ steps.scan.outputs.exit_code }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          label=accessibility
+          title='Accessibility regressions (nightly full-site scan)'
+          gh label create "$label" --color 0E8A16 --description 'Reported by the nightly full-site accessibility scan' 2>/dev/null || true
+          existing=$(gh issue list --label "$label" --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')
+          if [ "${SCAN_EXIT}" = "0" ]; then
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --comment "The full-site scan is clean again in ${RUN_URL}."
+            fi
+            exit 0
+          fi
+          {
+            echo "The nightly full-site accessibility scan found problems. Run and JSON artifact: ${RUN_URL}"
+            echo
+            echo 'Reproduce locally: `yarn build && yarn serve --port 3000` then `node scripts/a11y-sitewide.mjs --base http://127.0.0.1:3000`.'
+            echo
+            cat a11y-report.md
+          } > issue-body.md
+          head -c 60000 issue-body.md > issue-body.trimmed.md
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body-file issue-body.trimmed.md
+            gh issue comment "$existing" --body "Still failing in ${RUN_URL}."
+          else
+            gh issue create --title "$title" --label "$label" --body-file issue-body.trimmed.md
+          fi

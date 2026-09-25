@@ -47,13 +47,13 @@ release, package, deployment, issue, or pull request.
 
 Open issues: none.
 
-Open pull requests:
+Open pull requests (the `ShaftHQ/shaft-mcp` repository is no longer available on GitHub, so these numbers are kept as plain text):
 
 | PR | Branch | Title |
 | --- | --- | --- |
-| [#110](https://github.com/ShaftHQ/shaft-mcp/pull/110) | `dependabot/maven/io.github.shafthq-SHAFT_ENGINE-10.2.20260610` | Bump `io.github.shafthq:SHAFT_ENGINE` from `10.2.20260506` to `10.2.20260610` |
-| [#113](https://github.com/ShaftHQ/shaft-mcp/pull/113) | `dependabot/maven/org.junit.jupiter-junit-jupiter-engine-6.1.0` | Bump `junit-jupiter-engine` from `6.0.3` to `6.1.0` |
-| [#114](https://github.com/ShaftHQ/shaft-mcp/pull/114) | `dependabot/maven/org.apache.maven.surefire-surefire-testng-3.5.6` | Bump `surefire-testng` from `3.5.5` to `3.5.6` |
+| #110 | `dependabot/maven/io.github.shafthq-SHAFT_ENGINE-10.2.20260610` | Bump `io.github.shafthq:SHAFT_ENGINE` from `10.2.20260506` to `10.2.20260610` |
+| #113 | `dependabot/maven/org.junit.jupiter-junit-jupiter-engine-6.1.0` | Bump `junit-jupiter-engine` from `6.0.3` to `6.1.0` |
+| #114 | `dependabot/maven/org.apache.maven.surefire-surefire-testng-3.5.6` | Bump `surefire-testng` from `3.5.5` to `3.5.6` |
 
 The fetched source branch inventory also contained `main`, six
 `smithery/patch-*` branches, two `sync-versions-to-*` branches, and the three

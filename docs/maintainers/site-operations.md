@@ -38,6 +38,19 @@ Cloudflare environment variables; do not commit secrets.
 GitHub Pages uses `.github/workflows/deploy.yml` and publishes `build/` as the
 canonical public guide at `https://shafthq.github.io/`.
 
+## Scheduled checks
+
+- `.github/workflows/link-check.yml` runs lychee weekly (Monday) with
+  `lychee.toml`. It never fails a PR; on broken external links it opens or
+  updates one issue labelled `broken-links`, and closes it when a later run is
+  clean. Internal links and anchors are enforced by `yarn build`.
+- `.github/workflows/a11y-nightly.yml` builds the site and runs
+  `scripts/a11y-sitewide.mjs` every night: axe (WCAG 2.2 A/AA) on every page in
+  light and dark themes plus a 320px page-overflow sweep. The report is uploaded
+  as an artifact, and one issue labelled `accessibility` is opened, updated, or
+  closed. Run it locally against a served build with
+  `node scripts/a11y-sitewide.mjs --base http://127.0.0.1:3000 --build build`.
+
 ## Egypt accessibility
 
 If Egyptian users cannot open the guide, test both providers before changing

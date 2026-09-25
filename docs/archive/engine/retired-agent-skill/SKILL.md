@@ -4,7 +4,7 @@ description: Archived historical SHAFT_ENGINE Gemma integration retained outside
 unlisted: true
 tags: [archive]
 metadata:
-  homepage: https://github.com/ShaftHQ/SHAFT_ENGINE/tree/master/docs/archive/agent-skills/google-gemma
+  homepage: https://shafthq.github.io/docs/archive/engine/retired-agent-skill/overview
 ---
 
 # SHAFT_ENGINE Test Automation Expert

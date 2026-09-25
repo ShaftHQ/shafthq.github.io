@@ -1,0 +1,36 @@
+# External link check configuration (issue #1077).
+# Used by .github/workflows/link-check.yml. Internal links are already
+# enforced at build time (onBrokenLinks/onBrokenAnchors: 'throw'), so only
+# http(s) URLs are checked here.
+scheme = ["https", "http"]
+# Resolve root-relative links (/docs/..) against the site; the exclude list
+# below then skips them because the Docusaurus build already checks them.
+base_url = "https://shafthq.github.io"
+max_retries = 3
+retry_wait_time = 5
+timeout = 30
+max_concurrency = 8
+# 403/429 are commonly bot protection or rate limiting, not dead links.
+accept = ["200..=299", "403", "429"]
+cache = true
+max_cache_age = "3d"
+include_mail = false
+exclude_all_private = true
+exclude = [
+  # Local and placeholder hosts used in examples.
+  '^https?://(localhost|127\.0\.0\.1|0\.0\.0\.0|host\.docker\.internal)',
+  '^https?://([a-z0-9-]+\.)*example\.(com|org|net)',
+  '^https?://your-',
+  # Hosts that reject automated clients or need auth; verified manually.
+  '^https://(www\.)?linkedin\.com/',
+  '^https://(www\.)?(twitter|x)\.com/',
+  '^https://(www\.)?npmjs\.com/',
+  '^https://medium\.com/',
+  '^https://(www\.)?reddit\.com/',
+  # The site itself (including relative links resolved against base_url):
+  # internal links and anchors are checked by the Docusaurus build.
+  '^https://shafthq\.github\.io(/|$)',
+  # Template placeholders and GitHub UI actions that need auth.
+  '\{\{',
+  '^https://github\.com/[^/]+/[^/]+/(new|edit|compare|settings)(/|$)',
+]

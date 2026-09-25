@@ -393,13 +393,6 @@ setParallel=METHODS
 setThreadCount=3
 ```
 
-### Example Repository
-
-:::info Demo Project
-For a complete working example, visit this repository:
-**[SHAFT Engine - Parallel Execution with ThreadLocal Demo](https://github.com/MustafaAgamy/ShaftEngine-ParallelWithThreadLocal.git)**
-:::
-
 ---
 
 ## Best Practices and Tips

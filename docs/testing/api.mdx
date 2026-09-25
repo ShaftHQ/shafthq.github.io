@@ -13,6 +13,15 @@ import {AllureReportPath, FirstRunCommand} from '@site/src/components/DocSnippet
 Start here when you want one REST call, one assertion, and request/response
 evidence in the same report as your browser and mobile tests.
 
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+  through generating one.
+- Network access from the test machine to the API under test (the sample calls
+  `restcountries.com`), including any proxy settings your network requires.
+- Credentials for protected APIs, kept outside source control. See
+  [API Authentication](/docs/reference/actions/API/API_Authentication).
+
 ```java
 import com.shaft.driver.SHAFT;
 import org.testng.annotations.Test;
@@ -54,6 +63,14 @@ SHAFT attaches request, response, status, headers, body, and assertion evidence
 under <AllureReportPath />. If the request fails before assertions, check the
 base URI, proxy settings, authentication, and whether automatic `2xx` status
 assertion is appropriate for the scenario.
+
+## Verify
+
+- Maven reports the test as run and passed.
+- The Allure report for the test shows the request, the response status,
+  headers, and body, and the `extractedJsonValue` assertion.
+- To prove the assertion is live, change `"Egypt"` to another value and rerun.
+  The test fails, and the report shows the expected and actual values.
 
 ## First useful next steps
 

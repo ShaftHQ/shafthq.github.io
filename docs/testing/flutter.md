@@ -113,6 +113,15 @@ public class FlutterLoginSample {
 Without `-Dshaft.enableFlutterE2E=true`, FlutterTest throws SkipException so
 PR-gate unit jobs stay green with no emulator.
 
+## Verify
+
+- Maven reports `FlutterTest` as run, not skipped. A skipped test means
+  `-Dshaft.enableFlutterE2E=true` was not passed.
+- The tap, type, and assert steps pass against the debug APK. A release APK
+  fails with `Flutter server is not started`.
+- If the session doesn't start, check the [common pitfalls](#common-pitfalls)
+  below: driver package, automation name, and APK build type.
+
 ## SHAFT CI jobs (after #5755)
 
 Scheduled **E2E Tests** no longer boots a local AVD for Flutter. Nightly

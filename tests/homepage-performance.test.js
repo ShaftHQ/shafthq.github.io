@@ -11,7 +11,6 @@ const tabsPath = path.join(root, 'src', 'components', 'AccessibleTabs.tsx');
 const tabs = fs.existsSync(tabsPath) ? fs.readFileSync(tabsPath, 'utf8') : '';
 const styles = fs.readFileSync(path.join(root, 'src', 'pages', 'index.module.css'), 'utf8');
 const config = fs.readFileSync(path.join(root, 'docusaurus.config.js'), 'utf8');
-const imgbotConfig = JSON.parse(fs.readFileSync(path.join(root, '.imgbotconfig'), 'utf8'));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -94,7 +93,10 @@ for (const [pattern, description] of forbiddenViewerCursorRuntime) {
 }
 
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
-assert(imgbotConfig.ignoredFiles.includes('shaft-social-card.png'), 'ImgBot must ignore the deterministic social-card filename.');
+// Issue #1075: ImgBot was removed. No bot may rewrite committed image bytes. The
+// social card is protected by the byte-for-byte regeneration check below, and
+// pinned evidence assets by tests/docs-quality.test.js.
+assert(!fs.existsSync(path.join(root, '.imgbotconfig')), 'ImgBot was removed (#1075); do not reintroduce an image-rewriting bot config.');
 const socialCardPath = path.join(root, 'static', 'img', 'shaft-social-card.png');
 const socialCard = fs.readFileSync(socialCardPath);
 assert(socialCard.subarray(0, 8).toString('hex') === '89504e470d0a1a0a', 'The shipped social card must have the complete PNG signature.');

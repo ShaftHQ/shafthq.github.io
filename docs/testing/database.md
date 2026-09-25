@@ -11,6 +11,16 @@ tags: [database, jdbc]
 Use SHAFT database actions to open a JDBC connection, execute statements, and
 attach query evidence to the test report.
 
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+  through generating one.
+- The JDBC driver dependency for the database you connect to, on the test
+  classpath. See [connection strings](/docs/reference/actions/DB/Connection_Strings)
+  and, for Oracle, the [Oracle setup](/docs/reference/actions/DB/Oracle_JDBC_Setup).
+- A reachable, disposable database or schema with read permission. Keep
+  credentials outside source control.
+
 ```mermaid
 flowchart LR
     Test --> Config["Connection string"]
@@ -46,6 +56,14 @@ The query, connection target, and validation result are attached to the test
 report. If the connection fails, verify the JDBC URL, driver dependency,
 network route, schema permissions, and whether CI has the required secret
 values.
+
+## Verify
+
+- Maven reports the test as run and passed.
+- The report for the test shows the query, the connection target, and the
+  validation result.
+- If the connection fails, work through the checks above in order: JDBC URL,
+  driver dependency, network route, schema permissions, CI secrets.
 
 ## Choose the next reference
 

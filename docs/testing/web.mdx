@@ -13,6 +13,15 @@ import {AllureReportPath, FirstRunCommand} from '@site/src/components/DocSnippet
 Start here when you want one browser test that opens a page, performs an
 action, asserts a result, and leaves screenshot/report evidence.
 
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+  through generating one, and lists the required Java version under
+  [Requirements](/docs/start/installation#requirements).
+- The browser named by `targetBrowserName` installed on the machine, or the
+  generated headless defaults. See [web configuration](/docs/reference/configuration/webConfig).
+- Network access to the page under test (the sample opens `duckduckgo.com`).
+
 ```java
 import com.shaft.driver.SHAFT;
 import org.openqa.selenium.By;
@@ -66,6 +75,18 @@ Run the generated or copied test from the project root:
 The report includes browser steps, screenshots, logs, and assertion results
 under <AllureReportPath />. If the browser never opens, check Java/Maven first,
 then browser installation, then `targetBrowserName` and `headlessExecution`.
+
+## Verify
+
+- Maven reports the test as run and passed. A passing build that reports
+  `Total: 0` tests means the test runner provider is missing. See
+  [Install SHAFT](/docs/start/installation#adding-shaft-to-an-existing-maven-project).
+- The Allure report shows the navigate, type, and title-assertion steps with
+  their logs.
+- To prove the assertion is live, change the expected title to a wrong value and
+  rerun. The test fails, and with the default `FAILURE_ONLY`
+  [evidence level](/docs/reference/reporting#evidence-level-profiles) the report
+  attaches a screenshot and page source for the failure.
 
 ## Locator strategy
 

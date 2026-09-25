@@ -525,4 +525,15 @@ assert(
   'SemanticLocators.java must not teach hasRole(...).hasText( as the generated form.',
 );
 
+// Issue #1080: task-oriented testing guides tell readers what they need first
+// and how to confirm success. flakiness.mdx is a concept page and is exempt.
+for (const guide of ['web.mdx', 'api.mdx', 'mobile.md', 'database.md', 'cli.md', 'contracts.mdx', 'flutter.md']) {
+  const text = readFileSync(join(docsRoot, 'testing', guide), 'utf8');
+  const prerequisites = text.search(/^## Prerequisites\b/m);
+  const verify = text.search(/^## Verify\b/m);
+  assert(prerequisites !== -1, `testing/${guide} must have a "## Prerequisites" section.`);
+  assert(verify !== -1, `testing/${guide} must have a "## Verify" section.`);
+  assert(prerequisites < verify, `testing/${guide} must list prerequisites before the verify step.`);
+}
+
 console.log('Documentation quality checks passed.');

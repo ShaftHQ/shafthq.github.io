@@ -18,6 +18,15 @@ sensitive fields, and can later replay or validate the same exchanges.
 Contract mode is opt-in. Existing browser interception, API calls, and reporting
 behave the same until a test starts recording, replay, assert, or verify mode.
 
+## Prerequisites
+
+- A working [web test](/docs/testing/web) (`SHAFT.GUI.WebDriver`) or
+  [API test](/docs/testing/api) (`SHAFT.API`) for the journey you want to keep.
+- A writable fixtures path for the contract JSON, for example
+  `src/test/resources/contracts/`.
+- Agreement that the target environment allows its traffic to be kept as test
+  evidence. See [Redaction and normalization](#redaction-and-normalization).
+
 ## Record a contract
 
 Start recording before the browser navigation or API calls that should be kept.
@@ -125,6 +134,18 @@ SHAFT.Properties.api.set()
 Keep recorded contracts in test resources or a dedicated fixtures directory.
 Do not commit production secrets, session-specific personal data, or contracts
 captured from environments that do not allow test evidence retention.
+
+## Verify
+
+- After a recording run, the contract JSON exists at the path you passed.
+  Sensitive headers, query parameters, and body fields are redacted, and
+  volatile values are normalized.
+- A replay run passes with the recorded responses served as browser network
+  mocks.
+- In assert or verify mode, change the live behavior (or edit one recorded
+  value) and rerun. The report attaches an `HTTP Contract Diff - METHOD path`
+  artifact. Assert mode fails immediately, and verify mode collects every
+  mismatch.
 
 ## Related
 

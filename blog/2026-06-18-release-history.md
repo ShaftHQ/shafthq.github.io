@@ -188,7 +188,7 @@ releases.
 ## Community & links
 
 - ⭐ [Star SHAFT on GitHub](https://github.com/ShaftHQ/SHAFT_ENGINE) — it helps more than you think
-- 💡 [Start a Discussion](https://github.com/ShaftHQ/SHAFT_ENGINE/discussions) — share feedback or ideas
+- 💡 Share feedback or ideas in [SHAFT_ENGINE Issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues) _(this post originally linked GitHub Discussions, which is no longer enabled for the repository)_
 - 🐛 [Report an Issue](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/new) — help us squash bugs faster
 - 📖 [Read the Docs](https://shafthq.github.io/docs/start/overview) — dive deeper into SHAFT
 - 💬 [Join our Slack](https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw)

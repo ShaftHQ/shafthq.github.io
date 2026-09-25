@@ -263,8 +263,31 @@
   .actions { display: grid; grid-template-columns: 1fr; }
   .actions :global(.button),
   .workflowLink { width: 100%; }
-  .proofRail { display: grid; align-items: start; }
-  .proofRail li + li::before { content: ''; }
+  /* First-run strip on phones (#1082): three numbered steps on one aligned
+     text edge. The numerals are generated content with empty alt text, so
+     AT doesn't hear them twice (the <ol> already conveys order). The strip ends before the fixed
+     AutoBot launcher column (56px button + 14px inset). */
+  .firstRun { margin-inline-end: 3.75rem; }
+  .proofRail { display: grid; align-items: start; gap: 0.6rem; }
+  .proofRail li { display: grid; grid-template-columns: 1.5rem minmax(0, auto); justify-content: start; align-items: center; column-gap: 0.75rem; }
+  .proofRail li::before,
+  .proofRail li + li::before {
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    place-items: center;
+    border: 1px solid rgba(var(--site-color-on-dark-rgb), 0.55);
+    border-radius: 50%;
+    color: var(--site-color-on-dark);
+    font-size: var(--site-font-small);
+    font-weight: var(--site-font-weight-bold);
+    line-height: 1;
+  }
+  .proofRail li:nth-child(1)::before { content: '1'; content: '1' / ''; }
+  .proofRail li:nth-child(2)::before { content: '2'; content: '2' / ''; }
+  .proofRail li:nth-child(3)::before { content: '3'; content: '3' / ''; }
+  /* Hang the code chip so its text starts on the same edge as the other steps. */
+  .proofRail code { justify-self: start; margin-inline-start: calc(-0.45rem - 1px); }
   .workflowEvidence,
   .outcomeGrid,
   .trustGrid,

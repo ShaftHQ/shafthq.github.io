@@ -99,14 +99,67 @@ body.dark {
   --site-color-muted-rgb: 223, 245, 244;
   --site-color-on-dark: #f5fdff;
 }
-table {
-  table-layout: fixed;
-  width: 100%;
+/* Wide tables (#1076): src/plugins/rehype-table-region.js wraps every Markdown
+ * table in .table-scroll. The wrapper scrolls instead of the page: the table is
+ * excepted from WCAG 1.4.10 Reflow, the surrounding text isn't. The table
+ * keeps display:table, overriding Infima's `table { display:block;
+ * overflow:auto }`, which created unnamed, keyboard-unreachable scrollers and
+ * changed the table's display. Scroll shadows follow Lea Verou's
+ * background-attachment technique, cited by Roselli. The covers scroll with
+ * the content and the shadows stay at the edges, so a shadow shows only where
+ * more columns are hidden. No JS is needed for them. */
+.table-scroll {
+  --table-scroll-cover: var(--ifm-background-color);
+  --table-scroll-shadow: rgba(0, 0, 0, 0.22);
+  max-width: 100%;
+  margin-bottom: var(--ifm-spacing-vertical);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  background:
+    linear-gradient(to right, var(--table-scroll-cover) 30%, transparent) left center / 2.5rem 100% no-repeat local,
+    linear-gradient(to left, var(--table-scroll-cover) 30%, transparent) right center / 2.5rem 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, var(--table-scroll-shadow), transparent) left center / 0.9rem 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, var(--table-scroll-shadow), transparent) right center / 0.9rem 100% no-repeat scroll;
 }
 
-table td,
-table th {
-  word-wrap: break-word;
+[data-theme='dark'] .table-scroll {
+  --table-scroll-shadow: rgba(255, 255, 255, 0.24);
+}
+
+.table-scroll:focus-visible {
+  outline: 2px solid var(--ifm-color-primary-darkest);
+  outline-offset: 2px;
+}
+
+[data-theme='dark'] .table-scroll:focus-visible {
+  outline-color: var(--ifm-color-primary);
+}
+
+.table-scroll > table {
+  display: table;
+  width: 100%;
+  margin-bottom: 0;
+  overflow: visible;
+  table-layout: auto;
+}
+
+/* Keep prose columns readable when a table gets narrower than its content:
+ * cells don't collapse to one-word columns. A key identifier in the first
+ * column (e.g. a property name) stays on one line, and the wrapper scrolls. */
+.table-scroll > table :where(th, td) {
+  min-width: 7rem;
+  overflow-wrap: break-word;
+}
+
+.table-scroll > table :where(th, td):first-child > code:only-child {
+  white-space: nowrap;
+}
+
+@media print {
+  .table-scroll {
+    overflow: visible;
+    background: none;
+  }
 }
 
 .doc-card-grid {
