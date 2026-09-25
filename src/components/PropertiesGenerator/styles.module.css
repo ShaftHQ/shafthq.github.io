@@ -188,6 +188,12 @@
   color: var(--ifm-color-white);
 }
 
+/* Dark-theme primary is light blue; white text on it is only 2:1. */
+:global([data-theme='dark']) .categoryActive,
+:global([data-theme='dark']) .categoryActive span {
+  color: var(--site-color-deep);
+}
+
 .catalogPanel {
   display: flex;
   flex-direction: column;

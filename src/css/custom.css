@@ -329,7 +329,9 @@ input[placeholder='Search']:focus-visible {
 .docusaurus-mermaid-container .label {
   color: var(--ifm-font-color-base);
   fill: var(--ifm-font-color-base);
-  font-size: var(--site-font-small);
+  /* Mermaid sizes nodes from its own 16px text measurement, so labels must not
+     grow with the large-screen root font scale or they get clipped. */
+  font-size: min(var(--site-font-small), 14px);
 }
 
 .docusaurus-mermaid-container .node rect,
@@ -363,3 +365,141 @@ input[placeholder='Search']:focus-visible {
   outline-offset: 2px;
 }
 
+
+/* ----- Docs UX polish: navigation, focus, targets, large screens ----- */
+
+/* Visible keyboard focus everywhere (WCAG 2.4.7 / 2.4.13). :where() keeps
+   specificity at zero so component-specific focus styles still win. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Links inside running prose must not rely on color alone (WCAG 1.4.1). In the
+   dark theme the link blue is only ~1.6:1 against body text, so underline them. */
+:where(.theme-doc-markdown, .markdown) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+:where(.theme-doc-markdown, .markdown) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card):hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Navbar: slightly heavier labels and an unmistakable current-section marker. */
+.navbar__link {
+  font-weight: var(--site-font-weight-medium);
+}
+
+.navbar__link--active {
+  box-shadow: inset 0 -3px 0 var(--ifm-color-primary);
+}
+
+/* Sidebar current page: weight, tint, and an inset bar instead of a 5% tint. */
+.menu__link--active:not(.menu__link--sublist) {
+  background: rgba(var(--site-color-primary-rgb), 0.08);
+  box-shadow: inset 3px 0 0 var(--ifm-color-primary);
+  font-weight: var(--site-font-weight-bold);
+}
+
+[data-theme='dark'] .menu__link--active:not(.menu__link--sublist) {
+  background: rgba(var(--site-color-primary-rgb), 0.14);
+}
+
+/* Copy buttons stay discoverable for touch and keyboard users instead of only
+   appearing on hover. */
+.theme-code-block button[aria-label='Copy code to clipboard'] {
+  opacity: 0.75;
+}
+
+/* 44px touch targets in the mobile/tablet navigation and on coarse pointers
+   (WCAG 2.5.5 target size, enhanced). */
+@media (max-width: 996px), (pointer: coarse) {
+  .menu__link,
+  .menu__caret,
+  .navbar__toggle,
+  .navbar-sidebar__back,
+  .navbar-sidebar__close,
+  .table-of-contents__link,
+  .breadcrumbs__link {
+    min-height: 2.75rem;
+  }
+
+  .menu__link,
+  .table-of-contents__link {
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumbs__link {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .navbar__toggle,
+  .navbar-sidebar__close {
+    display: inline-flex;
+    min-width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar__search-input {
+    height: 2.75rem;
+  }
+}
+
+/* Keep search visible as a box (not only a magnifier icon) on common phones. */
+@media (min-width: 360px) and (max-width: 576px) {
+  .navbar__items--right {
+    padding-right: 9.5rem;
+  }
+
+  .navbar__search-input:not(:focus) {
+    width: 8.5rem !important;
+  }
+}
+
+/* Large and high-resolution monitors: scale the rem-based type and widen the
+   content container so 2560px and 4K screens do not show a small island of
+   16px text. Prose keeps its ~75ch measure because it scales with the type. */
+@media (min-width: 1920px) {
+  html {
+    font-size: 106.25%;
+  }
+
+  :root {
+    --ifm-container-width-xl: 1480px;
+    --doc-sidebar-width: 320px;
+  }
+}
+
+@media (min-width: 2400px) {
+  html {
+    font-size: 118.75%;
+  }
+
+  :root {
+    --ifm-container-width-xl: 1800px;
+    --doc-sidebar-width: 360px;
+  }
+}
+
+@media (min-width: 3200px) {
+  html {
+    font-size: 137.5%;
+  }
+
+  :root {
+    --ifm-container-width-xl: 2300px;
+    --doc-sidebar-width: 420px;
+  }
+}
+
+/* Respect reduced motion for the decorative sponsor heartbeat. */
+@media (prefers-reduced-motion: reduce) {
+  .sponsorship-link:hover::before {
+    animation: none;
+  }
+}

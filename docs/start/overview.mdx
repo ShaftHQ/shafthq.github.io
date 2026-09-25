@@ -45,14 +45,17 @@ flowchart LR
 ## Start in 90 seconds
 
 Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
-runner and testing surfaces, then download a ready-to-run project.
+runner and testing surfaces, then download a ready-to-run project. Run it from
+the project root:
 
 <FirstRunCommand />
 
-Copyable shell form:
+A SHAFT web step reads like this:
 
-```bash
-mvn test
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://example.com");
+driver.element().click(By.id("submit"));
 ```
 
 <ReleaseFacts />

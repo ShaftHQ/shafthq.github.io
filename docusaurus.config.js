@@ -2,8 +2,31 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 const {themes} = require('prism-react-renderer');
-const lightTheme = themes.github;
-const darkTheme = themes.dracula;
+// Prism token colors that fall below WCAG 1.4.3's 4.5:1 text contrast on the
+// code-block background are replaced with same-hue shades that clear it (light
+// values also clear 4.5:1 on highlighted lines). Every other token is untouched.
+const withTokenColors = (theme, replacements) => ({
+  ...theme,
+  styles: theme.styles.map((entry) => {
+    const color = replacements[entry.style.color];
+    return color ? {...entry, style: {...entry.style, color}} : entry;
+  }),
+});
+const githubWithReadableNamespaces = {
+  ...themes.github,
+  // `namespace` (Java package names in imports) renders at 70% opacity: 4.48:1.
+  styles: themes.github.styles.map((entry) => (entry.types.includes('namespace') ? {...entry, style: {...entry.style, opacity: 0.85}} : entry)),
+};
+const lightTheme = withTokenColors(githubWithReadableNamespaces, {
+  '#999988': '#65655a', // comment: 2.71 -> 5.54
+  '#e3116c': '#c50f5e', // string, attr-value: 4.32 -> 5.47
+  '#36acaa': '#23706e', // number, boolean, property: 2.58 -> 5.46
+  '#00a4db': '#006c91', // keyword, attr-name: 2.69 -> 5.55
+  '#d73a49': '#b9323f', // function, tag: 4.30 -> 5.49
+});
+const darkTheme = withTokenColors(themes.dracula, {
+  'rgb(98, 114, 164)': '#8995bb', // comment: 3.03 -> 4.80
+});
 const siteUrl = 'https://shafthq.github.io';
 const siteAsset = (path) => new URL(path, siteUrl).toString();
 

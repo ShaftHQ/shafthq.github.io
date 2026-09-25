@@ -8,7 +8,7 @@ tags: [shaft_engine, swagger, openapi, contract_testing]
 # 🚀 SHAFT_Engine Now Supports Swagger/OpenAPI Contract Validation!
 
 <a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank">
-  <img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" />
+  <img src="/img/shaft.svg" alt="SHAFT_Engine" height="50px" />
 </a>
 
 ### Say goodbye to manual schema checks—contract testing is now automated and built right into SHAFT!

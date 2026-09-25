@@ -9,7 +9,7 @@ We're starting off 2024 with a huge announcement!
 
 # <b>SHAFT_Engine</b> is introducing Virtual Threads for Everyday Tasks 🎉🎉
 
-<a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/master/src/main/resources/images/shaft.png" alt="SHAFT_Engine" height="50px" /></a>    
+<a href="https://github.com/ShaftHQ/SHAFT_ENGINE" target="_blank"><img src="/img/shaft.svg" alt="SHAFT_Engine" height="50px" /></a>    
 🤝
 
 

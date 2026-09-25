@@ -21,9 +21,9 @@
 
 .logoPlate {
   display: inline-grid;
-  width: 7rem;
-  height: 7rem;
-  margin-bottom: 1.6rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  flex: 0 0 auto;
   place-items: center;
   border: 2px solid rgba(var(--site-color-on-dark-rgb), 0.72);
   border-radius: 0.75rem;
@@ -33,11 +33,14 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-.logo { display: block; width: 5.75rem; height: 5.75rem; object-fit: contain; }
+.logo { display: block; width: 3.6rem; height: 3.6rem; object-fit: contain; }
+
+.brandRow { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.kicker { max-width: 26ch; margin: 0; color: var(--site-color-on-dark); font-size: var(--site-font-body-large); font-weight: var(--site-font-weight-bold); line-height: 1.35; }
 
 .hero h1,
 .final h2 {
-  max-width: 13ch;
+  max-width: 16ch;
   margin: 0;
   color: var(--site-color-on-dark);
   font-size: var(--site-font-display);
@@ -91,8 +94,14 @@
   margin: 2rem 0 0;
   list-style: none;
   color: rgba(var(--site-color-on-dark-rgb), 0.9);
-  font-size: var(--site-font-small);
+  font-size: var(--site-font-label);
 }
+
+.firstRun { margin-top: 2rem; }
+.firstRun .proofRail { margin-top: 0.5rem; }
+.firstRunLabel { margin: 0; color: var(--site-color-on-dark); font-size: var(--site-font-label); font-weight: var(--site-font-weight-bold); letter-spacing: 0.04em; text-transform: uppercase; }
+.firstRunNote { margin: 0.75rem 0 0; color: rgba(var(--site-color-on-dark-rgb), 0.9); font-size: var(--site-font-label); }
+.firstRunNote a { display: inline-flex; min-height: 1.5rem; align-items: center; color: var(--site-color-on-dark); font-weight: var(--site-font-weight-bold); text-decoration: underline; text-underline-offset: 0.18em; }
 
 .proofRail li { display: inline-flex; align-items: center; gap: 0.55rem; }
 .proofRail li + li::before { color: var(--site-color-primary); content: '•'; }
@@ -218,6 +227,13 @@
 .footerLinks { display: flex; gap: 1.25rem; margin-top: 2.5rem; }
 .footerLinks a { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--site-color-on-dark); }
 
+/* Primary blue is below 3:1 on the deep surfaces, so focus rings there use the on-dark token. */
+.hero :is(a, summary):focus-visible,
+.final :is(a, summary):focus-visible,
+.surfaceSection :is(a, summary):focus-visible,
+.footer :is(a, summary):focus-visible { outline: 3px solid var(--site-color-on-dark); outline-offset: 3px; }
+.surfaceSection .tab:focus-visible { outline-color: var(--site-color-on-dark); }
+
 @media (prefers-reduced-motion: reduce) {
   .evidenceTrail { display: none; }
   .tab,
@@ -258,6 +274,8 @@
   .trustGrid a:nth-child(4n) { border-right: 1px solid rgba(var(--site-color-deep-rgb), 0.18); }
   .trustGrid a:nth-child(2n) { border-right: 0; }
   .tabList { max-width: 100%; }
-  .logoPlate { width: 6.25rem; height: 6.25rem; }
-  .logo { width: 5rem; height: 5rem; }
+  .logoPlate { width: 3.5rem; height: 3.5rem; }
+  .logo { width: 2.8rem; height: 2.8rem; }
+  .brandRow { gap: 0.75rem; margin-bottom: 1.25rem; }
+  .kicker { font-size: var(--site-font-label); }
 }

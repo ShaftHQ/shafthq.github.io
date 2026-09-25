@@ -72,9 +72,27 @@ Only these weights are allowed for reusable UI styles: `400|500|600|700`.
 - `docusaurus.config.js` Mermaid theme variables.
 - Focus outlines and semantic utility shadows when tokenized colors fail contrast; capture those overrides as token references in `src/css/custom.css`.
 
+## Navigation, focus, and viewport rules
+
+- Keyboard focus uses a 3px solid `--ifm-color-primary` outline site-wide. On
+  deep landing surfaces (hero, final CTA, surface explorer, footer) the ring uses
+  `--site-color-on-dark`, because primary blue is below 3:1 there.
+- Links inside docs prose are underlined; color alone is not enough in the dark theme.
+- The current sidebar page and navbar section carry an inset primary bar plus
+  weight, not only a tint.
+- Touch targets in the mobile/tablet navigation and on coarse pointers are at
+  least 44px (`2.75rem`).
+- Large monitors scale the root font size (106.25% from 1920px, 118.75% from
+  2400px, 137.5% from 3200px) and widen `--ifm-container-width-xl` and
+  `--doc-sidebar-width` with it. Mermaid labels are capped at 14px because
+  Mermaid sizes nodes from its own 16px text measurement.
+
 ## Code block and Mermaid constraints
 
 - Code blocks should only receive global shell shaping from `src/css/custom.css` (`pre`, `.theme-code-block`, `.prism-code`), while Prism token colors should remain untouched unless contrast must be improved.
+- Contrast exception: `docusaurus.config.js` replaces the Prism GitHub (light)
+  and Dracula (dark) token colors that fall below 4.5:1 with same-hue shades
+  that clear it. Keep that map when changing Prism themes.
 - Mermaid styling should be constrained to labels, node/edge strokes, and highlights via:
   - `docusaurus.config.js` (`themeConfig.mermaid`)
   - `.docusaurus-mermaid-container` in `src/css/custom.css`
