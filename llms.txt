@@ -3,8 +3,15 @@
 > SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing.
 
 ## Start
+- [How the modular SHAFT upgrade works](https://shafthq.github.io/docs/start/upgrade/how-it-works): What the transactional upgrader guarantees: project detection, optional-module evidence, compile-validated rollback, AI repair, and Selenium source rewrites.
+- [Install managed mobile infrastructure](https://shafthq.github.io/docs/start/local-infrastructure/mobile): Plan, approve, and install SHAFT-owned Android SDK, emulator, and Appium, or iOS and Windows Appium drivers.
+- [Install managed services and tools](https://shafthq.github.io/docs/start/local-infrastructure/services): Plan, approve, and install SHAFT-owned Selenium Grid, Healenium, ReportPortal, BrowserStack Local, Playwright browsers, and Lighthouse, and diagnose agent tools.
 - [Install SHAFT](https://shafthq.github.io/docs/start/installation): Generate a new SHAFT project or upgrade an existing automation project.
+- [Local infrastructure reference](https://shafthq.github.io/docs/start/local-infrastructure/reference): Plan and install policy options, the SHAFT.Infrastructure Java API and properties, and shaft-cli setup exit codes.
+- [Modular SHAFT upgrade reference](https://shafthq.github.io/docs/start/upgrade/reference): Upgrader command options, Maven coordinates, the module map, optional-module dependency boundaries, the legacy relocation, and measured download sizes.
+- [Preview managed local AI and OCR setup](https://shafthq.github.io/docs/start/local-infrastructure/previews): Evaluate the managed LOCAL_AI provider and the unreleased managed OCR setup from a source build.
 - [Quick start](https://shafthq.github.io/docs/start/quick-start): Choose the right SHAFT setup path, then run a first test.
+- [Run the modular SHAFT upgrade](https://shafthq.github.io/docs/start/upgrade/run): Step-by-step: prerequisites, download and run the transactional upgrader, choose an upgrade type, validate, and roll back.
 - [Set up local infrastructure](https://shafthq.github.io/docs/start/local-infrastructure): Diagnose, plan, approve, and install SHAFT-owned local tools through shaft-cli or Java.
 - [SHAFT at a glance](https://shafthq.github.io/docs/start/overview): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
 - [Upgrade to modular SHAFT](https://shafthq.github.io/docs/start/upgrade): Transactionally migrate legacy or native Maven projects to modular SHAFT.

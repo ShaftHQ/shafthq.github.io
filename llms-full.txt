@@ -4,6 +4,934 @@
 
 ---
 
+# How the modular SHAFT upgrade works
+
+Canonical URL: https://shafthq.github.io/docs/start/upgrade/how-it-works
+
+# How the modular SHAFT upgrade works
+
+This page explains what the upgrader decides and why. To run it, follow
+[Run the upgrade](/docs/start/upgrade/run). For command options and module
+boundaries, see the [upgrade reference](/docs/start/upgrade/reference).
+
+## What the script guarantees
+
+1. Finds supported Maven POMs without scanning generated `target`, `build`,
+ `.git`, IDE, or report directories.
+2. Resolves the latest published `shaft-engine` release from Maven Central,
+ unless `--shaft-version` is supplied.
+3. Compiles the unchanged project first. A broken baseline stops the migration
+ before any file is changed.
+4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
+ the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
+ metadata onto runtime dependencies.
+5. Adds only the optional modules supported by project evidence.
+6. For Selenium/Appium source upgrades, applies conservative Java rewrites in
+ the same transaction as the POM migration.
+7. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
+ the local Maven repository and both main and test source are compiled.
+8. Commits the file transaction only after compilation passes.
+9. Restores every touched file byte-for-byte when validation fails.
+10. Optionally uses the OpenAI Responses API for exactly three repair attempts
+ before rollback.
+
+```mermaid
+flowchart TD
+ Start["Run upgrade_to_modular_shaft.py"] --> Discover["Discover Maven POMs and project type"]
+ Discover --> Supported{"Legacy/modular SHAFT or supported native stack?"}
+ Supported -- No --> Stop["Stop without changing files"]
+ Supported -- Yes --> Resolve["Resolve latest modular SHAFT version"]
+ Resolve --> Baseline["Compile unchanged project"]
+ Baseline --> BaselinePass{"Baseline passes?"}
+ BaselinePass -- No --> Stop
+ BaselinePass -- Yes --> Snapshot["Open file transaction"]
+ Snapshot --> Upgrade["Update POM and optional source rewrites"]
+ Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
+ Compile --> Pass{"Compilation passes?"}
+ Pass -- Yes --> Commit["Commit upgraded files"]
+ Pass -- No --> Key{"OpenAI API key available?"}
+ Key -- No --> Rollback["Restore original bytes"]
+ Key -- Yes --> Repair["Request constrained repair"]
+ Repair --> Retry["Apply allowed POM/Java replacements"]
+ Retry --> AICompile["Recompile after repair"]
+ AICompile --> AIPass{"Compilation passes?"}
+ AIPass -- Yes --> Commit
+ AIPass -- No --> Attempts{"Three repair attempts exhausted?"}
+ Attempts -- No --> Repair
+ Attempts -- Yes --> Rollback
+```
+
+## Project detection
+
+The script supports projects when it detects one of these shapes:
+
+| Project shape | Detection |
+| --- | --- |
+| Legacy SHAFT | `io.github.shafthq:SHAFT_ENGINE` in a POM. |
+| Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
+| Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
+| Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
+| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
+| Cucumber | Cucumber dependency/import. |
+
+For multi-module builds, POMs that directly declare SHAFT or a supported native
+stack/runner pair are updated. A child module with a supported native stack is
+also updated when the test runner is declared in a parent POM or detected from
+source imports. Other reactor POMs are left unchanged.
+
+JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
+or imports, including suite-style projects that depend on
+`org.junit.platform:junit-platform-suite-api`.
+
+## Optional-module scan
+
+For legacy and existing modular SHAFT projects, optional modules are inferred
+from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
+are not printed; the report records only paths and detection reasons. Native
+projects receive `shaft-engine` only because native third-party integrations do
+not prove that the corresponding SHAFT provider API is used.
+
+POM evidence is read as Maven dependency coordinates, so compact XML and
+formatted XML are treated the same. For example, a legacy project that already
+declares `com.browserstack:browserstack-java-sdk`,
+`com.automation-remarks:video-recorder-*`, `org.openpnp:opencv`, or
+`com.sikulix:sikulixapi` selects the
+matching SHAFT optional module during migration.
+
+```mermaid
+flowchart LR
+ Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion, visual engine, OpenCV/Eyes/Shutterbug, or image-path touch API?"}
+ Scan --> Video{"videoParamsRecordVideo=true, zero-argument desktop recording, JAVE, or Automation Remarks?"}
+ Scan --> BrowserStack{"BrowserStack SDK dependency, platformsList/parallelsPerPlatform, automation switch, or SDK YAML?"}
+ Scan --> SikuliX{"SikuliX dependency or SHAFT.GUI.SikuliX usage?"}
+
+ Visual -- Yes --> AddVisual["Add shaft-visual"]
+ Visual -- No --> CoreVisual["Keep visual module absent"]
+ Video -- Yes --> AddVideo["Add shaft-video"]
+ Video -- No --> CoreVideo["Keep video module absent"]
+ BrowserStack -- Yes --> AddBrowserStack["Add shaft-browserstack"]
+ BrowserStack -- No --> Direct["Direct BrowserStack remains in shaft-engine"]
+ SikuliX -- Yes --> AddSikuliX["Add shaft-sikulix"]
+ SikuliX -- No --> CoreDesktop["Appium Windows stays in shaft-engine"]
+```
+
+Existing modular optional dependencies are preserved even when no additional
+scan evidence is found.
+
+### BrowserStack evidence
+
+The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
+ordinary remote sessions. Evidence includes:
+
+- `com.browserstack:browserstack-java-sdk`.
+- `SHAFT.Properties.browserStack.set().platformsList(...)`.
+- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
+- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
+- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
+- `browserStack.platformsList`.
+- `browserStack.parallelsPerPlatform`.
+- `browserStack.browserstackAutomation`.
+- `browserStack.customBrowserStackYmlPath`.
+- A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
+
+Direct BrowserStack WebDriver/Appium execution still requires only
+`shaft-engine`. Direct settings such as
+`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
+`shaft-browserstack` by themselves.
+
+### Visual evidence
+
+The visual module is selected for reference-image or image-engine behavior,
+including:
+
+- `matchesReferenceImage(...)` and `doesNotMatchReferenceImage(...)`.
+- `VisualValidationEngine`.
+- `findImageWithinCurrentPage(...)`, `compareAgainstBaseline(...)`, or
+ `loadOpenCV()`.
+- Image-path touch/wait/swipe APIs.
+- Explicit OpenCV, Applitools Eyes, Selenium Shutterbug, or `shaft-visual`
+ dependencies.
+
+Ordinary screenshots, highlighting, GIF generation, and folder comparison do
+not select `shaft-visual`.
+
+### Video evidence
+
+The video module is selected for local desktop recording:
+
+- `videoParamsRecordVideo=true`.
+- `videoParams_recordVideo=true`.
+- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
+- A zero-argument `startVideoRecording()` call.
+- Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
+
+Appium driver-native recording and cloud-provider video do not select
+`shaft-video`.
+
+### SikuliX evidence
+
+The SikuliX module is selected for image-based desktop automation:
+
+- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
+- Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
+
+Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
+`shaft-engine`.
+
+## Compilation and rollback
+
+The default validation command is:
+
+```bash
+mvn dependency:go-offline test-compile -DskipTests -Dgpg.skip
+```
+
+`dependency:go-offline` resolves project dependencies and build plugins into
+the local Maven repository. `test-compile` compiles both production and test
+source without executing tests. The same command runs before and after
+migration. Use `--compile-command` only when the project requires a profile,
+settings file, module selector, or another project-specific compile entry
+point.
+
+The transaction records original bytes and file permissions immediately before
+the first write to each file. A normal success discards that in-memory
+snapshot. A failure, invalid AI response, path-policy violation, interruption,
+or exhausted retry budget restores the originals.
+
+```mermaid
+sequenceDiagram
+ participant User
+ participant Script
+ participant Files
+ participant Maven
+ participant OpenAI
+
+ User->>Script: Start upgrade
+ Script->>Maven: Compile unchanged project
+ Maven-->>Script: Success
+ Script->>Files: Remember original bytes
+ Script->>Files: Write modular POM and optional source rewrites
+ Script->>Maven: Compile upgraded project
+ alt Compilation succeeds
+ Maven-->>Script: Success
+ Script->>Files: Commit transaction
+ Script-->>User: Upgraded project retained
+ else Compilation fails without API key
+ Maven-->>Script: Failure
+ Script->>Files: Restore original bytes
+ Script-->>User: Original project restored
+ else Compilation fails with API key
+ Maven-->>Script: Failure diagnostics
+ loop Maximum three repair attempts
+ Script->>OpenAI: Redacted diagnostics and allowed files
+ OpenAI-->>Script: Structured replacements
+ Script->>Files: Apply validated replacements
+ Script->>Maven: Recompile
+ end
+ alt A repair compiles
+ Script->>Files: Commit transaction
+ else All attempts fail
+ Script->>Files: Restore POM, source, and all AI-edited files
+ end
+ end
+```
+
+The rollback guarantee covers failures handled by the running process. An
+operating-system kill, power loss, or hardware failure can terminate any
+program before cleanup runs, which is another reason to use version control.
+
+## Optional OpenAI compile repair
+
+OpenAI repair is disabled unless a key is supplied. The safest interactive
+setup avoids shell history:
+
+```bash
+python upgrade_to_modular_shaft.py \
+ --project . \
+ --prompt-for-openai-key
+```
+
+For CI or an existing secret manager, set `OPENAI_API_KEY` and run the normal
+command:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --yes
+```
+
+Do not paste a real API key into the script, `pom.xml`, source code, or a
+checked-in properties file.
+
+When the upgraded compile fails, the script uses the
+[OpenAI Responses API](https://developers.openai.com/api/docs/guides/text) with
+[Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+The default model is `gpt-5.5`; override it with `--openai-model` when required.
+
+Each request is constrained as follows:
+
+- Compiler output is redacted for common tokens, passwords, bearer headers, and
+ private keys.
+- Only candidate POMs and Java files named by compiler diagnostics are
+ considered.
+- A file containing a detected secret is excluded from editable context.
+- The model can replace only existing, non-symlink `pom.xml` and `.java` files
+ that were supplied in the request.
+- Absolute paths, parent traversal, new files, unrelated extensions, invalid
+ XML, oversized output, and changes outside the supplied context are rejected.
+- The modular BOM/version contract is revalidated after every accepted repair.
+- The project is recompiled after each of the three repair attempts.
+- If no attempt passes, the POM and every AI-edited file are rolled back.
+
+Use `--no-ai` to force deterministic rollback even when the environment already
+contains an API key.
+
+## Selenium source migration
+
+Source migration is opt-in and compile-validated. `basic` keeps source intact.
+`session` and `full` are rejected for REST Assured-only, Cucumber-only, and
+other non-Selenium/Appium projects.
+
+### Session upgrade rewrites
+
+`--upgrade-type session` performs the POM upgrade, then rewrites supported
+driver session code:
+
+- `WebDriver` type declarations, simple return types, parameters, and
+ `ThreadLocal ` holders become `SHAFT.GUI.WebDriver`.
+- `new ChromeDriver(...)`, `new FirefoxDriver(...)`, `new EdgeDriver(...)`,
+ `new SafariDriver(...)`, `new RemoteWebDriver(...)`, `new AndroidDriver(...)`,
+ `new IOSDriver(...)`, and `new AppiumDriver(...)` are wrapped as
+ `new SHAFT.GUI.WebDriver(new ...Driver(...))`.
+- `driver.close()` becomes `driver.quit()` when the variable was migrated to
+ `SHAFT.GUI.WebDriver`.
+
+Example:
+
+```java
+// Selenium before
+private WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+ driver = new ChromeDriver();
+}
+
+@AfterMethod
+public void stopDriver() {
+ driver.close();
+}
+
+// SHAFT after session upgrade
+private SHAFT.GUI.WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+ driver = new SHAFT.GUI.WebDriver(new ChromeDriver());
+}
+
+@AfterMethod
+public void stopDriver() {
+ driver.quit();
+}
+```
+
+### Full upgrade rewrites
+
+`--upgrade-type full` runs the session upgrade, then rewrites simple
+one-statement browser and element actions:
+
+```java
+// Selenium
+driver.get("https://example.com");
+driver.findElement(By.id("login")).click();
+driver.findElement(By.id("username")).sendKeys("demo");
+
+// SHAFT
+driver.browser().navigateToURL("https://example.com");
+driver.element().click(By.id("login"));
+driver.element().type(By.id("username"), "demo");
+```
+
+The automatic full upgrade currently targets:
+
+- `driver.get(url)` and `driver.navigate().to(url)`.
+- `driver.findElement(locator).click()`.
+- `driver.findElement(locator).sendKeys(text)`.
+- `driver.findElement(locator).getText()`.
+- `driver.findElement(locator).isDisplayed()`.
+- `driver.findElement(locator).getAttribute(name)`.
+
+The report lists files changed by source migration and records unsupported
+patterns that need manual review. Risky cases remain manual: chained Selenium
+`Actions`, JavaScript execution, custom waits, reused `WebElement` instances,
+`findElements` collection handling, exception-driven control flow, and
+assertions whose message or soft/hard behavior matters.
+
+After a full upgrade, migrate element and browser assertions manually so their
+intent remains clear:
+
+```java
+// Selenium/TestNG assertion
+Assert.assertTrue(driver.findElement(By.id("banner")).isDisplayed());
+
+// SHAFT assertion
+driver.element().assertThat(By.id("banner")).isVisible();
+```
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Upgrade overview](/docs/start/upgrade)
+
+---
+
+# Install managed mobile infrastructure
+
+Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/mobile
+
+# Install managed mobile infrastructure
+
+Use these steps to let SHAFT own the Android and Appium toolchain, or the
+Appium drivers for iOS and Windows. Every install follows the shared [review and approve](/docs/start/local-infrastructure#review-and-approve-an-installation) flow; policy options and exit codes are in the [infrastructure reference](/docs/start/local-infrastructure/reference).
+
+## Install managed Android and Appium
+
+:::warning[Not in a published release yet]
+The `MOBILE_ANDROID` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #4913](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4913) and its
+[readiness follow-up #4917](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4917).
+Use these commands with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when you want SHAFT to own one local Android emulator and its
+Appium server. The release plan contains exactly six ordered actions:
+
+1. Node 24.19.0.
+2. Appium 3.6.0.
+3. Inspector plugin 2026.7.1.
+4. UiAutomator2 8.2.2.
+5. Android command-line tools 15859902, platform-tools, Emulator, API 36,
+ build-tools 36.0.0 with `aapt2`, and a host-compatible Google APIs image.
+6. A SHAFT-owned Pixel 8 AVD.
+
+SHAFT verifies the official command-line-tools archive hash and the packaged
+Appium dependency lock before publication. It runs npm inside a versioned
+SHAFT project, not as a global install, and never enables Appium relaxed
+security for the owned server.
+
+### Check platform prerequisites
+
+Install a compatible JDK and enable hardware virtualization for your host
+before planning a runtime. On Linux, grant the current user access to KVM. On
+Windows, enable a supported Android Emulator hypervisor path. On macOS, run on
+a host that can use Apple's virtualization support. SHAFT diagnoses these
+conditions with `emulator -accel-check`; it does not elevate, enable firmware
+features, change group membership, install host drivers, or edit shell
+profiles.
+
+Keep loopback ports `5554` and `5555` free for the owned emulator. The default
+Appium port is `4723`; choose another free port with `--port` when creating the
+plan. The selected system-image ABI must match the host architecture.
+
+### Review the Android plan and license
+
+Run the shared command sequence below. Stop after `plan`, inspect all six
+actions and the printed digest, then continue with that exact digest:
+
+ 
+
+`android-sdk-license` is an explicit approval identifier. Omitting it or
+supplying a different identifier fails before SHAFT creates setup roots,
+starts a process, or contacts the network. SHAFT supplies consent only to the
+reviewed package installation; it does not run a blanket
+`sdkmanager --licenses` acceptance.
+
+Use these selectors on `doctor`, `status`, `plan`, `verify`, `start`, `logs`,
+or `stop`. You may repeat them on `install`, but every repeated value must
+match the plan:
+
+| Option | Release default | Constraint |
+|---|---:|---|
+| `--api-level` | `36` | Must match the release manifest. |
+| `--device-profile` | `pixel_8` | Must match the release manifest. |
+| `--image-tag` | `google_apis` | Must match the release manifest. |
+| `--abi` | `host` | Resolves to `x86_64` or `arm64-v8a` for the current host. |
+| `--avd-name` | `shaft_pixel_8_api_36` | Use a safe Android identifier. |
+| `--ram-mb` | `4096` | Choose 2048 through 32768 MB. |
+| `--cores` | `2` | Choose 1 through 16 cores. |
+| `--port` | `4723` | Choose 1024 through 65535, excluding `5554` and `5555`. |
+
+The persisted plan remains authoritative. Install reconstructs the typed
+request from the plan and rejects changed, missing, duplicate, or unknown
+selection metadata.
+
+### Use the cache and offline mode
+
+SHAFT stores verified downloads and npm cache data under its cache root. It
+stores versioned Node, Appium, Android SDK, AVD, receipts, leases, and logs
+under its data root. Set both `--cache-root` and `--data-root` to absolute,
+dedicated user paths if you override the defaults.
+
+Pass `--offline` to both plan and install when network access is prohibited.
+The Android provider currently accepts offline installation only when every
+required managed component is already present and verifies exactly. A cold,
+partial, corrupt, wrong-version, or linked state fails before npm,
+`sdkmanager`, or another setup process starts. Run one approved online install
+to populate the managed state before relying on offline reuse.
+
+### Start, inspect, and recover the owned runtime
+
+`start` requires the reviewed plan, matching approval, accepted license, and a
+compatible final receipt. It starts the emulator first and waits for the exact
+serial, Android boot completion, package manager, selected AVD, and system
+image. It then starts Appium on `127.0.0.1` and accepts it only when `/status`
+reports Appium 3.6.0.
+
+Compatible callers share a durable lease and increment its reference count.
+The final release or `setup stop` shuts down Appium, then the emulator, after
+validating each PID, start instant, command, root, and endpoint. SHAFT never
+adopts or kills an unknown process. `setup logs` reads only the two owned log
+paths and rejects a file larger than 2 MiB.
+
+If startup fails after the emulator launches, SHAFT stops only the processes
+started by that call and retains their logs. If a lease is partially alive or
+its identity differs from the live process, preserve the lease and logs and
+inspect them before manual recovery. If both processes are gone, the next
+start removes the stale lease. Resolve occupied ports, acceleration failures,
+or wrong SDK/AVD revisions, then retry the same reviewed plan.
+
+### Use the typed Java API
+
+Use `AndroidSetupRequest` with the additive `SHAFT.Infrastructure` overloads.
+The first phase writes a plan for review:
+
+```java title="PlanManagedAndroid.java"
+
+public final class PlanManagedAndroid {
+ public static void main(String[] args) throws Exception {
+ SetupOptions options = SetupOptions
+ .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
+ .withMode(SetupMode.MANAGED);
+ AndroidSetupRequest request = AndroidSetupRequest.defaults();
+ SetupPlan plan = SHAFT.Infrastructure.plan(options, request);
+ SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
+ System.out.println(plan.digest());
+ }
+}
+```
+
+Run installation and startup only after a separate review supplies the digest:
+
+```java title="RunReviewedAndroid.java"
+
+public final class RunReviewedAndroid {
+ public static void main(String[] args) throws Exception {
+ SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
+ AndroidSetupRequest request = AndroidSetupRequest.fromPlan(plan);
+ SetupOptions options = SetupOptions
+ .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
+ .withMode(SetupMode.MANAGED);
+ SetupApproval approval = new SetupApproval(
+ System.getenv("SHAFT_APPROVED_SETUP_DIGEST"),
+ Instant.now(),
+ Set.of("android-sdk-license"));
+
+ SHAFT.Infrastructure.install(plan, approval, options, request);
+ try (ManagedEnvironment runtime =
+ SHAFT.Infrastructure.start(plan, approval, options, request)) {
+ System.out.println(runtime.endpoint().orElseThrow());
+ }
+ }
+}
+```
+
+Closing `ManagedEnvironment` releases this caller's lease. Another compatible
+caller can keep the same runtime alive until its own release.
+
+## Install managed iOS and Windows Appium drivers
+
+Use `MOBILE_IOS` on macOS to install SHAFT's pinned Appium, Inspector, and
+XCUITest driver bundle. Install full Xcode 14.3 or newer and create at least
+one Simulator device first. SHAFT diagnoses those host prerequisites but does
+not install Xcode, download Simulator runtimes, or change signing and device
+trust settings.
+
+```bash
+shaft-cli setup plan \
+ --profile MOBILE_IOS \
+ --mode MANAGED \
+ --output /absolute/path/mobile-ios-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/mobile-ios-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile MOBILE_IOS --mode MANAGED
+```
+
+The default iOS plan binds the existing Simulator selection and Appium port
+`4723`. Java callers can bind one exact available Simulator UDID and a
+different loopback port; reuse the same reviewed plan for installation.
+
+Use `MOBILE_WINDOWS` on Windows to install SHAFT's pinned Appium, Inspector,
+and Windows driver bundle. Enable Developer Mode and install WinAppDriver
+1.2.1 separately before planning. SHAFT verifies that prerequisite but never
+runs the privileged WinAppDriver MSI or changes Developer Mode.
+
+```powershell
+shaft-cli setup plan `
+ --profile MOBILE_WINDOWS `
+ --mode MANAGED `
+ --output C:\plans\mobile-windows-plan.json
+shaft-cli setup install `
+ --plan C:\plans\mobile-windows-plan.json `
+ --approve sha256: 
+shaft-cli setup verify --profile MOBILE_WINDOWS --mode MANAGED
+```
+
+Both profiles keep their npm projects in separate versioned SHAFT roots. A
+lock checksum, direct package checksum, selected host metadata, execution
+policy, and destination roots are part of the approved plan. External mode
+remains diagnostic-only and creates no setup roots.
+
+### Start Appium without owning the host device
+
+`start` launches only the SHAFT-owned Appium process from a verified
+`MOBILE_IOS` or `MOBILE_WINDOWS` receipt. It does not boot or shut down a
+Simulator. It does not launch WinAppDriver and does not stop an existing
+WinAppDriver process. Pre-boot the Simulator yourself. Keep Developer Mode and
+WinAppDriver 1.2.1 already installed on Windows.
+
+Those start rules are always in force. The engine also has optional live host
+tests that skip unless you set `SHAFT_SETUP_IOS_ACCEPTANCE=true` and
+`SHAFT_SETUP_IOS_UDID` to an existing booted Simulator, or
+`SHAFT_SETUP_WINDOWS_ACCEPTANCE=true` on a Windows host that already has
+WinAppDriver. The values `1` and `yes` do not enable those tests. The
+variables do not change `shaft-cli setup start`.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)
+
+---
+
+# Install managed services and tools
+
+Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/services
+
+# Install managed services and tools
+
+Use these steps for the web, Grid, healing, reporting, and cloud-tunnel
+services SHAFT can own locally. Every install follows the shared [review and approve](/docs/start/local-infrastructure#review-and-approve-an-installation) flow; policy options and exit codes are in the [infrastructure reference](/docs/start/local-infrastructure/reference).
+
+## Install managed Selenium Grid
+
+:::warning[Not in a published release yet]
+The `SELENIUM_GRID` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5042](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5042). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when you want SHAFT to own a local Selenium Grid compose
+project. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it does
+not install the engine or daemon.
+
+The release plan binds image tag `4.47.0-20260808` for `selenium/hub`,
+`selenium/node-chrome`, `selenium/node-edge`, and `selenium/node-firefox`. The
+compose project name is `shaft-selenium-grid`. CLI planning uses the release
+defaults: hub port `4444`, one Chrome replica, zero Edge replicas, and zero
+Firefox replicas. Bind a different port or replica count through Java
+selection components such as `port_4445` and `chrome_2`. Those tokens are
+not CLI flags.
+
+SHAFT never sets `container_name` and never adopts an unknown compose project
+or port.
+
+```bash
+shaft-cli setup status --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup plan \
+ --profile SELENIUM_GRID \
+ --mode MANAGED \
+ --output /absolute/path/selenium-grid-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile SELENIUM_GRID
+shaft-cli setup stop \
+ --plan /absolute/path/selenium-grid-plan.json \
+ --approve sha256: 
+```
+
+`start` brings up only the owned `shaft-selenium-grid` project and accepts the
+hub when `/wd/hub/status` is healthy. `stop` runs compose down for that project
+only.
+
+## Install managed Healenium
+
+:::warning[Not in a published release yet]
+The `HEALENIUM` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5044](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5044). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when tests need a local Healenium backend. Docker 26.1.4+ is
+a host prerequisite. SHAFT diagnoses Docker; it does not install the engine or
+daemon. The release plan pins `healenium/hlm-backend:3.4.6`,
+`healenium/hlm-selector-imitator:1.4`, and `postgres:15.5-alpine` in compose
+project `shaft-healenium`. CLI defaults are backend port `7878` and imitator
+port `8000`. Bind different ports through Java selection components
+`backend_7879` and `imitate_8001`; the two ports must differ. Those tokens
+are not CLI flags.
+
+```bash
+shaft-cli setup status --profile HEALENIUM --mode MANAGED
+shaft-cli setup plan \
+ --profile HEALENIUM \
+ --mode MANAGED \
+ --output /absolute/path/healenium-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile HEALENIUM --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile HEALENIUM
+shaft-cli setup stop \
+ --plan /absolute/path/healenium-plan.json \
+ --approve sha256: 
+```
+
+Point `SHAFT.Properties.healenium` at `localhost` and the reviewed backend
+port. See [self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#self-healing-locators)
+for the opt-in engine property.
+
+## Install managed ReportPortal
+
+:::warning[Not in a published release yet]
+The `REPORT_PORTAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5046](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5046). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile only for local development. SHAFT owns an official-core
+ReportPortal compose project named `shaft-reportportal` and does not start the
+analyzer. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it
+does not install the engine or daemon. The CLI default UI port is `8080`.
+Bind a different UI port through Java selection component `ui_8081`. That
+token is not a CLI flag.
+
+```bash
+shaft-cli setup status --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup plan \
+ --profile REPORT_PORTAL \
+ --mode MANAGED \
+ --output /absolute/path/reportportal-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup start \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile REPORT_PORTAL
+shaft-cli setup stop \
+ --plan /absolute/path/reportportal-plan.json \
+ --approve sha256: 
+```
+
+The stack uses official ReportPortal local-dev defaults. Change those
+credentials before exposing the UI beyond loopback.
+
+## Install managed BrowserStack Local
+
+:::warning[Not in a published release yet]
+The `BROWSERSTACK_LOCAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5048](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5048) and
+[stop-until-dead follow-up #5049](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5049).
+Use these commands with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when cloud sessions need a SHAFT-owned BrowserStack Local
+tunnel to a private network. The plan pins official BrowserStack Local v8.9
+archives for Windows, Linux x64, and macOS. Linux ARM64 has no versioned v8.9
+archive; use x64 or a later pin.
+
+```bash
+shaft-cli setup status --profile BROWSERSTACK_LOCAL --mode MANAGED
+shaft-cli setup plan \
+ --profile BROWSERSTACK_LOCAL \
+ --mode MANAGED \
+ --output /absolute/path/browserstack-local-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile BROWSERSTACK_LOCAL --mode MANAGED
+```
+
+Set `BROWSERSTACK_ACCESS_KEY` in the environment before `start`. Do not put
+the key in the plan file or in a checked-in properties example.
+
+```bash
+shaft-cli setup start \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+shaft-cli setup logs --profile BROWSERSTACK_LOCAL
+shaft-cli setup stop \
+ --plan /absolute/path/browserstack-local-plan.json \
+ --approve sha256: 
+```
+
+`stop` waits until the owned process is dead. A later `start` then cannot race
+the dying tunnel.
+
+See [BrowserStack sessions](/docs/integrations/browserstack) for direct cloud
+sessions and the optional SDK module.
+
+## Diagnose agent tools
+
+:::warning[Not in a published release yet]
+The `AGENT_TOOLS` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5052](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5052). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile to diagnose host agent prerequisites. `JAVA`, `MAVEN`,
+`PYTHON`, and `NODE` stay diagnose-only: Java 25+, Maven 3.9.0+, Python 3.10+,
+and Node 20+. SHAFT does not install those host tools.
+
+In `MANAGED` mode the `AGENT_CLI` action writes a pinned `agent-clients.json`
+that detects `gh`. It does not download vendor CLIs.
+
+```bash
+shaft-cli setup status --profile AGENT_TOOLS --mode MANAGED
+shaft-cli setup plan \
+ --profile AGENT_TOOLS \
+ --mode MANAGED \
+ --output /absolute/path/agent-tools-plan.json
+shaft-cli setup install \
+ --plan /absolute/path/agent-tools-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile AGENT_TOOLS --mode MANAGED
+```
+
+`start` and `stop` are unsupported. Install a missing JDK, Maven, Python, or
+Node yourself, then rerun `status` or `verify`.
+
+## Install managed Playwright browsers
+
+:::warning[Not in a published release yet]
+The `PLAYWRIGHT` provider is tracked by
+[engine PR #4922](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4922). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use the managed profile when local Playwright tests need SHAFT-owned browser
+payloads. The plan couples Playwright Java 1.62.0 to Chromium revision 1234,
+Firefox revision 1538, WebKit revision 2336, FFmpeg revision 1011, and the
+shared Node 24.19.0 owner. Each official archive URL, size, and SHA-256 digest
+is part of the reviewed release manifest and plan.
+
+Run the shared command sequence. Stop after `plan`, inspect all five actions
+and the printed digest, then install that exact plan:
+
+ 
+
+SHAFT downloads each archive through the verified artifact store first. It
+then points Playwright's downloader at a temporary `127.0.0.1` mirror that
+serves only those verified files. Setup never runs `install-deps`, `sudo`,
+`apt`, `dnf`, `brew`, a GUI installer, or a package-manager elevation flow.
+Install required host libraries separately when a Linux browser diagnostic
+reports a missing shared library.
+
+The release accepts Windows x64 or ARM64, Ubuntu 24.04 x64, and macOS 15 on
+x64 or ARM64. It rejects a different Linux distribution, Ubuntu release,
+macOS major version, or unsupported architecture instead of substituting a
+nearby browser build.
+
+Pass `--offline` to both `plan` and `install` to prohibit network access. A
+warm verified artifact cache or a compatible published receipt can be reused.
+A cold, incomplete, corrupt, wrong-version, or linked state fails without an
+outbound fallback or partial final receipt.
+
+Configure the engine to consume the reviewed installation:
+
+```properties title="src/main/resources/properties/custom.properties"
+infrastructure.mode=MANAGED
+infrastructure.profile=PLAYWRIGHT
+infrastructure.cacheDirectory=/absolute/path/shaft-playwright-cache
+
+playwright.connectionMode=local
+playwright.channel=
+playwright.browserName=chromium
+headlessExecution=true
+```
+
+Use an absolute cache directory. For a local session with no channel override,
+SHAFT validates the compatible receipt and supplies the owned browser root only
+to the Playwright child process. It does not install a missing browser during
+driver creation and does not change the parent process environment.
+
+An explicit remote connection, Chromium channel, or existing
+`PLAYWRIGHT_BROWSERS_PATH` wins over managed lookup. This keeps caller-owned
+browser paths and remote endpoints unchanged.
+
+## Install managed Lighthouse
+
+:::warning[Not released]
+This workflow depends on
+[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
+It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
+release. Keep using the current Lighthouse flow until a release that contains
+the managed `LIGHTHOUSE` provider is available.
+
+Install the `LIGHTHOUSE` profile before a test calls
+`generateLightHouseReport()`. SHAFT manages its own Node 24.19.0 and Lighthouse
+13.4.1 under the configured tool root. It does not use a global Node or npm
+installation.
+
+ 
+
+Stop after `plan` and review the JSON plus its printed digest before running
+`install`. The plan binds the exact Node artifact, Lighthouse package archive,
+bundled dependency lock, destinations, and policy. Report generation only uses
+an already verified installation; it never installs a missing toolchain.
+
+For a cold offline install, pass `--offline` to both `plan` and `install`. The
+SHAFT cache must already contain the verified Node and Lighthouse artifacts
+and the complete transitive npm cache required by the bundled lock. An already
+verified managed installation can be reused without those cached downloads. A
+missing or corrupt entry needed by a cold install fails without network access
+or a partially published Lighthouse installation.
+
+Use the default SHAFT roots for this preview. The CLI can bind separate custom
+cache and data roots, but the Browser Actions runtime currently exposes only
+`infrastructure.cacheDirectory` and cannot reproduce every such layout.
+:::
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)
+
+---
+
 # Install SHAFT
 
 Canonical URL: https://shafthq.github.io/docs/start/installation
@@ -107,6 +1035,721 @@ fails.
 - [Set up local infrastructure](/docs/start/local-infrastructure)
 - [Upgrade an existing project](/docs/start/upgrade)
 - [Features and modules](/docs/features/modules)
+
+---
+
+# Local infrastructure reference
+
+Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/reference
+
+# Local infrastructure reference
+
+Look up the policy options, Java API, and CLI results shared by every setup
+profile. For the step-by-step flow, start at
+[Set up local infrastructure](/docs/start/local-infrastructure).
+
+## Keep policy options identical
+
+Plan and install accept the same execution policy:
+
+| Option | Default | Effect |
+|---|---:|---|
+| `--offline` | `false` | Require verified cached artifacts and disable network access. |
+| `--auto-start` | `false` | Bind a startup request for providers that own a service. |
+| `--prefer-system-tools=true\|false` | `true` | Bind whether a provider may prefer a compatible host tool. |
+| `--reuse-owned-processes=true\|false` | `true` | Bind whether a provider may reuse compatible SHAFT-owned processes. |
+| `--startup-timeout ` | `PT2M` | Bind a positive ISO-8601 startup timeout for providers with lifecycle support. |
+| `--shutdown-timeout ` | `PT30S` | Bind a positive ISO-8601 shutdown timeout for providers with lifecycle support. |
+
+Pass any non-default option to both commands. You may also pass an absolute
+`--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
+root or a relative path.
+
+The current `REPORTING` provider enforces `--offline`. It has no owned service,
+so auto-start, process reuse, and lifecycle timeouts are policy-bound for
+provider parity but do not change a reporting install. Reporting installs
+SHAFT-owned portable tools rather than adopting system Node or Allure. The
+unreleased `LIGHTHOUSE` provider follows the same lifecycle shape.
+
+:::warning
+Custom roots become mutable SHAFT-owned storage. Use dedicated, user-scoped
+directories. Do not point them at a repository, shared or system directory, or
+a path reached through a symlink alias.
+:::
+
+## Use the Java API
+
+Configure the same policy through `SHAFT.Properties.infrastructure`, then plan
+and explicitly approve the immutable result:
+
+```java title="ReportingInfrastructure.java"
+
+public final class ReportingInfrastructure {
+ public static void main(String[] args) throws Exception {
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.MANAGED)
+ .offline(false)
+ .autoStart(false);
+
+ SetupPlan plan = SHAFT.Infrastructure.plan();
+ SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
+
+ // Stop this phase and review the written JSON plus this digest.
+ System.out.println(plan.digest());
+ }
+}
+```
+
+Run the mutation in a separate phase. Supply the digest you reviewed instead
+of deriving it from a newly generated plan:
+
+```java title="InstallReviewedReportingPlan.java"
+
+public final class InstallReviewedReportingPlan {
+ public static void main(String[] args) throws Exception {
+ SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
+ String reviewedDigest = System.getenv("SHAFT_APPROVED_SETUP_DIGEST");
+
+ // Recreate every policy value used by the planning phase.
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.MANAGED)
+ .offline(false)
+ .autoStart(false);
+
+ if (!plan.executionPolicyDigest().equals(
+ SHAFT.Infrastructure.options().policyDigest())) {
+ throw new IllegalStateException(
+ "Current setup policy differs from the reviewed plan");
+ }
+
+ SetupApproval approval = new SetupApproval(
+ reviewedDigest, Instant.now(), Set.of());
+ SetupReceipt receipt = SHAFT.Infrastructure.install(plan, approval);
+ System.out.println(receipt.planDigest());
+ }
+}
+```
+
+Use `SHAFT.Infrastructure.catalog()`, `doctor()`, `status()`, and `verify()` for
+read-only inspection. `install(...)` and `start(...)` require both the exact
+plan and its approval; there is no unapproved mutation overload.
+
+Use an absolute plan path in both Java phases. Reproduce every property and
+path from the planning phase before installation; schema 3 rejects even a
+single policy or destination difference.
+
+The configuration defaults are:
+
+```properties
+infrastructure.mode=EXTERNAL
+infrastructure.profile=REPORTING
+infrastructure.cacheDirectory=
+infrastructure.offline=false
+infrastructure.autoStart=false
+infrastructure.preferSystemTools=true
+infrastructure.reuseOwnedProcesses=true
+infrastructure.startupTimeout=PT2M
+infrastructure.shutdownTimeout=PT30S
+```
+
+Set `infrastructure.cacheDirectory` only to an absolute path. An empty value
+uses the platform-specific SHAFT cache and application-data locations.
+
+## Interpret CLI failures
+
+| Exit code | Meaning |
+|---:|---|
+| `0` | Ready or successful. |
+| `2` | Invalid input, policy, or approval. |
+| `3` | Missing or degraded readiness. |
+| `4` | No provider supports the requested operation. |
+| `5` | Execution or integrity failure. |
+
+An install is atomic per action, not across the entire plan. If a later action
+fails, an earlier verified action can remain installed while the final profile
+receipt is absent. Fix the failure and retry the same approved plan; SHAFT
+re-verifies compatible completed state before continuing.
+
+If setup reports that both an artifact destination and its `.quarantine` recovery file exist, preserve both files and stop. Verify each against the reviewed action checksum, then deliberately retain the valid copy before retrying. Never blindly delete the quarantine: it may be the only known-good pre-replacement artifact.
+
+`start` and `stop` return unsupported for profiles without an owned service.
+SHAFT does not adopt or stop an unknown process. Use
+`shaft-cli setup logs --profile REPORTING` to read an existing provider log;
+it returns `3` when no owned log exists.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)
+
+---
+
+# Modular SHAFT upgrade reference
+
+Canonical URL: https://shafthq.github.io/docs/start/upgrade/reference
+
+# Modular SHAFT upgrade reference
+
+These sections describe the exact command surface and Maven result produced by
+the upgrader. They remain useful for review, unusual project layouts, and
+troubleshooting; they are not an alternative migration path. To perform an
+upgrade, follow [Run the upgrade](/docs/start/upgrade/run).
+
+## Command reference
+
+| Option | Purpose |
+| --- | --- |
+| `--project PATH` | Project root. Defaults to the current directory. |
+| `--shaft-version VERSION` | Use a controlled version instead of Maven Central's latest release. Useful for local/offline repositories. |
+| `--compile-command COMMAND` | Override the default Maven `dependency:go-offline test-compile -DskipTests -Dgpg.skip` command. |
+| `--compile-timeout SECONDS` | Set the timeout for each compile invocation. Default: 900 seconds. |
+| `--upgrade-type TYPE` | Select `basic`, `session`, or `full`. `basic` is the default; `session` and `full` require Selenium/Appium. |
+| `--agent-plan` | Print the three upgrade choices as JSON for AI agents, then exit without writing or compiling. |
+| `--skip-baseline-compile` | Skip the unchanged-project compile. This weakens failure attribution and is not recommended. |
+| `--dry-run` | Print POM and optional source diffs without writing or compiling. |
+| `--yes` | Do not prompt before applying changes. |
+| `--report PATH` | Write an optional JSON result report. |
+| `--prompt-for-openai-key` | Securely prompt for an optional API key. |
+| `--openai-key-env NAME` | Read the API key from another environment variable. Default: `OPENAI_API_KEY`. |
+| `--openai-model MODEL` | Select another Responses API model. |
+| `--no-ai` | Disable AI repair even if an API key is present. |
+
+## Migration outcome
+
+A completed migration has:
+
+- `shaft-bom` managing one SHAFT version.
+- `shaft-engine` replacing the old uppercase artifact.
+- Only the optional modules used by the project.
+- No mixture of `SHAFT_ENGINE` and modular JARs in the dependency tree.
+- Passing compile/tests with a populated Allure result set when SHAFT tests run.
+
+## Coordinates: before and after
+
+ 
+
+The shared version above is updated by the release workflow. Verify availability
+through the
+[canonical Maven Central artifact](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine)
+before changing a production build.
+
+## Module map
+
+Importing `shaft-bom` aligns versions; it does not add runtime code.
+
+```mermaid
+flowchart LR
+ Project["Your test project"] --> BOM["shaft-bom version alignment"]
+ Project --> Engine["shaft-engine required"]
+ Project -.->|"provider-neutral Pilot contracts"| PilotCore["shaft-pilot-core"]
+ Project -.->|"recording model + privacy"| Capture["shaft-capture"]
+ Project -.->|"offline failure diagnosis"| Doctor["shaft-doctor"]
+ Project -.->|"optional direct AI providers"| AI["shaft-ai"]
+ Project -.->|"deterministic web element recovery"| Heal["shaft-heal"]
+ Project -.->|"only for BrowserStack SDK runtime"| BrowserStack["shaft-browserstack"]
+ Project -.->|"only for local desktop recording"| Video["shaft-video"]
+ Project -.->|"only for image-engine operations"| Visual["shaft-visual"]
+ Project -.->|"only for SikuliX image matching"| SikuliX["shaft-sikulix"]
+
+ BrowserStack --> Engine
+ Video --> Engine
+ Visual --> Engine
+ SikuliX --> Engine
+ PilotCore --> Engine
+ Capture --> PilotCore
+ Doctor --> PilotCore
+ AI --> PilotCore
+ Heal --> Engine
+ Heal --> PilotCore
+
+ Engine --> Core["Web + Appium + API + DB + CLI reporting + screenshots + accessibility"]
+ BrowserStack --> SDK["browserstack.yml orchestration SDK listeners/interception"]
+ Video --> Desktop["local non-headless desktop video Automation Remarks + JAVE/FFmpeg"]
+ Visual --> CV["reference-image assertions OpenCV + Eyes + Shutterbug"]
+ SikuliX --> DesktopImage["SikuliX desktop image matching"]
+ Heal --> Recovery["action-scoped recovery history + structured reports"]
+```
+
+## Select dependencies by functionality
+
+| Functionality | Required artifact | Do not add an optional module for |
+|------------------------------------------------------------------------------|----------------------|----------------------------------------------------------------------------------|
+| WebDriver browser actions, element actions, locators, screenshots, reporting | `shaft-engine` | Normal local, Docker, Selenium Grid, LambdaTest, or direct BrowserStack sessions |
+| Appium native/mobile web/Flutter actions and Appium screen recording | `shaft-engine` | Driver-native Android/iOS recording |
+| REST Assured API, database, CLI, test data, accessibility, Cucumber steps | `shaft-engine` | Any of these capabilities by themselves |
+| Provider-neutral Pilot requests, approval, redaction, and deterministic fallback | `shaft-pilot-core` | Direct provider HTTP calls |
+| Versioned browser recording, privacy classification, and capture JSON | `shaft-capture` | Ordinary engine screenshots or desktop video |
+| Portable evidence bundles and deterministic offline failure diagnosis | `shaft-doctor` | Allure report rendering or direct AI provider calls |
+| Direct OpenAI, Anthropic, Gemini, or Ollama provider calls | `shaft-ai` | Deterministic Capture creation, validation, migration, or replay data |
+| Deterministic explainable web element recovery | `shaft-heal` | Normal element actions when locator recovery is not explicitly enabled |
+| BrowserStack SDK interception and `browserstack.yml` orchestration | `shaft-browserstack` | Direct BrowserStack WebDriver/Appium sessions built by SHAFT |
+| Local, non-headless desktop recording managed by SHAFT | `shaft-video` | Remote-provider video or Appium `startRecordingScreen()` |
+| Reference-image assertions and image-based touch lookup | `shaft-visual` | Ordinary screenshots, screenshot highlighting, GIFs, or folder comparison |
+| SikuliX image-based desktop automation | `shaft-sikulix` | Appium Windows desktop sessions through `shaft-engine` |
+
+Add optional modules beside `shaft-engine`; their versions come from the BOM:
+
+```xml
+ 
+ io.github.shafthq 
+ shaft-visual 
+ 
+```
+
+Use the same shape for `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`,
+`shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, or
+`shaft-sikulix`, but add only the artifacts selected by the tables below.
+
+## SHAFT Heal dependency boundary
+
+Add `shaft-heal` only when WebDriver locator recovery is required, then opt in
+with `healing.strategy=shaft-heal`. The module is disabled by default and does
+not alter native mobile execution. Use `healing.strategy=composite` only when
+both SHAFT Heal and Healenium are intentionally required; legacy
+`heal-enabled=true` continues to select Healenium when no explicit SHAFT Heal
+strategy is configured.
+
+Visual evidence remains local and requires both `shaft-visual` and
+`healing.visual.enabled=true`. AI candidate reranking requires
+`healing.ai.enabled=true` plus the normal Pilot approval/provider controls.
+Neither optional score can bypass deterministic confidence and ambiguity
+checks. See the [SHAFT Heal guide](/docs/agentic/heal).
+
+## Capture dependency boundary
+
+Add `shaft-capture` when a project creates, validates, migrates, reviews, or
+persists SHAFT Capture recording JSON. It transitively uses
+`shaft-pilot-core` for provider-neutral security contracts but does not resolve
+`shaft-ai`. Recording and privacy enforcement remain deterministic with
+`pilot.ai.enabled=false`.
+
+See the [SHAFT Capture format guide](/docs/agentic/capture).
+
+## Doctor dependency boundary
+
+Add `shaft-doctor` when a project needs allowlisted local evidence collection,
+portable redacted bundles, deterministic root-cause classification, or
+JSON/Markdown diagnosis reports. It uses `shaft-pilot-core` security helpers
+but does not resolve `shaft-ai` or make network calls. See the
+[SHAFT Doctor guide](/docs/agentic/doctor).
+
+## Visual dependency boundary
+
+`shaft-visual` is required when execution reaches the optional
+`VisualProcessingProvider`. Merely taking or attaching a screenshot does not
+reach that provider.
+
+### Methods that require `shaft-visual`
+
+| Public API or behavior | Why it needs the module |
+|----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `matchesReferenceImage()` | Defaults to `EXACT_SHUTTERBUG`; all reference-image engines are implemented by the provider. |
+| `matchesReferenceImage(VisualValidationEngine)` | `EXACT_SHUTTERBUG`, `EXACT_OPENCV`, `EXACT_EYES`, `STRICT_EYES`, `CONTENT_EYES`, and `LAYOUT_EYES` all delegate to `shaft-visual`. |
+| `doesNotMatchReferenceImage()` and its engine overload | The default is `EXACT_OPENCV`; every overload delegates to the provider. |
+| Cucumber reference-image assertion steps | The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path. |
+| `TouchActions.tap(String)` | Locates the reference image inside the current screenshot using OpenCV. |
+| `TouchActions.waitUntilElementIsVisible(String)` | Uses OpenCV to find the supplied image. |
+| `TouchActions.swipeElementIntoView(String, ...)` and the scrollable-container overload | Uses image matching after each swipe. |
+| `ImageProcessingActions.findImageWithinCurrentPage(...)` | Direct provider operation. |
+| `ImageProcessingActions.compareAgainstBaseline(...)` | Direct provider operation for every visual engine. |
+| `ImageProcessingActions.loadOpenCV()` | Explicitly loads the optional provider. |
+
+The TestNG and JUnit web samples contain this visual assertion:
+
+```java
+@Test
+public void navigateToDuckDuckGoAndAssertLogoIsDisplayedCorrectly() {
+ driver.browser().navigateToURL(targetUrl)
+ .and().element().assertThat(logo).matchesReferenceImage();
+}
+```
+
+Their POMs therefore include `shaft-visual`. Removing the visual test allows
+those projects to return to `shaft-engine` only.
+
+### Functionality that remains in `shaft-engine`
+
+| Method or behavior | Why no visual module is needed |
+|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| Selenium/Appium screenshot capture and Allure attachments | Uses WebDriver/Appium screenshot APIs and SHAFT reporting. |
+| `ImageProcessingActions.highlightElementInScreenshot(...)` | Uses JDK `BufferedImage` and `Graphics2D`. |
+| `ImageProcessingActions.compareImageFolders(...)` | Uses JDK `ImageIO` and image data buffers. |
+| `formatElementLocatorToImagePath(...)`, `getReferenceImage(...)`, `getShutterbugDifferencesImage(...)` | Performs naming and file access only. |
+| Animated GIF creation | Does not invoke the visual provider. |
+| Healenium integration | Independent of OpenCV. |
+| Normal locator-based `tap(By)`, `waitUntilElementIsVisible(By)`, and `swipeElementIntoView(By, ...)` | Uses Selenium/Appium locators, not reference images. |
+
+See the detailed [visual module guide](/docs/integrations/visual).
+
+## BrowserStack dependency boundary
+
+`shaft-browserstack` does not add a new SHAFT facade method. It adds the
+BrowserStack Java SDK runtime. The ordinary BrowserStack driver path remains in
+`shaft-engine`.
+
+### Works with `shaft-engine` only
+
+The standard web sample remains unchanged when a direct BrowserStack session is
+selected:
+
+```java
+@BeforeMethod
+public void beforeMethod() {
+ driver = new SHAFT.GUI.WebDriver();
+}
+
+@Test
+public void searchForQueryAndAssert() {
+ driver.browser().navigateToURL(targetUrl)
+ .and().element().type(searchBox, testData.get("searchQuery") + Keys.ENTER)
+ .and().element().click(firstSearchResult)
+ .and().assertThat().title().contains(testData.get("expectedResultTitle"))
+ .and().element().assertThat(By.tagName("body")).text()
+ .contains(testData.get("expectedResultText"));
+}
+```
+
+With `executionAddress=browserstack`, `shaft-engine` performs all of the
+following without `shaft-browserstack`:
+
+- `new SHAFT.GUI.WebDriver()` and `DriverFactory` BrowserStack routing.
+- Desktop web, mobile web, and native Appium session creation.
+- W3C `bstack:options` capability construction.
+- BrowserStack app upload when `browserStack.appRelativeFilePath` is used.
+- Credentials, device/browser/OS selection, local flag, debug/network logs,
+ Selenium/Appium version, geolocation, and custom capability handling.
+- Generation or copying of `browserstack.yml` through
+ `BrowserStackSdkHelper.generateBrowserStackYml()`.
+
+The generated YAML is harmless but has no SDK orchestration effect when the SDK
+runtime is absent.
+
+### Requires `shaft-browserstack`
+
+Add the module when BrowserStack's SDK must consume `browserstack.yml` and
+intercept/orchestrate the test runtime:
+
+```xml
+ 
+ io.github.shafthq 
+ shaft-browserstack 
+ 
+```
+
+These SHAFT properties configure SDK-only behavior:
+
+```java
+SHAFT.Properties.browserStack.set()
+ .platformsList("""
+ [
+ {"os":"Windows","osVersion":"11","browserName":"Chrome"},
+ {"os":"OS X","osVersion":"Sonoma","browserName":"Safari"}
+ ]
+ """)
+ .parallelsPerPlatform(2)
+ .browserstackAutomation(true);
+```
+
+| SDK-dependent configuration/functionality | Without `shaft-browserstack` |
+|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `browserStack.platformsList` multi-platform expansion | The value is written to YAML, but no SDK consumes it. |
+| `browserStack.parallelsPerPlatform` SDK parallel orchestration | Direct SHAFT session creation still follows the test runner's own parallelism. |
+| `browserStack.browserstackAutomation` interception switch | No BrowserStack SDK is present to intercept WebDriver creation. |
+| `browserStack.customBrowserStackYmlPath` as SDK configuration | SHAFT can copy the file, but only the SDK interprets its orchestration settings. |
+| SDK listeners, automatic capability override, and SDK reporting/orchestration | Unavailable; the direct SHAFT BrowserStack session still works. |
+
+See the [BrowserStack module guide](/docs/integrations/browserstack) and
+[BrowserStack's SDK architecture](https://www.browserstack.com/docs/automate/selenium/how-sdk-works).
+
+## Video dependency boundary
+
+`shaft-video` is required only when
+`videoParamsRecordVideo=true` starts local, non-headless desktop recording.
+`RecordManager.startVideoRecording()` then discovers the desktop provider and
+fails with an actionable message when it is absent.
+
+Appium native recording through `RecordManager.startVideoRecording(WebDriver)`
+and Android/iOS `startRecordingScreen()` remains in `shaft-engine`. Remote cloud
+video configured through provider capabilities also does not use
+`shaft-video`.
+
+See the [video module guide](/docs/integrations/desktop-and-video#video-recording).
+
+## Legacy relocation and support window
+
+The old `io.github.shafthq:SHAFT_ENGINE` coordinate is a relocation POM pointing
+to `io.github.shafthq:shaft-engine` for the modular release line. It contains no
+classes and selects only `shaft-engine`. Maven cannot infer whether a project
+needs BrowserStack SDK orchestration, desktop recording, or image-engine
+operations, so relocation never adds optional modules.
+
+Use relocation only as a temporary compatibility bridge. Do not declare the
+legacy coordinate together with modular artifacts.
+
+## Verified cold-cache download measurements
+
+The table records compressed classpath JAR bytes from isolated Maven
+repositories. The monolithic graph is the committed `10.2.20260605` baseline at
+commit `570a836`; the modular graph is `shaft-engine` only. MiB uses 1,048,576
+bytes.
+
+| Supported platform | Before: `SHAFT_ENGINE` | After: `shaft-engine` only | Saved |
+| --- | ---: | ---: | ---: |
+| Linux x64 | 352,001,986 (335.70 MiB) | 169,941,464 (162.07 MiB) | 182,060,522 (173.63 MiB / 51.7%) |
+| Linux ARM64 | 348,005,291 (331.88 MiB) | 169,941,464 (162.07 MiB) | 178,063,827 (169.81 MiB / 51.2%) |
+| Windows x64 | 350,617,708 (334.38 MiB) | 169,941,464 (162.07 MiB) | 180,676,244 (172.31 MiB / 51.5%) |
+| macOS x64 | 344,700,722 (328.73 MiB) | 169,941,464 (162.07 MiB) | 174,759,258 (166.66 MiB / 50.7%) |
+| macOS ARM64 | 341,487,898 (325.67 MiB) | 169,941,464 (162.07 MiB) | 171,546,434 (163.60 MiB / 50.2%) |
+
+Reproduce the current modular graph after a reactor build:
+
+```bash
+mvn clean install -DskipTests -Dgpg.skip
+python3 scripts/ci/measure_consumer_dependencies.py \
+ --fixture api \
+ --output target/modular-measurement
+```
+
+The platform totals substitute the exact JAVE native JAR selected by the old
+POM: Linux x64 28,201,169 bytes, Linux ARM64 24,204,474 bytes, Windows x64
+26,816,891 bytes, macOS x64 20,899,905 bytes, and macOS ARM64 17,687,081 bytes.
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Upgrade overview](/docs/start/upgrade)
+
+---
+
+# Preview managed local AI and OCR setup
+
+Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/previews
+
+# Preview managed local AI and OCR setup
+
+These workflows are previews: each section states whether it is available on
+`SHAFT_ENGINE` `main` or in a published release. Every install follows the shared [review and approve](/docs/start/local-infrastructure#review-and-approve-an-installation) flow; policy options and exit codes are in the [infrastructure reference](/docs/start/local-infrastructure/reference).
+
+## Preview managed local AI
+
+:::warning[Not in a published release yet]
+The `LOCAL_AI` managed provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #4921](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4921). The
+delivered merge commit is
+[`a585b41980f78315aa353003ce5b5891f350a6a1`](https://github.com/ShaftHQ/SHAFT_ENGINE/commit/a585b41980f78315aa353003ce5b5891f350a6a1).
+Use this workflow with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when you want SHAFT to own a pinned `llama.cpp` runtime and a
+reviewed GGUF model. You do not need a model manager, container, service,
+endpoint, credential, administrator install, or machine-wide daemon. SHAFT
+starts an authenticated loopback child process only when an approved AI request
+needs it.
+
+SHAFT continuously measures aggregate resident memory for the managed process
+tree. If the tree exceeds 4 GiB, or its live memory inventory cannot be read
+safely, SHAFT retires the session and returns the request's deterministic
+fallback.
+
+Start with explicit provisioning. Enable managed local processing, select the
+manual compact candidate, and prevent an inference request from downloading
+missing artifacts before you review the setup plan:
+
+```properties title="src/main/resources/properties/custom.properties"
+managedLocalAi.enabled=true
+managedLocalAi.transparentProvisioning=false
+managedLocalAi.model=qwen3-0.6b-q8_0
+```
+
+Run the shared review flow. Stop after `plan`, inspect both actions and the
+printed digest, then install that exact plan:
+
+ 
+
+The plan binds the exact runtime and model URL, version or revision, SHA-256,
+license, and artifact size. Installation reports phase, completed bytes, total
+bytes, and integer percentage on stderr, so `--json` output on stdout stays
+machine-readable. An interrupted, failed, or cancelled operation returns no
+receipt; fix the reported condition and retry the same still-current approved
+plan.
+
+Leave `--cache-root` and `--data-root` unset to use the effective managed-local
+cache and the normal SHAFT data root. If you supply roots, pass both as absolute
+paths on plan and install, and make `--cache-root` exactly equal to
+`managedLocalAi.cacheDirectory`. SHAFT rejects a different cache instead of
+provisioning files that inference will not use.
+
+### Inspect readiness and privacy-safe diagnostics
+
+Use `setup status` or `setup verify` for the two managed targets. Those
+commands print `target readiness version detail`. Version is empty unless
+READY. They report readiness/version/action, not the reviewed pin table.
+
+Use `doctor local-ai-status` or MCP `doctor_managed_local_ai_status` for
+enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
+
+The MCP setup equivalents are `setup_status`, `setup_verify`, `setup_plan`,
+and `setup_install`. IntelliJ uses those generic MCP setup tools instead of a
+second lifecycle implementation.
+
+The pin table on this page is the documented inventory. Setup commands do not
+print revision, license, provenance, size, floors, update, cleanup, or
+fallback. Diagnostics exclude absolute cache paths, filenames, checksums,
+executable names, and exact host RAM, CPU, and free-disk values.
+
+:::warning
+Managed-local enablement grants local-processing consent only. It does not
+grant remote or on-premises processing consent. The compact candidate failed
+the current recommendation-quality gates, so use it only for manual evaluation
+and keep deterministic SHAFT results authoritative. `managedLocalAi.enabled`
+defaults to `false`. Do not flip that default to enable managed-local
+automatically.
+:::
+
+### Inventory, defaults, and troubleshooting
+
+The pin table on this page is the documented inventory. `setup status` and
+`setup verify` print `target readiness version detail` even when the cache is
+missing or the feature is still disabled. Version is empty unless READY.
+Commands report readiness/version/action, not those pin-table fields:
+
+| Field | Compact preview pin |
+|---|---|
+| Revision | runtime `b10400` / model `23749fefcc72300e3a2ad315e1317431b06b590a` |
+| License | `MIT` / `Apache-2.0` |
+| Provenance | `github.com/ggml-org/llama.cpp` and `huggingface.co/Qwen/Qwen3-0.6B-GGUF` |
+| Size | platform runtime archive plus `639446688` model bytes |
+| Storage | `SHAFT_USER_CACHE` — never an absolute cache path |
+| Resources | compact floor `2` GB RAM, `2` CPUs, `3` GB free disk |
+| Update | explicit reviewed plan; pin-bound; no silent float |
+| Cleanup | owner-manifest only; unknown siblings preserved |
+| Fallback | deterministic SHAFT result remains authoritative |
+
+Release automation cannot float or silently replace model or runtime bytes. A
+revoked or hash-mismatched artifact stays unpublished; the last good activation
+remains active. An interrupted upgrade returns no receipt and does not activate
+the new pair. Offline setup reuses a ready cache and never downloads or
+substitutes a fallback URL.
+
+Inspect readiness from each setup surface:
+
+| Surface | Command |
+|---|---|
+| CLI | `shaft-cli setup status --profile LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode MANAGED` |
+| MCP | `setup_status` and `setup_verify` |
+| IntelliJ | the generic MCP setup tools; there is no second lifecycle |
+| CI / headless | keep `managedLocalAi.enabled=false`; normal Maven never provisions or downloads; always pass `-Dallure.automaticallyOpen=false` |
+
+`shaft-cli doctor local-ai-status` and `doctor_managed_local_ai_status` report
+enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
+
+If Maven or CI needs a local-AI assertion, run the unit tests that inspect
+status, setup, cache, and properties. Do not add a `provision` or `benchmark`
+step to a default pipeline. If a job must stay offline, pass `--offline` on
+both `plan` and `install`; a missing or revoked pin fails closed.
+
+### Clean, update, and roll back
+
+Create and approve a separate plan for every maintenance operation. Clean
+removes only unchanged installations owned by the current reviewed manifest;
+changed, unknown, and other-version content is preserved. If changed or unknown
+owned content blocks cleanup, the command returns a generic failure without a
+receipt rather than listing each preserved installation:
+
+```bash
+shaft-cli setup plan \
+ --profile LOCAL_AI \
+ --mode MANAGED \
+ --operation CLEAN \
+ --output /absolute/path/local-ai-clean.json
+shaft-cli setup install \
+ --plan /absolute/path/local-ai-clean.json \
+ --approve sha256: \
+ --accept-license MIT \
+ --accept-license Apache-2.0
+```
+
+Clean verifies the activation record and every selected installation before it
+removes anything. If changed or unknown content blocks cleanup, SHAFT preserves
+the verified active/previous record and its rollback candidate. After the
+reviewed artifacts clean successfully, SHAFT clears the activation record, so
+provision and activate two different reviewed pairs again before expecting
+`ROLLBACK` planning to succeed.
+
+For an update, create a new `INSTALL` plan from the current release and apply
+it with `setup install` or its `setup update` alias. SHAFT provisions the new
+content-addressed pair before activation and retains one exact prior reviewed
+pair.
+
+Rollback is available only after two different reviewed pairs have activated
+successfully and the prior pair still verifies exactly. It swaps the cached
+active and previous pairs without downloading or deleting artifacts:
+
+```bash
+shaft-cli setup plan \
+ --profile LOCAL_AI \
+ --mode MANAGED \
+ --operation ROLLBACK \
+ --output /absolute/path/local-ai-rollback.json
+shaft-cli setup install \
+ --plan /absolute/path/local-ai-rollback.json \
+ --approve sha256: \
+ --accept-license MIT \
+ --accept-license Apache-2.0
+```
+
+SHAFT rechecks the approved candidate, complete owned file inventories, and
+current host eligibility under the cache lock before changing activation. A
+missing, changed, corrupt, or newly ineligible prior pair fails without a
+rollback receipt.
+
+## Preview: managed OCR setup
+
+:::warning[Not released]
+This workflow is not yet available on `SHAFT_ENGINE` `main` or in a published
+SHAFT release. Keep using the [current OCR first-use model flow](../../integrations/ocr.md#configure-language-models)
+until a release that contains the complete setup stack is available.
+
+The preview defaults to the `eng` and `ara` model bundle. Omit `--language` to
+use that bundle, or repeat exact Tesseract codes on plan and selected
+status/verify commands. Install recovers the selected languages from the
+reviewed plan:
+
+```bash
+shaft-cli setup plan --profile OCR --mode MANAGED \
+ --language fra --language deu \
+ --output /absolute/path/ocr-plan.json
+shaft-cli setup install --plan /absolute/path/ocr-plan.json \
+ --approve sha256: 
+shaft-cli setup verify --profile OCR --language fra --language deu
+```
+
+The reviewed actions bind the normalized component set. Repeating `--language`
+during install is optional and must match when supplied. The planned OCR
+provider enforces `--offline`: it can accept a verified installed model, legacy
+model, or artifact-cache entry without network access. It has no start, stop,
+or logs lifecycle.
+:::
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)
 
 ---
 
@@ -217,7 +1860,7 @@ The [automated upgrade tool](/docs/start/upgrade) updates Maven dependencies,
 validates the result, and rolls changes back if compilation fails.
 :::
 
-Open the [automated upgrade and rollback guide](/docs/start/upgrade#download-and-run)
+Open the [automated upgrade and rollback guide](/docs/start/upgrade/run#download-and-run)
 from the existing project and run its canonical upgrade command. That page owns
 the script download, OS-neutral invocation, flags, rollback behavior, and
 optional repair flow.
@@ -567,6 +2210,177 @@ complete method matrix.
 
 ---
 
+# Run the modular SHAFT upgrade
+
+Canonical URL: https://shafthq.github.io/docs/start/upgrade/run
+
+# Run the modular SHAFT upgrade
+
+Follow these steps to upgrade a Maven project with the transactional
+`upgrade_to_modular_shaft.py` script. For what the script does internally, see [How the upgrade works](/docs/start/upgrade/how-it-works). For command options, coordinates, and module boundaries, see the [upgrade reference](/docs/start/upgrade/reference). Start from the [upgrade overview](/docs/start/upgrade) if you are not sure which path applies.
+
+## Prerequisites
+
+- A Maven project with at least one `pom.xml`.
+- Python 3.9 or newer available as `python`. The script uses only the Python
+ standard library.
+- Maven on `PATH`, or a project Maven wrapper (`mvnw`/`mvnw.cmd`).
+- A JDK compatible with the latest SHAFT release. Current SHAFT builds require
+ JDK 25.
+- A clean version-control working tree is strongly recommended. The script has
+ its own transaction, but Git remains useful for reviewing the successful
+ migration.
+
+## Download and run
+
+From the project that should be upgraded:
+
+```shell
+python -c "import runpy,sys,urllib.request as u;p='upgrade_to_modular_shaft.py';u.urlretrieve('https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py',p);sys.argv=[p,'--project','.'];runpy.run_path(p,run_name='__main__')"
+```
+
+The script prints:
+
+- Detected project type, native automation stack, and test runner.
+- Every POM selected for migration.
+- Whether each optional module will be added.
+- The source/configuration evidence behind each optional-module decision.
+- Baseline, upgraded, and optional AI repair compilation status.
+
+Review the plan and answer `y` to start the transaction.
+
+## Choose an upgrade type
+
+Agents and humans should choose one of three upgrade depths:
+
+| Upgrade type | Risk | Supported projects | What changes |
+| --- | --- | --- | --- |
+| `basic` | Low | Legacy SHAFT, modular SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven projects | Updates selected POMs to modular SHAFT and leaves existing test source intact. Existing tests keep using their current APIs; new tests can use SHAFT and Allure reporting. |
+| `session` | Medium | Selenium/Appium projects only | Runs `basic`, then rewrites supported driver/session creation to `SHAFT.GUI.WebDriver`, wraps existing Selenium/Appium driver constructors, and rewrites `driver.close()` termination calls to `driver.quit()` where the driver variable was migrated. |
+| `full` | High | Selenium/Appium projects only | Runs `session`, then rewrites simple browser and element actions such as `get`, `navigate().to`, `findElement(...).click()`, `sendKeys`, `getText`, `isDisplayed`, and `getAttribute` to SHAFT engine calls. Element and browser assertions remain manual. |
+
+`basic` is the default:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --upgrade-type basic
+```
+
+For Selenium/Appium projects, opt into session or action migration explicitly:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --upgrade-type session
+python upgrade_to_modular_shaft.py --project . --upgrade-type full
+```
+
+AI agents that use SHAFT MCP, Codex, Claude, or another automation shell should
+ask for the user's preferred risk level before applying changes. The script can
+print the same decision menu as JSON without writing files or running Maven:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --agent-plan
+```
+
+The JSON response contains `basic`, `session`, and `full` entries with risk,
+eligibility, reason, description, detected stacks/runners, candidate POMs, and
+a recommended command. `session` and `full` are marked ineligible unless the
+project is detected as Selenium or Appium.
+
+## Preview without changing files
+
+```bash
+python upgrade_to_modular_shaft.py --project . --dry-run
+```
+
+Dry-run prints unified POM and optional source diffs for the selected
+`--upgrade-type`. It does not write files or run Maven.
+
+## Non-interactive usage
+
+```bash
+python upgrade_to_modular_shaft.py \
+ --project . \
+ --yes \
+ --report target/shaft-upgrade-report.json
+```
+
+`--yes` is required when standard input is not interactive. The optional report
+records the selected upgrade type, version, POMs, detected modules, evidence,
+source files changed by the selected upgrade type, compile count, AI attempt
+count, and rollback status. It never contains the API key.
+
+## CI and cache migration
+
+1. Change cache keys when `pom.xml` hashes are not already part of the key.
+2. Do not copy the old `SHAFT_ENGINE` repository directory to `shaft-engine`.
+3. Let Maven resolve and checksum the new paths under
+ `~/.m2/repository/io/github/shafthq/`.
+4. Use the purge command only for a suspected stale or failed relocation:
+
+ ```bash
+ mvn dependency:purge-local-repository \
+ -DmanualInclude=io.github.shafthq:SHAFT_ENGINE,io.github.shafthq:shaft-engine \
+ -DreResolve=false
+ ```
+
+5. Build once with an empty CI cache before comparing dependency size or timing.
+
+## Validate the migration
+
+```bash
+mvn dependency:tree -Dincludes=io.github.shafthq
+mvn clean install -DskipTests -Dgpg.skip
+mvn test
+```
+
+The dependency tree should contain one aligned SHAFT version, `shaft-engine`,
+and only the selected optional modules. When tests run, confirm the expected
+number of `allure-results/*-result.json` files exists before treating the
+Allure summary as authoritative.
+
+### Missing-provider troubleshooting
+
+| Symptom | Action |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| Reference-image assertion or image-path touch action reports no visual provider | Add `shaft-visual`; verify `org.openpnp:opencv`, Applitools Eyes, and Selenium Shutterbug resolve transitively. |
+| Ordinary screenshot capture fails | Do not add `shaft-visual` reflexively; diagnose WebDriver/Appium screenshot support and reporting paths. |
+| Direct BrowserStack session fails to start | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
+| `platformsList` or `parallelsPerPlatform` has no effect | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`. |
+| Desktop recording reports no provider | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves. |
+| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing | Add `shaft-sikulix`; Appium Windows sessions do not require it. |
+| `healing.strategy=shaft-heal` logs that the provider is absent | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`. |
+| SHAFT Heal rejects every candidate | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
+| Mobile recording changed unexpectedly | Do not add `shaft-video`; verify the Appium driver supports native recording. |
+| `NoSuchMethodError` or mixed SHAFT modules | Import `shaft-bom`, remove explicit mismatched module versions, and inspect `mvn dependency:tree -Dincludes=io.github.shafthq`. |
+
+## Completion checklist
+
+1. Replace `SHAFT_ENGINE` with `shaft-engine`.
+2. Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
+3. Add `shaft-visual` only for the listed reference-image and image-lookup methods.
+4. Add `shaft-heal` only for explicitly configured web locator recovery.
+5. Add `shaft-browserstack` only for BrowserStack SDK orchestration.
+6. Add `shaft-video` only for local non-headless desktop recording.
+7. Update CI cache keys and run one clean-cache build.
+8. Verify one SHAFT version with `mvn dependency:tree`.
+9. Compile, test, and confirm Allure results are populated.
+
+## Rollback
+
+If migration blocks a release, revert the POM to
+`io.github.shafthq:SHAFT_ENGINE:10.2.20260605`, restore the previous dependency
+cache key, and remove all modular artifact declarations. Do not mix the old JAR
+with modular artifacts. Capture `mvn dependency:tree` before rollback so a
+missing provider or version mismatch can be diagnosed before the next attempt.
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Upgrade overview](/docs/start/upgrade)
+
+---
+
 # Set up local infrastructure
 
 Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure
@@ -639,820 +2453,14 @@ Changing a version, source, checksum, destination, timeout, or policy option
 changes the digest and requires a new review.
 :::
 
-## Preview managed local AI
-
-:::warning[Not in a published release yet]
-The `LOCAL_AI` managed provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #4921](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4921). The
-delivered merge commit is
-[`a585b41980f78315aa353003ce5b5891f350a6a1`](https://github.com/ShaftHQ/SHAFT_ENGINE/commit/a585b41980f78315aa353003ce5b5891f350a6a1).
-Use this workflow with a source build until a containing SHAFT release is
-published.
-:::
-
-Use this profile when you want SHAFT to own a pinned `llama.cpp` runtime and a
-reviewed GGUF model. You do not need a model manager, container, service,
-endpoint, credential, administrator install, or machine-wide daemon. SHAFT
-starts an authenticated loopback child process only when an approved AI request
-needs it.
-
-SHAFT continuously measures aggregate resident memory for the managed process
-tree. If the tree exceeds 4 GiB, or its live memory inventory cannot be read
-safely, SHAFT retires the session and returns the request's deterministic
-fallback.
-
-Start with explicit provisioning. Enable managed local processing, select the
-manual compact candidate, and prevent an inference request from downloading
-missing artifacts before you review the setup plan:
-
-```properties title="src/main/resources/properties/custom.properties"
-managedLocalAi.enabled=true
-managedLocalAi.transparentProvisioning=false
-managedLocalAi.model=qwen3-0.6b-q8_0
-```
-
-Run the shared review flow. Stop after `plan`, inspect both actions and the
-printed digest, then install that exact plan:
-
- 
-
-The plan binds the exact runtime and model URL, version or revision, SHA-256,
-license, and artifact size. Installation reports phase, completed bytes, total
-bytes, and integer percentage on stderr, so `--json` output on stdout stays
-machine-readable. An interrupted, failed, or cancelled operation returns no
-receipt; fix the reported condition and retry the same still-current approved
-plan.
-
-Leave `--cache-root` and `--data-root` unset to use the effective managed-local
-cache and the normal SHAFT data root. If you supply roots, pass both as absolute
-paths on plan and install, and make `--cache-root` exactly equal to
-`managedLocalAi.cacheDirectory`. SHAFT rejects a different cache instead of
-provisioning files that inference will not use.
-
-### Inspect readiness and privacy-safe diagnostics
-
-Use `setup status` or `setup verify` for the two managed targets. Those
-commands print `target readiness version detail`. Version is empty unless
-READY. They report readiness/version/action, not the reviewed pin table.
-
-Use `doctor local-ai-status` or MCP `doctor_managed_local_ai_status` for
-enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
-
-The MCP setup equivalents are `setup_status`, `setup_verify`, `setup_plan`,
-and `setup_install`. IntelliJ uses those generic MCP setup tools instead of a
-second lifecycle implementation.
-
-The pin table on this page is the documented inventory. Setup commands do not
-print revision, license, provenance, size, floors, update, cleanup, or
-fallback. Diagnostics exclude absolute cache paths, filenames, checksums,
-executable names, and exact host RAM, CPU, and free-disk values.
-
-:::warning
-Managed-local enablement grants local-processing consent only. It does not
-grant remote or on-premises processing consent. The compact candidate failed
-the current recommendation-quality gates, so use it only for manual evaluation
-and keep deterministic SHAFT results authoritative. `managedLocalAi.enabled`
-defaults to `false`. Do not flip that default to enable managed-local
-automatically.
-:::
-
-### Inventory, defaults, and troubleshooting
-
-The pin table on this page is the documented inventory. `setup status` and
-`setup verify` print `target readiness version detail` even when the cache is
-missing or the feature is still disabled. Version is empty unless READY.
-Commands report readiness/version/action, not those pin-table fields:
-
-| Field | Compact preview pin |
-|---|---|
-| Revision | runtime `b10400` / model `23749fefcc72300e3a2ad315e1317431b06b590a` |
-| License | `MIT` / `Apache-2.0` |
-| Provenance | `github.com/ggml-org/llama.cpp` and `huggingface.co/Qwen/Qwen3-0.6B-GGUF` |
-| Size | platform runtime archive plus `639446688` model bytes |
-| Storage | `SHAFT_USER_CACHE` — never an absolute cache path |
-| Resources | compact floor `2` GB RAM, `2` CPUs, `3` GB free disk |
-| Update | explicit reviewed plan; pin-bound; no silent float |
-| Cleanup | owner-manifest only; unknown siblings preserved |
-| Fallback | deterministic SHAFT result remains authoritative |
-
-Release automation cannot float or silently replace model or runtime bytes. A
-revoked or hash-mismatched artifact stays unpublished; the last good activation
-remains active. An interrupted upgrade returns no receipt and does not activate
-the new pair. Offline setup reuses a ready cache and never downloads or
-substitutes a fallback URL.
-
-Inspect readiness from each setup surface:
-
-| Surface | Command |
-|---|---|
-| CLI | `shaft-cli setup status --profile LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode MANAGED` |
-| MCP | `setup_status` and `setup_verify` |
-| IntelliJ | the generic MCP setup tools; there is no second lifecycle |
-| CI / headless | keep `managedLocalAi.enabled=false`; normal Maven never provisions or downloads; always pass `-Dallure.automaticallyOpen=false` |
-
-`shaft-cli doctor local-ai-status` and `doctor_managed_local_ai_status` report
-enablement, eligibility, and the DISABLED snapshot. They do not list the reviewed pin table.
-
-If Maven or CI needs a local-AI assertion, run the unit tests that inspect
-status, setup, cache, and properties. Do not add a `provision` or `benchmark`
-step to a default pipeline. If a job must stay offline, pass `--offline` on
-both `plan` and `install`; a missing or revoked pin fails closed.
-
-### Clean, update, and roll back
-
-Create and approve a separate plan for every maintenance operation. Clean
-removes only unchanged installations owned by the current reviewed manifest;
-changed, unknown, and other-version content is preserved. If changed or unknown
-owned content blocks cleanup, the command returns a generic failure without a
-receipt rather than listing each preserved installation:
-
-```bash
-shaft-cli setup plan \
- --profile LOCAL_AI \
- --mode MANAGED \
- --operation CLEAN \
- --output /absolute/path/local-ai-clean.json
-shaft-cli setup install \
- --plan /absolute/path/local-ai-clean.json \
- --approve sha256: \
- --accept-license MIT \
- --accept-license Apache-2.0
-```
-
-Clean verifies the activation record and every selected installation before it
-removes anything. If changed or unknown content blocks cleanup, SHAFT preserves
-the verified active/previous record and its rollback candidate. After the
-reviewed artifacts clean successfully, SHAFT clears the activation record, so
-provision and activate two different reviewed pairs again before expecting
-`ROLLBACK` planning to succeed.
-
-For an update, create a new `INSTALL` plan from the current release and apply
-it with `setup install` or its `setup update` alias. SHAFT provisions the new
-content-addressed pair before activation and retains one exact prior reviewed
-pair.
-
-Rollback is available only after two different reviewed pairs have activated
-successfully and the prior pair still verifies exactly. It swaps the cached
-active and previous pairs without downloading or deleting artifacts:
-
-```bash
-shaft-cli setup plan \
- --profile LOCAL_AI \
- --mode MANAGED \
- --operation ROLLBACK \
- --output /absolute/path/local-ai-rollback.json
-shaft-cli setup install \
- --plan /absolute/path/local-ai-rollback.json \
- --approve sha256: \
- --accept-license MIT \
- --accept-license Apache-2.0
-```
-
-SHAFT rechecks the approved candidate, complete owned file inventories, and
-current host eligibility under the cache lock before changing activation. A
-missing, changed, corrupt, or newly ineligible prior pair fails without a
-rollback receipt.
-
-## Install managed Android and Appium
-
-:::warning[Not in a published release yet]
-The `MOBILE_ANDROID` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #4913](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4913) and its
-[readiness follow-up #4917](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4917).
-Use these commands with a source build until a containing SHAFT release is
-published.
-:::
-
-Use this profile when you want SHAFT to own one local Android emulator and its
-Appium server. The release plan contains exactly six ordered actions:
-
-1. Node 24.19.0.
-2. Appium 3.6.0.
-3. Inspector plugin 2026.7.1.
-4. UiAutomator2 8.2.2.
-5. Android command-line tools 15859902, platform-tools, Emulator, API 36,
- build-tools 36.0.0 with `aapt2`, and a host-compatible Google APIs image.
-6. A SHAFT-owned Pixel 8 AVD.
-
-SHAFT verifies the official command-line-tools archive hash and the packaged
-Appium dependency lock before publication. It runs npm inside a versioned
-SHAFT project, not as a global install, and never enables Appium relaxed
-security for the owned server.
-
-### Check platform prerequisites
-
-Install a compatible JDK and enable hardware virtualization for your host
-before planning a runtime. On Linux, grant the current user access to KVM. On
-Windows, enable a supported Android Emulator hypervisor path. On macOS, run on
-a host that can use Apple's virtualization support. SHAFT diagnoses these
-conditions with `emulator -accel-check`; it does not elevate, enable firmware
-features, change group membership, install host drivers, or edit shell
-profiles.
-
-Keep loopback ports `5554` and `5555` free for the owned emulator. The default
-Appium port is `4723`; choose another free port with `--port` when creating the
-plan. The selected system-image ABI must match the host architecture.
-
-### Review the Android plan and license
-
-Run the shared command sequence below. Stop after `plan`, inspect all six
-actions and the printed digest, then continue with that exact digest:
-
- 
-
-`android-sdk-license` is an explicit approval identifier. Omitting it or
-supplying a different identifier fails before SHAFT creates setup roots,
-starts a process, or contacts the network. SHAFT supplies consent only to the
-reviewed package installation; it does not run a blanket
-`sdkmanager --licenses` acceptance.
-
-Use these selectors on `doctor`, `status`, `plan`, `verify`, `start`, `logs`,
-or `stop`. You may repeat them on `install`, but every repeated value must
-match the plan:
-
-| Option | Release default | Constraint |
-|---|---:|---|
-| `--api-level` | `36` | Must match the release manifest. |
-| `--device-profile` | `pixel_8` | Must match the release manifest. |
-| `--image-tag` | `google_apis` | Must match the release manifest. |
-| `--abi` | `host` | Resolves to `x86_64` or `arm64-v8a` for the current host. |
-| `--avd-name` | `shaft_pixel_8_api_36` | Use a safe Android identifier. |
-| `--ram-mb` | `4096` | Choose 2048 through 32768 MB. |
-| `--cores` | `2` | Choose 1 through 16 cores. |
-| `--port` | `4723` | Choose 1024 through 65535, excluding `5554` and `5555`. |
-
-The persisted plan remains authoritative. Install reconstructs the typed
-request from the plan and rejects changed, missing, duplicate, or unknown
-selection metadata.
-
-### Use the cache and offline mode
-
-SHAFT stores verified downloads and npm cache data under its cache root. It
-stores versioned Node, Appium, Android SDK, AVD, receipts, leases, and logs
-under its data root. Set both `--cache-root` and `--data-root` to absolute,
-dedicated user paths if you override the defaults.
-
-Pass `--offline` to both plan and install when network access is prohibited.
-The Android provider currently accepts offline installation only when every
-required managed component is already present and verifies exactly. A cold,
-partial, corrupt, wrong-version, or linked state fails before npm,
-`sdkmanager`, or another setup process starts. Run one approved online install
-to populate the managed state before relying on offline reuse.
-
-### Start, inspect, and recover the owned runtime
-
-`start` requires the reviewed plan, matching approval, accepted license, and a
-compatible final receipt. It starts the emulator first and waits for the exact
-serial, Android boot completion, package manager, selected AVD, and system
-image. It then starts Appium on `127.0.0.1` and accepts it only when `/status`
-reports Appium 3.6.0.
-
-Compatible callers share a durable lease and increment its reference count.
-The final release or `setup stop` shuts down Appium, then the emulator, after
-validating each PID, start instant, command, root, and endpoint. SHAFT never
-adopts or kills an unknown process. `setup logs` reads only the two owned log
-paths and rejects a file larger than 2 MiB.
-
-If startup fails after the emulator launches, SHAFT stops only the processes
-started by that call and retains their logs. If a lease is partially alive or
-its identity differs from the live process, preserve the lease and logs and
-inspect them before manual recovery. If both processes are gone, the next
-start removes the stale lease. Resolve occupied ports, acceleration failures,
-or wrong SDK/AVD revisions, then retry the same reviewed plan.
-
-### Use the typed Java API
-
-Use `AndroidSetupRequest` with the additive `SHAFT.Infrastructure` overloads.
-The first phase writes a plan for review:
-
-```java title="PlanManagedAndroid.java"
-
-public final class PlanManagedAndroid {
- public static void main(String[] args) throws Exception {
- SetupOptions options = SetupOptions
- .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
- .withMode(SetupMode.MANAGED);
- AndroidSetupRequest request = AndroidSetupRequest.defaults();
- SetupPlan plan = SHAFT.Infrastructure.plan(options, request);
- SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
- System.out.println(plan.digest());
- }
-}
-```
-
-Run installation and startup only after a separate review supplies the digest:
-
-```java title="RunReviewedAndroid.java"
-
-public final class RunReviewedAndroid {
- public static void main(String[] args) throws Exception {
- SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
- AndroidSetupRequest request = AndroidSetupRequest.fromPlan(plan);
- SetupOptions options = SetupOptions
- .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
- .withMode(SetupMode.MANAGED);
- SetupApproval approval = new SetupApproval(
- System.getenv("SHAFT_APPROVED_SETUP_DIGEST"),
- Instant.now(),
- Set.of("android-sdk-license"));
-
- SHAFT.Infrastructure.install(plan, approval, options, request);
- try (ManagedEnvironment runtime =
- SHAFT.Infrastructure.start(plan, approval, options, request)) {
- System.out.println(runtime.endpoint().orElseThrow());
- }
- }
-}
-```
-
-Closing `ManagedEnvironment` releases this caller's lease. Another compatible
-caller can keep the same runtime alive until its own release.
-
-## Install managed iOS and Windows Appium drivers
-
-Use `MOBILE_IOS` on macOS to install SHAFT's pinned Appium, Inspector, and
-XCUITest driver bundle. Install full Xcode 14.3 or newer and create at least
-one Simulator device first. SHAFT diagnoses those host prerequisites but does
-not install Xcode, download Simulator runtimes, or change signing and device
-trust settings.
-
-```bash
-shaft-cli setup plan \
- --profile MOBILE_IOS \
- --mode MANAGED \
- --output /absolute/path/mobile-ios-plan.json
-shaft-cli setup install \
- --plan /absolute/path/mobile-ios-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile MOBILE_IOS --mode MANAGED
-```
-
-The default iOS plan binds the existing Simulator selection and Appium port
-`4723`. Java callers can bind one exact available Simulator UDID and a
-different loopback port; reuse the same reviewed plan for installation.
-
-Use `MOBILE_WINDOWS` on Windows to install SHAFT's pinned Appium, Inspector,
-and Windows driver bundle. Enable Developer Mode and install WinAppDriver
-1.2.1 separately before planning. SHAFT verifies that prerequisite but never
-runs the privileged WinAppDriver MSI or changes Developer Mode.
-
-```powershell
-shaft-cli setup plan `
- --profile MOBILE_WINDOWS `
- --mode MANAGED `
- --output C:\plans\mobile-windows-plan.json
-shaft-cli setup install `
- --plan C:\plans\mobile-windows-plan.json `
- --approve sha256: 
-shaft-cli setup verify --profile MOBILE_WINDOWS --mode MANAGED
-```
-
-Both profiles keep their npm projects in separate versioned SHAFT roots. A
-lock checksum, direct package checksum, selected host metadata, execution
-policy, and destination roots are part of the approved plan. External mode
-remains diagnostic-only and creates no setup roots.
-
-### Start Appium without owning the host device
-
-`start` launches only the SHAFT-owned Appium process from a verified
-`MOBILE_IOS` or `MOBILE_WINDOWS` receipt. It does not boot or shut down a
-Simulator. It does not launch WinAppDriver and does not stop an existing
-WinAppDriver process. Pre-boot the Simulator yourself. Keep Developer Mode and
-WinAppDriver 1.2.1 already installed on Windows.
-
-Those start rules are always in force. The engine also has optional live host
-tests that skip unless you set `SHAFT_SETUP_IOS_ACCEPTANCE=true` and
-`SHAFT_SETUP_IOS_UDID` to an existing booted Simulator, or
-`SHAFT_SETUP_WINDOWS_ACCEPTANCE=true` on a Windows host that already has
-WinAppDriver. The values `1` and `yes` do not enable those tests. The
-variables do not change `shaft-cli setup start`.
-
-## Install managed Selenium Grid
-
-:::warning[Not in a published release yet]
-The `SELENIUM_GRID` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #5042](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5042). Use these
-commands with a source build until a containing SHAFT release is published.
-:::
-
-Use this profile when you want SHAFT to own a local Selenium Grid compose
-project. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it does
-not install the engine or daemon.
-
-The release plan binds image tag `4.47.0-20260808` for `selenium/hub`,
-`selenium/node-chrome`, `selenium/node-edge`, and `selenium/node-firefox`. The
-compose project name is `shaft-selenium-grid`. CLI planning uses the release
-defaults: hub port `4444`, one Chrome replica, zero Edge replicas, and zero
-Firefox replicas. Bind a different port or replica count through Java
-selection components such as `port_4445` and `chrome_2`. Those tokens are
-not CLI flags.
-
-SHAFT never sets `container_name` and never adopts an unknown compose project
-or port.
-
-```bash
-shaft-cli setup status --profile SELENIUM_GRID --mode MANAGED
-shaft-cli setup plan \
- --profile SELENIUM_GRID \
- --mode MANAGED \
- --output /absolute/path/selenium-grid-plan.json
-shaft-cli setup install \
- --plan /absolute/path/selenium-grid-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile SELENIUM_GRID --mode MANAGED
-shaft-cli setup start \
- --plan /absolute/path/selenium-grid-plan.json \
- --approve sha256: 
-shaft-cli setup logs --profile SELENIUM_GRID
-shaft-cli setup stop \
- --plan /absolute/path/selenium-grid-plan.json \
- --approve sha256: 
-```
-
-`start` brings up only the owned `shaft-selenium-grid` project and accepts the
-hub when `/wd/hub/status` is healthy. `stop` runs compose down for that project
-only.
-
-## Install managed Healenium
-
-:::warning[Not in a published release yet]
-The `HEALENIUM` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #5044](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5044). Use these
-commands with a source build until a containing SHAFT release is published.
-:::
-
-Use this profile when tests need a local Healenium backend. Docker 26.1.4+ is
-a host prerequisite. SHAFT diagnoses Docker; it does not install the engine or
-daemon. The release plan pins `healenium/hlm-backend:3.4.6`,
-`healenium/hlm-selector-imitator:1.4`, and `postgres:15.5-alpine` in compose
-project `shaft-healenium`. CLI defaults are backend port `7878` and imitator
-port `8000`. Bind different ports through Java selection components
-`backend_7879` and `imitate_8001`; the two ports must differ. Those tokens
-are not CLI flags.
-
-```bash
-shaft-cli setup status --profile HEALENIUM --mode MANAGED
-shaft-cli setup plan \
- --profile HEALENIUM \
- --mode MANAGED \
- --output /absolute/path/healenium-plan.json
-shaft-cli setup install \
- --plan /absolute/path/healenium-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile HEALENIUM --mode MANAGED
-shaft-cli setup start \
- --plan /absolute/path/healenium-plan.json \
- --approve sha256: 
-shaft-cli setup logs --profile HEALENIUM
-shaft-cli setup stop \
- --plan /absolute/path/healenium-plan.json \
- --approve sha256: 
-```
-
-Point `SHAFT.Properties.healenium` at `localhost` and the reviewed backend
-port. See [self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#self-healing-locators)
-for the opt-in engine property.
-
-## Install managed ReportPortal
-
-:::warning[Not in a published release yet]
-The `REPORT_PORTAL` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #5046](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5046). Use these
-commands with a source build until a containing SHAFT release is published.
-:::
-
-Use this profile only for local development. SHAFT owns an official-core
-ReportPortal compose project named `shaft-reportportal` and does not start the
-analyzer. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it
-does not install the engine or daemon. The CLI default UI port is `8080`.
-Bind a different UI port through Java selection component `ui_8081`. That
-token is not a CLI flag.
-
-```bash
-shaft-cli setup status --profile REPORT_PORTAL --mode MANAGED
-shaft-cli setup plan \
- --profile REPORT_PORTAL \
- --mode MANAGED \
- --output /absolute/path/reportportal-plan.json
-shaft-cli setup install \
- --plan /absolute/path/reportportal-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile REPORT_PORTAL --mode MANAGED
-shaft-cli setup start \
- --plan /absolute/path/reportportal-plan.json \
- --approve sha256: 
-shaft-cli setup logs --profile REPORT_PORTAL
-shaft-cli setup stop \
- --plan /absolute/path/reportportal-plan.json \
- --approve sha256: 
-```
-
-The stack uses official ReportPortal local-dev defaults. Change those
-credentials before exposing the UI beyond loopback.
-
-## Install managed BrowserStack Local
-
-:::warning[Not in a published release yet]
-The `BROWSERSTACK_LOCAL` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #5048](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5048) and
-[stop-until-dead follow-up #5049](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5049).
-Use these commands with a source build until a containing SHAFT release is
-published.
-:::
-
-Use this profile when cloud sessions need a SHAFT-owned BrowserStack Local
-tunnel to a private network. The plan pins official BrowserStack Local v8.9
-archives for Windows, Linux x64, and macOS. Linux ARM64 has no versioned v8.9
-archive; use x64 or a later pin.
-
-```bash
-shaft-cli setup status --profile BROWSERSTACK_LOCAL --mode MANAGED
-shaft-cli setup plan \
- --profile BROWSERSTACK_LOCAL \
- --mode MANAGED \
- --output /absolute/path/browserstack-local-plan.json
-shaft-cli setup install \
- --plan /absolute/path/browserstack-local-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile BROWSERSTACK_LOCAL --mode MANAGED
-```
-
-Set `BROWSERSTACK_ACCESS_KEY` in the environment before `start`. Do not put
-the key in the plan file or in a checked-in properties example.
-
-```bash
-shaft-cli setup start \
- --plan /absolute/path/browserstack-local-plan.json \
- --approve sha256: 
-shaft-cli setup logs --profile BROWSERSTACK_LOCAL
-shaft-cli setup stop \
- --plan /absolute/path/browserstack-local-plan.json \
- --approve sha256: 
-```
-
-`stop` waits until the owned process is dead. A later `start` then cannot race
-the dying tunnel.
-
-See [BrowserStack sessions](/docs/integrations/browserstack) for direct cloud
-sessions and the optional SDK module.
-
-## Diagnose agent tools
-
-:::warning[Not in a published release yet]
-The `AGENT_TOOLS` provider is available on `SHAFT_ENGINE` `main` after
-[engine PR #5052](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5052). Use these
-commands with a source build until a containing SHAFT release is published.
-:::
-
-Use this profile to diagnose host agent prerequisites. `JAVA`, `MAVEN`,
-`PYTHON`, and `NODE` stay diagnose-only: Java 25+, Maven 3.9.0+, Python 3.10+,
-and Node 20+. SHAFT does not install those host tools.
-
-In `MANAGED` mode the `AGENT_CLI` action writes a pinned `agent-clients.json`
-that detects `gh`. It does not download vendor CLIs.
-
-```bash
-shaft-cli setup status --profile AGENT_TOOLS --mode MANAGED
-shaft-cli setup plan \
- --profile AGENT_TOOLS \
- --mode MANAGED \
- --output /absolute/path/agent-tools-plan.json
-shaft-cli setup install \
- --plan /absolute/path/agent-tools-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile AGENT_TOOLS --mode MANAGED
-```
-
-`start` and `stop` are unsupported. Install a missing JDK, Maven, Python, or
-Node yourself, then rerun `status` or `verify`.
-
-## Install managed Playwright browsers
-
-:::warning[Not in a published release yet]
-The `PLAYWRIGHT` provider is tracked by
-[engine PR #4922](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4922). Use these
-commands with a source build until a containing SHAFT release is published.
-:::
-
-Use the managed profile when local Playwright tests need SHAFT-owned browser
-payloads. The plan couples Playwright Java 1.62.0 to Chromium revision 1234,
-Firefox revision 1538, WebKit revision 2336, FFmpeg revision 1011, and the
-shared Node 24.19.0 owner. Each official archive URL, size, and SHA-256 digest
-is part of the reviewed release manifest and plan.
-
-Run the shared command sequence. Stop after `plan`, inspect all five actions
-and the printed digest, then install that exact plan:
-
- 
-
-SHAFT downloads each archive through the verified artifact store first. It
-then points Playwright's downloader at a temporary `127.0.0.1` mirror that
-serves only those verified files. Setup never runs `install-deps`, `sudo`,
-`apt`, `dnf`, `brew`, a GUI installer, or a package-manager elevation flow.
-Install required host libraries separately when a Linux browser diagnostic
-reports a missing shared library.
-
-The release accepts Windows x64 or ARM64, Ubuntu 24.04 x64, and macOS 15 on
-x64 or ARM64. It rejects a different Linux distribution, Ubuntu release,
-macOS major version, or unsupported architecture instead of substituting a
-nearby browser build.
-
-Pass `--offline` to both `plan` and `install` to prohibit network access. A
-warm verified artifact cache or a compatible published receipt can be reused.
-A cold, incomplete, corrupt, wrong-version, or linked state fails without an
-outbound fallback or partial final receipt.
-
-Configure the engine to consume the reviewed installation:
-
-```properties title="src/main/resources/properties/custom.properties"
-infrastructure.mode=MANAGED
-infrastructure.profile=PLAYWRIGHT
-infrastructure.cacheDirectory=/absolute/path/shaft-playwright-cache
-
-playwright.connectionMode=local
-playwright.channel=
-playwright.browserName=chromium
-headlessExecution=true
-```
-
-Use an absolute cache directory. For a local session with no channel override,
-SHAFT validates the compatible receipt and supplies the owned browser root only
-to the Playwright child process. It does not install a missing browser during
-driver creation and does not change the parent process environment.
-
-An explicit remote connection, Chromium channel, or existing
-`PLAYWRIGHT_BROWSERS_PATH` wins over managed lookup. This keeps caller-owned
-browser paths and remote endpoints unchanged.
-
-## Install managed Lighthouse
-
-:::warning[Not released]
-This workflow depends on
-[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
-It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
-release. Keep using the current Lighthouse flow until a release that contains
-the managed `LIGHTHOUSE` provider is available.
-
-Install the `LIGHTHOUSE` profile before a test calls
-`generateLightHouseReport()`. SHAFT manages its own Node 24.19.0 and Lighthouse
-13.4.1 under the configured tool root. It does not use a global Node or npm
-installation.
-
- 
-
-Stop after `plan` and review the JSON plus its printed digest before running
-`install`. The plan binds the exact Node artifact, Lighthouse package archive,
-bundled dependency lock, destinations, and policy. Report generation only uses
-an already verified installation; it never installs a missing toolchain.
-
-For a cold offline install, pass `--offline` to both `plan` and `install`. The
-SHAFT cache must already contain the verified Node and Lighthouse artifacts
-and the complete transitive npm cache required by the bundled lock. An already
-verified managed installation can be reused without those cached downloads. A
-missing or corrupt entry needed by a cold install fails without network access
-or a partially published Lighthouse installation.
-
-Use the default SHAFT roots for this preview. The CLI can bind separate custom
-cache and data roots, but the Browser Actions runtime currently exposes only
-`infrastructure.cacheDirectory` and cannot reproduce every such layout.
-:::
-
-## Preview: managed OCR setup
-
-:::warning[Not released]
-This workflow is not yet available on `SHAFT_ENGINE` `main` or in a published
-SHAFT release. Keep using the [current OCR first-use model flow](../integrations/ocr.md#configure-language-models)
-until a release that contains the complete setup stack is available.
-
-The preview defaults to the `eng` and `ara` model bundle. Omit `--language` to
-use that bundle, or repeat exact Tesseract codes on plan and selected
-status/verify commands. Install recovers the selected languages from the
-reviewed plan:
-
-```bash
-shaft-cli setup plan --profile OCR --mode MANAGED \
- --language fra --language deu \
- --output /absolute/path/ocr-plan.json
-shaft-cli setup install --plan /absolute/path/ocr-plan.json \
- --approve sha256: 
-shaft-cli setup verify --profile OCR --language fra --language deu
-```
-
-The reviewed actions bind the normalized component set. Repeating `--language`
-during install is optional and must match when supplied. The planned OCR
-provider enforces `--offline`: it can accept a verified installed model, legacy
-model, or artifact-cache entry without network access. It has no start, stop,
-or logs lifecycle.
-:::
-
-## Keep policy options identical
-
-Plan and install accept the same execution policy:
-
-| Option | Default | Effect |
-|---|---:|---|
-| `--offline` | `false` | Require verified cached artifacts and disable network access. |
-| `--auto-start` | `false` | Bind a startup request for providers that own a service. |
-| `--prefer-system-tools=true\|false` | `true` | Bind whether a provider may prefer a compatible host tool. |
-| `--reuse-owned-processes=true\|false` | `true` | Bind whether a provider may reuse compatible SHAFT-owned processes. |
-| `--startup-timeout ` | `PT2M` | Bind a positive ISO-8601 startup timeout for providers with lifecycle support. |
-| `--shutdown-timeout ` | `PT30S` | Bind a positive ISO-8601 shutdown timeout for providers with lifecycle support. |
-
-Pass any non-default option to both commands. You may also pass an absolute
-`--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
-root or a relative path.
-
-The current `REPORTING` provider enforces `--offline`. It has no owned service,
-so auto-start, process reuse, and lifecycle timeouts are policy-bound for
-provider parity but do not change a reporting install. Reporting installs
-SHAFT-owned portable tools rather than adopting system Node or Allure. The
-unreleased `LIGHTHOUSE` provider follows the same lifecycle shape.
-
-:::warning
-Custom roots become mutable SHAFT-owned storage. Use dedicated, user-scoped
-directories. Do not point them at a repository, shared or system directory, or
-a path reached through a symlink alias.
-:::
-
-## Use the Java API
-
-Configure the same policy through `SHAFT.Properties.infrastructure`, then plan
-and explicitly approve the immutable result:
-
-```java title="ReportingInfrastructure.java"
-
-public final class ReportingInfrastructure {
- public static void main(String[] args) throws Exception {
- SHAFT.Properties.infrastructure.set()
- .profile(SetupProfile.REPORTING)
- .mode(SetupMode.MANAGED)
- .offline(false)
- .autoStart(false);
-
- SetupPlan plan = SHAFT.Infrastructure.plan();
- SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
-
- // Stop this phase and review the written JSON plus this digest.
- System.out.println(plan.digest());
- }
-}
-```
-
-Run the mutation in a separate phase. Supply the digest you reviewed instead
-of deriving it from a newly generated plan:
-
-```java title="InstallReviewedReportingPlan.java"
-
-public final class InstallReviewedReportingPlan {
- public static void main(String[] args) throws Exception {
- SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
- String reviewedDigest = System.getenv("SHAFT_APPROVED_SETUP_DIGEST");
-
- // Recreate every policy value used by the planning phase.
- SHAFT.Properties.infrastructure.set()
- .profile(SetupProfile.REPORTING)
- .mode(SetupMode.MANAGED)
- .offline(false)
- .autoStart(false);
-
- if (!plan.executionPolicyDigest().equals(
- SHAFT.Infrastructure.options().policyDigest())) {
- throw new IllegalStateException(
- "Current setup policy differs from the reviewed plan");
- }
-
- SetupApproval approval = new SetupApproval(
- reviewedDigest, Instant.now(), Set.of());
- SetupReceipt receipt = SHAFT.Infrastructure.install(plan, approval);
- System.out.println(receipt.planDigest());
- }
-}
-```
-
-Use `SHAFT.Infrastructure.catalog()`, `doctor()`, `status()`, and `verify()` for
-read-only inspection. `install(...)` and `start(...)` require both the exact
-plan and its approval; there is no unapproved mutation overload.
-
-Use an absolute plan path in both Java phases. Reproduce every property and
-path from the planning phase before installation; schema 3 rejects even a
-single policy or destination difference.
-
-The configuration defaults are:
-
-```properties
-infrastructure.mode=EXTERNAL
-infrastructure.profile=REPORTING
-infrastructure.cacheDirectory=
-infrastructure.offline=false
-infrastructure.autoStart=false
-infrastructure.preferSystemTools=true
-infrastructure.reuseOwnedProcesses=true
-infrastructure.startupTimeout=PT2M
-infrastructure.shutdownTimeout=PT30S
-```
-
-Set `infrastructure.cacheDirectory` only to an absolute path. An empty value
-uses the platform-specific SHAFT cache and application-data locations.
+## Pages in this guide
+
+| Page | Type | Use it when |
+| --- | --- | --- |
+| [Mobile infrastructure](/docs/start/local-infrastructure/mobile) | How-to | Installing managed Android and Appium, or iOS and Windows Appium drivers. |
+| [Services and tools](/docs/start/local-infrastructure/services) | How-to | Installing managed Selenium Grid, Healenium, ReportPortal, BrowserStack Local, Playwright browsers, or Lighthouse, or diagnosing agent tools. |
+| [Previews: local AI and OCR](/docs/start/local-infrastructure/previews) | How-to (preview) | Evaluating the managed local AI provider or the unreleased managed OCR setup from a source build. |
+| [Infrastructure reference](/docs/start/local-infrastructure/reference) | Reference | Looking up plan/install policy options, the Java API, properties, and CLI exit codes. |
 
 ## Understand remote precedence
 
@@ -1461,28 +2469,6 @@ even when `infrastructure.mode=MANAGED`. This applies to web, Selenium Grid,
 mobile, and Healenium profiles, so a remote test configuration cannot
 unexpectedly provision local infrastructure. It does not change unrelated
 profiles such as `REPORTING` or `LIGHTHOUSE`.
-
-## Interpret CLI failures
-
-| Exit code | Meaning |
-|---:|---|
-| `0` | Ready or successful. |
-| `2` | Invalid input, policy, or approval. |
-| `3` | Missing or degraded readiness. |
-| `4` | No provider supports the requested operation. |
-| `5` | Execution or integrity failure. |
-
-An install is atomic per action, not across the entire plan. If a later action
-fails, an earlier verified action can remain installed while the final profile
-receipt is absent. Fix the failure and retry the same approved plan; SHAFT
-re-verifies compatible completed state before continuing.
-
-If setup reports that both an artifact destination and its `.quarantine` recovery file exist, preserve both files and stop. Verify each against the reviewed action checksum, then deliberately retain the valid copy before retrying. Never blindly delete the quarantine: it may be the only known-good pre-replacement artifact.
-
-`start` and `stop` return unsupported for profiles without an owned service.
-SHAFT does not adopt or stop an unknown process. Use
-`shaft-cli setup logs --profile REPORTING` to read an existing provider log;
-it returns `3` when no owned log exists.
 
 ## Related
 
@@ -1621,8 +2607,9 @@ replaces the old Maven coordinate, imports the BOM, scans source and
 configuration for optional capabilities, compiles the result, and rolls back
 every changed file if compilation does not pass.
 
-The manual dependency reference remains below only for reviewing the automated
-result and troubleshooting; it is not an alternative migration path.
+The [manual migration reference](/docs/start/upgrade/reference) exists only
+for reviewing the automated result and troubleshooting; it is not an
+alternative migration path.
 
 ## Scan-first upgrade path
 
@@ -1635,854 +2622,33 @@ Use this section when you only need to decide what to run.
 | Selenium/Appium project ready for source migration | Use `--upgrade-type session` or `--upgrade-type full` after a clean baseline | Rewrites source only inside the same rollback-protected transaction. |
 | Broken compile before migration | Fix the baseline before upgrading | The upgrader stops before touching files when the unchanged project does not compile. |
 
-The safe first command is the one in [Download and run](#download-and-run).
-Review the generated diff, run your normal tests, then use the module map below
-only when you need to explain why an optional module was added.
+To see which starting point you have, search the project's POMs for SHAFT
+coordinates:
+
+```bash
+grep -rn --include=pom.xml "io.github.shafthq" .
+```
+
+An `SHAFT_ENGINE` artifact means a legacy SHAFT project; `shaft-engine`,
+`shaft-bom`, or another SHAFT module means modular SHAFT; no match means a
+native project. The upgrader applies the same rules; see
+[project detection](/docs/start/upgrade/how-it-works#project-detection).
+
+The safe first command is the one in [Download and run](/docs/start/upgrade/run#download-and-run).
+Review the generated diff, run your normal tests, then use the
+[module map](/docs/start/upgrade/reference#module-map) only when you need to
+explain why an optional module was added.
 
 Rollback rule: if validation fails, every touched file is restored byte-for-byte
 unless an allowed repair succeeds inside the same transaction.
 
-## Automated upgrade
-
-### What the script guarantees
-
-1. Finds supported Maven POMs without scanning generated `target`, `build`,
- `.git`, IDE, or report directories.
-2. Resolves the latest published `shaft-engine` release from Maven Central,
- unless `--shaft-version` is supplied.
-3. Compiles the unchanged project first. A broken baseline stops the migration
- before any file is changed.
-4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
- the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
- metadata onto runtime dependencies.
-5. Adds only the optional modules supported by project evidence.
-6. For Selenium/Appium source upgrades, applies conservative Java rewrites in
- the same transaction as the POM migration.
-7. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
- the local Maven repository and both main and test source are compiled.
-8. Commits the file transaction only after compilation passes.
-9. Restores every touched file byte-for-byte when validation fails.
-10. Optionally uses the OpenAI Responses API for exactly three repair attempts
- before rollback.
-
-```mermaid
-flowchart TD
- Start["Run upgrade_to_modular_shaft.py"] --> Discover["Discover Maven POMs and project type"]
- Discover --> Supported{"Legacy/modular SHAFT or supported native stack?"}
- Supported -- No --> Stop["Stop without changing files"]
- Supported -- Yes --> Resolve["Resolve latest modular SHAFT version"]
- Resolve --> Baseline["Compile unchanged project"]
- Baseline --> BaselinePass{"Baseline passes?"}
- BaselinePass -- No --> Stop
- BaselinePass -- Yes --> Snapshot["Open file transaction"]
- Snapshot --> Upgrade["Update POM and optional source rewrites"]
- Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
- Compile --> Pass{"Compilation passes?"}
- Pass -- Yes --> Commit["Commit upgraded files"]
- Pass -- No --> Key{"OpenAI API key available?"}
- Key -- No --> Rollback["Restore original bytes"]
- Key -- Yes --> Repair["Request constrained repair"]
- Repair --> Retry["Apply allowed POM/Java replacements"]
- Retry --> AICompile["Recompile after repair"]
- AICompile --> AIPass{"Compilation passes?"}
- AIPass -- Yes --> Commit
- AIPass -- No --> Attempts{"Three repair attempts exhausted?"}
- Attempts -- No --> Repair
- Attempts -- Yes --> Rollback
-```
-
-### Prerequisites
-
-- A Maven project with at least one `pom.xml`.
-- Python 3.9 or newer available as `python`. The script uses only the Python
- standard library.
-- Maven on `PATH`, or a project Maven wrapper (`mvnw`/`mvnw.cmd`).
-- A JDK compatible with the latest SHAFT release. Current SHAFT builds require
- JDK 25.
-- A clean version-control working tree is strongly recommended. The script has
- its own transaction, but Git remains useful for reviewing the successful
- migration.
-
-### Download and run
-
-From the project that should be upgraded:
-
-```shell
-python -c "import runpy,sys,urllib.request as u;p='upgrade_to_modular_shaft.py';u.urlretrieve('https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py',p);sys.argv=[p,'--project','.'];runpy.run_path(p,run_name='__main__')"
-```
-
-The script prints:
-
-- Detected project type, native automation stack, and test runner.
-- Every POM selected for migration.
-- Whether each optional module will be added.
-- The source/configuration evidence behind each optional-module decision.
-- Baseline, upgraded, and optional AI repair compilation status.
-
-Review the plan and answer `y` to start the transaction.
-
-### Choose an upgrade type
-
-Agents and humans should choose one of three upgrade depths:
-
-| Upgrade type | Risk | Supported projects | What changes |
-| --- | --- | --- | --- |
-| `basic` | Low | Legacy SHAFT, modular SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven projects | Updates selected POMs to modular SHAFT and leaves existing test source intact. Existing tests keep using their current APIs; new tests can use SHAFT and Allure reporting. |
-| `session` | Medium | Selenium/Appium projects only | Runs `basic`, then rewrites supported driver/session creation to `SHAFT.GUI.WebDriver`, wraps existing Selenium/Appium driver constructors, and rewrites `driver.close()` termination calls to `driver.quit()` where the driver variable was migrated. |
-| `full` | High | Selenium/Appium projects only | Runs `session`, then rewrites simple browser and element actions such as `get`, `navigate().to`, `findElement(...).click()`, `sendKeys`, `getText`, `isDisplayed`, and `getAttribute` to SHAFT engine calls. Element and browser assertions remain manual. |
-
-`basic` is the default:
-
-```bash
-python upgrade_to_modular_shaft.py --project . --upgrade-type basic
-```
-
-For Selenium/Appium projects, opt into session or action migration explicitly:
-
-```bash
-python upgrade_to_modular_shaft.py --project . --upgrade-type session
-python upgrade_to_modular_shaft.py --project . --upgrade-type full
-```
-
-AI agents that use SHAFT MCP, Codex, Claude, or another automation shell should
-ask for the user's preferred risk level before applying changes. The script can
-print the same decision menu as JSON without writing files or running Maven:
-
-```bash
-python upgrade_to_modular_shaft.py --project . --agent-plan
-```
-
-The JSON response contains `basic`, `session`, and `full` entries with risk,
-eligibility, reason, description, detected stacks/runners, candidate POMs, and
-a recommended command. `session` and `full` are marked ineligible unless the
-project is detected as Selenium or Appium.
-
-### Preview without changing files
-
-```bash
-python upgrade_to_modular_shaft.py --project . --dry-run
-```
-
-Dry-run prints unified POM and optional source diffs for the selected
-`--upgrade-type`. It does not write files or run Maven.
-
-### Non-interactive usage
-
-```bash
-python upgrade_to_modular_shaft.py \
- --project . \
- --yes \
- --report target/shaft-upgrade-report.json
-```
-
-`--yes` is required when standard input is not interactive. The optional report
-records the selected upgrade type, version, POMs, detected modules, evidence,
-source files changed by the selected upgrade type, compile count, AI attempt
-count, and rollback status. It never contains the API key.
-
-### Command reference
-
-| Option | Purpose |
-| --- | --- |
-| `--project PATH` | Project root. Defaults to the current directory. |
-| `--shaft-version VERSION` | Use a controlled version instead of Maven Central's latest release. Useful for local/offline repositories. |
-| `--compile-command COMMAND` | Override the default Maven `dependency:go-offline test-compile -DskipTests -Dgpg.skip` command. |
-| `--compile-timeout SECONDS` | Set the timeout for each compile invocation. Default: 900 seconds. |
-| `--upgrade-type TYPE` | Select `basic`, `session`, or `full`. `basic` is the default; `session` and `full` require Selenium/Appium. |
-| `--agent-plan` | Print the three upgrade choices as JSON for AI agents, then exit without writing or compiling. |
-| `--skip-baseline-compile` | Skip the unchanged-project compile. This weakens failure attribution and is not recommended. |
-| `--dry-run` | Print POM and optional source diffs without writing or compiling. |
-| `--yes` | Do not prompt before applying changes. |
-| `--report PATH` | Write an optional JSON result report. |
-| `--prompt-for-openai-key` | Securely prompt for an optional API key. |
-| `--openai-key-env NAME` | Read the API key from another environment variable. Default: `OPENAI_API_KEY`. |
-| `--openai-model MODEL` | Select another Responses API model. |
-| `--no-ai` | Disable AI repair even if an API key is present. |
-
-## Project detection
-
-The script supports projects when it detects one of these shapes:
-
-| Project shape | Detection |
-| --- | --- |
-| Legacy SHAFT | `io.github.shafthq:SHAFT_ENGINE` in a POM. |
-| Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
-| Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
-| Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
-| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
-| Cucumber | Cucumber dependency/import. |
-
-For multi-module builds, POMs that directly declare SHAFT or a supported native
-stack/runner pair are updated. A child module with a supported native stack is
-also updated when the test runner is declared in a parent POM or detected from
-source imports. Other reactor POMs are left unchanged.
-
-JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
-or imports, including suite-style projects that depend on
-`org.junit.platform:junit-platform-suite-api`.
-
-## Optional-module scan
-
-For legacy and existing modular SHAFT projects, optional modules are inferred
-from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
-are not printed; the report records only paths and detection reasons. Native
-projects receive `shaft-engine` only because native third-party integrations do
-not prove that the corresponding SHAFT provider API is used.
-
-POM evidence is read as Maven dependency coordinates, so compact XML and
-formatted XML are treated the same. For example, a legacy project that already
-declares `com.browserstack:browserstack-java-sdk`,
-`com.automation-remarks:video-recorder-*`, `org.openpnp:opencv`, or
-`com.sikulix:sikulixapi` selects the
-matching SHAFT optional module during migration.
-
-```mermaid
-flowchart LR
- Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion, visual engine, OpenCV/Eyes/Shutterbug, or image-path touch API?"}
- Scan --> Video{"videoParamsRecordVideo=true, zero-argument desktop recording, JAVE, or Automation Remarks?"}
- Scan --> BrowserStack{"BrowserStack SDK dependency, platformsList/parallelsPerPlatform, automation switch, or SDK YAML?"}
- Scan --> SikuliX{"SikuliX dependency or SHAFT.GUI.SikuliX usage?"}
-
- Visual -- Yes --> AddVisual["Add shaft-visual"]
- Visual -- No --> CoreVisual["Keep visual module absent"]
- Video -- Yes --> AddVideo["Add shaft-video"]
- Video -- No --> CoreVideo["Keep video module absent"]
- BrowserStack -- Yes --> AddBrowserStack["Add shaft-browserstack"]
- BrowserStack -- No --> Direct["Direct BrowserStack remains in shaft-engine"]
- SikuliX -- Yes --> AddSikuliX["Add shaft-sikulix"]
- SikuliX -- No --> CoreDesktop["Appium Windows stays in shaft-engine"]
-```
-
-Existing modular optional dependencies are preserved even when no additional
-scan evidence is found.
-
-### BrowserStack evidence
-
-The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
-ordinary remote sessions. Evidence includes:
-
-- `com.browserstack:browserstack-java-sdk`.
-- `SHAFT.Properties.browserStack.set().platformsList(...)`.
-- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
-- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
-- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
-- `browserStack.platformsList`.
-- `browserStack.parallelsPerPlatform`.
-- `browserStack.browserstackAutomation`.
-- `browserStack.customBrowserStackYmlPath`.
-- A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
-
-Direct BrowserStack WebDriver/Appium execution still requires only
-`shaft-engine`. Direct settings such as
-`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
-`shaft-browserstack` by themselves.
-
-### Visual evidence
-
-The visual module is selected for reference-image or image-engine behavior,
-including:
-
-- `matchesReferenceImage(...)` and `doesNotMatchReferenceImage(...)`.
-- `VisualValidationEngine`.
-- `findImageWithinCurrentPage(...)`, `compareAgainstBaseline(...)`, or
- `loadOpenCV()`.
-- Image-path touch/wait/swipe APIs.
-- Explicit OpenCV, Applitools Eyes, Selenium Shutterbug, or `shaft-visual`
- dependencies.
-
-Ordinary screenshots, highlighting, GIF generation, and folder comparison do
-not select `shaft-visual`.
-
-### Video evidence
-
-The video module is selected for local desktop recording:
-
-- `videoParamsRecordVideo=true`.
-- `videoParams_recordVideo=true`.
-- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
-- A zero-argument `startVideoRecording()` call.
-- Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
-
-Appium driver-native recording and cloud-provider video do not select
-`shaft-video`.
-
-### SikuliX evidence
-
-The SikuliX module is selected for image-based desktop automation:
-
-- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
-- Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
-
-Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
-`shaft-engine`.
-
-## Compilation and rollback
-
-The default validation command is:
-
-```bash
-mvn dependency:go-offline test-compile -DskipTests -Dgpg.skip
-```
-
-`dependency:go-offline` resolves project dependencies and build plugins into
-the local Maven repository. `test-compile` compiles both production and test
-source without executing tests. The same command runs before and after
-migration. Use `--compile-command` only when the project requires a profile,
-settings file, module selector, or another project-specific compile entry
-point.
-
-The transaction records original bytes and file permissions immediately before
-the first write to each file. A normal success discards that in-memory
-snapshot. A failure, invalid AI response, path-policy violation, interruption,
-or exhausted retry budget restores the originals.
-
-```mermaid
-sequenceDiagram
- participant User
- participant Script
- participant Files
- participant Maven
- participant OpenAI
-
- User->>Script: Start upgrade
- Script->>Maven: Compile unchanged project
- Maven-->>Script: Success
- Script->>Files: Remember original bytes
- Script->>Files: Write modular POM and optional source rewrites
- Script->>Maven: Compile upgraded project
- alt Compilation succeeds
- Maven-->>Script: Success
- Script->>Files: Commit transaction
- Script-->>User: Upgraded project retained
- else Compilation fails without API key
- Maven-->>Script: Failure
- Script->>Files: Restore original bytes
- Script-->>User: Original project restored
- else Compilation fails with API key
- Maven-->>Script: Failure diagnostics
- loop Maximum three repair attempts
- Script->>OpenAI: Redacted diagnostics and allowed files
- OpenAI-->>Script: Structured replacements
- Script->>Files: Apply validated replacements
- Script->>Maven: Recompile
- end
- alt A repair compiles
- Script->>Files: Commit transaction
- else All attempts fail
- Script->>Files: Restore POM, source, and all AI-edited files
- end
- end
-```
-
-The rollback guarantee covers failures handled by the running process. An
-operating-system kill, power loss, or hardware failure can terminate any
-program before cleanup runs, which is another reason to use version control.
-
-## Optional OpenAI compile repair
-
-OpenAI repair is disabled unless a key is supplied. The safest interactive
-setup avoids shell history:
-
-```bash
-python upgrade_to_modular_shaft.py \
- --project . \
- --prompt-for-openai-key
-```
-
-For CI or an existing secret manager, set `OPENAI_API_KEY` and run the normal
-command:
-
-```bash
-python upgrade_to_modular_shaft.py --project . --yes
-```
-
-Do not paste a real API key into the script, `pom.xml`, source code, or a
-checked-in properties file.
-
-When the upgraded compile fails, the script uses the
-[OpenAI Responses API](https://developers.openai.com/api/docs/guides/text) with
-[Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-The default model is `gpt-5.5`; override it with `--openai-model` when required.
-
-Each request is constrained as follows:
-
-- Compiler output is redacted for common tokens, passwords, bearer headers, and
- private keys.
-- Only candidate POMs and Java files named by compiler diagnostics are
- considered.
-- A file containing a detected secret is excluded from editable context.
-- The model can replace only existing, non-symlink `pom.xml` and `.java` files
- that were supplied in the request.
-- Absolute paths, parent traversal, new files, unrelated extensions, invalid
- XML, oversized output, and changes outside the supplied context are rejected.
-- The modular BOM/version contract is revalidated after every accepted repair.
-- The project is recompiled after each of the three repair attempts.
-- If no attempt passes, the POM and every AI-edited file are rolled back.
-
-Use `--no-ai` to force deterministic rollback even when the environment already
-contains an API key.
-
-## Selenium source migration
-
-Source migration is opt-in and compile-validated. `basic` keeps source intact.
-`session` and `full` are rejected for REST Assured-only, Cucumber-only, and
-other non-Selenium/Appium projects.
-
-### Session upgrade rewrites
-
-`--upgrade-type session` performs the POM upgrade, then rewrites supported
-driver session code:
-
-- `WebDriver` type declarations, simple return types, parameters, and
- `ThreadLocal ` holders become `SHAFT.GUI.WebDriver`.
-- `new ChromeDriver(...)`, `new FirefoxDriver(...)`, `new EdgeDriver(...)`,
- `new SafariDriver(...)`, `new RemoteWebDriver(...)`, `new AndroidDriver(...)`,
- `new IOSDriver(...)`, and `new AppiumDriver(...)` are wrapped as
- `new SHAFT.GUI.WebDriver(new ...Driver(...))`.
-- `driver.close()` becomes `driver.quit()` when the variable was migrated to
- `SHAFT.GUI.WebDriver`.
-
-Example:
-
-```java
-// Selenium before
-private WebDriver driver;
-
-@BeforeMethod
-public void startDriver() {
- driver = new ChromeDriver();
-}
-
-@AfterMethod
-public void stopDriver() {
- driver.close();
-}
-
-// SHAFT after session upgrade
-private SHAFT.GUI.WebDriver driver;
-
-@BeforeMethod
-public void startDriver() {
- driver = new SHAFT.GUI.WebDriver(new ChromeDriver());
-}
-
-@AfterMethod
-public void stopDriver() {
- driver.quit();
-}
-```
-
-### Full upgrade rewrites
-
-`--upgrade-type full` runs the session upgrade, then rewrites simple
-one-statement browser and element actions:
-
-```java
-// Selenium
-driver.get("https://example.com");
-driver.findElement(By.id("login")).click();
-driver.findElement(By.id("username")).sendKeys("demo");
-
-// SHAFT
-driver.browser().navigateToURL("https://example.com");
-driver.element().click(By.id("login"));
-driver.element().type(By.id("username"), "demo");
-```
-
-The automatic full upgrade currently targets:
-
-- `driver.get(url)` and `driver.navigate().to(url)`.
-- `driver.findElement(locator).click()`.
-- `driver.findElement(locator).sendKeys(text)`.
-- `driver.findElement(locator).getText()`.
-- `driver.findElement(locator).isDisplayed()`.
-- `driver.findElement(locator).getAttribute(name)`.
-
-The report lists files changed by source migration and records unsupported
-patterns that need manual review. Risky cases remain manual: chained Selenium
-`Actions`, JavaScript execution, custom waits, reused `WebElement` instances,
-`findElements` collection handling, exception-driven control flow, and
-assertions whose message or soft/hard behavior matters.
-
-After a full upgrade, migrate element and browser assertions manually so their
-intent remains clear:
-
-```java
-// Selenium/TestNG assertion
-Assert.assertTrue(driver.findElement(By.id("banner")).isDisplayed());
-
-// SHAFT assertion
-driver.element().assertThat(By.id("banner")).isVisible();
-```
-
-## Manual migration reference
-
-The following sections describe the exact Maven result produced by the script
-and remain useful for review, unusual project layouts, and troubleshooting.
-
-## Migration outcome
-
-A completed migration has:
-
-- `shaft-bom` managing one SHAFT version.
-- `shaft-engine` replacing the old uppercase artifact.
-- Only the optional modules used by the project.
-- No mixture of `SHAFT_ENGINE` and modular JARs in the dependency tree.
-- Passing compile/tests with a populated Allure result set when SHAFT tests run.
-
-## Coordinates: before and after
-
- 
-
-The shared version above is updated by the release workflow. Verify availability
-through the
-[canonical Maven Central artifact](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine)
-before changing a production build.
-
-## Module map
-
-Importing `shaft-bom` aligns versions; it does not add runtime code.
-
-```mermaid
-flowchart LR
- Project["Your test project"] --> BOM["shaft-bom version alignment"]
- Project --> Engine["shaft-engine required"]
- Project -.->|"provider-neutral Pilot contracts"| PilotCore["shaft-pilot-core"]
- Project -.->|"recording model + privacy"| Capture["shaft-capture"]
- Project -.->|"offline failure diagnosis"| Doctor["shaft-doctor"]
- Project -.->|"optional direct AI providers"| AI["shaft-ai"]
- Project -.->|"deterministic web element recovery"| Heal["shaft-heal"]
- Project -.->|"only for BrowserStack SDK runtime"| BrowserStack["shaft-browserstack"]
- Project -.->|"only for local desktop recording"| Video["shaft-video"]
- Project -.->|"only for image-engine operations"| Visual["shaft-visual"]
- Project -.->|"only for SikuliX image matching"| SikuliX["shaft-sikulix"]
-
- BrowserStack --> Engine
- Video --> Engine
- Visual --> Engine
- SikuliX --> Engine
- PilotCore --> Engine
- Capture --> PilotCore
- Doctor --> PilotCore
- AI --> PilotCore
- Heal --> Engine
- Heal --> PilotCore
-
- Engine --> Core["Web + Appium + API + DB + CLI reporting + screenshots + accessibility"]
- BrowserStack --> SDK["browserstack.yml orchestration SDK listeners/interception"]
- Video --> Desktop["local non-headless desktop video Automation Remarks + JAVE/FFmpeg"]
- Visual --> CV["reference-image assertions OpenCV + Eyes + Shutterbug"]
- SikuliX --> DesktopImage["SikuliX desktop image matching"]
- Heal --> Recovery["action-scoped recovery history + structured reports"]
-```
-
-## Select dependencies by functionality
-
-| Functionality | Required artifact | Do not add an optional module for |
-|------------------------------------------------------------------------------|----------------------|----------------------------------------------------------------------------------|
-| WebDriver browser actions, element actions, locators, screenshots, reporting | `shaft-engine` | Normal local, Docker, Selenium Grid, LambdaTest, or direct BrowserStack sessions |
-| Appium native/mobile web/Flutter actions and Appium screen recording | `shaft-engine` | Driver-native Android/iOS recording |
-| REST Assured API, database, CLI, test data, accessibility, Cucumber steps | `shaft-engine` | Any of these capabilities by themselves |
-| Provider-neutral Pilot requests, approval, redaction, and deterministic fallback | `shaft-pilot-core` | Direct provider HTTP calls |
-| Versioned browser recording, privacy classification, and capture JSON | `shaft-capture` | Ordinary engine screenshots or desktop video |
-| Portable evidence bundles and deterministic offline failure diagnosis | `shaft-doctor` | Allure report rendering or direct AI provider calls |
-| Direct OpenAI, Anthropic, Gemini, or Ollama provider calls | `shaft-ai` | Deterministic Capture creation, validation, migration, or replay data |
-| Deterministic explainable web element recovery | `shaft-heal` | Normal element actions when locator recovery is not explicitly enabled |
-| BrowserStack SDK interception and `browserstack.yml` orchestration | `shaft-browserstack` | Direct BrowserStack WebDriver/Appium sessions built by SHAFT |
-| Local, non-headless desktop recording managed by SHAFT | `shaft-video` | Remote-provider video or Appium `startRecordingScreen()` |
-| Reference-image assertions and image-based touch lookup | `shaft-visual` | Ordinary screenshots, screenshot highlighting, GIFs, or folder comparison |
-| SikuliX image-based desktop automation | `shaft-sikulix` | Appium Windows desktop sessions through `shaft-engine` |
-
-Add optional modules beside `shaft-engine`; their versions come from the BOM:
-
-```xml
- 
- io.github.shafthq 
- shaft-visual 
- 
-```
-
-Use the same shape for `shaft-pilot-core`, `shaft-capture`, `shaft-doctor`,
-`shaft-ai`, `shaft-heal`, `shaft-browserstack`, `shaft-video`, or
-`shaft-sikulix`, but add only the artifacts selected by the tables below.
-
-## SHAFT Heal dependency boundary
-
-Add `shaft-heal` only when WebDriver locator recovery is required, then opt in
-with `healing.strategy=shaft-heal`. The module is disabled by default and does
-not alter native mobile execution. Use `healing.strategy=composite` only when
-both SHAFT Heal and Healenium are intentionally required; legacy
-`heal-enabled=true` continues to select Healenium when no explicit SHAFT Heal
-strategy is configured.
-
-Visual evidence remains local and requires both `shaft-visual` and
-`healing.visual.enabled=true`. AI candidate reranking requires
-`healing.ai.enabled=true` plus the normal Pilot approval/provider controls.
-Neither optional score can bypass deterministic confidence and ambiguity
-checks. See the [SHAFT Heal guide](/docs/agentic/heal).
-
-## Capture dependency boundary
-
-Add `shaft-capture` when a project creates, validates, migrates, reviews, or
-persists SHAFT Capture recording JSON. It transitively uses
-`shaft-pilot-core` for provider-neutral security contracts but does not resolve
-`shaft-ai`. Recording and privacy enforcement remain deterministic with
-`pilot.ai.enabled=false`.
-
-See the [SHAFT Capture format guide](/docs/agentic/capture).
-
-## Doctor dependency boundary
-
-Add `shaft-doctor` when a project needs allowlisted local evidence collection,
-portable redacted bundles, deterministic root-cause classification, or
-JSON/Markdown diagnosis reports. It uses `shaft-pilot-core` security helpers
-but does not resolve `shaft-ai` or make network calls. See the
-[SHAFT Doctor guide](/docs/agentic/doctor).
-
-## Visual dependency boundary
-
-`shaft-visual` is required when execution reaches the optional
-`VisualProcessingProvider`. Merely taking or attaching a screenshot does not
-reach that provider.
-
-### Methods that require `shaft-visual`
-
-| Public API or behavior | Why it needs the module |
-|----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `matchesReferenceImage()` | Defaults to `EXACT_SHUTTERBUG`; all reference-image engines are implemented by the provider. |
-| `matchesReferenceImage(VisualValidationEngine)` | `EXACT_SHUTTERBUG`, `EXACT_OPENCV`, `EXACT_EYES`, `STRICT_EYES`, `CONTENT_EYES`, and `LAYOUT_EYES` all delegate to `shaft-visual`. |
-| `doesNotMatchReferenceImage()` and its engine overload | The default is `EXACT_OPENCV`; every overload delegates to the provider. |
-| Cucumber reference-image assertion steps | The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path. |
-| `TouchActions.tap(String)` | Locates the reference image inside the current screenshot using OpenCV. |
-| `TouchActions.waitUntilElementIsVisible(String)` | Uses OpenCV to find the supplied image. |
-| `TouchActions.swipeElementIntoView(String, ...)` and the scrollable-container overload | Uses image matching after each swipe. |
-| `ImageProcessingActions.findImageWithinCurrentPage(...)` | Direct provider operation. |
-| `ImageProcessingActions.compareAgainstBaseline(...)` | Direct provider operation for every visual engine. |
-| `ImageProcessingActions.loadOpenCV()` | Explicitly loads the optional provider. |
-
-The TestNG and JUnit web samples contain this visual assertion:
-
-```java
-@Test
-public void navigateToDuckDuckGoAndAssertLogoIsDisplayedCorrectly() {
- driver.browser().navigateToURL(targetUrl)
- .and().element().assertThat(logo).matchesReferenceImage();
-}
-```
-
-Their POMs therefore include `shaft-visual`. Removing the visual test allows
-those projects to return to `shaft-engine` only.
-
-### Functionality that remains in `shaft-engine`
-
-| Method or behavior | Why no visual module is needed |
-|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| Selenium/Appium screenshot capture and Allure attachments | Uses WebDriver/Appium screenshot APIs and SHAFT reporting. |
-| `ImageProcessingActions.highlightElementInScreenshot(...)` | Uses JDK `BufferedImage` and `Graphics2D`. |
-| `ImageProcessingActions.compareImageFolders(...)` | Uses JDK `ImageIO` and image data buffers. |
-| `formatElementLocatorToImagePath(...)`, `getReferenceImage(...)`, `getShutterbugDifferencesImage(...)` | Performs naming and file access only. |
-| Animated GIF creation | Does not invoke the visual provider. |
-| Healenium integration | Independent of OpenCV. |
-| Normal locator-based `tap(By)`, `waitUntilElementIsVisible(By)`, and `swipeElementIntoView(By, ...)` | Uses Selenium/Appium locators, not reference images. |
-
-See the detailed [visual module guide](/docs/integrations/visual).
-
-## BrowserStack dependency boundary
-
-`shaft-browserstack` does not add a new SHAFT facade method. It adds the
-BrowserStack Java SDK runtime. The ordinary BrowserStack driver path remains in
-`shaft-engine`.
-
-### Works with `shaft-engine` only
-
-The standard web sample remains unchanged when a direct BrowserStack session is
-selected:
-
-```java
-@BeforeMethod
-public void beforeMethod() {
- driver = new SHAFT.GUI.WebDriver();
-}
-
-@Test
-public void searchForQueryAndAssert() {
- driver.browser().navigateToURL(targetUrl)
- .and().element().type(searchBox, testData.get("searchQuery") + Keys.ENTER)
- .and().element().click(firstSearchResult)
- .and().assertThat().title().contains(testData.get("expectedResultTitle"))
- .and().element().assertThat(By.tagName("body")).text()
- .contains(testData.get("expectedResultText"));
-}
-```
-
-With `executionAddress=browserstack`, `shaft-engine` performs all of the
-following without `shaft-browserstack`:
-
-- `new SHAFT.GUI.WebDriver()` and `DriverFactory` BrowserStack routing.
-- Desktop web, mobile web, and native Appium session creation.
-- W3C `bstack:options` capability construction.
-- BrowserStack app upload when `browserStack.appRelativeFilePath` is used.
-- Credentials, device/browser/OS selection, local flag, debug/network logs,
- Selenium/Appium version, geolocation, and custom capability handling.
-- Generation or copying of `browserstack.yml` through
- `BrowserStackSdkHelper.generateBrowserStackYml()`.
-
-The generated YAML is harmless but has no SDK orchestration effect when the SDK
-runtime is absent.
-
-### Requires `shaft-browserstack`
-
-Add the module when BrowserStack's SDK must consume `browserstack.yml` and
-intercept/orchestrate the test runtime:
-
-```xml
- 
- io.github.shafthq 
- shaft-browserstack 
- 
-```
-
-These SHAFT properties configure SDK-only behavior:
-
-```java
-SHAFT.Properties.browserStack.set()
- .platformsList("""
- [
- {"os":"Windows","osVersion":"11","browserName":"Chrome"},
- {"os":"OS X","osVersion":"Sonoma","browserName":"Safari"}
- ]
- """)
- .parallelsPerPlatform(2)
- .browserstackAutomation(true);
-```
-
-| SDK-dependent configuration/functionality | Without `shaft-browserstack` |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `browserStack.platformsList` multi-platform expansion | The value is written to YAML, but no SDK consumes it. |
-| `browserStack.parallelsPerPlatform` SDK parallel orchestration | Direct SHAFT session creation still follows the test runner's own parallelism. |
-| `browserStack.browserstackAutomation` interception switch | No BrowserStack SDK is present to intercept WebDriver creation. |
-| `browserStack.customBrowserStackYmlPath` as SDK configuration | SHAFT can copy the file, but only the SDK interprets its orchestration settings. |
-| SDK listeners, automatic capability override, and SDK reporting/orchestration | Unavailable; the direct SHAFT BrowserStack session still works. |
-
-See the [BrowserStack module guide](/docs/integrations/browserstack) and
-[BrowserStack's SDK architecture](https://www.browserstack.com/docs/automate/selenium/how-sdk-works).
-
-## Video dependency boundary
-
-`shaft-video` is required only when
-`videoParamsRecordVideo=true` starts local, non-headless desktop recording.
-`RecordManager.startVideoRecording()` then discovers the desktop provider and
-fails with an actionable message when it is absent.
-
-Appium native recording through `RecordManager.startVideoRecording(WebDriver)`
-and Android/iOS `startRecordingScreen()` remains in `shaft-engine`. Remote cloud
-video configured through provider capabilities also does not use
-`shaft-video`.
-
-See the [video module guide](/docs/integrations/desktop-and-video#video-recording).
-
-## Legacy relocation and support window
-
-The old `io.github.shafthq:SHAFT_ENGINE` coordinate is a relocation POM pointing
-to `io.github.shafthq:shaft-engine` for the modular release line. It contains no
-classes and selects only `shaft-engine`. Maven cannot infer whether a project
-needs BrowserStack SDK orchestration, desktop recording, or image-engine
-operations, so relocation never adds optional modules.
-
-Use relocation only as a temporary compatibility bridge. Do not declare the
-legacy coordinate together with modular artifacts.
-
-## CI and cache migration
-
-1. Change cache keys when `pom.xml` hashes are not already part of the key.
-2. Do not copy the old `SHAFT_ENGINE` repository directory to `shaft-engine`.
-3. Let Maven resolve and checksum the new paths under
- `~/.m2/repository/io/github/shafthq/`.
-4. Use the purge command only for a suspected stale or failed relocation:
-
- ```bash
- mvn dependency:purge-local-repository \
- -DmanualInclude=io.github.shafthq:SHAFT_ENGINE,io.github.shafthq:shaft-engine \
- -DreResolve=false
- ```
-
-5. Build once with an empty CI cache before comparing dependency size or timing.
-
-## Validate the migration
-
-```bash
-mvn dependency:tree -Dincludes=io.github.shafthq
-mvn clean install -DskipTests -Dgpg.skip
-mvn test
-```
-
-The dependency tree should contain one aligned SHAFT version, `shaft-engine`,
-and only the selected optional modules. When tests run, confirm the expected
-number of `allure-results/*-result.json` files exists before treating the
-Allure summary as authoritative.
-
-### Missing-provider troubleshooting
-
-| Symptom | Action |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| Reference-image assertion or image-path touch action reports no visual provider | Add `shaft-visual`; verify `org.openpnp:opencv`, Applitools Eyes, and Selenium Shutterbug resolve transitively. |
-| Ordinary screenshot capture fails | Do not add `shaft-visual` reflexively; diagnose WebDriver/Appium screenshot support and reporting paths. |
-| Direct BrowserStack session fails to start | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
-| `platformsList` or `parallelsPerPlatform` has no effect | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`. |
-| Desktop recording reports no provider | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves. |
-| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing | Add `shaft-sikulix`; Appium Windows sessions do not require it. |
-| `healing.strategy=shaft-heal` logs that the provider is absent | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`. |
-| SHAFT Heal rejects every candidate | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
-| Mobile recording changed unexpectedly | Do not add `shaft-video`; verify the Appium driver supports native recording. |
-| `NoSuchMethodError` or mixed SHAFT modules | Import `shaft-bom`, remove explicit mismatched module versions, and inspect `mvn dependency:tree -Dincludes=io.github.shafthq`. |
-
-## Verified cold-cache download measurements
-
-The table records compressed classpath JAR bytes from isolated Maven
-repositories. The monolithic graph is the committed `10.2.20260605` baseline at
-commit `570a836`; the modular graph is `shaft-engine` only. MiB uses 1,048,576
-bytes.
-
-| Supported platform | Before: `SHAFT_ENGINE` | After: `shaft-engine` only | Saved |
-| --- | ---: | ---: | ---: |
-| Linux x64 | 352,001,986 (335.70 MiB) | 169,941,464 (162.07 MiB) | 182,060,522 (173.63 MiB / 51.7%) |
-| Linux ARM64 | 348,005,291 (331.88 MiB) | 169,941,464 (162.07 MiB) | 178,063,827 (169.81 MiB / 51.2%) |
-| Windows x64 | 350,617,708 (334.38 MiB) | 169,941,464 (162.07 MiB) | 180,676,244 (172.31 MiB / 51.5%) |
-| macOS x64 | 344,700,722 (328.73 MiB) | 169,941,464 (162.07 MiB) | 174,759,258 (166.66 MiB / 50.7%) |
-| macOS ARM64 | 341,487,898 (325.67 MiB) | 169,941,464 (162.07 MiB) | 171,546,434 (163.60 MiB / 50.2%) |
-
-Reproduce the current modular graph after a reactor build:
-
-```bash
-mvn clean install -DskipTests -Dgpg.skip
-python3 scripts/ci/measure_consumer_dependencies.py \
- --fixture api \
- --output target/modular-measurement
-```
-
-The platform totals substitute the exact JAVE native JAR selected by the old
-POM: Linux x64 28,201,169 bytes, Linux ARM64 24,204,474 bytes, Windows x64
-26,816,891 bytes, macOS x64 20,899,905 bytes, and macOS ARM64 17,687,081 bytes.
-
-## Completion checklist
-
-1. Replace `SHAFT_ENGINE` with `shaft-engine`.
-2. Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
-3. Add `shaft-visual` only for the listed reference-image and image-lookup methods.
-4. Add `shaft-heal` only for explicitly configured web locator recovery.
-5. Add `shaft-browserstack` only for BrowserStack SDK orchestration.
-6. Add `shaft-video` only for local non-headless desktop recording.
-7. Update CI cache keys and run one clean-cache build.
-8. Verify one SHAFT version with `mvn dependency:tree`.
-9. Compile, test, and confirm Allure results are populated.
-
-## Rollback
-
-If migration blocks a release, revert the POM to
-`io.github.shafthq:SHAFT_ENGINE:10.2.20260605`, restore the previous dependency
-cache key, and remove all modular artifact declarations. Do not mix the old JAR
-with modular artifacts. Capture `mvn dependency:tree` before rollback so a
-missing provider or version mismatch can be diagnosed before the next attempt.
+## Pages in this guide
+
+| Page | Type | Use it when |
+| --- | --- | --- |
+| [Run the upgrade](/docs/start/upgrade/run) | How-to | You are ready to upgrade a project: prerequisites, the download-and-run command, upgrade types, dry-run, CI, validation, checklist, and rollback. |
+| [How the upgrade works](/docs/start/upgrade/how-it-works) | Explanation | You need to understand the script's guarantees, project detection, optional-module evidence, compile-and-rollback transaction, AI repair, and Selenium source rewrites. |
+| [Upgrade reference](/docs/start/upgrade/reference) | Reference | You are reviewing the result: command options, coordinates, the module map, dependency boundaries, the legacy relocation, and measured download sizes. |
 
 ## Related
 
@@ -3277,7 +3443,7 @@ For native execution, either connect a real Appium target or let
 `mobile_inspector_record_start` guide the agent through local setup. Android
 proposals now delegate to the shared infrastructure provider and owned
 lifecycle described in the
-[local infrastructure guide](/docs/start/local-infrastructure#install-managed-android-and-appium).
+[local infrastructure guide](/docs/start/local-infrastructure/mobile#install-managed-android-and-appium).
 MCP does not maintain a second Android downloader, npm project, SDK installer,
 or emulator process owner. Confirmation is translated into the same reviewed
 plan, `android-sdk-license` approval, compatible receipt, and lease used by the
@@ -4939,7 +5105,7 @@ The packaged server supports:
  DISABLED snapshot, not the reviewed pin table. Defaults stay off, consent is
  local-only, and the pin table on the setup page is the documented inventory
  at
- [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting);
+ [managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting);
 - persisted trace discovery and deterministic trace analysis through
  `trace_latest`, `trace_read`, `trace_summarize`, `trace_open_viewer`, and
  `doctor_analyze_trace`, restricted to the MCP workspace and bounded for raw
@@ -5417,7 +5583,7 @@ the reviewed pin table. Use `setup status` or `setup verify` for
 `target readiness version detail` (version is empty unless READY;
 readiness/version/action). The pin table on the setup page is the documented
 inventory. See
-[managed local AI setup](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI setup](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 Local Ollama remains available through the Pilot provider
 properties.
 
@@ -6744,7 +6910,7 @@ The Assistant routes plain-language intent to the right MCP tools:
 | Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `driver_initialize` (`engine=mobile_native`/`mobile_web` with a nested `mobileOptions` request), `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
 | Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_record_at_target_code_blocks`, `capture_generate_replay` (dispatching to the active mobile session), `mobile_inspector_record_start` |
 | Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
-| Managed local AI status | "show managed local AI status" | `setup_status` and `setup_verify` print `target readiness version detail` (version empty unless READY) and report readiness/version/action; `doctor_managed_local_ai_status` reports enablement, eligibility, and the DISABLED snapshot. Defaults stay off. Enablement is local-processing consent only; it is not remote consent or tool approval. See [managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting) |
+| Managed local AI status | "show managed local AI status" | `setup_status` and `setup_verify` print `target readiness version detail` (version empty unless READY) and report readiness/version/action; `doctor_managed_local_ai_status` reports enablement, eligibility, and the DISABLED snapshot. Defaults stay off. Enablement is local-processing consent only; it is not remote consent or tool approval. See [managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting) |
 | Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
 | Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
 
@@ -7193,7 +7359,7 @@ the documented inventory for revision, license, provenance, size, storage
 class, resource floors, update policy, cleanup rule, and deterministic
 fallback. `setup status` and `setup verify` print `target readiness version
 detail` (version empty unless READY) and report readiness/version/action; see
-[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 Use the review-first configuration while evaluating it:
 
@@ -7204,7 +7370,7 @@ managedLocalAi.model=qwen3-0.6b-q8_0
 ```
 
 Provision and maintain the reviewed runtime/model pair through the
-[managed local AI setup flow](/docs/start/local-infrastructure#preview-managed-local-ai).
+[managed local AI setup flow](/docs/start/local-infrastructure/previews#preview-managed-local-ai).
 Set `managedLocalAi.transparentProvisioning=true` only when an approved request
 may provision a missing reviewed pair without a separate CLI install phase.
 
@@ -7940,7 +8106,7 @@ MCP results still include agent handoff blocks so the MCP client can use its own
 LLM and repository context. Native terminal commands keep the explicit provider
 and `--allow-local-ai` or `--allow-remote-ai` approval requirements.
 Managed local AI remains opt-in and local-consent only; see
-[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 Run the focused suite with:
 
@@ -8287,7 +8453,7 @@ AI uses the provider-neutral controls from `shaft-pilot-core`. Add `shaft-ai`
 only for direct OpenAI, Anthropic, Gemini, or Ollama calls, and configure the
 Pilot approval, evidence, budget, timeout, and provider properties separately.
 Managed local AI stays off by default and is local-consent only; see
-[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 Only minimized candidate records are eligible for transfer. Provider output may
 rerank supplied candidate IDs but cannot invent an element or override
 deterministic acceptance. The default trigger keeps AI fallback deterministic
@@ -8687,7 +8853,7 @@ DISABLED snapshot; it does not list the reviewed pin table. Defaults stay off.
 Enablement is local-processing consent only; it is not remote consent or tool
 approval. CI/headless Maven never downloads.
 See
-[inventory and troubleshooting](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[inventory and troubleshooting](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 ## Examples
 
@@ -9729,7 +9895,7 @@ Canonical URL: https://shafthq.github.io/docs/integrations/browserstack
 It does not add or replace SHAFT WebDriver methods. Direct BrowserStack
 WebDriver/Appium support remains in `shaft-engine`. For a SHAFT-owned local
 testing tunnel, use the
-[managed BrowserStack Local setup flow](/docs/start/local-infrastructure#install-managed-browserstack-local).
+[managed BrowserStack Local setup flow](/docs/start/local-infrastructure/services#install-managed-browserstack-local).
 
 ## Direct session or SDK orchestration?
 
@@ -9826,7 +9992,7 @@ For the SDK's runtime behavior, see
 
 - [Modules](/docs/features/modules)
 - [Upgrade](/docs/start/upgrade)
-- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-browserstack-local)
+- [Set up local infrastructure](/docs/start/local-infrastructure/services#install-managed-browserstack-local)
 - [Visual](/docs/integrations/visual)
 - [Desktop and video](/docs/integrations/desktop-and-video#video-recording)
 
@@ -11684,7 +11850,7 @@ resolve the same managed installation.
 
  
 
-See [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-lighthouse)
+See [Set up local infrastructure](/docs/start/local-infrastructure/services#install-managed-lighthouse)
 for the canonical plan, install, policy, and offline-cache instructions.
 
 ```java title="LightHouseReport.java"
@@ -18261,7 +18427,7 @@ wins.
 
 For reviewed local browser ownership, configure `infrastructure.profile` as
 `PLAYWRIGHT` and use the [managed Playwright browser setup
-flow](/docs/start/local-infrastructure#install-managed-playwright-browsers).
+flow](/docs/start/local-infrastructure/services#install-managed-playwright-browsers).
 SHAFT requires a compatible receipt before local driver creation. Remote
 connections, explicit browser channels, and an existing
 `PLAYWRIGHT_BROWSERS_PATH` keep their caller-owned precedence.
@@ -23321,7 +23487,7 @@ Do not pair it with a Smart Locator.
 
 For current SHAFT projects, start with [SHAFT Heal](/docs/agentic/heal): add `shaft-heal` and opt in with `healing.strategy=shaft-heal`. It is deterministic, explainable, disabled by default, and writes reviewable locator recovery reports.
 
-Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server. Install that backend with the [managed Healenium setup flow](/docs/start/local-infrastructure#install-managed-healenium):
+Legacy **Healenium** integration remains opt-in through `healing.strategy=healenium` (or the legacy `heal-enabled=true` flag) for projects that already run a Healenium backend server. Install that backend with the [managed Healenium setup flow](/docs/start/local-infrastructure/services#install-managed-healenium):
 
 ```java title="SelfHealingLocators.java"
 
@@ -23475,7 +23641,7 @@ Always call `switchToDefaultContent()` after finishing work inside an iframe —
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
 - [SHAFT Heal](/docs/agentic/heal)
-- [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-healenium)
+- [Set up local infrastructure](/docs/start/local-infrastructure/services#install-managed-healenium)
 - [Web](/docs/testing/web)
 
 ## Flutter locator factories 
