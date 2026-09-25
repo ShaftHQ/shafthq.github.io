@@ -12,6 +12,17 @@ SHAFT uses the same `SHAFT.GUI.WebDriver` facade for browser and Appium
 sessions. Configure the Appium endpoint, platform, automation name, and app,
 then create the driver normally.
 
+## Prerequisites {/* #mobile-prerequisites */}
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+  through generating one.
+- An Appium endpoint. Use either the SHAFT-managed Android runtime (see
+  [Run a test on the managed Android runtime](#run-a-test-on-the-managed-android-runtime))
+  or an existing Appium server, device farm, or Grid set through
+  `executionAddress`.
+- The app under test, and properties for the platform, automation name, and
+  device. See [mobile configuration](/docs/reference/configuration/mobileConfig).
+
 ```java
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 
@@ -33,6 +44,13 @@ flowchart LR
     Appium --> Flutter
     SHAFT --> Report["Allure evidence"]
 ```
+
+## Verify {/* #mobile-verify */}
+
+- The driver session starts and Maven reports the test as run and passed.
+- The Allure report shows the tap and the existence assertion.
+- When a touch action fails, `shaft-trace.json` records it as a `touch` event
+  (see [Mobile failure trace evidence](#mobile-failure-trace-evidence)).
 
 ## Click and type by control kind
 
@@ -355,7 +373,7 @@ SHAFT Engine supports automated testing of Flutter applications using the Appium
 For prerequisites, demo APK build, locator table, pitfalls, and a full tap/type/assert sample using SHAFT.GUI.Locator.flutter*, see the [Flutter testing guide](/docs/testing/flutter).
 :::
 
-## Prerequisites
+## Prerequisites {/* #prerequisites */}
 
 ### 1. Install Appium Server
 First, install Appium with the Flutter driver plugin:
@@ -755,7 +773,7 @@ public class FlutterAppTestSuite {
 
 - [Testing overview](/docs/start/overview)
 - [Features](/docs/features/modules)
-- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-integration-driver)
+- [Appium Flutter Driver documentation](https://github.com/AppiumTestDistribution/appium-flutter-integration-driver)
 - [Flutter testing guide](https://flutter.dev/docs/testing)
 - [Appium Java client](https://github.com/appium/java-client) for native `AppiumBy.flutter*` locators
 - [SHAFT Engine issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)

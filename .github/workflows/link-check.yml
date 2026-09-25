@@ -1,0 +1,82 @@
+name: External link check
+
+# Weekly external-link audit (issue #1077). Internal links and anchors are
+# enforced by the Docusaurus build (onBrokenLinks/onBrokenAnchors: 'throw').
+# This job checks outbound http(s) links. It never runs on pull requests, so
+# third-party outages can't fail unrelated PRs. Failures are tracked in one
+# rolling issue labelled `broken-links`.
+on:
+  schedule:
+    - cron: '17 4 * * 1' # Mondays 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: link-check
+  cancel-in-progress: true
+
+jobs:
+  lychee:
+    name: Check external links
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Restore lychee cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .lycheecache
+          key: lychee-${{ github.run_id }}
+          restore-keys: lychee-
+
+      - name: Check links
+        id: lychee
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          fail: false
+          jobSummary: true
+          output: lychee/report.md
+          format: markdown
+          args: >-
+            --config lychee.toml
+            --no-progress
+            'docs/**/*.md' 'docs/**/*.mdx' 'blog/**/*.md' README.md CONTRIBUTING.md
+          # The action passes the workflow token by default, so GitHub URLs are
+          # checked with authenticated rate limits.
+
+      - name: Open, update, or close the tracking issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LYCHEE_EXIT: ${{ steps.lychee.outputs.exit_code }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          label=broken-links
+          title='Broken external links (weekly link check)'
+          gh label create "$label" --color B60205 --description 'Reported by the weekly external link check' 2>/dev/null || true
+          existing=$(gh issue list --label "$label" --state open --json number --jq '.[0].number // empty')
+          if [ "${LYCHEE_EXIT}" = "0" ]; then
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --comment "All external links passed in ${RUN_URL}."
+            fi
+            exit 0
+          fi
+          {
+            echo "The weekly external link check found problems. Run: ${RUN_URL}"
+            echo
+            echo 'Fix the link in the source file, or add a justified pattern to `lychee.toml` if the host blocks automated checks.'
+            echo
+            cat lychee/report.md
+          } > issue-body.md
+          # GitHub caps issue bodies at 65536 characters.
+          head -c 60000 issue-body.md > issue-body.trimmed.md
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body-file issue-body.trimmed.md
+            gh issue comment "$existing" --body "Still failing in ${RUN_URL}."
+          else
+            gh issue create --title "$title" --label "$label" --body-file issue-body.trimmed.md
+          fi
