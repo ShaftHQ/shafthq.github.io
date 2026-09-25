@@ -32,6 +32,12 @@ jobs:
       - name: Homepage contract
         run: yarn test:homepage
 
+      - name: Type check
+        run: yarn typecheck
+
+      - name: Docs contracts
+        run: yarn test:docs
+
       - name: Build
         run: yarn build
 
@@ -40,6 +46,9 @@ jobs:
 
       - name: Homepage accessibility audit
         run: yarn test:a11y
+
+      - name: Wide table and first-run layout checks
+        run: yarn playwright test tests/e2e/wide-tables.spec.js tests/e2e/homepage.spec.js --project=chromium --grep "wide tables|scrollable-region-focusable|tables that fit|first-run strip"
 
       - name: Project generator cross-browser smoke test
         run: yarn test:project-generator:cross-browser
