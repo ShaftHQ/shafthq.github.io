@@ -10,6 +10,11 @@ Canonical URL: https://shafthq.github.io/docs/start/installation
 
 # Install SHAFT
 
+Use this page to get a SHAFT project running on your machine: check the
+requirements, generate a project, run the first test, and confirm the report.
+Adding SHAFT to an existing Maven project or upgrading an older suite is covered
+further down.
+
 ## Requirements
 
 ## Create a new project
@@ -31,12 +36,6 @@ configuration templates that use `@argFiles` for direct IDE runs.
 Run the generated project from its root:
 
  
-
-Copyable shell form:
-
-```bash
-mvn test
-```
 
 Expected first-run outcome:
 
@@ -1532,14 +1531,17 @@ flowchart LR
 ## Start in 90 seconds
 
 Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
-runner and testing surfaces, then download a ready-to-run project.
+runner and testing surfaces, then download a ready-to-run project. Run it from
+the project root:
 
  
 
-Copyable shell form:
+A SHAFT web step reads like this:
 
-```bash
-mvn test
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://example.com");
+driver.element().click(By.id("submit"));
 ```
 
  
@@ -2464,15 +2466,15 @@ POM: Linux x64 28,201,169 bytes, Linux ARM64 24,204,474 bytes, Windows x64
 
 ## Completion checklist
 
-- [ ] Replace `SHAFT_ENGINE` with `shaft-engine`.
-- [ ] Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
-- [ ] Add `shaft-visual` only for the listed reference-image and image-lookup methods.
-- [ ] Add `shaft-heal` only for explicitly configured web locator recovery.
-- [ ] Add `shaft-browserstack` only for BrowserStack SDK orchestration.
-- [ ] Add `shaft-video` only for local non-headless desktop recording.
-- [ ] Update CI cache keys and run one clean-cache build.
-- [ ] Verify one SHAFT version with `mvn dependency:tree`.
-- [ ] Compile, test, and confirm Allure results are populated.
+1. Replace `SHAFT_ENGINE` with `shaft-engine`.
+2. Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
+3. Add `shaft-visual` only for the listed reference-image and image-lookup methods.
+4. Add `shaft-heal` only for explicitly configured web locator recovery.
+5. Add `shaft-browserstack` only for BrowserStack SDK orchestration.
+6. Add `shaft-video` only for local non-headless desktop recording.
+7. Update CI cache keys and run one clean-cache build.
+8. Verify one SHAFT version with `mvn dependency:tree`.
+9. Compile, test, and confirm Allure results are populated.
 
 ## Rollback
 
@@ -9047,7 +9049,7 @@ heavy providers optional:
 | Web | [Selenium](https://www.selenium.dev/) |
 | Mobile | [Appium](https://appium.io/) |
 | API | [REST Assured](https://rest-assured.io/) |
-| Test runners | [TestNG](https://testng.org/), [JUnit](https://junit.org/junit/), [Cucumber](https://cucumber.io/) |
+| Test runners | [TestNG](https://testng.org/), [JUnit](https://junit.org/), [Cucumber](https://cucumber.io/) |
 | Evidence | [Allure Report](https://allurereport.org/) |
 | Optional visual providers | [OpenCV](https://opencv.org/), [Applitools](https://applitools.com/), Selenium Shutterbug |
 | Distribution | [Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine), [GitHub Container Registry](https://github.com/ShaftHQ/SHAFT_ENGINE/pkgs/container/shaft-engine-mcp) |
@@ -20195,7 +20197,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 
 See [Response Validations](/docs/reference/actions/API/Response_Validations)
 for response assertions and the
-[JavaDocs](https://shafthq.github.io/SHAFT_ENGINE/apidocs/) for API details.
+[JavaDocs](https://shafthq.github.io/SHAFT_ENGINE/) for API details.
 
 ## GraphQL API Testing
 
