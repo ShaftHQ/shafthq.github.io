@@ -27,6 +27,7 @@ const lightTheme = withTokenColors(githubWithReadableNamespaces, {
 const darkTheme = withTokenColors(themes.dracula, {
   'rgb(98, 114, 164)': '#8995bb', // comment: 3.03 -> 4.80
 });
+const rehypeTableRegion = require('./src/plugins/rehype-table-region');
 const siteUrl = 'https://shafthq.github.io';
 const siteAsset = (path) => new URL(path, siteUrl).toString();
 
@@ -198,6 +199,8 @@ const config = {
     },
   },
   themes: ['@docusaurus/theme-mermaid'],
+  // Keeps table scroll regions focusable only while they overflow (#1076).
+  clientModules: [require.resolve('./src/clientModules/tableRegions.js')],
 
   presets: [
     [
@@ -214,6 +217,8 @@ const config = {
           : {}),
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          // Wrap every table in a named, keyboard-operable scroll region (#1076).
+          rehypePlugins: [rehypeTableRegion],
           showLastUpdateTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -222,10 +227,14 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          rehypePlugins: [rehypeTableRegion],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/ShaftHQ/shafthq.github.io/blob/master',
+        },
+        pages: {
+          rehypePlugins: [rehypeTableRegion],
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
