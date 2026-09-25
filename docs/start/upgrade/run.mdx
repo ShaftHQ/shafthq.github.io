@@ -1,0 +1,173 @@
+---
+id: run
+title: "Run the modular SHAFT upgrade"
+sidebar_label: "Run the upgrade"
+description: "Step-by-step: prerequisites, download and run the transactional upgrader, choose an upgrade type, validate, and roll back."
+slug: /start/upgrade/run
+tags: [upgrade, migration, maven]
+---
+
+# Run the modular SHAFT upgrade
+
+Follow these steps to upgrade a Maven project with the transactional
+`upgrade_to_modular_shaft.py` script. For what the script does internally, see [How the upgrade works](/docs/start/upgrade/how-it-works). For command options, coordinates, and module boundaries, see the [upgrade reference](/docs/start/upgrade/reference). Start from the [upgrade overview](/docs/start/upgrade) if you are not sure which path applies.
+
+## Prerequisites
+
+- A Maven project with at least one `pom.xml`.
+- Python 3.9 or newer available as `python`. The script uses only the Python
+  standard library.
+- Maven on `PATH`, or a project Maven wrapper (`mvnw`/`mvnw.cmd`).
+- A JDK compatible with the latest SHAFT release. Current SHAFT builds require
+  JDK 25.
+- A clean version-control working tree is strongly recommended. The script has
+  its own transaction, but Git remains useful for reviewing the successful
+  migration.
+
+## Download and run
+
+From the project that should be upgraded:
+
+```shell
+python -c "import runpy,sys,urllib.request as u;p='upgrade_to_modular_shaft.py';u.urlretrieve('https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-upgrader/upgrade_to_modular_shaft.py',p);sys.argv=[p,'--project','.'];runpy.run_path(p,run_name='__main__')"
+```
+
+The script prints:
+
+- Detected project type, native automation stack, and test runner.
+- Every POM selected for migration.
+- Whether each optional module will be added.
+- The source/configuration evidence behind each optional-module decision.
+- Baseline, upgraded, and optional AI repair compilation status.
+
+Review the plan and answer `y` to start the transaction.
+
+## Choose an upgrade type
+
+Agents and humans should choose one of three upgrade depths:
+
+| Upgrade type | Risk | Supported projects | What changes |
+| --- | --- | --- | --- |
+| `basic` | Low | Legacy SHAFT, modular SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven projects | Updates selected POMs to modular SHAFT and leaves existing test source intact. Existing tests keep using their current APIs; new tests can use SHAFT and Allure reporting. |
+| `session` | Medium | Selenium/Appium projects only | Runs `basic`, then rewrites supported driver/session creation to `SHAFT.GUI.WebDriver`, wraps existing Selenium/Appium driver constructors, and rewrites `driver.close()` termination calls to `driver.quit()` where the driver variable was migrated. |
+| `full` | High | Selenium/Appium projects only | Runs `session`, then rewrites simple browser and element actions such as `get`, `navigate().to`, `findElement(...).click()`, `sendKeys`, `getText`, `isDisplayed`, and `getAttribute` to SHAFT engine calls. Element and browser assertions remain manual. |
+
+`basic` is the default:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --upgrade-type basic
+```
+
+For Selenium/Appium projects, opt into session or action migration explicitly:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --upgrade-type session
+python upgrade_to_modular_shaft.py --project . --upgrade-type full
+```
+
+AI agents that use SHAFT MCP, Codex, Claude, or another automation shell should
+ask for the user's preferred risk level before applying changes. The script can
+print the same decision menu as JSON without writing files or running Maven:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --agent-plan
+```
+
+The JSON response contains `basic`, `session`, and `full` entries with risk,
+eligibility, reason, description, detected stacks/runners, candidate POMs, and
+a recommended command. `session` and `full` are marked ineligible unless the
+project is detected as Selenium or Appium.
+
+## Preview without changing files
+
+```bash
+python upgrade_to_modular_shaft.py --project . --dry-run
+```
+
+Dry-run prints unified POM and optional source diffs for the selected
+`--upgrade-type`. It does not write files or run Maven.
+
+## Non-interactive usage
+
+```bash
+python upgrade_to_modular_shaft.py \
+  --project . \
+  --yes \
+  --report target/shaft-upgrade-report.json
+```
+
+`--yes` is required when standard input is not interactive. The optional report
+records the selected upgrade type, version, POMs, detected modules, evidence,
+source files changed by the selected upgrade type, compile count, AI attempt
+count, and rollback status. It never contains the API key.
+
+## CI and cache migration
+
+1. Change cache keys when `pom.xml` hashes are not already part of the key.
+2. Do not copy the old `SHAFT_ENGINE` repository directory to `shaft-engine`.
+3. Let Maven resolve and checksum the new paths under
+   `~/.m2/repository/io/github/shafthq/`.
+4. Use the purge command only for a suspected stale or failed relocation:
+
+   ```bash
+   mvn dependency:purge-local-repository \
+     -DmanualInclude=io.github.shafthq:SHAFT_ENGINE,io.github.shafthq:shaft-engine \
+     -DreResolve=false
+   ```
+
+5. Build once with an empty CI cache before comparing dependency size or timing.
+
+## Validate the migration
+
+```bash
+mvn dependency:tree -Dincludes=io.github.shafthq
+mvn clean install -DskipTests -Dgpg.skip
+mvn test
+```
+
+The dependency tree should contain one aligned SHAFT version, `shaft-engine`,
+and only the selected optional modules. When tests run, confirm the expected
+number of `allure-results/*-result.json` files exists before treating the
+Allure summary as authoritative.
+
+### Missing-provider troubleshooting
+
+| Symptom                                                                         | Action                                                                                                                                |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| Reference-image assertion or image-path touch action reports no visual provider | Add `shaft-visual`; verify `org.openpnp:opencv`, Applitools Eyes, and Selenium Shutterbug resolve transitively.                       |
+| Ordinary screenshot capture fails                                               | Do not add `shaft-visual` reflexively; diagnose WebDriver/Appium screenshot support and reporting paths.                              |
+| Direct BrowserStack session fails to start                                      | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
+| `platformsList` or `parallelsPerPlatform` has no effect                         | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`.                      |
+| Desktop recording reports no provider                                           | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves.                                            |
+| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing                     | Add `shaft-sikulix`; Appium Windows sessions do not require it.                                                                       |
+| `healing.strategy=shaft-heal` logs that the provider is absent                   | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`.                                                                      |
+| SHAFT Heal rejects every candidate                                               | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
+| Mobile recording changed unexpectedly                                           | Do not add `shaft-video`; verify the Appium driver supports native recording.                                                         |
+| `NoSuchMethodError` or mixed SHAFT modules                                      | Import `shaft-bom`, remove explicit mismatched module versions, and inspect `mvn dependency:tree -Dincludes=io.github.shafthq`.       |
+
+## Completion checklist
+
+1. Replace `SHAFT_ENGINE` with `shaft-engine`.
+2. Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
+3. Add `shaft-visual` only for the listed reference-image and image-lookup methods.
+4. Add `shaft-heal` only for explicitly configured web locator recovery.
+5. Add `shaft-browserstack` only for BrowserStack SDK orchestration.
+6. Add `shaft-video` only for local non-headless desktop recording.
+7. Update CI cache keys and run one clean-cache build.
+8. Verify one SHAFT version with `mvn dependency:tree`.
+9. Compile, test, and confirm Allure results are populated.
+
+## Rollback
+
+If migration blocks a release, revert the POM to
+`io.github.shafthq:SHAFT_ENGINE:10.2.20260605`, restore the previous dependency
+cache key, and remove all modular artifact declarations. Do not mix the old JAR
+with modular artifacts. Capture `mvn dependency:tree` before rollback so a
+missing provider or version mismatch can be diagnosed before the next attempt.
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Upgrade overview](/docs/start/upgrade)
