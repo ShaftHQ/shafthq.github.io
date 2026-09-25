@@ -21,7 +21,7 @@ const accessibilityAudit = fs.readFileSync(
 
 assert.strictEqual(
   packageJson.devDependencies['@playwright/test'],
-  '1.62.1',
+  '1.63.0',
   'Playwright Test must be exact so its managed Chromium revision is reproducible.',
 );
 assert.strictEqual(

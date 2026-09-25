@@ -164,7 +164,7 @@
 
 .category span,
 .categoryActive span {
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-emphasis-700);
   font-size: var(--site-font-caption);
 }
 
@@ -186,6 +186,12 @@
 
 .categoryActive span {
   color: var(--ifm-color-white);
+}
+
+/* Dark-theme primary is light blue; white text on it is only 2:1. */
+:global([data-theme='dark']) .categoryActive,
+:global([data-theme='dark']) .categoryActive span {
+  color: var(--site-color-deep);
 }
 
 .catalogPanel {

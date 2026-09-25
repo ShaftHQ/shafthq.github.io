@@ -883,15 +883,15 @@ POM: Linux x64 28,201,169 bytes, Linux ARM64 24,204,474 bytes, Windows x64
 
 ## Completion checklist
 
-- [ ] Replace `SHAFT_ENGINE` with `shaft-engine`.
-- [ ] Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
-- [ ] Add `shaft-visual` only for the listed reference-image and image-lookup methods.
-- [ ] Add `shaft-heal` only for explicitly configured web locator recovery.
-- [ ] Add `shaft-browserstack` only for BrowserStack SDK orchestration.
-- [ ] Add `shaft-video` only for local non-headless desktop recording.
-- [ ] Update CI cache keys and run one clean-cache build.
-- [ ] Verify one SHAFT version with `mvn dependency:tree`.
-- [ ] Compile, test, and confirm Allure results are populated.
+1. Replace `SHAFT_ENGINE` with `shaft-engine`.
+2. Import `shaft-bom` and remove explicit versions from SHAFT module dependencies.
+3. Add `shaft-visual` only for the listed reference-image and image-lookup methods.
+4. Add `shaft-heal` only for explicitly configured web locator recovery.
+5. Add `shaft-browserstack` only for BrowserStack SDK orchestration.
+6. Add `shaft-video` only for local non-headless desktop recording.
+7. Update CI cache keys and run one clean-cache build.
+8. Verify one SHAFT version with `mvn dependency:tree`.
+9. Compile, test, and confirm Allure results are populated.
 
 ## Rollback
 

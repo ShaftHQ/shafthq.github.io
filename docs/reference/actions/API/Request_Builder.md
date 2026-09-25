@@ -367,7 +367,7 @@ api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(fals
 
 See [Response Validations](/docs/reference/actions/API/Response_Validations)
 for response assertions and the
-[JavaDocs](https://shafthq.github.io/SHAFT_ENGINE/apidocs/) for API details.
+[JavaDocs](https://shafthq.github.io/SHAFT_ENGINE/) for API details.
 
 ## GraphQL API Testing
 
