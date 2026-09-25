@@ -1,0 +1,315 @@
+---
+id: services
+title: "Install managed services and tools"
+sidebar_label: "Services and tools"
+description: "Plan, approve, and install SHAFT-owned Selenium Grid, Healenium, ReportPortal, BrowserStack Local, Playwright browsers, and Lighthouse, and diagnose agent tools."
+slug: /start/local-infrastructure/services
+tags: [installation, infrastructure, cli, grid, healenium, reportportal, browserstack, lighthouse]
+---
+
+import {LighthouseSetupCommands, PlaywrightSetupCommands} from '@site/src/components/DocSnippets';
+
+# Install managed services and tools
+
+Use these steps for the web, Grid, healing, reporting, and cloud-tunnel
+services SHAFT can own locally. Every install follows the shared [review and approve](/docs/start/local-infrastructure#review-and-approve-an-installation) flow; policy options and exit codes are in the [infrastructure reference](/docs/start/local-infrastructure/reference).
+
+## Install managed Selenium Grid
+
+:::warning[Not in a published release yet]
+The `SELENIUM_GRID` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5042](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5042). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when you want SHAFT to own a local Selenium Grid compose
+project. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it does
+not install the engine or daemon.
+
+The release plan binds image tag `4.47.0-20260808` for `selenium/hub`,
+`selenium/node-chrome`, `selenium/node-edge`, and `selenium/node-firefox`. The
+compose project name is `shaft-selenium-grid`. CLI planning uses the release
+defaults: hub port `4444`, one Chrome replica, zero Edge replicas, and zero
+Firefox replicas. Bind a different port or replica count through Java
+selection components such as `port_4445` and `chrome_2`. Those tokens are
+not CLI flags.
+
+SHAFT never sets `container_name` and never adopts an unknown compose project
+or port.
+
+```bash
+shaft-cli setup status --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup plan \
+  --profile SELENIUM_GRID \
+  --mode MANAGED \
+  --output /absolute/path/selenium-grid-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/selenium-grid-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile SELENIUM_GRID --mode MANAGED
+shaft-cli setup start \
+  --plan /absolute/path/selenium-grid-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup logs --profile SELENIUM_GRID
+shaft-cli setup stop \
+  --plan /absolute/path/selenium-grid-plan.json \
+  --approve sha256:<reviewed-digest>
+```
+
+`start` brings up only the owned `shaft-selenium-grid` project and accepts the
+hub when `/wd/hub/status` is healthy. `stop` runs compose down for that project
+only.
+
+## Install managed Healenium
+
+:::warning[Not in a published release yet]
+The `HEALENIUM` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5044](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5044). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile when tests need a local Healenium backend. Docker 26.1.4+ is
+a host prerequisite. SHAFT diagnoses Docker; it does not install the engine or
+daemon. The release plan pins `healenium/hlm-backend:3.4.6`,
+`healenium/hlm-selector-imitator:1.4`, and `postgres:15.5-alpine` in compose
+project `shaft-healenium`. CLI defaults are backend port `7878` and imitator
+port `8000`. Bind different ports through Java selection components
+`backend_7879` and `imitate_8001`; the two ports must differ. Those tokens
+are not CLI flags.
+
+```bash
+shaft-cli setup status --profile HEALENIUM --mode MANAGED
+shaft-cli setup plan \
+  --profile HEALENIUM \
+  --mode MANAGED \
+  --output /absolute/path/healenium-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/healenium-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile HEALENIUM --mode MANAGED
+shaft-cli setup start \
+  --plan /absolute/path/healenium-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup logs --profile HEALENIUM
+shaft-cli setup stop \
+  --plan /absolute/path/healenium-plan.json \
+  --approve sha256:<reviewed-digest>
+```
+
+Point `SHAFT.Properties.healenium` at `localhost` and the reviewed backend
+port. See [self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#self-healing-locators)
+for the opt-in engine property.
+
+## Install managed ReportPortal
+
+:::warning[Not in a published release yet]
+The `REPORT_PORTAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5046](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5046). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile only for local development. SHAFT owns an official-core
+ReportPortal compose project named `shaft-reportportal` and does not start the
+analyzer. Docker 26.1.4+ is a host prerequisite. SHAFT diagnoses Docker; it
+does not install the engine or daemon. The CLI default UI port is `8080`.
+Bind a different UI port through Java selection component `ui_8081`. That
+token is not a CLI flag.
+
+```bash
+shaft-cli setup status --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup plan \
+  --profile REPORT_PORTAL \
+  --mode MANAGED \
+  --output /absolute/path/reportportal-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/reportportal-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile REPORT_PORTAL --mode MANAGED
+shaft-cli setup start \
+  --plan /absolute/path/reportportal-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup logs --profile REPORT_PORTAL
+shaft-cli setup stop \
+  --plan /absolute/path/reportportal-plan.json \
+  --approve sha256:<reviewed-digest>
+```
+
+The stack uses official ReportPortal local-dev defaults. Change those
+credentials before exposing the UI beyond loopback.
+
+## Install managed BrowserStack Local
+
+:::warning[Not in a published release yet]
+The `BROWSERSTACK_LOCAL` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5048](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5048) and
+[stop-until-dead follow-up #5049](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5049).
+Use these commands with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when cloud sessions need a SHAFT-owned BrowserStack Local
+tunnel to a private network. The plan pins official BrowserStack Local v8.9
+archives for Windows, Linux x64, and macOS. Linux ARM64 has no versioned v8.9
+archive; use x64 or a later pin.
+
+```bash
+shaft-cli setup status --profile BROWSERSTACK_LOCAL --mode MANAGED
+shaft-cli setup plan \
+  --profile BROWSERSTACK_LOCAL \
+  --mode MANAGED \
+  --output /absolute/path/browserstack-local-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/browserstack-local-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile BROWSERSTACK_LOCAL --mode MANAGED
+```
+
+Set `BROWSERSTACK_ACCESS_KEY` in the environment before `start`. Do not put
+the key in the plan file or in a checked-in properties example.
+
+```bash
+shaft-cli setup start \
+  --plan /absolute/path/browserstack-local-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup logs --profile BROWSERSTACK_LOCAL
+shaft-cli setup stop \
+  --plan /absolute/path/browserstack-local-plan.json \
+  --approve sha256:<reviewed-digest>
+```
+
+`stop` waits until the owned process is dead. A later `start` then cannot race
+the dying tunnel.
+
+See [BrowserStack sessions](/docs/integrations/browserstack) for direct cloud
+sessions and the optional SDK module.
+
+## Diagnose agent tools
+
+:::warning[Not in a published release yet]
+The `AGENT_TOOLS` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #5052](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/5052). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use this profile to diagnose host agent prerequisites. `JAVA`, `MAVEN`,
+`PYTHON`, and `NODE` stay diagnose-only: Java 25+, Maven 3.9.0+, Python 3.10+,
+and Node 20+. SHAFT does not install those host tools.
+
+In `MANAGED` mode the `AGENT_CLI` action writes a pinned `agent-clients.json`
+that detects `gh`. It does not download vendor CLIs.
+
+```bash
+shaft-cli setup status --profile AGENT_TOOLS --mode MANAGED
+shaft-cli setup plan \
+  --profile AGENT_TOOLS \
+  --mode MANAGED \
+  --output /absolute/path/agent-tools-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/agent-tools-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile AGENT_TOOLS --mode MANAGED
+```
+
+`start` and `stop` are unsupported. Install a missing JDK, Maven, Python, or
+Node yourself, then rerun `status` or `verify`.
+
+## Install managed Playwright browsers
+
+:::warning[Not in a published release yet]
+The `PLAYWRIGHT` provider is tracked by
+[engine PR #4922](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4922). Use these
+commands with a source build until a containing SHAFT release is published.
+:::
+
+Use the managed profile when local Playwright tests need SHAFT-owned browser
+payloads. The plan couples Playwright Java 1.62.0 to Chromium revision 1234,
+Firefox revision 1538, WebKit revision 2336, FFmpeg revision 1011, and the
+shared Node 24.19.0 owner. Each official archive URL, size, and SHA-256 digest
+is part of the reviewed release manifest and plan.
+
+Run the shared command sequence. Stop after `plan`, inspect all five actions
+and the printed digest, then install that exact plan:
+
+<PlaywrightSetupCommands />
+
+SHAFT downloads each archive through the verified artifact store first. It
+then points Playwright's downloader at a temporary `127.0.0.1` mirror that
+serves only those verified files. Setup never runs `install-deps`, `sudo`,
+`apt`, `dnf`, `brew`, a GUI installer, or a package-manager elevation flow.
+Install required host libraries separately when a Linux browser diagnostic
+reports a missing shared library.
+
+The release accepts Windows x64 or ARM64, Ubuntu 24.04 x64, and macOS 15 on
+x64 or ARM64. It rejects a different Linux distribution, Ubuntu release,
+macOS major version, or unsupported architecture instead of substituting a
+nearby browser build.
+
+Pass `--offline` to both `plan` and `install` to prohibit network access. A
+warm verified artifact cache or a compatible published receipt can be reused.
+A cold, incomplete, corrupt, wrong-version, or linked state fails without an
+outbound fallback or partial final receipt.
+
+Configure the engine to consume the reviewed installation:
+
+```properties title="src/main/resources/properties/custom.properties"
+infrastructure.mode=MANAGED
+infrastructure.profile=PLAYWRIGHT
+infrastructure.cacheDirectory=/absolute/path/shaft-playwright-cache
+
+playwright.connectionMode=local
+playwright.channel=
+playwright.browserName=chromium
+headlessExecution=true
+```
+
+Use an absolute cache directory. For a local session with no channel override,
+SHAFT validates the compatible receipt and supplies the owned browser root only
+to the Playwright child process. It does not install a missing browser during
+driver creation and does not change the parent process environment.
+
+An explicit remote connection, Chromium channel, or existing
+`PLAYWRIGHT_BROWSERS_PATH` wins over managed lookup. This keeps caller-owned
+browser paths and remote endpoints unchanged.
+
+## Install managed Lighthouse
+
+:::warning[Not released]
+This workflow depends on
+[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
+It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
+release. Keep using the current Lighthouse flow until a release that contains
+the managed `LIGHTHOUSE` provider is available.
+
+Install the `LIGHTHOUSE` profile before a test calls
+`generateLightHouseReport()`. SHAFT manages its own Node 24.19.0 and Lighthouse
+13.4.1 under the configured tool root. It does not use a global Node or npm
+installation.
+
+<LighthouseSetupCommands />
+
+Stop after `plan` and review the JSON plus its printed digest before running
+`install`. The plan binds the exact Node artifact, Lighthouse package archive,
+bundled dependency lock, destinations, and policy. Report generation only uses
+an already verified installation; it never installs a missing toolchain.
+
+For a cold offline install, pass `--offline` to both `plan` and `install`. The
+SHAFT cache must already contain the verified Node and Lighthouse artifacts
+and the complete transitive npm cache required by the bundled lock. An already
+verified managed installation can be reused without those cached downloads. A
+missing or corrupt entry needed by a cold install fails without network access
+or a partially published Lighthouse installation.
+
+Use the default SHAFT roots for this preview. The CLI can bind separate custom
+cache and data roots, but the Browser Actions runtime currently exposes only
+`infrastructure.cacheDirectory` and cannot reproduce every such layout.
+:::
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)

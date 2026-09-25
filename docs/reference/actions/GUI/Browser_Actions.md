@@ -311,7 +311,7 @@ resolve the same managed installation.
 
 <LighthouseSetupCommands />
 
-See [Set up local infrastructure](/docs/start/local-infrastructure#install-managed-lighthouse)
+See [Set up local infrastructure](/docs/start/local-infrastructure/services#install-managed-lighthouse)
 for the canonical plan, install, policy, and offline-cache instructions.
 
 ```java title="LightHouseReport.java"

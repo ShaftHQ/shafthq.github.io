@@ -1,0 +1,173 @@
+---
+id: reference
+title: "Local infrastructure reference"
+sidebar_label: "Infrastructure reference"
+description: "Plan and install policy options, the SHAFT.Infrastructure Java API and properties, and shaft-cli setup exit codes."
+slug: /start/local-infrastructure/reference
+tags: [installation, infrastructure, cli]
+---
+
+# Local infrastructure reference
+
+Look up the policy options, Java API, and CLI results shared by every setup
+profile. For the step-by-step flow, start at
+[Set up local infrastructure](/docs/start/local-infrastructure).
+
+## Keep policy options identical
+
+Plan and install accept the same execution policy:
+
+| Option | Default | Effect |
+|---|---:|---|
+| `--offline` | `false` | Require verified cached artifacts and disable network access. |
+| `--auto-start` | `false` | Bind a startup request for providers that own a service. |
+| `--prefer-system-tools=true\|false` | `true` | Bind whether a provider may prefer a compatible host tool. |
+| `--reuse-owned-processes=true\|false` | `true` | Bind whether a provider may reuse compatible SHAFT-owned processes. |
+| `--startup-timeout <duration>` | `PT2M` | Bind a positive ISO-8601 startup timeout for providers with lifecycle support. |
+| `--shutdown-timeout <duration>` | `PT30S` | Bind a positive ISO-8601 shutdown timeout for providers with lifecycle support. |
+
+Pass any non-default option to both commands. You may also pass an absolute
+`--cache-root` and `--data-root` pair to both commands; SHAFT rejects a single
+root or a relative path.
+
+The current `REPORTING` provider enforces `--offline`. It has no owned service,
+so auto-start, process reuse, and lifecycle timeouts are policy-bound for
+provider parity but do not change a reporting install. Reporting installs
+SHAFT-owned portable tools rather than adopting system Node or Allure. The
+unreleased `LIGHTHOUSE` provider follows the same lifecycle shape.
+
+:::warning
+Custom roots become mutable SHAFT-owned storage. Use dedicated, user-scoped
+directories. Do not point them at a repository, shared or system directory, or
+a path reached through a symlink alias.
+:::
+
+## Use the Java API
+
+Configure the same policy through `SHAFT.Properties.infrastructure`, then plan
+and explicitly approve the immutable result:
+
+```java title="ReportingInfrastructure.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.infrastructure.SetupMode;
+import com.shaft.infrastructure.SetupPlan;
+import com.shaft.infrastructure.SetupPlanStore;
+import com.shaft.infrastructure.SetupProfile;
+
+import java.nio.file.Path;
+
+public final class ReportingInfrastructure {
+    public static void main(String[] args) throws Exception {
+        SHAFT.Properties.infrastructure.set()
+            .profile(SetupProfile.REPORTING)
+            .mode(SetupMode.MANAGED)
+            .offline(false)
+            .autoStart(false);
+
+        SetupPlan plan = SHAFT.Infrastructure.plan();
+        SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
+
+        // Stop this phase and review the written JSON plus this digest.
+        System.out.println(plan.digest());
+    }
+}
+```
+
+Run the mutation in a separate phase. Supply the digest you reviewed instead
+of deriving it from a newly generated plan:
+
+```java title="InstallReviewedReportingPlan.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.infrastructure.SetupApproval;
+import com.shaft.infrastructure.SetupMode;
+import com.shaft.infrastructure.SetupPlan;
+import com.shaft.infrastructure.SetupPlanStore;
+import com.shaft.infrastructure.SetupProfile;
+import com.shaft.infrastructure.SetupReceipt;
+
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.Set;
+
+public final class InstallReviewedReportingPlan {
+    public static void main(String[] args) throws Exception {
+        SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
+        String reviewedDigest = System.getenv("SHAFT_APPROVED_SETUP_DIGEST");
+
+        // Recreate every policy value used by the planning phase.
+        SHAFT.Properties.infrastructure.set()
+            .profile(SetupProfile.REPORTING)
+            .mode(SetupMode.MANAGED)
+            .offline(false)
+            .autoStart(false);
+
+        if (!plan.executionPolicyDigest().equals(
+                SHAFT.Infrastructure.options().policyDigest())) {
+            throw new IllegalStateException(
+                "Current setup policy differs from the reviewed plan");
+        }
+
+        SetupApproval approval = new SetupApproval(
+            reviewedDigest, Instant.now(), Set.of());
+        SetupReceipt receipt = SHAFT.Infrastructure.install(plan, approval);
+        System.out.println(receipt.planDigest());
+    }
+}
+```
+
+Use `SHAFT.Infrastructure.catalog()`, `doctor()`, `status()`, and `verify()` for
+read-only inspection. `install(...)` and `start(...)` require both the exact
+plan and its approval; there is no unapproved mutation overload.
+
+Use an absolute plan path in both Java phases. Reproduce every property and
+path from the planning phase before installation; schema 3 rejects even a
+single policy or destination difference.
+
+The configuration defaults are:
+
+```properties
+infrastructure.mode=EXTERNAL
+infrastructure.profile=REPORTING
+infrastructure.cacheDirectory=
+infrastructure.offline=false
+infrastructure.autoStart=false
+infrastructure.preferSystemTools=true
+infrastructure.reuseOwnedProcesses=true
+infrastructure.startupTimeout=PT2M
+infrastructure.shutdownTimeout=PT30S
+```
+
+Set `infrastructure.cacheDirectory` only to an absolute path. An empty value
+uses the platform-specific SHAFT cache and application-data locations.
+
+## Interpret CLI failures
+
+| Exit code | Meaning |
+|---:|---|
+| `0` | Ready or successful. |
+| `2` | Invalid input, policy, or approval. |
+| `3` | Missing or degraded readiness. |
+| `4` | No provider supports the requested operation. |
+| `5` | Execution or integrity failure. |
+
+An install is atomic per action, not across the entire plan. If a later action
+fails, an earlier verified action can remain installed while the final profile
+receipt is absent. Fix the failure and retry the same approved plan; SHAFT
+re-verifies compatible completed state before continuing.
+
+If setup reports that both an artifact destination and its `.quarantine` recovery file exist, preserve both files and stop. Verify each against the reviewed action checksum, then deliberately retain the valid copy before retrying. Never blindly delete the quarantine: it may be the only known-good pre-replacement artifact.
+
+`start` and `stop` return unsupported for profiles without an owned service.
+SHAFT does not adopt or stop an unknown process. Use
+`shaft-cli setup logs --profile REPORTING` to read an existing provider log;
+it returns `3` when no owned log exists.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)

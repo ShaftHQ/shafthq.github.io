@@ -1,0 +1,263 @@
+---
+id: mobile
+title: "Install managed mobile infrastructure"
+sidebar_label: "Mobile infrastructure"
+description: "Plan, approve, and install SHAFT-owned Android SDK, emulator, and Appium, or iOS and Windows Appium drivers."
+slug: /start/local-infrastructure/mobile
+tags: [installation, infrastructure, cli, android, appium]
+---
+
+import {AndroidSetupCommands} from '@site/src/components/DocSnippets';
+
+# Install managed mobile infrastructure
+
+Use these steps to let SHAFT own the Android and Appium toolchain, or the
+Appium drivers for iOS and Windows. Every install follows the shared [review and approve](/docs/start/local-infrastructure#review-and-approve-an-installation) flow; policy options and exit codes are in the [infrastructure reference](/docs/start/local-infrastructure/reference).
+
+## Install managed Android and Appium
+
+:::warning[Not in a published release yet]
+The `MOBILE_ANDROID` provider is available on `SHAFT_ENGINE` `main` after
+[engine PR #4913](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4913) and its
+[readiness follow-up #4917](https://github.com/ShaftHQ/SHAFT_ENGINE/pull/4917).
+Use these commands with a source build until a containing SHAFT release is
+published.
+:::
+
+Use this profile when you want SHAFT to own one local Android emulator and its
+Appium server. The release plan contains exactly six ordered actions:
+
+1. Node 24.19.0.
+2. Appium 3.6.0.
+3. Inspector plugin 2026.7.1.
+4. UiAutomator2 8.2.2.
+5. Android command-line tools 15859902, platform-tools, Emulator, API 36,
+   build-tools 36.0.0 with `aapt2`, and a host-compatible Google APIs image.
+6. A SHAFT-owned Pixel 8 AVD.
+
+SHAFT verifies the official command-line-tools archive hash and the packaged
+Appium dependency lock before publication. It runs npm inside a versioned
+SHAFT project, not as a global install, and never enables Appium relaxed
+security for the owned server.
+
+### Check platform prerequisites
+
+Install a compatible JDK and enable hardware virtualization for your host
+before planning a runtime. On Linux, grant the current user access to KVM. On
+Windows, enable a supported Android Emulator hypervisor path. On macOS, run on
+a host that can use Apple's virtualization support. SHAFT diagnoses these
+conditions with `emulator -accel-check`; it does not elevate, enable firmware
+features, change group membership, install host drivers, or edit shell
+profiles.
+
+Keep loopback ports `5554` and `5555` free for the owned emulator. The default
+Appium port is `4723`; choose another free port with `--port` when creating the
+plan. The selected system-image ABI must match the host architecture.
+
+### Review the Android plan and license
+
+Run the shared command sequence below. Stop after `plan`, inspect all six
+actions and the printed digest, then continue with that exact digest:
+
+<AndroidSetupCommands />
+
+`android-sdk-license` is an explicit approval identifier. Omitting it or
+supplying a different identifier fails before SHAFT creates setup roots,
+starts a process, or contacts the network. SHAFT supplies consent only to the
+reviewed package installation; it does not run a blanket
+`sdkmanager --licenses` acceptance.
+
+Use these selectors on `doctor`, `status`, `plan`, `verify`, `start`, `logs`,
+or `stop`. You may repeat them on `install`, but every repeated value must
+match the plan:
+
+| Option | Release default | Constraint |
+|---|---:|---|
+| `--api-level` | `36` | Must match the release manifest. |
+| `--device-profile` | `pixel_8` | Must match the release manifest. |
+| `--image-tag` | `google_apis` | Must match the release manifest. |
+| `--abi` | `host` | Resolves to `x86_64` or `arm64-v8a` for the current host. |
+| `--avd-name` | `shaft_pixel_8_api_36` | Use a safe Android identifier. |
+| `--ram-mb` | `4096` | Choose 2048 through 32768 MB. |
+| `--cores` | `2` | Choose 1 through 16 cores. |
+| `--port` | `4723` | Choose 1024 through 65535, excluding `5554` and `5555`. |
+
+The persisted plan remains authoritative. Install reconstructs the typed
+request from the plan and rejects changed, missing, duplicate, or unknown
+selection metadata.
+
+### Use the cache and offline mode
+
+SHAFT stores verified downloads and npm cache data under its cache root. It
+stores versioned Node, Appium, Android SDK, AVD, receipts, leases, and logs
+under its data root. Set both `--cache-root` and `--data-root` to absolute,
+dedicated user paths if you override the defaults.
+
+Pass `--offline` to both plan and install when network access is prohibited.
+The Android provider currently accepts offline installation only when every
+required managed component is already present and verifies exactly. A cold,
+partial, corrupt, wrong-version, or linked state fails before npm,
+`sdkmanager`, or another setup process starts. Run one approved online install
+to populate the managed state before relying on offline reuse.
+
+### Start, inspect, and recover the owned runtime
+
+`start` requires the reviewed plan, matching approval, accepted license, and a
+compatible final receipt. It starts the emulator first and waits for the exact
+serial, Android boot completion, package manager, selected AVD, and system
+image. It then starts Appium on `127.0.0.1` and accepts it only when `/status`
+reports Appium 3.6.0.
+
+Compatible callers share a durable lease and increment its reference count.
+The final release or `setup stop` shuts down Appium, then the emulator, after
+validating each PID, start instant, command, root, and endpoint. SHAFT never
+adopts or kills an unknown process. `setup logs` reads only the two owned log
+paths and rejects a file larger than 2 MiB.
+
+If startup fails after the emulator launches, SHAFT stops only the processes
+started by that call and retains their logs. If a lease is partially alive or
+its identity differs from the live process, preserve the lease and logs and
+inspect them before manual recovery. If both processes are gone, the next
+start removes the stale lease. Resolve occupied ports, acceleration failures,
+or wrong SDK/AVD revisions, then retry the same reviewed plan.
+
+### Use the typed Java API
+
+Use `AndroidSetupRequest` with the additive `SHAFT.Infrastructure` overloads.
+The first phase writes a plan for review:
+
+```java title="PlanManagedAndroid.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.infrastructure.AndroidSetupRequest;
+import com.shaft.infrastructure.SetupMode;
+import com.shaft.infrastructure.SetupOptions;
+import com.shaft.infrastructure.SetupPlan;
+import com.shaft.infrastructure.SetupPlanStore;
+import com.shaft.infrastructure.SetupProfile;
+import com.shaft.infrastructure.ShaftCachePaths;
+
+import java.nio.file.Path;
+
+public final class PlanManagedAndroid {
+    public static void main(String[] args) throws Exception {
+        SetupOptions options = SetupOptions
+            .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
+            .withMode(SetupMode.MANAGED);
+        AndroidSetupRequest request = AndroidSetupRequest.defaults();
+        SetupPlan plan = SHAFT.Infrastructure.plan(options, request);
+        SetupPlanStore.write(Path.of(args[0]).toAbsolutePath(), plan);
+        System.out.println(plan.digest());
+    }
+}
+```
+
+Run installation and startup only after a separate review supplies the digest:
+
+```java title="RunReviewedAndroid.java"
+import com.shaft.driver.SHAFT;
+import com.shaft.infrastructure.AndroidSetupRequest;
+import com.shaft.infrastructure.ManagedEnvironment;
+import com.shaft.infrastructure.SetupApproval;
+import com.shaft.infrastructure.SetupMode;
+import com.shaft.infrastructure.SetupOptions;
+import com.shaft.infrastructure.SetupPlan;
+import com.shaft.infrastructure.SetupPlanStore;
+import com.shaft.infrastructure.SetupProfile;
+import com.shaft.infrastructure.ShaftCachePaths;
+
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.Set;
+
+public final class RunReviewedAndroid {
+    public static void main(String[] args) throws Exception {
+        SetupPlan plan = SetupPlanStore.read(Path.of(args[0]).toAbsolutePath());
+        AndroidSetupRequest request = AndroidSetupRequest.fromPlan(plan);
+        SetupOptions options = SetupOptions
+            .defaults(SetupProfile.MOBILE_ANDROID, ShaftCachePaths.current())
+            .withMode(SetupMode.MANAGED);
+        SetupApproval approval = new SetupApproval(
+            System.getenv("SHAFT_APPROVED_SETUP_DIGEST"),
+            Instant.now(),
+            Set.of("android-sdk-license"));
+
+        SHAFT.Infrastructure.install(plan, approval, options, request);
+        try (ManagedEnvironment runtime =
+                 SHAFT.Infrastructure.start(plan, approval, options, request)) {
+            System.out.println(runtime.endpoint().orElseThrow());
+        }
+    }
+}
+```
+
+Closing `ManagedEnvironment` releases this caller's lease. Another compatible
+caller can keep the same runtime alive until its own release.
+
+## Install managed iOS and Windows Appium drivers
+
+Use `MOBILE_IOS` on macOS to install SHAFT's pinned Appium, Inspector, and
+XCUITest driver bundle. Install full Xcode 14.3 or newer and create at least
+one Simulator device first. SHAFT diagnoses those host prerequisites but does
+not install Xcode, download Simulator runtimes, or change signing and device
+trust settings.
+
+```bash
+shaft-cli setup plan \
+  --profile MOBILE_IOS \
+  --mode MANAGED \
+  --output /absolute/path/mobile-ios-plan.json
+shaft-cli setup install \
+  --plan /absolute/path/mobile-ios-plan.json \
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile MOBILE_IOS --mode MANAGED
+```
+
+The default iOS plan binds the existing Simulator selection and Appium port
+`4723`. Java callers can bind one exact available Simulator UDID and a
+different loopback port; reuse the same reviewed plan for installation.
+
+Use `MOBILE_WINDOWS` on Windows to install SHAFT's pinned Appium, Inspector,
+and Windows driver bundle. Enable Developer Mode and install WinAppDriver
+1.2.1 separately before planning. SHAFT verifies that prerequisite but never
+runs the privileged WinAppDriver MSI or changes Developer Mode.
+
+```powershell
+shaft-cli setup plan `
+  --profile MOBILE_WINDOWS `
+  --mode MANAGED `
+  --output C:\plans\mobile-windows-plan.json
+shaft-cli setup install `
+  --plan C:\plans\mobile-windows-plan.json `
+  --approve sha256:<reviewed-digest>
+shaft-cli setup verify --profile MOBILE_WINDOWS --mode MANAGED
+```
+
+Both profiles keep their npm projects in separate versioned SHAFT roots. A
+lock checksum, direct package checksum, selected host metadata, execution
+policy, and destination roots are part of the approved plan. External mode
+remains diagnostic-only and creates no setup roots.
+
+### Start Appium without owning the host device
+
+`start` launches only the SHAFT-owned Appium process from a verified
+`MOBILE_IOS` or `MOBILE_WINDOWS` receipt. It does not boot or shut down a
+Simulator. It does not launch WinAppDriver and does not stop an existing
+WinAppDriver process. Pre-boot the Simulator yourself. Keep Developer Mode and
+WinAppDriver 1.2.1 already installed on Windows.
+
+Those start rules are always in force. The engine also has optional live host
+tests that skip unless you set `SHAFT_SETUP_IOS_ACCEPTANCE=true` and
+`SHAFT_SETUP_IOS_UDID` to an existing booted Simulator, or
+`SHAFT_SETUP_WINDOWS_ACCEPTANCE=true` on a Windows host that already has
+WinAppDriver. The values `1` and `yes` do not enable those tests. The
+variables do not change `shaft-cli setup start`.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)
+- [Local infrastructure overview](/docs/start/local-infrastructure)

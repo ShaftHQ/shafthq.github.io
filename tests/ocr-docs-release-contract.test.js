@@ -6,7 +6,7 @@ const root = path.resolve(__dirname, '..');
 const managedPreviewStart = '<!-- managed-ocr-preview:start -->';
 const managedPreviewEnd = '<!-- managed-ocr-preview:end -->';
 const managedPreviewPages = [
-  'docs/start/local-infrastructure.mdx',
+  'docs/start/local-infrastructure/previews.mdx',
   'docs/integrations/ocr.md',
 ];
 const currentGuidanceFiles = [
@@ -14,6 +14,10 @@ const currentGuidanceFiles = [
   'docs/integrations/ocr.md',
   'docs/reference/properties/PropertiesList.mdx',
   'docs/start/local-infrastructure.mdx',
+  'docs/start/local-infrastructure/mobile.mdx',
+  'docs/start/local-infrastructure/previews.mdx',
+  'docs/start/local-infrastructure/reference.mdx',
+  'docs/start/local-infrastructure/services.mdx',
   'docs/testing/mobile.md',
   'src/data/properties-catalog.json',
 ];
@@ -93,7 +97,7 @@ for (const operation of ['plan', 'status', 'verify', 'install']) {
   assert(selectionWorkflow.includes(`SHAFT.Infrastructure.${operation}`),
     `The future selection-aware Java workflow must retain SHAFT.Infrastructure.${operation}.`);
 }
-assert.match(splitPages.get('docs/start/local-infrastructure.mdx').preview,
+assert.match(splitPages.get('docs/start/local-infrastructure/previews.mdx').preview,
   /current OCR first-use model flow/,
   'The infrastructure preview must route current users to executable OCR guidance.');
 

@@ -5,7 +5,14 @@ const path = require('path');
 const root = path.resolve(__dirname, '..');
 const read = (relativePath) => fs.readFileSync(path.join(root, relativePath), 'utf8');
 
-const infrastructure = read('docs/start/local-infrastructure.mdx');
+// The guide is split by Diátaxis page type (#1079); the contract covers the whole set.
+const infrastructure = [
+  'docs/start/local-infrastructure.mdx',
+  'docs/start/local-infrastructure/mobile.mdx',
+  'docs/start/local-infrastructure/services.mdx',
+  'docs/start/local-infrastructure/previews.mdx',
+  'docs/start/local-infrastructure/reference.mdx',
+].map(read).join('\n');
 const normalized = infrastructure.replace(/\s+/g, ' ');
 
 assert(
@@ -175,7 +182,7 @@ for (const [name, body] of [
   ['MCP', mcp],
 ]) {
   assert(
-    body.includes('/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting'),
+    body.includes('/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting'),
     `${name} must link to the managed local AI inventory and troubleshooting section.`,
   );
 }
@@ -260,21 +267,21 @@ assert(
 
 const locators = read('docs/reference/actions/GUI/Locators_And_Self_Healing.md');
 assert(
-  locators.includes('/docs/start/local-infrastructure#install-managed-healenium'),
+  locators.includes('/docs/start/local-infrastructure/services#install-managed-healenium'),
   'The Healenium locators page must link to the managed Healenium setup flow.',
 );
 assert(
-  /## Related[\s\S]*local-infrastructure#install-managed-healenium/.test(locators),
+  /## Related[\s\S]*local-infrastructure\/services#install-managed-healenium/.test(locators),
   'The Healenium locators Related list must include the managed setup page.',
 );
 
 const browserstack = read('docs/integrations/browserstack.md');
 assert(
-  browserstack.includes('/docs/start/local-infrastructure#install-managed-browserstack-local'),
+  browserstack.includes('/docs/start/local-infrastructure/services#install-managed-browserstack-local'),
   'The BrowserStack integration page must link to the managed Local tunnel setup flow.',
 );
 assert(
-  /## Related[\s\S]*local-infrastructure#install-managed-browserstack-local/.test(browserstack),
+  /## Related[\s\S]*local-infrastructure\/services#install-managed-browserstack-local/.test(browserstack),
   'The BrowserStack Related list must include the managed Local setup page.',
 );
 

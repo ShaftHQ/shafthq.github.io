@@ -640,7 +640,7 @@ MCP results still include agent handoff blocks so the MCP client can use its own
 LLM and repository context. Native terminal commands keep the explicit provider
 and `--allow-local-ai` or `--allow-remote-ai` approval requirements.
 Managed local AI remains opt-in and local-consent only; see
-[managed local AI inventory](/docs/start/local-infrastructure#inventory-defaults-and-troubleshooting).
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
 
 Run the focused suite with:
 

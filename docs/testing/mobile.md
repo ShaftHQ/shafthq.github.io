@@ -114,7 +114,7 @@ For native execution, either connect a real Appium target or let
 `mobile_inspector_record_start` guide the agent through local setup. Android
 proposals now delegate to the shared infrastructure provider and owned
 lifecycle described in the
-[local infrastructure guide](/docs/start/local-infrastructure#install-managed-android-and-appium).
+[local infrastructure guide](/docs/start/local-infrastructure/mobile#install-managed-android-and-appium).
 MCP does not maintain a second Android downloader, npm project, SDK installer,
 or emulator process owner. Confirmation is translated into the same reviewed
 plan, `android-sdk-license` approval, compatible receipt, and lease used by the

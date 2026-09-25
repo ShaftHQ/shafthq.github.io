@@ -19,7 +19,18 @@ const sidebars = {
         // category (issue #842 architecture note).
         'start/overview',
         'start/installation',
-        'start/local-infrastructure',
+        {
+          // Diátaxis split (#1079): the overview keeps /docs/start/local-infrastructure.
+          type: 'category',
+          label: 'Set up local infrastructure',
+          link: {type: 'doc', id: 'start/local-infrastructure'},
+          items: [
+            'start/local-infrastructure/mobile',
+            'start/local-infrastructure/services',
+            'start/local-infrastructure/previews',
+            'start/local-infrastructure/reference',
+          ],
+        },
         'start/quick-start',
         'features/reporting',
         'reference/guides/CI_CD_Integration',
@@ -108,8 +119,15 @@ const sidebars = {
         // path. Sidebar id reference only — the file stays at
         // docs/start/upgrade.mdx with its original /docs/start/upgrade URL
         // (19 external inbound links + a docs-quality singleton rule + a
-        // sitemap priority tier all key off that path).
-        'start/upgrade',
+        // sitemap priority tier all key off that path). Diátaxis split (#1078):
+        // the overview keeps that URL; how-to, explanation, and reference pages
+        // live under /docs/start/upgrade/*.
+        {
+          type: 'category',
+          label: 'Upgrade to modular SHAFT',
+          link: {type: 'doc', id: 'start/upgrade'},
+          items: ['start/upgrade/run', 'start/upgrade/how-it-works', 'start/upgrade/reference'],
+        },
       ],
     },
   ],
