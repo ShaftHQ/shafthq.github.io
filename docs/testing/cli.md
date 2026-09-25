@@ -11,6 +11,14 @@ tags: [cli, terminal, docker, ssh]
 SHAFT provides terminal, Docker, SSH, and file actions with the same reporting
 model used by browser and API tests.
 
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+  through generating one.
+- The command you test available to the user that runs Maven. For Docker
+  actions, a running Docker daemon. For SSH actions, a reachable host, user, and
+  key, with secrets injected by CI rather than committed.
+
 ```mermaid
 flowchart LR
     Test --> Terminal["Terminal action"]
@@ -46,6 +54,14 @@ mvn test
 
 The command, output, and validation status are attached to the same Allure
 evidence flow as the rest of the suite.
+
+## Verify
+
+- Maven reports the test as run and passed.
+- The Allure report shows the command, its captured output, and the
+  `contains("Hello SHAFT")` validation.
+- To prove the assertion is live, change the expected text and rerun. The
+  validation fails with the captured output attached.
 
 ## Troubleshooting
 
