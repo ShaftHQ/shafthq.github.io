@@ -135,3 +135,50 @@ test('community-reported logos stay behind their native disclosure', async ({pag
   await expect(details.locator('a:has(img[src^="/img/community/"])')).toHaveCount(22);
   await expect(page.getByText('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.')).toBeVisible();
 });
+
+// Issue #1082: on phones the "Your first run" strip must read as three ordered
+// steps with one aligned text edge, stay clear of the fixed AutoBot launcher,
+// and never cause page-level horizontal scroll.
+for (const [width, height] of [[320, 700], [390, 844]]) {
+  test(`first-run strip is ordered, aligned, and clear of the launcher at ${width}px`, async ({page}) => {
+    await page.setViewportSize({width, height});
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    await page.goto('/');
+    const strip = page.locator('#first-run-label').locator('..');
+    await expect(strip).toBeVisible();
+    const launcher = page.getByRole('button', {name: 'Open AutoBot Chat'});
+    await expect(launcher).toBeVisible({timeout: 10_000});
+
+    const geometry = await strip.evaluate((el) => {
+      const items = [...el.querySelectorAll('ol > li')];
+      const textLeft = (node) => {
+        const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {acceptNode: (t) => (t.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT)});
+        const text = walker.nextNode();
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        return range.getBoundingClientRect().left;
+      };
+      return {
+        markers: items.map((li) => getComputedStyle(li, '::before').content),
+        textLefts: items.map((li) => Math.round(textLeft(li))),
+        boxes: items.map((li) => li.getBoundingClientRect().toJSON()),
+        strip: el.getBoundingClientRect().toJSON(),
+        pageOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      };
+    });
+
+    expect.soft(geometry.pageOverflow, 'no page-level horizontal scroll').toBeLessThanOrEqual(0);
+    expect(geometry.markers.length).toBe(3);
+    for (const marker of geometry.markers) {
+      expect.soft(marker, 'each step shows a visible ordinal').toMatch(/^"?\d/);
+    }
+    expect.soft(new Set(geometry.textLefts).size, `step text shares one left edge: ${geometry.textLefts}`).toBe(1);
+    for (let i = 1; i < geometry.boxes.length; i++) {
+      expect.soft(geometry.boxes[i].top, 'steps do not overlap').toBeGreaterThanOrEqual(geometry.boxes[i - 1].bottom - 0.5);
+    }
+    const bot = await launcher.boundingBox();
+    const s = geometry.strip;
+    const intersects = s.left < bot.x + bot.width && s.right > bot.x && s.top < bot.y + bot.height && s.bottom > bot.y;
+    expect.soft(intersects, `strip ${JSON.stringify(s)} must not sit under the launcher ${JSON.stringify(bot)}`).toBe(false);
+  });
+}
