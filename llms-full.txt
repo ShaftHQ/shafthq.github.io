@@ -2501,6 +2501,15 @@ Canonical URL: https://shafthq.github.io/docs/testing/api
 Start here when you want one REST call, one assertion, and request/response
 evidence in the same report as your browser and mobile tests.
 
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one.
+- Network access from the test machine to the API under test (the sample calls
+ `restcountries.com`), including any proxy settings your network requires.
+- Credentials for protected APIs, kept outside source control. See
+ [API Authentication](/docs/reference/actions/API/API_Authentication).
+
 ```java
 
 public class CountryApiTest {
@@ -2541,6 +2550,14 @@ under . If the request fails before assertions, check the
 base URI, proxy settings, authentication, and whether automatic `2xx` status
 assertion is appropriate for the scenario.
 
+## Verify
+
+- Maven reports the test as run and passed.
+- The Allure report for the test shows the request, the response status,
+ headers, and body, and the `extractedJsonValue` assertion.
+- To prove the assertion is live, change `"Egypt"` to another value and rerun.
+ The test fails, and the report shows the expected and actual values.
+
 ## First useful next steps
 
 | Need | Start with |
@@ -2568,6 +2585,14 @@ Canonical URL: https://shafthq.github.io/docs/testing/cli
 
 SHAFT provides terminal, Docker, SSH, and file actions with the same reporting
 model used by browser and API tests.
+
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one.
+- The command you test available to the user that runs Maven. For Docker
+ actions, a running Docker daemon. For SSH actions, a reachable host, user, and
+ key, with secrets injected by CI rather than committed.
 
 ```mermaid
 flowchart LR
@@ -2605,6 +2630,14 @@ mvn test
 The command, output, and validation status are attached to the same Allure
 evidence flow as the rest of the suite.
 
+## Verify
+
+- Maven reports the test as run and passed.
+- The Allure report shows the command, its captured output, and the
+ `contains("Hello SHAFT")` validation.
+- To prove the assertion is live, change the expected text and rerun. The
+ validation fails with the captured output attached.
+
 ## Troubleshooting
 
 | Symptom | Check |
@@ -2630,6 +2663,16 @@ Canonical URL: https://shafthq.github.io/docs/testing/database
 
 Use SHAFT database actions to open a JDBC connection, execute statements, and
 attach query evidence to the test report.
+
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one.
+- The JDBC driver dependency for the database you connect to, on the test
+ classpath. See [connection strings](/docs/reference/actions/DB/Connection_Strings)
+ and, for Oracle, the [Oracle setup](/docs/reference/actions/DB/Oracle_JDBC_Setup).
+- A reachable, disposable database or schema with read permission. Keep
+ credentials outside source control.
 
 ```mermaid
 flowchart LR
@@ -2666,6 +2709,14 @@ The query, connection target, and validation result are attached to the test
 report. If the connection fails, verify the JDBC URL, driver dependency,
 network route, schema permissions, and whether CI has the required secret
 values.
+
+## Verify
+
+- Maven reports the test as run and passed.
+- The report for the test shows the query, the connection target, and the
+ validation result.
+- If the connection fails, work through the checks above in order: JDBC URL,
+ driver dependency, network route, schema permissions, CI secrets.
 
 ## Choose the next reference
 
@@ -2784,6 +2835,15 @@ public class FlutterLoginSample {
 
 Without `-Dshaft.enableFlutterE2E=true`, FlutterTest throws SkipException so
 PR-gate unit jobs stay green with no emulator.
+
+## Verify
+
+- Maven reports `FlutterTest` as run, not skipped. A skipped test means
+ `-Dshaft.enableFlutterE2E=true` was not passed.
+- The tap, type, and assert steps pass against the debug APK. A release APK
+ fails with `Flutter server is not started`.
+- If the session doesn't start, check the [common pitfalls](#common-pitfalls)
+ below: driver package, automation name, and APK build type.
 
 ## SHAFT CI jobs (after #5755)
 
@@ -3115,6 +3175,17 @@ SHAFT uses the same `SHAFT.GUI.WebDriver` facade for browser and Appium
 sessions. Configure the Appium endpoint, platform, automation name, and app,
 then create the driver normally.
 
+## Prerequisites 
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one.
+- An Appium endpoint. Use either the SHAFT-managed Android runtime (see
+ [Run a test on the managed Android runtime](#run-a-test-on-the-managed-android-runtime))
+ or an existing Appium server, device farm, or Grid set through
+ `executionAddress`.
+- The app under test, and properties for the platform, automation name, and
+ device. See [mobile configuration](/docs/reference/configuration/mobileConfig).
+
 ```java
 SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
 
@@ -3136,6 +3207,13 @@ flowchart LR
  Appium --> Flutter
  SHAFT --> Report["Allure evidence"]
 ```
+
+## Verify 
+
+- The driver session starts and Maven reports the test as run and passed.
+- The Allure report shows the tap and the existence assertion.
+- When a touch action fails, `shaft-trace.json` records it as a `touch` event
+ (see [Mobile failure trace evidence](#mobile-failure-trace-evidence)).
 
 ## Click and type by control kind
 
@@ -3842,7 +3920,7 @@ public class FlutterAppTestSuite {
 
 - [Testing overview](/docs/start/overview)
 - [Features](/docs/features/modules)
-- [Appium Flutter Driver documentation](https://github.com/appium-userland/appium-flutter-integration-driver)
+- [Appium Flutter Driver documentation](https://github.com/AppiumTestDistribution/appium-flutter-integration-driver)
 - [Flutter testing guide](https://flutter.dev/docs/testing)
 - [Appium Java client](https://github.com/appium/java-client) for native `AppiumBy.flutter*` locators
 - [SHAFT Engine issues](https://github.com/ShaftHQ/SHAFT_ENGINE/issues)
@@ -3863,6 +3941,15 @@ sensitive fields, and can later replay or validate the same exchanges.
 
 Contract mode is opt-in. Existing browser interception, API calls, and reporting
 behave the same until a test starts recording, replay, assert, or verify mode.
+
+## Prerequisites
+
+- A working [web test](/docs/testing/web) (`SHAFT.GUI.WebDriver`) or
+ [API test](/docs/testing/api) (`SHAFT.API`) for the journey you want to keep.
+- A writable fixtures path for the contract JSON, for example
+ `src/test/resources/contracts/`.
+- Agreement that the target environment allows its traffic to be kept as test
+ evidence. See [Redaction and normalization](#redaction-and-normalization).
 
 ## Record a contract
 
@@ -3969,6 +4056,18 @@ Keep recorded contracts in test resources or a dedicated fixtures directory.
 Do not commit production secrets, session-specific personal data, or contracts
 captured from environments that do not allow test evidence retention.
 
+## Verify
+
+- After a recording run, the contract JSON exists at the path you passed.
+ Sensitive headers, query parameters, and body fields are redacted, and
+ volatile values are normalized.
+- A replay run passes with the recorded responses served as browser network
+ mocks.
+- In assert or verify mode, change the live behavior (or edit one recorded
+ value) and rerun. The report attaches an `HTTP Contract Diff - METHOD path`
+ artifact. Assert mode fails immediately, and verify mode collects every
+ mismatch.
+
 ## Related
 
 - [Web testing](/docs/testing/web)
@@ -3986,6 +4085,15 @@ Canonical URL: https://shafthq.github.io/docs/testing/web
 
 Start here when you want one browser test that opens a page, performs an
 action, asserts a result, and leaves screenshot/report evidence.
+
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one, and lists the required Java version under
+ [Requirements](/docs/start/installation#requirements).
+- The browser named by `targetBrowserName` installed on the machine, or the
+ generated headless defaults. See [web configuration](/docs/reference/configuration/webConfig).
+- Network access to the page under test (the sample opens `duckduckgo.com`).
 
 ```java
 
@@ -4037,6 +4145,18 @@ Run the generated or copied test from the project root:
 The report includes browser steps, screenshots, logs, and assertion results
 under . If the browser never opens, check Java/Maven first,
 then browser installation, then `targetBrowserName` and `headlessExecution`.
+
+## Verify
+
+- Maven reports the test as run and passed. A passing build that reports
+ `Total: 0` tests means the test runner provider is missing. See
+ [Install SHAFT](/docs/start/installation#adding-shaft-to-an-existing-maven-project).
+- The Allure report shows the navigate, type, and title-assertion steps with
+ their logs.
+- To prove the assertion is live, change the expected title to a wrong value and
+ rerun. The test fails, and with the default `FAILURE_ONLY`
+ [evidence level](/docs/reference/reporting#evidence-level-profiles) the report
+ attaches a screenshot and page source for the failure.
 
 ## Locator strategy
 
@@ -17871,13 +17991,6 @@ setParallel=METHODS
 setThreadCount=3
 ```
 
-### Example Repository
-
-:::info Demo Project
-For a complete working example, visit this repository:
-**[SHAFT Engine - Parallel Execution with ThreadLocal Demo](https://github.com/MustafaAgamy/ShaftEngine-ParallelWithThreadLocal.git)**
-:::
-
 ---
 
 ## Best Practices and Tips
@@ -24225,6 +24338,19 @@ Cloudflare environment variables; do not commit secrets.
 
 GitHub Pages uses `.github/workflows/deploy.yml` and publishes `build/` as the
 canonical public guide at `https://shafthq.github.io/`.
+
+## Scheduled checks
+
+- `.github/workflows/link-check.yml` runs lychee weekly (Monday) with
+ `lychee.toml`. It never fails a PR; on broken external links it opens or
+ updates one issue labelled `broken-links`, and closes it when a later run is
+ clean. Internal links and anchors are enforced by `yarn build`.
+- `.github/workflows/a11y-nightly.yml` builds the site and runs
+ `scripts/a11y-sitewide.mjs` every night: axe (WCAG 2.2 A/AA) on every page in
+ light and dark themes plus a 320px page-overflow sweep. The report is uploaded
+ as an artifact, and one issue labelled `accessibility` is opened, updated, or
+ closed. Run it locally against a served build with
+ `node scripts/a11y-sitewide.mjs --base http://127.0.0.1:3000 --build build`.
 
 ## Egypt accessibility
 
