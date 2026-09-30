@@ -144,6 +144,7 @@
 .section h2[id] { scroll-margin-top: var(--site-anchor-offset); }
 .section h3 { font-size: var(--site-font-card-title-lg); line-height: 1.2; }
 .intro { max-width: 66ch; font-size: var(--site-font-body-large); line-height: 1.6; }
+.intro a { text-decoration: underline; }
 .eyebrow { margin-bottom: 0.65rem; color: var(--site-color-primary); font-size: var(--site-font-label); font-weight: var(--site-font-weight-bold); letter-spacing: 0.04em; text-transform: uppercase; }
 
 .workflowSection { background: var(--ifm-background-surface-color); }
