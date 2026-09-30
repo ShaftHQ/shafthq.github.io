@@ -162,6 +162,42 @@ body.dark {
   }
 }
 
+/* Prose that used to live in wide tables (#1085). Terms wrap; the page does not. */
+.fact-list {
+  margin: 0 0 1.25rem;
+}
+
+.fact-list dt {
+  margin-top: 0.85rem;
+  font-weight: var(--site-font-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.fact-list dd {
+  margin: 0.2rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.doc-orientation {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  background: var(--ifm-background-surface-color);
+}
+
+.doc-orientation p {
+  margin: 0;
+}
+
+.doc-orientation p + p {
+  margin-top: 0.45rem;
+}
+
+.doc-agent-pointer {
+  font-size: var(--site-font-small);
+}
+
 .doc-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

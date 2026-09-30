@@ -258,7 +258,7 @@ project and return the upgrader command first. The command should be in its own
 fenced block, and the agent should wait for you to run it before source edits.
 Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
 copyable command; this page documents the IDE workflow around that command.
-The setup wizard's **Upgrade project** step (see above) offers the same
+The setup wizard's **Upgrade project** step, in the prerequisites sequence on this page, offers the same
 command as a one-click copy before you ever open the Assistant chat; this
 chat-driven flow and the **Projects** workflow's upgrade template are
 alternatives for triggering it later, mid-session, with repository-aware

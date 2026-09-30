@@ -8,6 +8,7 @@ const docsRoot = path.join(root, 'docs');
 const configPath = path.join(root, 'docusaurus.config.js');
 const llmsTxtPath = path.join(root, 'static', 'llms.txt');
 const llmsFullTxtPath = path.join(root, 'static', 'llms-full.txt');
+const markdownRoot = path.join(root, 'static', 'md');
 
 // docusaurus.config.js mixes `require()` with a top-level `export default`,
 // which only runs through Docusaurus's own config loader (esbuild-backed
@@ -112,12 +113,16 @@ async function loadPages(siteUrl, baseUrl) {
 
     const route = docRoute(relativePath, frontmatter.slug);
     const url = new URL(route.replace(/^\//u, ''), absoluteBase).toString();
+    const markdownPath = `/md${route.replace(/^\/docs/u, '')}.md`;
+    const markdownUrl = new URL(markdownPath.replace(/^\//u, ''), absoluteBase).toString();
 
     pages.push({
       path: relativePath,
       category,
       title: frontmatter.title,
       description: frontmatter.description ?? '',
+      markdownPath,
+      markdownUrl,
       sidebarPosition: frontmatter.sidebarPosition,
       url,
       content: pathChunks.map((chunk) => chunk.content).join('\n\n'),
@@ -134,8 +139,21 @@ async function loadPages(siteUrl, baseUrl) {
   return pages;
 }
 
+function oneLine(value, max = 140) {
+  const flat = value.replace(/\s+/gu, ' ').trim();
+  if (flat.length <= max) return flat;
+  return `${flat.slice(0, max - 1).trimEnd()}…`;
+}
+
 function buildLlmsTxt(pages, siteName, siteDescription) {
-  const lines = [`# ${siteName}`, '', `> ${siteDescription}`, ''];
+  const lines = [
+    `# ${siteName}`,
+    '',
+    `> ${oneLine(siteDescription, 240)}`,
+    '',
+    'Markdown links below are the token-lean form of each guide page. The HTML page is named inside that file.',
+    '',
+  ];
 
   for (const category of CATEGORY_ORDER) {
     const categoryPages = pages.filter((page) => page.category === category);
@@ -143,8 +161,8 @@ function buildLlmsTxt(pages, siteName, siteDescription) {
 
     lines.push(`## ${CATEGORY_LABELS[category]}`);
     for (const page of categoryPages) {
-      const description = page.description ? `: ${page.description}` : '';
-      lines.push(`- [${page.title}](${page.url})${description}`);
+      const description = page.description ? `: ${oneLine(page.description)}` : '';
+      lines.push(`- [${page.title}](${page.markdownUrl})${description}`);
     }
     lines.push('');
   }
@@ -161,7 +179,8 @@ function buildLlmsFullTxt(pages, siteName, siteDescription) {
       '',
       `# ${page.title}`,
       '',
-      `Canonical URL: ${page.url}`,
+      `Canonical HTML: ${page.url}`,
+      `Markdown: ${page.markdownUrl}`,
       '',
       page.content,
       '',
@@ -183,5 +202,24 @@ await mkdir(path.dirname(llmsTxtPath), {recursive: true});
 await writeFile(llmsTxtPath, llmsTxt, 'utf8');
 await writeFile(llmsFullTxtPath, llmsFullTxt, 'utf8');
 
+const indexUrl = new URL('llms.txt', new URL(baseUrl, `${siteUrl.replace(/\/$/u, '')}/`)).toString();
+for (const page of pages) {
+  const destination = path.join(markdownRoot, page.markdownPath.replace(/^\/md\//u, ''));
+  const body = [
+    `# ${page.title}`,
+    '',
+    page.description,
+    '',
+    `Canonical HTML: ${page.url}`,
+    `Guide index: ${indexUrl}`,
+    '',
+    page.content.trim(),
+    '',
+  ].join('\n');
+  await mkdir(path.dirname(destination), {recursive: true});
+  await writeFile(destination, body, 'utf8');
+}
+
 console.log(`Wrote ${pages.length} pages to static/llms.txt (${Buffer.byteLength(llmsTxt)} bytes).`);
 console.log(`Wrote ${pages.length} pages to static/llms-full.txt (${Buffer.byteLength(llmsFullTxt)} bytes).`);
+console.log(`Wrote ${pages.length} Markdown pages under static/md/.`);

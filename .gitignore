@@ -10,6 +10,7 @@
 static/autobot-index.json
 static/llms.txt
 static/llms-full.txt
+static/md/
 /graphify-out/
 TEST_REPORT.md
 test-screenshots/
