@@ -47,4 +47,60 @@ assert.match(
   'The PR build must run the homepage contract unconditionally before building the site.',
 );
 
+function compareSemver(left, right) {
+  const a = left.split('.').map((part) => Number(part));
+  const b = right.split('.').map((part) => Number(part));
+  const width = Math.max(a.length, b.length);
+  for (let index = 0; index < width; index += 1) {
+    const delta = (a[index] || 0) - (b[index] || 0);
+    if (delta !== 0) {
+      return delta;
+    }
+  }
+  return 0;
+}
+
+function lockedPackages(lockText, name) {
+  const entries = [];
+  const blocks = lockText.split(/\n(?=\S)/);
+  for (const block of blocks) {
+    const header = block.slice(0, block.indexOf('\n') === -1 ? block.length : block.indexOf('\n'));
+    const requests = header.split(',').map((part) => part.trim().replace(/^"|"$/g, ''));
+    if (!requests.some((request) => request === name || request.startsWith(`${name}@`))) {
+      continue;
+    }
+    const version = block.match(/\n  version "([^"]+)"/);
+    assert.ok(version, `yarn.lock entry for ${name} must record an installed version`);
+    entries.push({ requests, version: version[1] });
+  }
+  assert.ok(entries.length > 0, `yarn.lock must install ${name}`);
+  return entries;
+}
+
+const lockText = fs.readFileSync(path.join(repoRoot, 'yarn.lock'), 'utf8');
+const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'));
+const qsFloor = '6.16.0';
+for (const pin of [packageJson.resolutions.qs, packageJson.overrides.qs]) {
+  const floor = String(pin).replace(/^[^\d]*/, '');
+  assert.ok(
+    compareSemver(floor, qsFloor) >= 0,
+    `qs pin ${pin} must be at least ${qsFloor}`,
+  );
+}
+for (const entry of lockedPackages(lockText, 'qs')) {
+  assert.ok(
+    compareSemver(entry.version, qsFloor) >= 0,
+    `installed qs ${entry.version} (${entry.requests.join(', ')}) must be >= ${qsFloor}`,
+  );
+}
+for (const entry of lockedPackages(lockText, 'postcss-selector-parser')) {
+  const major = Number(entry.version.split('.')[0]);
+  const floor = major === 6 ? '6.1.3' : major === 7 ? '7.1.3' : null;
+  assert.ok(floor, `unexpected postcss-selector-parser major in ${entry.version}`);
+  assert.ok(
+    compareSemver(entry.version, floor) >= 0,
+    `installed postcss-selector-parser ${entry.version} (${entry.requests.join(', ')}) must be >= ${floor}`,
+  );
+}
+
 console.log('Security regression checks passed.');
