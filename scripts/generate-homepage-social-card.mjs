@@ -1,6 +1,6 @@
 import {readFile, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import path from 'node:path';
 import {deflateSync, inflateSync} from 'node:zlib';
 
@@ -8,6 +8,18 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 const PNG_SIGNATURE = Buffer.from('89504e470d0a1a0a', 'hex');
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+/** Resolve `candidate` and reject anything that leaves `root` after normalization. */
+export function resolveInsideRoot(root, candidate) {
+  if (typeof candidate !== 'string' || candidate.length === 0) throw new Error('path is required');
+  const resolvedRoot = path.resolve(root);
+  const resolved = path.resolve(resolvedRoot, candidate);
+  const prefix = resolvedRoot.endsWith(path.sep) ? resolvedRoot : resolvedRoot + path.sep;
+  if (resolved !== resolvedRoot && !resolved.startsWith(prefix)) {
+    throw new Error(`path escapes ${resolvedRoot}`);
+  }
+  return resolved;
+}
 
 function decodePng(buffer) {
   if (!buffer.subarray(0, 8).equals(PNG_SIGNATURE)) throw new Error('Expected a PNG source asset.');
@@ -174,6 +186,11 @@ function drawScaledContain(image, x, y, width, height, background) {
 }
 
 async function generateCard(output) {
+  const resolvedRoot = path.resolve(repoRoot);
+  const cardPath = path.resolve(resolvedRoot, output);
+  if (!cardPath.startsWith(`${resolvedRoot}${path.sep}`)) {
+    throw new Error(`path escapes ${resolvedRoot}`);
+  }
   const logoSvg = await readFile(path.join(repoRoot, 'static', 'img', 'shaft.svg'), 'utf8');
   const embeddedLogo = logoSvg.match(/base64,([^"']+)/)?.[1];
   if (!embeddedLogo) throw new Error('SHAFT identity SVG does not contain its embedded PNG source.');
@@ -193,26 +210,39 @@ async function generateCard(output) {
   fillRect(66, 480, 190, 6, [76, 194, 255, 220]);
   fillRect(66, 502, 230, 6, [200, 214, 231, 160]);
   fillRect(66, 524, 160, 6, [200, 214, 231, 120]);
-  await writeFile(output, encodePng(WIDTH, HEIGHT, canvas));
+  await writeFile(cardPath, encodePng(WIDTH, HEIGHT, canvas));
 }
 
-const [mode, ...args] = process.argv.slice(2);
-if (mode === '--inspect') {
-  const image = decodePng(await readFile(path.resolve(args[0])));
-  process.stdout.write(JSON.stringify({
-    width: image.width,
-    height: image.height,
-    bitDepth: image.bitDepth,
-    colorType: image.colorType,
-    pixelHash: createHash('sha256').update(image.pixels).digest('hex'),
-  }));
-} else if (mode === '--reencode') {
-  const image = decodePng(await readFile(path.resolve(args[0])));
-  await writeFile(path.resolve(args[1]), encodePng(image.width, image.height, image.pixels, Number(args[2])));
-} else if (mode === '--mutate-first-pixel') {
-  const image = decodePng(await readFile(path.resolve(args[0])));
-  image.pixels[0] ^= 1;
-  await writeFile(path.resolve(args[1]), encodePng(image.width, image.height, image.pixels));
-} else {
-  await generateCard(mode ? path.resolve(mode) : path.join(repoRoot, 'static', 'img', 'shaft-social-card.png'));
+const isDirectRun = process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isDirectRun) {
+  const [mode, ...args] = process.argv.slice(2);
+  if (mode === '--inspect') {
+    const imagePath = path.resolve(repoRoot, args[0]);
+    if (!imagePath.startsWith(`${path.resolve(repoRoot)}${path.sep}`)) throw new Error('path escapes repository');
+    const image = decodePng(await readFile(imagePath));
+    process.stdout.write(JSON.stringify({
+      width: image.width,
+      height: image.height,
+      bitDepth: image.bitDepth,
+      colorType: image.colorType,
+      pixelHash: createHash('sha256').update(image.pixels).digest('hex'),
+    }));
+  } else if (mode === '--reencode') {
+    const sourcePath = path.resolve(repoRoot, args[0]);
+    const targetPath = path.resolve(repoRoot, args[1]);
+    const rootPrefix = `${path.resolve(repoRoot)}${path.sep}`;
+    if (!sourcePath.startsWith(rootPrefix) || !targetPath.startsWith(rootPrefix)) throw new Error('path escapes repository');
+    const image = decodePng(await readFile(sourcePath));
+    await writeFile(targetPath, encodePng(image.width, image.height, image.pixels, Number(args[2])));
+  } else if (mode === '--mutate-first-pixel') {
+    const sourcePath = path.resolve(repoRoot, args[0]);
+    const targetPath = path.resolve(repoRoot, args[1]);
+    const rootPrefix = `${path.resolve(repoRoot)}${path.sep}`;
+    if (!sourcePath.startsWith(rootPrefix) || !targetPath.startsWith(rootPrefix)) throw new Error('path escapes repository');
+    const image = decodePng(await readFile(sourcePath));
+    image.pixels[0] ^= 1;
+    await writeFile(targetPath, encodePng(image.width, image.height, image.pixels));
+  } else {
+    await generateCard(mode ? mode : path.join(repoRoot, 'static', 'img', 'shaft-social-card.png'));
+  }
 }

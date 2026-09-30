@@ -8,6 +8,7 @@
 // Exit code: 0 when clean, 1 when any violation or overflow is found, 2 on setup error.
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {chromium} from '@playwright/test';
 import AxeBuilderModule from '@axe-core/playwright';
 
@@ -31,6 +32,31 @@ const skipPath = (p) =>
   p.startsWith('/docs/archive') || p.startsWith('/blog/tags') || p.startsWith('/blog/page') ||
   p.startsWith('/search') || p.includes('/blog/archive') || p.includes('/blog/authors');
 
+const blockedPropertyNames = new Set(['__proto__', 'constructor', 'prototype']);
+
+/** Sitemap and axe keys may be stored only when they cannot become an object prototype write. */
+export function safeReportKey(key) {
+  if (typeof key !== 'string' || key.length === 0 || key.length > 300) throw new Error('rejected report key');
+  if (blockedPropertyNames.has(key) || key.split(/[:\s/]/).some((part) => blockedPropertyNames.has(part))) {
+    throw new Error('rejected report key');
+  }
+  if (!/^(?:\/[A-Za-z0-9._~/-]*|[A-Za-z0-9][A-Za-z0-9_.: /~-]*)$/.test(key) || key.includes('..')) {
+    throw new Error('rejected report key');
+  }
+  return key;
+}
+
+function publicRecord(map) {
+  const out = Object.create(null);
+  for (const [key, value] of map) {
+    const safe = safeReportKey(key);
+    out[safe] = value instanceof Map ? publicRecord(value) : value;
+  }
+  return out;
+}
+
+const isDirectRun = process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isDirectRun) {
 const sitemap = path.join(buildDir, 'sitemap.xml');
 if (!fs.existsSync(sitemap)) {
   console.error(`Missing ${sitemap}; run yarn build first.`);
@@ -41,16 +67,19 @@ const paths = [...fs.readFileSync(sitemap, 'utf8').matchAll(/<loc>https?:\/\/[^/
   .filter((p) => !skipPath(p));
 
 const browser = await chromium.launch();
-const violations = {};
-const errors = {};
-const overflow = {};
+const violations = new Map();
+const errors = new Map();
+const overflow = new Map();
 const record = (theme, page, result) => {
+  const pageKey = safeReportKey(page);
   for (const violation of result.violations) {
-    const entry = (violations[`${theme}:${violation.id}`] ??= {
-      rule: violation.id, theme, impact: violation.impact, help: violation.helpUrl, nodes: 0, pages: {}, samples: [],
-    });
+    const groupKey = safeReportKey(`${theme}:${violation.id}`);
+    const entry = violations.get(groupKey) ?? {
+      rule: violation.id, theme, impact: violation.impact, help: violation.helpUrl, nodes: 0, pages: new Map(), samples: [],
+    };
+    violations.set(groupKey, entry);
     entry.nodes += violation.nodes.length;
-    entry.pages[page] = violation.nodes.length;
+    entry.pages.set(pageKey, violation.nodes.length);
     for (const node of violation.nodes.slice(0, 2)) {
       if (entry.samples.length < 8) entry.samples.push(`${page} ${node.target.join(' ')}`);
     }
@@ -67,7 +96,7 @@ const axeWorker = async (theme, list) => {
       for (const selector of excluded) builder = builder.exclude(selector);
       record(theme, p, await builder.analyze());
     } catch (error) {
-      errors[`${theme} ${p}`] = String(error).slice(0, 200);
+      errors.set(safeReportKey(`${theme} ${p}`), String(error).slice(0, 200));
     }
   }
   await context.close();
@@ -79,9 +108,9 @@ const overflowWorker = async (list) => {
     try {
       await page.goto(`${base}${p}`, {waitUntil: 'load', timeout: 30_000});
       const extra = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
-      if (extra > 0) overflow[p] = extra;
+      if (extra > 0) overflow.set(safeReportKey(p), extra);
     } catch (error) {
-      errors[`320 ${p}`] = String(error).slice(0, 200);
+      errors.set(safeReportKey(`320 ${p}`), String(error).slice(0, 200));
     }
   }
   await context.close();
@@ -94,8 +123,18 @@ await Promise.all([
 ]);
 await browser.close();
 
-const totalNodes = Object.values(violations).reduce((sum, entry) => sum + entry.nodes, 0);
-const report = {base, pageCount: paths.length, themes: ['light', 'dark'], totalNodes, violations, overflow320: overflow, errors};
+const totalNodes = [...violations.values()].reduce((sum, entry) => sum + entry.nodes, 0);
+const violationReport = Object.create(null);
+for (const [key, entry] of violations) {
+  violationReport[safeReportKey(key)] = {
+    rule: entry.rule, theme: entry.theme, impact: entry.impact, help: entry.help,
+    nodes: entry.nodes, pages: publicRecord(entry.pages), samples: entry.samples,
+  };
+}
+const report = {
+  base, pageCount: paths.length, themes: ['light', 'dark'], totalNodes,
+  violations: violationReport, overflow320: publicRecord(overflow), errors: publicRecord(errors),
+};
 fs.writeFileSync(outFile, `${JSON.stringify(report, null, 2)}\n`);
 const lines = [
   `# Full-site accessibility scan`,
@@ -103,20 +142,21 @@ const lines = [
   `Scanned ${paths.length} pages in light and dark themes (axe-core, WCAG 2.2 A/AA tags) plus a 320px overflow sweep.`,
   '',
   `- Violation nodes: **${totalNodes}**`,
-  `- Pages with page-level horizontal scroll at 320px: **${Object.keys(overflow).length}**`,
-  `- Pages that failed to load: **${Object.keys(errors).length}**`,
+  `- Pages with page-level horizontal scroll at 320px: **${overflow.size}**`,
+  `- Pages that failed to load: **${errors.size}**`,
   '',
 ];
 if (totalNodes) {
   lines.push('| Theme | Rule | Impact | Nodes | Pages | Example |', '| --- | --- | --- | --- | --- | --- |');
-  for (const entry of Object.values(violations)) {
-    lines.push(`| ${entry.theme} | [${entry.rule}](${entry.help}) | ${entry.impact} | ${entry.nodes} | ${Object.keys(entry.pages).length} | \`${entry.samples[0] ?? ''}\` |`);
+  for (const entry of violations.values()) {
+    lines.push(`| ${entry.theme} | [${entry.rule}](${entry.help}) | ${entry.impact} | ${entry.nodes} | ${entry.pages.size} | \`${entry.samples[0] ?? ''}\` |`);
   }
   lines.push('');
 }
-for (const [p, extra] of Object.entries(overflow)) lines.push(`- 320px overflow: \`${p}\` (+${extra}px)`);
-for (const [p, error] of Object.entries(errors)) lines.push(`- Load error: \`${p}\`: ${error}`);
+for (const [p, extra] of overflow) lines.push(`- 320px overflow: \`${p}\` (+${extra}px)`);
+for (const [p, error] of errors) lines.push(`- Load error: \`${p}\`: ${error}`);
 const markdown = `${lines.join('\n')}\n`;
 if (markdownFile) fs.writeFileSync(markdownFile, markdown);
 console.log(markdown);
-process.exit(totalNodes || Object.keys(overflow).length || Object.keys(errors).length ? 1 : 0);
+process.exit(totalNodes || overflow.size || errors.size ? 1 : 0);
+}

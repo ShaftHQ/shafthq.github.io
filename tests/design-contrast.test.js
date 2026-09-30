@@ -42,11 +42,15 @@ function extractBlock(source, selectorPattern) {
   throw new Error(`custom.css selector ${selectorMatch[0]} never closes its brace`);
 }
 
-function parsePalette(block) {
-  const palette = {};
-  const tokenPattern = /--site-color-([a-z-]+?):\s*(#[0-9a-fA-F]{3,8})\s*;/g;
+const blockedPaletteNames = new Set(['__proto__', 'constructor', 'prototype']);
+
+export function parsePalette(block) {
+  const palette = new Map();
+  const tokenPattern = /--site-color-([a-z][a-z0-9-]{0,40}):\s*(#[0-9a-fA-F]{3,8})\s*;/g;
   for (const match of block.matchAll(tokenPattern)) {
-    palette[match[1]] = match[2];
+    const name = match[1];
+    if (blockedPaletteNames.has(name)) continue;
+    palette.set(name, match[2]);
   }
   return palette;
 }
@@ -58,8 +62,8 @@ const darkPalette = parsePalette(darkBlock);
 
 const requiredTokens = ['primary', 'deep', 'deep-alt', 'muted', 'on-dark'];
 for (const token of requiredTokens) {
-  assert(lightPalette[token], `light :root palette is missing --site-color-${token}`);
-  assert(darkPalette[token], `dark :root[data-theme='dark'] palette is missing --site-color-${token}`);
+  assert(lightPalette.get(token), `light :root palette is missing --site-color-${token}`);
+  assert(darkPalette.get(token), `dark :root[data-theme='dark'] palette is missing --site-color-${token}`);
 }
 
 // --- WCAG 2.x contrast math --------------------------------------------------------------
@@ -165,8 +169,8 @@ function auditPalette(themeName, palette) {
   const rows = [];
   for (const pair of pairs) {
     if (pair.themes && !pair.themes.includes(themeName)) continue;
-    const fgHex = palette[pair.fg];
-    const bgHex = palette[pair.bg];
+    const fgHex = palette.get(pair.fg);
+    const bgHex = palette.get(pair.bg);
     const ratio = contrastRatio(fgHex, bgHex);
     const threshold = thresholds[pair.size];
     rows.push({

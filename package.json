@@ -20,7 +20,7 @@
     "test:a11y:contract": "node tests/accessibility-audit-contract.test.js",
     "test:playwright:contract": "node tests/playwright-worktree-isolation.test.js",
     "test:graphify": "node tests/graphify-maintenance.test.js",
-    "test:security": "node tests/security-regressions.test.js",
+    "test:security": "node tests/security-regressions.test.js && node tests/codeql-sink-guards.test.mjs",
     "test:history": "node tests/chat-history.test.js",
     "test:homepage": "node tests/homepage-performance.test.js",
     "test:project-generator": "node tests/project-generator-maturity.test.js",
