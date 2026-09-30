@@ -59,6 +59,7 @@ const sidebars = {
         'start/quick-start',
         'start/upgrade',
         'start/upgrade/run',
+        'start/upgrade/how-it-works',
         'start/upgrade/reference',
         'agentic/skills',
         'agentic/intellij',
