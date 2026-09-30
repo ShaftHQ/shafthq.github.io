@@ -54,6 +54,19 @@ function isPortAvailable(port) {
 }
 
 async function isSiteAvailable(baseUrl) {
+  let parsed;
+  try {
+    parsed = new URL(baseUrl);
+  } catch {
+    return false;
+  }
+  const hostname = parsed.hostname;
+  if (hostname !== '127.0.0.1' && hostname !== 'localhost' && hostname !== 'shafthq.github.io') return false;
+  if (hostname === 'shafthq.github.io') {
+    if (parsed.protocol !== 'https:') return false;
+  } else if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    return false;
+  }
   try {
     const response = await fetch(baseUrl, {redirect: 'manual'});
     return response.ok || response.status === 301 || response.status === 302;
