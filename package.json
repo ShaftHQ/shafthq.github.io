@@ -73,14 +73,14 @@
     "serialize-javascript": "^7.0.3",
     "minimatch": "^3.1.4",
     "node-forge": ">=1.4.0",
-    "qs": "^6.15.2",
+    "qs": "^6.16.0",
     "**/sockjs/uuid": "^11.1.1"
   },
   "overrides": {
     "serialize-javascript": "^7.0.3",
     "minimatch": "^3.1.4",
     "node-forge": ">=1.4.0",
-    "qs": "^6.15.2",
+    "qs": "^6.16.0",
     "sockjs": {
       "uuid": "^11.1.1"
     }
