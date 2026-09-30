@@ -43,10 +43,16 @@ const trustSignals: Array<[string, string, string]> = [
 ];
 
 const outcomes = [
-  {title: 'Start a new suite', body: 'Generate a Maven project, then run its first test with the checked-in command.', to: '/project-generator', action: 'Generate a project'},
-  {title: 'Migrate an existing suite', body: 'Upgrade supported Selenium, Appium, REST Assured, or older SHAFT projects in controlled steps.', to: '/docs/start/quick-start#existing-project-upgrade', action: 'Read upgrade guide'},
-  {title: 'Add another testing surface', body: 'Keep web, mobile, API, database, and CLI checks in one Java project and evidence model.', to: '#surface-explorer', action: 'Explore surfaces'},
-  {title: 'Diagnose a failed run', body: 'Use failed Allure or trace evidence to classify a cause before reviewing a remediation proposal.', to: '#agent-workflow', action: 'Review diagnosis flow'},
+  {title: 'Create a project', body: 'Generate a Maven project and run the sample.', to: '/docs/journeys/create-a-project', action: 'Create a project'},
+  {title: 'Upgrade a Java project', body: 'Move an existing Maven suite onto current SHAFT and run one test.', to: '/docs/journeys/upgrade-a-project', action: 'Upgrade a project'},
+  {title: 'Install skills', body: 'Add the SHAFT skill pack to the agent you already use.', to: '/docs/journeys/skills', action: 'Install skills'},
+  {title: 'Use the IntelliJ plugin', body: 'Open the SHAFT tool window and finish setup.', to: '/docs/journeys/intellij', action: 'Use the plugin'},
+  {title: 'Connect an MCP client', body: 'List SHAFT tools in Codex, Copilot, Claude, or another client.', to: '/docs/journeys/mcp', action: 'Connect MCP'},
+  {title: 'Use shaft-cli', body: 'Run one SHAFT command from the terminal.', to: '/docs/journeys/cli', action: 'Use shaft-cli'},
+  {title: 'Run in CI', body: 'Run the suite headlessly and keep the report.', to: '/docs/journeys/ci', action: 'Run in CI'},
+  {title: 'Add a test surface', body: 'Add web, API, mobile, database, or CLI to a project that already runs.', to: '/docs/journeys/add-a-surface', action: 'Add a surface'},
+  {title: 'Install local infrastructure', body: 'Install the Android, Appium, Grid, or browser profile you chose.', to: '/docs/start/local-infrastructure', action: 'Install infrastructure'},
+  {title: 'Install ChaosEngine', body: 'Install the project-local agent harness and read the result.', to: '/docs/agentic/chaos-engine', action: 'Install ChaosEngine'},
 ];
 
 const surfaceTabs = [
@@ -82,7 +88,7 @@ function Ctas({placement}: {placement: Placement}): JSX.Element {
   const suffix = placement === 'hero' ? 'hero' : 'final';
   return <div className={styles.actions} data-testid={`landing-${suffix}-actions`}>
     <Link className="button button--primary button--lg" data-testid={`landing-${suffix}-create-project`} to="/project-generator" onClick={() => track('create_project', placement, '/project-generator')}><FontAwesomeIcon icon={faTerminal} aria-hidden="true" />Create new project</Link>
-    <Link className="button button--secondary button--lg" data-testid={`landing-${suffix}-documentation`} to="/docs/start/overview" onClick={() => track('explore_documentation', placement, '/docs/start/overview')}><FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />Read the user guide</Link>
+    <Link className="button button--secondary button--lg" data-testid={`landing-${suffix}-documentation`} to="/docs/journeys" onClick={() => track('explore_documentation', placement, '/docs/journeys')}><FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />Read the user guide</Link>
     {placement === 'hero' && <a className={styles.workflowLink} data-testid="landing-hero-workflow" href="#agent-workflow" onClick={() => track('view_agent_workflow', placement, '#agent-workflow')}>See agent-to-evidence workflow</a>}
     {placement === 'final' && <a className="button button--secondary button--lg" data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" />Star on GitHub</a>}
   </div>;
@@ -104,7 +110,7 @@ export default function Home(): JSX.Element {
 
     <section className={`${styles.section} ${styles.workflowSection}`} data-testid="landing-agent-workflow" aria-labelledby="agent-workflow"><div className="container"><Heading as="h2" id="agent-workflow">From intent to reviewable Java and evidence.</Heading><p className={styles.intro}>Use evidence to keep engineers in control and give delivery leaders a reviewable release signal.</p><AccessibleTabs id="agent-workflow-tabs" label="Agent-to-evidence workflow" tabs={workflowTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /><p className={styles.boundary}>Model choice remains with the MCP client. Tests remain ordinary Java. Proposals do not silently edit, approve, or merge.</p></div></section>
 
-    <section className={styles.section} data-testid="landing-outcomes" aria-labelledby="outcomes-heading"><div className="container"><Heading as="h2" id="outcomes-heading">Start from the job in front of you</Heading><p className={styles.intro}>For engineers, preserve native Java control. For delivery leaders, make release evidence easy to inspect.</p><div className={styles.outcomeGrid}>{outcomes.map((outcome) => <article key={outcome.title}><Heading as="h3">{outcome.title}</Heading><p>{outcome.body}</p><Link to={outcome.to}>{outcome.action}</Link></article>)}</div></div></section>
+    <section className={styles.section} data-testid="landing-outcomes" aria-labelledby="outcomes-heading"><div className="container"><Heading as="h2" id="outcomes-heading">Start from the job in front of you</Heading><p className={styles.intro}>For engineers, preserve native Java control. For delivery leaders, make release evidence easy to inspect. The quick start still documents the <Link to="/docs/start/quick-start#existing-project-upgrade">existing-project upgrade</Link>.</p><div className={styles.outcomeGrid}>{outcomes.map((outcome) => <article key={outcome.title}><Heading as="h3">{outcome.title}</Heading><p>{outcome.body}</p><Link to={outcome.to}>{outcome.action}</Link></article>)}</div></div></section>
 
     <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="surface-explorer"><div className="container"><Heading as="h2" id="surface-explorer">One evidence model across five test surfaces</Heading><p className={styles.intro}>Start with the native engine. Keep the evidence and Java suite in one place.</p><AccessibleTabs id="surface-explorer-tabs" label="Testing surfaces" tabs={explorerTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /></div></section>
 

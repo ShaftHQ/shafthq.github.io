@@ -1,3 +1,4 @@
+import {execFileSync} from 'child_process';
 import {existsSync, readFileSync, readdirSync} from 'fs';
 import {createHash} from 'crypto';
 import {extname, join, relative} from 'path';
@@ -6,7 +7,7 @@ import {fileURLToPath} from 'url';
 const docsRoot = fileURLToPath(new URL('../docs/', import.meta.url));
 const sidebarsPath = fileURLToPath(new URL('../sidebars.js', import.meta.url));
 const configPath = fileURLToPath(new URL('../docusaurus.config.js', import.meta.url));
-const publicDirectories = new Set(['start', 'testing', 'agentic', 'features', 'integrations', 'reference']);
+const publicDirectories = new Set(['start', 'testing', 'agentic', 'features', 'integrations', 'reference', 'journeys']);
 const relatedHeading =
   /^##\s+(Related|Related Pages|Related Documentation|Related Locator Pages|Additional Resources|Next Steps|See Also|Continue|Learn More)\b/im;
 const exampleFence =
@@ -245,29 +246,35 @@ assert(
   'features/test-automation-pillars.mdx must include a Mermaid visual for the three pillars.',
 );
 assert(
-  sidebars.includes("'features/test-automation-pillars'"),
-  'sidebars.js must list features/test-automation-pillars in the Features section.',
+  !sidebars.includes("'features/test-automation-pillars'"),
+  'sidebars.js keeps pillars off the user navigation. The page stays published for agents.',
 );
 assert(
   sidebars.includes("'agentic/skills'"),
-  'sidebars.js must list agentic/skills in the Agentic section.',
+  'sidebars.js must keep agentic/skills reachable from Look up a fact.',
 );
-assert(existsSync(whatsNewRoot), 'docs/features/whats-new/ must exist.');
-const whatsNewCategoryIndex = sidebars.search(/label: 'What\\'s new'/);
-assert(
-  sidebars.indexOf("label: 'Start'") < whatsNewCategoryIndex &&
-    whatsNewCategoryIndex < sidebars.indexOf("label: 'Testing'"),
-  'sidebars.js must place the What\'s new category after Start and before Testing.',
-);
-const whatsNewSidebarItems = whatsNewPages.map((page) =>
-  page === 'index.mdx' ? "'features/whats-new/index'" : `'features/whats-new/${page.replace(/\.md$/, '')}'`,
-);
-for (const item of whatsNewSidebarItems) {
-  assert(sidebars.includes(item), `sidebars.js must list ${item} in What's new.`);
+assert(sidebars.includes("id: 'journeys/index'"), 'sidebars.js must list the journey home.');
+assert(sidebars.includes("label: 'Journeys'") && sidebars.includes('collapsed: false'), 'Journeys stay open as the default navigation.');
+assert(sidebars.includes("label: 'Look up a fact'") && /label: 'Look up a fact'[\s\S]*collapsed: true/.test(sidebars), 'Look up a fact stays collapsed.');
+for (const journey of [
+  'journeys/create-a-project',
+  'journeys/upgrade-a-project',
+  'journeys/skills',
+  'journeys/intellij',
+  'journeys/mcp',
+  'journeys/cli',
+  'journeys/ci',
+  'journeys/add-a-surface',
+  'start/local-infrastructure',
+  'agentic/chaos-engine',
+]) {
+  assert(sidebars.includes(`'${journey}'`) || sidebars.includes(`id: '${journey}'`), `sidebars.js must list ${journey}.`);
 }
+assert(!sidebars.includes("'features/architecture'"), 'Architecture stays published and off the default sidebar.');
+assert(existsSync(whatsNewRoot), 'docs/features/whats-new/ must exist.');
 assert(
-  sidebars.indexOf("'features/whats-new/missed'") > sidebars.indexOf("'features/whats-new/modules'"),
-  'sidebars.js must list features/whats-new/missed last in the What\'s new category.',
+  !sidebars.includes("label: 'What's new'"),
+  'What\'s new stays published and out of the user sidebar.',
 );
 for (const page of whatsNewPages) {
   const pagePath = join(whatsNewRoot, page);
@@ -537,5 +544,12 @@ for (const guide of ['web.mdx', 'api.mdx', 'mobile.md', 'database.md', 'cli.md',
   assert(verify !== -1, `testing/${guide} must have a "## Verify" section.`);
   assert(prerequisites < verify, `testing/${guide} must list prerequisites before the verify step.`);
 }
+
+execFileSync(process.execPath, [fileURLToPath(new URL('../scripts/build-llms-txt.mjs', import.meta.url))], {stdio: 'inherit'});
+const llms = readFileSync(fileURLToPath(new URL('../static/llms.txt', import.meta.url)), 'utf8');
+const journeyHeading = llms.indexOf('## Journeys');
+const lookupHeading = llms.indexOf('## Look up a fact');
+const backgroundHeading = llms.indexOf('## Background');
+assert(journeyHeading >= 0 && lookupHeading > journeyHeading && backgroundHeading > lookupHeading, 'llms.txt groups Journeys, then Look up a fact, then Background.');
 
 console.log('Documentation quality checks passed.');
