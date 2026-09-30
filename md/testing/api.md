@@ -1,0 +1,85 @@
+# API testing
+
+Build, execute, inspect, and assert REST API requests with SHAFT.
+
+Canonical HTML: https://shafthq.github.io/docs/testing/api
+Guide index: https://shafthq.github.io/llms.txt
+
+# API testing
+
+Start here when you want one REST call, one assertion, and request/response
+evidence in the same report as your browser and mobile tests.
+
+## Prerequisites
+
+- A SHAFT Maven project. [Install SHAFT](/docs/start/installation) walks
+ through generating one.
+- Network access from the test machine to the API under test (the sample calls
+ `restcountries.com`), including any proxy settings your network requires.
+- Credentials for protected APIs, kept outside source control. See
+ [API Authentication](/docs/reference/actions/API/API_Authentication).
+
+```java
+
+public class CountryApiTest {
+ @Test
+ public void getCountryByCapital() {
+ SHAFT.API api = new SHAFT.API("https://restcountries.com/v3.1/");
+
+ api.get("capital/Cairo");
+ api.assertThatResponse()
+ .extractedJsonValue("$[0].name.common")
+ .isEqualTo("Egypt");
+ }
+}
+```
+
+```mermaid
+flowchart LR
+ Builder["Build request"] --> Send["Send request"]
+ Send --> Evidence["Request + response evidence"]
+ Evidence --> Assert["Fluent response assertion"]
+```
+
+Continue with [request building](/docs/reference/actions/API/Request_Builder),
+[authentication](/docs/reference/actions/API/API_Authentication), and
+[response assertions](/docs/reference/actions/API/Response_Validations). When
+the API is part of a browser journey, use
+[UI and API contract replay](/docs/testing/contracts) to record the exchanged
+traffic once and assert or replay it later.
+
+## Run and inspect evidence
+
+Run the test from the project root:
+
+ 
+
+SHAFT attaches request, response, status, headers, body, and assertion evidence
+under . If the request fails before assertions, check the
+base URI, proxy settings, authentication, and whether automatic `2xx` status
+assertion is appropriate for the scenario.
+
+## Verify
+
+- Maven reports the test as run and passed.
+- The Allure report for the test shows the request, the response status,
+ headers, and body, and the `extractedJsonValue` assertion.
+- To prove the assertion is live, change `"Egypt"` to another value and rerun.
+ The test fails, and the report shows the expected and actual values.
+
+## First useful next steps
+
+| Need | Start with |
+|---|---|
+| Add headers, query parameters, or body | [Request Builder](/docs/reference/actions/API/Request_Builder) |
+| Reuse tokens or basic auth | [API Authentication](/docs/reference/actions/API/API_Authentication) |
+| Validate JSON fields or schemas | [Response Validations](/docs/reference/actions/API/Response_Validations) |
+| Record and replay UI/API traffic | [UI and API contract replay](/docs/testing/contracts) |
+| Track OpenAPI coverage | [API configuration](/docs/reference/configuration/apiConfig) |
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [UI and API contract replay](/docs/testing/contracts)

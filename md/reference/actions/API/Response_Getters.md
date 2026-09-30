@@ -1,0 +1,128 @@
+# Response Getters
+
+Extract and parse API response data — body, typed JSON objects, status code, response time, JSON values, and XML values using SHAFT Engine.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/Response_Getters
+Guide index: https://shafthq.github.io/llms.txt
+
+## SHAFT API Getters
+After the request execution step sends a request, use these getters on the `SHAFT.API` session to read its latest response.
+
+### Get Response Body
+Extracts the response body and returns it as a plain string
+
+```java
+String body = api.getResponseBody();
+```
+#### Usage
+```java
+SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
+api.get("us/90210");
+String body = api.getResponseBody();
+SHAFT.Validations.assertThat().object(body).contains("Beverly Hills");
+```
+
+### Map JSON Response To Types
+Maps the latest JSON response body to a Java class, record, list, or generic `TypeReference`.
+
+```java
+User user = api.getResponseAs(User.class);
+List users = api.getResponseAsList(User.class);
+List usersByType = api.getResponseAs(new TypeReference >() {});
+```
+
+#### Usage
+```java
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+record User(int id, String name) {}
+
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+
+api.get("/users/1").setTargetStatusCode(200);
+User user = api.getResponseAs(User.class);
+
+api.get("/users").setTargetStatusCode(200);
+List users = api.getResponseAsList(User.class);
+
+List usersByType = api.getResponseAs(new TypeReference >() {});
+```
+
+Typed mapping expects a JSON response content type and a non-empty body. SHAFT throws clear exceptions for empty bodies, non-JSON responses, and mapping failures.
+
+### Get Response Status Code
+Extracts the response status code as integer
+
+```java
+int statusCode = api.getResponseStatusCode();
+```
+#### Usage
+```java
+SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
+api.get("us/90210");
+int statusCode = api.getResponseStatusCode();
+SHAFT.Validations.assertThat().number(statusCode).isEqualTo(200);
+```
+
+### Get Response Time
+Extracts the response time as long
+
+```java
+long responseTime = api.getResponseTime();
+```
+#### Usage
+```java
+SHAFT.API api = new SHAFT.API("http://api.zippopotam.us/");
+api.get("us/90210");
+long responseTime = api.getResponseTime();
+SHAFT.Validations.verifyThat().number(responseTime).isGreaterThanOrEquals(1);
+SHAFT.Validations.verifyThat().number(responseTime).isLessThanOrEquals(10000);
+```
+
+### Get Response JSON Value
+Extracts a string value from the response body by parsing the target **JSONPath.** 
+_* To extract the desired value, please refer to these urls for examples: 
+You can learn the JSONPath Syntax from [the JSONPath syntax reference](https://support.smartbear.com/alertsite/docs/monitors/api/endpoint/jsonpath.html) 
+And test your JSONPath [on JSONPath.com](http://jsonpath.com/) *_
+```java
+String value = api.getResponseJSONValue("$.data.name");
+```
+#### Usage
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users");
+String value = api.getResponseJSONValue("$[?(@.name=='Ervin Howell')].address.street");
+SHAFT.Validations.assertThat().object(value).isEqualTo("Victor Plains");
+```
+
+### Get Response JSON Value As List
+Extracts the response as list by parsing the target **JSONPath.**
+```java
+String value = api.getResponseJSONValueAsList("$.data");
+```
+#### Usage
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/todos");
+List completedList = api.getResponseJSONValueAsList("$[?(@.completed==true)].completed");
+for (Object completed : completedList) {
+ SHAFT.Validations.verifyThat().object(completed.toString()).isEqualTo("true");
+}
+```
+
+### Get Response XML Value
+```java
+String value = api.getResponseXMLValue("xmlPath");
+```
+
+### Get Response XML Value As List
+```java
+List value = api.getResponseXMLValueAsList("xmlPath");
+```
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)

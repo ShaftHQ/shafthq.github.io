@@ -1,0 +1,235 @@
+# Recover locators with Heal
+
+Enable deterministic, explainable WebDriver locator recovery.
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/heal
+Guide index: https://shafthq.github.io/llms.txt
+
+# Recover locators with Heal
+
+SHAFT Heal is an optional, action-scoped WebDriver locator recovery provider.
+It is disabled by default and is delivered by
+`io.github.shafthq:shaft-heal`. The required `shaft-engine` artifact owns the
+integration SPI and continues to throw the original locator failure when the
+provider is absent, rejects every candidate, or encounters an internal error.
+
+## Add and enable the module
+
+Import `shaft-bom`, then add the optional module beside `shaft-engine`:
+
+```xml
+ 
+ io.github.shafthq 
+ shaft-heal 
+ 
+```
+
+Enable deterministic recovery explicitly:
+
+```properties
+healing.strategy=shaft-heal
+```
+
+Run the test suite with the strategy enabled:
+
+`mvn test '-Dhealing.strategy=shaft-heal'`
+
+When the original web locator fails, SHAFT evaluates eligible candidates and
+records the selected candidate, confidence, alternatives, and rejection reason
+under `target/shaft-heal/reports`.
+
+The equivalent current-thread override is:
+
+```java
+SHAFT.Properties.healing.set()
+ .strategy("shaft-heal")
+ .minimumConfidence(0.75)
+ .ambiguityMargin(0.10);
+```
+
+SHAFT first attempts the original locator. Recovery runs only after a web
+locator-not-found result, and the engine executes the action only after the
+provider returns exactly one validated element.
+
+## Strategy and Healenium coexistence
+
+| Configuration | Effective behavior |
+| --- | --- |
+| `healing.strategy=disabled` | No SHAFT Heal. Legacy `heal-enabled=true` still enables Healenium for compatibility. |
+| `healing.strategy=healenium` | Healenium only. |
+| `healing.strategy=shaft-heal` | SHAFT Heal only, even when `heal-enabled=true` remains in an older property file. |
+| `healing.strategy=composite` | Healenium driver wrapping plus SHAFT Heal fallback. |
+
+Use `healing.strategy=composite` only after validating both systems against the
+same application. It is an explicit opt-in because both providers can add
+latency and maintain separate histories.
+
+## Deterministic decision policy
+
+The provider stores a successful element fingerprint and later discovers a
+bounded candidate set from stable semantic evidence:
+
+- accessible name and associated label
+- configured test IDs
+- stable ID and name
+- role, type, placeholder, title, alt, and autocomplete
+- visible text
+- a checksum of the structural DOM path
+
+Each evidence category is scored separately. A candidate is used only when it
+is unique, remains in the requested frame or shadow context, satisfies the
+action preconditions, meets `healing.minimumConfidence`, and leads the next
+eligible candidate by at least `healing.ambiguityMargin`. Ties and low
+confidence preserve the original failure.
+
+## Trust threshold and warnings
+
+`healing.minimumTrustPercentage` is the preferred confidence gate for teams that
+want a human-readable percentage. Leave it at `-1` to keep using
+`healing.minimumConfidence`; set it from `0` to `100` to require that minimum
+trust before any recovered locator can be used.
+
+```properties
+healing.strategy=shaft-heal
+healing.minimumTrustPercentage=85
+```
+
+The deterministic score must pass this gate before optional provider metadata
+is considered. Visual or AI provider scores can rank eligible candidates, but
+they cannot rescue a locator candidate that failed the deterministic trust
+threshold.
+
+When SHAFT accepts a healed locator, it logs a warning and attaches the warning
+to the report. The warning includes the broken locator, healed locator, trust
+percentage, configured threshold, provider status, and evidence summary. Common
+secret-looking tokens are redacted before logging.
+
+## History and reports
+
+History is local, versioned, checksummed, bounded, retention-limited, and
+written atomically:
+
+```properties
+healing.history.enabled=true
+healing.history.path=target/shaft-heal/history.json
+healing.history.maxEntries=500
+healing.history.retentionDays=30
+```
+
+Attempt reports are attached to Allure and written below
+`target/shaft-heal/reports`. Reports include the failed locator, normalized
+failure category, ranked candidates, per-category scores, selected candidate,
+decision reason, provider metadata, and post-action outcome. Runtime code can
+inspect the current thread's latest report with `ShaftHeal.lastReport()`.
+
+Successful original resolutions seed history. A recovered fingerprint replaces
+the old record only after the engine reports that the intended action
+succeeded.
+
+## Privacy and optional providers
+
+SHAFT Heal uses a whitelist-only evidence model. It does not collect input
+values, cookies, authorization headers, full page source, or the full DOM.
+Password fields omit text, labels, accessible names, placeholders, and titles.
+URLs exclude query strings and fragments, and common token or credential
+patterns are redacted.
+
+Visual comparison is local and disabled by default:
+
+```properties
+healing.visual.enabled=false
+```
+
+When enabled, add `shaft-visual`. Its `HealingVisualProvider` compares the
+stored element screenshot with candidate screenshots. Visual scores remain
+separate and cannot bypass the deterministic confidence threshold.
+
+AI reranking is also disabled by default:
+
+```properties
+healing.ai.enabled=false
+healing.ai.trigger=ambiguous
+```
+
+AI uses the provider-neutral controls from `shaft-pilot-core`. Add `shaft-ai`
+only for direct OpenAI, Anthropic, Gemini, or Ollama calls, and configure the
+Pilot approval, evidence, budget, timeout, and provider properties separately.
+Managed local AI stays off by default and is local-consent only; see
+[managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
+Only minimized candidate records are eligible for transfer. Provider output may
+rerank supplied candidate IDs but cannot invent an element or override
+deterministic acceptance. The default trigger keeps AI fallback deterministic
+first: reranking runs only for ambiguous or below-threshold candidate sets. Use
+`never`, `below-threshold`, or `always` when a stricter or broader trigger is
+needed.
+
+## Source changes and limits
+
+SHAFT Heal never edits test source during runtime. It always reports
+`sourcePatchProposed=false`. Turning on
+`healing.sourcePatch.enabled=true` only unlocks a separate, review-gated Doctor
+proposal workflow; it never patches Java while a test is running.
+
+### Reviewed locator proposals (Doctor MCP)
+
+After a Heal report exists under `target/shaft-heal/reports`, enable the consent
+gate and call the Doctor MCP tools (or `shaft-cli call`):
+
+```properties
+healing.sourcePatch.enabled=true
+```
+
+| Tool | When to use | What it writes |
+| --- | --- | --- |
+| `doctor_propose_healed_locator` | Verified recovery (`RECOVERED`) mapped to exactly one Java expression in an allowlisted source file | Reviewable replace proposal under `target/shaft-doctor/healing-proposals` |
+| `doctor_propose_advisory_locator` | Low-trust / `BELOW_THRESHOLD` report | Review comment proposal only; never replaces the locator |
+
+Both tools require explicit `sourcePatchConsent=true`, never edit the live
+worktree, and never publish. Manifests under
+`target/shaft-doctor/healing-proposals`
+(`healing-locator-proposal-*.json` / `healing-locator-advisory-*.json`) are
+Heal locator proposals, not Doctor repair proposals. Do not pass them to
+`publish-draft-pr`.
+
+To open a draft PR from an approved *replace* proposal
+(`doctor_propose_healed_locator`):
+
+1. Map the proposal's `patch` object into a `repair-input.json` `patches` array
+ (same `path`, `operation`, `content`, `rationale`, and `evidenceIds`), and
+ add approved Maven `validationCommands`.
+2. Run `doctor analyze`, then `doctor propose-fix` with `--diagnosis`,
+ `--base-sha`, `--issue`, `--allowed-path`, and `--repair-input`.
+3. After review, run `publish-draft-pr` on the *repair* manifest
+ (`repair-proposal-*.json`) and its approval token.
+
+Advisory proposals stay review comments only. Full CLI shape lives on
+[Diagnose failures with Doctor](/docs/agentic/doctor#reviewed-repair-proposals)
+and in the
+[MCP command reference](/docs/agentic/mcp#mcp-command-reference).
+
+```bash
+shaft-cli call doctor_propose_healed_locator \
+ repositoryRoot=. \
+ healingReportPath=target/shaft-heal/reports/ .json \
+ sourcePath=src/test/java/com/example/LoginPage.java \
+ sourcePatchConsent=true
+
+shaft-cli call doctor_propose_advisory_locator \
+ repositoryRoot=. \
+ healingReportPath=target/shaft-heal/reports/ .json \
+ sourcePath=src/test/java/com/example/LoginPage.java \
+ sourcePatchConsent=true
+```
+
+The current provider supports web element actions in the active browsing
+context. Native mobile recovery is excluded. Frame identity is retained, and
+shadow-content recovery is supported while the configured shadow host remains
+resolvable. A changed frame locator or shadow-host locator preserves the
+original failure.
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)

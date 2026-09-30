@@ -1,0 +1,497 @@
+# Browser Actions
+
+Navigate pages, manage windows, handle cookies, capture screenshots, and control the browser using SHAFT Engine's BrowserActions API.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Browser_Actions
+Guide index: https://shafthq.github.io/llms.txt
+
+## Getting Started
+
+To interact with web pages, create an instance of `SHAFT.GUI.WebDriver`:
+
+```java title="DriverSetup.java"
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+```
+
+SHAFT detects your configuration from
+[property files](/docs/reference/properties/PropertyTypes). If no properties
+are set, SHAFT uses sensible defaults.
+
+To close all running driver instances:
+
+```java title="DriverTeardown.java"
+driver.quit();
+```
+
+For trust-gated natural-language browser, element, and touch workflows, see
+[Natural Language Actions](./Natural_Language_Actions).
+
+## Navigation
+
+### Navigate to URL
+
+```java title="NavigateToURL.java"
+driver.browser().navigateToURL("https://www.google.com");
+```
+
+Navigates to the specified URL. If the URL matches the current page, it refreshes instead. You can optionally verify the target URL after navigation:
+
+```java title="NavigateToURLWithVerification.java"
+driver.browser().navigateToURL("https://www.google.com/", "google");
+```
+
+### Navigate to URL in a New Tab or Window
+
+```java title="NavigateNewTab.java"
+
+driver.browser().navigateToURL("https://www.google.com", WindowType.TAB);
+driver.browser().navigateToURL("https://www.google.com", WindowType.WINDOW);
+```
+
+### Navigate Back
+
+```java title="NavigateBack.java"
+driver.browser().navigateBack();
+```
+
+Navigates one step back in the browser history.
+
+### Navigate Forward
+
+```java title="NavigateForward.java"
+driver.browser().navigateForward();
+```
+
+Navigates one step forward in the browser history.
+
+### Refresh Page
+
+```java title="RefreshPage.java"
+driver.browser().refreshCurrentPage();
+```
+
+Refreshes the current page.
+
+### Get Current URL
+
+```java title="GetCurrentURL.java"
+String currentUrl = driver.browser().getCurrentURL();
+```
+
+Returns the URL of the current page.
+
+### Navigate to URL with Basic Authentication
+
+```java title="NavigateWithBasicAuth.java"
+driver.browser().navigateToURLWithBasicAuthentication(
+ "https://staging.example.com/secure",
+ "myUsername",
+ "myPassword",
+ "https://staging.example.com/dashboard"
+);
+```
+
+Navigates to a URL that requires HTTP Basic Authentication. Provide the target URL, credentials, and the expected URL after a successful login. Useful for staging environments and internal tools protected by basic auth.
+
+## Window Management
+
+### Maximize Window
+
+```java title="MaximizeWindow.java"
+driver.browser().maximizeWindow();
+```
+
+Maximizes the current browser window.
+
+### Full Screen Window
+
+```java title="FullScreenWindow.java"
+driver.browser().fullScreenWindow();
+```
+
+Sets the current window to full screen mode.
+
+### Resize Window
+
+```java title="ResizeWindow.java"
+driver.browser().setWindowSize(1440, 900);
+```
+
+Resizes the current window to the specified width and height.
+
+### Get Window Size
+
+```java title="GetWindowSize.java"
+String windowSize = driver.browser().getWindowSize();
+```
+
+Returns the current window size as a string.
+
+### Get Window Title
+
+```java title="GetWindowTitle.java"
+String title = driver.browser().getCurrentWindowTitle();
+```
+
+Returns the current window title.
+
+### Close Current Window
+
+```java title="CloseWindow.java"
+driver.browser().closeCurrentWindow();
+```
+
+Closes the current browser window.
+
+### Switch Windows or Tabs
+
+```java title="SwitchWindows.java"
+String windowHandle = driver.browser().getWindowHandle();
+// ... code that opens a new window ...
+driver.browser().switchToWindow(windowHandle); // switch back to the original window
+```
+
+The `getWindowHandle()` method returns a unique identifier for the current window, which can be used to switch between tabs and windows.
+
+### Get Page Source
+
+```java title="GetPageSource.java"
+String pageSource = driver.browser().getPageSource();
+```
+
+Returns the current page source as a string.
+
+## Cookies
+
+### Add Cookie
+
+```java title="AddCookie.java"
+driver.browser().addCookie("cookieName", "cookieValue");
+```
+
+### Get Cookie
+
+```java title="GetCookie.java"
+Cookie cookie = driver.browser().getCookie("cookieName");
+```
+
+### Get All Cookies
+
+```java title="GetAllCookies.java"
+Set cookies = driver.browser().getAllCookies();
+```
+
+### Get Cookie Value
+
+```java title="GetCookieValue.java"
+String cookieValue = driver.browser().getCookieValue("cookieName");
+```
+
+### Get Cookie Domain
+
+```java title="GetCookieDomain.java"
+String cookieDomain = driver.browser().getCookieDomain("cookieName");
+```
+
+### Get Cookie Path
+
+```java title="GetCookiePath.java"
+String cookiePath = driver.browser().getCookiePath("cookieName");
+```
+
+### Delete Cookie
+
+```java title="DeleteCookie.java"
+driver.browser().deleteCookie("cookieName");
+```
+
+### Delete All Cookies
+
+```java title="DeleteAllCookies.java"
+driver.browser().deleteAllCookies();
+```
+
+## Storage State
+
+Use storage state when a test needs to reuse an authenticated browser session
+without repeating the login flow. SHAFT saves cookies, `localStorage`, and
+`sessionStorage` to a JSON file. `saveStorageState()`/`loadStorageState()` are
+implemented identically on `SHAFT.GUI.WebDriver` and `SHAFT.GUI.Playwright`, so
+a file saved from one backend loads on the other.
+
+```java title="SaveStorageState.java"
+driver.browser()
+ .navigateToURL("https://app.example.com")
+ .and().saveStorageState("target/auth-state.json");
+```
+
+Load storage state after navigating to a compatible origin so browser cookie
+domain rules can apply.
+
+```java title="LoadStorageState.java"
+driver.browser()
+ .navigateToURL("https://app.example.com")
+ .and().loadStorageState("target/auth-state.json")
+ .and().refreshCurrentPage();
+```
+
+### Auto-load storage state on driver init
+
+Set `SHAFT.Properties.web.storageStatePath` (property key `storageStatePath`)
+to a storage-state JSON file and a freshly-initialized driver loads it
+automatically, without an explicit `loadStorageState()` call:
+
+```java title="AutoLoadStorageState.java"
+SHAFT.Properties.web.set().storageStatePath("target/auth-state.json");
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+```
+
+SHAFT reads the `origin` recorded inside the storage-state file (falling back
+to `SHAFT.Properties.web.baseURL()` when the file has none) and navigates the
+fresh driver there first, since cookies cannot be added for an arbitrary
+domain before any page has loaded. This is fail-soft: a missing file, unreadable
+origin, or any other load failure is logged as a warning and never fails driver
+initialization. See [Authentication and session reuse](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#using-cookies)
+for the cached-login helper built on top of this property.
+
+## Screenshots and Snapshots
+
+### Capture Screenshot
+
+```java title="CaptureScreenshot.java"
+driver.browser().captureScreenshot();
+```
+
+Captures a screenshot and attaches it to the Allure report.
+
+### captureSnapshot() vs capturePageSnapshot()
+
+SHAFT provides two distinct snapshot methods — choose the one that fits your reporting needs:
+
+| Method | What it captures | Attached to Allure |
+|---|---|---|
+| `captureSnapshot()` | Full-page screenshot **and** page source | Yes — both screenshot and HTML |
+| `capturePageSnapshot()` | Serialized DOM/page data only (no image) | Yes — HTML source only |
+
+### captureSnapshot()
+
+```java title="CaptureSnapshot.java"
+driver.browser().captureSnapshot();
+```
+
+Captures a full page snapshot including both a screenshot and the page source, and attaches both to the Allure report.
+
+### capturePageSnapshot()
+
+```java title="CapturePageSnapshot.java"
+driver.browser().capturePageSnapshot();
+```
+
+Captures and serializes the current page DOM data and attaches it to the Allure report as an HTML artifact. Use this when you only need the page structure without a visual screenshot.
+
+### generateLightHouseReport()
+
+:::warning[Managed setup is not released]
+The managed flow below depends on
+[SHAFT Engine issue #4884](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4884).
+It is not yet available on `SHAFT_ENGINE` `main` or in a published SHAFT
+release. Keep using the current Lighthouse flow until a release that contains
+the managed `LIGHTHOUSE` provider is available.
+:::
+
+Install and verify the managed Lighthouse profile before running the test. The
+report action does not install tools or use a global Node or npm command. Use
+the default SHAFT roots for this preview so the setup CLI and Browser Actions
+resolve the same managed installation.
+
+ 
+
+See [Set up local infrastructure](/docs/start/local-infrastructure/services#install-managed-lighthouse)
+for the canonical plan, install, policy, and offline-cache instructions.
+
+```java title="LightHouseReport.java"
+SHAFT.Properties.performance.set().isEnabled(true);
+driver.browser().generateLightHouseReport();
+```
+
+Run a desktop performance audit on the currently open page. SHAFT invokes its
+managed Lighthouse 13.4.1 CLI with managed Node 24.19.0 and connects to the
+debugging port of the local Chromium browser owned by WebDriver. SHAFT does not
+install Chromium as part of the `LIGHTHOUSE` profile.
+
+The action writes a validated HTML file under `lighthouse-reports/` and attaches
+its contents to the Allure output. It creates no executable JavaScript in the
+project. A missing or degraded managed toolchain stops the action with the
+setup command needed to repair it.
+
+:::warning[Report opening is opt-in]
+`openLighthouseReportWhileExecution` defaults to `false`, which is suitable for
+headless and CI runs. Set `openLighthouseReportWhileExecution=true` only when
+you want a desktop test run to open the generated HTML report and Java has a
+supported desktop/default-browser handler. If the handler is unavailable or
+opening fails, the report action fails before attaching the HTML to Allure.
+:::
+
+## Wait Actions
+
+### Wait for Lazy Loading
+
+```java title="WaitForLazyLoading.java"
+driver.browser().waitForLazyLoading();
+```
+
+Waits for lazy-loaded content to finish loading on the page. On the
+**Selenium WebDriver** backend this public method uses the **navigation**
+wait: network/framework readiness plus
+`lazyLoadingDomStabilityOnNavigationQuietWindowMillis` (default `300`ms).
+The same navigation wait runs after `navigateToURL` in the current window
+and after `navigateToURL(url, WindowType)` / new-tab / new-window navigation.
+Cheap per-action waits (element actions, validations) stay on the global
+`lazyLoadingDomStabilityQuietWindowMillis` default of `0`.
+
+On the **Playwright** backend, `waitForLazyLoading()` still maps to Playwright
+load-state waiting, not this Selenium DOM-quiet window.
+
+`pageLoadStrategy=eager` and `readinessState=interactive` only unblock Selenium
+and BiDi at `DOMContentLoaded`. SHAFT's JS readiness still waits for
+`loaded`/`complete` plus XHR/fetch idle; it does not treat `interactive` as
+document-ready.
+
+For scroll-triggered content, call `scrollToLoadAll()` explicitly. SHAFT
+never auto-sweeps the page during readiness waits.
+
+### Wait for a page condition
+
+Use the element action surface with a Selenium condition when a page state
+must settle before the next action. For content loaded after the initial page,
+use `waitForLazyLoading()` above.
+
+```java title="WaitForPageState.java"
+
+driver.element().waitUntil(ExpectedConditions.titleContains("Dashboard"));
+```
+
+## Network Interception
+
+### Intercept and Mock HTTP Requests
+
+```java title="MockRequest.java"
+driver.browser()
+ .interceptRequest()
+ .get()
+ .urlContains("/api/data")
+ .respond()
+ .statusCode(200)
+ .jsonBody("{}");
+```
+
+Intercepts browser HTTP requests matching the builder criteria and returns the mocked response.
+
+### Validate Intercepted Responses
+
+```java title="ValidateResponse.java"
+driver.browser()
+ .interceptRequest()
+ .get()
+ .pathEquals("/api/data")
+ .assertResponse(response -> response
+ .body()
+ .contains("{}"));
+```
+
+Use `clearNetworkInterceptors()` to remove active browser network rules before the driver session ends.
+
+### Record, Replay, and Validate Contracts
+
+Contract methods capture matching browser traffic into the same deterministic
+contract file used by `SHAFT.API`. Replay turns captured responses into browser
+network mocks. Assert and verify modes compare live traffic with the stored
+contract and attach readable Allure diffs for mismatches.
+
+```java title="BrowserContractActions.java"
+driver.browser().startContractRecording(
+ "src/test/resources/contracts/search.json",
+ "/api/search");
+
+driver.browser().navigateToURL("https://example.com/search");
+SHAFT.Contracts.stopRecording();
+
+driver.browser().assertContract(
+ "src/test/resources/contracts/search.json",
+ "/api/search");
+driver.browser().navigateToURL("https://example.com/search");
+SHAFT.Contracts.stopValidation();
+
+driver.browser().replayContract("src/test/resources/contracts/search.json");
+```
+
+See [UI and API contract replay](/docs/testing/contracts) for combined browser
+and API examples.
+
+### Browser Network Profiles
+
+DevTools-capable Selenium drivers can switch the active browser session offline,
+throttle throughput, block resource patterns, and restore the default network
+state. Unsupported drivers keep the test running and add a deterministic
+observability warning to the trace metadata.
+
+```java title="NetworkProfiles.java"
+driver.browser()
+ .goOffline()
+ .and().restoreNetwork()
+ .and().throttleNetwork(250, 64, 32)
+ .and().blockNetworkResources("*.png", "*.jpg");
+```
+
+Call `restoreNetwork()` after a profile-specific assertion when later steps
+need normal connectivity.
+
+## Mobile Context
+
+### Get and Set Context
+
+```java title="MobileContext.java"
+String context = driver.browser().getContext();
+driver.browser().setContext("WEBVIEW_1");
+```
+
+### Get Context Handles
+
+```java title="ContextHandles.java"
+List contexts = driver.browser().getContextHandles();
+```
+
+## Accessibility Testing
+
+SHAFT Engine integrates [axe-core](https://github.com/dequelabs/axe-core) to run automated WCAG accessibility audits. Chain `.accessibility()` onto any browser action to start auditing:
+
+```java title="AccessibilityExample.java"
+driver.browser().navigateToURL("https://example.com")
+ .accessibility()
+ .assertNoCriticalViolations("Home Page");
+```
+
+For a full reference of all accessibility methods, see [Accessibility Testing](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#accessibility-testing).
+
+## Fluent Chaining
+
+All browser actions support fluent chaining with `.and()`:
+
+```java title="FluentChaining.java"
+driver.browser()
+ .navigateToURL("https://www.google.com")
+ .and().maximizeWindow()
+ .and().captureScreenshot();
+```
+
+:::tip
+SHAFT provides automatic reporting for every browser action. Check the **Reporting** section in the sidebar for details on the rich reports generated for each action.
+:::
+
+## Related
+
+- [Element Actions](/docs/reference/actions/GUI/Element_Actions)
+- [Element Identification](/docs/reference/actions/GUI/Element_Identification)
+- [Using Cookies / authentication and session reuse](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#using-cookies)
+- [Network Mocking and HAR replay](/docs/reference/actions/GUI/Infrastructure_Network_And_Visual#network-mocking)
+- [Web](/docs/testing/web)

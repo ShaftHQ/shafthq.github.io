@@ -1,0 +1,84 @@
+# Upgrade to modular SHAFT
+
+Transactionally migrate legacy or native Maven projects to modular SHAFT.
+
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade
+Guide index: https://shafthq.github.io/llms.txt
+
+# Upgrade to modular SHAFT
+
+The only recommended upgrade route is the transactional
+`shaft-upgrader` module and its
+[`upgrade_to_modular_shaft.py`](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-upgrader/upgrade_to_modular_shaft.py)
+script. It upgrades:
+
+- Native Selenium, Appium, REST Assured, or Cucumber Maven projects using
+ TestNG, JUnit, or Cucumber.
+- Projects already using modular SHAFT.
+- Legacy projects using `io.github.shafthq:SHAFT_ENGINE`.
+
+For native projects, the default `basic` upgrade preserves existing Selenium,
+Appium, REST Assured, Cucumber, TestNG, and JUnit source and dependencies. It
+adds modular SHAFT so the project can adopt the SHAFT API incrementally. Native
+projects start with `shaft-engine` only; their existing third-party
+BrowserStack, OpenCV, or video dependencies are preserved without being
+reinterpreted as SHAFT optional-module usage.
+
+Selenium and Appium projects can opt into deeper source migration with
+`--upgrade-type session` or `--upgrade-type full`. These modes stay inside the
+same compile-validated transaction and roll back POM and source changes
+together when validation fails.
+
+For legacy SHAFT projects, Java imports remain under `com.shaft`. The script
+replaces the old Maven coordinate, imports the BOM, scans source and
+configuration for optional capabilities, compiles the result, and rolls back
+every changed file if compilation does not pass.
+
+The [manual migration reference](/docs/start/upgrade/reference) exists only
+for reviewing the automated result and troubleshooting; it is not an
+alternative migration path.
+
+## Scan-first upgrade path
+
+Use this section when you only need to decide what to run.
+
+| Starting point | Recommended path | Why |
+|---|---|---|
+| Old `SHAFT_ENGINE` dependency | Run the automated upgrader in `basic` mode | Replaces coordinates, imports the BOM, infers optional modules, and keeps Java imports under `com.shaft`. |
+| Selenium, Appium, REST Assured, or Cucumber Maven project | Run the automated upgrader in `basic` mode first | Adds `shaft-engine` without rewriting working tests. |
+| Selenium/Appium project ready for source migration | Use `--upgrade-type session` or `--upgrade-type full` after a clean baseline | Rewrites source only inside the same rollback-protected transaction. |
+| Broken compile before migration | Fix the baseline before upgrading | The upgrader stops before touching files when the unchanged project does not compile. |
+
+To see which starting point you have, search the project's POMs for SHAFT
+coordinates:
+
+```bash
+grep -rn --include=pom.xml "io.github.shafthq" .
+```
+
+An `SHAFT_ENGINE` artifact means a legacy SHAFT project; `shaft-engine`,
+`shaft-bom`, or another SHAFT module means modular SHAFT; no match means a
+native project. The upgrader applies the same rules; see
+[project detection](/docs/start/upgrade/how-it-works#project-detection).
+
+The safe first command is the one in [Download and run](/docs/start/upgrade/run#download-and-run).
+Review the generated diff, run your normal tests, then use the
+[module map](/docs/start/upgrade/reference#module-map) only when you need to
+explain why an optional module was added.
+
+Rollback rule: if validation fails, every touched file is restored byte-for-byte
+unless an allowed repair succeeds inside the same transaction.
+
+## Pages in this guide
+
+| Page | Type | Use it when |
+| --- | --- | --- |
+| [Run the upgrade](/docs/start/upgrade/run) | How-to | You are ready to upgrade a project: prerequisites, the download-and-run command, upgrade types, dry-run, CI, validation, checklist, and rollback. |
+| [How the upgrade works](/docs/start/upgrade/how-it-works) | Explanation | You need to understand the script's guarantees, project detection, optional-module evidence, compile-and-rollback transaction, AI repair, and Selenium source rewrites. |
+| [Upgrade reference](/docs/start/upgrade/reference) | Reference | You are reviewing the result: command options, coordinates, the module map, dependency boundaries, the legacy relocation, and measured download sizes. |
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)

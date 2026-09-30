@@ -1,0 +1,45 @@
+# Visual provider boundary
+
+Maintainer contract between shaft-engine and the optional visual provider.
+
+Canonical HTML: https://shafthq.github.io/docs/maintainers/visual-provider
+Guide index: https://shafthq.github.io/llms.txt
+
+# Visual-processing provider boundary
+
+Issue [#2816](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/2816) introduced the implemented boundary that moved
+optional computer-vision behavior out of `shaft-engine` without moving screenshot capture or Healenium integration.
+
+## Operation inventory
+
+| `ImageProcessingActions` operation | Classification | Boundary decision |
+| --- | --- | --- |
+| `compareImageFolders` | JDK image/file comparison | Remains in `shaft-engine`; uses `ImageIO` and image data buffers. |
+| `highlightElementInScreenshot` | Core screenshot decoration | Remains in `shaft-engine`; implemented with JDK `BufferedImage`/`Graphics2D`, so ordinary screenshots do not initialize OpenCV. |
+| `findImageWithinCurrentPage` | Optional computer vision | Delegates to the discovered `VisualProcessingProvider`. |
+| `formatElementLocatorToImagePath` | Core baseline naming | Remains in `shaft-engine`. |
+| `getReferenceImage` | Core baseline file access | Remains in `shaft-engine`. |
+| `getShutterbugDifferencesImage` | Core baseline file access | Remains in `shaft-engine` for backward compatibility. |
+| `compareAgainstBaseline` / `EXACT_OPENCV` | Optional computer vision | Delegates to the discovered provider. |
+| `compareAgainstBaseline` / Shutterbug and Applitools engines | Third-party visual integrations | Delegates to the discovered provider. |
+| `loadOpenCV` | Backward-compatible OpenCV entry point | Delegates provider loading and no longer embeds OpenCV types in the core class. |
+
+Public fluent APIs that reach the provider include
+`matchesReferenceImage(...)`, `doesNotMatchReferenceImage(...)`,
+`TouchActions.tap(String)`, `TouchActions.type(String, ...)`,
+`TouchActions.waitUntilElementIsVisible(String)`, and the image-path
+`swipeElementIntoView(...)` overloads. The focused
+[visual module guide](/docs/integrations/visual) is the consumer-facing reference.
+
+Image-path touch actions must pass viewport screenshot bytes into
+`findImageWithinCurrentPage`, because Selenium/Appium coordinate actions target
+the viewport. The OpenCV provider handles DPI/display-scale drift by matching
+scaled reference templates and returning the matched center point.
+
+`ScreenshotManager`, Selenium screenshot capture, and Healenium integration remain outside this provider boundary.
+
+## Discovery contract
+
+Providers implement `VisualProcessingProvider` and are discovered with `ServiceLoader`. Discovery sorts implementations by class name and rejects multiple providers with a deterministic error instead of choosing based on classpath order. The OpenCV implementation and its service descriptor are packaged in `io.github.shafthq:shaft-visual`, so adding that artifact enables OpenCV, Applitools Eyes, and Shutterbug behavior without a new initialization API.
+
+When no provider is installed, provider-dependent operations report the Maven coordinate `io.github.shafthq:shaft-visual`. Core screenshot capture, JDK highlighting, animated GIF generation, baseline file handling, Healenium, and non-OpenCV assertions remain in `shaft-engine` and do not perform provider discovery.

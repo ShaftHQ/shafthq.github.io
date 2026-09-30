@@ -1,0 +1,152 @@
+# Basic Configuration for Web GUI
+
+Configure SHAFT Engine properties for web browser automation — browser type, headless mode, timeouts, proxy, and visual reporting.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/configuration/webConfig
+Guide index: https://shafthq.github.io/llms.txt
+
+SHAFT auto-generates a default `custom.properties` file on your first test run. Use it to tailor browser selection, timeouts, and reporting without touching your test code.
+
+:::tip
+All properties can also be set programmatically or overridden via Maven `-D`
+flags. See [Programmatic Config](/docs/reference/properties/Programmatic_Config)
+and [Properties Reference](/docs/reference/properties/PropertiesList).
+:::
+
+---
+
+## Target Browser
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Default: chrome. Other supported values are firefox, safari, and edge.
+targetBrowserName=chrome
+
+# Default: false. Set true for a headless CI run.
+headlessExecution=false
+```
+
+Override from the command line without changing the file:
+
+```bash
+mvn test -DtargetBrowserName=FIREFOX -DheadlessExecution=true
+```
+
+---
+
+## Base URL and Timeouts
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Used as a prefix when you call driver.browser().navigateToURL("/path")
+baseURL=https://staging.example.com
+
+# Default: 10 seconds to find an element before failing
+defaultElementIdentificationTimeout=10
+
+# Time (seconds) for default UI state waits such as driver.element().waitUntil(...)
+waitForUiStateTimeout=600
+
+# Enable SHAFT's browser readiness wait before browser and element actions
+waitForLazyLoading=true
+
+# Time (seconds) to wait for document, JS framework, and network readiness
+waitForLazyLoadingTimeout=30
+
+# Initial network quiet window when no activity has been observed yet
+lazyLoadingNetworkIdleInitialObservationMillis=200
+
+# Required network quiet window after observed XHR/fetch/resource activity
+lazyLoadingNetworkIdleQuietWindowMillis=500
+
+# Cheap per-action DOM quiet window (0 = off). Navigation uses the next property.
+lazyLoadingDomStabilityQuietWindowMillis=0
+
+# DOM quiet window after navigateToURL and public waitForLazyLoading()
+lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
+
+# Default: eager. Pair with readinessState=interactive
+pageLoadStrategy=eager
+readinessState=interactive
+
+# Default: 30 seconds to wait for a page navigation to complete
+browserNavigationTimeout=30
+
+# Default: 30 seconds to wait for the full page DOM to load
+pageLoadTimeout=30
+```
+
+---
+
+## Visual Reporting
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Let the granular visual reporting controls below override the default profile
+evidenceLevel=CUSTOM
+
+# Generate an animated GIF of each test in the Allure report
+createAnimatedGif=true
+
+# Record a full MP4 video of each test execution
+videoParams_recordVideo=true
+
+# Keep the Allure 3 Awesome report portable as one HTML file
+allure.singleFile=true
+
+# Group the Allure report tree by Java package and class
+allure.groupBy=package,testClass
+```
+
+---
+
+## Reliability & Retries
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Automatically retry failed tests up to N times
+retryMaximumNumberOfAttempts=3
+
+# Retries are additional attempts after the first failure; JUnit retries run
+
+# after @AfterEach cleanup and execute @BeforeEach again
+
+# Loosen the built-in pre-action checks if your app has unusual rendering
+forceCheckForElementVisibility=false
+
+# Still throws on every retry within the identification timeout; only once that
+
+# timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to
+
+# a single displayed-and-enabled match before throwing MultipleElementsFoundException
+
+# (see SHAFT_ENGINE #4321)
+forceCheckElementLocatorIsUnique=false
+
+forceCheckTextWasTypedCorrectly=false
+forceCheckNavigationWasSuccessful=false
+
+# Use JavaScript click as a fallback when a WebDriver click fails
+clickUsingJavascriptWhenWebDriverClickFails=true
+```
+
+---
+
+## Proxy
+
+Only needed if you are behind a corporate proxy:
+
+```properties title="src/main/resources/properties/custom.properties"
+com.SHAFT.proxySettings=proxy.corp.example.com:8080
+```
+
+---
+
+[property types]: 
+[full list of supported properties]:
+
+## Related
+
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Properties List](/docs/reference/properties/PropertiesList)
+- [Common Examples](/docs/reference/properties/CommonExamples)

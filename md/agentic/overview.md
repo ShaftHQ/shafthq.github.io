@@ -1,0 +1,112 @@
+# Agentic testing
+
+Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/overview
+Guide index: https://shafthq.github.io/llms.txt
+
+# Agentic testing without hidden automation
+
+SHAFT separates deterministic automation from optional model-provider advice.
+MCP, Capture, Doctor, and Heal remain useful without provider credentials.
+
+```mermaid
+flowchart TD
+ IntelliJ["IntelliJ plugin"] --> MCP["SHAFT MCP"]
+ Client["AI client"] --> MCP["SHAFT MCP"]
+ MCP --> Engine["shaft-engine tools"]
+ MCP --> Capture["Capture"]
+ Capture --> Generated["Reviewable TestNG source"]
+ Results["Allure results"] --> Doctor["Doctor"]
+ Doctor --> Diagnosis["Portable diagnosis"]
+ FailedLocator["Failed locator"] --> Heal["Deterministic Heal"]
+ Heal --> Report["Explainable recovery report"]
+ Provider["Optional provider"] -. consent + redaction .-> Doctor
+ Provider -. consent + redaction .-> Heal
+```
+
+## Install SHAFT agent tools
+
+Install the project-local [ChaosEngine harness](/docs/agentic/chaos-engine) when
+you want one canonical agent workflow plus verified host adapters and local
+Memory, MemPalace, and Graphify tooling.
+
+Install the first-party skill pack without configuring an MCP client. The
+[SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
+routes, native directories, upgrade behavior, and packaging tradeoffs.
+
+Install `shaft-cli` without configuring an MCP client. This also installs its
+internal `shaft-mcp` runtime prerequisite.
+
+Change into the target project first. Public one-liners install SHAFT Agentic
+Tools (MCP, CLI, and skills):
+
+```powershell
+irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.ps1" | iex
+```
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.sh" | bash
+```
+
+CLI-only install still uses the inner Agentic Tools script:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-cli
+```
+
+| Capability | Default behavior | Start here |
+|---|---|---|
+| IntelliJ plugin | IDE front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and Guide search | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
+| MCP | Local stdio tools; no model credentials stored | [Connect MCP](/docs/agentic/mcp) |
+| Planning | Deterministic same-origin crawl drafts Markdown test plans into `specs/`; no AI calls | [Planning test coverage](/docs/agentic/mcp#planning-test-coverage) |
+| Capture | Record and generate deterministic test code | [Capture](/docs/agentic/capture) |
+| Doctor | Analyze allowlisted evidence offline | [Doctor](/docs/agentic/doctor) |
+| Heal | Recover eligible web locators with an explainable policy | [Heal](/docs/agentic/heal) |
+| Pilot providers | Disabled until explicitly configured and approved | [Provider controls](/docs/agentic/providers) |
+
+## Why SHAFT?
+
+Compared with plain recorder/codegen tools and raw agent-written Selenium,
+SHAFT's agentic loop differs on four load-bearing points:
+
+- **Privacy-safe recording.** Typed values are externalized to test-data
+ files, secrets are redacted at capture time, and a checked-in team policy
+ (`.shaft/recorder-policy.json`) pins recording behavior for the whole
+ repository — recordings are safe to commit and share.
+- **Compile-validated codegen.** Generated tests are compiled against SHAFT
+ and optionally replayed end-to-end before you ever see them; a replay
+ failure returns the code *plus* the failing step's diagnostics, never a
+ silent broken file.
+- **Repo-aware generation.** The Coding Partner plans against your existing
+ page objects, locator fields, and action methods before proposing new code,
+ so generation extends your suite instead of forking it.
+- **A maintenance loop, not just a generator.** Doctor triages failed runs
+ from Allure evidence and Heal recovers eligible locators with an
+ explainable policy — the same tools that created the test keep it alive.
+
+The same workflows run on every agent — Codex, Claude Code, GitHub Copilot,
+and Gemini — because they are MCP tools, not agent-specific plugins; and the
+No-AI lane (Recorder, codegen, Doctor, Healer) works with no agent or model
+credentials at all.
+
+Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for
+Capture and Doctor CLI examples.
+
+```text
+MCP commands live on /docs/agentic/mcp#mcp-command-reference
+```
+
+## Related
+
+- [What's new: agentic tools](/docs/features/whats-new/agentic)
+- [ChaosEngine](/docs/agentic/chaos-engine)
+- [SHAFT agent skills](/docs/agentic/skills)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)
+- [Providers](/docs/agentic/providers)

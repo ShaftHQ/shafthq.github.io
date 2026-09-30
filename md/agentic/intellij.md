@@ -1,0 +1,1017 @@
+# IntelliJ IDEA plugin
+
+Use the SHAFT coding partner front door for Assistant, Coding Partner, MCP tools, Recorder, Doctor, Healer, Inspector, Projects, and Guide search from IntelliJ IDEA.
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/intellij
+Guide index: https://shafthq.github.io/llms.txt
+
+# IntelliJ IDEA plugin
+
+The SHAFT IntelliJ IDEA plugin is the cohesive coding-partner front door for
+Java test projects. Use it to ask questions, plan repository-aware changes,
+record browser or mobile flows, refactor Selenium/Appium code toward SHAFT,
+reuse existing Page Objects, locators, and actions, diagnose failures, and
+prepare reviewable repairs from the same tool window.
+
+The plugin is a thin IDE shell over `shaft-mcp`: SHAFT engine behavior, local
+CLI agent routing, direct provider adapters, Doctor, Healer, Capture, and
+Inspector logic stay in the engine modules.
+
+Install the plugin from JetBrains Marketplace when it is published, then open
+**Tools | SHAFT | Open SHAFT**. If you install a plugin ZIP from disk, restart
+IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
+actions are fully registered. The core Assistant tool window can load without
+IntelliJ's Java plugin; Java-specific actions are registered only when Java
+support is available. First run shows **Set up SHAFT tools** inside the tool
+window. SHAFT tools are required; connecting an AI agent is optional:
+
+0. **Prerequisites** detects Python 3, Java, Maven, Node.js when needed, and the
+ selected agent CLI. Missing tools and the optional SHAFT Engine warm-up use
+ **Open in Terminal**; **Recheck** detects them again after installation.
+1. **Choose setup route** starts unselected with a **Select an option** placeholder.
+ Choose Codex CLI, Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI,
+ GitHub Copilot in IntelliJ, or Gemini in IntelliJ. **Check** validates the
+ chosen route when the plugin can observe it.
+2. **Open setup command** prepares the route-specific Agentic Tools installer
+ through **Open setup command in terminal**. The plugin copies the command,
+ opens IntelliJ Terminal, and pre-types it. Review the command and press Enter
+ yourself; the plugin never executes the installer.
+3. **Verify setup** finds the installed SHAFT MCP command, verifies the
+ workspace, and asks the selected local agent whether it can access
+ `shaft-mcp`. Success reveals **Ready** and **Open Assistant**. When a stale
+ CLI session blocks access, recovery also uses **Open in Terminal**.
+
+After verification, **Optional: Upgrade project** unlocks. It reads the open
+project's `pom.xml`, compares its SHAFT version with the latest release, and
+opens the deterministic upgrade command in IntelliJ Terminal. Agent-driven
+upgrades use the upgrader bundled with the installed SHAFT MCP first, announce
+that source, and visibly announce any fallback to the current `origin/main`
+upgrader. Existing source-edit approval covers agent repair only when both
+deterministic paths fail. See the [Upgrade guide](/docs/start/upgrade).
+
+Setup readiness has two lanes. The recorder, persisted-recording codegen,
+Doctor, and Healer only need the verified SHAFT MCP, so when the MCP check
+passes but the selected agent is missing or unreachable, setup still completes
+with a **Start without an agent** button. Free-text scenario codegen needs the
+Codex local CLI in addition to the verified MCP. The agent diagnostics and
+restart recovery stay visible for that optional second lane. The wizard is also
+project-aware: the Upgrade step distinguishes
+"already on the latest SHAFT" (green), "SHAFT upgrade available", "Maven
+project without SHAFT" (adopt via the upgrade command), and "no `pom.xml` at
+all" (scaffold a project first), so an empty folder is never told to upgrade.
+
+After setup, the main view header keeps a persistent **readiness strip** showing:
+
+- **MCP** — "verified / failed / not checked" with a one-click **Recheck** button that runs a live connection probe so a broken MCP never fails silently mid-session.
+- **Workspace** — "OK" or "unavailable" reflecting the root folder state.
+- **Agent** — "ready" or "optional" (not connected) showing whether chat is available.
+- **Recording active** — a badge appearing whenever a SHAFT recording session is running.
+
+The Ready row in setup shows an explicit checklist: "MCP connected · Workspace root OK · Agent ready|Agent optional (not connected) · Ready to record".
+
+The Marketplace plugin does not download or execute installer scripts at
+runtime. It only helps you choose the agent, copy the terminal installer
+command, find the installed `shaft-mcp.args` automatically, then stores and
+starts that local command. Copied commands fetch
+`scripts/mcp/install-shaft-agentic-tools` from the `main` branch. Public
+one-liners stay `scripts/mcp/install.ps1` and `install.sh`.
+After a command has passed setup, opening SHAFT shows the Assistant view.
+Without a verified MCP command, the landing view keeps the click-through setup
+visible. Unverified settings stay behind the same setup gate until
+**Verify setup** passes.
+
+![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
+
+Setup opens with a simple vertical stepper with visible state chips, only
+showing the buttons relevant to the current step. The path reads as
+**Prerequisites -> Choose setup route -> Open setup command -> Verify setup -> Ready -> Optional: Upgrade project**.
+Every state chip reflects a real verification of what is on the machine or in
+the project — never a "you clicked the button" heuristic — and a check that
+ran and did not pass shows an explicit red **Failed** chip with recovery
+guidance instead of silently staying neutral.
+The whole setup flow scrolls vertically when it outgrows the tool window (the
+scrollbar appears only when needed, and content re-wraps instead of scrolling
+sideways), so the bottom of the page always stays reachable.
+There is no recommended-agent label. The agent choice owns the installer
+target, so changing the route also changes the copied Agentic Tools command
+and invalidates stale setup verification. Internal installer-source/branch
+details and the managed stdio command are not shown as setup inputs. Test
+failures stay inline with categorized troubleshooting, client-specific next
+steps, copyable diagnostic output, copyable SHAFT MCP docs link, and the retry
+action remains enabled.
+
+Selecting **Gemini in IntelliJ** from **Agent** detects configured Gemini
+environment variables. When no still-present source was selected previously,
+`GOOGLE_API_KEY` is the automatic default before `GEMINI_API_KEY`; select the
+detected variable to use it without copying its value into plugin settings or
+IntelliJ Password Safe. **Check agent connection** validates
+the selected credential against Gemini before it reports the route as ready.
+If neither variable is present, paste a Google AI Studio API key into the
+masked field. The plugin stores a pasted key in IntelliJ Password Safe, saves
+the Cloud/Gemini Assistant route with a default model, and passes only the
+selected credential to the SHAFT MCP process. The installer target switches to
+`intellij-plugin` because Gemini prompts run through SHAFT MCP provider chat
+instead of an external agent CLI.
+
+![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
+
+![Completed SHAFT IntelliJ setup showing verified MCP tools and Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+
+![SHAFT IntelliJ Assistant setup in dark mode with Verify setup marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+
+Troubleshooting details distinguish the failure type when the plugin can infer
+it:
+
+- **Java/runtime**: install or select a Java runtime that can run `shaft-mcp`,
+ then retry.
+- **Maven artifact resolution**: check Maven Central or proxy access for
+ `io.github.shafthq:shaft-mcp`, then retry.
+- **Client configuration**: confirm the selected client can write and read its
+ MCP configuration file.
+- **Client runtime**: install the selected client CLI or add it to `PATH`, then
+ retry.
+- **MCP command**: rerun the terminal installer, then click **Verify setup** so
+ SHAFT can find the installed command automatically.
+- **MCP probe**: rerun the installer command, then click **Verify setup** once
+ it finishes.
+
+The setup pane uses **Open setup command in terminal** for runnable setup
+commands and **Copy** for diagnostic output or links. A terminal action copies
+and pre-types its command, but never runs it.
+Codex users should verify `codex mcp list`, Claude users should
+verify `claude mcp list` or restart Claude Desktop after desktop config changes,
+GitHub Copilot users should check the Copilot MCP configuration and
+organization MCP policy, and SHAFT IntelliJ plugin users should run the
+`intellij-plugin` target before checking setup.
+
+After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
+and **Open Assistant** action without showing the managed stdio command or
+probe logs. The plugin starts the configured stdio command on the first tool
+invocation and keeps that MCP server process alive across tool calls, so
+session-based tools (a running Capture recording, an initialized live
+driver) keep running between commands; the process is restarted transparently
+when it dies or the configured command changes. The plugin does not embed the
+SHAFT engine or manage provider model traffic itself.
+
+The plugin also caches the connected server's MCP tool list per connection
+instead of re-listing tools on every call, populating the catalog
+automatically the first time it is needed after a (re)connect. A request that
+names a tool missing from the cached catalog fails fast with a suggested
+nearest-match tool name instead of silently doing nothing.
+
+## Tool window
+
+Open **Tools | SHAFT | Open SHAFT** to show the tool window in a detected SHAFT
+project. The SHAFT action and tool window stay hidden in unrelated projects.
+The plugin opens on
+the **Assistant** — the only view regular users see — and the Assistant
+understands what you need in plain language. There are no commands to learn:
+describe the outcome, and the Assistant routes the request to the right SHAFT
+workflow. Typing `/` in the composer also opens a slash menu with quick
+shortcuts for the same core workflows -- see [Assistant](#assistant) below for
+the command list.
+
+- "Record my browser actions on https://your-app.example" starts a privacy-safe
+ web recording session.
+- "Record my mobile actions on the Android emulator" starts a mobile recording
+ with an attached emulator session.
+- "Generate a SHAFT test from recordings/checkout.json" converts a saved
+ recording directly into compile-validated SHAFT code without a live capture
+ session. Use `/codegen ` when AutoBot should record the journey,
+ propose reuse, generate the code after approval, replay it, and heal one
+ failure. See [Record and generate a new scenario](#record-and-generate-a-new-scenario).
+- "Diagnose my last failed test run" triages the most recent Allure evidence in
+ the project automatically — no report path required.
+- "Upgrade this project to the latest SHAFT" has the agent preview, apply, and
+ verify the upgrade (with Agent mode and source edits approved).
+
+As the Assistant routes a request to a tool, the running status names it in
+plain language — "Running: `capture_start` …" — so it is always clear which
+tool was chosen. When a tool fails, the result leads with a short headline
+("` ` couldn't finish"), the humanized error, and exactly one next action,
+so a failure is easy to scan and act on rather than a wall of exception text.
+
+An empty chat starts with three outcome actions: **Plan a test from a scenario**,
+**Record a sample flow**, and **Diagnose a failure**. Each action only pre-fills
+the composer; review or edit the request before you send it. The Assistant also
+shows a dismissible first-run coach: "Finish setup → Record a sample → Review
+code" with a **Got it** button that hides it permanently. The
+composer placeholder invites a plain-language request (record, generate a test,
+diagnose failures, upgrade) and wraps to the panel width so it is always fully
+readable. **Run settings** stays collapsed as a chip until you expand it to
+change the agent, effort, **Allow source edits**, or Verbose. Until setup
+selects a route, that chip does not name Codex and does not invent a default
+agent. The Assistant still opens in **Agent** mode with **Allow source edits**
+checked, so a first request like "generate a test" can actually land code in
+the project; uncheck it for suggestion-only runs. Recording requests such as
+"Record my browser actions on https://..." always run on the plugin's own
+long-lived SHAFT MCP session -- a recording must never belong to a one-shot
+local agent turn, whose MCP process (and with it the recording browser) ends
+seconds after the reply.
+
+Enabling **Settings | SHAFT | Enable advanced workflows and provider options**
+(Expert mode, also available as a checkbox on the setup view) reveals the
+**Workflow** selector with every specialist surface: **Guided**, **Recorder**,
+**Inspector**, **Triage**, **Visual Baselines**, **Evidence**, **Projects**, and
+**Advanced**. These
+panels expose raw MCP requests and are aimed at users who already know the tool
+catalog; everything they do is reachable through plain Assistant requests. The
+Guided tab's **Try SHAFT on a sample page** button extracts a bundled local
+bookstore page (nothing leaves your machine) and walks a complete
+record-review-insert loop in about 90 seconds.
+
+Use the plugin as the default front door when you are already in IntelliJ:
+
+- Record web journeys, then review WebDriver or Playwright code blocks before
+ inserting them into the existing test structure.
+- Record mobile/Appium flows, then reuse generated locator and action blocks in
+ the existing mobile Page Objects.
+- Ask for a Selenium-to-SHAFT conversion (pasting native Selenium into the
+ composer also offers a one-click conversion) so the plan searches existing
+ Page Objects, locator fields, and action methods before suggesting new code.
+- For generated GUI code, reuse existing project code first. If a needed action
+ or locator is missing, record the complete flow, then insert only the missing
+ locators/actions into the planned source anchor. Use a unique author-written
+ id through `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)`, then an ARIA role
+ through the same builder, then native relative `By.xpath(...)` only. Do not
+ use `SHAFT.GUI.Locator.xpath(...)`, the raw
+ `SHAFT.GUI.Locator.id/name/cssSelector/className/tagName(...)` factories, or
+ Smart Locators (`inputField` / `clickableField`) in generated or repository
+ code.
+- Ask to diagnose or heal failed runs; proposed fixes stay review-only until you
+ apply and verify them.
+- Keep WebDriver as the default backend unless the project already uses
+ `SHAFT.GUI.Playwright` or the prompt explicitly asks for Playwright.
+
+## Agentic E2E workflows
+
+Use these flows as chat contracts. The plugin is the front door, `shaft-mcp`
+does repository-aware planning and evidence capture, and the selected local
+agent applies source edits only after you enable **Allow source edits** for that
+request.
+
+### Upgrade a Selenium Maven project
+
+In Agent mode, ask the assistant to inspect the current Selenium/JUnit Maven
+project and return the upgrader command first. The command should be in its own
+fenced block, and the agent should wait for you to run it before source edits.
+Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
+copyable command; this page documents the IDE workflow around that command.
+The setup wizard's **Upgrade project** step, in the prerequisites sequence on this page, offers the same
+command as a one-click copy before you ever open the Assistant chat; this
+chat-driven flow and the **Projects** workflow's upgrade template are
+alternatives for triggering it later, mid-session, with repository-aware
+framing.
+
+```mermaid
+flowchart TD
+ Project[Selenium WebDriver + JUnit Maven project] --> Setup[IntelliJ plugin setup: chosen agent + Agentic Tools]
+ Setup --> AskUpgrade[Agent mode: ask to upgrade project to SHAFT]
+ AskUpgrade --> Command[Agent returns copyable upgrader command from Upgrade guide]
+ Command --> UserRuns[User runs command in terminal]
+ UserRuns --> Compile[Agent reads result and runs focused compile]
+ Compile --> Review[User reviews upgraded project]
+```
+
+Use `basic` when you only want the POM updated, `session` when the agent should
+also migrate supported Selenium session setup, and `full` only after reviewing
+the higher-risk action rewrites.
+
+### Record and generate a new scenario
+
+Select the Codex local CLI route and complete **Verify setup** before you start.
+The protected free-text workflow needs both
+the local CLI and a verified `shaft-mcp` connection. Other Assistant chat and
+persisted-recording codegen remain available through their supported routes.
+
+Send the scenario from the Assistant composer:
+
+```text
+/codegen Navigate to https://example.test/login, sign in as a valid user, and verify the account page.
+```
+
+AutoBot resolves the target URL from the scenario first. If the scenario has no
+URL, it reads `baseURL` from
+`src/main/resources/properties/custom.properties`:
+
+```properties
+baseURL=https://example.test/login
+```
+
+If neither source provides a URL, AutoBot asks one URL question before
+recording. A missing URL after that question cancels the workflow instead of
+guessing a target.
+
+AutoBot then runs these phases:
+
+1. **RECORD** keeps project source read-only. AutoBot opens the
+ managed browser, performs the described actions through the negotiated SHAFT
+ browser and Capture tools, stops the session, and saves
+ `recordings/intellij-capture.json`.
+2. **AWAITING_EDIT_CONFIRMATION** shows the saved recording and a proposal that
+ names reusable test classes and Page Objects. No source edit or replay runs
+ until you send `approve edits`. Send `deny`, `cancel`, or `stop` to finish
+ without source changes.
+3. **GENERATE** applies the approved plan. Reuse existing test classes, Page
+ Objects, locator fields, and action methods before creating anything. Create
+ a class only when no suitable owner exists. For a new locator, prefer a
+ stable unique ID with `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)`, then
+ follow the project's existing locator conventions and the
+ [generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy).
+4. **REPLAY** runs the generated scenario once. If it fails, **HEAL** analyzes
+ the failed locator or action, applies one repair, and replays once more by
+ default. Request a larger limit explicitly in the original scenario, for
+ example `allow 3 heal retries`. AutoBot never weakens assertions to pass.
+
+The terminal response lists each phase outcome, every changed or created class,
+and the final scenario status. When the run produced a real
+`allure-report/AllureReport.html`, the response links that single-file report;
+it does not invent a link when the file is absent.
+
+Cancellation stops the active workflow and prevents later output from changing
+the panel. Unsupported CLI routes and custom agent commands fail closed before
+RECORD because they cannot enforce the source-read-only boundary. This failure
+only blocks protected free-text `/codegen`; it does not disable other chat.
+
+Checkpoint notes are review intent only. Generated assertions must be real SHAFT
+builder calls such as `driver.assertThat().browser()...` or
+`driver.element().assertThat(...)`, not raw JUnit/TestNG assertions.
+
+### Delegate browser exploration to Playwright
+
+When a task needs token-efficient snapshots, console output, tracing, video,
+PDF, or official Playwright Test Agent planning, let the local agent use
+official Playwright CLI or Playwright MCP as a sidecar. The final Java change
+still returns through SHAFT planning and guardrails. Storage-state save/load
+and observed-network inspection no longer need a sidecar for the common case:
+use `browser_storage_state_save`/`browser_storage_state_load` and
+`browser_network_requests` directly -- the same tool names work against
+whichever engine (WebDriver or Playwright) is active in the session.
+
+```mermaid
+flowchart LR
+ Intent[User intent] --> NeedSidecar{Need Playwright-specific exploration?}
+ NeedSidecar -->|No| ShaftTools[SHAFT WebDriver or Playwright MCP tools]
+ NeedSidecar -->|Yes| PlaywrightSidecar[Official Playwright CLI or MCP]
+ PlaywrightSidecar --> Evidence[Snapshots, locators, screenshots, storage, HAR, traces]
+ ShaftTools --> Plan[shaft_coding_partner_plan]
+ Evidence --> Plan
+ Plan --> Java[SHAFT Page Objects and tests]
+ Java --> Verify[Guardrails and focused validation]
+```
+
+Do not paste Playwright TypeScript output into a Java project. Treat Playwright
+CLI/MCP output as evidence, then translate the proven behavior into
+`SHAFT.GUI.WebDriver` or `SHAFT.GUI.Playwright` syntax based on the project
+backend.
+
+### Diagnose and heal a failed test
+
+```mermaid
+flowchart TD
+ Failure[Failed SHAFT test] --> Trace[trace_latest and trace_summarize]
+ Failure --> Doctor[doctor_analyze_failed_allure]
+ Trace --> Cause[Failure category and source context]
+ Doctor --> Cause
+ Cause --> Heal{Locator recovery eligible?}
+ Heal -->|Yes| Healer[healer_run_failed_test, WebDriver or Playwright backend]
+ Heal -->|No| FixPlan[shaft_coding_partner_plan for reviewed fix]
+ Healer --> FixPlan
+ FixPlan --> Patch[Approved source edit]
+ Patch --> Validate[Focused rerun]
+```
+
+## Assistant
+
+The **Assistant** workflow is a chat-style view with Ask, Plan, and Agent modes
+in the bottom composer. Local CLI prompts call the MCP
+`autobot_local_agent_run` tool, which delegates to the engine-side local agent
+service in `shaft-pilot-core`. Cloud Ask and Plan prompts call
+`autobot_provider_chat` with the selected provider and model. Readiness helpers
+are `autobot_local_agent_clients` (installed local CLIs),
+`autobot_provider_status` (configured cloud provider, model, API-key presence
+without the value, structured-output support), and `autobot_provider_models`
+(catalog for the selected provider).
+
+Supported local routes are:
+
+| Client | Default local command | API key required by SHAFT |
+| --- | --- | --- |
+| Codex CLI | `codex --ask-for-approval never exec --sandbox read-only -` for Ask/Plan and no-source Agent; project-scoped `workspace-write` with `Allow source edits` | No |
+| Claude Code | `claude --print`; Plan uses `--permission-mode plan`; no-source Agent asks per tool call via a local approval bridge (see [Tool approval](#tool-approval)); source-edit Agent uses `acceptEdits` for file edits and keeps the same approval bridge for shell and third-party MCP tool calls, which `acceptEdits` alone would silently deny in `--print` mode; SHAFT's own MCP tools are pre-approved via `--allowedTools mcp__shaft-mcp` in both Agent variants | No |
+| Copilot CLI | `copilot ask`, `copilot plan`; source-edit Agent uses `copilot agent` | No |
+
+The composer shows a **model** selector and a reasoning **effort** selector for
+the active route in both the basic and advanced UI. Local routes list the
+models reported by the connected agent CLI (`codex debug models`,
+`claude config list-models`, `copilot models`); cloud routes list a curated
+catalog per provider, for
+example `gemini-3.5-flash`/`gemini-2.5-flash` for Gemini and
+`claude-fable-5`/`claude-opus-4-8`/`claude-sonnet-5` for Anthropic. The cloud
+selector is restricted to its curated choices, while the local selector is
+editable so newer local model names can be typed in. The selected
+model is passed as `--model` to the local CLIs and as the `model` argument to
+`autobot_provider_chat`. Effort levels are Default, Low, Medium, and High:
+Codex receives the level as its `model_reasoning_effort` config flag, while
+Claude, Copilot, and cloud providers receive a one-line reasoning-effort
+preference at the top of the prompt.
+
+The local model row always includes **CLI default**. Choose it to omit the
+`--model` flag and let the selected CLI use its configured default. A status
+row distinguishes checking, available models, an empty catalog, an unavailable
+CLI, and a failed refresh, so an empty selector is never the only diagnostic.
+
+The **Agent health** row checks the project-local SHAFT skills required by the
+selected family. Use **Recheck** after changing files, or **Repair skills** to
+run `shaft_project_init_agents` for the selected family. A local-agent prompt
+is blocked when the required `shaft-developer` or `shaft-recording-codegen`
+skill is missing; the repair action rechecks the files before it resends that
+prompt.
+
+Cloud providers are OpenAI, Anthropic, Gemini, and GitHub Models. For each
+provider, select a detected environment variable or store a key in IntelliJ
+Password Safe. The plugin recognizes `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`,
+`GOOGLE_API_KEY` then `GEMINI_API_KEY`, and `GH_TOKEN` then `GITHUB_TOKEN` in
+the stated precedence order. It stores only the selected variable name and
+passes only that provider credential to the MCP process. Cloud `AGENT` mode is
+disabled because direct provider chat cannot mutate the local workspace. A
+cloud route selected during first-run setup (such as Gemini) stays active in
+the basic UI; switching providers ad hoc remains an advanced-mode control.
+
+Use `Ctrl+Enter` or `Command+Enter` to send a prompt. Newly sent prompts scroll
+into view immediately, so the chat shows visible feedback before a long-running
+response finishes. Press `Escape` to cancel a running request. The selected
+local agent appears as compact text such as `Codex CLI`; hover it for the full
+route, for example `Agent: Local / Codex / CLI`.
+Compact Assistant controls keep JetBrains-style glyphs, including Copy all,
+Clear, and Rerun transcript actions. All controls retain accessible names,
+status metadata, and tooltips. Code blocks use a light editor-style palette in
+light mode and a distinct dark surface in dark mode.
+
+The header keeps a trust summary visible while you work:
+`Agent · Status · Mode · Access · Context`. It reports **Not configured** when
+no route is selected, distinguishes connected, authentication-needed, and
+unavailable provider states, identifies read-only, source-edits-with-approval,
+or unrestricted access, and counts attached context. Narrow tool windows keep
+model, effort, Verbose, and Auto-compact controls inside **Run settings**.
+While a prompt runs, the submit icon becomes an animated spinner;
+hovering it changes the same square control into cancel. If you cancel, the
+request ends with a dedicated final transcript entry and no capture-generated
+output is finalized. While the stop is in flight, the compact status strip
+shows **Cancelling…** (or **Killing…** when the underlying process needs a
+hard stop). The strip collapses when the run finishes; the transcript keeps
+the substantive result, cancellation, or failure response without adding a
+duplicate terminal milestone. Duration appears only when the underlying tool
+or agent reports a real duration. A token-usage line
+appears under the response only when the wrapped CLI reports real usage
+metadata (input/output token counts); SHAFT never fabricates or estimates a
+count when the CLI stays silent about usage.
+A **Verbose** checkbox, available on every route, forwards the unfiltered
+picture into the chat as it happens instead of only showing the final result.
+For local agent CLI runs that means the agent's own stream:
+extended-thinking/reasoning blocks, each tool call (with a short
+summary of its input when one is available), and each tool call's result or
+failure once it completes. For direct SHAFT MCP tool runs (for example
+recording code generation), Verbose echoes the exact tool request being sent and the
+raw tool response alongside the formatted answer. Toggling Verbose mid-run is
+safe in either direction -- the transcript never ends up showing a stale
+in-progress bubble or losing an unrelated message. With Verbose off, a brief
+"running" bubble still appears while the agent works and is replaced by the
+final answer.
+Tool-result messages that carry raw evidence (for example a Doctor analysis
+or a direct MCP tool response) also show a collapsed **Show raw output**
+toggle directly under that message, independent of the Verbose setting --
+expand it to inspect that one result's raw payload without turning on
+Verbose for the whole session. Like Verbose's raw-response echo, this raw
+evidence is transient view state only; it is never written to persisted
+chat history (see below).
+
+Assistant output is grouped into labeled run records such as **Run · Result**,
+**Run · Action and evidence**, **Run · Raw activity**, and **Run · Failed**.
+Action and raw-activity details start collapsed; use **Show run details** and
+**Hide run details** to inspect them. Evidence image previews are buttons, so
+you can reach and open them with the keyboard. Raw evidence uses the visible
+**Show raw output** and **Hide raw output** controls instead of a tooltip-only
+state.
+Local Agent mode is blocked from
+source mutation until the user explicitly approves it for that request. For
+browser-only tasks, leave `Allow source edits` off; enable it when the request
+requires applying code or source edits. If an Agent-mode continuation such as
+"try again" follows an earlier source-edit request, the Assistant still requires
+`Allow source edits` before launching the local agent. A custom local agent
+command can be supplied for non-standard CLI installations; broad Ask, Plan,
+and Agent prompts keep using the selected local route.
+
+:::danger Unrestricted Codex recovery
+
+Keep **Run Codex without sandbox** off for normal work. Enable this separate,
+default-off recovery option only when the Codex Windows project sandbox cannot
+launch. It skips Codex confirmation prompts and sandboxing, so Codex commands
+and file edits may access paths outside the open project.
+
+:::
+
+Assistant chats are persisted per IntelliJ project. Use the chat selector to
+reopen recent contexts, the New chat icon to start a separate context, and the
+Clear icon to clear only the active chat. Active chat messages are included as
+bounded context for local and cloud Assistant prompts until you click Clear;
+New chat starts a separate context. Persisted chats keep rendered messages
+only; raw MCP payloads and common token/key values are not stored.
+
+Typing `/` in the composer opens a slash menu. By default it shows five core
+commands: `/record` (canonical for starting a web recording session --
+`/record-web`, `/rec`, and `/capture` are aliases that route to the same
+command), `/record-mobile`, `/codegen`, `/doctor`, and `/upgrade`. Enabling
+[Expert mode](#expert-mode) reveals the rest of the MCP tool catalog in the
+same menu for users who already know the tool names; regular users never need
+it, because the five defaults plus plain language cover the common workflows.
+
+The Assistant understands feature intent directly from the chat box: "start
+mobile recording" maps to `capture_start` against an active mobile session,
+"record my browser actions on https://..." starts a web capture session, and
+"diagnose my last failed test run" triages the most recent Allure results in
+the project. Browser control defaults to WebDriver; say `playwright` in the
+prompt when that backend is required.
+
+Direct `/codegen` slash-command results show a persistent **review strip** with
+actions (Approve / Create test class / Insert / Dismiss) just like record-flow
+codegen. `/codegen recordings/checkout.json` (or asking in plain language, for
+example "Generate a SHAFT test from recordings/checkout.json") generates the
+SHAFT test, compiles it, and **re-executes the recording**, so the returned code
+blocks are verified against the live flow rather than only statically
+generated — and it works from the persisted recording file alone, with no
+live capture session required. Every backend goes through the same
+`capture_generate_replay` tool (optional `backend` selecting web/playwright/
+mobile, defaulting to the active engine): WebDriver Capture recordings
+generate, compile, then a headless replay gated on populated, passing Allure
+results; mobile and Playwright recordings replay against their respective
+active session — generated locators are always validated live before the
+Assistant returns them, for every backend. Before the run starts,
+the Assistant explains the phases (generate, compile, replay) and warns that a
+browser window may open for the replay (it starts on `about:blank` before the
+test navigates). The result is a step-by-step story — which file was generated
+where, whether it compiled, whether the replay passed with per-step failure
+diagnostics when it did not, the report/review artifact paths, and the
+generated code with next-step guidance — never a bare confirmation. When only
+the replay step fails, the generated and compiling code blocks are still
+returned together with the replay diagnostics, so a replay hiccup never turns
+into an empty "no code" response. Repeating the request regenerates the
+deterministic output in place instead of failing because the class already
+exists. `/codegen ` uses the consent-gated AutoBot
+workflow described in
+[Record and generate a new scenario](#record-and-generate-a-new-scenario).
+The plugin coordinates progress, cancellation, confirmation, and result
+presentation; AutoBot owns recording, source planning, generation, replay, and
+healing.
+
+"Upgrade this project to the latest SHAFT" in **Agent** mode with
+**Allow source edits** enabled performs the project upgrade itself: the agent
+states the project's current SHAFT setup, previews the change with the
+`shaft_project_upgrade` dry run, runs the official upgrader non-interactively,
+verifies the project still compiles (repairing upgrade-induced breakage with
+SHAFT syntax when needed), and reports the old and new versions plus every
+file it touched and why. Outside Agent mode — or on cloud/non-CLI routes that
+cannot edit local files — the Assistant explains exactly how to authorize the
+agent-run upgrade and still offers the manual copy-paste command.
+
+Use `review recording` or `review recording recordings/ .json` to generate
+the same reviewed Capture code blocks from chat.
+After capture approval, the local Agent run shows completion feedback in the
+final transcript so you can confirm generation status, outputs, and next
+workflow step before continuing. When the run created no files (for example
+because its tool calls were denied), the reviewed Capture code blocks stay
+available so you can approve again or copy the generated class manually, and
+the transcript says so explicitly instead of ending on a bare confirmation.
+
+For local agent CLI runs, the **Verbose** toggle streams everything the
+wrapped CLI reports while it works: recognized events are shown as
+human-readable progress lines (thinking, tool calls, tool results), and any
+event with no human-readable mapping is shared as-is in its native format
+(raw JSON) instead of being hidden. CLIs with no structured stream forward
+their raw output after a one-time notice. With Verbose off, only the parsed
+final response is shown. Independent of the toggle, every Agent-mode answer
+ends with a factual **Local agent activity** footer whenever the run created
+or edited files or lost tool calls to permission denials, listing the touched
+paths and the denied tools with per-tool counts.
+
+The run status strip and action controls stay hidden until a request is active.
+Substantive tool selections and progress milestones appear as transcript run
+records; approval requests appear inline when a decision is needed. Type `@`
+for workflow starters (plain-language prefills such as "Record my browser
+actions on https://") and `#` for the current file or known project artifacts;
+the dropdown filters live as you keep typing. The former "+" context button
+was removed in favor of these typed triggers.
+
+Pasting raw Selenium/Appium Java into the composer proactively offers a
+one-click **"Selenium detected — convert to SHAFT + guardrails"** action that
+wraps the code in a convert-to-SHAFT request and runs the guardrail check on
+the converted result.
+
+After a recording stops and its review is generated, the review bar offers the
+whole Record → Review → Insert loop in one place: **Create test class** writes
+the reviewed class into `src/test/java` (never overwriting) and opens it,
+**Insert into open class** regenerates the steps anchored to the file open in
+the editor (`capture_record_at_target_code_blocks`), **Open review file**
+jumps to the generated review artifact, **Evidence pack** returns a shareable
+manifest of source/report/review artifacts with validation commands, and
+**Compare backends** generates the same recording as both WebDriver and
+Playwright SHAFT code side by side. The generation report's readiness
+findings (flaky steps, unsupported events, required inputs, fallback
+locators) also surface as file-level IDE annotations directly on the
+generated class.
+
+![SHAFT IntelliJ Assistant chat composer showing a generated WikipediaSearchTest class under Confirmed target: https://en.wikipedia.org/wiki/Main_Page, with copy, download, delete, and rerun buttons above the prompt box, and a compact Run settings chip before an agent route is selected](/img/agentic/intellij-plugin-assistant.png)
+
+![SHAFT IntelliJ Assistant empty state with a visible trust summary and three outcome actions that prefill the composer](/img/agentic/intellij-plugin-assistant-empty.png)
+
+![SHAFT IntelliJ Assistant narrow dark view showing active work, progress, and cancellation controls](/img/agentic/intellij-plugin-assistant-active-status-narrow.png)
+
+![SHAFT IntelliJ Assistant run result with the raw output disclosure expanded](/img/agentic/intellij-plugin-assistant-tool-result-raw-output.png)
+
+The Assistant routes plain-language intent to the right MCP tools:
+
+| Intent | Say something like | Primary MCP tools |
+| --- | --- | --- |
+| Browser control and inspection | "open https://example.com and sign in" | `driver_initialize` (optional `engine=playwright`), `browser_open_intent`, `browser_get_page_dom`, `browser_take_screenshot`, `browser_aria_snapshot`, `browser_accessibility_audit` |
+| Web recording and codegen | "Record my browser actions on https://example.com", "Generate a SHAFT test from recordings/checkout.json" | `capture_start` (optional `codegenOptions`), `capture_codegen_features`, `capture_stop`, `capture_status`, `capture_code_blocks`, `capture_generate_replay`, `capture_target_candidates`, `capture_record_at_target_code_blocks`, `capture_backend_comparison`, `capture_evidence_pack`, `capture_step_delete`, `capture_step_reorder` (the same tools dispatch to the active Playwright engine) |
+| Mobile control and inspection | "check the Android toolchain", "inspect the current mobile screen" | `mobile_toolchain_status`, `driver_initialize` (`engine=mobile_native`/`mobile_web` with a nested `mobileOptions` request), `mobile_get_accessibility_tree`, `mobile_take_screenshot` |
+| Mobile recording and codegen | "Record my mobile actions on the Android emulator", "generate mobile code from recordings/mobile.json" | `capture_start`, `capture_stop`, `capture_code_blocks`, `capture_record_at_target_code_blocks`, `capture_generate_replay` (dispatching to the active mobile session), `mobile_inspector_record_start` |
+| Failure analysis and healing | "Diagnose my last failed test run", "analyze target/allure-results" | `doctor_analyze_failed_allure` (optional `backend=playwright`), `doctor_suggest_fix`, `doctor_analyze_trace` |
+| Managed local AI status | "show managed local AI status" | `setup_status` and `setup_verify` print `target readiness version detail` (version empty unless READY) and report readiness/version/action; `doctor_managed_local_ai_status` reports enablement, eligibility, and the DISABLED snapshot. Defaults stay off. Enablement is local-processing consent only; it is not remote consent or tool approval. See [managed local AI inventory](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting) |
+| Reuse planning and guide search | "plan a login test that reuses our page objects", "how do SHAFT locators work?" | `shaft_coding_partner_plan`, `shaft_guide_search`, `test_automation_scenarios`, `test_code_guardrails_check` |
+| Project upgrade | "Upgrade this project to the latest SHAFT" | `shaft_project_upgrade` preview + agent-performed upgrade |
+
+Type `/help` to list every registered Assistant command, SHAFT MCP tool, and
+`shaft-cli` command. Add a topic to filter across word and separator boundaries:
+
+```text
+/help browser navigate
+```
+
+`/commands`, `/mcp-help`, and `/shaft-help` are aliases for the same local
+catalog. Questions such as "What tools can you use?" also open it without
+calling the selected agent. When SHAFT MCP is connected, the MCP section comes
+from its live `tools/list` response, including valid empty catalogs and newly
+added server tools. If discovery is unavailable or malformed, the Assistant
+labels and shows its bundled MCP catalog instead. Cancelling help does not
+cancel another MCP tool call that shares the project connection.
+
+If MCP is not configured, the Assistant shows the SHAFT MCP setup prompt before
+it runs a feature request. Natural-language Ask/Plan prompts that need MCP tool
+access tell you to switch to Agent mode instead of launching a local agent from
+the wrong mode. Project creation from chat returns a review instruction; run
+**Create SHAFT Project** from the expert-mode Projects or Guided workflow so
+the confirmed workflow gate is used before files are written. `/doctor` (and
+"diagnose my last failed test run" and similar natural phrasing) accepts an
+`allure-results` directory, an individual `*-result.json` file, or a SHAFT
+single-file Allure HTML report (`AllureReport.html` or a timestamped variant)
+directly; naming no path at all auto-discovers the newest evidence in the
+project -- the most recently populated `allure-results` directory, or
+otherwise the newest `AllureReport.html`.
+
+Slash commands beyond the five core defaults (for example typing `/heal` or
+`/guide` directly) still route to their MCP tool even while Expert mode is off
+and the slash menu does not list them, preserving backward compatibility for
+typed muscle memory.
+
+Responses render as Markdown. Known SHAFT responses, including local agent runs,
+provider chat, local client discovery, MCP `content[].text` envelopes, JSON
+payloads, and Java snippets, are parsed into readable sections, tables, or
+fenced code blocks. When a browser or mobile recording stops successfully, the
+Assistant shows the next code-generation request (`Generate a SHAFT test from
+recordings/....json`) in its own fenced block, ready to send.
+Unknown structured responses are formatted through the selected Assistant route
+when possible; if no formatter is available, the plugin falls back to a local
+Markdown-safe JSON/code rendering. Use the copy actions for rendered Markdown,
+raw support diagnostics, or the full transcript plus current-session tool
+evidence when exporting for issue review.
+
+## Onboarding recording notes
+
+Use this preferred launch path for the recording workflow from a clean, disposable
+IntelliJ sandbox/profile so onboarding state stays isolated:
+
+```powershell
+$env:JAVA_HOME = ' '
+shaft-intellij\gradlew.bat -p shaft-intellij runIde --args C:/path/to/SHAFT_ENGINE
+```
+
+Use JDK 25 for the checked-in Gradle 9.3 wrapper. The plugin still targets Java
+17 bytecode for IntelliJ compatibility. Run the repository's
+`tools/intellij-plugin-recording/record-onboarding.ps1` helper explicitly when
+you need its Windows-specific preflight diagnostics; the direct wrapper command
+above relies on Gradle's normal runtime diagnostics.
+
+Use the same onboarding MCP flow: CODEX + CLI, Route = LOCAL, and Mode = AGENT.
+Ask/Plan browser-control prompts should be resent in Agent mode when MCP tools
+are required. `Allow source edits` stays off for DuckDuckGo/browser flow and is
+enabled when the run must change source files. If the step is expressed as
+"open the first result," use the scoped 1-indexed XPath
+(`(//article[@data-testid='result'])[1]//a[@data-testid='result-title-a']`) for
+the first result.
+For deterministic verification, finish with a final page title and page-specific
+text check after opening that result before approving generated capture output.
+Use `discard recording` or `re-record` when a focus or click mistake pollutes
+the capture; the Assistant stops the current Capture session with
+`discard=true` before restarting.
+
+For recordings, dismiss sandbox-only low-memory or script-launcher warning balloons
+without suppressing normal production IDE warnings. IntelliJ Trust Project may
+preselect Windows Defender exclusions; leave them unchecked unless exclusions are
+explicitly required for that environment.
+
+## Workflows
+
+The workflow selector exposes curated MCP requests for common automation jobs:
+
+- Recorder: Capture start, status, checkpoints, stop, reviewed code blocks,
+ target discovery, record-at-target patch previews, backend comparison,
+ evidence packs, Playwright recording controls, and replay code generation.
+- Inspector: browser and Playwright DOM snapshots, screenshots, mobile
+ toolchain status, wrapped Appium Inspector recording, mobile screenshots, and
+ accessibility trees.
+- Visual Baselines: scans the visual-baseline folder for pending `*_diff.png`
+ comparisons left by mismatched `matchesScreenshot()` runs, shows the
+ baseline and diff side by side, and lets you **Accept** (removes the stale
+ baseline so the next run records a fresh one) or **Reject** (clears the diff
+ marker, keeping the current baseline) each pending comparison.
+- Evidence: failed Allure analysis, trace discovery, trace analysis, trace
+ summarization, report remediation, guarded reruns, and review-only locator
+ proposals.
+- Projects: create new SHAFT example projects and preview or apply the modular
+ SHAFT upgrader against the open Java project (the setup wizard's **Upgrade
+ project** step offers the same upgrade as a first-run, one-click copy).
+- Guided: displays only Target URL, a prominent live status, and the recorder
+ controls by default; all other fields and the Coding Partner/Locator sections
+ are behind an **Advanced options** toggle (auto-expanded when expert mode is
+ on). The full view includes a Coding Partner section for planning
+ repository-aware work from intent, current Java source, selected text, and
+ evidence paths; starter templates for recording a browser flow and generating
+ Page Object code, starting a mobile web-emulation session for recording,
+ analyzing failed Allure results, converting Selenium snippets to SHAFT syntax,
+ creating a new SHAFT project, and inspecting current page locators. The
+ recorder **Backend** selector routes the recording controls to WebDriver,
+ Playwright, or Mobile (web emulation) recording tools, and fields the selected
+ backend's start request do not gray out with explanatory tooltips. A
+ **Headless browser** toggle (off by default so you can interact with the
+ recorded browser) controls whether recording sessions launch a visible window
+ — check it for agent-driven or CI recordings; the preference persists across
+ sessions and is also honored by the assistant web and mobile recording flows.
+ The **Intent** field flows into `capture_start` as `sessionGoal`, so generated
+ tests are named after the journey ("Log in as a valid user" yields
+ `logInAsAValidUser()`). A live **Status** strip shows "Recording · N steps · Ready · \ ",
+ allowing you to monitor session state, steps count (including pending debounced input),
+ and current URL in the IDE panel; stopping from here or in the browser overlay
+ saves the same recording session, so headless recordings stay observable and controllable
+ in-panel. On the Mobile backend, Start recording chains `driver_initialize`
+ (`engine=mobile_web`) and `capture_start` as one action, gating the recorder
+ start on the emulated session succeeding. The guided
+ recorder action says **Review code** because it prepares reviewed SHAFT code
+ blocks, setup notes, assertion suggestions, locator alternatives, and
+ control-flow review output. Templates prefill MCP arguments only; apart from
+ the chained mobile recorder start, they do not run tools or write source by
+ themselves. When a test run fails and Allure evidence exists, the plugin
+ raises a notification with **Diagnose with SHAFT Doctor** and **Heal failed
+ test** actions, prefilling the deterministic failed-Allure analysis or a
+ `healer_run_failed_test` run (AI flags off by default) in one click.
+- Advanced Tools: WebDriver, Playwright, and mobile playback flows, scenario
+ catalog prompts, generated-code guardrail checks, local Assistant client
+ discovery, recorder evidence manifests, backend comparison, and official
+ SHAFT guide search.
+
+Each category provides editable JSON arguments and calls the matching MCP tool.
+This keeps generated code and source edits reviewable in the IDE instead of
+hidden inside plugin code.
+
+Gutter run/debug icons appear next to any TestNG or JUnit `@Test` method in a
+SHAFT project. The **SHAFT Tests** tab lists recent test runs (pass/fail,
+class name, timestamp); double-click a row to rerun that test, or
+Ctrl+double-click to navigate to its source. **Settings | Tools | SHAFT**'s
+"Enable watch mode" checkbox reruns the last test automatically on every
+source save under `src/test/`; watch mode checks the saved file's class
+against the last run's target class first, and on a mismatch offers a
+"Run ` `" notification action instead of silently replaying a stale
+result ([ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467)).
+
+![SHAFT IntelliJ Guided workflow panel showing Target URL, a Browser dropdown set to Chrome, a Headless browser checkbox, Advanced options (Backend, Template, Intent, Session path), and an empty Recorded steps list reading Nothing to show](/img/agentic/intellij-plugin-guided.png)
+
+```json
+{"tool": "shaft_project_upgrade", "arguments": {"projectRoot": ".", "upgradeType": "basic", "dryRun": true, "approve": false}}
+```
+
+## Record in Java code
+
+Use **Tools | SHAFT | Record SHAFT Flow Here** from a Java file to prepare a
+`capture_record_at_target_code_blocks` request for the caret's package, class,
+method, and source path. The action defaults the session path to
+`recordings/intellij-capture.json`, matching the Assistant's normal browser
+recording path. Change it only when you recorded to a different file. After
+review approval, keep the same capture session path so generation preserves the
+reviewed browser journey instead of rerunning capture.
+The generated MCP response includes focused locator/action blocks plus a
+preview-only patch block; apply changes only after reviewing that preview and
+running the relevant verification command.
+This action is available only in IDE installations with Java support enabled.
+
+## Pick Locator at caret
+
+Use **Tools | SHAFT | Pick Locator from Live Session** (also on the editor
+popup menu, visible in SHAFT projects with a Java editor context) to call
+`capture_pick_locator` and insert the returned `SHAFT.GUI.Locator...` snippet
+at the caret — the same idea as Playwright's "Pick Locator". Start a SHAFT
+Capture session first and switch the recorder to inspect mode
+(`capture_set_mode` with `mode=inspect`, or the overlay's pick-locator
+control), then click the target element in the managed browser; the action
+warns instead of inserting anything when no pick is available yet. This v1
+requires the recorder-side pick to already exist in the live session; full
+session pick-state plumbing is tracked in
+[ShaftHQ/SHAFT_ENGINE#3467](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3467).
+
+## Coding partner plan
+
+Use **Guided | Coding Partner | Plan coding partner** or ask the Assistant to plan reuse before
+asking the plugin or an agent to create or refactor code. The action prepares
+`shaft_coding_partner_plan` with the
+repository path, intent, selected backend, current source path, selected text,
+optional evidence paths, and `maxResults=10`.
+
+The MCP response is preview-only. It returns a working-set summary, ranked
+reuse matches with existing locators/actions, a structured `stepPlan`,
+`recommendedTargetSourcePath`, `recommendedInsertionAnchor`, missing code items,
+suggested MCP proof calls, a focused verification command, evidence paths, and
+approval warnings. Apply source edits only after reviewing the plan, using the
+record-at-target patch preview when codegen is involved, and running the
+returned verification command. Record-at-target previews reuse existing locator
+fields, skip exact duplicate action lines, and show an apply order before any
+agent patch is accepted.
+
+For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
+the intended behavior. The plan should preserve working Page Object boundaries
+and reuse existing locators/actions before adding new SHAFT code.
+
+## Settings and configuration
+
+Use **Settings | SHAFT** to configure the plugin's connection, execution,
+advanced features, and cloud provider credentials. Settings are organized into
+four sections:
+
+- **Connection**: View the MCP stdio command, test the MCP connection against
+ the currently open project, and view the current agent/workspace
+ configuration. Once a wizard-set command already exists, the field is
+ read-only by default — check **Edit manually** to override it directly.
+- **Execution**: Choose the local Assistant route (Codex, Claude, or Copilot),
+ select the default AI model and reasoning effort, and enable Expert mode to
+ reveal advanced commands in the Assistant composer.
+- **Advanced**: Configure cloud provider selection for MCP tools and enable
+ advanced workflows.
+- **Credentials**: Select a detected provider environment variable, or store
+ OpenAI, Anthropic, Gemini, and GitHub API keys in IntelliJ Password Safe for
+ use by MCP tools that request provider assistance. Environment selections
+ persist only the variable name, never the secret value.
+
+### Expert mode
+
+When you enable **Settings | SHAFT | Enable advanced workflows and provider
+options**, the Expert-mode toggle activates on the post-setup settings screen.
+Expert mode reveals the specialist workflow views (**Guided**, **Recorder**,
+**Inspector**, **Triage**, **Visual Baselines**, **Evidence**, **Projects**,
+**Advanced**) and the
+ad-hoc provider/route controls in the Assistant composer. Regular users never
+need it: every workflow is reachable by describing the outcome in the
+Assistant.
+
+### SHAFT project detection
+
+The Assistant detects whether the open project actually depends on SHAFT (a
+`shaft-engine`/`shaft-bom`/`io.github.shafthq` reference in the root or a
+direct child module's `pom.xml`/`build.gradle`/`build.gradle.kts`). In a
+project that does not depend on SHAFT yet, mutating or SHAFT-reporting-only
+tools -- project upgrade, focused verification, and Doctor/Heal triage -- are
+not dispatched; the Assistant instead replies with a message pointing you at
+**Create SHAFT Project** or **Upgrade project** in the Projects workflow.
+Read-only tools such as guide search and coding-partner planning are not
+gated, since they are useful while you are still adopting SHAFT. The MCP
+connection heartbeat also stays idle in a non-SHAFT project instead of
+polling in the background.
+
+### Tool approval
+
+SHAFT MCP tool calls made through the Assistant are gated behind an
+interactive approval bubble rendered inline in the chat transcript. When a
+recording or code-generation request (or any Assistant feature that calls a
+SHAFT MCP tool) is about to dispatch a tool you have not approved yet, the
+Assistant shows the tool name and its arguments with a button per approval
+scope:
+
+- **Approve once** — allow just this one tool call.
+- **Approve tool always** — remember approval for every future call to this
+ tool.
+- **Approve all tools** — approve every SHAFT MCP tool from now on.
+- **Deny** — reject the call; the Assistant reports the denial instead of
+ running the tool.
+
+Remembered approvals are stored per project and survive restarts, so approving
+a tool (or **Approve all SHAFT tools**) in one project never authorizes it in
+another project open in the same IDE session; **Reset everything** clears
+approvals for every currently open project. Each distinct tool is prompted at
+most once per run, so a workflow that calls the same tool repeatedly never
+prompt-storms you.
+
+When the selected Assistant route is Claude Code and Agent mode runs
+without `Allow source edits`, SHAFT hosts a small local approval server for
+that run and points the CLI at it (`--permission-prompt-tool`), instead of
+limiting the CLI to only proposing a plan. Claude's own built-in safety
+classifier still auto-allows obviously safe, read-only actions without
+prompting -- matching what you would see running the CLI yourself -- but a
+genuinely mutating tool call (writing a file, running a command) pauses and
+renders the same approval bubble described above. Existing grants answer
+silently; a new request renders the bubble and your decision is sent back to
+the still-running CLI over that local approval server. These decisions are
+scoped separately from SHAFT MCP tool approvals, so approving (or denying) a
+local Claude Code tool call can never silently approve or deny an unrelated
+SHAFT MCP tool, and vice versa. Codex and GitHub Copilot CLI have no
+interactive approval protocol, so their tool permissions stay baked into the
+launch command instead (see the source-edit approval notes above).
+
+SHAFT's own MCP tools (`mcp__shaft-mcp__*`) never prompt during local Agent
+runs: they are first-party capabilities of the Assistant, so Claude Code Agent
+commands pre-approve the whole `shaft-mcp` server with `--allowedTools`
+(mirroring the Codex launch-time `default_tools_approval_mode="approve"`
+flag), and any SHAFT tool request that still reaches the approval bridge is
+auto-allowed with an `Auto-approved SHAFT tool` transcript milestone. Shell
+commands and third-party MCP servers keep the interactive approval bubble.
+
+### Connection & agents
+
+Once initial setup is complete, returning to the setup screen also shows a
+**Connection & agents** button alongside **Enable expert mode** and **Reset
+everything**. Unlike Reset everything, this re-runs the real connection and
+agent readiness check in place — bringing the choose/install/check steps back
+into view so you can confirm status or switch agents — without touching any
+saved settings, provider keys, tool approvals, or chat history.
+
+### Reset everything
+
+Once initial setup is complete, returning to the settings screen shows the
+**Enable expert mode** toggle and a **Reset everything** button. Reset
+everything asks for confirmation, then factory-resets every plugin-local data
+store:
+
+- SHAFT settings return to factory defaults, so the fresh-install setup view
+ renders again.
+- Saved provider API keys are removed from IntelliJ Password Safe.
+- Tool approvals are cleared for every open project: the approve-all flag,
+ remembered per-tool approvals, and any pending single-use grants.
+- Assistant chat history is deleted for every open project.
+- Every open SHAFT tool window re-renders back to the setup view.
+
+**User code is never touched.** Reset everything only deletes plugin-local
+data; your Java source, test files, Page Objects, locators, and project
+settings remain unchanged.
+
+### Reset and reinstall
+
+The **Reset / reinstall** button appears once setup is complete or when the
+details pane is expanded. Clicking it:
+
+- Clears the stored MCP command configuration.
+- Clears transient plugin state so setup prompts appear again on next use
+ (chat history is preserved; project settings are not affected).
+- Copies the installer command to the clipboard for manual reinstallation.
+
+**User code is never touched.** Reset only affects the SHAFT plugin
+configuration and MCP connection; your Java source, test files, Page Objects,
+locators, and project settings remain unchanged.
+
+Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
+plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
+
+Optional OpenAI, Anthropic, Gemini, and GitHub tokens can come from a selected
+environment variable or IntelliJ Password Safe. Settings lists only variables
+that are present, stores only the selected variable name, validates the live
+selection with the provider-specific **Test** action, and never renders the
+secret in labels or diagnostics. If a selected variable disappears, the
+plugin fails closed instead of silently forwarding a different inherited key.
+Settings also lets you select the configured SHAFT AI provider and model used
+by MCP tools that explicitly request provider assistance. Direct provider
+calls remain controlled by `shaft-ai` and the [provider
+controls](/docs/agentic/providers); the plugin only selects and passes the
+provider configuration.
+
+Settings show whether each provider key is stored, provide explicit clear
+controls, and keep a test action for validating the current stdio command before
+using the Assistant or workflows.
+
+## Publishing
+
+The engine repository publishes stable builds through the `Publish IntelliJ
+Plugin` GitHub Actions workflow after the Maven Central release workflow,
+or manually by maintainers. The workflow signs the plugin, verifies it with the
+IntelliJ Plugin Verifier, and publishes to the JetBrains Marketplace Stable
+channel.
+
+## Related
+
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Providers](/docs/agentic/providers)

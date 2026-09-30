@@ -1,0 +1,357 @@
+# Diagnose failures with Doctor
+
+Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/doctor
+Guide index: https://shafthq.github.io/llms.txt
+
+# Diagnose failures with Doctor
+
+`io.github.shafthq:shaft-doctor` collects explicitly selected local test
+evidence into a portable, redacted bundle and applies ordered deterministic
+rules. It does not require `shaft-ai`, a provider credential, or network
+access. The complete baseline works with `pilot.ai.enabled=false`.
+
+Optional provider analysis is advisory only. It is disabled unless explicitly
+requested, receives only minimized already-redacted evidence, and never
+replaces the deterministic diagnosis, findings, confidence, or remediation.
+
+## Outputs
+
+Each analysis writes:
+
+- `doctor-evidence.json`: versioned `EvidenceBundle` with checksums,
+ provenance, relative paths, size-limit decisions, and a redaction summary;
+- `doctor-report.json`: the bundle plus versioned `Diagnosis`, cited
+ `Finding` records, confidence, uncertainty, and `Remediation` actions, plus
+ a separately identified advisory when provider analysis is requested;
+- `doctor-report.md`: a portable human-readable report and evidence index,
+ including a **Ranked Root Causes** section listing each candidate cause with
+ its trust percentage, rationale, and a copy/paste-ready fix prompt;
+- `doctor-triage.json` and `doctor-triage.md`: deterministic counts for
+ failing attempts, retry-hidden failures, recurring signatures, primary
+ signature, summary, and cited evidence IDs;
+- `execution-intelligence.json` and `execution-intelligence.md`: a compact
+ execution trend summary with primary cause, confidence, hidden retry count,
+ and recurring failure count;
+- `artifacts/`: approved binary evidence such as screenshots.
+
+Reports contain no original absolute machine paths. Evidence IDs and bundle
+IDs are content-derived, and JSON formatting uses LF line endings so repeated
+analysis of identical inputs is byte stable.
+
+## Run Doctor
+
+Use the Doctor command on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference). The canonical
+`doctor analyze` command and its `--allowed-root` option live there.
+
+The command writes `doctor-evidence.json`, `doctor-report.json`,
+`doctor-report.md`, `doctor-triage.*`, and `execution-intelligence.*` under
+`target/shaft-doctor`.
+
+Doctor input is flexible: point it at an `allure-results` directory, an
+individual populated `*-result.json` file, or a SHAFT single-file Allure HTML
+report (`AllureReport.html` or a timestamped variant such as
+`AllureReport-20260713-101500.html`) -- Doctor extracts the embedded results
+from the HTML report the same way it reads a results directory. Naming no
+path at all auto-discovers the newest evidence in the workspace: the most
+recently populated `allure-results` directory, or otherwise the newest
+`AllureReport.html`. The SHAFT Assistant routes natural-language phrasing such
+as "diagnose my last run" or "why did my tests fail" through the same
+auto-discovery.
+
+From an MCP chat:
+
+> Use `doctor_analyze_failed_allure` on the `allure-results` directory. Allow only the current
+> project root, write results to `target/shaft-doctor`, and do not collect
+> screenshots.
+
+## CLI reference
+
+The MCP main class exposes Doctor as a local command. Keep runnable MCP
+commands on the [MCP command reference](/docs/agentic/mcp#mcp-command-reference)
+so classpath, Windows separator, and local/remote setup guidance stay in one
+place.
+
+Every readable input must resolve under an explicit allowed root. Symlink
+targets are resolved before collection. The output directory must also be
+inside a declared root. Add repeated `--history` options to correlate recurring
+signatures from older `doctor-evidence.json` files.
+
+Screenshots and page snapshots are excluded by default. Retain them only with
+explicit approval through the Doctor command options documented on
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Use `--max-item-bytes` and `--max-bundle-bytes` to lower the conservative
+retention limits. Use `--minimum-results` when the expected run size is known;
+an empty, malformed, truncated, or unexpectedly small Allure run is reported
+as incomplete and is never interpreted as successful.
+
+## Optional provider advisory
+
+Add `shaft-ai` when invoking `DoctorAnalyzer.analyzeWithAi(...)` directly. The
+`shaft-mcp` runtime classpath includes the OpenAI, Anthropic, Gemini, and
+Ollama adapters. CLI provider analysis also requires `--ai`; Pilot properties
+must independently enable the provider, processing location, model, and every
+submitted evidence category.
+
+The managed local runtime follows the same Doctor command path. Set
+`managedLocalAi.enabled=true` only after reviewing and installing the managed
+runtime and model. This selects the `managed-local` provider for an explicitly
+requested advisory; it does not make Doctor analysis automatic or replace the
+offline result. The property defaults to `false` and grants local-processing
+consent only. Inspect enablement, eligibility, and the DISABLED snapshot with
+`doctor local-ai-status` or `doctor_managed_local_ai_status`. They do not list
+the reviewed pin table. Use `setup status` or `setup verify` for
+`target readiness version detail` (version is empty unless READY;
+readiness/version/action). The pin table on the setup page is the documented
+inventory. See
+[managed local AI setup](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
+Local Ollama remains available through the Pilot provider
+properties.
+
+Ollama defaults to `http://127.0.0.1:11434/api/chat`. Changing the endpoint does
+not weaken consent, redaction, minimization, schema validation, or evidence-ID
+checks.
+
+For OpenAI, Anthropic, or Gemini, select the provider and model, approve remote
+processing, and approve the same evidence categories. Credentials remain in
+the provider-specific environment variable documented in
+[optional provider controls](/docs/agentic/providers); they are never Doctor arguments or report
+fields.
+
+Doctor submits the deterministic diagnosis, its explicit uncertainty, and only
+the textual evidence cited by deterministic findings. Unknown cases may submit
+the smallest available textual evidence set. Provider output must match the
+versioned `shaft-doctor-advisory-2.0` schema and may contain cited observations,
+hypotheses with confidence, missing evidence, typed recommended actions, and
+limitations. Every observation, hypothesis, and action must cite at least one
+submitted evidence ID. Missing, empty, or invented citations reject the entire
+advisory.
+
+Recommended actions contain an allowlisted operation and its matching target,
+not provider-authored instructions. SHAFT owns the displayed title and action
+text. The accepted pairs cover evidence collection, configuration review,
+locator review, wait-condition review, test-data review, and infrastructure
+rechecks. An unknown operation, unknown target, or mismatched pair rejects the
+response, so generated prose cannot become a repair command.
+
+When a successful provider call returns invalid JSON, citations, enums, or an
+invalid action pair, Doctor sends one corrective schema request. It stops after
+that single correction. Provider failures such as a timeout or unavailable
+runtime do not trigger the correction. Each execution records its attempt
+number, provider, model, status, and duration through the existing safe audit
+event without recording prompts, evidence, or raw responses.
+
+Timeout, rate limit, invalid credentials, unavailable provider, malformed JSON,
+schema violation, oversized output, invented evidence, and budget exhaustion
+produce an explicit fallback advisory while retaining the complete
+deterministic report. Reports contain provider/model/configuration identifiers,
+duration, usage when available, cache state, and a safe fallback reason. They
+never contain credentials, raw provider responses, or hidden reasoning.
+
+Use `--ai-cache` to explicitly cache successful safe structured advisories
+under the output directory. Cache keys include the evidence bundle checksum,
+deterministic diagnosis checksum, and a non-secret provider/configuration
+checksum. Failures and raw evidence are never cached.
+
+## MCP
+
+`doctor_analyze_failed_allure` accepts explicit input paths, historical bundle paths,
+allowed roots, an output directory, screenshot/page-snapshot approvals, and
+the minimum expected Allure result count. The tool calls the same
+`DoctorAnalyzer` used by the CLI. It remains deterministic when Pilot AI is
+disabled; when the MCP server is explicitly started with an enabled provider,
+the same separate advisory and fallback rules apply.
+
+`doctor_analyze_failed_allure` and `doctor_suggest_fix` default to Selenium/
+WebDriver remediation snippets. Pass `backend=playwright` to either tool when
+the failed test is written with `SHAFT.GUI.Playwright` (absorbing the former
+`playwright_doctor_analyze_failed_allure`/`playwright_doctor_suggest_fix` tool
+names); the evidence model is the same, but the returned code blocks use
+Playwright assertions and actions.
+
+`doctor_suggest_fix` caps its remediation output at the top 5 ranked causes and
+tags each block with its category and trust score, for example
+`LOCATOR (trust 82%)`, so an MCP client (including the IntelliJ Assistant's
+`/doctor` command) can present causes in trust order without re-deriving the
+ranking itself.
+
+ChatGPT, Codex, Claude, Gemini, and GitHub Copilot can invoke
+`doctor_analyze_failed_allure` as external MCP clients. Their model authentication stays in
+the client and is not ingested by SHAFT. Copilot is MCP interoperability, not a
+generic Copilot API-key adapter. Download the credential-free
+[representative invocations](/examples/shaft-pilot/mcp/doctor-analyze-invocations.json).
+
+## MCP healer loop
+
+`healer_run_failed_test` builds on Doctor for failing Selenium tests. It reruns
+an allowlisted Maven test command under guardrails, snapshots the populated
+Allure results that changed during each attempt, and sends the fresh failing
+evidence to `doctor_analyze_failed_allure` before returning repair suggestions.
+Pass `backend=playwright` for `SHAFT.GUI.Playwright` tests (absorbing the
+former `playwright_healer_run_failed_test` tool name); it uses the same
+execution guardrails and sends evidence through the same Doctor tool surface.
+
+The healer gives the MCP agent an explicit replay handoff: the agent may use
+its own LLM plus the same SHAFT MCP browser, DOM, screenshot, and element
+inspection/replay tools to inspect either WebDriver or Playwright failures,
+dispatching to whichever engine the session's `driver_initialize` call
+selected, even when no SHAFT provider API key is configured. Configured SHAFT
+provider advisories remain optional and require the same Pilot consent as
+Doctor.
+
+The boundary is still review-only. The healer can suggest locator, wait,
+test-data, assertion, or setup fixes, or report a suspected product bug, but it
+does not edit files, skip tests, quarantine tests, publish branches, or bypass
+user confirmation.
+
+## Reviewed repair proposals
+
+Doctor repair is a separate, approval-gated workflow. `propose-fix` requires an
+exact 40-character base commit SHA, explicit repository-relative file
+allowlists, structured full-file patches, and tokenized Maven validation
+commands. It creates `codex/doctor- - ` in a temporary
+Git worktree, applies changes only there, and returns a persisted manifest with
+the complete unified diff, patch checksums, diagnosis/evidence references,
+exact validation commands, populated Allure counts, residual risk, rollback
+guidance, and a one-proposal approval token.
+
+Example `repair-input.json`:
+
+```json
+{
+ "patches": [
+ {
+ "path": "src/test/java/example/CheckoutTest.java",
+ "operation": "REPLACE",
+ "content": "package example;\n\nfinal class CheckoutTest {}\n",
+ "rationale": "Apply the reviewed diagnosis.",
+ "evidenceIds": ["allure-result-1"]
+ }
+ ],
+ "validationCommands": [
+ ["mvn", "-pl", "shaft-engine", "-am", "test", "-Dtest=CheckoutTest"],
+ ["mvn", "-pl", "shaft-engine", "-am", "compile", "-DskipTests"]
+ ]
+}
+```
+
+Run the reviewed repair command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference) after preparing
+the reviewed input.
+
+Only Maven compile, test, package, install, verification, Surefire/Failsafe, and
+JavaDoc goals are accepted. Commands are executed as argument arrays without a
+shell. Release, deployment, SCM, Versions Plugin, shell metacharacter, and
+arbitrary executable input is rejected. Test-running commands are forced to
+include `-DheadlessExecution=true`; a zero process exit alone is insufficient
+when populated passing Allure results are expected. Maven runs offline by
+default. CLI users must add `--approve-network-validation`, or MCP clients must
+set `networkValidationApproved=true`, before validation may access the network.
+
+`--ai` can request an optional provider-generated patch. The provider receives
+only the deterministic diagnosis and exact approved regular source files under
+explicit `TEXT` and `SOURCE` consent. Output must match the versioned repair
+patch schema. Invented paths, commands, symlinks, binary or oversized content,
+protected workflows, generated paths, and secret-like material are rejected.
+Provider, consent, timeout, or schema failure returns no patch and does not
+create a worktree.
+
+Publishing is always a later explicit action using the matching command from
+[Connect shaft-mcp](/docs/agentic/mcp#mcp-command-reference).
+
+Failed validation blocks publication by default. An explicit
+`--override-failed-validation` also requires `--override-rationale`, which is
+recorded in the manifest and pull-request body. Publication stages only the
+manifested files, creates a Doctor-identified commit, pushes the dedicated
+branch, and creates or reuses an open draft pull request through authenticated
+`gh`. It never marks a PR ready, merges, releases, deploys, resets, cleans, or
+switches the user's current worktree. The temporary worktree is removed after
+publication or explicit cancellation; the published branch remains.
+
+Full-file repair proposal and draft publication stay on the local Doctor CLI
+(`doctor propose-fix`, `doctor publish-draft-pr` via the MCP main class). They
+are not MCP tools — `doctor_publish_draft_pr` is deliberately absent from the
+packaged tool catalog. Publication still requires the separate `--approve` flag
+and the exact proposal token from the reviewed manifest.
+
+For locator-only proposals built from a SHAFT Heal report, use the MCP tools
+`doctor_propose_healed_locator` (verified recovery) and
+`doctor_propose_advisory_locator` (low-trust advisory comment). Both require
+`healing.sourcePatch.enabled=true` plus explicit `sourcePatchConsent`, write
+under `target/shaft-doctor/healing-proposals` by default, and never edit or
+publish source. See
+[Recover locators with Heal](/docs/agentic/heal#reviewed-locator-proposals-doctor-mcp).
+
+## Evidence
+
+The collector recognizes populated Allure `*-result.json`, normalized exception
+chains, SHAFT logs/action history, environment metadata, dependency/build
+metadata, configuration summaries, `shaft-diagnostics.zip` attachments,
+screenshots, and page snapshots. When a failed SHAFT test attaches
+`shaft-diagnostics.zip`, Doctor reads only `diagnostics.json` from the archive
+and treats it as sanitized SHAFT log evidence for deterministic rules and MCP
+handoff. Text and structured JSON are redacted before retention or hashing.
+Password fields, authorization and cookie headers, tokens, private keys, common
+credential fields, and configured sensitive names are replaced without
+retaining their original values.
+
+Allure attempts are grouped by history ID and ordered by their recorded start
+time. Non-final failed, broken, and skipped attempts remain visible even when
+the final attempt passes. Historical bundles are optional and can be copied
+with their relative `artifacts/` directory for offline analysis.
+
+## Diagnosis
+
+The ordered rule engine classifies primary and contributing causes as:
+
+- `PRODUCT`
+- `TEST`
+- `LOCATOR`
+- `DATA`
+- `TIMING_SYNCHRONIZATION`
+- `ENVIRONMENT_CONFIGURATION`
+- `INFRASTRUCTURE`
+- `UNKNOWN`
+
+Rules cover locator-not-found, duplicate, stale, hidden/covered/interactable,
+frame/window context, assertion and test-data mismatches, timeout symptoms,
+driver/browser startup, Grid/Appium/network/filesystem/resource failures,
+setup/cleanup failures, parallel shared-state symptoms, retry-hidden failures,
+and recurring historical signatures. Every inference cites evidence IDs and
+is kept separate from observations. Unknown and contradictory cases remain
+unknown and list the missing evidence needed to narrow them.
+
+Each ranked cause additionally carries a deterministic **trust percentage**
+(5-95%) from a factor model: a confidence band for the matched rule, the
+evidence citations backing it, rule precedence when multiple rules match the
+same signature, minus a contradiction penalty when another finding disagrees.
+The same evidence always yields the same trust score. `doctor-report.md`'s
+**Ranked Root Causes** section lists causes highest-trust first, each with its
+rationale and a fenced, copy/paste-ready fix prompt that can be sent to any AI
+assistant or agent to apply the fix.
+
+## Sharing
+
+Review `doctor-evidence.json`, `doctor-report.json`, and any approved
+`artifacts/` before sharing. Screenshots and page source can contain personal
+or confidential data even after deterministic redaction and therefore remain
+opt-in. Doctor never uploads evidence automatically.
+
+## Validation
+
+Run from the repository root:
+
+```bash
+mvn -pl shaft-doctor,shaft-ai,shaft-mcp -am test
+mvn -pl shaft-doctor -am javadoc:javadoc
+```
+
+## Related
+
+- [Overview](/docs/agentic/overview)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Providers](/docs/agentic/providers)

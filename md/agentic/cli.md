@@ -1,0 +1,139 @@
+# shaft-cli command line
+
+Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/cli
+Guide index: https://shafthq.github.io/llms.txt
+
+# shaft-cli command line
+
+`shaft-cli` is an MCP client and command-line interface to
+[shaft-mcp](/docs/agentic/mcp). It brings the full shaft-mcp tool set to the
+command line with zero tool-logic duplication, operating in two modes:
+stateless one-shot commands and a persistent session mode for stateful tools.
+
+## Install
+
+Use the standalone `--install-shaft-cli` command in
+[Install SHAFT agent tools](/docs/agentic/overview#install-shaft-agent-tools).
+It installs shaft-cli and the required shaft-mcp runtime automatically without
+configuring an MCP client. No local Java or Python is required.
+
+The installer downloads and SHA-256-verifies `shaft-cli- .jar` from
+Maven Central, then writes a runnable launcher (`shaft-cli` on macOS/Linux,
+`shaft-cli.cmd` on Windows) plus a `shaft-cli.args` Java argfile next to it,
+under the platform's application-data root:
+
+- Windows: `%LOCALAPPDATA%\ShaftHQ\shaft-cli\versions\ \`
+- macOS: `~/Library/Application Support/ShaftHQ/shaft-cli/versions/ /`
+- Linux: `${XDG_DATA_HOME:-~/.local/share}/shafthq/shaft-cli/versions/ /`
+
+shaft-mcp is an internal prerequisite that the standalone installer provides.
+shaft-cli locates it in this order:
+
+1. The `SHAFT_MCP_JAR` environment variable
+2. The installer's versions directory
+3. A sibling `../shaft-mcp/target` (development checkout)
+
+## Modes
+
+**One-shot mode** (default): each command spawns an ephemeral shaft-mcp child
+process over stdio, runs a single tool call, and exits. Suitable for stateless
+tools like guide search and doctor analysis.
+
+**Session mode**: `shaft-cli session start` launches a persistent shaft-mcp
+daemon (HTTP on a localhost port) and records the session endpoint to
+`~/.shaft/cli-session.json`. Subsequent commands connect over HTTP, preserving
+browser and device state across invocations. Commands that need live state
+(`browser`, `element`, `capture`) fail fast when no session is running, unless
+`--stdio-ok` is passed.
+
+Routing: if a live session exists, commands use HTTP; otherwise a one-shot
+stdio child is spawned.
+
+## Commands
+
+All commands support `-h`/`--help`; the root supports `-V`/`--version`.
+
+**`shaft-cli tools [--json]`** — list all available tools (name and first
+sentence of description). `--json` outputs the raw `tools/list` result.
+
+**`shaft-cli call [key=value ...] [--args ' '] [--json]
+[--stdio-ok]`** — invoke any tool by name. Arguments come from repeated
+`key=value` pairs (values are coerced: `true`/`false` to booleans,
+integers/decimals to numbers, `{...}`/`[...]` to JSON, otherwise strings)
+and/or `--args '{"k":"v"}'` (`key=value` overrides keys from `--args`).
+`--json` outputs the raw JSON-RPC result instead of rendered text.
+
+**`shaft-cli session start | status | stop`** — manage the daemon. `start`
+prints the port and pid; `status` prints
+`running — port , pid , started `.
+
+**Curated aliases** (same options as `call`):
+
+- `shaft-cli browser navigate|screenshot|dom|url` (session required)
+- `shaft-cli element click|type|hover` (session required)
+- `shaft-cli capture start|stop|status|code` (session required)
+- `shaft-cli guide search` (stateless)
+- `shaft-cli doctor analyze|suggest` (stateless)
+
+**`shaft-cli setup ...`** — diagnose local prerequisites and create an exact,
+reviewable plan for SHAFT-owned tools. Setup commands run directly and do not
+require an MCP session. Follow the
+[local infrastructure setup guide](/docs/start/local-infrastructure) for the
+plan, digest approval, policy options, readiness exit codes, and current
+provider coverage. For managed local AI, `shaft-cli setup status --profile
+LOCAL_AI --mode MANAGED` and `shaft-cli setup verify --profile LOCAL_AI --mode
+MANAGED` print `target readiness version detail`. Version is empty unless
+READY. Commands report readiness/version/action.
+
+`shaft-cli doctor local-ai-status` reports enablement, eligibility, and the
+DISABLED snapshot; it does not list the reviewed pin table. Defaults stay off.
+Enablement is local-processing consent only; it is not remote consent or tool
+approval. CI/headless Maven never downloads.
+See
+[inventory and troubleshooting](/docs/start/local-infrastructure/previews#inventory-defaults-and-troubleshooting).
+
+## Examples
+
+```text
+shaft-cli tools
+
+# trace_latest — returns recent persisted SHAFT trace indexes from target/shaft-traces
+
+# [...]
+
+shaft-cli session start
+
+# shaft-cli session started on port 12345 (pid 9876).
+
+shaft-cli session status
+
+# running — port 12345, pid 9876, started 2025-12-20T14:30:45Z
+
+shaft-cli call shaft_guide_search query='click element' maxResults=1
+
+# [JSON guide-search result]
+
+shaft-cli guide search query='click element' --stdio-ok
+
+# [guide search works with no session]
+
+shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout happy path' maxDepth=2
+
+# [Markdown test plans written to specs/]
+```
+
+## Exit codes
+
+- **0**: success
+- **1**: tool error, transport error, or `--json` result with `isError`
+- **2**: unknown alias action
+
+## Related
+
+- [MCP](/docs/agentic/mcp)
+- [Set up local infrastructure](/docs/start/local-infrastructure)
+- [Overview](/docs/agentic/overview)
+- [Capture](/docs/agentic/capture)
+- [Doctor](/docs/agentic/doctor)

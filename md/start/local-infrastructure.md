@@ -1,0 +1,100 @@
+# Set up local infrastructure
+
+Diagnose, plan, approve, and install SHAFT-owned local tools through shaft-cli or Java.
+
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure
+Guide index: https://shafthq.github.io/llms.txt
+
+# Set up local infrastructure
+
+Use SHAFT's setup surface to inspect external prerequisites or install supported
+tools into SHAFT-owned user directories. The safe default is `EXTERNAL`: SHAFT
+diagnoses the host without downloading, installing, or starting anything.
+
+The setup catalog includes web, mobile, Grid, reporting, OCR, Healenium,
+ReportPortal, BrowserStack Local, agent-tool, and local-AI profiles.
+Provider-backed managed installation includes `REPORTING`, `PLAYWRIGHT`,
+`MOBILE_ANDROID`, `MOBILE_IOS`, `MOBILE_WINDOWS`, `SELENIUM_GRID`, `HEALENIUM`,
+`REPORT_PORTAL`, `BROWSERSTACK_LOCAL`, and `AGENT_TOOLS`. `LOCAL_AI` uses the
+existing ServiceLoader provider. `WEB_LOCAL` has no provider: Selenium Manager
+and a host browser remain the local-web path.
+
+Reporting uses SHAFT's pinned, SHA-256-verified portable Node and adds Allure 3.
+Playwright adds reviewed Chromium, Firefox, WebKit, and FFmpeg payloads. Android
+uses the same portable Node owner and adds a reviewed Android SDK, Appium
+project, emulator, and SHAFT-owned virtual device.
+
+## Inspect the catalog and host
+
+Install `shaft-cli` through the
+[shaft-cli installation flow](/docs/agentic/cli#install), then list the setup
+profiles:
+
+```bash
+shaft-cli setup catalog
+shaft-cli setup doctor --profile REPORTING
+shaft-cli setup status --profile REPORTING
+```
+
+Add `--json` to `catalog`, `doctor`, `status`, or `verify` when a script needs a
+versioned machine-readable result. Readiness commands exit with `0` when ready
+and `3` when the profile is missing or degraded.
+
+## Review and approve an installation
+
+Create an exact plan before allowing any mutation. Use an absolute path for
+the plan file:
+
+```bash
+shaft-cli setup plan \
+ --profile REPORTING \
+ --mode MANAGED \
+ --output /absolute/path/reporting-plan.json
+```
+
+Review the JSON plan and copy the printed `sha256:` digest. Apply that exact
+plan with the same policy options used to create it:
+
+```bash
+shaft-cli setup install \
+ --plan /absolute/path/reporting-plan.json \
+ --approve sha256: 
+
+shaft-cli setup verify --profile REPORTING
+```
+
+`apply` and `update` are aliases for `install`. SHAFT rejects a changed or stale
+plan, a mismatched policy, a missing license acceptance, or an artifact whose
+checksum does not match before publishing it as installed.
+
+:::warning
+Treat the plan digest as a one-plan approval, not a general consent switch.
+Changing a version, source, checksum, destination, timeout, or policy option
+changes the digest and requires a new review.
+:::
+
+## Pages in this guide
+
+| Page | Type | Use it when |
+| --- | --- | --- |
+| [Mobile infrastructure](/docs/start/local-infrastructure/mobile) | How-to | Installing managed Android and Appium, or iOS and Windows Appium drivers. |
+| [Services and tools](/docs/start/local-infrastructure/services) | How-to | Installing managed Selenium Grid, Healenium, ReportPortal, BrowserStack Local, Playwright browsers, or Lighthouse, or diagnosing agent tools. |
+| [Previews: local AI and OCR](/docs/start/local-infrastructure/previews) | How-to (preview) | Evaluating the managed local AI provider or the unreleased managed OCR setup from a source build. |
+| [Infrastructure reference](/docs/start/local-infrastructure/reference) | Reference | Looking up plan/install policy options, the Java API, properties, and CLI exit codes. |
+
+## Understand remote precedence
+
+An explicit remote execution address keeps endpoint-backed profiles external,
+even when `infrastructure.mode=MANAGED`. This applies to web, Selenium Grid,
+mobile, and Healenium profiles, so a remote test configuration cannot
+unexpectedly provision local infrastructure. It does not change unrelated
+profiles such as `REPORTING` or `LIGHTHOUSE`.
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+- [shaft-cli command line](/docs/agentic/cli)
+- [Programmatic properties configuration](/docs/reference/properties/Programmatic_Config)
+- [Reporting](/docs/features/reporting)
+- [Self-healing locators](/docs/reference/actions/GUI/Locators_And_Self_Healing)
+- [BrowserStack](/docs/integrations/browserstack)

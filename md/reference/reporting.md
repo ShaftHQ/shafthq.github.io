@@ -1,0 +1,1176 @@
+# Reporting
+
+Learn about SHAFT Engine's built-in reports — Allure and Execution Summary — how to configure video recording and report behavior via properties, and how to add custom report messages and SHAFT.Report attachments.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/reporting
+Guide index: https://shafthq.github.io/llms.txt
+
+SHAFT Engine ships with two complementary report formats, each suited to a
+different audience and workflow. You can enable or disable them independently
+using [properties](/docs/reference/properties/PropertyTypes).
+
+---
+
+## Report Types at a Glance
+
+| Report | Best For | Default State |
+|---|---|---|
+| **Allure Report** | Deep debugging — step-by-step logs, screenshots, videos | ✅ Opens automatically after execution |
+| **Execution Summary** | Quick supplemental feedback — fast, portable, no setup | ⚙️ Opt-in via property |
+
+SHAFT-generated HTML report attachments use a shared SHAFT report theme across
+execution summaries, performance reports, accessibility reports, locator health,
+failure briefs, failure traces, and flake profiles. The same theme gives each
+surface consistent headers, status chips, metric cards, table wrapping, and
+dark-mode behavior whether opened directly or from Allure. The SHAFT offline
+HTML theme and the injected Allure theme share one unified brand palette (light
+and dark modes) to ensure consistent SHAFT branding across both standalone
+reports and the Allure report.
+
+---
+
+## Allure Report
+
+The **Allure Report** is the primary report in SHAFT. It opens automatically in your default browser at the end of every test run and provides a rich, single-file HTML report with:
+
+- Step-by-step action logs with failure screenshots attached by default
+- Video recordings (when enabled)
+- Animated GIFs of browser sessions
+- Test history and trend graphs across multiple runs
+- Environment information and categories
+
+### Failure trace viewer
+
+When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
+The viewer collects the ordered Selenium action timeline, exception and
+stacktrace, source-code frame fallback, available page or native source
+snapshot, locator health summary, and related artifacts without generating
+heavy trace artifacts for passing tests.
+
+Allure receives two complementary SHAFT trace attachments on failed tests:
+
+- `shaft-trace.html`, a self-contained one-click viewer that embeds the trace
+ data and references no sibling files
+- `shaft-trace.zip`, the full-fidelity offline archive containing
+ `shaft-trace.json`, `SHAFT Trace Report.html`, `shaft-network.har`, per-action
+ screenshots, and the native Playwright trace ZIP when Playwright tracing is
+ enabled and available
+
+Open the direct HTML attachment for in-report debugging, or open `SHAFT Trace
+Report.html` from the archive for the downloadable offline workflow. Neither
+viewer needs an upload or sibling resource. The shared navigator combines two
+range controls, **Show all**, and an action screenshot filmstrip. Select an
+action from the filmstrip or action list to update the URL deep link and inspect
+the same action and time range across the detail panels. Use Arrow Left and
+Arrow Right while the filmstrip has focus to move between actions.
+
+Use **Timeline** to review actions, validations, network exchanges, and console
+messages in chronological order. Use **Comparison** to inspect the available
+before-action DOM, action screenshot, and after-action DOM together. The
+selected action also owns its exception, DOM snapshot, screenshot, and detail
+data such as locator, parameters, result, and metadata. Trace-level **Source**,
+**Snapshot**, **Locator Health**, **Observability**, **Environment**,
+**Attachments**, **Test Log**, and **JSON** panels remain available beside that
+selection. Missing screenshots or snapshots produce explicit empty states
+instead of fabricated evidence.
+
+Use **Network** and **Console** to filter, search, and sort the evidence inside
+the selected range. Open a row's native **View request details** or **View
+message details** button to read structured details. Untimed legacy entries
+remain visible as `Unknown` and are not classified as inside the selected
+range. Missing sortable values stay last in both sort directions.
+
+Use **Mobile** to filter Appium trace actions by **App**, **Context**,
+**Device**, **Logs**, **Performance**, **Recording**, or **Evidence**. The
+**All** category also keeps unrecognized `mobile/*` categories visible as
+**Other**, which preserves older and newer trace data without claiming support
+that SHAFT did not record.
+
+Use **Artifacts** to inspect the archive-relative path, kind, media type, and
+status for every schema artifact. The schema and `index.json` carry the same
+artifact references. Available entries and explicit omissions remain distinct;
+omission reasons distinguish unavailable, unreadable, and oversized native
+trace evidence, while traces with no artifact graph show a legacy empty state.
+When a native Playwright trace is available, extract its archive-relative ZIP
+entry and pass that entry to Playwright `show-trace`. SHAFT's cross-backend
+timeline remains the canonical view.
+
+### Browser and provider fidelity
+
+Read parity as one investigation workflow, not identical browser internals.
+Every supported browser writes the same bounded SHAFT archive and opens in the
+same offline viewer. The evidence inside that archive depends on the active
+automation backend and the protocol features exposed by the browser or remote
+provider.
+
+| Route | Browser proof | Evidence in the SHAFT viewer | Expected degradation |
+|---|---|---|---|
+| Playwright local | Native-trace acceptance runs on Chromium, Firefox, and WebKit. Chrome and Edge channels use the Chromium engine and also run the Playwright action suite. | SHAFT actions plus imported native actions, action logs and errors, before/input/after snapshots, console and network evidence, and the original native trace ZIP when it fits the artifact budget. | Native action source is shown when the trace contains a stack sidecar. When it does not, the action records `sourceStatus: unavailable` and explains why. |
+| Selenium Chrome or Edge | WebDriver capture acceptance runs on Chromium; the regular browser suite also exercises Chrome and Edge. | SHAFT actions, screenshots, structural DOM snapshots, console, network, and WebSocket evidence exposed through CDP. | No Playwright-native action or trace ZIP is advertised. |
+| Selenium Firefox or another WebDriver provider | The regular browser suite exercises Firefox, while unit contracts bind BiDi and unsupported-driver states. | SHAFT actions, screenshots, structural DOM snapshots, plus console or network evidence when the session exposes the required BiDi capability. | Missing protocol features produce an explicit warning or an absent evidence namespace. They do not fall back to a different test session or claim native Playwright fidelity. |
+| Appium native or mobile web | Android and iOS evidence contracts exercise the mobile action namespaces and native source path. | Mobile actions, screenshots, bounded native source, device/context metadata, performance data, recording, and provider evidence when available. | Rejected, unreadable, unsupported, and oversized provider artifacts remain explicit omissions. |
+
+Enable native Playwright tracing before you create the driver. Select
+`chromium`, `firefox`, or `webkit` as the browser engine:
+
+```properties title="src/main/resources/properties/custom.properties"
+playwright.browserName=firefox
+playwright.connectionMode=local
+playwright.tracing.enabled=true
+playwright.tracing.screenshots=true
+playwright.tracing.snapshots=true
+playwright.tracing.sources=true
+
+shaft.trace.enabled=true
+shaft.trace.mode=failure
+shaft.trace.includeFullPageSnapshots=true
+shaft.trace.includeNativePageSource=true
+shaft.trace.includeNetwork=true
+shaft.trace.includeConsole=true
+```
+
+To launch an installed branded Chromium browser, keep
+`playwright.browserName=chromium` and add exactly one channel:
+
+```properties title="Chrome or Edge channel override"
+
+# Google Chrome
+playwright.channel=chrome
+
+# Microsoft Edge (use this instead of the chrome line)
+
+# playwright.channel=msedge
+```
+
+Run the same test with another engine by changing only
+`playwright.browserName` to `chromium` or `webkit`. Review the
+`environment.browser` value in `shaft-trace.json` before comparing archives.
+It records the active Playwright engine instead of the WebDriver default.
+
+Use the [Playwright browser guide](https://playwright.dev/java/docs/browsers)
+to install the matching browser binary. Use the
+[Playwright trace viewer guide](https://playwright.dev/java/docs/trace-viewer)
+only for the native ZIP handoff; keep `SHAFT Trace Report.html` as the portable
+cross-backend view. Selenium protocol evidence follows the browser's
+[WebDriver BiDi support](https://www.selenium.dev/documentation/webdriver/bidi/).
+
+The standalone viewer applies a restrictive content security policy, keeps DOM
+snapshots in sandboxed frames, strips active and resource-bearing markup, and
+does not make external requests. Captured evidence is bounded and redaction-aware,
+not guaranteed to be free of application data.
+
+:::danger
+Treat both `shaft-trace.html` and `shaft-trace.zip` as sensitive test evidence.
+The HTML embeds trace data, screenshots, and DOM snapshots. The ZIP can also
+contain native source, logs, request details, console messages, metadata,
+recording artifacts, and the native Playwright trace. Store and share either
+attachment only with people who may inspect the tested application data.
+:::
+
+The archived `shaft-trace.json` includes an `actions` array with stable fields
+for automation agents. Each action also records `caller` — the first
+non-framework stack frame, tying the action back to the exact test or
+page-object line — and each `network` entry carries an epoch `timestamp` for
+timeline correlation:
+
+```json
+{
+ "id": "action-3",
+ "category": "element",
+ "name": "CLICK",
+ "status": "failed",
+ "startTime": "2026-06-26T10:13:13.000Z",
+ "durationMs": 184,
+ "locator": "By.id: pay",
+ "url": "https://shop.example/checkout",
+ "caller": "com.example.CheckoutTest.payShouldSucceed(CheckoutTest.java:42)",
+ "message": "Click \"Pay\"",
+ "exception": {
+ "type": "org.openqa.selenium.ElementClickInterceptedException",
+ "message": "element click intercepted"
+ },
+ "attachments": ["screenshot - Click (48213 bytes)"],
+ "metadata": {
+ "elementName": "Pay"
+ },
+ "actionability": {
+ "matchCount": 1,
+ "displayed": true,
+ "enabled": true,
+ "rect": {"x": 42, "y": 318, "width": 120, "height": 36},
+ "centerPoint": {"x": 102, "y": 336},
+ "css": {"display": "block", "visibility": "visible", "pointerEvents": "auto"},
+ "obscuringElement": {"selector": "div.modal-backdrop"},
+ "recommendation": "Wait for or close the blocking element before retrying the action."
+ }
+}
+```
+
+For failed Selenium element actions, the optional `actionability` object explains
+why the target was not actionable. It includes locator match count, element
+state, rectangle and center point, viewport/CSS details, any center-point
+blocking element found with `document.elementFromPoint`, warnings from
+best-effort diagnostics, and a deterministic recommendation. SHAFT collects this
+only for failed traced actions and applies the same redaction rules used by the
+trace JSON.
+
+### SHAFT Overview Report
+
+SHAFT attaches a branded **SHAFT Overview** suite summary to the Allure report.
+The overview displays:
+
+- **Checkpoint totals** — count of total, passed, and failed checkpoints across the run
+- **By-type breakdown** — a per-type table splitting **Assertion** (hard) vs **Verification** (soft), each with its own passed / failed / total
+- **Pass ratio donut** — visual pass-rate indicator
+- **Traces captured** — count of SHAFT traces under `target/shaft-traces/` (retry-aware: counts each failed attempt when retries are configured)
+- **Fail-only filter** — a "Show failures only" toggle on the checkpoint details table that hides passing rows
+
+The overview provides a quick snapshot of test outcomes and captured diagnostics alongside Allure's native statistics.
+
+Alongside the HTML overview, SHAFT attaches a machine-readable **`Checkpoints`**
+JSON artifact (`application/json`) so tooling — SHAFT Doctor, the MCP server, and
+the IntelliJ plugin widgets — can consume structured checkpoint fields instead of
+scraping the HTML. It carries the same by-type breakdown the overview shows:
+
+```json
+{
+ "total": 4, "passed": 1, "failed": 3,
+ "byType": {
+ "assertion": { "passed": 1, "failed": 0 },
+ "verification": { "passed": 0, "failed": 3 }
+ },
+ "checkpoints": [
+ { "id": 1, "type": "ASSERTION", "message": "...", "status": "PASS" },
+ { "id": 2, "type": "VERIFICATION", "message": "...", "status": "FAIL" }
+ ]
+}
+```
+
+The same overview also renders as an **embedded panel** inside the generated
+Allure report itself: a floating **SHAFT Overview** toggle button (bottom-right
+of the report page) opens a modal with the identical Summary, By Type, and
+Details view described above, without leaving the report:
+
+![SHAFT Overview panel embedded in the Allure report](/img/allure-shaft-overview-panel.png)
+
+Both the standalone attachment and the embedded panel render from the same
+underlying data, so they always agree. The attachment stays useful as an
+individually downloadable artifact for tooling that consumes Allure
+attachments directly; the panel gives anyone viewing the report quick access
+to the same summary without downloading anything.
+
+### Assertion and Verification Evidence Cards
+
+Every hard assertion (Assertion) and soft assertion (Verification) automatically
+attaches a self-contained HTML evidence card as the **first attachment** on the
+validation's Allure report step. The card displays:
+
+- **Category and status** — "Assertion" or "Verification" label with PASSED/FAILED badge.
+- **Data-shape badge** — JSON, Text, or Value, derived from the compared values.
+- **Expected and Actual values with diffs:**
+ - JSON values are pretty-printed with a line-by-line diff.
+ - Multi-line or long text gets a unified line-diff view.
+ - Short scalar values show compact Expected/Actual rows side-by-side.
+- **Automatic redaction** — passwords, tokens, Authorization headers, and
+ secret-looking JSON/attribute values are masked to `********` before rendering.
+- **Dark-mode aware** — the card matches the SHAFT report theme.
+- **Size-capped** — very large values are truncated with a visible marker.
+
+The legacy plain-text "Expected Value" and "Actual Value" attachments remain
+unchanged for backward compatibility. Element-state and visual (image-comparison)
+validations do not receive the text card — their evidence is the screenshot or
+image diff attached separately.
+
+### Soft Verification Visibility
+
+Soft assertions (`verifyThat`, reported as **Verification**) let a test keep
+running after a failure and only fail at the end. To make them easy to follow in
+the report:
+
+- Each soft failure's outcome step is titled **`Soft failure #N — ...`** with a
+ running count, so soft failures are easy to tally at a glance and are visibly
+ distinct from a hard assertion's single failure step.
+- When the test is force-failed at the end, a **Soft verification summary** step
+ lists every accumulated verification failure in the order they occurred, giving
+ one place to review them all instead of scanning the step list.
+
+For failed Appium touch actions, the same `actions` array includes mobile
+session metadata when the driver exposes it:
+
+```json
+{
+ "category": "touch",
+ "name": "swipeElementIntoView",
+ "status": "failed",
+ "locator": "By.id: checkout_list",
+ "metadata": {
+ "gestureParameters": "targetText=Pay now, movement=VERTICAL",
+ "platformName": "Android",
+ "automationName": "UiAutomator2",
+ "appPackage": "com.example.checkout",
+ "appActivity": ".CheckoutActivity",
+ "context": "NATIVE_APP",
+ "orientation": "PORTRAIT",
+ "windowSize": "1080x1920",
+ "nativePageSourceExcerpt": " ..."
+ }
+}
+```
+
+Context changes from `driver.browser().setContext(...)` and MCP
+`mobile_switch_context` are also recorded as `mobile-context` trace events with
+`contextBefore`, `contextAfter`, and `requestedContext`. Unsupported Appium
+metadata fields use deterministic fallback text instead of surfacing raw
+provider errors in the trace.
+
+When `shaft.trace.includeNetwork=true`, Selenium browser sessions also add
+redacted `network` entries to `shaft-trace.json` and a HAR-like
+`shaft-network.har` file to the archive. The **Network**, **Console**, and
+**Observability** panels let you inspect HTTP method, URL, status, duration,
+bounded body preview, browser console logs, and unsupported-driver warnings.
+Common headers, cookies, passwords, tokens, and sensitive URL values are masked
+before attachment.
+
+SHAFT also persists the archive and a local index under
+`target/shaft-traces/ /`:
+
+- `shaft-trace.zip`
+- `index.json`
+
+The default `shaft.trace.mode=auto` is retry-aware: with retries configured, every failed attempt keeps a trace automatically; without retries, it behaves as `failure`. Set `failure`, `retry`, or `always` explicitly to override the default behavior.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.trace.enabled=true
+shaft.trace.mode=auto
+shaft.trace.includeCodeContext=true
+shaft.trace.includeFullPageSnapshots=true
+shaft.trace.includeNativePageSource=true
+shaft.trace.includeNetwork=true
+shaft.trace.includeConsole=true
+shaft.trace.maxArtifactMb=50
+```
+
+When retries are enabled and `shaft.trace.retainFailedAttempts=true` (the default), each failed attempt's trace is persisted as `shaft-trace-attempt- .zip` alongside the final `shaft-trace.zip`, so passing retries never erase the failed attempt's evidence. In CI, worst-case artifact size scales roughly with the number of failed attempts multiplied by `shaft.trace.maxArtifactMb`.
+
+### Failure diagnostics bundle
+
+Failed and broken tests attach `shaft-diagnostics.zip` when
+`shaft.diagnostics.enabled=true` (default). The zip contains `diagnostics.json`
+schema version **2**:
+
+- **correlation** — `runId` (test id), `bundleId` (hash of stable redacted
+ fields), optional `captureSessionId` when a Capture session JSON was already
+ attached
+- **provenance** — writer adapter `shaft-engine-failure-diagnostics`
+- **channels** — `framework`, `browser`, `network`, `console`, `screenshot`,
+ `agent-action`, each `present` or `omitted` with a reason
+- **omitted** — explicit list (`budget`, `partial-capture`,
+ `unsupported-browser`, `secret-bearing`, `success-skip`, `retention`) so
+ missing evidence is never treated as complete
+- **cluster.fingerprint** — stable hash of exception type, top project frame,
+ and redacted message shape (no timestamps or host paths). Doctor uses this
+ fingerprint to cluster recurring failures without model judgment
+- existing v1 fields (`test`, `failure`, `codeContext`, `logs`, `artifacts`,
+ `redaction`) stay so older parsers still work
+
+Secrets in headers, cookies, tokens, and password-like assignments are redacted
+before the zip is written. Heavy artifacts stay references; they are not dumped
+as raw HAR or DOM. Successful tests do not attach the zip. Open the zip from
+Allure or pass `allure-results` to `shaft-doctor analyze` /
+`doctor_analyze_failed_allure` — no transcript required.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.diagnostics.enabled=true
+shaft.diagnostics.maxArtifactMb=50
+```
+
+### Evidence Level Profiles
+
+`evidenceLevel` is the profile-level evidence switch. Its default is
+`FAILURE_ONLY`, so passing tests keep reports small while failed and broken
+tests still get failure screenshots, page source, diagnostics, and trace
+artifacts.
+
+Profiles are applied after file, CLI, and default granular evidence properties
+are loaded. The code-based setter also applies the selected profile
+immediately. For `FAILURE_ONLY`, `BALANCED`, `FAST`, and `FULL`, the profile
+overrides granular controls such as `screenshotParams_whenToTakeAScreenshot`,
+`whenToTakePageSourceSnapshot`, `createAnimatedGif`,
+`videoParams_recordVideo`, `captureWebDriverLogs`, `attachFullLog`,
+`shaft.diagnostics.enabled`, and `shaft.trace.mode`. Set
+`evidenceLevel=CUSTOM` when you want those granular controls to win.
+In code, call `evidenceLevel(...)` after granular setters when you want a
+profile to win; call `evidenceLevel("CUSTOM")` before granular setters when you
+want custom values to win.
+
+| Level | Effect |
+|---|---|
+| `FAILURE_ONLY` | Default. Screenshots and page source only on failures; GIF, video, WebDriver logs, and full log off; diagnostics and trace enabled for failures. |
+| `BALANCED` | Validation screenshots plus failure page source, diagnostics, and trace; GIF, video, WebDriver logs, and full log off. |
+| `FAST` | Minimal evidence: screenshots, page source, GIF, video, WebDriver logs, full log, diagnostics, and trace off. |
+| `FULL` | Rich evidence: screenshots and page source always, GIF and video on, WebDriver logs and full log on, diagnostics on, and trace mode `always`. |
+| `CUSTOM` | No profile override. Use this before setting granular evidence controls directly. |
+
+### Allure Categories
+
+Allure 3 runs receive a `categories.json` file in `allure-results/` with failure groupings. SHAFT provides default categories for common assertion, locator, timeout, API, accessibility, visual, and infrastructure failures, plus three SHAFT-native outcome categories:
+
+- **SHAFT: flaky (passed on retry)** — test passed after one or more retry attempts
+- **SHAFT: self-healed locator** — test passed when SHAFT Heal recovered a broken locator
+- **SHAFT: soft verification failure** — soft assertion (verification) failed but test continued
+
+These categories are plain Allure metadata and do not require a custom Allure plugin. They help you distinguish SHAFT-specific recovery outcomes from conventional failures in the Allure Categories tab.
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=FAILURE_ONLY
+```
+
+ 
+ 
+
+```bash
+mvn test -DevidenceLevel=FAST
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set().evidenceLevel("FULL");
+```
+
+### Open Allure Report Manually
+
+SHAFT writes convenience scripts to your project root during the first run. Use them to regenerate and serve the Allure report at any time:
+
+```bash title="Windows"
+generate_allure_report.bat
+```
+
+```bash title="macOS / Linux"
+./generate_allure_report.sh
+```
+
+### Disable Auto-Opening the Allure Report
+
+The Allure report opens automatically by default (`allure.automaticallyOpen=true`). To disable this:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.automaticallyOpen=false
+```
+
+ 
+ 
+
+```bash
+mvn test -Dallure.automaticallyOpen=false
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set().automaticallyOpen(false);
+```
+
+### Skip Allure Report Generation
+
+If you only need raw `allure-results` and do not want SHAFT to create the HTML report, helper script, archive, or live watch process, disable report generation:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.generateReport=false
+```
+
+ 
+ 
+
+```bash
+mvn test -DheadlessExecution=true -Dallure.generateReport=false
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set().generateReport(false);
+```
+
+### Generate an Allure Report Archive (for CI/CD)
+
+To generate a portable ZIP archive of the Allure report that you can publish as a CI/CD artifact:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.generateArchive=true
+```
+
+ 
+ 
+
+```bash
+mvn test -Dallure.generateArchive=true
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set().generateArchive(true);
+```
+
+### Customize the Allure Report
+
+You can customize the report title and logo displayed in the generated HTML:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.customTitle=My Regression Suite
+allure.customLogo=https://example.com/my-logo.png
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set()
+ .customTitle("My Regression Suite")
+ .customLogo("https://example.com/my-logo.png");
+```
+
+### Tune Allure 3 Awesome Report Output
+
+When SHAFT generates an Allure 3 report, it writes the corresponding `allurerc.yaml` file for the Allure Awesome plugin. In addition to the title, output directory, logo, and history settings, you can control the Awesome plugin options that affect packaging, theme mode, language, browser opening, and the hierarchy shown in the report tree. SHAFT-generated Allure 3 reports use the same light and dark color tokens as this user guide, and keep the SHAFT mark plus the User Guide and GitHub actions available while you move between report routes. Allure 2 reports keep their existing UI.
+
+:::note
+These options apply to Allure 3 report generation. `allure.automaticallyOpen` controls whether SHAFT opens the final report after test execution, while `allure.open` is passed to the Allure CLI configuration itself.
+:::
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Generate a self-contained HTML report file (default: true)
+allure.singleFile=true
+
+# Allure 3 color mode (default: auto)
+allure.theme=auto
+
+# Allure UI language code (default: en)
+allure.reportLanguage=en
+
+# Let the Allure CLI open the report after generation (default: false)
+allure.open=false
+
+# Comma-separated Allure label hierarchy (default: package,testClass)
+allure.groupBy=package,testClass
+```
+
+ 
+ 
+
+```bash
+mvn test \
+ -Dallure.singleFile=false \
+ -Dallure.theme=auto \
+ -Dallure.reportLanguage=fr \
+ -Dallure.open=false \
+ -Dallure.groupBy=package,testClass
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set()
+ .singleFile(false)
+ .theme("auto")
+ .reportLanguage("fr")
+ .open(false)
+ .groupBy("package,testClass");
+```
+
+### Monitor Allure 3 Results While Tests Run
+
+When `allure.realtimeMonitoring=true` and SHAFT resolves an Allure 3 CLI, SHAFT starts native `allure watch` against `allure-results` while tests run. The watch process is stopped before final report generation and archiving. This is disabled by default, and is ignored when Allure 2 compatibility mode is active or the Allure CLI cannot be resolved.
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+allure.realtimeMonitoring=true
+```
+
+ 
+ 
+
+```bash
+mvn test -Dallure.realtimeMonitoring=true
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set().realtimeMonitoring(true);
+```
+
+ 
+ 
+
+Common `allure.groupBy` presets include:
+
+| Preset | Value | Best For |
+|---|---|---|
+| Code hierarchy | `package,testClass` | Default Java package and class navigation |
+| Suite hierarchy | `parentSuite,suite,subSuite` | TestNG or suite-based organization |
+| BDD hierarchy | `epic,feature,story` | Business-readable Allure annotation reports |
+| Module hierarchy | `module,parentSuite,suite,subSuite` | Multi-module projects |
+
+Full-page image attachments open at the available modal width in SHAFT-generated Allure 3 reports. Use the modal scrollbar to inspect the rest of tall screenshots.
+
+HTML attachments created through SHAFT's attachment reporter are also fitted to
+the available Allure preview width. SHAFT injects lightweight containment rules
+so wide tables, preformatted blocks, and long values wrap instead of forcing a
+horizontal page scroll.
+
+### Troubleshoot Allure CLI Generation
+
+SHAFT runs Allure report generation synchronously so the generated command, exit code, standard output, and standard error are visible in execution logs. If report generation fails, check the log entries around `Executing Allure report generation command`, `Allure generate stdout`, `Allure generate stderr`, and `Allure report generation command exited with code ...` before changing report settings.
+
+### Accumulate History and Reports Across Runs
+
+By default, SHAFT keeps Allure history to enable trend graphs across runs. You can control this behavior:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Accumulate history to show trends across runs (default: true)
+allure.accumulateHistory=true
+
+# Keep previous HTML report files in the report directory (default: true)
+allure.accumulateReports=true
+
+# Clean the results directory before each run (default: true)
+allure.cleanResultsDirectory=true
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.allure.set()
+ .accumulateHistory(true)
+ .accumulateReports(true)
+ .cleanResultsDirectory(true);
+```
+
+ 
+ 
+
+---
+
+## Execution Summary Report
+
+The **Execution Summary** report is a lightweight supplement to the Allure report. It is disabled by default and is most useful when you want a quick, portable HTML summary without opening the full Allure report.
+
+- **No extra setup required** — just enable the property.
+- **Portable** — a fast self-contained HTML file you can share or archive.
+
+### Enable the Execution Summary Report
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+openExecutionSummaryReportAfterExecution=true
+```
+
+ 
+ 
+
+```bash
+mvn test -DopenExecutionSummaryReportAfterExecution=true
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set().openExecutionSummaryReportAfterExecution(true);
+```
+
+ 
+ 
+
+---
+
+## Locator Health Report
+
+The **Locator Health Report** is disabled by default. Enable it when you want to
+find slow, flaky, ambiguous, stale, or healed web locators across a full run.
+SHAFT records lightweight metrics during element identification and writes HTML
+and JSON reports under `execution-summary/locator-health/`. The JSON export is
+attached to Allure, and the HTML dashboard is attached when
+`shaft.locatorHealth.attachDashboard=true`.
+
+Recorded metrics include lookup count, unique-match, no-match, multi-match, and
+stale rates, average and p95 lookup time, polling attempts, timeout count, slow
+lookups, SHAFT Heal attempts, accepted recoveries, selected replacement locator,
+and confidence when the provider exposes it. Each locator also gets a health
+score, selector-smell labels, and plain-language recommendations for risky
+patterns such as absolute XPath, index-heavy XPath, generated IDs, text-only
+selectors, and deep CSS chains. When the failure trace viewer is enabled,
+failed-test trace JSON also includes the current locator health snapshot.
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.locatorHealth.enabled=true
+shaft.locatorHealth.warnBelowScore=70
+shaft.locatorHealth.attachDashboard=true
+shaft.locatorHealth.failBelowScore=-1
+slowLocatorThresholdMillis=750
+```
+
+ 
+ 
+
+```bash
+mvn test -Dshaft.locatorHealth.enabled=true -Dshaft.locatorHealth.warnBelowScore=70 -Dshaft.locatorHealth.failBelowScore=-1 -DslowLocatorThresholdMillis=750
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set()
+ .locatorHealthEnabled(true)
+ .locatorHealthWarnBelowScore(70)
+ .locatorHealthAttachDashboard(true)
+ .locatorHealthFailBelowScore(-1)
+ .slowLocatorThresholdMillis(750)
+ .failOnLocatorHealthWarnings(false);
+```
+
+ 
+ 
+
+Keep `shaft.locatorHealth.failBelowScore=-1` while introducing the report. Set
+it to a score threshold only after the suite has a stable locator-health
+baseline. The legacy `locatorHealthReportEnabled=true` and
+`failOnLocatorHealthWarnings=false` keys remain supported.
+
+---
+
+## Flake and Auto-Wait Profiler
+
+The **Flake and Auto-Wait Profiler** is disabled by default. Enable it when you
+want Allure attachments that explain slow element actions, assertions, retries,
+wait polling, locator churn, and evidence overhead.
+
+SHAFT attaches `flake-profile.json` and `Flake Profile` HTML for tests that
+produce profiler signals. The suite-level profile is attached during engine
+tear down. Element action duration excludes screenshot capture and report
+attachment time; those costs are recorded separately as screenshot, page
+snapshot, and report attachment evidence. Assertion and verification duration
+is measured around the validation step itself.
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+ 
+ 
+
+```bash
+mvn test -Dshaft.flakeProfiler.enabled=true -Dshaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set()
+ .flakeProfilerEnabled(true)
+ .flakeProfilerAttachPerTest(true)
+ .flakeProfilerFailOnSevereFlakeRisk(false)
+ .flakeProfilerSlowActionThresholdMs(2000);
+```
+
+ 
+ 
+
+Keep `shaft.flakeProfiler.failOnSevereFlakeRisk=false` while collecting a
+baseline. Turn it on only after the suite has a realistic slow-action
+threshold.
+
+---
+
+## Video Recording
+
+SHAFT can record a video of every test session and automatically attach it to
+the Allure report. Because `evidenceLevel=FAILURE_ONLY` is the default, set
+`evidenceLevel=CUSTOM` before enabling video directly, or set
+`evidenceLevel=FULL` to enable the full rich-evidence profile.
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
+videoParams_recordVideo=true
+```
+
+ 
+ 
+
+```bash
+mvn test -DevidenceLevel=CUSTOM -DvideoParams_recordVideo=true
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
+SHAFT.Properties.visuals.set().videoParamsRecordVideo(true);
+```
+
+### Where to Put Your Properties File
+
+Create a `custom.properties` file under `src/main/resources/properties/` in your project. SHAFT automatically creates a `properties/` directory with some core files on first run — just add your file there:
+
+```
+your-project/
+└── src/
+ └── main/
+ └── resources/
+ └── properties/
+ ├── default/ ← auto-generated by SHAFT
+ └── custom.properties ← your file
+```
+
+### Control Video Recording Scope
+
+You can control which part of the session is recorded:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
+videoParams_recordVideo=true
+
+# Scope options: DriverSession | TestMethod
+videoParams_scope=DriverSession
+```
+
+ 
+ 
+
+```bash
+mvn test -DevidenceLevel=CUSTOM -DvideoParams_recordVideo=true -DvideoParams_scope=DriverSession
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
+SHAFT.Properties.visuals.set()
+ .videoParamsRecordVideo(true)
+ .videoParamsScope("DriverSession");
+```
+
+ 
+ 
+
+| Scope | Description |
+|---|---|
+| `DriverSession` | Records the entire browser/driver session (default) |
+| `TestMethod` | Records each test method as a separate video |
+
+---
+
+## Animated GIFs
+
+Animated GIFs are disabled by default. SHAFT creates them when you explicitly
+set `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, and also enables them
+automatically for retry attempts when
+`forceCaptureSupportingEvidenceOnRetry=true`. GIF frames are captured in the
+background and do not force every action screenshot to be attached to the
+report. Generated GIF files are written under `video.folder` before they are
+attached to Allure:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
+createAnimatedGif=true
+
+# Delay between frames in milliseconds (default: 500)
+animatedGif_frameDelay=500
+```
+
+ 
+ 
+
+```bash
+mvn test -DevidenceLevel=CUSTOM -DcreateAnimatedGif=true -DanimatedGif_frameDelay=500
+```
+
+ 
+ 
+
+```java
+
+SHAFT.Properties.reporting.set().evidenceLevel("CUSTOM");
+SHAFT.Properties.visuals.set()
+ .createAnimatedGif(true)
+ .animatedGifFrameDelay(500);
+```
+
+ 
+ 
+
+---
+
+## Recommended Configurations by Use Case
+
+### CI/CD Pipeline (archive report as artifact)
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Do not open the browser during CI
+allure.automaticallyOpen=false
+
+# Generate a ZIP artifact to publish from the pipeline
+allure.generateArchive=true
+```
+
+### Active Debugging (rich visuals)
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Allure opens automatically by default; add rich evidence
+evidenceLevel=FULL
+```
+
+### Quick Pass/Fail Summary
+
+```properties title="src/main/resources/properties/custom.properties"
+
+# Enable fast portable summary alongside the Allure report
+openExecutionSummaryReportAfterExecution=true
+```
+
+---
+
+## All Reporting Properties
+
+For the full list of reporting-related properties and their default values,
+see the [Properties List](/docs/reference/properties/PropertiesList).
+
+Key properties quick reference:
+
+ 
+ allure.automaticallyOpen 
+ Default true . Open the Allure report in the browser automatically after the run 
+ allure.generateReport 
+ Default true . Generate the Allure HTML report, helper script, archive, and live watch process 
+ allure.generateArchive 
+ Default false . Generate a portable ZIP archive of the Allure report 
+ allure.accumulateHistory 
+ Default true . Accumulate history across runs for trend graphs 
+ allure.accumulateReports 
+ Default true . Keep previous Allure HTML report files 
+ allure.cleanResultsDirectory 
+ Default true . Clean Allure results directory before each run 
+ allure.customTitle 
+ Default Test run report . Custom title in the Allure report header 
+ allure.customLogo 
+ Default is the SHAFT logo. Custom logo URL for the Allure report 
+ allure.realtimeMonitoring 
+ Default false . Start native Allure 3 allure watch while tests run 
+ allure.singleFile 
+ Default true . Generate an Allure 3 Awesome report as a self-contained HTML file 
+ allure.theme 
+ Default auto . Default Allure 3 Awesome color mode: auto , light , or dark 
+ allure.reportLanguage 
+ Default en . Language code used by the Allure 3 Awesome report UI 
+ allure.open 
+ Default false . Pass the browser-open flag to Allure 3 report generation 
+ allure.groupBy 
+ Default package,testClass . Comma-separated label hierarchy for the Allure 3 report tree 
+ openExecutionSummaryReportAfterExecution 
+ Default false . Open the Execution Summary report after the run 
+ evidenceLevel 
+ Default FAILURE_ONLY . Evidence profile: FAILURE_ONLY , BALANCED , FAST , FULL , or CUSTOM 
+ locatorHealthReportEnabled 
+ Default false . Generate end-of-run HTML/JSON locator health reports and Allure attachments 
+ shaft.locatorHealth.enabled 
+ Default false . Generate end-of-run locator health reports 
+ shaft.locatorHealth.warnBelowScore 
+ Default 70 . Mark locators below this health score as risky 
+ shaft.locatorHealth.attachDashboard 
+ Default true . Attach the HTML locator health dashboard to Allure 
+ shaft.locatorHealth.failBelowScore 
+ Default -1 . Fail the run when any locator score is below this threshold; -1 disables score-based failure 
+ slowLocatorThresholdMillis 
+ Default 750 . Lookup duration that marks a locator as slow 
+ failOnLocatorHealthWarnings 
+ Default false . Fail the run when locator health warnings are present 
+ shaft.flakeProfiler.enabled 
+ Default false . Attach opt-in flake and auto-wait timing profiles to Allure 
+ shaft.flakeProfiler.attachPerTest 
+ Default true . Attach each test's JSON/HTML profile when profiler signals exist 
+ shaft.flakeProfiler.failOnSevereFlakeRisk 
+ Default false . Fail the run when severe flake-risk actions are found 
+ shaft.flakeProfiler.slowActionThresholdMs 
+ Default 2000 . Duration threshold used to flag slow and severe-risk actions 
+ shaft.trace.enabled 
+ Default true . Attach the SHAFT failure trace viewer artifacts 
+ shaft.trace.mode 
+ Default auto . Trace mode: auto (retry-aware; resolves to retry when retryMaximumNumberOfAttempts &gt; 0, otherwise failure ), failure , retry , or always 
+ shaft.trace.retainFailedAttempts 
+ Default true . Retain failed-attempt trace archives ( shaft-trace-attempt-&lt;n&gt;.zip ) when retries are enabled 
+ shaft.trace.includeCodeContext 
+ Default true . Include the best matching source-code frame and snippet 
+ shaft.trace.includeFullPageSnapshots 
+ Default true . Include web snapshots when available 
+ shaft.trace.includeNativePageSource 
+ Default true . Include Appium/native page source when available 
+ shaft.trace.includeNetwork 
+ Default true . Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export 
+ shaft.trace.includeConsole 
+ Default true . Capture browser console evidence in the trace metadata when the driver exposes browser logs 
+ shaft.trace.maxArtifactMb 
+ Default 50 . Maximum size for a single trace bundle entry 
+ videoParams_recordVideo 
+ Default false . Enable video recording of test sessions 
+ videoParams_scope 
+ Default DriverSession . Scope of video recording 
+ createAnimatedGif 
+ Default false . Create an animated GIF; retries can enable it automatically 
+ animatedGif_frameDelay 
+ Default 500 . Delay between GIF frames (milliseconds) 
+ screenshotParams_whenToTakeAScreenshot 
+ Default ValidationPointsOnly . Granular screenshot policy; profile levels except CUSTOM override it 
+ whenToTakePageSourceSnapshot 
+ Default failuresOnly . Granular page-source policy; profile levels except CUSTOM override it 
+ 
+
+---
+
+## Custom report messages 
+
+Every SHAFT validation chain supports an optional `withCustomReportMessage()` call that replaces the default auto-generated step name in the Allure report with a meaningful, business-readable description. Add it after the validation condition:
+
+```java title="CustomMessageExample.java"
+driver.assertThat()
+ .browser().title()
+ .contains("Dashboard")
+ .withCustomReportMessage("User should be redirected to the Dashboard after a successful login");
+```
+
+The same call works on element, object, number, file, and API response validations:
+
+```java title="ElementAndApiValidationMessages.java"
+
+// Element validation
+driver.assertThat()
+ .element(By.id("account-balance")).text()
+ .contains("$1,000")
+ .withCustomReportMessage("Account balance should display correctly after the deposit");
+
+// API response validation
+api.assertThatResponse()
+ .extractedJsonValue("$.name")
+ .isEqualTo("John Doe")
+ .withCustomReportMessage("GET /users/1 must return the correct user name");
+```
+
+## SHAFT.Report programmatic API 
+
+`SHAFT.Report` inserts custom steps, log messages, and file/image attachments directly into the Allure report timeline — independent of any validation or action chain.
+
+```java title="ReportApi.java"
+
+// Mark the beginning of a logical group of steps
+SHAFT.Report.log("Starting the checkout flow for a premium user");
+
+// Add a discrete, named step entry — useful for manual verifications
+SHAFT.Report.report("Verified shopping cart contains exactly 3 items");
+
+// Render an explicit Allure Status — the step text never influences its color
+SHAFT.Report.report("Custom business rule verified", Status.PASSED);
+SHAFT.Report.report("Custom business rule violated", Status.FAILED);
+```
+
+The same explicit-status overload exists on the lower-level facade as `ReportManager.log(String, Status)`.
+
+:::note Behavior change
+Older SHAFT versions inferred a step's status from its text (any message containing "failed" rendered as a red step). This inference has been removed: benign messages that merely contain the word "failed" now render normally, and failure messages without that literal word no longer render green. Use the explicit-status overload whenever you need a specific step color.
+:::
+
+Attachments appear as expandable entries and can hold any content type:
+
+```java title="ReportAttach.java"
+// Attach plain text (e.g., an API response body)
+SHAFT.Report.attach("text/plain", "API Response Body", api.getResponse().body().asString());
+
+// Attach a screenshot captured as bytes
+byte[] screenshotBytes = ((TakesScreenshot) driver.getDriver()).getScreenshotAs(OutputType.BYTES);
+SHAFT.Report.attach("image/png", "Checkout Page Screenshot", new ByteArrayInputStream(screenshotBytes));
+```
+
+### Best practices
+
+- **Write messages from a business perspective** — describe *what* should be true, not *how* the assertion works.
+- **Keep messages concise** — one sentence is ideal; the Allure UI truncates long strings.
+- **Use `log()` as section headers** — call it at the start of each logical step group to create a readable narrative.
+- **Attach evidence on failures** — capture page source or API responses before a known fragile assertion to provide instant context.
+- **Avoid duplicating the assertion value** — SHAFT already shows the expected vs. actual values; the message should explain the business rule.
+
+## Related
+
+- [Reporting and evidence](/docs/features/reporting)
+- [Validations](/docs/reference/actions/Validations)
+- [Architecture](/docs/features/architecture)

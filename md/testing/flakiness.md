@@ -1,0 +1,255 @@
+# How SHAFT reduces flakiness
+
+How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
+
+Canonical HTML: https://shafthq.github.io/docs/testing/flakiness
+Guide index: https://shafthq.github.io/llms.txt
+
+# How SHAFT reduces flakiness
+
+SHAFT reduces flakiness by moving timing, locator, retry, and evidence capture
+out of individual tests and into the engine. It does not make every failure
+pass: product defects, broken test data, and real environment outages should
+still fail. The difference is that common UI timing and locator churn have one
+configured path instead of many hand-written sleeps and custom retry loops.
+
+```mermaid
+flowchart TD
+ Intent["Test intent"] --> Locator["Semantic locator"]
+ Locator --> Sync["Synchronized action"]
+ Sync --> Evidence["Allure evidence"]
+ Evidence --> Passed{"Passed?"}
+ Passed -- Yes --> Result["Stable pass"]
+ Passed -- No --> Retry{"Retry enabled?"}
+ Retry -- No --> Failure["Original failure"]
+ Retry -- Yes --> RetryEvidence["Retry with extra evidence"]
+ RetryEvidence --> Final{"Still failing?"}
+ Final -- No --> Flaky["Flaky signal preserved"]
+ Final -- Yes --> Heal{"Heal enabled and locator missing?"}
+ Heal -- No --> Failure
+ Heal -- Yes --> Recovery["Validated recovery or original failure"]
+```
+
+## Semantic Locators
+
+Raw Selenium locators often bind tests to implementation details: generated
+IDs, CSS classes, absolute XPath, or DOM depth. SHAFT gives tests a higher
+level locator vocabulary. Generated and repository code must still follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
+unique author-written id, then ARIA role, then native relative xpath only.
+
+- `SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build()` is the first
+ generated-code rung when the product owns a stable author-written id.
+- `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Sign in").build()` targets
+ semantic roles and text instead of brittle markup structure.
+- `SHAFT.GUI.Locator.inputField("Email")` and
+ `SHAFT.GUI.Locator.clickableField("Sign in")` are Smart Locators for a
+ human's throwaway exploration only. Do not emit them into generated or
+ repository code.
+- `driver.element().type("Email", value)` and
+ `driver.element().click("Sign in")` are intent-shaped overloads that route
+ through those Smart Locators in both WebDriver and Playwright sessions.
+- `driver.act(...)` can express a guarded workflow intent, then SHAFT plans it
+ into ordinary browser, element, and touch actions only when natural actions
+ are enabled and the plan passes the configured trust threshold.
+
+```java title="SemanticLocators.java"
+
+By email = SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build();
+By apply = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Apply filter").build();
+
+driver.element()
+ .type(email, "qa@example.com")
+ .click(apply);
+```
+
+The practical effect is simple: when a team renames a CSS class or wraps a
+button in a new container, the test can keep describing what the user sees.
+When the user-facing label itself changes, the failing test points to a real
+product or requirements change instead of a hidden selector detail.
+
+## Automatic Synchronization
+
+Most flaky UI tests fail because they click before the browser is ready. SHAFT
+element actions use a configured fluent wait, poll for retriable Selenium
+states, scroll the element into view, and then perform the action. Browser and
+element actions also call lazy-loading synchronization where applicable: SHAFT
+waits for document readiness, active `fetch`/XHR quiet time, resource timing
+changes, jQuery activity, and Angular readiness when those signals exist on the
+page. For native user actions, SHAFT re-locates the element after this
+synchronization and verifies that the final target is displayed and enabled
+before acting on it.
+
+The default element lookup budget comes from
+`defaultElementIdentificationTimeout`; condition-specific waits use
+`waitForUiStateTimeout` unless you pass a shorter `Duration`. Lazy-loading
+synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
+be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
+`lazyLoadingNetworkIdleQuietWindowMillis`.
+
+Lazy-loading readiness itself is layered, so the default wait adapts to what a
+page actually does without any test-code changes:
+
+- **JS readiness engine** (default, always on) polls `document.readyState`,
+ in-flight `fetch`/XHR/`sendBeacon` activity, resource-timing changes, jQuery
+ and Angular activity, and a main-thread idle probe
+ (`requestIdleCallback` → `requestAnimationFrame` → `setTimeout` fallback)
+ every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
+ `EventSource`/`WebSocket` connections are observed but never block idle, so
+ SSE and long-poll pages don't pin every action at the timeout ceiling.
+- **DOM-stability quiet window** is split: cheap per-action waits use
+ `lazyLoadingDomStabilityQuietWindowMillis` (default `0`, off). After
+ navigation — and when you call `driver.browser().waitForLazyLoading()` —
+ SHAFT also applies `lazyLoadingDomStabilityOnNavigationQuietWindowMillis`
+ (default `300`ms) so in-viewport hydration can settle without turning DOM
+ folding on for every click. That navigation wait is Selenium WebDriver only
+ (including new-tab/window `navigateToURL`); Playwright `waitForLazyLoading()`
+ remains a load-state wait. `pageLoadStrategy=eager` / `readinessState=interactive`
+ unblocks Selenium/BiDi at `DOMContentLoaded`; the JS readiness engine still
+ requires `loaded`/`complete` plus XHR/fetch idle and does not treat
+ `interactive` as document-ready. Long-lived `EventSource`/`WebSocket` and BiDi
+ in-flight counts remain advisory; they never hard-gate the wait.
+- **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
+ in-flight requests via WebDriver BiDi network events when BiDi is enabled.
+ This signal is advisory only: it can extend the quiet window while requests
+ are genuinely in flight (aged out after 10 seconds; SSE/WebSocket upgrades
+ excluded), but it never hard-gates readiness, preserving the same tolerance
+ for long-poll and SSE-style pages as the JS-only path.
+
+```properties title="src/main/resources/properties/custom.properties"
+lazyLoadingPollingIntervalMillis=200
+lazyLoadingDomStabilityQuietWindowMillis=0
+lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
+waitForLazyLoadingTimeout=30
+```
+
+For content that only loads on scroll — infinite lists, or sections behind an
+`IntersectionObserver` that hydrate only once visible — call
+`scrollToLoadAll()` right before a full-page assertion or screenshot. It sweeps
+the page in bounded, viewport-height steps (up to
+`lazyLoadingScrollSweepMaxSteps`, default `20`), waiting for lazy-loading
+readiness between each step, then restores the original scroll position. It is
+never invoked automatically by any readiness wait — sweeping an entire page is
+not a safe default before an arbitrary action — so call it explicitly:
+
+```java title="ScrollToLoadAll.java"
+driver.browser().navigateToURL("https://example.test/catalog")
+ .scrollToLoadAll()
+ .captureScreenshot();
+```
+
+```java title="ExplicitStateWait.java"
+driver.browser().navigateToURL("https://example.test/orders")
+ .and().element().click("Refresh orders")
+ .waitUntil(webDriver ->
+ webDriver.findElement(By.id("order-count")).getText().equals("25"));
+```
+
+Use explicit waits for business states the browser cannot infer: a queue
+finishing, a toast disappearing, a calculated value appearing, or a backend job
+reaching a terminal state. Do not add sleeps around SHAFT actions by default;
+that duplicates the engine wait and makes failures slower without making them
+more accurate.
+
+For strict WebDriver form-entry checks, enable
+`forceCheckTextWasTypedCorrectly=true`. SHAFT then verifies the final value
+after `type`, `typeSecure`, and `typeAppend`; special key sequences are skipped
+because they do not map to a stable literal field value.
+
+## Retry With Evidence
+
+Retry is a diagnostic boundary, not a cure. By default,
+`retryMaximumNumberOfAttempts=0`, so SHAFT does not hide failures unless you opt
+in. When retries are enabled, SHAFT's TestNG retry analyzer and JUnit extension
+use the same retry budget. If `forceCaptureSupportingEvidenceOnRetry=true`,
+the retry attempt turns on richer evidence such as video, animated GIF,
+WebDriver logs, page source on failure, and Playwright tracing when retry-only
+tracing is enabled.
+
+`retryMaximumNumberOfAttempts` means additional attempts after the original
+failure: `1` allows one retry, for two executions total. TestNG delegates this
+to its retry analyzer. JUnit schedules the retry after the failed attempt's
+`@AfterEach` lifecycle has finished, then runs the retry through JUnit again so
+`@BeforeEach` setup is executed for the retry attempt. Keep browser/session
+creation in setup and cleanup in teardown so each retry starts from isolated
+state.
+
+```properties title="src/main/resources/properties/custom.properties"
+retryMaximumNumberOfAttempts=1
+forceCaptureSupportingEvidenceOnRetry=true
+playwright.tracing.onRetryOnly=true
+```
+
+Keep the retry budget small. A pass-after-retry is still a flaky signal that
+should be reviewed; the value is that the retry attempt carries enough evidence
+to tell timing, locator, environment, and product failures apart.
+
+## Flake Profiler
+
+The flake profiler is disabled by default. Enable it when you need a run-level
+and per-test view of where time is going during element actions, assertions,
+wait polling, retries, and evidence capture.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+The Allure attachments show slow actions, wait-heavy actions, locator lookup
+counts, match counts, stale element retries, healing attempts, retry history,
+and evidence costs. Element action duration excludes screenshot capture and
+report attachment time, while assertion and verification duration is measured
+around the validation step itself.
+
+Leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` during investigation.
+Use the JSON profile to set a realistic `shaft.flakeProfiler.slowActionThresholdMs`
+before making severe flake risk fail the run.
+
+## Optional Self Healing
+
+For web locator churn that survives the locator strategy above, SHAFT Heal can
+recover eligible locator-not-found failures. It is optional, disabled by
+default, and provided by the separate `io.github.shafthq:shaft-heal` artifact.
+
+```properties title="src/main/resources/properties/custom.properties"
+healing.strategy=shaft-heal
+healing.minimumTrustPercentage=85
+healing.ambiguityMargin=0.10
+```
+
+SHAFT first tries the original locator. Recovery runs only after a web
+locator-not-found result, and the action proceeds only when the provider returns
+exactly one validated element. The provider scores deterministic evidence such
+as accessibility names, labels, configured test IDs, stable IDs/names,
+semantic attributes, DOM fingerprints, native state, ancestor context, and
+bounded local history. Low trust, ties, changed frame locators, and changed
+shadow-host locators preserve the original failure.
+
+Use healing as a safety net while updating locators, not as a reason to ignore
+broken tests. Reports under `target/shaft-heal/reports` and Allure attachments
+show why a candidate was accepted or rejected.
+
+## What To Use First
+
+| Flakiness source | First SHAFT feature to use | Why |
+| --- | --- | --- |
+| Generated IDs, wrapper markup, or CSS churn | Author-written ids via the locator builder, then ARIA roles | Tests follow stable product identity instead of DOM implementation. |
+| Clicks before render, XHR, or framework settling | Built-in synchronization and explicit waits | Timing policy lives in one engine path. |
+| Unknown action or assertion slowdown | Flake profiler | Allure shows action, wait, retry, and evidence timings separately. |
+| Intermittent CI browser or infrastructure blips | Small retry budget with retry evidence | The suite can classify a transient failure without losing the original signal. |
+| A known web locator changed after a release | SHAFT Heal | Recovery is bounded, trust-gated, and reported. |
+| Hard-to-triage failures | Allure evidence, Doctor, and retry diagnostics | The failure carries screenshots, logs, source snapshots, and retry context. |
+
+## Related
+
+- [Web testing](/docs/testing/web)
+- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
+- [ARIA Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#aria-locators)
+- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
+- [Explicit Waits](/docs/reference/actions/GUI/Waits_And_Synchronization#explicit-waits)
+- [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions)
+- [SHAFT Heal](/docs/agentic/heal)
+- [Reporting](/docs/reference/reporting/)
+- [Properties Reference](/docs/reference/properties/PropertiesList)

@@ -1,0 +1,824 @@
+# Element Identification
+
+Locate web elements using ID, CSS selectors, XPath, SHAFT Locator Builder, relative locators, shadow DOM, iframes, By objects vs @FindBy, dynamic locators, and cross-platform Android/iOS locators.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Element_Identification
+Guide index: https://shafthq.github.io/llms.txt
+
+## Overview
+
+Element identification is the foundation of GUI test automation. This guide covers all the methods available in SHAFT Engine to locate and interact with web elements, including traditional locators, the SHAFT Locator Builder, relative locators, shadow DOM elements, and elements within iframes.
+
+If you are choosing a locator strategy for a new test, start with the
+[web locator strategy](/docs/testing/web#locator-strategy), then use this page
+for exact locator syntax.
+
+## Supported Locator Types
+
+SHAFT Engine supports all standard Selenium locator strategies through the `By` class. Raw Selenium `By` syntax below is a reference for existing locators. Generated and repository code follow the [generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy): unique author-written id via the SHAFT locator builder, then ARIA role, then native relative xpath only.
+
+### 1. ID
+
+Existing locators may still use Selenium `By.id`. Generated and repository code emit a unique author-written id through the SHAFT locator builder:
+
+```java
+By elementLocator = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+```
+
+### 2. Name
+
+Locates elements by their `name` attribute, commonly used for form fields.
+
+```java
+By elementLocator = By.name("email");
+```
+
+### 3. Class Name
+
+Locates elements by their CSS class name.
+
+```java
+By elementLocator = By.className("btn-primary");
+```
+
+### 4. Tag Name
+
+Locates elements by their HTML tag name (e.g., `button`, `input`, `div`).
+
+```java
+By elementLocator = By.tagName("button");
+```
+
+### 5. CSS Selector
+
+Locates elements using CSS selector syntax - powerful and flexible.
+
+```java
+By elementLocator = By.cssSelector(".form-control[type='text']");
+By elementLocator = By.cssSelector("#login-form > input.username");
+```
+
+### 6. XPath
+
+Locates elements using XPath expressions. Generated and repository code use native relative `By.xpath(...)` only when the element has neither a unique author-written id nor a usable ARIA role. Do not target an id that should have taken the first rung.
+
+```java
+By elementLocator = By.xpath(".//form//button[@type='submit']");
+```
+
+### 7. Link Text
+
+Locates anchor (` `) elements by their exact text content.
+
+```java
+By elementLocator = By.linkText("Click Here");
+```
+
+### 8. Partial Link Text
+
+Locates anchor elements by partial text match.
+
+```java
+By elementLocator = By.partialLinkText("Click");
+```
+
+## Traditional Locators vs. SHAFT Locator Builder
+
+SHAFT Engine provides a fluent API for building locators that's more readable and maintainable than traditional approaches.
+
+### Example 1: Simple Button
+
+**HTML:**
+```html
+ Submit 
+```
+
+**Native Selenium Approach:**
+```java
+// Using ID
+By button = By.id("submit-btn");
+
+// Using CSS Selector
+By button = By.cssSelector("button[data-test='submit']");
+
+// Using XPath
+By button = By.xpath("//button[@data-test='submit']");
+```
+
+**SHAFT Locator Builder Approach:**
+```java
+By button = SHAFT.GUI.Locator.hasAnyTagName().hasId("submit-btn").build();
+
+By button = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
+```
+
+### Example 2: Complex Element
+
+**HTML:**
+```html
+ 
+ $99.99 
+ 
+```
+
+**Native Selenium Approach:**
+```java
+By priceElement = By.cssSelector(".product-card .price[data-currency='USD']");
+By priceElement = By.xpath("//div[contains(@class,'product-card')]//span[@data-currency='USD']");
+```
+
+**SHAFT Locator Builder Approach:**
+```java
+By priceElement = SHAFT.GUI.Locator.hasTagName("span")
+ .containsClass("price")
+ .hasAttribute("data-currency", "USD")
+ .build();
+```
+
+### Example 3: Element with Text
+
+**HTML:**
+```html
+ Add to Cart 
+```
+
+**Native Selenium Approach:**
+```java
+By button = By.xpath("//button[contains(text(),'Add to Cart')]");
+By button = By.cssSelector("button.action-button"); // Can't filter by text with CSS
+```
+
+**SHAFT Locator Builder Approach:**
+```java
+By button = SHAFT.GUI.Locator.hasRole(Role.BUTTON)
+ .hasNormalizedText("Add to Cart")
+ .build();
+```
+
+## SHAFT Locator Builder Methods
+
+The SHAFT Locator Builder provides a fluent API with the following methods:
+
+### Tag-Based Methods
+```java
+// Exact tag name
+SHAFT.GUI.Locator.hasTagName("button").build();
+
+// Any tag name (when you want to filter by other attributes)
+SHAFT.GUI.Locator.hasAnyTagName().hasAttribute("data-test", "submit").build();
+```
+
+### Attribute-Based Methods
+```java
+// Element with specific attribute
+SHAFT.GUI.Locator.hasAttribute("data-test").build();
+
+// Element with attribute and value
+SHAFT.GUI.Locator.hasAttribute("data-test", "add-to-cart").build();
+
+// Unique author-written id (generated and repository form)
+SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+
+// Element containing a class
+SHAFT.GUI.Locator.containsClass("btn-primary").build();
+```
+
+### Text-Based Methods
+```java
+// Element containing specific text
+SHAFT.GUI.Locator.containsText("Submit").build();
+
+// Element containing ID substring
+SHAFT.GUI.Locator.containsId("user").build();
+```
+
+### Chaining Methods
+```java
+// Combine multiple conditions
+By complexLocator = SHAFT.GUI.Locator.hasTagName("input")
+ .hasAttribute("type", "text")
+ .containsClass("form-control")
+ .containsId("user")
+ .build();
+```
+
+## Relative (Location-Based) Locators
+
+Selenium 4 introduced relative locators that allow you to locate elements based on their position relative to other elements. SHAFT Engine fully supports these.
+
+### Available Relative Locator Methods
+
+- `above()` - Locates elements above the reference element
+- `below()` - Locates elements below the reference element
+- `toLeftOf()` - Locates elements to the left of the reference element
+- `toRightOf()` - Locates elements to the right of the reference element
+- `near()` - Locates elements near (within approximately 50 pixels) of the reference element
+
+### Example: Login Form
+
+**HTML:**
+```html
+ 
+ Username: 
+ 
+ 
+ Password: 
+ 
+ 
+ Login 
+ 
+```
+
+**Using Relative Locators:**
+```java
+
+// Locate password field relative to username field
+By usernameField = By.id("username");
+By passwordField = with(By.tagName("input")).below(usernameField);
+
+// Locate the login button below password field
+By loginButton = with(By.tagName("button")).below(passwordField);
+
+// Locate label to the left of username field
+By usernameLabel = with(By.tagName("label")).toLeftOf(usernameField);
+```
+
+### Example: Product Grid
+
+**HTML:**
+```html
+ 
+ Product 1 
+ Product 2 
+ Product 3 
+ 
+```
+
+**Using Relative Locators:**
+```java
+// Locate product-2 relative to product-1
+By product1 = By.id("product-1");
+By product2 = with(By.className("product")).toRightOf(product1);
+
+// Locate product near product-1 (within ~50px)
+By nearbyProduct = with(By.className("product")).near(product1);
+```
+
+### Combining Relative Locators
+
+You can chain multiple relative locator conditions:
+
+```java
+By referenceElement = By.id("reference");
+By targetElement = with(By.tagName("input"))
+ .below(referenceElement)
+ .toRightOf(By.id("another-reference"));
+```
+
+### Using Relative Locators with SHAFT
+
+```java
+driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://example.com");
+
+// Define reference element
+By referenceElement = By.id("username");
+
+// Use relative locator
+By relativeElement = with(By.tagName("input")).below(referenceElement);
+
+// Interact with the element
+driver.element().type(relativeElement, "test@example.com");
+```
+
+## Interacting with Shadow DOM
+
+Shadow DOM encapsulates parts of a web component's DOM tree. SHAFT Locator Builder provides special support for locating elements within shadow DOM.
+
+### What is Shadow DOM?
+
+Shadow DOM allows developers to attach a hidden, separate DOM tree to an element. Elements within the shadow DOM are not accessible through normal DOM traversal methods.
+
+### Locating Shadow DOM Elements
+
+**Example:**
+
+```html
+ 
+ #shadow-root
+ 
+ Men's Outerwear 
+ 
+ 
+```
+
+**Native Selenium Approach:**
+```java
+// Requires JavaScript execution
+WebElement shadowHost = driver.findElement(By.tagName("shop-app"));
+WebElement shadowRoot = (WebElement) ((JavascriptExecutor) driver)
+ .executeScript("return arguments[0].shadowRoot", shadowHost);
+WebElement link = shadowRoot.findElement(By.cssSelector("a[href='/list/mens_outerwear']"));
+```
+
+**SHAFT Locator Builder Approach:**
+```java
+driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://shop.polymer-project.org/");
+
+// Define the shadow host
+By shadowHost = SHAFT.GUI.Locator.hasTagName("shop-app").build();
+
+// Locate element inside shadow DOM
+By shadowElement = SHAFT.GUI.Locator.hasTagName("a")
+ .hasAttribute("href", "/list/mens_outerwear")
+ .insideShadowDom(shadowHost)
+ .build();
+
+// Interact with the element
+driver.element().click(shadowElement);
+```
+
+### Nested Shadow DOM
+
+For deeply nested shadow DOM structures:
+
+```java
+// First shadow host
+By shadowHost1 = SHAFT.GUI.Locator.hasTagName("outer-component").build();
+
+// Second shadow host inside the first shadow DOM
+By shadowHost2 = SHAFT.GUI.Locator.hasTagName("inner-component")
+ .insideShadowDom(shadowHost1)
+ .build();
+
+// Target element inside the nested shadow DOM
+By targetElement = SHAFT.GUI.Locator.hasTagName("button")
+ .hasAttribute("id", "submit")
+ .insideShadowDom(shadowHost2)
+ .build();
+
+driver.element().click(targetElement);
+```
+
+### Complete Shadow DOM Example
+
+```java
+public class ShadowDomTest {
+ SHAFT.GUI.WebDriver driver;
+
+ @Test
+ public void testShadowDomElements() {
+ driver = new SHAFT.GUI.WebDriver();
+ driver.browser().navigateToURL("https://shop.polymer-project.org/");
+ 
+ // Locate shadow host
+ By shadowHost = SHAFT.GUI.Locator.hasTagName("shop-app").build();
+ 
+ // Locate element inside shadow DOM
+ By menuLink = SHAFT.GUI.Locator.hasTagName("a")
+ .containsText("Men's Outerwear")
+ .insideShadowDom(shadowHost)
+ .build();
+ 
+ // Click the element
+ driver.element().click(menuLink);
+ 
+ // Verify navigation
+ driver.browser().assertThat().url().contains("/list/mens_outerwear");
+ 
+ driver.quit();
+ }
+}
+```
+
+For more examples, visit [ShadowDomTest](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java) on GitHub.
+
+## Interacting with IFrames
+
+IFrames (Inline Frames) are HTML elements that embed another HTML page within the current page. To interact with elements inside an iframe, you must first switch the driver's focus to that iframe.
+
+### Basic IFrame Handling
+
+**Switching to an IFrame:**
+```java
+By iframeLocator = By.id("iframe-id");
+driver.element().switchToIframe(iframeLocator);
+```
+
+**Switching Back to Main Content:**
+```java
+driver.element().switchToDefaultContent();
+```
+
+### Example: Text Editor in IFrame
+
+**HTML:**
+```html
+ 
+ 
+ Editable content 
+ 
+ 
+```
+
+**Native Selenium Approach:**
+```java
+WebDriver driver = new ChromeDriver();
+driver.get("https://the-internet.herokuapp.com/tinymce");
+
+// Switch to iframe
+WebElement iframe = driver.findElement(By.id("mce_0_ifr"));
+driver.switchTo().frame(iframe);
+
+// Interact with element inside iframe
+WebElement textField = driver.findElement(By.id("tinymce"));
+textField.clear();
+textField.sendKeys("New text");
+
+// Switch back to main content
+driver.switchTo().defaultContent();
+```
+
+**SHAFT Approach:**
+```java
+driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://the-internet.herokuapp.com/tinymce");
+
+// Locate the iframe
+By textIframe = By.id("mce_0_ifr");
+By textField = By.id("tinymce");
+
+// Switch focus to iframe
+driver.element().switchToIframe(textIframe);
+
+// Interact with elements inside the iframe
+driver.element().typeAppend(textField, "This text is added");
+driver.element().clipboardActions(textField, "select all");
+driver.element().clipboardActions(textField, "copy");
+
+// Switch back to default content
+driver.element().switchToDefaultContent();
+```
+
+### Nested IFrames
+
+For nested iframes, switch to each iframe sequentially:
+
+```java
+// Switch to outer iframe
+By outerIframe = By.id("outer-iframe");
+driver.element().switchToIframe(outerIframe);
+
+// Switch to inner iframe
+By innerIframe = By.id("inner-iframe");
+driver.element().switchToIframe(innerIframe);
+
+// Interact with element in nested iframe
+By targetElement = By.id("target");
+driver.element().click(targetElement);
+
+// Switch back to default content (exits all iframes)
+driver.element().switchToDefaultContent();
+```
+
+### IFrame Switching by Index
+
+You can also switch to an iframe by its index (zero-based):
+
+```java
+// Switch to the first iframe on the page
+driver.element().switchToIframe(By.xpath("(//iframe)[1]"));
+```
+
+### Complete IFrame Example
+
+```java
+public class IFrameTest {
+ SHAFT.GUI.WebDriver driver;
+
+ @Test
+ public void testIFrameInteraction() {
+ driver = new SHAFT.GUI.WebDriver();
+ driver.browser().navigateToURL("https://the-internet.herokuapp.com/tinymce");
+ 
+ // Define locators
+ By textIframe = By.id("mce_0_ifr");
+ By textField = By.id("tinymce");
+ 
+ // Switch to iframe
+ driver.element().switchToIframe(textIframe);
+ 
+ // Get current text
+ String originalText = driver.element().getText(textField);
+ System.out.println("Original text: " + originalText);
+ 
+ // Modify text
+ driver.element().type(textField, "New content added by SHAFT");
+ 
+ // Verify the change
+ String newText = driver.element().getText(textField);
+ System.out.println("New text: " + newText);
+ 
+ // Switch back to main content
+ driver.element().switchToDefaultContent();
+ 
+ driver.quit();
+ }
+}
+```
+
+### IFrame Best Practices
+
+1. **Always switch back to default content** when done interacting with iframe elements
+2. **Use explicit locators** for iframes rather than relying on index-based switching when possible
+3. **Handle iframe loading** by ensuring the iframe is present before switching
+4. **Be aware of nested iframes** - you need to switch through each level
+5. **Consider using unique IDs** for iframes when you control the HTML
+
+## Combining Techniques
+
+You can combine different element identification techniques for complex scenarios:
+
+### Example: Element in IFrame with SHAFT Locator Builder
+
+```java
+By iframeLocator = SHAFT.GUI.Locator.hasTagName("iframe")
+ .hasAttribute("id", "content-frame")
+ .build();
+
+driver.element().switchToIframe(iframeLocator);
+
+By buttonInIframe = SHAFT.GUI.Locator.hasTagName("button")
+ .containsText("Submit")
+ .hasAttribute("data-test", "submit-btn")
+ .build();
+
+driver.element().click(buttonInIframe);
+driver.element().switchToDefaultContent();
+```
+
+### Example: Relative Locator for Element in Shadow DOM
+
+```java
+By shadowHost = SHAFT.GUI.Locator.hasTagName("custom-component").build();
+By referenceElement = SHAFT.GUI.Locator.hasAnyTagName().hasId("reference")
+ .insideShadowDom(shadowHost)
+ .build();
+
+// Use relative locator for element below the reference
+By targetElement = with(By.tagName("input")).below(referenceElement);
+driver.element().type(targetElement, "value");
+```
+
+## XPath Axis Navigation
+
+The SHAFT Locator Builder exposes a fluent XPath axis API that lets you navigate DOM relationships — parent, sibling, child, ancestor, and more — without writing raw XPath strings.
+
+### Available Axes
+
+| Axis | Description |
+|:-----|:------------|
+| `parent()` | The direct parent element |
+| `ancestor(tag)` | The nearest ancestor with the given tag |
+| `child(tag)` | A direct child element with the given tag |
+| `followingSibling(tag)` | The next sibling element with the given tag |
+| `precedingSibling(tag)` | The previous sibling element with the given tag |
+| `following(tag)` | Any element that follows in document order |
+| `preceding(tag)` | Any element that precedes in document order |
+| `descendant(tag)` | Any descendant element with the given tag |
+
+### Example: Locate Input via Associated Label
+
+```java title="XPathAxisLabelToInput.java"
+// Find the input field that follows the "Email" label
+By emailInput = SHAFT.GUI.Locator.hasTagName("label")
+ .hasText("Email")
+ .byAxis().followingSibling("input")
+ .build();
+
+driver.element().type(emailInput, "user@example.com");
+```
+
+### Example: Navigate to an Ancestor
+
+```java title="XPathAxisAncestor.java"
+// Find the wrapping that contains an error 
+By errorWrapper = SHAFT.GUI.Locator.hasTagName("span")
+ .containsText("Required field")
+ .byAxis().ancestor("div")
+ .build();
+
+driver.assertThat().element(errorWrapper).attribute("class").contains("error");
+```
+
+### Example: Navigate to a Child Element
+
+```java title="XPathAxisChild.java"
+// First inside the navigation 
+By firstNavItem = SHAFT.GUI.Locator.hasTagName("ul")
+ .containsClass("nav-menu")
+ .byAxis().child("li")
+ .build();
+
+driver.element().click(firstNavItem);
+```
+
+### Example: Preceding Sibling
+
+```java title="XPathAxisPreceding.java"
+// The heading that appears before a specific section
+By sectionHeading = SHAFT.GUI.Locator.hasTagName("section")
+ .hasId("pricing")
+ .byAxis().precedingSibling("h2")
+ .build();
+
+String title = driver.element().getText(sectionHeading);
+```
+
+:::tip
+Axis navigation generates optimised XPath expressions internally. You still benefit from SHAFT's smart waits and retry logic when interacting with axis-resolved elements.
+:::
+
+---
+
+## ARIA Role-Based Locators
+
+ARIA roles give you resilient, accessibility-driven locators that survive DOM refactors. Use `Locator.hasRole()` with the `Role` enum to target elements by their semantic purpose rather than fragile CSS classes or XPath.
+
+### Available Roles
+
+```java
+// Some commonly used ARIA roles
+Role.BUTTON // , role="button"
+Role.LINK // , role="link"
+Role.TEXTBOX // , role="textbox"
+Role.SEARCHBOX // , role="searchbox"
+Role.CHECKBOX // , role="checkbox"
+Role.RADIO // , role="radio"
+Role.COMBOBOX // , role="combobox"
+Role.NAVIGATION // , role="navigation"
+Role.MAIN // , role="main"
+Role.DIALOG // role="dialog"
+Role.ALERT // role="alert"
+Role.HEADING // – , role="heading"
+Role.LIST // / , role="list"
+Role.LISTITEM // , role="listitem"
+Role.TABLE // , role="table"
+```
+
+### Example: Locate by Role
+
+```java title="ARIARoleLocator.java"
+
+// Locate a submit button by role and visible text
+By submitButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Submit").build();
+
+// Locate a search input by role
+By searchInput = SHAFT.GUI.Locator.hasRole(Role.SEARCHBOX).build();
+
+// Locate the navigation landmark
+By mainNav = SHAFT.GUI.Locator.hasRole(Role.NAVIGATION).build();
+
+driver.element().click(submitButton);
+driver.element().type(searchInput, "SHAFT Engine");
+```
+
+### Example: Role + Additional Conditions
+
+```java title="ARIARoleWithConditions.java"
+// Dialog with a specific title
+By confirmDialog = SHAFT.GUI.Locator.hasRole(Role.DIALOG)
+ .containsText("Confirm deletion")
+ .build();
+
+// Alert message containing error text
+By errorAlert = SHAFT.GUI.Locator.hasRole(Role.ALERT)
+ .containsText("Invalid credentials")
+ .build();
+
+driver.assertThat().element(confirmDialog).exists();
+driver.assertThat().element(errorAlert).attribute("class").contains("error");
+```
+
+:::note
+Role-based locators improve accessibility coverage in your tests and make your test suite act as a living accessibility audit.
+:::
+
+---
+
+## Smart Locators
+
+`inputField()` and `clickableField()` resolve an element from a visible
+label, placeholder, button text, or ARIA name. They exist for a human's
+throwaway exploration only. They are not the official form strategy, and
+generated or repository code must not use them.
+
+Follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
+instead: unique author-written id via the SHAFT locator builder, then ARIA
+role, then native relative xpath only. `test_code_guardrails_check` flags
+`inputField` / `clickableField` as `SMART_LOCATOR`.
+
+```java title="ThrowawayExploration.java"
+// Human exploration only. Do not generate or check this in.
+By email = SHAFT.GUI.Locator.inputField("Email");
+By login = SHAFT.GUI.Locator.clickableField("Log In");
+```
+
+---
+
+## Use `By` Objects, Not `@FindBy`
+
+The `@FindBy` annotation (from Selenium's `PageFactory`) has several drawbacks compared to plain `By` objects:
+
+| `@FindBy` | `By` Objects |
+|---|---|
+| Evaluated at runtime via reflection — errors appear late | Evaluated immediately — compile-time safety |
+| Cannot be reused across methods easily | Standard Java objects — pass, store, and compose freely |
+| Tied to `PageFactory.initElements()` lifecycle | No initialization ceremony required |
+| Hard to make dynamic or conditional | Easy to build dynamically with logic |
+
+:::warning
+`@FindBy` with `PageFactory` can lead to `StaleElementReferenceException` issues and adds unnecessary complexity. SHAFT's built-in element handling with `By` objects already provides smart waits, auto-scrolling, and retry logic.
+:::
+
+Define your locators as `By` constants in your Page Object class instead:
+
+```java title="LoginPage.java"
+
+public class LoginPage {
+ private final By usernameInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("username").build();
+ private final By passwordInput = SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build();
+ private final By loginButton = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log In").build();
+}
+```
+
+## Dynamic Locators
+
+Sometimes a locator depends on runtime data — a product name, a row index, or a user-provided value. Build `By` objects dynamically with a helper method:
+
+```java title="DynamicLocators.java"
+public By getProductAddToCartButton(String productName) {
+ return SHAFT.GUI.Locator.hasRole(Role.BUTTON)
+ .hasAttribute("data-product", productName)
+ .build();
+}
+
+public By getTableCell(int row, int col) {
+ return By.xpath(".//table//tr[" + row + "]//td[" + col + "]");
+}
+```
+
+The [SHAFT Locator Builder](#shaft-locator-builder-methods) works the same way for dynamic locators, without raw XPath or CSS:
+
+```java title="LocatorBuilderDynamic.java"
+public By getProductButton(String productName) {
+ return SHAFT.GUI.Locator.hasTagName("button")
+ .hasAttribute("data-product", productName)
+ .build();
+}
+```
+
+## Cross-Platform Locators (Android and iOS)
+
+When testing the same app on both Android and iOS, locators are often different. Use a helper method that returns the correct locator based on the current platform:
+
+```java title="CrossPlatformLocators.java"
+
+public class LoginPage {
+ private By getUsernameInput() {
+ if (SHAFT.Properties.platform.targetPlatform().equals(Platform.ANDROID.name())) {
+ return By.id("com.example.app:id/username_input");
+ } else {
+ return By.name("username_field");
+ }
+ }
+}
+```
+
+:::tip
+For a cleaner approach, centralize platform-specific locators in a constants file or an enum-based strategy to avoid `if-else` blocks throughout your page objects. See [Cross-Platform Strategy](/docs/reference/guides/Cross_Platform_Strategy) for more details.
+:::
+
+---
+
+## Best Practices
+
+1. **Use a unique author-written id** through `SHAFT.GUI.Locator.hasAnyTagName().hasId(...)` when one exists. Never a framework-recycled id such as `:r1:`, `mat-input-3`, or `cdk-overlay-0`.
+2. **Then use an ARIA role** through `hasRole(...)`, chained with `hasNormalizedText`, `hasAttribute`, or context until unique.
+3. **Use native relative `By.xpath(...)` only** when the element has neither. Do not prefer CSS over that fallback, and do not emit `SHAFT.GUI.Locator.xpath(...)`.
+4. **Keep Smart Locators for human exploration only.** Generated and repository code must not use `inputField` or `clickableField`.
+5. **Keep locators simple** - complex locators are fragile and hard to maintain.
+6. **Use data attributes** (e.g., `data-test`) specifically for testing when you control the HTML.
+7. **Document complex locators** - add comments explaining why a particular strategy was chosen.
+8. **Test locators in isolation** - verify your locators work before building tests around them.
+
+## Related
+
+- [Web locator strategy](/docs/testing/web#locator-strategy)
+- [SHAFT Locator Builder guide](/docs/reference/actions/GUI/Locators_And_Self_Healing#shaft-locator-builder)
+- [SHAFT Locator Builder Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/LocatorBuilderTest.java)
+- [Shadow DOM Examples](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/test/java/testPackage/locator/ShadowDomTest.java)
+- [Selenium By Methods Documentation](https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/By.html)
+- [W3C WebDriver Specification](https://www.w3.org/TR/webdriver/)

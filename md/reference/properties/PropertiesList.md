@@ -1,0 +1,1699 @@
+# Complete Properties Reference
+
+Full reference of all SHAFT Engine configuration properties — web, mobile, API, timeouts, paths, reporting, and integrations.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/PropertiesList
+Guide index: https://shafthq.github.io/llms.txt
+
+You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible. The **Config Generator** tab is an interactive builder covering every property below — search, click to add, edit the value, then copy or download the resulting `.properties` file.
+
+ 
+ *You can read/write any property programmatically to provide more flexibility and control during runtime.* 
+ *You can set some properties via the CLI command that you use to execute your tests.* 
+ *The traditional way of configuring SHAFT properties, using this approach you can simply create your own `custom.properties` file.* 
+ *The default/preset values built into SHAFT, with a description of what each one does and the possible values.* 
+ 
+
+Build a `.properties` file interactively instead of copying keys by hand: search or browse by category, click a property to add it, edit its value, then copy or download the generated file(s) below.
+
+## Platform
+
+- These properties control the basic target execution platform settings, like execution location and target operating system.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+ import org.openqa.selenium.Platform;
+
+ /** get **/
+ String crossBrowserMode = SHAFT.Properties.platform.crossBrowserMode();
+ String executionAddress = SHAFT.Properties.platform.executionAddress();
+ String targetPlatform = SHAFT.Properties.platform.targetPlatform();
+ String proxy = SHAFT.Properties.platform.proxy();
+ Boolean driverProxy = SHAFT.Properties.platform.driverProxySettings();
+ Boolean jvmProxy = SHAFT.Properties.platform.jvmProxySettings();
+ Boolean enableBiDi = SHAFT.Properties.platform.enableBiDi();
+
+ /** set **/
+ SHAFT.Properties.platform.set().crossBrowserMode("off");
+ SHAFT.Properties.platform.set().executionAddress("local");
+ SHAFT.Properties.platform.set().targetPlatform(Platform.LINUX.name());
+ SHAFT.Properties.platform.set().proxySettings("");
+ SHAFT.Properties.platform.set().driverProxySettings(true);
+ SHAFT.Properties.platform.set().jvmProxySettings(true);
+ SHAFT.Properties.platform.set().enableBiDi(true);
+ ```
+
+ 
+ 
+ 
+ ```powershell
+ mvn -e test "-DexecutionAddress=localhost:4444" "-DtargetOperatingSystem=LINUX"
+ ```
+
+ 
+ 
+ 
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ SHAFT.CrossBrowserMode=off
+ executionAddress=local
+ targetOperatingSystem=LINUX
+ com.SHAFT.proxySettings=
+ driverProxySettings=true
+ jvmProxySettings=true
+ enableBiDi=true
+ ```
+ 
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SHAFT.CrossBrowserMode | `off` | `off`, `sequential`, `parallelized` | • Cross Browser Mode allows SHAFT to run your test class against Chrome, Firefox, and Safari! • You need to have 'Docker Desktop' installed on your machine, and configured to use Linux images. • Off → Your tests will run normally and respect your configuration. • Sequential → Your tests will run on Chrome, Firefox, and Safari in sequence. • Parallelized → Your tests will run on Chrome, Firefox and Safari in parallel. And for each browser they will run in sequence. |
+| executionAddress | `local` | `local`, `dockerized`, `browserstack`, `host:port`, `http://host:port/wd/hub` | • For Appium, set the below settings and move to the Mobile tab to continue. • For BrowserStack, set the "Target Operating System" below, and the "Automation Name" in the Mobile tab, then configure the "browserStack.properties" file in your project directory. |
+| targetOperatingSystem | `Linux` | `Linux`, `Windows`, `Mac`, `Android`, `iOS` | • The target operating system for test execution. |
+| com.SHAFT.proxySettings | ` ` | `host:port` | • Used to configure testing behind a proxy. e.g. corporate proxy. |
+| driverProxySettings | `true` | `true`, `false` | • To enable or disable the driver proxy. |
+| jvmProxySettings | `true` | `true`, `false` | • To enable or disable the JVM proxy. |
+| enableBiDi | `true` | `true`, `false` | • To enable or disable the [WebDriver BiDi protocol](https://www.selenium.dev/documentation/webdriver/bidirectional/webdriver_bidi/). |
+| remotePreflightEnabled | `false` | `true`, `false` | • Query Selenium Grid `/status` and `/graphql` before remote sessions and attach a preflight summary when Grid metadata is available. |
+| remoteAdaptiveSessionThrottling | `false` | `true`, `false` | • Limit local remote-session creation to the detected matching Selenium Grid slot count. |
+| remotePreflightFailFast | `false` | `true`, `false` | • Fail before WebDriver retries when Grid preflight proves the requested browser slot is unavailable. |
+| remotePreflightTimeoutSeconds | `5` | seconds | • Timeout for each Grid preflight `/status` or `/graphql` call. |
+
+## Web
+
+- These properties control web GUI test automation settings, like target browser, headless execution, and mobile emulation.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+ import org.openqa.selenium.remote.Browser;
+
+ /** get **/
+ String targetBrowserName = SHAFT.Properties.web.targetBrowserName();
+ boolean headlessExecution = SHAFT.Properties.web.headlessExecution();
+ boolean forceBrowserDownload = SHAFT.Properties.web.forceBrowserDownload();
+ boolean incognitoMode = SHAFT.Properties.web.incognitoMode();
+ boolean isMobileEmulation = SHAFT.Properties.web.isMobileEmulation();
+ boolean mobileEmulationIsCustomDevice = SHAFT.Properties.web.mobileEmulationIsCustomDevice();
+ String mobileEmulationDeviceName = SHAFT.Properties.web.mobileEmulationDeviceName();
+ int mobileEmulationWidth = SHAFT.Properties.web.mobileEmulationWidth();
+ int mobileEmulationHeight = SHAFT.Properties.web.mobileEmulationHeight();
+ double mobileEmulationPixelRatio = SHAFT.Properties.web.mobileEmulationPixelRatio();
+ String mobileEmulationUserAgent = SHAFT.Properties.web.mobileEmulationUserAgent();
+ String baseURL = SHAFT.Properties.web.baseURL();
+ int browserWindowWidth = SHAFT.Properties.web.browserWindowWidth();
+ int browserWindowHeight = SHAFT.Properties.web.browserWindowHeight();
+ String storageStatePath = SHAFT.Properties.web.storageStatePath();
+
+ /** set **/
+ SHAFT.Properties.web.set().targetBrowserName(Browser.CHROME.browserName())
+ .headlessExecution(false)
+ .forceBrowserDownload(false)
+ .incognitoMode(false)
+ .isMobileEmulation(false)
+ .mobileEmulationIsCustomDevice(false)
+ .mobileEmulationDeviceName("")
+ .mobileEmulationWidth(360)
+ .mobileEmulationHeight(640)
+ .mobileEmulationPixelRatio(1.0)
+ .mobileEmulationUserAgent("")
+ .baseURL("")
+ .browserWindowWidth(1920)
+ .browserWindowHeight(1080)
+ .storageStatePath("");
+
+ ```
+
+ 
+ 
+ 
+ ```powershell
+ mvn -e test "-DtargetBrowserName=FIREFOX" "-DheadlessExecution=true" "-DforceBrowserDownload=true"
+ ```
+ 
+ 
+ 
+ 
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ targetBrowserName=chrome
+ forceBrowserDownload=false
+ headlessExecution=false
+ incognitoMode=false
+ isMobileEmulation=false
+ mobileEmulation.isCustomDevice=false
+ mobileEmulation.deviceName=
+ mobileEmulation.width=
+ mobileEmulation.height=
+ mobileEmulation.pixelRatio=1.0
+ mobileEmulation.userAgent=
+ baseURL=
+ browserWindowWidth=1920
+ browserWindowHeight=1080
+ pageLoadStrategy=eager
+ readinessState=interactive
+ storageStatePath=
+ ```
+ 
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
+| targetBrowserName | `chrome` | `chrome`, `firefox`, `safari`, `edge` | • The target web browser for test execution. |
+| forceBrowserDownload | `false` | `true`, `false` | • This only works for Chrome and Firefox. • Allows Selenium Manager to download a Chrome for Testing browser build compatible with the current Selenium/browser resolution flow. |
+| headlessExecution | `false` | `true`, `false` | • This only works for Chrome, Firefox and Edge. |
+| incognitoMode | `false` | `true`, `false` | • Enable browser incognito/private mode. |
+| isMobileEmulation | `false` | `true`, `false` | • This only works for Chrome and Edge. |
+| mobileEmulation.isCustomDevice | `false` | `true`, `false` | • This only works for Chrome and Edge. |
+| mobileEmulation.deviceName | ` ` | `blackberryZ30`, `BlackberryPlayBook`, `galaxyNote3`, `galaxyNoteII`, `galaxySIII`, `galaxyS5`, `galaxyS8`, `samsungGalaxyS8+`, `galaxyS9+`, `galaxyTabS4`, `galaxyFold`, `samsungGalaxyS20Ultra`, `samsungGalaxyA51/71`, `kindleFireHDX`, `lgOptimusL70`, `microsoftLumia550`, `microsoftLumia950`, `motoG4`, `nexus10`, `nexus4`, `nexus5`, `nexus5X`, `nexus6`, `nexus6P`, `nexus7`, `nokiaLumia520`, `nokiaN9`, `nestHub`, `nestHubMax`, `pixel2`, `pixel2XL`, `pixel3`, `pixel3XL`, `pixel4`, `pixel5`, `jioPhone2`, `iPhone4`, `iPhone5/SE`, `iPhone6/7/8`, `iPhone6/7/8Plus`, `iPhoneSE`, `iPhoneX`, `iPhoneXR`, `iPhone12Pro`, `iPad`, `iPadPro`, `iPadAir`, `iPadMini`, `surfacePro7`, `surfaceDuo` | • This only works for Chrome and Edge. |
+| mobileEmulation.width | ` ` | example: `360` | • This only works for Chrome and Edge. |
+| mobileEmulation.height | ` ` | example: `600` | • This only works for Chrome and Edge. |
+| mobileEmulation.pixelRatio | `1.0` | example: `2.0` | • This only works for Chrome and Edge. |
+| mobileEmulation.userAgent | ` ` | example: `Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:35.0) Gecko/20100101 Firefox/35.0` | • This only works for Chrome and Edge. |
+| baseURL | ` ` | example: `https://github.com/ShaftHQ/SHAFT_ENGINE` | • Base URL for the application under test. |
+| browserWindowWidth | `1920` | | • Won't work if autoMaximizeBrowserWindow is enabled.
+| browserWindowHeight | `1080` | | • Won't work if autoMaximizeBrowserWindow is enabled.
+| pageLoadStrategy | `eager` | `none`, `eager`, `normal` | • Controls when Selenium considers the page loaded. Default `eager` waits until `DOMContentLoaded`.
+| readinessState | `interactive` | `interactive`, `none`, `complete` | • Controls the document readiness state to wait for on BiDi navigation. Default `interactive`.
+| storageStatePath | ` ` | example: `target/auth-state.json` | • Path to a storage-state JSON file automatically loaded into a freshly-initialized driver. • SHAFT navigates to the file's recorded origin (falling back to `baseURL`) first; a load failure is logged as a warning and never fails driver init. • Blank (default) disables the feature.
+
+## Playwright
+
+- These properties control the `SHAFT.GUI.Playwright` backend. Browser name,
+ headless mode, base URL, and viewport still come from the Web properties
+ unless a Playwright-specific override is listed below.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ String browserName = SHAFT.Properties.playwright.browserName();
+ String deviceName = SHAFT.Properties.playwright.deviceName();
+ String connectionMode = SHAFT.Properties.playwright.connectionMode();
+ String endpoint = SHAFT.Properties.playwright.endpoint();
+ String channel = SHAFT.Properties.playwright.channel();
+ int slowMo = SHAFT.Properties.playwright.slowMo();
+ int launchTimeout = SHAFT.Properties.playwright.launchTimeoutMilliseconds();
+ int defaultTimeout = SHAFT.Properties.playwright.defaultTimeoutMilliseconds();
+ int navigationTimeout = SHAFT.Properties.playwright.navigationTimeoutMilliseconds();
+ String artifactsDirectory = SHAFT.Properties.playwright.artifactsDirectory();
+ String downloadsDirectory = SHAFT.Properties.playwright.downloadsDirectory();
+ boolean acceptDownloads = SHAFT.Properties.playwright.acceptDownloads();
+ boolean tracingEnabled = SHAFT.Properties.playwright.tracingEnabled();
+
+ /** set **/
+ SHAFT.Properties.playwright.set()
+ .browserName("chromium")
+ .deviceName("")
+ .connectionMode("local")
+ .endpoint("")
+ .channel("")
+ .slowMo(0)
+ .launchTimeoutMilliseconds(30000)
+ .defaultTimeoutMilliseconds(30000)
+ .navigationTimeoutMilliseconds(30000)
+ .artifactsDirectory("target/playwright-artifacts")
+ .downloadsDirectory("")
+ .acceptDownloads(true)
+ .tracingEnabled(false)
+ .tracingOnRetryOnly(true)
+ .tracingScreenshots(true)
+ .tracingSnapshots(true)
+ .tracingSources(true);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn -e test "-Dplaywright.browserName=chromium" "-Dplaywright.connectionMode=local"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ playwright.browserName=chromium
+ playwright.deviceName=
+ playwright.connectionMode=local
+ playwright.endpoint=
+ playwright.channel=
+ playwright.slowMo=0
+ playwright.launchTimeoutMilliseconds=30000
+ playwright.defaultTimeoutMilliseconds=30000
+ playwright.navigationTimeoutMilliseconds=30000
+ playwright.artifactsDirectory=target/playwright-artifacts
+ playwright.downloadsDirectory=
+ playwright.acceptDownloads=true
+ playwright.tracing.enabled=false
+ playwright.tracing.onRetryOnly=true
+ playwright.tracing.screenshots=true
+ playwright.tracing.snapshots=true
+ playwright.tracing.sources=true
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------------------------ | ----------------------------- | --------------- | ----------- |
+| playwright.browserName | ` ` | `chromium`, `chrome`, `firefox`, `webkit`, `safari`, `edge` | Optional Playwright browser engine override. When empty, SHAFT uses the device descriptor browser type or falls back to `targetBrowserName`. |
+| playwright.deviceName | ` ` | Any Microsoft Playwright device descriptor name, `Galaxy S26 Ultra`, `iPhone 17 Pro Max` | Device descriptor applied to new browser contexts. |
+| playwright.connectionMode | `local` | `local`, `connect`, `connectOverCDP` | Launch a local browser, connect over Playwright protocol, or connect over CDP. |
+| playwright.endpoint | ` ` | WebSocket or CDP endpoint | Remote endpoint used when `connectionMode` is `connect` or `connectOverCDP`. |
+| playwright.channel | ` ` | Chromium channel such as `chrome` or `msedge` | Optional Chromium channel passed to Playwright launch options. |
+| playwright.slowMo | `0` | milliseconds | Slow motion delay for Playwright actions. |
+| playwright.launchTimeoutMilliseconds | `30000` | milliseconds | Timeout for launching or connecting to a browser. |
+| playwright.defaultTimeoutMilliseconds | `30000` | milliseconds | Default timeout applied to Playwright page actions. |
+| playwright.navigationTimeoutMilliseconds | `30000` | milliseconds | Default timeout applied to Playwright page navigation. |
+| playwright.artifactsDirectory | `target/playwright-artifacts` | relative or absolute path | Directory for Playwright traces and artifacts. |
+| playwright.downloadsDirectory | ` ` | relative or absolute path | Optional downloads directory. Empty uses Playwright defaults. |
+| playwright.acceptDownloads | `true` | `true`, `false` | Allow Playwright browser contexts to accept downloads. |
+| playwright.timezoneId | ` ` | IANA time zone identifier | Optional time zone for new browser contexts. Empty uses the browser default. |
+| playwright.locale | ` ` | locale identifier | Optional locale for new browser contexts. Empty uses the browser default. |
+| playwright.userAgent | ` ` | user-agent string | Optional user agent for new browser contexts. Empty uses the browser or device default. |
+| playwright.javaScriptEnabled | `true` | `true`, `false` | Enables JavaScript in new browser contexts. |
+| playwright.tracing.enabled | `false` | `true`, `false` | Start Playwright tracing for the session. |
+| playwright.tracing.onRetryOnly | `true` | `true`, `false` | Enable tracing automatically only during SHAFT retry evidence capture. |
+| playwright.tracing.screenshots | `true` | `true`, `false` | Include screenshots in trace artifacts. |
+| playwright.tracing.snapshots | `true` | `true`, `false` | Include DOM snapshots in trace artifacts. |
+| playwright.tracing.sources | `true` | `true`, `false` | Include source files in trace artifacts. |
+
+## Mobile
+
+- These properties control web and/or native mobile GUI test automation settings, like target platform version, path to the app under test, and the activity name that you want to start testing.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+ import org.openqa.selenium.Platform;
+ import io.appium.java_client.remote.AutomationName;
+
+ /** get **/
+ String platformName = SHAFT.Properties.mobile.platformName();
+ String platformVersion = SHAFT.Properties.mobile.platformVersion();
+ String deviceName = SHAFT.Properties.mobile.deviceName();
+ String automationName = SHAFT.Properties.mobile.automationName();
+ String udid = SHAFT.Properties.mobile.udid();
+ String browserName = SHAFT.Properties.mobile.browserName();
+ String browserVersion = SHAFT.Properties.mobile.browserVersion();
+ String app = SHAFT.Properties.mobile.app();
+ String appPackage = SHAFT.Properties.mobile.appPackage();
+ String appActivity = SHAFT.Properties.mobile.appActivity();
+ String bundleId = SHAFT.Properties.mobile.bundleId();
+
+ /** set **/
+ SHAFT.Properties.platform.set().targetPlatform(Platform.ANDROID.name());
+ SHAFT.Properties.mobile.set().platformVersion("13.0")
+ .deviceName("Google Pixel 7")
+ .automationName(AutomationName.ANDROID_UIAUTOMATOR2)
+ .udid("")
+ .browserName("")
+ .browserVersion("")
+ .app("src/test/resources/testDataFiles/apps/ApiDemos-debug.apk")
+ .appPackage("")
+ .appActivity("")
+ .bundleId("");
+ ```
+
+ 
+ 
+ 
+ ```powershell
+ mvn -e test "-Dmobile_platformVersion=13.0" "-Dmobile_deviceName=Google Pixel 7"
+ ```
+ 
+ 
+ 
+ 
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ targetOperatingSystem=ANDROID
+ mobile_platformVersion=13.0
+ mobile_deviceName=Google Pixel 7
+ mobile_automationName=UiAutomator2
+ mobile_udid=
+ browserName=
+ MobileBrowserVersion=
+ mobile_app=src/test/resources/testDataFiles/apps/ApiDemos-debug.apk
+ mobile_appPackage=
+ mobile_appActivity=
+ mobile_bundleId=
+ ```
+ 
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ---------------------------- | -------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| platformName | ` ` | example: `Android`, `iOS` | • Raw Appium `platformName` capability. Usually derived automatically from `targetOperatingSystem`; set this to override it directly. |
+| mobile_platformVersion | ` ` | example: `11.0, 13.0` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_deviceName | ` ` | example: `ANDROID_EMULATOR` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_automationName | `UiAutomator2` | `UiAutomator2`, `Espresso`, `XCUITest` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_udid | ` ` | example: `RQ3005TAQP` | • Unique device identifier of the connected physical device (leave empty if not applicable). • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. | |
+| browserName | ` ` | `chrome`, `Chromium`, `Browser`, `Safari`, `samsung` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| MobileBrowserVersion | ` ` | example: `83.0.4103.39` | • The WebDriver executable version compatible with the target mobile browser. Check Selenium driver requirements for browser-specific compatibility. • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. | |
+| mobile_app | ` ` | `relativePath/to/myApp.apk`, `absolutePath/to/myApp.apk`, `http://myapp.com/app.ipa` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_appPackage | ` ` | example: `com.example.android.myApp` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_appActivity | ` ` | example: `.MainActivity` | • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_bundleId | ` ` | example: `com.example.ios.myApp` | • iOS bundle identifier for launching an already installed app without providing `mobile_app`. • You can add any property from the List of Appium Capabilities directly to your .property files or via CLI arguments, just make sure to add `mobile_` as a prefix. |
+| mobile_flutterElementWaitTimeout | `0` | | Mobile flutter element wait timeout. |
+| mobile_flutterServerLaunchTimeout | `0` | | Mobile flutter server launch timeout. |
+| mobile_flutterSystemPort | `0` | | Mobile flutter system port. |
+| mobile_flutterEnableMockCamera | `false` | `true`, `false` | Mobile flutter enable mock camera. |
+
+## API
+
+This section lists all configurable properties related to Swagger/OpenAPI contract validation and operation coverage reporting for SHAFT API testing.
+
+ 
+
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean swaggerValidationEnabled = SHAFT.Properties.api.swaggerValidationEnabled();
+ String swaggerValidationUrl = SHAFT.Properties.api.swaggerValidationUrl();
+ boolean openApiCoverageReportEnabled = SHAFT.Properties.api.openApiCoverageReportEnabled();
+ int openApiCoverageThreshold = SHAFT.Properties.api.openApiCoverageThreshold();
+
+ /** set **/
+ SHAFT.Properties.api.set()
+ .swaggerValidationEnabled(true)
+ .swaggerValidationUrl("https://petstore.swagger.io/v2/swagger.json")
+ .openApiCoverageReportEnabled(true)
+ .openApiCoverageThreshold(80);
+ ```
+ 
+
+ 
+
+ ```bash showLineNumbers
+ mvn test \
+ -Dswagger.validation.enabled=true \
+ -Dswagger.validation.url=https://petstore.swagger.io/v2/swagger.json \
+ -Dopenapi.coverage.report.enabled=true \
+ -Dopenapi.coverage.threshold=80
+ ```
+ 
+
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ swagger.validation.enabled=true
+ swagger.validation.url=https://petstore.swagger.io/v2/swagger.json
+ openapi.coverage.report.enabled=true
+ openapi.coverage.threshold=80
+ ```
+ 
+
+ 
+
+ | Property Name | Default Value | Description |
+ |------------------------------|----------------|-----------------------------------------------------------------------------|
+ | `swagger.validation.enabled` | `false` | Enables or disables Swagger/OpenAPI contract validation for API testing. |
+ | `swagger.validation.url` | `` | URL or file path to the OpenAPI schema for validation. |
+ | `openapi.coverage.report.enabled` | `false` | Generates an end-of-run OpenAPI operation coverage report using `swagger.validation.url` as the spec source. |
+ | `openapi.coverage.threshold` | `0` | Minimum covered operation percentage required for a passing run; `0` disables threshold enforcement. |
+ | `shaft.contract.sensitiveKeys` | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key,accesskey` | Configured sensitive key fragments. |
+ | `shaft.contract.volatileKeys` | `requestId,traceId,spanId,sessionId,nonce,timestamp,createdAt,updatedAt,expiresAt,date,etag` | Configured volatile key names. |
+
+## Capture
+
+- These properties control web API request/response recording and capture settings, including network event filtering, request/response body externalization, and sensitive data redaction for API traffic capture during test execution.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean captureApiEnabled = SHAFT.Properties.capture.isEnabled();
+ int captureApiMaxBodyBytes = SHAFT.Properties.capture.maxBodyBytes();
+ boolean captureApiIncludeAssets = SHAFT.Properties.capture.includeAssets();
+ boolean captureApiFirstPartyOnly = SHAFT.Properties.capture.firstPartyOnly();
+ boolean captureApiStoreSecretsLocally = SHAFT.Properties.capture.storeSecretsLocally();
+
+ /** set **/
+ SHAFT.Properties.capture.set()
+ .enabled(true)
+ .maxBodyBytes(1048576)
+ .includeAssets(false)
+ .firstPartyOnly(true)
+ .storeSecretsLocally(false);
+ ```
+ 
+
+ 
+
+ ```bash showLineNumbers
+ mvn test \
+ -Dcapture.api.enabled=true \
+ -Dcapture.api.maxBodyBytes=1048576 \
+ -Dcapture.api.includeAssets=false \
+ -Dcapture.api.firstPartyOnly=true \
+ -Dcapture.api.storeSecretsLocally=false
+ ```
+ 
+
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ capture.api.enabled=true
+ capture.api.maxBodyBytes=1048576
+ capture.api.includeAssets=false
+ capture.api.firstPartyOnly=true
+ capture.api.storeSecretsLocally=false
+ ```
+ 
+
+ 
+
+ | Property Name | Default Value | Possible Values | Description |
+ |----------------------------------|----------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+ | `capture.api.enabled` | `false` | `true`, `false` | • Enable or disable automatic capture of web API network traffic during test execution. • Requires Chrome or Edge browser with DevTools Protocol support. |
+ | `capture.api.maxBodyBytes` | `1048576` | bytes (integer) | • Maximum request/response body size to capture in bytes (1 MB). • Bodies exceeding this limit are truncated in the capture session. |
+ | `capture.api.includeAssets` | `false` | `true`, `false` | • Include asset requests (images, CSS, fonts, etc.) in API capture. • When false, only data/API calls are recorded. |
+ | `capture.api.firstPartyOnly` | `true` | `true`, `false` | • Capture only first-party API calls from the primary domain. • When false, all cross-origin requests are included. |
+ | `capture.api.storeSecretsLocally` | `false` | `true`, `false` | • Store authorization headers and sensitive data in the capture session. • When false (default), secrets are referenced via bodyRefId instead. |
+ | `capture.api.maxTransactions` | `500` | integer | • Maximum number of network transactions to retain per capture session. |
+ | `capture.api.urlIncludeGlobs` | ` ` | comma-separated glob patterns | • When non-empty, only URLs matching one of these glob patterns are captured. |
+ | `capture.api.urlExcludeGlobs` | ` ` | comma-separated glob patterns | • URLs matching one of these glob patterns are always excluded from capture. |
+
+## Flags
+
+- These properties control generic platform flags, like the number of test retry attempts, auto-maximization of web browser window, and any other built-in checks or workarounds that aim to stabilize your test execution.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ var clickUsingJavascriptWhenWebDriverClickFails = SHAFT.Properties.flags.clickUsingJavascriptWhenWebDriverClickFails();
+
+ /** set **/
+ SHAFT.Properties.flags.set().clickUsingJavascriptWhenWebDriverClickFails(true);
+ ```
+
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------------------------- | ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| automaticallyAddRecommendedChromeOptions | `false` | `true`, `false` | • Automatically add recommended Chrome options for better stability. |
+| retryMaximumNumberOfAttempts | `0` | example: `0`, `1`, `2`, `3`, `4`, ...etc | • Maximum number of retry attempts after the first failed execution. • JUnit retries run after `@AfterEach` cleanup and execute `@BeforeEach` again for isolated retry state. |
+| forceCaptureSupportingEvidenceOnRetry | `true` | `true`, `false` | • When retrying a failed test, enable GIF/video/log evidence for the retry attempt. |
+| autoMaximizeBrowserWindow | `true` | `true`, `false` | • Automatically maximize browser window on launch. |
+| forceCheckForElementVisibility | `true` | `true`, `false` | • Legacy configuration property with no current runtime consumer. |
+| forceCheckElementLocatorIsUnique | `true` | `true`, `false` | • Force check that element locator returns only one element. • This is still enforced on every retry within the identification timeout; only once that timeout is exhausted does SHAFT make one last-resort attempt to auto-resolve to a single displayed-and-enabled match before throwing `MultipleElementsFoundException` ([#4321](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/4321)). |
+| forceCheckTextWasTypedCorrectly | `false` | `true`, `false` | • In WebDriver element actions, after `type`, `typeSecure`, or `typeAppend`, compare the final element value/text with the expected typed text. • SHAFT skips this comparison for special key sequences such as `Keys.ENTER`. |
+| clearBeforeTypingMode | `native` | `native`, `backspace`, `off` | • Replaces both deprecated `attemptClearBeforeTyping` and `attemptClearBeforeTypingUsingBackspace` flags. `native` = clear using native Selenium method, `backspace` = clear by deleting letter by letter, `off` = no clearing before typing. |
+| scrollingMode | `javascript` | `javascript`, `native` | • Mode for scrolling to elements. |
+| attemptToClickBeforeTyping | `false` | `true`, `false` | • Click the element before typing when `clearBeforeTypingMode` is not `native`. |
+| forceCheckNavigationWasSuccessful | `false` | `true`, `false` | • Force check that navigation to URL was successful. |
+| respectBuiltInWaitsInNativeMode | `true` | `true`, `false` | • Respect built-in waits when using native mode. |
+| forceCheckStatusOfRemoteServer | `false` | `true`, `false` | • Force check status of remote server before execution. |
+| clickUsingJavascriptWhenWebDriverClickFails | `false` | `true`, `false` | • Fallback to JavaScript click when native WebDriver click fails, including invalid-state and intercepted-click failures. |
+| autoCloseDriverInstance | `true` | `true`, `false` | • Automatically close driver instance after test execution. |
+| automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Automatically assert API response status code. |
+| maximumPerformanceMode | `0` | `0`, `1`, `2` | • `0` → Disabled, `1` → Without Headless Execution, `2` → With Headless Execution • Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
+| skipTestsWithLinkedIssues | `false` | `true`, `false` | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation. |
+| disableCache | `false` | `true`, `false` | • To disable the cache in a browser session. |
+| enableTrueNativeMode | `false` | `true`, `false` | • Enable true native mode for mobile testing. |
+| handleNonSelectDropDown | `true` | `true`, `false` | • Handle non-select dropdown elements. |
+| validateSwipeToElement | `false` | `true`, `false` | • Validate swipe to element action on mobile. |
+| disableSslCertificateCheck | `false` | `true`, `false` | • Disable SSL certificate validation. |
+| telemetry.enabled | `true` | `true`, `false` | • Enable telemetry data collection for SHAFT usage analytics. |
+
+## Reporting
+
+- These properties control the engine's built-in reporting capabilities, such as whether or not to capture the element name in the report to make it more readable, capturing WebDriver logs for debugging, and the behavior of reports before and after test execution.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ var captureElementName = SHAFT.Properties.reporting.captureElementName();
+ var locatorHealthEnabled = SHAFT.Properties.reporting.locatorHealthEnabled();
+ var locatorHealthWarnBelowScore = SHAFT.Properties.reporting.locatorHealthWarnBelowScore();
+ var flakeProfilerEnabled = SHAFT.Properties.reporting.flakeProfilerEnabled();
+ var diagnosticsBundleEnabled = SHAFT.Properties.reporting.diagnosticsBundleEnabled();
+ var evidenceLevel = SHAFT.Properties.reporting.evidenceLevel();
+ var traceMode = SHAFT.Properties.reporting.traceMode();
+
+ /** set **/
+ SHAFT.Properties.reporting.set()
+ .captureElementName(false)
+ .locatorHealthEnabled(true)
+ .locatorHealthWarnBelowScore(70)
+ .locatorHealthAttachDashboard(true)
+ .locatorHealthFailBelowScore(-1)
+ .slowLocatorThresholdMillis(750)
+ .failOnLocatorHealthWarnings(false)
+ .flakeProfilerEnabled(true)
+ .flakeProfilerAttachPerTest(true)
+ .flakeProfilerFailOnSevereFlakeRisk(false)
+ .flakeProfilerSlowActionThresholdMs(2000)
+ .diagnosticsBundleEnabled(true)
+ .diagnosticsMaxArtifactMb(50)
+ .traceEnabled(true)
+ .traceMode("failure")
+ .evidenceLevel("FAILURE_ONLY");
+ ```
+
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --------------------------------------------- | ------------- | --------------- | -------------------------------------------------------- |
+| captureElementName | `true` | `true`, `false` | • Capture element name in reports for better readability.|
+| captureWebDriverLogs | `false` | `true`, `false` | • Capture WebDriver logs for debugging purposes. |
+| alwaysLogDiscreetly | `false` | `true`, `false` | • Always log discreetly without detailed output. |
+| debugMode | `false` | `true`, `false` | • Enable debug mode for verbose logging. |
+| openLighthouseReportWhileExecution | `false` | `true`, `false` | • Open Lighthouse performance report during execution. |
+| cleanSummaryReportsDirectoryBeforeExecution | `true` | `true`, `false` | • Clean summary reports directory before execution. |
+| openExecutionSummaryReportAfterExecution | `false` | `true`, `false` | • Open execution summary report after test execution. |
+| disableLogging | `false` | `true`, `false` | • Disable all logging output. |
+| attachFullLog | `false` | `true`, `false` | • Attach a streamed, deduplicated snapshot of the full engine log to the Allure report after test execution without deleting the live log file. |
+| evidenceLevel | `FAILURE_ONLY` | `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, `CUSTOM` | • Select the evidence profile. Profile values except `CUSTOM` override granular screenshot, page-source, GIF, video, WebDriver-log, full-log, diagnostics, and trace controls. |
+| locatorHealthReportEnabled | `false` | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
+| shaft.locatorHealth.enabled | `false` | `true`, `false` | • Generate end-of-run locator health reports. |
+| shaft.locatorHealth.warnBelowScore | `70` | `0` to `100` | • Mark locators below this health score as risky in the dashboard. |
+| shaft.locatorHealth.attachDashboard | `true` | `true`, `false` | • Attach the HTML locator health dashboard to Allure. |
+| shaft.locatorHealth.failBelowScore | `-1` | `-1` or `0` to `100` | • Fail the run when any locator score is below this threshold; `-1` disables score-based failure. |
+| slowLocatorThresholdMillis | `750` | Integer milliseconds | • Mark locator lookups at or above this duration as slow warnings. |
+| failOnLocatorHealthWarnings | `false` | `true`, `false` | • Fail the run when locator health warnings are present. |
+| shaft.flakeProfiler.enabled | `false` | `true`, `false` | • Attach opt-in flake and auto-wait timing profiles to Allure. |
+| shaft.flakeProfiler.attachPerTest | `true` | `true`, `false` | • Attach each test's JSON/HTML profile when profiler signals exist. |
+| shaft.flakeProfiler.failOnSevereFlakeRisk | `false` | `true`, `false` | • Fail the run when severe flake-risk actions are found. |
+| shaft.flakeProfiler.slowActionThresholdMs | `2000` | Integer milliseconds | • Duration threshold used to flag slow and severe-risk actions. |
+| shaft.diagnostics.enabled | `true` | `true`, `false` | • Attach `shaft-diagnostics.zip` with sanitized `diagnostics.json` for failed and broken tests. |
+| shaft.diagnostics.maxArtifactMb | `50` | Integer megabytes | • Maximum size for a single diagnostics ZIP entry. |
+| shaft.trace.enabled | `true` | `true`, `false` | • Attach the SHAFT failure trace viewer archive to Allure. |
+| shaft.trace.mode | `auto` | `auto`, `failure`, `retry`, `always` | • Control trace generation: `auto` is retry-aware (resolves to `retry` when retryMaximumNumberOfAttempts > 0, otherwise `failure`). |
+| shaft.trace.retainFailedAttempts | `true` | `true`, `false` | • Retain failed-attempt trace archives under attempt-indexed names when retries are enabled. |
+| shaft.trace.includeCodeContext | `true` | `true`, `false` | • Include the best matching project source-code frame and snippet. |
+| shaft.trace.includeFullPageSnapshots | `true` | `true`, `false` | • Include web page snapshots when available. |
+| shaft.trace.includeDomSnapshots | `true` | `true`, `false` | • Include DOM snapshots in the SHAFT failure trace bundle when available. |
+| shaft.trace.includeScreenshots | `true` | `true`, `false` | • Include screenshots in the SHAFT failure trace bundle when available. |
+| shaft.trace.includeNativePageSource | `true` | `true`, `false` | • Include native mobile page source when available. |
+| shaft.trace.includeNetwork | `true` | `true`, `false` | • Reserve network evidence in the trace metadata. |
+| shaft.trace.includeConsole | `true` | `true`, `false` | • Reserve console evidence in the trace metadata. |
+| shaft.trace.maxArtifactMb | `50` | Integer megabytes | • Maximum size for a single trace bundle entry. |
+
+## Allure
+
+- These properties control the engine's built-in Allure reporting capabilities, such as when to open the report, whether to accumulate history and reports, and how to customize the report appearance.
+- *Since version 8.3.20240827, the Allure properties have been renamed and extended. The old property names are listed in the table below for reference.*
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean automaticallyOpen = SHAFT.Properties.allure.automaticallyOpen();
+ boolean accumulateHistory = SHAFT.Properties.allure.accumulateHistory();
+ boolean accumulateReports = SHAFT.Properties.allure.accumulateReports();
+ boolean cleanResultsDirectory = SHAFT.Properties.allure.cleanResultsDirectory();
+ boolean generateArchive = SHAFT.Properties.allure.generateArchive();
+ boolean generateReport = SHAFT.Properties.allure.generateReport();
+ String customLogo = SHAFT.Properties.allure.customLogo();
+ String customTitle = SHAFT.Properties.allure.customTitle();
+ boolean realtimeMonitoring = SHAFT.Properties.allure.realtimeMonitoring();
+ boolean singleFile = SHAFT.Properties.allure.singleFile();
+ String reportLanguage = SHAFT.Properties.allure.reportLanguage();
+ boolean open = SHAFT.Properties.allure.open();
+ String groupBy = SHAFT.Properties.allure.groupBy();
+
+ /** set **/
+ SHAFT.Properties.allure.set()
+ .automaticallyOpen(true)
+ .accumulateHistory(true)
+ .accumulateReports(true)
+ .cleanResultsDirectory(true)
+ .generateArchive(false)
+ .generateReport(true)
+ .customLogo("https://example.com/logo.png")
+ .customTitle("My Test Suite Report")
+ .realtimeMonitoring(false)
+ .singleFile(true)
+ .reportLanguage("en")
+ .open(false)
+ .groupBy("package,testClass");
+ ```
+
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ allure.automaticallyOpen=true
+ allure.accumulateHistory=true
+ allure.accumulateReports=true
+ allure.cleanResultsDirectory=true
+ allure.generateArchive=false
+ allure.generateReport=true
+ allure.customLogo=https://example.com/logo.png
+ allure.customTitle=My Test Suite Report
+ allure.realtimeMonitoring=false
+ allure.singleFile=true
+ allure.reportLanguage=en
+ allure.open=false
+ allure.groupBy=package,testClass
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| allure.automaticallyOpen | `true` | `true`, `false` | • Open the Allure report in the default browser automatically after test execution. *(previously: `openAllureReportAfterExecution`)* |
+| allure.accumulateHistory | `true` | `true`, `false` | • When `true`, accumulates Allure history across runs to enable trend graphs and historical comparison. When `false`, old results are deleted before the new run. *(previously: `cleanAllureResultsDirectoryBeforeExecution`)* |
+| allure.accumulateReports | `true` | `true`, `false` | • When `true`, keeps previous Allure HTML report files in the report directory. When `false`, only the latest run report is retained. |
+| allure.cleanResultsDirectory | `true` | `true`, `false` | • Clean the Allure results directory before each test run. Disable when merging results from multiple partial runs. |
+| allure.generateArchive | `false` | `true`, `false` | • Generate a self-contained ZIP archive of the Allure report after test execution. Useful for sharing or archiving in CI pipelines. |
+| allure.generateReport | `true` | `true`, `false` | • Generate the Allure HTML report, convenience script, archive, and live watch process after test execution. Set to `false` to keep raw `allure-results` only. |
+| allure.customLogo | `https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/shaft-engine/src/main/resources/images/shaft_report_logo.png?raw=true` | URL or local file path | • URL or local path to a custom logo image to replace the default SHAFT logo in the Allure report. |
+| allure.customTitle | `SHAFT-powered test report` | Any string | • Custom title displayed in the header of the generated Allure report. |
+| allure.realtimeMonitoring | `false` | `true`, `false` | • Enables SHAFT-managed Allure 3 native real-time monitoring via `allure watch` while tests run. Ignored for Allure 2 or when the Allure CLI cannot be resolved. |
+| allure.singleFile | `true` | `true`, `false` | • Controls the Allure 3 Awesome plugin `singleFile` option. When `true`, the report is generated as a self-contained HTML file. |
+| allure.reportLanguage | `en` | Language code, such as `en`, `fr`, or `ru` | • Controls the Allure 3 Awesome plugin `reportLanguage` option used by the generated report UI. |
+| allure.open | `false` | `true`, `false` | • Controls the Allure 3 Awesome plugin `open` option passed to Allure CLI report generation. |
+| allure.groupBy | `package,testClass` | Comma-separated Allure label names | • Controls the Allure 3 Awesome plugin `groupBy` hierarchy. Common values include `epic,feature,story` and `parentSuite,suite,subSuite`. |
+| allure.theme | `auto` | `auto`, `light`, `dark` | • Controls the Allure 3 Awesome plugin report theme. |
+| allure.forceConfiguredCliVersion | `true` | `true`, `false` | • `true` enforces the configured Allure 3 CLI version; `false` falls back to legacy PATH-first CLI resolution. |
+
+## Timeouts
+
+- These properties control the engine's built-in synchronization capabilities, such as waiting for lazy loading, element identification timeout, API connection timeout, database query timeout, and shell session timeout.
+
+ 
+ 
+ 
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ var elementIdentificationTimeout = SHAFT.Properties.timeouts.defaultElementIdentificationTimeout();
+ var uiStateTimeout = SHAFT.Properties.timeouts.waitForUiStateTimeout();
+
+ /** set **/
+ SHAFT.Properties.timeouts.set()
+ .defaultElementIdentificationTimeout(5)
+ .waitForUiStateTimeout(600);
+ ```
+ 
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+ 
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------------------- | ------------- | --------------- | ---------------------------------------------------------------------------------- |
+| waitForLazyLoading | `true` | `true`, `false` | Especially useful for modern/responsive web apps using React, Vue, Angular, ...etc |
+| waitForLazyLoadingTimeout | `30` | (seconds) | Timeout in seconds for SHAFT's browser lazy-loading synchronization. |
+| lazyLoadingNetworkIdleInitialObservationMillis | `200` | (milliseconds) | Initial network observation window in milliseconds when no requests were seen. |
+| lazyLoadingNetworkIdleQuietWindowMillis | `500` | (milliseconds) | Required network quiet window in milliseconds after observed activity. |
+| lazyLoadingPollingIntervalMillis | `200` | (milliseconds) | Polling interval in milliseconds for the browser-readiness `fluentWait` loop. |
+| lazyLoadingDomStabilityQuietWindowMillis | `0` | (milliseconds); `0` disables DOM-stability folding | Cheap per-action DOM-mutation quiet window. Default `0` keeps element/validation waits from folding DOM stability. |
+| lazyLoadingDomStabilityOnNavigationQuietWindowMillis | `300` | (milliseconds) | DOM-mutation quiet window applied after navigation and by public `driver.browser().waitForLazyLoading()`. Independent of the cheap global window. |
+| lazyLoadingScrollSweepMaxSteps | `20` | (steps) | Maximum number of progressive-scroll steps that `driver.browser().scrollToLoadAll()` performs while sweeping a page for scroll-triggered lazy content. |
+| browserNavigationTimeout | `30` | (seconds) | Timeout in seconds for browser navigation. |
+| pageLoadTimeout | `30` | (seconds) | Timeout in seconds for page load. |
+| scriptExecutionTimeout | `30` | (seconds) | Timeout in seconds for script execution. |
+| defaultElementIdentificationTimeout | `10` | (seconds) | Default timeout in seconds for element identification. |
+| waitForUiStateTimeout | `600` | (seconds) | Default timeout in seconds for UI state waits such as `waitUntil()`. |
+| apiSocketTimeout | `30` | (seconds) | Timeout in seconds for API socket connections. |
+| apiConnectionTimeout | `30` | (seconds) | Timeout in seconds for API connections. |
+| apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds for API connection manager. |
+| shellSessionTimeout | `30` | (seconds) | Timeout in seconds for shell session. |
+| sshServerAliveInterval | `60` | seconds; `&lt;= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions. |
+| dockerCommandTimeout | `30` | (seconds) | Deprecated. Legacy docker-wrapped terminal command timeout. |
+| databaseLoginTimeout | `30` | (seconds) | Timeout in seconds for database login. |
+| databaseNetworkTimeout | `30` | (seconds) | Timeout in seconds for database network operations. |
+| databaseQueryTimeout | `30` | (seconds) | Timeout in seconds for database queries. |
+| waitForRemoteServerToBeUp | `false` | `true`, `false` | Wait for remote server to be up before execution. |
+| timeoutForRemoteServerToBeUp | `1` | (seconds) | Timeout in seconds for remote server to be up. |
+| remoteServerInstanceCreationTimeout | `5` | (seconds) | Timeout in seconds for remote server instance creation. |
+| remoteServerConnectionAttemptTimeout | `120` | (seconds) | Timeout in seconds for a single HTTP connect/read attempt while creating a remote WebDriver session. |
+
+## Visuals
+
+- These properties control the engine's built-in visual validation and AI capabilities, such as the visual matching threshold for AI powered element identification, when to take screenshots, screenshot types, videos, animated GIFs, and complete page snapshots.
+
+ 
+ 
+ 
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ var visualMatchingThreshold = SHAFT.Properties.visuals.visualMatchingThreshold();
+
+ /** set **/
+ SHAFT.Properties.visuals.set().visualMatchingThreshold(0.7);
+ ```
+
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ---------------------------------------------- | ---------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| visualMatchingThreshold | `0.90` | any decimal value between `0.00` and `1.00` | Visual matching threshold for AI powered element identification. |
+| screenshotParams_scalingFactor | `1.0` | example: `1.0`, `0.5`, `2.0` | Scaling factor for screenshots. |
+| screenshotParams_whenToTakeAScreenshot | `ValidationPointsOnly` | `Always`, `ValidationPointsOnly`, `FailuresOnly`, `Never` | Granular screenshot policy. Profile levels except `CUSTOM` override this after property loading. |
+| screenshotParams_screenshotType | `fullPage` | `fullPage`, `regular`, `element` | Type of screenshot to capture. |
+| screenshotParams_highlightElements | `true` | `true`, `false` | Highlight elements in screenshots. |
+| screenshotParams_highlightMethod | `AI` | `AI`, `NATIVE` | Method for highlighting elements in screenshots. |
+| screenshotParams_skippedElementsFromScreenshot | ` ` | CSS selectors separated by commas | Elements to skip/hide when taking screenshots. |
+| screenshotParams_watermark | `true` | `true`, `false` | Add watermark to screenshots. |
+| screenshotParams_watermarkOpacity | `0.2` | `0.0` to `1.0` | Opacity level for screenshot watermark. |
+| createAnimatedGif | `false` | `true`, `false` | Granular GIF policy. Profile levels except `CUSTOM` override this after property loading; retry attempts can enable GIFs automatically. |
+| animatedGif_frameDelay | `500` | milliseconds | Delay between frames in animated GIF. |
+| videoParams_recordVideo | `false` | `true`, `false` | Granular video policy. Profile levels except `CUSTOM` override this after property loading. |
+| videoParams_scope | `DriverSession` | `DriverSession`, `TestMethod` | Scope for video recording. |
+| whenToTakePageSourceSnapshot | `Never` | `Never`, `Always`, `FailuresOnly` | Granular page-source policy. Profile levels except `CUSTOM` override this after property loading. |
+| shaft.updateSnapshots | `false` | `true`, `false` | When true, regenerates visual and ARIA-snapshot baselines instead of comparing new captures against the existing ones. |
+
+## Jira
+
+- These properties control the engine's built-in Jira and Xray integrations for test management and defect reporting.
+
+ 
+ 
+ 
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ var reportBugs = SHAFT.Properties.jira.reportBugs();
+
+ /** set **/
+ SHAFT.Properties.jira.set().reportBugs(true);
+ ```
+ 
+ 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+ 
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------- | -------------------------------------------- | --------------- | --------------------------------------------------------------- |
+| jiraInteraction | `false` | `true`, `false` | Enable Jira integration for test management. |
+| jiraUrl | `https://` | URL | Jira instance URL. |
+| projectKey | ` ` | String | Jira project key. |
+| authorization | `:` | username:token | Jira authorization credentials (username:token or username:password). |
+| authType | `basic` | `basic`, `bearer` | Authorization type for Jira API. |
+| reportTestCasesExecution | `false` | `true`, `false` | Report test case execution results to Jira/Xray. |
+| reportPath | `target/surefire-reports/testng-results.xml` | File path | Path to test results file for Jira/Xray reporting. |
+| ExecutionName | ` ` | String | Name for test execution in Jira/Xray. |
+| ExecutionDescription | ` ` | String | Description for test execution in Jira/Xray. |
+| ReportBugs | `false` | `true`, `false` | Automatically report bugs to Jira on test failures. |
+| assignee | ` ` | String | Default assignee for reported bugs. |
+| allure.link.tms.pattern | `https:///{}` | URL pattern | Pattern for TMS (Test Management System) links in Allure. |
+| allure.link.custom.pattern | `{}` | URL pattern | Pattern for custom links in Allure reports. |
+
+## Cucumber
+
+- These properties control your cucumber settings, such as the path to your feature files, the package names for your step definition classes, and any plugins you want to enable.
+- You can only configure these properties by editing your `src/main/resources/properties/cucumber.properties` file.
+
+ 
+ *(N/A)* 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ 
+ 
+```properties showLineNumbers title="src/main/resources/properties/cucumber.properties"
+ #############
+ # https://cucumber.io/docs/cucumber/api/#list-configuration-options
+ ##############
+ cucumber.ansi-colors.disabled=false
+ #true or false. default: false
+ cucumber.execution.dry-run=false
+ #true or false. default: false
+ cucumber.execution.limit=
+ #number of scenarios to execute (CLI only).
+ cucumber.execution.order=lexical
+ #lexical, reverse, random or random:[seed] (CLI only). default: lexical
+ cucumber.execution.strict=true
+ #true or false. default: true.
+ cucumber.execution.wip=false
+ #true or false. default: false.
+ cucumber.features=src/test/resources
+ #comma separated paths to feature files. example: path/to/example.feature, path/to/other.feature
+ cucumber.filter.name=
+ #regex. example: .*Hello.*
+ cucumber.filter.tags=
+ #tag expression. example: @smoke and not @slow
+ cucumber.glue=customCucumberSteps, com.shaft.cucumber
+ # comma separated package names. example: com.example.glue
+ cucumber.plugin=pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener
+ # comma separated plugin strings. example: pretty, json:path/to/report.json
+ cucumber.object-factory=
+ #object factory class name. example: com.example.MyObjectFactory
+ cucumber.snippet-type=underscore
+ #underscore or camelcase. default: underscore
+ cucumber.publish.quiet=true
+ CUCUMBER_PUBLISH_ENABLED=false
+ ```
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | ----------- |
+| cucumber.ansi-colors.disabled | `false` | `true`, `false` | Disable ANSI color output in Cucumber's console output. |
+| cucumber.execution.dry-run | `false` | `true`, `false` | Parse Cucumber features without executing step definitions. |
+| cucumber.execution.limit | `` | positive integer; empty for unlimited | Maximum number of scenarios to execute. |
+| cucumber.execution.order | `lexical` | `lexical`, `reverse`, `random`, `random:[seed]` | Scenario execution order. |
+| cucumber.execution.strict | `true` | `true`, `false` | Treat undefined and pending steps as failures. |
+| cucumber.execution.wip | `false` | `true`, `false` | Enable work-in-progress mode, which fails when a scenario passes. |
+| cucumber.features | `src/test/resources` | | Paths to Cucumber feature files or directories. |
+| cucumber.filter.name | `` | regular expression | Select scenarios by name; empty runs all scenarios. |
+| cucumber.filter.tags | `` | tag expression | Select scenarios by tag; empty runs all scenarios. |
+| cucumber.glue | `customCucumberSteps, com.shaft.cucumber` | comma-separated packages | Packages containing Cucumber step definitions and hooks. |
+| cucumber.plugin | `pretty, json:allure-results/cucumber.json, html:allure-results/cucumberReport.html, com.shaft.listeners.CucumberTestRunnerListener` | comma-separated plugins | Cucumber reporting and listener plugins. |
+| cucumber.object-factory | `` | class name | Custom Cucumber object factory; empty uses the default. |
+| cucumber.snippet-type | `underscore` | `underscore`, `camelcase` | Style for generated missing-step snippets. |
+| cucumber.publish.quiet | `true` | `true`, `false` | Suppress the Cucumber publish banner. |
+
+## Healenium
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------- | ------------- | --------------- | ----------- |
+| recovery-tries | `1` | positive integer | Number of Healenium self-healing recovery attempts before giving up on a broken locator. |
+| score-cap | `0.5` | `0.0` to `1.0` | Minimum Healenium similarity score required to accept a healed locator candidate. |
+| heal-enabled | `false` | `true`, `false` | Enable the Healenium self-healing proxy for this run. |
+| serverHost | `localhost` | hostname | Hostname of the Healenium server that scores locator-healing candidates. |
+| serverPort | `7878` | port number | Port of the Healenium server that scores locator-healing candidates. |
+| imitatePort | `8000` | port number | Local port SHAFT uses so Healenium can intercept browser traffic. |
+
+## Healing
+
+- These properties control optional SHAFT Heal locator recovery through the
+ `shaft-heal` module.
+
+ 
+ 
+
+ ```java showLineNumbers
+ SHAFT.Properties.healing.set()
+ .strategy("shaft-heal")
+ .minimumTrustPercentage(85)
+ .minimumConfidence(0.75)
+ .ambiguityMargin(0.10)
+ .historyEnabled(true)
+ .historyPath("target/shaft-heal/history.json")
+ .visualEnabled(false)
+ .aiEnabled(false);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-Dhealing.strategy=shaft-heal" "-Dhealing.minimumTrustPercentage=85"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ healing.strategy=shaft-heal
+ healing.minimumTrustPercentage=85
+ healing.minimumConfidence=0.75
+ healing.ambiguityMargin=0.10
+ healing.evidenceCategories=accessibility,label,test-id,stable-id-name,semantic,dom-fingerprint,native-state,ancestor-context,history
+ healing.testIdAttributes=data-testid,data-test,data-qa
+ healing.history.enabled=true
+ healing.history.path=target/shaft-heal/history.json
+ healing.history.maxEntries=500
+ healing.history.retentionDays=30
+ healing.visual.enabled=false
+ healing.ai.enabled=false
+ healing.ai.trigger=ambiguous
+ healing.sourcePatch.enabled=false
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------------- | ------------- | --------------- | ----------- |
+| healing.strategy | `disabled` | `disabled`, `healenium`, `shaft-heal`, `composite` | Selects the locator recovery strategy. |
+| healing.minimumTrustPercentage | `-1` | `-1`, `0`-`100` | Preferred human-readable trust gate. `-1` keeps using `healing.minimumConfidence`. |
+| healing.minimumConfidence | `0.75` | `0.0`-`1.0` | Minimum deterministic confidence when no trust percentage override is set. |
+| healing.ambiguityMargin | `0.10` | `0.0`-`1.0` | Required lead over the next eligible candidate. |
+| healing.evidenceCategories | `accessibility,label,test-id,stable-id-name,semantic,dom-fingerprint,native-state,ancestor-context,history` | comma-separated categories | Deterministic evidence categories allowed for recovery. |
+| healing.testIdAttributes | `data-testid,data-test,data-qa` | comma-separated attributes | Attributes treated as stable test IDs. |
+| healing.history.enabled | `true` | `true`, `false` | Enables bounded local recovery history. |
+| healing.history.path | `target/shaft-heal/history.json` | path | Local recovery history file. |
+| healing.history.maxEntries | `500` | integer | Maximum retained history entries. |
+| healing.history.retentionDays | `30` | integer | Maximum history age in days. |
+| healing.visual.enabled | `false` | `true`, `false` | Enables optional local visual evidence. |
+| healing.ai.enabled | `false` | `true`, `false` | Enables optional provider reranking after deterministic eligibility. |
+| healing.ai.trigger | `ambiguous` | `never`, `ambiguous`, `below-threshold`, `always` | Controls when enabled AI reranking runs after deterministic scoring. |
+| healing.sourcePatch.enabled | `false` | `true`, `false` | Reserved consent gate for reviewed source-patch proposals. |
+| healing.ladder.budgetSeconds | `0` | `0` or positive seconds | Hard total budget in seconds across the deterministic re-suggestion ladder; `0` preserves one-shot resolution. |
+
+## Natural Actions
+
+- These properties control trust-gated natural-language browser, element, and
+ touch actions through `SHAFT.GUI.WebDriver.act(...)`.
+
+ 
+ 
+
+ ```java showLineNumbers
+ SHAFT.Properties.naturalActions.set()
+ .enabled(true)
+ .minimumTrustPercentage(85)
+ .planner("deterministic")
+ .aiFallbackEnabled(false)
+ .allowedActions("browser,element,touch");
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-DnaturalActions.enabled=true" "-DnaturalActions.minimumTrustPercentage=85"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ naturalActions.enabled=false
+ naturalActions.minimumTrustPercentage=85
+ naturalActions.planner=deterministic
+ naturalActions.aiFallback.enabled=false
+ naturalActions.allowedActions=browser,element,touch
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------------------- | ------------- | --------------- | ----------- |
+| naturalActions.enabled | `false` | `true`, `false` | Enables `driver.act(...)`. Disabled plans fail before execution. |
+| naturalActions.minimumTrustPercentage | `85` | `0`-`100` | Minimum plan trust required before execution. |
+| naturalActions.planner | `deterministic` | `deterministic`, `auto`, or a ServiceLoader planner ID | Selects the natural-action planner. |
+| naturalActions.aiFallback.enabled | `false` | `true`, `false` | Allows optional provider-assisted planners after deterministic planning is unavailable. |
+| naturalActions.aiFallback.threshold | `0` | `0`-`1` | Confidence threshold below which AI fallback is triggered. |
+| naturalActions.allowedActions | `browser,element,touch` | comma-separated `browser`, `element`, `touch` | Restricts which action categories natural actions may execute. |
+
+## Infrastructure
+
+- These properties select the local setup profile and bind the ownership,
+ storage, network, reuse, and lifecycle policy reviewed in a setup plan.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+ import com.shaft.infrastructure.SetupMode;
+ import com.shaft.infrastructure.SetupProfile;
+
+ SHAFT.Properties.infrastructure.set()
+ .profile(SetupProfile.REPORTING)
+ .mode(SetupMode.EXTERNAL)
+ .offline(false)
+ .autoStart(false);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-Dinfrastructure.profile=REPORTING" "-Dinfrastructure.mode=EXTERNAL"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ infrastructure.mode=EXTERNAL
+ infrastructure.profile=REPORTING
+ infrastructure.cacheDirectory=
+ infrastructure.offline=false
+ infrastructure.autoStart=false
+ infrastructure.preferSystemTools=true
+ infrastructure.reuseOwnedProcesses=true
+ infrastructure.startupTimeout=PT2M
+ infrastructure.shutdownTimeout=PT30S
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| infrastructure.mode | `EXTERNAL` | `EXTERNAL`, `MANAGED`, `HYBRID` | Selects setup ownership; `EXTERNAL` is non-mutating. |
+| infrastructure.profile | `REPORTING` | setup profile name | Selects the profile used by `SHAFT.Infrastructure`. |
+| infrastructure.cacheDirectory | ` ` | absolute path | Overrides SHAFT-owned setup storage when non-empty. |
+| infrastructure.offline | `false` | `true`, `false` | Requires verified cached artifacts and disables network access. |
+| infrastructure.autoStart | `false` | `true`, `false` | Requests startup for providers that own a service. |
+| infrastructure.preferSystemTools | `true` | `true`, `false` | Allows supporting providers to prefer compatible host tools. |
+| infrastructure.reuseOwnedProcesses | `true` | `true`, `false` | Allows supporting providers to reuse compatible SHAFT-owned processes. |
+| infrastructure.startupTimeout | `PT2M` | positive ISO-8601 duration | Sets the startup timeout for supporting lifecycle providers. |
+| infrastructure.shutdownTimeout | `PT30S` | positive ISO-8601 duration | Sets the shutdown timeout for supporting lifecycle providers. |
+
+## Ocr
+
+- These properties control the SHAFT-owned OCR runtime cache and whether a
+ missing verified runtime may be downloaded.
+
+ 
+ 
+
+ ```java showLineNumbers
+ SHAFT.Properties.ocr.set()
+ .cacheDirectory("")
+ .downloadEnabled(true);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn test "-Dshaft.ocr.downloadEnabled=true"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ shaft.ocr.cacheDirectory=
+ shaft.ocr.downloadEnabled=true
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
+| shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+
+## Pilot
+
+- These properties control SHAFT's optional Pilot AI provider integrations
+ (OpenAI, Anthropic, Gemini, GitHub Models, and Ollama), including consent
+ gates, request/response redaction, retry and circuit-breaker limits, and
+ per-provider endpoints/models/credential lookup.
+- AI execution is disabled by default. Credentials are never configured
+ directly; each provider resolves its API key from the named environment
+ variable only after AI is explicitly enabled and the relevant processing
+ location (local, on-prem, or remote) has been approved via the consent
+ properties below.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean enabled = SHAFT.Properties.pilot.enabled();
+ String provider = SHAFT.Properties.pilot.provider();
+ boolean localConsent = SHAFT.Properties.pilot.localConsent();
+ boolean onPremConsent = SHAFT.Properties.pilot.onPremConsent();
+ boolean remoteConsent = SHAFT.Properties.pilot.remoteConsent();
+ String allowedEvidenceCategories = SHAFT.Properties.pilot.allowedEvidenceCategories();
+ boolean telemetryEnabled = SHAFT.Properties.pilot.telemetryEnabled();
+ int timeoutSeconds = SHAFT.Properties.pilot.timeoutSeconds();
+ int maxRequestBytes = SHAFT.Properties.pilot.maxRequestBytes();
+ int maxInputTokens = SHAFT.Properties.pilot.maxInputTokens();
+ int maxOutputTokens = SHAFT.Properties.pilot.maxOutputTokens();
+ String maxCostUsd = SHAFT.Properties.pilot.maxCostUsd();
+ int retryMaxAttempts = SHAFT.Properties.pilot.retryMaxAttempts();
+ int maxConcurrency = SHAFT.Properties.pilot.maxConcurrency();
+ int circuitBreakerFailureThreshold = SHAFT.Properties.pilot.circuitBreakerFailureThreshold();
+ int circuitBreakerCooldownSeconds = SHAFT.Properties.pilot.circuitBreakerCooldownSeconds();
+ String redactionSelectors = SHAFT.Properties.pilot.redactionSelectors();
+ String redactionAttributes = SHAFT.Properties.pilot.redactionAttributes();
+ String redactionPatterns = SHAFT.Properties.pilot.redactionPatterns();
+ // Each provider (openai, anthropic, gemini, github, ollama) exposes the same
+ // endpoint()/model()/apiKeyEnvironmentVariable()/processingLocation() shape, e.g.:
+ String openAiEndpoint = SHAFT.Properties.pilot.openAiEndpoint();
+ String openAiModel = SHAFT.Properties.pilot.openAiModel();
+ String openAiApiKeyEnvironmentVariable = SHAFT.Properties.pilot.openAiApiKeyEnvironmentVariable();
+ String openAiProcessingLocation = SHAFT.Properties.pilot.openAiProcessingLocation();
+
+ /** set **/
+ SHAFT.Properties.pilot.set()
+ .enabled(false)
+ .provider("none")
+ .localConsent(false)
+ .onPremConsent(false)
+ .remoteConsent(false)
+ .allowedEvidenceCategories("")
+ .telemetryEnabled(false)
+ .timeoutSeconds(300)
+ .maxRequestBytes(1048576)
+ .maxInputTokens(16000)
+ .maxOutputTokens(8000)
+ .maxCostUsd("0")
+ .retryMaxAttempts(2)
+ .maxConcurrency(2)
+ .circuitBreakerFailureThreshold(3)
+ .circuitBreakerCooldownSeconds(60)
+ .redactionSelectors("input[type=password],[autocomplete=current-password],[autocomplete=new-password]")
+ .redactionAttributes("authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key")
+ .redactionPatterns("")
+ .openAiEndpoint("https://api.openai.com/v1/responses")
+ .openAiModel("")
+ .openAiApiKeyEnvironmentVariable("")
+ .openAiProcessingLocation("remote")
+ .anthropicEndpoint("https://api.anthropic.com/v1/messages")
+ .anthropicModel("")
+ .anthropicApiKeyEnvironmentVariable("")
+ .anthropicProcessingLocation("remote")
+ .anthropicVersion("2023-06-01")
+ .geminiEndpoint("https://generativelanguage.googleapis.com/v1beta/models")
+ .geminiModel("gemini-3.5-flash")
+ .geminiApiKeyEnvironmentVariable("")
+ .geminiProcessingLocation("remote")
+ .githubEndpoint("https://models.github.ai/inference/chat/completions")
+ .githubModel("")
+ .githubApiKeyEnvironmentVariable("")
+ .githubProcessingLocation("remote")
+ .ollamaEndpoint("http://127.0.0.1:11434/api/chat")
+ .ollamaModel("")
+ .ollamaProcessingLocation("local")
+ .ollamaApiKeyEnvironmentVariable("")
+ .ollamaApiKeyHeader("")
+ .ollamaApiKeyPrefix("");
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn -e test "-Dpilot.ai.enabled=true" "-Dpilot.ai.provider=openai" "-Dpilot.ai.openai.model=gpt-5"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ pilot.ai.enabled=false
+ pilot.ai.provider=none
+ pilot.ai.consent.local=false
+ pilot.ai.consent.onPrem=false
+ pilot.ai.consent.remote=false
+ pilot.ai.allowedEvidenceCategories=
+ pilot.ai.telemetry.enabled=false
+ pilot.ai.timeoutSeconds=300
+ pilot.ai.maxRequestBytes=1048576
+ pilot.ai.maxInputTokens=16000
+ pilot.ai.maxOutputTokens=8000
+ pilot.ai.maxCostUsd=0
+ pilot.ai.retryMaxAttempts=2
+ pilot.ai.maxConcurrency=2
+ pilot.ai.circuitBreaker.failureThreshold=3
+ pilot.ai.circuitBreaker.cooldownSeconds=60
+ pilot.ai.redaction.selectors=input[type=password],[autocomplete=current-password],[autocomplete=new-password]
+ pilot.ai.redaction.attributes=authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key
+ pilot.ai.redaction.patterns=
+ pilot.ai.openai.endpoint=https://api.openai.com/v1/responses
+ pilot.ai.openai.model=
+ pilot.ai.openai.apiKeyEnvironmentVariable=
+ pilot.ai.openai.processingLocation=remote
+ pilot.ai.anthropic.endpoint=https://api.anthropic.com/v1/messages
+ pilot.ai.anthropic.model=
+ pilot.ai.anthropic.apiKeyEnvironmentVariable=
+ pilot.ai.anthropic.processingLocation=remote
+ pilot.ai.anthropic.version=2023-06-01
+ pilot.ai.gemini.endpoint=https://generativelanguage.googleapis.com/v1beta/models
+ pilot.ai.gemini.model=gemini-3.5-flash
+ pilot.ai.gemini.apiKeyEnvironmentVariable=
+ pilot.ai.gemini.processingLocation=remote
+ pilot.ai.github.endpoint=https://models.github.ai/inference/chat/completions
+ pilot.ai.github.model=
+ pilot.ai.github.apiKeyEnvironmentVariable=
+ pilot.ai.github.processingLocation=remote
+ pilot.ai.ollama.endpoint=http://127.0.0.1:11434/api/chat
+ pilot.ai.ollama.model=
+ pilot.ai.ollama.processingLocation=local
+ pilot.ai.ollama.apiKeyEnvironmentVariable=
+ pilot.ai.ollama.apiKeyHeader=
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------------------------------- | -------------- | ---------------- | ------------ |
+| pilot.ai.enabled | `false` | `true`, `false` | Whether optional AI execution is enabled. |
+| pilot.ai.provider | `none` | | Selected provider identifier. |
+| pilot.ai.consent.local | `false` | `true`, `false` | Whether local inference is approved. |
+| pilot.ai.consent.onPrem | `false` | `true`, `false` | Whether explicitly classified on-prem inference is approved. |
+| pilot.ai.consent.remote | `false` | `true`, `false` | Whether remote inference is approved. |
+| pilot.ai.allowedEvidenceCategories | ` ` | | Comma-separated approved evidence categories. |
+| pilot.ai.telemetry.enabled | `false` | `true`, `false` | Whether optional external telemetry is enabled. |
+| pilot.ai.timeoutSeconds | `300` | | Maximum provider timeout in seconds. |
+| pilot.ai.maxRequestBytes | `1048576` | | Maximum serialized request size. |
+| pilot.ai.maxInputTokens | `16000` | | Maximum estimated input tokens. |
+| pilot.ai.maxOutputTokens | `8000` | | Maximum output tokens. |
+| pilot.ai.maxCostUsd | `0` | | Maximum accepted provider-reported cost in USD. |
+| pilot.ai.retryMaxAttempts | `2` | | Maximum provider execution attempts. |
+| pilot.ai.maxConcurrency | `2` | | Maximum concurrent calls per provider. |
+| pilot.ai.circuitBreaker.failureThreshold | `3` | | Failures required to open the circuit. |
+| pilot.ai.circuitBreaker.cooldownSeconds | `60` | | Circuit-open cooldown in seconds. |
+| pilot.ai.redaction.selectors | `input[type=password],[autocomplete=current-password],[autocomplete=new-password]` | | Comma-separated CSS selectors to redact. |
+| pilot.ai.redaction.attributes | `authorization,cookie,set-cookie,password,passwd,secret,token,api-key,apikey,access-key` | | Comma-separated structured or DOM attributes to redact. |
+| pilot.ai.redaction.patterns | ` ` | | Double-semicolon-separated custom regular expressions. |
+| pilot.ai.openai.endpoint | `https://api.openai.com/v1/responses` | | OpenAI Responses endpoint. |
+| pilot.ai.openai.model | ` ` | | Configured OpenAI model. |
+| pilot.ai.openai.apiKeyEnvironmentVariable | `OPENAI_API_KEY` | | Environment variable containing the OpenAI credential. |
+| pilot.ai.openai.processingLocation | `remote` | | Explicit OpenAI endpoint processing location. |
+| pilot.ai.anthropic.endpoint | `https://api.anthropic.com/v1/messages` | | Anthropic Messages endpoint. |
+| pilot.ai.anthropic.model | ` ` | | Configured Anthropic model. |
+| pilot.ai.anthropic.apiKeyEnvironmentVariable | `ANTHROPIC_API_KEY` | | Environment variable containing the Anthropic credential. |
+| pilot.ai.anthropic.processingLocation | `remote` | | Explicit Anthropic endpoint processing location. |
+| pilot.ai.anthropic.version | `2023-06-01` | | Anthropic API contract version. |
+| pilot.ai.gemini.endpoint | `https://generativelanguage.googleapis.com/v1beta/models` | | Gemini models endpoint. |
+| pilot.ai.gemini.model | `gemini-3.5-flash` | | Configured Gemini model. |
+| pilot.ai.gemini.apiKeyEnvironmentVariable | `GEMINI_API_KEY` | | Environment variable containing the Gemini credential. |
+| pilot.ai.gemini.processingLocation | `remote` | | Explicit Gemini endpoint processing location. |
+| pilot.ai.github.endpoint | `https://models.github.ai/inference/chat/completions` | | GitHub Models chat-completions endpoint. |
+| pilot.ai.github.model | ` ` | | Configured GitHub Models model. |
+| pilot.ai.github.apiKeyEnvironmentVariable | `GITHUB_TOKEN` | | Environment variable containing the GitHub credential. |
+| pilot.ai.github.processingLocation | `remote` | | Explicit GitHub Models endpoint processing location. |
+| pilot.ai.ollama.endpoint | `http://127.0.0.1:11434/api/chat` | | Ollama chat endpoint. |
+| pilot.ai.ollama.model | ` ` | | Configured Ollama model. |
+| pilot.ai.ollama.processingLocation | `local` | | Explicit Ollama endpoint processing location. |
+| pilot.ai.ollama.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an on-prem Ollama gateway credential. |
+| pilot.ai.ollama.apiKeyHeader | `Authorization` | | Optional Ollama gateway credential header. |
+| pilot.ai.ollama.apiKeyPrefix | `Bearer ` | | Optional Ollama gateway credential prefix. |
+| pilot.ai.lmstudio.endpoint | `http://127.0.0.1:1234/v1/responses` | | LM Studio OpenAI-compatible Responses endpoint. |
+| pilot.ai.lmstudio.model | ` ` | | Configured LM Studio model. |
+| pilot.ai.lmstudio.apiKeyEnvironmentVariable | ` ` | | Optional environment variable containing an LM Studio gateway credential. |
+
+## Paths
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------------- | --------------------------------------------- | --------------- | ----------- |
+| propertiesFolderPath | `src/main/resources/properties/` | | Path to the custom properties files folder. |
+| defaultPropertiesFolderPath | `src/main/resources/properties/default` | | Path to the default properties files folder. |
+| dynamicObjectRepositoryPath | `src/main/resources/dynamicObjectRepository/` | | Path to the dynamic object repository folder. |
+| ariaSnapshotFolderPath | `src/test/resources/aria/` | | Folder that holds saved ARIA-snapshot baselines used for accessibility-tree comparisons; regenerate with `-Dshaft.updateSnapshots=true`. |
+| testDataFolderPath | `src/test/resources/testDataFiles/` | | Path to the test data files folder. |
+| downloadsFolderPath | `target/downloadedFiles` | | Path to the folder for downloaded files. |
+| allureResultsFolderPath | `allure-results/` | | Path to the Allure results output folder. |
+| extentReportsFolderPath | `extent-reports/` | | Path to the Extent reports output folder. |
+| executionSummaryReportFolderPath | `execution-summary/` | | Path to the execution summary report folder. |
+| PerformanceReportFolderPath | `performanceReport/` | | Path to the performance (Lighthouse) report output folder. |
+| video.folder | `allure-results/videos` | | Path to the folder where recorded videos and generated animated GIF files are saved. |
+| servicesFolderPath | `src/test/resources/META-INF/services/` | | Path to the META-INF services folder for custom service implementations. |
+| authCacheFolderPath | `target/auth-cache/` | | Folder that holds `SHAFT.Auth.setup(name, flow)` storage-state cache files (one JSON file per name). |
+| mobileSessionCacheFolderPath | `target/mobile-session-cache/` | | Folder that holds `TouchActions.saveSessionCapabilities`/`saveAppState` JSON snapshots used to reuse Appium session capabilities and mobile app state across test runs. |
+| aiAgentWorkspaceRoot | `` | | Workspace root for SHAFT agent tooling. |
+| applitoolsApiKey | `` | | Applitools API key for visual AI testing integration. |
+
+## Pattern
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------- | ------------- | --------------- | ----------- |
+| testDataColumnNamePrefix | `Data` | | Prefix used when naming generated data-provider parameters in test reports. |
+| allure.link.issue.pattern | `` | | URL pattern used to turn `@Issue`/`@Issues` annotation values into clickable links in the Allure report; use `{}` as the issue-ID placeholder. |
+
+## Tinkey
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------- | ------------- | --------------- | ----------- |
+| tinkey.keysetFilename | `` | | Path to the Google Tink keyset file used to encrypt/decrypt sensitive test data. |
+| tinkey.kms.serverType | `` | | Key Management Service provider backing the Tink keyset (e.g. `gcp-kms`, `aws-kms`). |
+| tinkey.kms.credentialPath | `` | | Path to the KMS provider credential file used to access the remote master key. |
+| tinkey.kms.masterKeyUri | `` | | URI of the remote KMS master key used to encrypt/decrypt the local Tink keyset. |
+
+## Internal
+
+- These read-only properties are primarily for engine metadata and SHAFT-managed
+ tooling bootstrap. Override them only when you intentionally maintain a local
+ engine/tooling policy.
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ String shaftEngineVersion = SHAFT.Properties.internal.shaftEngineVersion();
+ String allure3Version = SHAFT.Properties.internal.allure3Version();
+ String nodeLtsVersion = SHAFT.Properties.internal.nodeLtsVersion();
+ int androidEmulatorApiLevel = SHAFT.Properties.internal.androidEmulatorApiLevel();
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn -e test "-Dallure3Version=3.14.3" "-DnodeLtsVersion=24.18.0"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/internal.properties"
+ shaftEngineVersion=10.3.20260801
+ allure3Version=3.14.3
+ nodeLtsVersion=24.18.1
+ appiumServerVersion=3.6.0
+ appiumInspectorPluginVersion=2026.7.1
+ appiumUiAutomator2DriverVersion=8.2.2
+ appiumXcuitestDriverVersion=12.1.4
+ androidCommandLineToolsVersion=15859902
+ androidEmulatorApiLevel=36
+ androidEmulatorDeviceProfile=pixel_8
+ androidEmulatorImageTag=google_apis
+ androidEmulatorRamMb=4096
+ androidEmulatorCores=2
+ ga4MeasurementId=G-4L9L79WZBV
+ ga4ApiSecret=
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ----------------------------------- | ------------- | --------------- | ----------- |
+| shaftEngineVersion | `10.3.20260801` | version string | Engine version used by update checks, telemetry metadata, and internal tooling. |
+| watermarkImagePath | `https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/shaft-engine/src/main/resources/images/shaft_white_bg.png` | URL or file path | Default watermark image used by screenshot processing. |
+| allure3Version | `3.14.3` | Allure 3 npm package version | Allure 3 CLI package version used when SHAFT resolves the CLI through `npx`. |
+| nodeLtsVersion | `24.18.1` | Node.js version | Portable Node.js version downloaded when neither `allure` nor `npx` is available on `PATH`. |
+| appiumServerVersion | `3.6.0` | Appium npm package version | Appium server version used by SHAFT MCP local mobile bootstrap. |
+| appiumInspectorPluginVersion | `2026.7.1` | Appium Inspector plugin version | Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording. |
+| appiumUiAutomator2DriverVersion | `8.2.2` | Appium driver version | Appium UiAutomator2 driver version used by SHAFT MCP for Android. |
+| appiumXcuitestDriverVersion | `12.1.4` | Appium driver version | Appium XCUITest driver version used by SHAFT MCP for iOS. |
+| androidCommandLineToolsVersion | `15859902` | Android command-line tools build number | Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools. |
+| androidEmulatorApiLevel | `36` | Android API level | Default Android API level proposed for SHAFT-managed emulator creation. |
+| androidEmulatorDeviceProfile | `pixel_8` | Android virtual device profile | Default Android virtual device profile proposed for SHAFT-managed emulators. |
+| androidEmulatorImageTag | `google_apis` | Android system image tag | Default Android system image tag proposed for SHAFT-managed emulators. |
+| androidEmulatorRamMb | `4096` | megabytes | Default Android emulator RAM size in MB. |
+| androidEmulatorCores | `2` | CPU core count | Default Android emulator CPU core count. |
+| ga4MeasurementId | `G-4L9L79WZBV` | GA4 Measurement ID | Google Analytics 4 Measurement ID used for anonymous telemetry. |
+| ga4ApiSecret | `` | GA4 API secret | Supply privately through `internal.properties`; do not commit real secrets. |
+
+## BrowserStack
+
+- These properties control SHAFT's built-in integration with BrowserStack.
+- Use the canonical authentication keys `browserStack.userName` and `browserStack.accessKey`; the legacy aliases `browserStack.user` and `browserStack.key` are normalized for compatibility.
+- For native mobile apps, `browserStack.appUrl` is resolved before remote `mobile_app` values such as `bs://...`, `http://...`, or `https://...`.
+- You can find all supported Web-based (Desktop or Mobile) execution properties & values in BrowserStack's [Web Capability Generator](https://www.browserstack.com/docs/automate/capabilities)
+- You can find all supported Native Mobile App execution properties & values in BrowserStack's [Appium Capability Generator](https://www.browserstack.com/app-automate/capabilities?tag=w3c)
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
+| browserStack.userName | `` | | BrowserStack username for authentication. |
+| browserStack.accessKey | `` | | BrowserStack access key for authentication. |
+| browserStack.platformVersion | `` | | Mobile platform version for BrowserStack execution. |
+| browserStack.deviceName | `` | | Mobile device name for BrowserStack execution. |
+| browserStack.appUrl | `` | | Use a BrowserStack app URL for a previously uploaded app; takes precedence over remote `mobile_app`. |
+| browserStack.customID | `` | | Use customID to test the latest uploaded version as the above url expires regularly. |
+| browserStack.appName | `` | | App name for uploading to BrowserStack. |
+| browserStack.appRelativeFilePath | `` | | Relative file path to the app for SHAFT/BrowserStack upload workflows. |
+| browserStack.osVersion | `` | | In case of Desktop web testing you must also set the `targetOperatingSystem`, and `targetBrowserName`.|
+| browserStack.browserVersion | `` | | Browser version, optional, uses random by default. |
+| browserStack.local | `false` | `true`, `false` | Enable BrowserStack local testing. |
+| browserStack.seleniumVersion | `4.40.0` | | Selenium version to use on BrowserStack. |
+| browserStack.acceptInsecureCerts | `true` | `true`, `false` | Accept insecure SSL certificates. |
+| browserStack.debug | `false` | `true`, `false` | Enable debug mode for BrowserStack. |
+| browserStack.networkLogs | `false` | `true`, `false` | Enable network logs capture on BrowserStack. |
+| browserStack.geoLocation | `` | | Set geolocation for BrowserStack tests. |
+| browserStack.appiumVersion | `3.1.0` | | Appium version to use on BrowserStack for mobile testing. |
+| browserStack.buildName | `` | | Build name to group test runs in the BrowserStack dashboard. |
+| browserStack.projectName | `` | | Project name to group builds in the BrowserStack dashboard. |
+| browserStack.parallelsPerPlatform | `1` | | Number of parallel sessions to run per platform when using the BrowserStack SDK. |
+| browserStack.browserstackAutomation | `true` | `true`, `false` | Enable BrowserStack Automation (SDK mode). Set to `false` to use legacy WebDriver URL mode. |
+| browserStack.platformsList | `` | | Comma-separated list of platforms for cross-browser/cross-device parallel runs (SDK mode). |
+| browserStack.customBrowserStackYmlPath | `` | | Path to a custom `browserstack.yml` configuration file. Overrides individual BrowserStack properties. |
+
+## LambdaTest
+
+ 
+ No typed code facade is published for this group. Prefer file-based defaults or CLI overrides unless the specific property appears in a code example above. 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ Add the key to the relevant `.properties` file, for example `propertyName=value`. Use the target file and exact key from the Default Values table below. 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ------------------------------- | -------------- | --------------- | ------------------------------------------------------------------------ |
+| LambdaTest.username | `` | | LambdaTest username for authentication. |
+| LambdaTest.accessKey | `` | | LambdaTest access key for authentication. |
+| LambdaTest.platformVersion | `` | | Mobile platform version for LambdaTest execution. |
+| LambdaTest.deviceName | `` | | Mobile device name for LambdaTest execution. |
+| LambdaTest.appUrl | `` | | Use appUrl to test a previously uploaded app file. |
+| LambdaTest.appProfiling | `false` | `true`, `false` | Enable app profiling during mobile testing. |
+| LambdaTest.osVersion | `` | | OS version for desktop browser testing on LambdaTest. |
+| LambdaTest.visual | `false` | `true`, `false` | Enable visual logs (screenshots) on LambdaTest. |
+| LambdaTest.video | `false` | `true`, `false` | Enable video recording on LambdaTest. |
+| LambdaTest.appName | `` | | Use appName and appRelativeFilePath to upload a new app file and test it |
+| LambdaTest.appRelativeFilePath | `` | | Use appName and appRelativeFilePath to upload a new app file and test it |
+| LambdaTest.resolution | `` | | Screen resolution for desktop browser testing (e.g. `1920x1080`). |
+| LambdaTest.headless | `false` | `true`, `false` | Enable headless browser execution on LambdaTest. |
+| LambdaTest.timezone | `` | | Timezone for test execution on LambdaTest (e.g. `UTC+5:30`). |
+| LambdaTest.project | `shaft-engine` | | Project name to group builds in the LambdaTest dashboard. |
+| LambdaTest.build | `Build Name` | | Build name to group test runs in the LambdaTest dashboard. |
+| LambdaTest.tunnel | `false` | `true`, `false` | Enable LambdaTest tunnel for testing locally hosted applications. |
+| LambdaTest.tunnelName | `false` | | Name of the LambdaTest tunnel to use when `LambdaTest.tunnel` is enabled.|
+| LambdaTest.buildName | `` | | Build name used in the LambdaTest SDK configuration. Use this instead of `LambdaTest.build` when using the LambdaTest SDK (automate-config.yml). |
+| LambdaTest.selenium_version | `` | | Selenium version to use on LambdaTest. |
+| LambdaTest.driver_version | `` | | Browser driver version to use on LambdaTest. |
+| LambdaTest.w3c | `true` | `true`, `false` | Enable W3C WebDriver protocol on LambdaTest. |
+| LambdaTest.browserVersion | `` | | Browser version, optional, uses random by default. |
+| LambdaTest.geoLocation | `` | | Geolocation for test execution (e.g. `US`, `IN`). |
+| LambdaTest.debug | `false` | `true`, `false` | Enable debug mode (command logs) on LambdaTest. |
+| LambdaTest.acceptInsecureCerts | `true` | `true`, `false` | Accept insecure SSL certificates on LambdaTest. |
+| LambdaTest.networkLogs | `false` | `true`, `false` | Enable network logs capture on LambdaTest. |
+| LambdaTest.appiumVersion | `3.0.2` | | Appium version to use on LambdaTest for mobile testing. |
+| LambdaTest.autoGrantPermissions | `true` | `true`, `false` | Automatically grant app permissions on mobile devices. |
+| LambdaTest.autoAcceptAlerts | `true` | `true`, `false` | Automatically accept alerts on mobile devices. |
+| LambdaTest.isRealMobile | `true` | `true`, `false` | Run tests on real mobile devices (as opposed to emulators/simulators). |
+| LambdaTest.console | `false` | `true`, `false` | Enable console log capture on LambdaTest. |
+| LambdaTest.customID | `` | | Custom app ID for testing a previously uploaded app by its custom identifier. |
+
+## Performance
+
+ 
+ 
+
+ ```java showLineNumbers
+ import com.shaft.driver.SHAFT;
+
+ /** get **/
+ boolean lighthouseEnabled = SHAFT.Properties.performance.isEnabled();
+ int lighthousePort = SHAFT.Properties.performance.port();
+ boolean generateReport = SHAFT.Properties.performance.isEnablePerformanceReport();
+ String apiBudgets = SHAFT.Properties.performance.apiEndpointPerformanceBudgets();
+ boolean failApiBudgets = SHAFT.Properties.performance.failOnApiPerformanceBudgetViolation();
+ String browserActionBudgets = SHAFT.Properties.performance.browserActionPerformanceBudgets();
+ String pageLoadBudgets = SHAFT.Properties.performance.pageLoadPerformanceBudgets();
+ boolean failBrowserBudgets = SHAFT.Properties.performance.failOnBrowserPerformanceBudgetViolation();
+
+ /** set **/
+ SHAFT.Properties.performance.set()
+ .generatePerformanceReport(true)
+ .apiEndpointPerformanceBudgets("users=500,orders/{id}=750")
+ .failOnApiPerformanceBudgetViolation(true)
+ .browserActionPerformanceBudgets("playwright.element.click=750,*=1000")
+ .pageLoadPerformanceBudgets("https://example.com/checkout=3000,*=5000")
+ .failOnBrowserPerformanceBudgetViolation(false);
+ ```
+
+ 
+ 
+
+ ```powershell
+ mvn -e test "-DgeneratePerformanceReport=true" "-DapiEndpointPerformanceBudgets=users=500" "-DbrowserActionPerformanceBudgets=playwright.element.click=750"
+ ```
+
+ 
+ 
+
+ ```properties showLineNumbers title="src/main/resources/properties/custom.properties"
+ lightHouseExecution=false
+ lightHouseExecution.port=8888
+ generatePerformanceReport=true
+ apiEndpointPerformanceBudgets=users=500,orders/{id}=750
+ failOnApiPerformanceBudgetViolation=false
+ browserActionPerformanceBudgets=playwright.element.click=750,*=1000
+ pageLoadPerformanceBudgets=https://example.com/checkout=3000,*=5000
+ failOnBrowserPerformanceBudgetViolation=false
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| ---------------------------------------- | ------------- | --------------- | ----------- |
+| lightHouseExecution | `false` | `true`, `false` | Enable WebDriver Lighthouse performance testing execution. |
+| lightHouseExecution.port | `8888` | port number | Port to use for Lighthouse performance testing. |
+| generatePerformanceReport | `true` | `true`, `false` | Generate API and browser performance report files when timing data exists. |
+| apiEndpointPerformanceBudgets | ` ` | `endpoint=milliseconds` list | Optional p95 API endpoint budgets using normalized endpoint names, separated by commas, semicolons, or new lines. |
+| failOnApiPerformanceBudgetViolation | `false` | `true`, `false` | Fail the run when an API endpoint p95 budget is exceeded; otherwise log a warning. |
+| browserActionPerformanceBudgets | ` ` | `metric=milliseconds` list | Optional p95 Playwright browser action budgets, such as `playwright.element.click=750` or `*=1000`. |
+| pageLoadPerformanceBudgets | ` ` | `page=milliseconds` list | Optional p95 Playwright page-load budgets using navigated URLs or `*` as a default budget. |
+| failOnBrowserPerformanceBudgetViolation | `false` | `true`, `false` | Fail the run when a Playwright browser action or page-load p95 budget is exceeded; otherwise log a warning. |
+
+## TestNG
+
+- These properties control your TestNG parallelization settings.
+- You can only configure these properties by editing your `src/main/resources/properties/TestNG.properties` file.
+
+ 
+ *(N/A)* 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ 
+ 
+ ```properties showLineNumbers title="src/main/resources/properties/TestNG.properties"
+ setParallel=NONE
+ setThreadCount=1
+ setVerbose=0
+ setPreserveOrder=true
+ setGroupByInstances=true
+ setDataProviderThreadCount=1
+ #Test Suite Timeout in minutes
+ testSuiteTimeout=1440
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| -------------------------- | ------------- | ------------------------------------ | ----------- |
+| setParallel | `NONE` | `METHODS, CLASSES, TESTS, INSTANCES` | TestNG parallel execution mode (maps to the generated suite's `parallel` attribute). |
+| setParallelMode | `STATIC` | `STATIC, DYNAMIC` | Selects how `setThreadCount` is applied: `STATIC` uses it as-is, `DYNAMIC` multiplies it by the available processor cores. |
+| setThreadCount | `1.0d` | | ThreadCount is used as-is in case of STATIC mode. Total ThreadCount is automatically calculated for DYNAMIC mode; (Total ThreadCount = Number of available processor cores * setThreadCount) |
+| setVerbose | `0` | | TestNG verbose logging level for the generated suite (0 = silent). |
+| setPreserveOrder | `false` | `true`, `false` | Preserve declaration order of test methods/classes instead of TestNG's default ordering. |
+| setGroupByInstances | `false` | `true`, `false` | Group parallel test methods by instance instead of running them independently. |
+| setDataProviderThreadCount | `1` | | Number of threads TestNG uses to run `@DataProvider`-fed test invocations in parallel. |
+| testSuiteTimeout | `1440` | minutes | Test suite timeout. Default is 1440 minutes, or 24 hours. |
+
+## Log4j
+
+- These properties control your Log4j2 logging settings.
+- You can only configure these properties by editing your `src/main/resources/properties/log4j2.properties` file.
+
+ 
+ *(N/A)* 
+ Override one run with Maven, for example `mvn test '-DpropertyName=value'`. Replace `propertyName` with the key from the Default Values table below. 
+ 
+ 
+ ```properties showLineNumbers title="src/main/resources/properties/log4j2.properties"
+ name=PropertiesConfig
+ appender.console.type=Console
+ appender.console.name=STDOUT
+ appender.console.layout.type=PatternLayout
+ appender.console.layout.disableAnsi=false
+ appender.console.layout.pattern=%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%m }%style{| %-logger}{bright_black} %style{- %-thread}{bright_black} %style{- %d{hh:mm:ss a}}{bright_black} %n
+ appender.console.filter.threshold.type=ThresholdFilter
+ appender.console.filter.threshold.level=info
+ property.logFilePath=${sys:shaft.log.file:-target/logs/log4j.log}
+ appender.file.type=RollingFile
+ appender.file.name=LOGFILE
+ appender.file.fileName=${logFilePath}
+ appender.file.filePattern=${logFilePath}.%i
+ appender.file.layout.type=PatternLayout
+ appender.file.layout.pattern=[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+ appender.file.filter.threshold.type=ThresholdFilter
+ appender.file.filter.threshold.level=debug
+ appender.asyncFile.type=Async
+ appender.asyncFile.name=ASYNC_LOGFILE
+ appender.asyncFile.appenderRef.file.ref=LOGFILE
+ rootLogger=info, STDOUT, ASYNC_LOGFILE
+ logger.app.name=org.apache.http.impl.client
+ logger.app.level=WARN
+ ```
+
+ 
+ 
+
+| Property Name | Default Value | Possible Values | Description |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| name | `PropertiesConfig` | | Log4j2 configuration name, used internally as this configuration's identifier. |
+| appender.console.type | `Console` | | Log4j2 appender type for the console output target (`Console`). |
+| appender.console.name | `STDOUT` | | Reference name of the console appender, used by `rootLogger` and other loggers to attach to it. |
+| appender.console.layout.type | `PatternLayout` | | Log4j2 layout implementation used to format console log lines (`PatternLayout`). |
+| appender.console.layout.disableAnsi | `false` | `true`, `false` | Disables ANSI color codes in console log output. |
+| appender.console.layout.noConsoleNoAnsi | `false` | `true`, `false` | Automatically disables ANSI colors when output isn't attached to a real console (e.g. redirected to a file). |
+| appender.console.layout.charset | `UTF-8` | | Character encoding used when writing console log output. |
+| appender.console.layout.pattern | `%highlight{[%p]}{FATAL=red blink, ERROR=red bold, WARN=yellow bold, INFO=fg_#0060a8 bold, DEBUG=fg_#43b02a bold, TRACE=black} %style{%d{HH:mm:ss}}{bright_black} %style{\|}{bright_black} %m%n` | | [Log4j2 pattern layout reference](https://logging.apache.org/log4j/2.x/manual/layouts.html#pattern-layout) |
+| appender.console.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the console appender (`ThresholdFilter`). |
+| appender.console.filter.threshold.level | `info` | `fatal, error, warn, info, debug, trace` | Minimum log level written to the console; messages below this level are suppressed. |
+| appender.file.type | `File` | | Log4j2 appender type for the rolling log file (`RollingFile`). |
+| appender.file.name | `LOGFILE` | | Reference name of the file appender, used by `rootLogger` and other loggers to attach to it. |
+| appender.file.fileName | `target/logs/log4j.log` | | Path to the active log file that SHAFT writes execution logs to. |
+| appender.file.layout.type | `PatternLayout` | | Log4j2 layout implementation used to format file log lines (`PatternLayout`). |
+| appender.file.layout.pattern | `[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n` | | Log4j2 PatternLayout string controlling the format of each file log line. |
+| appender.file.layout.charset | `UTF-8` | | Character encoding used when writing the log file. |
+| appender.file.filter.threshold.type | `ThresholdFilter` | | Log4j2 filter type applied to the file appender (`ThresholdFilter`). |
+| appender.file.filter.threshold.level | `debug` | `fatal, error, warn, info, debug, trace` | Minimum log level written to the log file; messages below this level are suppressed. |
+| rootLogger | `info, ASYNC_STDOUT, ASYNC_LOGFILE, ASYNC_REPORT_PORTAL` | | Uses asynchronous appenders for console, file, and ReportPortal logging. |
+| logger.app.name | `org.apache.http.impl.client` | | Fully qualified logger name whose level is overridden by `logger.app.level` (defaults to a noisy third-party logger). |
+| logger.app.level | `WARN` | | Log level applied to the logger named by `logger.app.name`, used to quiet noisy third-party libraries. |
+
+## Related
+
+- [Property Types](/docs/reference/properties/PropertyTypes)
+- [Common Examples](/docs/reference/properties/CommonExamples)
+- [Programmatic Config](/docs/reference/properties/Programmatic_Config)

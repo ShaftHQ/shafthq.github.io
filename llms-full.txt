@@ -6,7 +6,8 @@
 
 # How the modular SHAFT upgrade works
 
-Canonical URL: https://shafthq.github.io/docs/start/upgrade/how-it-works
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade/how-it-works
+Markdown: https://shafthq.github.io/md/start/upgrade/how-it-works.md
 
 # How the modular SHAFT upgrade works
 
@@ -388,7 +389,8 @@ driver.element().assertThat(By.id("banner")).isVisible();
 
 # Install managed mobile infrastructure
 
-Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/mobile
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure/mobile
+Markdown: https://shafthq.github.io/md/start/local-infrastructure/mobile.md
 
 # Install managed mobile infrastructure
 
@@ -623,7 +625,8 @@ variables do not change `shaft-cli setup start`.
 
 # Install managed services and tools
 
-Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/services
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure/services
+Markdown: https://shafthq.github.io/md/start/local-infrastructure/services.md
 
 # Install managed services and tools
 
@@ -934,7 +937,8 @@ cache and data roots, but the Browser Actions runtime currently exposes only
 
 # Install SHAFT
 
-Canonical URL: https://shafthq.github.io/docs/start/installation
+Canonical HTML: https://shafthq.github.io/docs/start/installation
+Markdown: https://shafthq.github.io/md/start/installation.md
 
 # Install SHAFT
 
@@ -1040,7 +1044,8 @@ fails.
 
 # Local infrastructure reference
 
-Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/reference
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure/reference
+Markdown: https://shafthq.github.io/md/start/local-infrastructure/reference.md
 
 # Local infrastructure reference
 
@@ -1193,7 +1198,8 @@ it returns `3` when no owned log exists.
 
 # Modular SHAFT upgrade reference
 
-Canonical URL: https://shafthq.github.io/docs/start/upgrade/reference
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade/reference
+Markdown: https://shafthq.github.io/md/start/upgrade/reference.md
 
 # Modular SHAFT upgrade reference
 
@@ -1348,18 +1354,28 @@ reach that provider.
 
 ### Methods that require `shaft-visual`
 
-| Public API or behavior | Why it needs the module |
-|----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `matchesReferenceImage()` | Defaults to `EXACT_SHUTTERBUG`; all reference-image engines are implemented by the provider. |
-| `matchesReferenceImage(VisualValidationEngine)` | `EXACT_SHUTTERBUG`, `EXACT_OPENCV`, `EXACT_EYES`, `STRICT_EYES`, `CONTENT_EYES`, and `LAYOUT_EYES` all delegate to `shaft-visual`. |
-| `doesNotMatchReferenceImage()` and its engine overload | The default is `EXACT_OPENCV`; every overload delegates to the provider. |
-| Cucumber reference-image assertion steps | The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path. |
-| `TouchActions.tap(String)` | Locates the reference image inside the current screenshot using OpenCV. |
-| `TouchActions.waitUntilElementIsVisible(String)` | Uses OpenCV to find the supplied image. |
-| `TouchActions.swipeElementIntoView(String, ...)` and the scrollable-container overload | Uses image matching after each swipe. |
-| `ImageProcessingActions.findImageWithinCurrentPage(...)` | Direct provider operation. |
-| `ImageProcessingActions.compareAgainstBaseline(...)` | Direct provider operation for every visual engine. |
-| `ImageProcessingActions.loadOpenCV()` | Explicitly loads the optional provider. |
+ 
+ matchesReferenceImage() 
+ Defaults to EXACT_SHUTTERBUG ; all reference-image engines are implemented by the provider. 
+ matchesReferenceImage(VisualValidationEngine) 
+ EXACT_SHUTTERBUG , EXACT_OPENCV , EXACT_EYES , STRICT_EYES , CONTENT_EYES , and LAYOUT_EYES all delegate to shaft-visual . 
+ doesNotMatchReferenceImage() and its engine overload 
+ The default is EXACT_OPENCV ; every overload delegates to the provider. 
+ Cucumber reference-image assertion steps 
+ The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path. 
+ TouchActions.tap(String) 
+ Locates the reference image inside the current screenshot using OpenCV. 
+ TouchActions.waitUntilElementIsVisible(String) 
+ Uses OpenCV to find the supplied image. 
+ TouchActions.swipeElementIntoView(String, ...) and the scrollable-container overload 
+ Uses image matching after each swipe. 
+ ImageProcessingActions.findImageWithinCurrentPage(...) 
+ Direct provider operation. 
+ ImageProcessingActions.compareAgainstBaseline(...) 
+ Direct provider operation for every visual engine. 
+ ImageProcessingActions.loadOpenCV() 
+ Explicitly loads the optional provider. 
+ 
 
 The TestNG and JUnit web samples contain this visual assertion:
 
@@ -1376,15 +1392,22 @@ those projects to return to `shaft-engine` only.
 
 ### Functionality that remains in `shaft-engine`
 
-| Method or behavior | Why no visual module is needed |
-|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| Selenium/Appium screenshot capture and Allure attachments | Uses WebDriver/Appium screenshot APIs and SHAFT reporting. |
-| `ImageProcessingActions.highlightElementInScreenshot(...)` | Uses JDK `BufferedImage` and `Graphics2D`. |
-| `ImageProcessingActions.compareImageFolders(...)` | Uses JDK `ImageIO` and image data buffers. |
-| `formatElementLocatorToImagePath(...)`, `getReferenceImage(...)`, `getShutterbugDifferencesImage(...)` | Performs naming and file access only. |
-| Animated GIF creation | Does not invoke the visual provider. |
-| Healenium integration | Independent of OpenCV. |
-| Normal locator-based `tap(By)`, `waitUntilElementIsVisible(By)`, and `swipeElementIntoView(By, ...)` | Uses Selenium/Appium locators, not reference images. |
+ 
+ Selenium/Appium screenshot capture and Allure attachments 
+ Uses WebDriver/Appium screenshot APIs and SHAFT reporting. 
+ ImageProcessingActions.highlightElementInScreenshot(...) 
+ Uses JDK BufferedImage and Graphics2D . 
+ ImageProcessingActions.compareImageFolders(...) 
+ Uses JDK ImageIO and image data buffers. 
+ formatElementLocatorToImagePath(...) , getReferenceImage(...) , getShutterbugDifferencesImage(...) 
+ Performs naming and file access only. 
+ Animated GIF creation 
+ Does not invoke the visual provider. 
+ Healenium integration 
+ Independent of OpenCV. 
+ Normal locator-based tap(By) , waitUntilElementIsVisible(By) , and swipeElementIntoView(By, ...) 
+ Uses Selenium/Appium locators, not reference images. 
+ 
 
 See the detailed [visual module guide](/docs/integrations/visual).
 
@@ -1457,13 +1480,18 @@ SHAFT.Properties.browserStack.set()
  .browserstackAutomation(true);
 ```
 
-| SDK-dependent configuration/functionality | Without `shaft-browserstack` |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `browserStack.platformsList` multi-platform expansion | The value is written to YAML, but no SDK consumes it. |
-| `browserStack.parallelsPerPlatform` SDK parallel orchestration | Direct SHAFT session creation still follows the test runner's own parallelism. |
-| `browserStack.browserstackAutomation` interception switch | No BrowserStack SDK is present to intercept WebDriver creation. |
-| `browserStack.customBrowserStackYmlPath` as SDK configuration | SHAFT can copy the file, but only the SDK interprets its orchestration settings. |
-| SDK listeners, automatic capability override, and SDK reporting/orchestration | Unavailable; the direct SHAFT BrowserStack session still works. |
+ 
+ browserStack.platformsList multi-platform expansion 
+ The value is written to YAML, but no SDK consumes it. 
+ browserStack.parallelsPerPlatform SDK parallel orchestration 
+ Direct SHAFT session creation still follows the test runner's own parallelism. 
+ browserStack.browserstackAutomation interception switch 
+ No BrowserStack SDK is present to intercept WebDriver creation. 
+ browserStack.customBrowserStackYmlPath as SDK configuration 
+ SHAFT can copy the file, but only the SDK interprets its orchestration settings. 
+ SDK listeners, automatic capability override, and SDK reporting/orchestration 
+ Unavailable; the direct SHAFT BrowserStack session still works. 
+ 
 
 See the [BrowserStack module guide](/docs/integrations/browserstack) and
 [BrowserStack's SDK architecture](https://www.browserstack.com/docs/automate/selenium/how-sdk-works).
@@ -1532,7 +1560,8 @@ POM: Linux x64 28,201,169 bytes, Linux ARM64 24,204,474 bytes, Windows x64
 
 # Preview managed local AI and OCR setup
 
-Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure/previews
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure/previews
+Markdown: https://shafthq.github.io/md/start/local-infrastructure/previews.md
 
 # Preview managed local AI and OCR setup
 
@@ -1755,7 +1784,8 @@ or logs lifecycle.
 
 # Quick start
 
-Canonical URL: https://shafthq.github.io/docs/start/quick-start
+Canonical HTML: https://shafthq.github.io/docs/start/quick-start
+Markdown: https://shafthq.github.io/md/start/quick-start.md
 
 # Quick start
 
@@ -2212,7 +2242,8 @@ complete method matrix.
 
 # Run the modular SHAFT upgrade
 
-Canonical URL: https://shafthq.github.io/docs/start/upgrade/run
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade/run
+Markdown: https://shafthq.github.io/md/start/upgrade/run.md
 
 # Run the modular SHAFT upgrade
 
@@ -2339,18 +2370,27 @@ Allure summary as authoritative.
 
 ### Missing-provider troubleshooting
 
-| Symptom | Action |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| Reference-image assertion or image-path touch action reports no visual provider | Add `shaft-visual`; verify `org.openpnp:opencv`, Applitools Eyes, and Selenium Shutterbug resolve transitively. |
-| Ordinary screenshot capture fails | Do not add `shaft-visual` reflexively; diagnose WebDriver/Appium screenshot support and reporting paths. |
-| Direct BrowserStack session fails to start | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
-| `platformsList` or `parallelsPerPlatform` has no effect | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`. |
-| Desktop recording reports no provider | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves. |
-| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing | Add `shaft-sikulix`; Appium Windows sessions do not require it. |
-| `healing.strategy=shaft-heal` logs that the provider is absent | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`. |
-| SHAFT Heal rejects every candidate | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
-| Mobile recording changed unexpectedly | Do not add `shaft-video`; verify the Appium driver supports native recording. |
-| `NoSuchMethodError` or mixed SHAFT modules | Import `shaft-bom`, remove explicit mismatched module versions, and inspect `mvn dependency:tree -Dincludes=io.github.shafthq`. |
+ 
+ Reference-image assertion or image-path touch action reports no visual provider 
+ Add shaft-visual ; verify org.openpnp:opencv , Applitools Eyes, and Selenium Shutterbug resolve transitively. 
+ Ordinary screenshot capture fails 
+ Do not add shaft-visual reflexively; diagnose WebDriver/Appium screenshot support and reporting paths. 
+ Direct BrowserStack session fails to start 
+ Check credentials, execution address, capabilities, and connectivity first; shaft-browserstack is not required for the direct path. 
+ platformsList or parallelsPerPlatform has no effect 
+ Add shaft-browserstack and verify the BrowserStack SDK is active and reading the generated browserstack.yml . 
+ Desktop recording reports no provider 
+ Add shaft-video ; confirm the OS-specific ws.schild:jave-nativebin-* artifact resolves. 
+ SHAFT.GUI.SikuliX reports that SikuliX classes are missing 
+ Add shaft-sikulix ; Appium Windows sessions do not require it. 
+ healing.strategy=shaft-heal logs that the provider is absent 
+ Add shaft-heal ; confirm the BOM aligns it with shaft-engine . 
+ SHAFT Heal rejects every candidate 
+ Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. 
+ Mobile recording changed unexpectedly 
+ Do not add shaft-video ; verify the Appium driver supports native recording. 
+ NoSuchMethodError or mixed SHAFT modules 
+ Import shaft-bom , remove explicit mismatched module versions, and inspect mvn dependency:tree -Dincludes=io.github.shafthq .
 
 ## Completion checklist
 
@@ -2383,7 +2423,8 @@ missing provider or version mismatch can be diagnosed before the next attempt.
 
 # Set up local infrastructure
 
-Canonical URL: https://shafthq.github.io/docs/start/local-infrastructure
+Canonical HTML: https://shafthq.github.io/docs/start/local-infrastructure
+Markdown: https://shafthq.github.io/md/start/local-infrastructure.md
 
 # Set up local infrastructure
 
@@ -2483,7 +2524,8 @@ profiles such as `REPORTING` or `LIGHTHOUSE`.
 
 # SHAFT at a glance
 
-Canonical URL: https://shafthq.github.io/docs/start/overview
+Canonical HTML: https://shafthq.github.io/docs/start/overview
+Markdown: https://shafthq.github.io/md/start/overview.md
 
 # One engine. Every test surface.
 
@@ -2576,7 +2618,8 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 
 # Upgrade to modular SHAFT
 
-Canonical URL: https://shafthq.github.io/docs/start/upgrade
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade
+Markdown: https://shafthq.github.io/md/start/upgrade.md
 
 # Upgrade to modular SHAFT
 
@@ -2660,7 +2703,8 @@ unless an allowed repair succeeds inside the same transaction.
 
 # API testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/api
+Canonical HTML: https://shafthq.github.io/docs/testing/api
+Markdown: https://shafthq.github.io/md/testing/api.md
 
 # API testing
 
@@ -2745,7 +2789,8 @@ assertion is appropriate for the scenario.
 
 # CLI testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/cli
+Canonical HTML: https://shafthq.github.io/docs/testing/cli
+Markdown: https://shafthq.github.io/md/testing/cli.md
 
 # CLI testing
 
@@ -2823,7 +2868,8 @@ evidence flow as the rest of the suite.
 
 # Database testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/database
+Canonical HTML: https://shafthq.github.io/docs/testing/database
+Markdown: https://shafthq.github.io/md/testing/database.md
 
 # Database testing
 
@@ -2902,7 +2948,8 @@ values.
 
 # Flutter testing guide
 
-Canonical URL: https://shafthq.github.io/docs/testing/flutter
+Canonical HTML: https://shafthq.github.io/docs/testing/flutter
+Markdown: https://shafthq.github.io/md/testing/flutter.md
 
 # Flutter testing guide
 
@@ -3078,7 +3125,8 @@ Preflight is `scripts/ci/flutter_emulator_preflight.sh`. It must pass before
 
 # How SHAFT reduces flakiness
 
-Canonical URL: https://shafthq.github.io/docs/testing/flakiness
+Canonical HTML: https://shafthq.github.io/docs/testing/flakiness
+Markdown: https://shafthq.github.io/md/testing/flakiness.md
 
 # How SHAFT reduces flakiness
 
@@ -3333,7 +3381,8 @@ show why a candidate was accepted or rejected.
 
 # Mobile and Flutter testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/mobile
+Canonical HTML: https://shafthq.github.io/docs/testing/mobile
+Markdown: https://shafthq.github.io/md/testing/mobile.md
 
 # Mobile and Flutter testing
 
@@ -4096,7 +4145,8 @@ public class FlutterAppTestSuite {
 
 # UI and API contract replay
 
-Canonical URL: https://shafthq.github.io/docs/testing/contracts
+Canonical HTML: https://shafthq.github.io/docs/testing/contracts
+Markdown: https://shafthq.github.io/md/testing/contracts.md
 
 # UI and API contract replay
 
@@ -4245,7 +4295,8 @@ captured from environments that do not allow test evidence retention.
 
 # Web testing
 
-Canonical URL: https://shafthq.github.io/docs/testing/web
+Canonical HTML: https://shafthq.github.io/docs/testing/web
+Markdown: https://shafthq.github.io/md/testing/web.md
 
 # Web testing
 
@@ -4402,7 +4453,8 @@ the defaults. Maintainer detail lives in
 
 # Agentic testing
 
-Canonical URL: https://shafthq.github.io/docs/agentic/overview
+Canonical HTML: https://shafthq.github.io/docs/agentic/overview
+Markdown: https://shafthq.github.io/md/agentic/overview.md
 
 # Agentic testing without hidden automation
 
@@ -4514,7 +4566,8 @@ MCP commands live on /docs/agentic/mcp#mcp-command-reference
 
 # Connect shaft-mcp
 
-Canonical URL: https://shafthq.github.io/docs/agentic/mcp
+Canonical HTML: https://shafthq.github.io/docs/agentic/mcp
+Markdown: https://shafthq.github.io/md/agentic/mcp.md
 
 # Connect shaft-mcp
 
@@ -5479,7 +5532,8 @@ validation and publication.
 
 # Diagnose failures with Doctor
 
-Canonical URL: https://shafthq.github.io/docs/agentic/doctor
+Canonical HTML: https://shafthq.github.io/docs/agentic/doctor
+Markdown: https://shafthq.github.io/md/agentic/doctor.md
 
 # Diagnose failures with Doctor
 
@@ -5836,7 +5890,8 @@ mvn -pl shaft-doctor -am javadoc:javadoc
 
 # Install and operate ChaosEngine
 
-Canonical URL: https://shafthq.github.io/docs/agentic/chaos-engine
+Canonical HTML: https://shafthq.github.io/docs/agentic/chaos-engine
+Markdown: https://shafthq.github.io/md/agentic/chaos-engine.md
 
 # Install and operate ChaosEngine
 
@@ -6171,7 +6226,8 @@ purge, and manual population commands.
 
 # Install SHAFT agent skills
 
-Canonical URL: https://shafthq.github.io/docs/agentic/skills
+Canonical HTML: https://shafthq.github.io/docs/agentic/skills
+Markdown: https://shafthq.github.io/md/agentic/skills.md
 
 # Install SHAFT agent skills
 
@@ -6276,7 +6332,8 @@ before generating code:
 
 # IntelliJ IDEA plugin
 
-Canonical URL: https://shafthq.github.io/docs/agentic/intellij
+Canonical HTML: https://shafthq.github.io/docs/agentic/intellij
+Markdown: https://shafthq.github.io/md/agentic/intellij.md
 
 # IntelliJ IDEA plugin
 
@@ -6530,7 +6587,7 @@ project and return the upgrader command first. The command should be in its own
 fenced block, and the agent should wait for you to run it before source edits.
 Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
 copyable command; this page documents the IDE workflow around that command.
-The setup wizard's **Upgrade project** step (see above) offers the same
+The setup wizard's **Upgrade project** step, in the prerequisites sequence on this page, offers the same
 command as a one-click copy before you ever open the Assistant chat; this
 chat-driven flow and the **Projects** workflow's upgrade template are
 alternatives for triggering it later, mid-session, with repository-aware
@@ -7293,7 +7350,8 @@ channel.
 
 # Optional AI providers
 
-Canonical URL: https://shafthq.github.io/docs/agentic/providers
+Canonical HTML: https://shafthq.github.io/docs/agentic/providers
+Markdown: https://shafthq.github.io/md/agentic/providers.md
 
 # Optional AI providers
 
@@ -7469,7 +7527,8 @@ and [Ollama chat](https://docs.ollama.com/api/chat) contracts.
 
 # Record tests with Capture
 
-Canonical URL: https://shafthq.github.io/docs/agentic/capture
+Canonical HTML: https://shafthq.github.io/docs/agentic/capture
+Markdown: https://shafthq.github.io/md/agentic/capture.md
 
 # Record tests with Capture
 
@@ -8301,7 +8360,8 @@ For device traffic captured outside a browser, the same `capture_api_start`/`cap
 
 # Recover locators with Heal
 
-Canonical URL: https://shafthq.github.io/docs/agentic/heal
+Canonical HTML: https://shafthq.github.io/docs/agentic/heal
+Markdown: https://shafthq.github.io/md/agentic/heal.md
 
 # Recover locators with Heal
 
@@ -8536,7 +8596,8 @@ original failure.
 
 # SHAFT Pilot
 
-Canonical URL: https://shafthq.github.io/docs/agentic/pilot
+Canonical HTML: https://shafthq.github.io/docs/agentic/pilot
+Markdown: https://shafthq.github.io/md/agentic/pilot.md
 
 # SHAFT Pilot
 
@@ -8764,7 +8825,8 @@ paths/content before reusing any of them:
 
 # shaft-cli command line
 
-Canonical URL: https://shafthq.github.io/docs/agentic/cli
+Canonical HTML: https://shafthq.github.io/docs/agentic/cli
+Markdown: https://shafthq.github.io/md/agentic/cli.md
 
 # shaft-cli command line
 
@@ -8903,7 +8965,8 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout h
 
 # Agentic tool updates
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/agentic
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/agentic
+Markdown: https://shafthq.github.io/md/features/whats-new/agentic.md
 
 # Agentic tool updates
 
@@ -8929,7 +8992,8 @@ MCP, CLI, IntelliJ, or agent skills
 
 # Architecture
 
-Canonical URL: https://shafthq.github.io/docs/features/architecture
+Canonical HTML: https://shafthq.github.io/docs/features/architecture
+Markdown: https://shafthq.github.io/md/features/architecture.md
 
 # Architecture
 
@@ -9142,7 +9206,8 @@ desktop-image action facade without shadowing `shaft-engine` classes.
 
 # Capture and generation updates
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/capture
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/capture
+Markdown: https://shafthq.github.io/md/features/whats-new/capture.md
 
 # Capture and generation updates
 
@@ -9170,7 +9235,8 @@ Open the local Capture workflow through its documented client:
 
 # Evidence and report updates
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/evidence
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/evidence
+Markdown: https://shafthq.github.io/md/features/whats-new/evidence.md
 
 # Evidence and report updates
 
@@ -9199,7 +9265,8 @@ shaft.trace.mode=auto
 
 # Features and modules
 
-Canonical URL: https://shafthq.github.io/docs/features/modules
+Canonical HTML: https://shafthq.github.io/docs/features/modules
+Markdown: https://shafthq.github.io/md/features/modules.md
 
 # Features and modules
 
@@ -9401,7 +9468,8 @@ browserStack.browserstackAutomation=true
 
 # Features you might have missed
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/missed
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/missed
+Markdown: https://shafthq.github.io/md/features/whats-new/missed.md
 
 # Features you might have missed
 
@@ -9425,7 +9493,8 @@ By login = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").bu
 
 # Integrations and modules
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/modules
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/modules
+Markdown: https://shafthq.github.io/md/features/whats-new/modules.md
 
 # Integrations and modules
 
@@ -9449,7 +9518,8 @@ Add a selected artifact without repeating its BOM-managed version:
 
 # Pillars of successful test automation
 
-Canonical URL: https://shafthq.github.io/docs/features/test-automation-pillars
+Canonical HTML: https://shafthq.github.io/docs/features/test-automation-pillars
+Markdown: https://shafthq.github.io/md/features/test-automation-pillars.md
 
 # Pillars of successful test automation
 
@@ -9637,7 +9707,8 @@ public class LoginTest {
 
 # Platform and setup updates
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/platform
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/platform
+Markdown: https://shafthq.github.io/md/features/whats-new/platform.md
 
 # Platform and setup updates
 
@@ -9661,7 +9732,8 @@ mvn test
 
 # Reporting and evidence
 
-Canonical URL: https://shafthq.github.io/docs/features/reporting
+Canonical HTML: https://shafthq.github.io/docs/features/reporting
+Markdown: https://shafthq.github.io/md/features/reporting.md
 
 # Reporting and evidence
 
@@ -9838,7 +9910,8 @@ wait-heavy, stale, healed, or failing actions.
 
 # Testing API updates
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new/testing
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/testing
+Markdown: https://shafthq.github.io/md/features/whats-new/testing.md
 
 # Testing API updates
 
@@ -9862,7 +9935,8 @@ SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
 
 # What's new since modularization
 
-Canonical URL: https://shafthq.github.io/docs/features/whats-new
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new
+Markdown: https://shafthq.github.io/md/features/whats-new.md
 
 # What's new since modularization
 
@@ -9887,7 +9961,8 @@ GraphQL
 
 # BrowserStack
 
-Canonical URL: https://shafthq.github.io/docs/integrations/browserstack
+Canonical HTML: https://shafthq.github.io/docs/integrations/browserstack
+Markdown: https://shafthq.github.io/md/integrations/browserstack.md
 
 # BrowserStack
 
@@ -10000,7 +10075,8 @@ For the SDK's runtime behavior, see
 
 # Desktop and video
 
-Canonical URL: https://shafthq.github.io/docs/integrations/desktop-and-video
+Canonical HTML: https://shafthq.github.io/docs/integrations/desktop-and-video
+Markdown: https://shafthq.github.io/md/integrations/desktop-and-video.md
 
 Two optional modules extend SHAFT to the local desktop: `shaft-video` records the session, and `shaft-sikulix` drives desktop apps that have no DOM or Appium locators.
 
@@ -10103,7 +10179,8 @@ Use `shaft-engine` alone for Appium-backed Windows desktop sessions. Add `shaft-
 
 # OCR and visible-text automation
 
-Canonical URL: https://shafthq.github.io/docs/integrations/ocr
+Canonical HTML: https://shafthq.github.io/docs/integrations/ocr
+Markdown: https://shafthq.github.io/md/integrations/ocr.md
 
 # OCR and visible-text automation
 
@@ -10387,7 +10464,8 @@ OCR accuracy depends on image resolution, contrast, font rendering, language mod
 
 # Visual testing
 
-Canonical URL: https://shafthq.github.io/docs/integrations/visual
+Canonical HTML: https://shafthq.github.io/docs/integrations/visual
+Markdown: https://shafthq.github.io/md/integrations/visual.md
 
 # Visual testing
 
@@ -10585,7 +10663,8 @@ The IntelliJ plugin's **Visual Baselines** panel lists pending `*_diff.png` comp
 
 # Reference
 
-Canonical URL: https://shafthq.github.io/docs/reference/overview
+Canonical HTML: https://shafthq.github.io/docs/reference/overview
+Markdown: https://shafthq.github.io/md/reference/overview.md
 
 # Reference
 
@@ -10637,7 +10716,8 @@ api.assertThatResponse().extractedJsonValue("id").isEqualTo("1");
 
 # Alert Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Alert_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Alert_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Alert_Actions.md
 
 Alerts are dialog boxes that appear in the browser to notify or prompt the user. SHAFT provides the `AlertActions` class to interact with these dialogs.
 
@@ -10747,7 +10827,8 @@ public class AlertDemo {
 
 # API Authentication
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/API/API_Authentication
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/API_Authentication
+Markdown: https://shafthq.github.io/md/reference/actions/API/API_Authentication.md
 
 Use `setAuthentication()` for BASIC or FORM authentication. For bearer tokens, API keys, and cookies, add the relevant header before sending the request.
 
@@ -10894,7 +10975,8 @@ OAuth2 tokens expire. For CI/CD pipelines, implement a token-refresh step before
 
 # Async Element Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Async_Element_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Async_Element_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Async_Element_Actions.md
 
 ## Overview
 
@@ -11024,7 +11106,8 @@ Async actions are best suited for **write** operations (type, select, click) tha
 
 # Basic Configuration for API
 
-Canonical URL: https://shafthq.github.io/docs/reference/configuration/apiConfig
+Canonical HTML: https://shafthq.github.io/docs/reference/configuration/apiConfig
+Markdown: https://shafthq.github.io/md/reference/configuration/apiConfig.md
 
 The properties below apply to all `SHAFT.API` (REST Assured) test executions. Place them in your `custom.properties` file to adjust connectivity, timeouts, and contract validation.
 
@@ -11120,7 +11203,8 @@ You can learn more about the different **[property types]** and the **[full list
 
 # Basic Configuration for Mobile GUI
 
-Canonical URL: https://shafthq.github.io/docs/reference/configuration/mobileConfig
+Canonical HTML: https://shafthq.github.io/docs/reference/configuration/mobileConfig
+Markdown: https://shafthq.github.io/md/reference/configuration/mobileConfig.md
 
 SHAFT uses Appium under the hood for mobile automation. Configure the properties below to target a local Appium server or a cloud device farm.
 
@@ -11263,7 +11347,8 @@ You can learn more about the different **[property types]** and the **[full list
 
 # Basic Configuration for Web GUI
 
-Canonical URL: https://shafthq.github.io/docs/reference/configuration/webConfig
+Canonical HTML: https://shafthq.github.io/docs/reference/configuration/webConfig
+Markdown: https://shafthq.github.io/md/reference/configuration/webConfig.md
 
 SHAFT auto-generates a default `custom.properties` file on your first test run. Use it to tailor browser selection, timeouts, and reporting without touching your test code.
 
@@ -11415,7 +11500,8 @@ com.SHAFT.proxySettings=proxy.corp.example.com:8080
 
 # BDD-Style Reports with Allure Annotations
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/BDD_Style_Reports
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/BDD_Style_Reports
+Markdown: https://shafthq.github.io/md/reference/guides/BDD_Style_Reports.md
 
 Many teams adopt Cucumber or similar BDD frameworks to produce **business-readable reports**. However, you can achieve the same report output using **Allure annotations** directly in your Java tests — without the overhead of maintaining `.feature` files, step definitions, and glue code.
 
@@ -11547,7 +11633,8 @@ This approach gives you the best of both worlds: business-readable reports that 
 
 # Browser Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Browser_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Browser_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Browser_Actions.md
 
 ## Getting Started
 
@@ -12044,7 +12131,8 @@ SHAFT provides automatic reporting for every browser action. Check the **Reporti
 
 # Built-in Cucumber BDD Step Definitions
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Cucumber_BDD_Steps
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Cucumber_BDD_Steps
+Markdown: https://shafthq.github.io/md/reference/guides/Cucumber_BDD_Steps.md
 
 SHAFT Engine ships with **500+ pre-built Gherkin step definitions** covering browser navigation, element actions, and assertions. You can write feature files and start running BDD tests immediately — without authoring glue code from scratch.
 
@@ -12190,7 +12278,8 @@ Allure reporting for Cucumber is enabled by adding `io.qameta.allure.cucumber7jv
 
 # Common Configuration Examples
 
-Canonical URL: https://shafthq.github.io/docs/reference/properties/CommonExamples
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/CommonExamples
+Markdown: https://shafthq.github.io/md/reference/properties/CommonExamples.md
 
 Here are common scenarios and how to configure SHAFT properties for them. Each example shows three ways to configure properties: **File-based**, **CLI-based**, and **Code-based**.
 
@@ -12690,7 +12779,8 @@ For a complete list of all available properties, their default values, and descr
 
 # Complete Properties Reference
 
-Canonical URL: https://shafthq.github.io/docs/reference/properties/PropertiesList
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/PropertiesList
+Markdown: https://shafthq.github.io/md/reference/properties/PropertiesList.md
 
 You can use these tab groups to navigate and get information about how to manage your desired properties in all the different ways possible. The **Config Generator** tab is an interactive builder covering every property below — search, click to add, edit the value, then copy or download the resulting `.properties` file.
 
@@ -14389,7 +14479,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 
 # Cross-Platform Strategy: Android and iOS
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Cross_Platform_Strategy
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Cross_Platform_Strategy
+Markdown: https://shafthq.github.io/md/reference/guides/Cross_Platform_Strategy.md
 
 One of the most common questions in mobile test automation is: **should Android and iOS tests live in the same project or in separate projects?** The answer depends on how similar the apps are.
 
@@ -14529,7 +14620,8 @@ SHAFT Engine's property-based platform switching makes it easy to run the same t
 
 # Custom Properties Generator
 
-Canonical URL: https://shafthq.github.io/docs/reference/properties/custom-properties-generator
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/custom-properties-generator
+Markdown: https://shafthq.github.io/md/reference/properties/custom-properties-generator.md
 
 :::tip
 This generator is also embedded as the **Config Generator** tab on the [Complete Properties Reference](/docs/reference/properties/PropertiesList?PropertyTypes=generator) page, right next to the property tables it builds from — that's the best place to reach it while you're already reading about a specific property. This standalone page stays as a direct link/bookmark to the same tool.
@@ -14557,7 +14649,8 @@ createAnimatedGif=false
 
 # Database Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/DB/DB_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/DB/DB_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/DB/DB_Actions.md
 
 ## Connecting to a Database
 
@@ -14864,7 +14957,8 @@ See [Connection Strings →](./Connection_Strings) for common JDBC URL formats f
 
 # Database Connection Strings
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/DB/Connection_Strings
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/DB/Connection_Strings
+Markdown: https://shafthq.github.io/md/reference/actions/DB/Connection_Strings.md
 
 ## JDBC Connection Strings
 
@@ -15244,7 +15338,8 @@ SHAFT.DB db = new SHAFT.DB(
 
 # Docker Container Terminal
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/CLI/Docker_Terminal
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/CLI/Docker_Terminal
+Markdown: https://shafthq.github.io/md/reference/actions/CLI/Docker_Terminal.md
 
 Docker-wrapped `TerminalActions` execution is deprecated for removal. Existing tests can still use the Docker-specific constructor while migrating, but new code should execute `docker` commands through `SHAFT.CLI.terminal()` or use the target environment directly.
 
@@ -15426,7 +15521,8 @@ void createUserViaDbAndVerifyThroughApi() {
 
 # Element Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Element_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Element_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Element_Actions.md
 
 To interact with web elements, use `driver.element()` followed by the desired action. All element actions require a `By` locator to identify the target element.
 
@@ -15829,7 +15925,8 @@ driver.element()
 
 # Element Identification
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Element_Identification
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Element_Identification
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Element_Identification.md
 
 ## Overview
 
@@ -16653,7 +16750,8 @@ For a cleaner approach, centralize platform-specific locators in a constants fil
 
 # File Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/CLI/File_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/CLI/File_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/CLI/File_Actions.md
 
 ## Getting a File Actions Instance
 
@@ -16847,7 +16945,8 @@ For the full file validation API see the [File validations →](../Validations#f
 
 # Fluent Design: Chaining Actions and Validations
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Fluent_Design
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Fluent_Design
+Markdown: https://shafthq.github.io/md/reference/guides/Fluent_Design.md
 
 SHAFT Engine provides a **fluent API** that lets you chain actions and validations in a single, readable statement. Instead of writing one action per line, you can express an entire test step as a flowing sentence.
 
@@ -16953,7 +17052,8 @@ Fluent design is not just syntactic sugar — it encourages you to think about t
 
 # GraphQL API Testing
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/API/GraphQL_Testing
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/GraphQL_Testing
+Markdown: https://shafthq.github.io/md/reference/actions/API/GraphQL_Testing.md
 
 Use `SHAFT.API.sendGraphQlRequest()` for GraphQL queries and mutations. It returns the normal request builder, so variables, fragments, headers, status checks, and response assertions use the same fluent API as REST requests.
 
@@ -17119,7 +17219,8 @@ GraphQL APIs typically return HTTP 200 even when errors occur — always validat
 
 # JUnit Integration
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/JUnit_Integration
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/JUnit_Integration
+Markdown: https://shafthq.github.io/md/reference/guides/JUnit_Integration.md
 
 SHAFT Engine supports **JUnit (Jupiter)** as a first-class test runner alongside TestNG. All SHAFT APIs, reporting, and properties configuration work identically regardless of which test framework you choose.
 
@@ -17305,7 +17406,8 @@ ServiceLoader mechanism.
 
 # Natural Language Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Natural_Language_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Natural_Language_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Natural_Language_Actions.md
 
 Natural-language actions let a test express a browser, element, or touch intent
 through `SHAFT.GUI.WebDriver.act(...)`. The engine plans the request, validates
@@ -17412,7 +17514,8 @@ approval guidance.
 
 # Oracle JDBC Setup
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/DB/Oracle_JDBC_Setup
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/DB/Oracle_JDBC_Setup
+Markdown: https://shafthq.github.io/md/reference/actions/DB/Oracle_JDBC_Setup.md
 
 ## Oracle JDBC Driver Setup
 
@@ -17771,7 +17874,8 @@ For connection pooling:
 
 # Parallel Execution Configuration
 
-Canonical URL: https://shafthq.github.io/docs/reference/configuration/parallelExecution
+Canonical HTML: https://shafthq.github.io/docs/reference/configuration/parallelExecution
+Markdown: https://shafthq.github.io/md/reference/configuration/parallelExecution.md
 
 SHAFT supports multiple types of parallel execution to help you run tests faster and more efficiently. This guide covers all the different parallel execution options available and how to configure them.
 
@@ -18354,7 +18458,8 @@ the test runner and driver lifecycle require them.
 
 # Playwright Backend
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Playwright_Backend
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Playwright_Backend
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Playwright_Backend.md
 
 SHAFT can run GUI tests through Microsoft Playwright while keeping the same
 high-level SHAFT browser, element, alert, and assertion entry points.
@@ -18704,7 +18809,8 @@ leave it `false` to report warnings only.
 
 # Programmatic Properties Configuration
 
-Canonical URL: https://shafthq.github.io/docs/reference/properties/Programmatic_Config
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/Programmatic_Config
+Markdown: https://shafthq.github.io/md/reference/properties/Programmatic_Config.md
 
 SHAFT Engine properties can be configured **programmatically in code** instead of (or in addition to) property files. Programmatic configuration is **thread-safe**, takes effect immediately, and overrides any values set in property files or system properties.
 
@@ -18881,7 +18987,8 @@ Avoid setting properties in parallel test methods without careful thread-isolati
 
 # Property Types
 
-Canonical URL: https://shafthq.github.io/docs/reference/properties/PropertyTypes
+Canonical HTML: https://shafthq.github.io/docs/reference/properties/PropertyTypes
+Markdown: https://shafthq.github.io/md/reference/properties/PropertyTypes.md
 
 ## Priority hierarchy
 
@@ -18986,7 +19093,8 @@ Note that you can refer to [the official Maven Surefire guide](https://maven.apa
 
 # Reporting
 
-Canonical URL: https://shafthq.github.io/docs/reference/reporting
+Canonical HTML: https://shafthq.github.io/docs/reference/reporting
+Markdown: https://shafthq.github.io/md/reference/reporting.md
 
 SHAFT Engine ships with two complementary report formats, each suited to a
 different audience and workflow. You can enable or disable them independently
@@ -19993,50 +20101,92 @@ see the [Properties List](/docs/reference/properties/PropertiesList).
 
 Key properties quick reference:
 
-| Property | Default | Description |
-|---|---|---|
-| `allure.automaticallyOpen` | `true` | Open the Allure report in the browser automatically after the run |
-| `allure.generateReport` | `true` | Generate the Allure HTML report, helper script, archive, and live watch process |
-| `allure.generateArchive` | `false` | Generate a portable ZIP archive of the Allure report |
-| `allure.accumulateHistory` | `true` | Accumulate history across runs for trend graphs |
-| `allure.accumulateReports` | `true` | Keep previous Allure HTML report files |
-| `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
-| `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
-| `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
-| `allure.realtimeMonitoring` | `false` | Start native Allure 3 `allure watch` while tests run |
-| `allure.singleFile` | `true` | Generate an Allure 3 Awesome report as a self-contained HTML file |
-| `allure.theme` | `auto` | Default Allure 3 Awesome color mode: `auto`, `light`, or `dark` |
-| `allure.reportLanguage` | `en` | Language code used by the Allure 3 Awesome report UI |
-| `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
-| `allure.groupBy` | `package,testClass` | Comma-separated label hierarchy for the Allure 3 report tree |
-| `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
-| `evidenceLevel` | `FAILURE_ONLY` | Evidence profile: `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, or `CUSTOM` |
-| `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
-| `shaft.locatorHealth.enabled` | `false` | Generate end-of-run locator health reports |
-| `shaft.locatorHealth.warnBelowScore` | `70` | Mark locators below this health score as risky |
-| `shaft.locatorHealth.attachDashboard` | `true` | Attach the HTML locator health dashboard to Allure |
-| `shaft.locatorHealth.failBelowScore` | `-1` | Fail the run when any locator score is below this threshold; `-1` disables score-based failure |
-| `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |
-| `failOnLocatorHealthWarnings` | `false` | Fail the run when locator health warnings are present |
-| `shaft.flakeProfiler.enabled` | `false` | Attach opt-in flake and auto-wait timing profiles to Allure |
-| `shaft.flakeProfiler.attachPerTest` | `true` | Attach each test's JSON/HTML profile when profiler signals exist |
-| `shaft.flakeProfiler.failOnSevereFlakeRisk` | `false` | Fail the run when severe flake-risk actions are found |
-| `shaft.flakeProfiler.slowActionThresholdMs` | `2000` | Duration threshold used to flag slow and severe-risk actions |
-| `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
-| `shaft.trace.mode` | `auto` | Trace mode: `auto` (retry-aware; resolves to `retry` when retryMaximumNumberOfAttempts > 0, otherwise `failure`), `failure`, `retry`, or `always` |
-| `shaft.trace.retainFailedAttempts` | `true` | Retain failed-attempt trace archives (`shaft-trace-attempt- .zip`) when retries are enabled |
-| `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
-| `shaft.trace.includeFullPageSnapshots` | `true` | Include web snapshots when available |
-| `shaft.trace.includeNativePageSource` | `true` | Include Appium/native page source when available |
-| `shaft.trace.includeNetwork` | `true` | Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export |
-| `shaft.trace.includeConsole` | `true` | Capture browser console evidence in the trace metadata when the driver exposes browser logs |
-| `shaft.trace.maxArtifactMb` | `50` | Maximum size for a single trace bundle entry |
-| `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
-| `videoParams_scope` | `DriverSession` | Scope of video recording |
-| `createAnimatedGif` | `false` | Create an animated GIF; retries can enable it automatically |
-| `animatedGif_frameDelay` | `500` | Delay between GIF frames (milliseconds) |
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | Granular screenshot policy; profile levels except `CUSTOM` override it |
-| `whenToTakePageSourceSnapshot` | `failuresOnly` | Granular page-source policy; profile levels except `CUSTOM` override it |
+ 
+ allure.automaticallyOpen 
+ Default true . Open the Allure report in the browser automatically after the run 
+ allure.generateReport 
+ Default true . Generate the Allure HTML report, helper script, archive, and live watch process 
+ allure.generateArchive 
+ Default false . Generate a portable ZIP archive of the Allure report 
+ allure.accumulateHistory 
+ Default true . Accumulate history across runs for trend graphs 
+ allure.accumulateReports 
+ Default true . Keep previous Allure HTML report files 
+ allure.cleanResultsDirectory 
+ Default true . Clean Allure results directory before each run 
+ allure.customTitle 
+ Default Test run report . Custom title in the Allure report header 
+ allure.customLogo 
+ Default is the SHAFT logo. Custom logo URL for the Allure report 
+ allure.realtimeMonitoring 
+ Default false . Start native Allure 3 allure watch while tests run 
+ allure.singleFile 
+ Default true . Generate an Allure 3 Awesome report as a self-contained HTML file 
+ allure.theme 
+ Default auto . Default Allure 3 Awesome color mode: auto , light , or dark 
+ allure.reportLanguage 
+ Default en . Language code used by the Allure 3 Awesome report UI 
+ allure.open 
+ Default false . Pass the browser-open flag to Allure 3 report generation 
+ allure.groupBy 
+ Default package,testClass . Comma-separated label hierarchy for the Allure 3 report tree 
+ openExecutionSummaryReportAfterExecution 
+ Default false . Open the Execution Summary report after the run 
+ evidenceLevel 
+ Default FAILURE_ONLY . Evidence profile: FAILURE_ONLY , BALANCED , FAST , FULL , or CUSTOM 
+ locatorHealthReportEnabled 
+ Default false . Generate end-of-run HTML/JSON locator health reports and Allure attachments 
+ shaft.locatorHealth.enabled 
+ Default false . Generate end-of-run locator health reports 
+ shaft.locatorHealth.warnBelowScore 
+ Default 70 . Mark locators below this health score as risky 
+ shaft.locatorHealth.attachDashboard 
+ Default true . Attach the HTML locator health dashboard to Allure 
+ shaft.locatorHealth.failBelowScore 
+ Default -1 . Fail the run when any locator score is below this threshold; -1 disables score-based failure 
+ slowLocatorThresholdMillis 
+ Default 750 . Lookup duration that marks a locator as slow 
+ failOnLocatorHealthWarnings 
+ Default false . Fail the run when locator health warnings are present 
+ shaft.flakeProfiler.enabled 
+ Default false . Attach opt-in flake and auto-wait timing profiles to Allure 
+ shaft.flakeProfiler.attachPerTest 
+ Default true . Attach each test's JSON/HTML profile when profiler signals exist 
+ shaft.flakeProfiler.failOnSevereFlakeRisk 
+ Default false . Fail the run when severe flake-risk actions are found 
+ shaft.flakeProfiler.slowActionThresholdMs 
+ Default 2000 . Duration threshold used to flag slow and severe-risk actions 
+ shaft.trace.enabled 
+ Default true . Attach the SHAFT failure trace viewer artifacts 
+ shaft.trace.mode 
+ Default auto . Trace mode: auto (retry-aware; resolves to retry when retryMaximumNumberOfAttempts &gt; 0, otherwise failure ), failure , retry , or always 
+ shaft.trace.retainFailedAttempts 
+ Default true . Retain failed-attempt trace archives ( shaft-trace-attempt-&lt;n&gt;.zip ) when retries are enabled 
+ shaft.trace.includeCodeContext 
+ Default true . Include the best matching source-code frame and snippet 
+ shaft.trace.includeFullPageSnapshots 
+ Default true . Include web snapshots when available 
+ shaft.trace.includeNativePageSource 
+ Default true . Include Appium/native page source when available 
+ shaft.trace.includeNetwork 
+ Default true . Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export 
+ shaft.trace.includeConsole 
+ Default true . Capture browser console evidence in the trace metadata when the driver exposes browser logs 
+ shaft.trace.maxArtifactMb 
+ Default 50 . Maximum size for a single trace bundle entry 
+ videoParams_recordVideo 
+ Default false . Enable video recording of test sessions 
+ videoParams_scope 
+ Default DriverSession . Scope of video recording 
+ createAnimatedGif 
+ Default false . Create an animated GIF; retries can enable it automatically 
+ animatedGif_frameDelay 
+ Default 500 . Delay between GIF frames (milliseconds) 
+ screenshotParams_whenToTakeAScreenshot 
+ Default ValidationPointsOnly . Granular screenshot policy; profile levels except CUSTOM override it 
+ whenToTakePageSourceSnapshot 
+ Default failuresOnly . Granular page-source policy; profile levels except CUSTOM override it 
+ 
 
 ---
 
@@ -20120,7 +20270,8 @@ SHAFT.Report.attach("image/png", "Checkout Page Screenshot", new ByteArrayInputS
 
 # Request Builder
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/API/Request_Builder
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/Request_Builder
+Markdown: https://shafthq.github.io/md/reference/actions/API/Request_Builder.md
 
 ## SHAFT API
 
@@ -20582,7 +20733,8 @@ public class Test_Api {
 
 # Response Getters
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/API/Response_Getters
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/Response_Getters
+Markdown: https://shafthq.github.io/md/reference/actions/API/Response_Getters.md
 
 ## SHAFT API Getters
 After the request execution step sends a request, use these getters on the `SHAFT.API` session to read its latest response.
@@ -20710,7 +20862,8 @@ List value = api.getResponseXMLValueAsList("xmlPath");
 
 # Response Validations
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/API/Response_Validations
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/Response_Validations
+Markdown: https://shafthq.github.io/md/reference/actions/API/Response_Validations.md
 
 ## SHAFT API Response Validations
 Call `assertThatResponse()` for a hard assertion or `verifyThatResponse()` for a soft verification. Each response condition runs immediately.
@@ -20838,7 +20991,8 @@ api.assertThatResponse().doesNotMatchSchema("fileRelativePath");
 
 # Running Tests in CI/CD Pipelines
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/CI_CD_Integration
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/CI_CD_Integration
+Markdown: https://shafthq.github.io/md/reference/guides/CI_CD_Integration.md
 
 Running your SHAFT tests in a CI/CD pipeline is straightforward. SHAFT's
 [property system](/docs/reference/properties/PropertyTypes) lets you override
@@ -21004,7 +21158,8 @@ This lets you run the same test suite against staging, production, or different 
 
 # Sharded Test Execution and Merged Reports
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Sharded_Execution
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Sharded_Execution
+Markdown: https://shafthq.github.io/md/reference/guides/Sharded_Execution.md
 
 Large suites take too long to run as one Maven invocation. SHAFT's
 `-Dshaft.shard=N/M` property splits a suite into `M` independent shards that
@@ -21200,7 +21355,8 @@ the merge step ever runs.
 
 # SSH Remote Terminal
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/CLI/SSH_Terminal
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/CLI/SSH_Terminal
+Markdown: https://shafthq.github.io/md/reference/actions/CLI/SSH_Terminal.md
 
 SHAFT's `TerminalActions` class supports **SSH remote execution** natively. Use the `SHAFT.CLI.remoteTerminal(...)` facade for reusable SSH sessions, command execution, port forwarding, and SFTP transfers.
 
@@ -21617,7 +21773,8 @@ void ensureSufficientDiskSpace() {
 
 # Terminal Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/CLI/Terminal_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/CLI/Terminal_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/CLI/Terminal_Actions.md
 
 ## Getting a Terminal Instance
 
@@ -21802,7 +21959,8 @@ String output = SHAFT.CLI.terminal().performTerminalCommand(
 
 # Test Artifacts and Report Paths
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Test_Artifacts
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Test_Artifacts
+Markdown: https://shafthq.github.io/md/reference/guides/Test_Artifacts.md
 
 After a test run, SHAFT generates several artifacts that you can use for debugging, reporting, and auditing. This page explains where to find them and how to publish them from your CI/CD pipeline.
 
@@ -21935,7 +22093,8 @@ For the full list of reporting properties, see the
 
 # Test Automation Solution Design Patterns
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Solution_Design
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Solution_Design
+Markdown: https://shafthq.github.io/md/reference/guides/Solution_Design.md
 
 How you design your test automation solution determines its readability, maintainability, and scalability. This page compares the most common patterns and shows how each works with SHAFT Engine.
 
@@ -22153,7 +22312,8 @@ public class CheckoutTest extends BaseTest {
 
 # Test Automation Tool Selection Criteria
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Tool_Selection
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Tool_Selection
+Markdown: https://shafthq.github.io/md/reference/guides/Tool_Selection.md
 
 Choosing the right test automation tool is a strategic decision that affects your team's productivity, test reliability, and long-term maintenance costs. This page outlines the key criteria to evaluate and how SHAFT Engine addresses each one.
 
@@ -22279,7 +22439,8 @@ driver.quit();
 
 # Test Data Management
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/TestData_Management
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/TestData_Management
+Markdown: https://shafthq.github.io/md/reference/actions/TestData_Management.md
 
 ## Overview
 
@@ -22823,7 +22984,8 @@ By following these guidelines and examples, you can build a maintainable test da
 
 # Test Structure: Cases vs. Scenarios
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Test_Structure
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Test_Structure
+Markdown: https://shafthq.github.io/md/reference/guides/Test_Structure.md
 
 How you structure your tests has a major impact on reliability, maintainability, and debugging speed. This page covers the two main approaches — **isolated test cases** and **dependent test scenarios** — and explains why you should avoid using `priority` to control execution order.
 
@@ -22972,7 +23134,8 @@ The `priority` attribute is appropriate **only** for controlling the order of tr
 
 # The Testing Pyramid and Automation Strategy
 
-Canonical URL: https://shafthq.github.io/docs/reference/guides/Testing_Pyramid
+Canonical HTML: https://shafthq.github.io/docs/reference/guides/Testing_Pyramid
+Markdown: https://shafthq.github.io/md/reference/guides/Testing_Pyramid.md
 
 The **testing pyramid** is a foundational concept in test automation strategy. It guides how many tests you should have at each level and where your automation investment delivers the most value.
 
@@ -23119,7 +23282,8 @@ By using one engine across all levels, you get a **consistent API, unified repor
 
 # Tips: Infrastructure, Network, and Visual
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Infrastructure_Network_And_Visual
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Infrastructure_Network_And_Visual
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Infrastructure_Network_And_Visual.md
 
 Deeper infrastructure, network, and cross-cutting quality tips for running SHAFT against real execution environments.
 
@@ -23414,7 +23578,8 @@ Visual regression (`matchesReferenceImage()`, `matchesScreenshot()`, OpenCV/Appl
 
 # Tips: Locators and Self-Healing
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Locators_And_Self_Healing
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Locators_And_Self_Healing
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Locators_And_Self_Healing.md
 
 Deeper locator tips beyond the [Element Identification](/docs/reference/actions/GUI/Element_Identification) reference — resilient locator strategies and recovery from broken locators.
 
@@ -23664,7 +23829,8 @@ Full Flutter guide: [Flutter testing](/docs/testing/flutter).
 
 # Tips: Waits and Synchronization
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Waits_And_Synchronization
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Waits_And_Synchronization
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Waits_And_Synchronization.md
 
 Use these patterns when an application state needs more than SHAFT's automatic element waits.
 
@@ -23751,7 +23917,8 @@ driver.element()
 
 # Touch Actions
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/GUI/Touch_Actions
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/GUI/Touch_Actions
+Markdown: https://shafthq.github.io/md/reference/actions/GUI/Touch_Actions.md
 
 SHAFT provides touch action methods for mobile app automation. Access them through `driver.touch()`.
 
@@ -23984,7 +24151,8 @@ public class MobileTouchActionsDemo {
 
 # Validations
 
-Canonical URL: https://shafthq.github.io/docs/reference/actions/Validations
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/Validations
+Markdown: https://shafthq.github.io/md/reference/actions/Validations.md
 
 Use the `Validations` class or the fluent driver API to assert and verify values. `assertThat()` stops the test on failure; `verifyThat()` records the failure and lets the test continue.
 
@@ -24439,7 +24607,8 @@ driver.verifyThat().element(By.id("email")).text().contains("@");
 
 # Maintainer runbooks
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/overview
+Canonical HTML: https://shafthq.github.io/docs/maintainers/overview
+Markdown: https://shafthq.github.io/md/maintainers/overview.md
 
 # Maintainer runbooks
 
@@ -24472,7 +24641,8 @@ Use these source files instead of copying their inventories into this guide:
 
 # Documentation site operations
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/site-operations
+Canonical HTML: https://shafthq.github.io/docs/maintainers/site-operations
+Markdown: https://shafthq.github.io/md/maintainers/site-operations.md
 
 # Documentation site operations
 
@@ -24591,7 +24761,8 @@ unchanged.
 
 # MCP publication and deployment
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/mcp-deployment
+Canonical HTML: https://shafthq.github.io/docs/maintainers/mcp-deployment
+Markdown: https://shafthq.github.io/md/maintainers/mcp-deployment.md
 
 # MCP publication and deployment
 
@@ -24648,7 +24819,8 @@ are configured and its `/mcp` endpoint passes initialization.
 
 # Agent guidance maintenance
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/agent-guidance
+Canonical HTML: https://shafthq.github.io/docs/maintainers/agent-guidance
+Markdown: https://shafthq.github.io/md/maintainers/agent-guidance.md
 
 # Agent guidance maintenance
 
@@ -24734,7 +24906,8 @@ maintainer supplies a reason and forces review.
 
 # Agent tooling
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/agent-tooling
+Canonical HTML: https://shafthq.github.io/docs/maintainers/agent-tooling
+Markdown: https://shafthq.github.io/md/maintainers/agent-tooling.md
 
 # Agent tooling
 
@@ -25116,7 +25289,8 @@ py -3 scripts/ci/validate_agent_setup.py # in SHAFT_ENGINE
 
 # CI failure investigation
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/ci-failure-investigation
+Canonical HTML: https://shafthq.github.io/docs/maintainers/ci-failure-investigation
+Markdown: https://shafthq.github.io/md/maintainers/ci-failure-investigation.md
 
 # CI failure and Allure artifact investigation
 
@@ -25242,7 +25416,8 @@ When an AI agent creates a branch or PR, make that explicit even if the GitHub t
 
 # Maven Central publication
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/publication
+Canonical HTML: https://shafthq.github.io/docs/maintainers/publication
+Markdown: https://shafthq.github.io/md/maintainers/publication.md
 
 # Maven Central publication contract
 
@@ -25336,7 +25511,8 @@ This ordering prevents a GitHub release, guide update, or Slack announcement fro
 
 # Maven reactor
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/reactor
+Canonical HTML: https://shafthq.github.io/docs/maintainers/reactor
+Markdown: https://shafthq.github.io/md/maintainers/reactor.md
 
 # Maven reactor layout
 
@@ -25526,7 +25702,8 @@ are documented in [SHAFT Doctor](/docs/agentic/doctor).
 
 # Repository history rewrite
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/history-rewrite
+Canonical HTML: https://shafthq.github.io/docs/maintainers/history-rewrite
+Markdown: https://shafthq.github.io/md/maintainers/history-rewrite.md
 
 # Repository history rewrite
 
@@ -25609,7 +25786,8 @@ scripts/maintenance/flatten-history.sh --execute
 
 # SHAFT Pilot release
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/pilot-release
+Canonical HTML: https://shafthq.github.io/docs/maintainers/pilot-release
+Markdown: https://shafthq.github.io/md/maintainers/pilot-release.md
 
 # SHAFT Pilot release
 
@@ -25731,9 +25909,57 @@ check leaves the old repository unarchived.
 
 ---
 
+# User guide usability practices
+
+Canonical HTML: https://shafthq.github.io/docs/maintainers/usability-practices
+Markdown: https://shafthq.github.io/md/maintainers/usability-practices.md
+
+# User guide usability practices
+
+This note is the research record for the usability pass. Each practice names a source and the change on this site.
+
+## Human practices
+
+1. **Task-first path.** Say what the page is, who it is for, and the next step before the detail. Source: [Diátaxis](https://diataxis.fr/start-here/). Site: every guide page opens with a page-orientation block (title, description, next link). The landing page leads with the user guide.
+2. **Lead with the answer.** Put the conclusion in the first lines. Source: [Nielsen Norman Group, Inverted Pyramid](https://www.nngroup.com/articles/inverted-pyramid/). Site: landing hero states what SHAFT is and points at the guide; orientation blocks repeat the page description first.
+3. **Scannable headings.** Short sections with real headings, not walls of prose. Source: [Nielsen Norman Group, How Users Read on the Web](https://www.nngroup.com/articles/how-users-read-on-the-web/). Site: existing heading outline kept; dependency and reporting facts are separate terms in definition lists.
+4. **One term per concept.** Do not rename the product or the engine mid-page. Source: [Microsoft Writing Style Guide, Use simple words and sentences](https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-sentences). Site: pages say SHAFT for the framework and `shaft-engine` for the Maven artifact. The orientation line uses that pair.
+5. **Examples a reader can copy.** Source: [Google developer documentation style guide, Code samples](https://developers.google.com/style/code-samples). Site: the docs quality check still requires a fenced sample on every public page. Boundary pages keep their Java and XML samples next to the lists.
+6. **Reflow on a phone.** Two-dimensional scrolling is for real data tables, not prose. Source: [WCAG 2.2, Understanding 1.4.10 Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html). Site: issue #1085 lists are definition lists. Property matrices stay in a named scroll region because they are columnar data.
+7. **One primary action.** Source: [Nielsen Norman Group, Visual Hierarchy](https://www.nngroup.com/articles/visual-hierarchy-ux-definition/). Site: the landing hero states one path into the guide, “Read the user guide”, and keeps a single filled button for creating a project.
+8. **Link text says where it goes.** Source: [WCAG 2.2, Understanding 2.4.4 Link Purpose](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html). Site: the existing content check rejects “click here”. Orientation links use the next page title.
+9. **Chunk related facts.** Source: [Nielsen Norman Group, Chunking](https://www.nngroup.com/articles/chunking/). Site: each former table row is one term and one definition, not a stretched row.
+10. **Stay inside one design language.** Source: [Nielsen Norman Group, Maintain Consistency and Adhere to Standards](https://www.nngroup.com/articles/consistency-and-standards-heuristic/). Site: buttons, type, and color stay on the existing landing and Infima tokens. No new palette.
+
+## Agent practices
+
+1. **A small `llms.txt` index.** Source: [llms.txt](https://llmstxt.org/). Site: `scripts/build-llms-txt.mjs` writes `static/llms.txt` during the production build.
+2. **A Markdown form of each page.** Source: [llms.txt, Markdown versions](https://llmstxt.org/). Site: the same script writes `static/md/ .md` and the index links there.
+3. **Keep the index to one fetch.** Source: [llms.txt](https://llmstxt.org/). Site: descriptions in the index are capped at 140 characters. Full text stays in `llms-full.txt` and the per-page Markdown files.
+4. **Same-origin links.** Source: [llms.txt](https://llmstxt.org/). Site: index URLs use the `siteUrl` and `baseUrl` from `docusaurus.config.js`.
+5. **An in-page pointer.** Source: [llms.txt](https://llmstxt.org/). Site: the orientation block links `/llms.txt` and the Markdown URL for that page.
+6. **Sections that do not depend on “above”.** Source: [Google developer documentation style guide, Cross-references](https://developers.google.com/style/cross-references). Site: the IntelliJ upgrade step names the prerequisites sequence instead of “see above”. The pointer tells agents to cite heading anchors.
+7. **Stable heading anchors.** Source: [Docusaurus, Heading IDs](https://docusaurus.io/docs/markdown-features/headings). Site: the restructured sections keep the previous heading text, so the existing ids remain.
+8. **Front matter a tool can read.** Source: [Docusaurus Markdown front matter](https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-docs#markdown-front-matter). Site: the index uses `title`, `description`, and slug from front matter. The orientation block prints the same description.
+9. **Text, not pictures, carries the facts.** Source: [WCAG 2.2, Understanding 1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html). Site: the Markdown export is the docs-loader text, and the landing evidence images keep text alternatives.
+10. **State the canonical HTML URL inside the Markdown file.** Source: [llms.txt](https://llmstxt.org/). Site: each generated Markdown file starts with `Canonical HTML:` and `Guide index:`.
+
+## Scroll-region exception
+
+These pages were restructured so the named lists do not scroll horizontally at 390px, including the reporting quick reference at 1440px:
+
+- `/docs/start/upgrade/reference` (methods that require `shaft-visual`, functionality that remains in `shaft-engine`, BrowserStack SDK rows)
+- `/docs/start/upgrade/run` (missing-provider troubleshooting)
+- `/docs/reference/reporting` (All Reporting Properties)
+
+Other tables, including the properties catalog, stay in `.table-scroll`. They are columnar data. The wrapper is a named, keyboard-reachable region from the earlier wide-table work.
+
+---
+
 # Visual provider boundary
 
-Canonical URL: https://shafthq.github.io/docs/maintainers/visual-provider
+Canonical HTML: https://shafthq.github.io/docs/maintainers/visual-provider
+Markdown: https://shafthq.github.io/md/maintainers/visual-provider.md
 
 # Visual-processing provider boundary
 

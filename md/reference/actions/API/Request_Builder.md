@@ -1,0 +1,462 @@
+# Request Builder
+
+Build and send API requests with SHAFT Engine — GET, POST, PUT, PATCH, DELETE with authentication, headers, parameters, body configuration, and request-level retries.
+
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/Request_Builder
+Guide index: https://shafthq.github.io/llms.txt
+
+## SHAFT API
+
+In order to interact with APIs, you need an instance of SHAFT.API class and give it the base serviceURI
+
+```java
+
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+```
+Now you have api object with the base serviceURI to start working with it with the Request Builder
+
+## Request Builder
+
+Build the request with the methods below, then send it with your test's request execution step. The resulting `SHAFT.API` session exposes [REST-Assured response](https://www.javadoc.io/doc/io.rest-assured/rest-assured/3.0.1/io/restassured/response/Response.html) access and assertions.
+
+**Note:** A request usually has only one of the following: urlArguments, parameters+type, or body
+
+### Request Method
+Add the request method and give it the serviceName
+
+#### Get
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts");
+```
+#### Post
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.post("/posts");
+```
+#### Put
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.put("/posts/1");
+```
+#### Patch
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.patch("/posts/1");
+```
+#### Delete
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.delete("/posts/1");
+```
+#### Head
+`HEAD` returns the same status and headers as `GET` without a response body, so it is handy for existence, cache, and header checks.
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.head("/posts/1");
+```
+#### Options
+`OPTIONS` is typically used to inspect the methods an endpoint allows (CORS/preflight), commonly asserted through the `Allow` response header.
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.options("/posts");
+```
+
+### Set Authentication
+Set BASIC or FORM authentication on the request you are building. The default is `AuthenticationType.NONE`. Use `addHeader()` when a bearer token must be sent with later requests.
+
+#### Authentication Type BASIC
+```java
+
+SHAFT.API api = new SHAFT.API("https://postman-echo.com");
+api.get("/basic-auth").setAuthentication("postman", "password", AuthenticationType.BASIC);
+```
+
+#### Authentication Type FORM
+```java
+
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.get("serviceName").setAuthentication("username", "password", AuthenticationType.FORM);
+```
+
+### Add Cookie
+Append a cookie to the current session to be used in the current and all the following requests. This feature is commonly used for authentication cookies.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").addCookie("session_id", "1234");
+```
+You can also use it directly without a request method to be used in all the following requests.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.addCookie("session_id", "1234");
+api.post("serviceName");
+```
+
+You can also copy browser cookies into an API session when a test starts in the UI and continues through API calls:
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+driver.browser().navigateToURL("https://app.example.com");
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+api.importCookiesFrom(driver.browser());
+api.get("/account");
+```
+
+Use `api.importCookiesFrom(driver.browser(), "example.com", "/app")` when you only want cookies from one domain and path. When moving API cookies into a browser, host-only response cookies stay scoped to the API host; cross-subdomain browser reuse requires cookies issued with a shared domain.
+
+### Set Target Status Code
+Sets the expected target status code for the API request that you're currently building. By default, this value is set to 200, but you can change it by calling the **setTargetStatusCode** method.
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setTargetStatusCode(200);
+```
+
+### Follow Redirects
+By default the request automatically follows HTTP redirects (3xx), so a redirecting endpoint returns the final response. Call **setFollowRedirects(false)** to receive the redirect response itself — required when asserting a 3xx status code or inspecting the `Location` header of the redirect.
+```java
+SHAFT.API api = new SHAFT.API("https://httpbin.org");
+api.get("/redirect-to?url=/get")
+ .setFollowRedirects(false)
+ .setTargetStatusCode(302)
+ ;
+```
+
+### Retry Policy
+The request execution step sends a request once unless you add an opt-in retry policy. Retries are useful for transient network failures, timeouts, rate limits, and temporary upstream errors without rerunning the whole test method.
+
+```java
+
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.get("/users")
+ .withRetry(RetryPolicy.transientFailures()
+ .maxAttempts(3)
+ .exponentialBackoff(Duration.ofMillis(200), Duration.ofSeconds(2)))
+ ;
+```
+
+`RetryPolicy.transientFailures()` retries network, connection, and read-timeout failures plus HTTP `408`, `429`, `500`, `502`, `503`, and `504`. Use `RetryPolicy.statusCodes(503, 504)` when you only want specific statuses.
+
+By default, SHAFT retries only idempotent requests: `GET`, `PUT`, and `DELETE`. For `POST` or `PATCH`, opt in only when the endpoint is safe to repeat:
+
+```java
+api.post("/orders")
+ .withRetry(RetryPolicy.statusCodes(503)
+ .maxAttempts(2)
+ .fixedBackoff(Duration.ofMillis(500))
+ .allowNonIdempotentRequests())
+ ;
+```
+
+Backoff can be fixed, exponential, or jittered. SHAFT reports include the retry attempt count and final outcome for requests that use a retry policy.
+
+### Set Content Type
+Sets the content type for the API request that you're currently building.
+By default, this value is set to **ContentType.ANY** but you can change it by calling the **setContentType** method and giving it the enum value you want.
+
+contentType Enumeration of common [IANA](http://www.iana.org/assignments/media-types/media-types.xhtml) content-types. This may be used to specify a request or response content-type more easily than specifying the full string each time. Example: **ContentType.JSON**
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setContentType("application/json");
+```
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/users").setContentType(ContentType.JSON);
+```
+
+### Add Header
+Append a header to the current session **to be used in the current and all the following requests**.
+This feature is commonly used for authentication tokens and other global headers as you need
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+String token = "@1234z";
+api.post("serviceName").addHeader("Authorization", "Bearer " + token);
+```
+You can add more than one header in the same request.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+String token = "@1234z";
+api.post("serviceName").addHeader("Authorization", "Bearer " + token).addHeader("Accept-Charset", "utf-8");
+```
+You can also use it directly without a request method to set the header for all the following requests.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.addHeader("Accept-Language", "en");
+api.post("serviceName");
+```
+
+For UI flows that keep a bearer token in browser storage, copy only the selected header:
+
+```java
+api.addHeader("Authorization", "Bearer " + token);
+driver.browser()
+ .navigateToURL("https://app.example.com")
+ .importHeaderToLocalStorage(api, "Authorization", "authToken");
+```
+
+### Set Request Body
+Sets the body (if any) for the API request that you're currently building.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").setRequestBody(body);
+```
+#### Body as String
+```java
+SHAFT.API api = new SHAFT.API("https://reqres.in/");
+String body = """
+ {
+ "name": "adam",
+ "job": "engineer"
+ }""";
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201);
+```
+#### Body as Hash Map
+```java
+SHAFT.API api = new SHAFT.API("https://reqres.in/");
+HashMap body = new HashMap<>();
+body.put("name", "adam");
+body.put("job", "engineer");
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201);
+```
+#### Body as JSONObject
+```java
+SHAFT.API api = new SHAFT.API("https://reqres.in/");
+JSONObject body = new JSONObject();
+body.put("name", "adam");
+body.put("job", "engineer");
+api.post("api/users").setRequestBody(body).setContentType(ContentType.JSON).setTargetStatusCode(201);
+```
+
+### Set Request Body From File
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").setRequestBodyFromFile("relativeFilePath");
+```
+Having a request body as json file in this path "src/test/resources/testDataFiles/requestBody.json" like this:
+```json
+{
+ "name": "morpheus",
+ "job": "leader"
+}
+```
+```java
+SHAFT.API api = new SHAFT.API("https://reqres.in/");
+api.post("api/users").setRequestBodyFromFile("src/test/resources/testDataFiles/requestBody.json").setTargetStatusCode(201).setContentType(ContentType.JSON);
+```
+
+### Set Parameters
+Sets the parameters (if any) for the API request that you're currently building.
+
+#### Parameters Type FORM
+Note that: Form parameter works with multipart/form-data requests.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map parameters = new LinkedHashMap<>();
+parameters.put("username", "john");
+parameters.put("password", "1234");
+api.post("serviceName").setParameters(parameters, RestActions.ParametersType.FORM);
+```
+#### Parameters Type QUERY
+Query parameters are appended to the request URL. They can also be combined with a request body when the endpoint expects URL filters and payload data in the same request.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map parameters = new LinkedHashMap<>();
+parameters.put("search", "john");
+parameters.put("orderBy", "desc");
+api.get("serviceName").setParameters(parameters, RestActions.ParametersType.QUERY);
+```
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map parameters = new LinkedHashMap<>();
+parameters.put("include", "profile");
+String body = "{\"status\":\"active\"}";
+
+api.post("serviceName")
+ .setRequestBody(body)
+ .setParameters(parameters, RestActions.ParametersType.QUERY)
+ ;
+```
+#### Parameters Type MULTIPART
+Note that: Multipart parameters are used for file uploads and text fields. 
+All text parts are sent as **UTF-8**, and the correct boundary is set automatically (no need to set `Content-Type` manually).
+
+**Using `Map `**
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+Map parametersMap = new LinkedHashMap<>();
+parametersMap.put("image", new java.io.File("src/test/resources/11_02.png"));
+parametersMap.put("arabicText", "تست أوتوميشن");
+
+api.post("serviceName")
+ .setParameters(parametersMap, RestActions.ParametersType.MULTIPART)
+ ;
+```
+
+### Set Path Parameters
+
+Sets the path parameters dynamically by replacing placeholders in the `serviceName`.
+
+This method supports two modes:
+1. **Key-Value Replacement**: Use a `Map ` to specify placeholders and their corresponding values.
+2. **Ordered Value Replacement**: Provide values in the exact order the placeholders appear in the `serviceName`.
+
+#### Key-Value Replacement
+Pass a `Map` of key-value pairs to replace placeholders by their names:
+```java
+Map pathParams = Map.of("PostID", 1, "CommentID", 1);
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+ .setPathParameters(pathParams)
+ ;
+```
+#### Ordered Value Replacement
+Pass value directly to replace placeholder in the `serviceName`:
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/posts/{PostID}/comments/{CommentID}")
+ .setPathParameters("1", "1")
+ ;
+```
+
+### Set URL Arguments
+Sets the url arguments (if any) for the API request that you're currently building.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").setUrlArguments("username=john&password=1234");
+```
+```java
+SHAFT.API api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+api.get("/comments").setUrlArguments("postId=1").setTargetStatusCode(201);
+```
+
+### Enable URL Encoding
+Tells whether REST Assured should automatically encode the URI if not defined explicitly. Note that this does not affect multipart form data. Default is true.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").enableUrlEncoding(false);
+```
+
+### Use Relaxed HTTPS Validation
+set useRelaxedHTTPSValidation configuration to trust all hosts regardless if the SSL certificate is invalid in the request builder 'SSL' is the protocol name by default
+
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.get("serviceName").useRelaxedHTTPSValidation();
+```
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.get("serviceName").useRelaxedHTTPSValidation("SSL");
+```
+
+### Append Default Content Charset To Content Type If Undefined
+Tells whether REST Assured should automatically append the content charset to the content-type header if not defined explicitly. Note that this does not affect multipart form data. Default is true.
+```java
+SHAFT.API api = new SHAFT.API("serviceURI");
+api.post("serviceName").appendDefaultContentCharsetToContentTypeIfUndefined(false);
+```
+ 
+
+See [Response Validations](/docs/reference/actions/API/Response_Validations)
+for response assertions and the
+[JavaDocs](https://shafthq.github.io/SHAFT_ENGINE/) for API details.
+
+## GraphQL API Testing
+
+SHAFT supports GraphQL requests through `SHAFT.API.sendGraphQlRequest()`. It builds a normal POST request with `Content-Type: application/json`, so headers, status codes, and response assertions use the same fluent chain.
+
+### Simple GraphQL Query
+
+```java title="GraphQLSimpleQuery.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest("/graphql", "{ users { id name email } }");
+
+api.assertThatResponse()
+ .extractedJsonValue("$.data.users[0].name")
+ .isEqualTo("Alice");
+```
+
+### GraphQL Query with Variables
+
+```java title="GraphQLWithVariables.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+String query = "query GetUser($id: ID!) { user(id: $id) { name email role } }";
+String variables = "{\"id\": \"123\"}";
+
+api.sendGraphQlRequest("/graphql", query, variables);
+
+api.assertThatResponse()
+ .extractedJsonValue("$.data.user.email")
+ .contains("@example.com");
+```
+
+### GraphQL with Authentication Header
+
+```java title="GraphQLWithAuth.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+api.sendGraphQlRequest("/graphql", "{ me { name } }")
+ .addHeader("Authorization", "Bearer mytoken123")
+ ;
+
+api.assertThatResponse().body().contains("\"name\"");
+```
+
+### GraphQL Mutation
+
+```java title="GraphQLMutation.java"
+SHAFT.API api = new SHAFT.API("https://api.example.com");
+
+String mutation = "mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }";
+String variables = "{\"input\": {\"name\": \"Bob\", \"email\": \"bob@example.com\"}}";
+
+api.sendGraphQlRequest("/graphql", mutation, variables)
+ .addHeader("Authorization", "Bearer admintoken")
+ .setTargetStatusCode(200)
+ ;
+
+api.assertThatResponse()
+ .extractedJsonValue("$.data.createUser.name")
+ .isEqualTo("Bob");
+```
+
+:::tip
+GraphQL always uses HTTP `POST` under the hood. SHAFT automatically sets the `Content-Type: application/json` header and wraps your query and variables in the correct payload format.
+:::
+
+---
+
+## Sample Code Snippet
+```java
+public class Test_Api {
+ SHAFT.API api;
+
+ @Test
+ public void test_get() {
+ api = new SHAFT.API("https://jsonplaceholder.typicode.com");
+ api.get("/users");
+ api.assertThatResponse().extractedJsonValue("$[?(@.name=='Chelsey Dietrich')].id").isEqualTo("5");
+ }
+
+ @Test
+ public void test_post() {
+ api = new SHAFT.API("https://reqres.in/");
+ String body = """
+ {
+ "name": "morpheus",
+ "job": "leader"
+ }""";
+ api.post("api/users").setRequestBody(body).setTargetStatusCode(201).setContentType(ContentType.JSON);
+ api.assertThatResponse().extractedJsonValue("$.name").isEqualTo("morpheus");
+ }
+
+}
+```
+
+## Related
+
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [API Authentication](/docs/reference/actions/API/API_Authentication)
+- [API](/docs/testing/api)
