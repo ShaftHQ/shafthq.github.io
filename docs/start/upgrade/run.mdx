@@ -132,18 +132,28 @@ Allure summary as authoritative.
 
 ### Missing-provider troubleshooting
 
-| Symptom                                                                         | Action                                                                                                                                |
-|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
-| Reference-image assertion or image-path touch action reports no visual provider | Add `shaft-visual`; verify `org.openpnp:opencv`, Applitools Eyes, and Selenium Shutterbug resolve transitively.                       |
-| Ordinary screenshot capture fails                                               | Do not add `shaft-visual` reflexively; diagnose WebDriver/Appium screenshot support and reporting paths.                              |
-| Direct BrowserStack session fails to start                                      | Check credentials, execution address, capabilities, and connectivity first; `shaft-browserstack` is not required for the direct path. |
-| `platformsList` or `parallelsPerPlatform` has no effect                         | Add `shaft-browserstack` and verify the BrowserStack SDK is active and reading the generated `browserstack.yml`.                      |
-| Desktop recording reports no provider                                           | Add `shaft-video`; confirm the OS-specific `ws.schild:jave-nativebin-*` artifact resolves.                                            |
-| `SHAFT.GUI.SikuliX` reports that SikuliX classes are missing                     | Add `shaft-sikulix`; Appium Windows sessions do not require it.                                                                       |
-| `healing.strategy=shaft-heal` logs that the provider is absent                   | Add `shaft-heal`; confirm the BOM aligns it with `shaft-engine`.                                                                      |
-| SHAFT Heal rejects every candidate                                               | Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly. |
-| Mobile recording changed unexpectedly                                           | Do not add `shaft-video`; verify the Appium driver supports native recording.                                                         |
-| `NoSuchMethodError` or mixed SHAFT modules                                      | Import `shaft-bom`, remove explicit mismatched module versions, and inspect `mvn dependency:tree -Dincludes=io.github.shafthq`.       |
+<dl className="fact-list">
+  <dt>Reference-image assertion or image-path touch action reports no visual provider</dt>
+  <dd>Add <code>shaft-visual</code>; verify <code>org.openpnp:opencv</code>, Applitools Eyes, and Selenium Shutterbug resolve transitively.</dd>
+  <dt>Ordinary screenshot capture fails</dt>
+  <dd>Do not add <code>shaft-visual</code> reflexively; diagnose WebDriver/Appium screenshot support and reporting paths.</dd>
+  <dt>Direct BrowserStack session fails to start</dt>
+  <dd>Check credentials, execution address, capabilities, and connectivity first; <code>shaft-browserstack</code> is not required for the direct path.</dd>
+  <dt><code>platformsList</code> or <code>parallelsPerPlatform</code> has no effect</dt>
+  <dd>Add <code>shaft-browserstack</code> and verify the BrowserStack SDK is active and reading the generated <code>browserstack.yml</code>.</dd>
+  <dt>Desktop recording reports no provider</dt>
+  <dd>Add <code>shaft-video</code>; confirm the OS-specific <code>ws.schild:jave-nativebin-*</code> artifact resolves.</dd>
+  <dt><code>SHAFT.GUI.SikuliX</code> reports that SikuliX classes are missing</dt>
+  <dd>Add <code>shaft-sikulix</code>; Appium Windows sessions do not require it.</dd>
+  <dt><code>healing.strategy=shaft-heal</code> logs that the provider is absent</dt>
+  <dd>Add <code>shaft-heal</code>; confirm the BOM aligns it with <code>shaft-engine</code>.</dd>
+  <dt>SHAFT Heal rejects every candidate</dt>
+  <dd>Inspect the Allure healing report, confidence threshold, ambiguity margin, and retained fingerprint instead of weakening checks blindly.</dd>
+  <dt>Mobile recording changed unexpectedly</dt>
+  <dd>Do not add <code>shaft-video</code>; verify the Appium driver supports native recording.</dd>
+  <dt><code>NoSuchMethodError</code> or mixed SHAFT modules</dt>
+  <dd>Import <code>shaft-bom</code>, remove explicit mismatched module versions, and inspect <code>mvn dependency:tree -Dincludes=io.github.shafthq</code>.</dd>
+</dl>
 
 ## Completion checklist
 

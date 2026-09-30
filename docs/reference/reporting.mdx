@@ -1040,50 +1040,92 @@ see the [Properties List](/docs/reference/properties/PropertiesList).
 
 Key properties quick reference:
 
-| Property | Default | Description |
-|---|---|---|
-| `allure.automaticallyOpen` | `true` | Open the Allure report in the browser automatically after the run |
-| `allure.generateReport` | `true` | Generate the Allure HTML report, helper script, archive, and live watch process |
-| `allure.generateArchive` | `false` | Generate a portable ZIP archive of the Allure report |
-| `allure.accumulateHistory` | `true` | Accumulate history across runs for trend graphs |
-| `allure.accumulateReports` | `true` | Keep previous Allure HTML report files |
-| `allure.cleanResultsDirectory` | `true` | Clean Allure results directory before each run |
-| `allure.customTitle` | `Test run report` | Custom title in the Allure report header |
-| `allure.customLogo` | *(SHAFT default logo)* | Custom logo URL for the Allure report |
-| `allure.realtimeMonitoring` | `false` | Start native Allure 3 `allure watch` while tests run |
-| `allure.singleFile` | `true` | Generate an Allure 3 Awesome report as a self-contained HTML file |
-| `allure.theme` | `auto` | Default Allure 3 Awesome color mode: `auto`, `light`, or `dark` |
-| `allure.reportLanguage` | `en` | Language code used by the Allure 3 Awesome report UI |
-| `allure.open` | `false` | Pass the browser-open flag to Allure 3 report generation |
-| `allure.groupBy` | `package,testClass` | Comma-separated label hierarchy for the Allure 3 report tree |
-| `openExecutionSummaryReportAfterExecution` | `false` | Open the Execution Summary report after the run |
-| `evidenceLevel` | `FAILURE_ONLY` | Evidence profile: `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, or `CUSTOM` |
-| `locatorHealthReportEnabled` | `false` | Generate end-of-run HTML/JSON locator health reports and Allure attachments |
-| `shaft.locatorHealth.enabled` | `false` | Generate end-of-run locator health reports |
-| `shaft.locatorHealth.warnBelowScore` | `70` | Mark locators below this health score as risky |
-| `shaft.locatorHealth.attachDashboard` | `true` | Attach the HTML locator health dashboard to Allure |
-| `shaft.locatorHealth.failBelowScore` | `-1` | Fail the run when any locator score is below this threshold; `-1` disables score-based failure |
-| `slowLocatorThresholdMillis` | `750` | Lookup duration that marks a locator as slow |
-| `failOnLocatorHealthWarnings` | `false` | Fail the run when locator health warnings are present |
-| `shaft.flakeProfiler.enabled` | `false` | Attach opt-in flake and auto-wait timing profiles to Allure |
-| `shaft.flakeProfiler.attachPerTest` | `true` | Attach each test's JSON/HTML profile when profiler signals exist |
-| `shaft.flakeProfiler.failOnSevereFlakeRisk` | `false` | Fail the run when severe flake-risk actions are found |
-| `shaft.flakeProfiler.slowActionThresholdMs` | `2000` | Duration threshold used to flag slow and severe-risk actions |
-| `shaft.trace.enabled` | `true` | Attach the SHAFT failure trace viewer artifacts |
-| `shaft.trace.mode` | `auto` | Trace mode: `auto` (retry-aware; resolves to `retry` when retryMaximumNumberOfAttempts > 0, otherwise `failure`), `failure`, `retry`, or `always` |
-| `shaft.trace.retainFailedAttempts` | `true` | Retain failed-attempt trace archives (`shaft-trace-attempt-<n>.zip`) when retries are enabled |
-| `shaft.trace.includeCodeContext` | `true` | Include the best matching source-code frame and snippet |
-| `shaft.trace.includeFullPageSnapshots` | `true` | Include web snapshots when available |
-| `shaft.trace.includeNativePageSource` | `true` | Include Appium/native page source when available |
-| `shaft.trace.includeNetwork` | `true` | Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export |
-| `shaft.trace.includeConsole` | `true` | Capture browser console evidence in the trace metadata when the driver exposes browser logs |
-| `shaft.trace.maxArtifactMb` | `50` | Maximum size for a single trace bundle entry |
-| `videoParams_recordVideo` | `false` | Enable video recording of test sessions |
-| `videoParams_scope` | `DriverSession` | Scope of video recording |
-| `createAnimatedGif` | `false` | Create an animated GIF; retries can enable it automatically |
-| `animatedGif_frameDelay` | `500` | Delay between GIF frames (milliseconds) |
-| `screenshotParams_whenToTakeAScreenshot` | `ValidationPointsOnly` | Granular screenshot policy; profile levels except `CUSTOM` override it |
-| `whenToTakePageSourceSnapshot` | `failuresOnly` | Granular page-source policy; profile levels except `CUSTOM` override it |
+<dl className="fact-list">
+  <dt><code>allure.automaticallyOpen</code></dt>
+  <dd>Default <code>true</code>. Open the Allure report in the browser automatically after the run</dd>
+  <dt><code>allure.generateReport</code></dt>
+  <dd>Default <code>true</code>. Generate the Allure HTML report, helper script, archive, and live watch process</dd>
+  <dt><code>allure.generateArchive</code></dt>
+  <dd>Default <code>false</code>. Generate a portable ZIP archive of the Allure report</dd>
+  <dt><code>allure.accumulateHistory</code></dt>
+  <dd>Default <code>true</code>. Accumulate history across runs for trend graphs</dd>
+  <dt><code>allure.accumulateReports</code></dt>
+  <dd>Default <code>true</code>. Keep previous Allure HTML report files</dd>
+  <dt><code>allure.cleanResultsDirectory</code></dt>
+  <dd>Default <code>true</code>. Clean Allure results directory before each run</dd>
+  <dt><code>allure.customTitle</code></dt>
+  <dd>Default <code>Test run report</code>. Custom title in the Allure report header</dd>
+  <dt><code>allure.customLogo</code></dt>
+  <dd>Default is the SHAFT logo. Custom logo URL for the Allure report</dd>
+  <dt><code>allure.realtimeMonitoring</code></dt>
+  <dd>Default <code>false</code>. Start native Allure 3 <code>allure watch</code> while tests run</dd>
+  <dt><code>allure.singleFile</code></dt>
+  <dd>Default <code>true</code>. Generate an Allure 3 Awesome report as a self-contained HTML file</dd>
+  <dt><code>allure.theme</code></dt>
+  <dd>Default <code>auto</code>. Default Allure 3 Awesome color mode: <code>auto</code>, <code>light</code>, or <code>dark</code></dd>
+  <dt><code>allure.reportLanguage</code></dt>
+  <dd>Default <code>en</code>. Language code used by the Allure 3 Awesome report UI</dd>
+  <dt><code>allure.open</code></dt>
+  <dd>Default <code>false</code>. Pass the browser-open flag to Allure 3 report generation</dd>
+  <dt><code>allure.groupBy</code></dt>
+  <dd>Default <code>package,testClass</code>. Comma-separated label hierarchy for the Allure 3 report tree</dd>
+  <dt><code>openExecutionSummaryReportAfterExecution</code></dt>
+  <dd>Default <code>false</code>. Open the Execution Summary report after the run</dd>
+  <dt><code>evidenceLevel</code></dt>
+  <dd>Default <code>FAILURE_ONLY</code>. Evidence profile: <code>FAILURE_ONLY</code>, <code>BALANCED</code>, <code>FAST</code>, <code>FULL</code>, or <code>CUSTOM</code></dd>
+  <dt><code>locatorHealthReportEnabled</code></dt>
+  <dd>Default <code>false</code>. Generate end-of-run HTML/JSON locator health reports and Allure attachments</dd>
+  <dt><code>shaft.locatorHealth.enabled</code></dt>
+  <dd>Default <code>false</code>. Generate end-of-run locator health reports</dd>
+  <dt><code>shaft.locatorHealth.warnBelowScore</code></dt>
+  <dd>Default <code>70</code>. Mark locators below this health score as risky</dd>
+  <dt><code>shaft.locatorHealth.attachDashboard</code></dt>
+  <dd>Default <code>true</code>. Attach the HTML locator health dashboard to Allure</dd>
+  <dt><code>shaft.locatorHealth.failBelowScore</code></dt>
+  <dd>Default <code>-1</code>. Fail the run when any locator score is below this threshold; <code>-1</code> disables score-based failure</dd>
+  <dt><code>slowLocatorThresholdMillis</code></dt>
+  <dd>Default <code>750</code>. Lookup duration that marks a locator as slow</dd>
+  <dt><code>failOnLocatorHealthWarnings</code></dt>
+  <dd>Default <code>false</code>. Fail the run when locator health warnings are present</dd>
+  <dt><code>shaft.flakeProfiler.enabled</code></dt>
+  <dd>Default <code>false</code>. Attach opt-in flake and auto-wait timing profiles to Allure</dd>
+  <dt><code>shaft.flakeProfiler.attachPerTest</code></dt>
+  <dd>Default <code>true</code>. Attach each test's JSON/HTML profile when profiler signals exist</dd>
+  <dt><code>shaft.flakeProfiler.failOnSevereFlakeRisk</code></dt>
+  <dd>Default <code>false</code>. Fail the run when severe flake-risk actions are found</dd>
+  <dt><code>shaft.flakeProfiler.slowActionThresholdMs</code></dt>
+  <dd>Default <code>2000</code>. Duration threshold used to flag slow and severe-risk actions</dd>
+  <dt><code>shaft.trace.enabled</code></dt>
+  <dd>Default <code>true</code>. Attach the SHAFT failure trace viewer artifacts</dd>
+  <dt><code>shaft.trace.mode</code></dt>
+  <dd>Default <code>auto</code>. Trace mode: <code>auto</code> (retry-aware; resolves to <code>retry</code> when retryMaximumNumberOfAttempts &gt; 0, otherwise <code>failure</code>), <code>failure</code>, <code>retry</code>, or <code>always</code></dd>
+  <dt><code>shaft.trace.retainFailedAttempts</code></dt>
+  <dd>Default <code>true</code>. Retain failed-attempt trace archives (<code>shaft-trace-attempt-&lt;n&gt;.zip</code>) when retries are enabled</dd>
+  <dt><code>shaft.trace.includeCodeContext</code></dt>
+  <dd>Default <code>true</code>. Include the best matching source-code frame and snippet</dd>
+  <dt><code>shaft.trace.includeFullPageSnapshots</code></dt>
+  <dd>Default <code>true</code>. Include web snapshots when available</dd>
+  <dt><code>shaft.trace.includeNativePageSource</code></dt>
+  <dd>Default <code>true</code>. Include Appium/native page source when available</dd>
+  <dt><code>shaft.trace.includeNetwork</code></dt>
+  <dd>Default <code>true</code>. Capture redacted Selenium browser network evidence in the trace metadata and HAR-like export</dd>
+  <dt><code>shaft.trace.includeConsole</code></dt>
+  <dd>Default <code>true</code>. Capture browser console evidence in the trace metadata when the driver exposes browser logs</dd>
+  <dt><code>shaft.trace.maxArtifactMb</code></dt>
+  <dd>Default <code>50</code>. Maximum size for a single trace bundle entry</dd>
+  <dt><code>videoParams_recordVideo</code></dt>
+  <dd>Default <code>false</code>. Enable video recording of test sessions</dd>
+  <dt><code>videoParams_scope</code></dt>
+  <dd>Default <code>DriverSession</code>. Scope of video recording</dd>
+  <dt><code>createAnimatedGif</code></dt>
+  <dd>Default <code>false</code>. Create an animated GIF; retries can enable it automatically</dd>
+  <dt><code>animatedGif_frameDelay</code></dt>
+  <dd>Default <code>500</code>. Delay between GIF frames (milliseconds)</dd>
+  <dt><code>screenshotParams_whenToTakeAScreenshot</code></dt>
+  <dd>Default <code>ValidationPointsOnly</code>. Granular screenshot policy; profile levels except <code>CUSTOM</code> override it</dd>
+  <dt><code>whenToTakePageSourceSnapshot</code></dt>
+  <dd>Default <code>failuresOnly</code>. Granular page-source policy; profile levels except <code>CUSTOM</code> override it</dd>
+</dl>
 
 ---
 

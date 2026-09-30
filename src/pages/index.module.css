@@ -50,12 +50,13 @@
 .lead,
 .final p {
   max-width: 58ch;
-  margin: 1.5rem 0 2rem;
+  margin: 1.5rem 0 0.75rem;
   color: rgba(var(--site-color-on-dark-rgb), 0.9);
   font-size: var(--site-font-body-large);
   line-height: 1.6;
 }
 
+.guideLine { max-width: 58ch; margin: 0 0 1.5rem; color: var(--site-color-on-dark); font-weight: var(--site-font-weight-bold); }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
 
 .actions :global(.button) {
@@ -105,7 +106,7 @@
 
 .proofRail li { display: inline-flex; align-items: center; gap: 0.55rem; }
 .proofRail li + li::before { color: var(--site-color-primary); content: '•'; }
-.proofRail code { padding: 0.25rem 0.45rem; border-radius: 0.25rem; color: var(--site-color-on-dark); background: rgba(var(--site-color-on-dark-rgb), 0.14); }
+.proofRail code { max-width: 100%; padding: 0.25rem 0.45rem; border-radius: 0.25rem; color: var(--site-color-on-dark); background: rgba(var(--site-color-on-dark-rgb), 0.14); overflow-wrap: anywhere; }
 
 .heroFigure {
   position: relative;

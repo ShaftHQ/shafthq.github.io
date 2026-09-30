@@ -11,6 +11,7 @@ test('hero routes users to a workflow H2 clear of the sticky nav without a GitHu
   await page.goto('/');
   await expect(page.getByRole('heading', {name: 'Release decisions backed by inspectable evidence.'})).toBeVisible();
   await expect(page.getByTestId('landing-hero')).toContainText('Run one Java project across web, mobile, API, database, and CLI.');
+  await expect(page.getByTestId('landing-hero')).toContainText('The user guide is the one path through this site.');
   await expect(page.getByTestId('landing-hero-actions').getByRole('link', {name: 'Star on GitHub'})).toHaveCount(0);
   await page.getByTestId('landing-hero-workflow').click();
   await expect(page).toHaveURL(/#agent-workflow$/);
