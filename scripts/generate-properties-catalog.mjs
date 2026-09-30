@@ -28,15 +28,48 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const CATALOG_PATH = path.join(REPO_ROOT, 'src', 'data', 'properties-catalog.json');
 const PROPERTIES_LIST_MDX = path.join(REPO_ROOT, 'docs', 'reference', 'properties', 'PropertiesList.mdx');
 
+const ENGINE_PROPERTIES_SUFFIX = path.join(
+  'shaft-engine', 'src', 'main', 'java', 'com', 'shaft', 'properties', 'internal',
+);
+
+/** Keep the properties directory on the fixed engine suffix and under its checkout root. */
+export function resolveEnginePropertiesDir(raw) {
+  if (typeof raw !== 'string' || raw.trim() === '') throw new Error('engine properties path is required');
+  const resolved = path.resolve(raw);
+  const suffix = ENGINE_PROPERTIES_SUFFIX;
+  const marker = suffix.startsWith(path.sep) ? suffix : path.sep + suffix;
+  if (!resolved.endsWith(marker)) {
+    throw new Error('engine properties path must end at com/shaft/properties/internal');
+  }
+  const parent = resolved.slice(0, resolved.length - suffix.length).replace(/[\\/]$/, '') || path.parse(resolved).root;
+  const parentRoot = path.resolve(parent);
+  const rebuilt = path.resolve(parentRoot, suffix);
+  const prefix = parentRoot.endsWith(path.sep) ? parentRoot : parentRoot + path.sep;
+  if (rebuilt !== resolved || !resolved.startsWith(prefix)) {
+    throw new Error('engine properties path escapes its checkout root');
+  }
+  return resolved;
+}
+
+/** Accept one `Name.java` basename and reject a path that leaves the properties directory. */
+export function resolveJavaPropertyFile(propertiesDir, name) {
+  if (!/^[A-Za-z0-9]+\.java$/.test(name)) throw new Error(`rejected properties source name: ${name}`);
+  const root = path.resolve(propertiesDir);
+  const resolved = path.resolve(root, name);
+  const prefix = root.endsWith(path.sep) ? root : root + path.sep;
+  if (!resolved.startsWith(prefix)) throw new Error('java path escapes the properties directory');
+  return resolved;
+}
+
 const args = process.argv.slice(2);
 const checkOnly = args.includes('--check');
 const engineArg = args.find((a) => a.startsWith('--engine-path='));
-const ENGINE_PROPERTIES_DIR = engineArg
+const ENGINE_PROPERTIES_DIR = resolveEnginePropertiesDir(engineArg
   ? path.resolve(REPO_ROOT, engineArg.slice('--engine-path='.length))
   : path.resolve(
       process.env.SHAFT_ENGINE_PATH ?? path.join(REPO_ROOT, '..', 'SHAFT_ENGINE'),
-      'shaft-engine', 'src', 'main', 'java', 'com', 'shaft', 'properties', 'internal',
-    );
+      ENGINE_PROPERTIES_SUFFIX,
+    ));
 
 // True only when this file is run directly (`node scripts/generate-properties-catalog.mjs`), not
 // when imported as a module (e.g. by tests/generate-properties-catalog-regex.test.js, which needs
@@ -330,7 +363,7 @@ export function parseJavaSource(content) {
 
 /** Reads one interface file from disk and parses it via parseJavaSource. */
 function parseJavaFile(filePath) {
-  return parseJavaSource(readFileSync(filePath, 'utf8'));
+  return parseJavaSource(readFileSync(resolveJavaPropertyFile(path.dirname(filePath), path.basename(filePath)), 'utf8'));
 }
 
 /** Reads PropertiesList.mdx from disk and parses it via parseMdxDefaultsTablesFromContent. */
@@ -416,7 +449,8 @@ function cleanCell(cell) {
 }
 
 function buildCatalog() {
-  const javaFiles = readdirSync(ENGINE_PROPERTIES_DIR).filter((f) => f.endsWith('.java')).sort();
+  const propertiesRoot = resolveEnginePropertiesDir(ENGINE_PROPERTIES_DIR);
+  const javaFiles = readdirSync(propertiesRoot).filter((f) => /^[A-Za-z0-9]+\.java$/.test(f)).sort();
   const mdxLookup = existsSync(PROPERTIES_LIST_MDX) ? parseMdxDefaultsTables(PROPERTIES_LIST_MDX) : new Map();
   if (!existsSync(PROPERTIES_LIST_MDX)) {
     console.warn(`! PropertiesList.mdx not found at ${PROPERTIES_LIST_MDX}; descriptions will fall back to Javadoc/manual only.`);
@@ -427,7 +461,7 @@ function buildCatalog() {
   const seenKeys = new Map();
 
   for (const file of javaFiles) {
-    const {interfaceName, properties} = parseJavaFile(path.join(ENGINE_PROPERTIES_DIR, file));
+    const {interfaceName, properties} = parseJavaFile(resolveJavaPropertyFile(propertiesRoot, file));
     if (!interfaceName || properties.length === 0) continue;
 
     const section = displaySection(interfaceName);

@@ -201,10 +201,12 @@ def refresh(root: Path, graph_out: Path) -> None:
         configured = os.environ["SHAFT_GRAPHIFY_OUT"].strip()
         if not configured:
             raise ValueError("SHAFT_GRAPHIFY_OUT must not be blank")
-        configured_output = Path(configured).expanduser()
-        if not configured_output.is_absolute():
+        expanded = os.path.expanduser(configured)
+        if not os.path.isabs(expanded):
             raise ValueError("SHAFT_GRAPHIFY_OUT must be absolute")
-        if configured_output.resolve() != requested_output.resolve():
+        normalized = os.path.normcase(os.path.normpath(expanded))
+        allowed = os.path.normcase(os.path.normpath(str(requested_output.resolve())))
+        if normalized != allowed:
             raise ValueError("SHAFT_GRAPHIFY_OUT must match the refresh checkout graphify-out")
     common_dir = require_primary_checkout(root)
     require_clean_tracked_sources(root)

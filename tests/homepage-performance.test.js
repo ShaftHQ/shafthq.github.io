@@ -1,5 +1,4 @@
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const {execFileSync} = require('child_process');
 
@@ -104,7 +103,7 @@ assert(socialCard.readUInt32BE(16) === 1200 && socialCard.readUInt32BE(20) === 6
 const socialCardGenerator = fs.readFileSync(path.join(root, 'scripts', 'generate-homepage-social-card.mjs'), 'utf8');
 assert(socialCardGenerator.includes('drawScaledContain(reportDashboard'), 'The social card must preserve the report aspect ratio.');
 assert(!/chromium|font-family|Arial|Helvetica|Consolas/.test(socialCardGenerator), 'Social-card bytes must not depend on a browser or host-installed font renderer.');
-const socialCardTempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shaft-social-card-'));
+const socialCardTempDir = fs.mkdtempSync(path.join(root, '.social-card-check-'));
 try {
   const generatorPath = path.join(root, 'scripts', 'generate-homepage-social-card.mjs');
   const inspectPng = (file) => JSON.parse(execFileSync(process.execPath, [generatorPath, '--inspect', file], {encoding: 'utf8'}));

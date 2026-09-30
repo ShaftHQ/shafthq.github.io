@@ -17,16 +17,29 @@ MARKER_NAME = ".shaft-source-revision.json"
 MANIFEST_NAME = "manifest.json"
 
 
+def _lexical_absolute(configured: str) -> str:
+    """Expand and normalize a path string without turning it into a filesystem access."""
+    expanded = os.path.expanduser(configured.strip())
+    if not expanded or not os.path.isabs(expanded):
+        raise RuntimeError("SHAFT_GRAPHIFY_OUT must be an absolute path")
+    return os.path.normcase(os.path.normpath(expanded))
+
+
+def require_graph_out_override(expected: Path) -> None:
+    """Reject an env override that is not the primary checkout graphify-out directory."""
+    if "SHAFT_GRAPHIFY_OUT" not in os.environ:
+        return
+    configured = os.environ["SHAFT_GRAPHIFY_OUT"]
+    if not configured.strip():
+        raise RuntimeError("SHAFT_GRAPHIFY_OUT must not be blank")
+    normalized = _lexical_absolute(configured)
+    allowed = os.path.normcase(os.path.normpath(str(expected.resolve())))
+    if normalized != allowed:
+        raise RuntimeError("SHAFT_GRAPHIFY_OUT must be the primary checkout graphify-out")
+
+
 def find_shared_graph_out(cwd: Path) -> Path:
     """Return the shared graphify-out path under the primary checkout root."""
-    if "SHAFT_GRAPHIFY_OUT" in os.environ:
-        configured = os.environ["SHAFT_GRAPHIFY_OUT"].strip()
-        if not configured:
-            raise RuntimeError("SHAFT_GRAPHIFY_OUT must not be blank")
-        graph_out = Path(configured).expanduser()
-        if not graph_out.is_absolute():
-            raise RuntimeError("SHAFT_GRAPHIFY_OUT must be absolute")
-        return graph_out.resolve()
     git_executable = shutil.which("git")
     if git_executable is None:
         raise RuntimeError("git is not on PATH")
@@ -40,7 +53,9 @@ def find_shared_graph_out(cwd: Path) -> Path:
     common_dir = Path(completed.stdout.strip())
     if not common_dir.is_absolute():
         common_dir = (cwd / common_dir).resolve()
-    return common_dir.parent / "graphify-out"
+    graph_out = (common_dir.parent / "graphify-out").resolve()
+    require_graph_out_override(graph_out)
+    return graph_out
 
 
 def require_primary_checkout(cwd: Path) -> None:
