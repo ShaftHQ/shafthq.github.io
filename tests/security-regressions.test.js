@@ -92,6 +92,7 @@ for (const entry of lockedPackages(lockText, 'qs')) {
     compareSemver(entry.version, qsFloor) >= 0,
     `installed qs ${entry.version} (${entry.requests.join(', ')}) must be >= ${qsFloor}`,
   );
+  console.log(`qs ${entry.version} >= ${qsFloor}`);
 }
 for (const entry of lockedPackages(lockText, 'postcss-selector-parser')) {
   const major = Number(entry.version.split('.')[0]);
@@ -101,6 +102,7 @@ for (const entry of lockedPackages(lockText, 'postcss-selector-parser')) {
     compareSemver(entry.version, floor) >= 0,
     `installed postcss-selector-parser ${entry.version} (${entry.requests.join(', ')}) must be >= ${floor}`,
   );
+  console.log(`postcss-selector-parser ${entry.version} >= ${floor}`);
 }
 
 console.log('Security regression checks passed.');
