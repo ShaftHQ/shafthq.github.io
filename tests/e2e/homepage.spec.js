@@ -24,10 +24,10 @@ test('hero routes users to a workflow H2 clear of the sticky nav without a GitHu
 test('landing CTAs retain destinations and conversion payloads', async ({page}) => {
   const ctas = [
     ['landing-hero-create-project', '/project-generator', 'create_project', 'hero'],
-    ['landing-hero-documentation', '/docs/start/overview', 'explore_documentation', 'hero'],
+    ['landing-hero-documentation', '/docs/journeys', 'explore_documentation', 'hero'],
     ['landing-hero-workflow', '#agent-workflow', 'view_agent_workflow', 'hero'],
     ['landing-final-create-project', '/project-generator', 'create_project', 'final'],
-    ['landing-final-documentation', '/docs/start/overview', 'explore_documentation', 'final'],
+    ['landing-final-documentation', '/docs/journeys', 'explore_documentation', 'final'],
     ['landing-final-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'star_github', 'final'],
   ];
   await page.addInitScript(() => {

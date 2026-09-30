@@ -520,7 +520,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'start/overview',
+            docId: 'journeys/index',
             position: 'left',
             label: 'Docs',
           },

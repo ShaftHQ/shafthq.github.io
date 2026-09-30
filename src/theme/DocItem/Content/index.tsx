@@ -13,10 +13,21 @@ export default function DocItemContent(props: {children: ReactNode}): ReactNode 
   const {metadata} = useDoc();
   const mdHref = markdownHref(metadata.permalink);
   const next = metadata.next;
+  const docId = metadata.id;
+  const background = docId.startsWith('features/')
+    || docId.endsWith('flakiness')
+    || docId.endsWith('how-it-works')
+    || docId === 'agentic/overview';
 
   return (
     <>
       <nav className="doc-orientation" aria-label="Page orientation" data-testid="doc-orientation">
+        {background ? (
+          <p>
+            This page explains behavior. It is not a setup path.{' '}
+            <Link to="/docs/journeys">Choose a path</Link> when you want the steps.
+          </p>
+        ) : null}
         <p>
           <strong>{metadata.title}.</strong> {metadata.description}
         </p>
@@ -25,7 +36,7 @@ export default function DocItemContent(props: {children: ReactNode}): ReactNode 
           {next ? (
             <Link to={next.permalink}>Next: {next.title}</Link>
           ) : (
-            <Link to="/docs/start/overview">Back to SHAFT at a glance</Link>
+            <Link to="/docs/journeys">Back to Choose a path</Link>
           )}
         </p>
         <p className="doc-agent-pointer">

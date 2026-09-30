@@ -37,7 +37,7 @@ assert(index.includes('Model choice remains with the MCP client. Tests remain or
 for (const removed of ['landing-evidence', 'landing-product-gallery', 'landing-architecture', 'landing-audiences', 'landing-guides', 'landing-adoption', 'landing-evidence-loop']) assert(!index.includes(`data-testid="${removed}"`), `Superseded ${removed} section must not remain.`);
 
 assert(index.includes('data-testid="landing-outcomes"'), 'Homepage must expose the outcome router.');
-for (const outcome of ['Start a new suite', 'Migrate an existing suite', 'Add another testing surface', 'Diagnose a failed run']) assert(index.includes(outcome), `Outcome router must include ${outcome}.`);
+for (const outcome of ['Create a project', 'Upgrade a Java project', 'Install skills', 'Use the IntelliJ plugin', 'Connect an MCP client', 'Use shaft-cli', 'Run in CI', 'Add a test surface', 'Install local infrastructure', 'Install ChaosEngine']) assert(index.includes(outcome), `Outcome router must include ${outcome}.`);
 assert(index.includes('data-testid="landing-surfaces"') && index.includes('One evidence model across five test surfaces'), 'Homepage must expose the five-surface explorer.');
 for (const surface of ['Web', 'Mobile', 'API', 'Database', 'CLI']) assert(index.includes(`label: '${surface}'`), `Surface explorer must include ${surface}.`);
 assert((index.match(/<AccessibleTabs/g) || []).length === 2, 'Workflow and surface explorer must reuse one tab primitive.');
