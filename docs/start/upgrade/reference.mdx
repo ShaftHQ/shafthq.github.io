@@ -162,18 +162,28 @@ reach that provider.
 
 ### Methods that require `shaft-visual`
 
-| Public API or behavior                                                                 | Why it needs the module                                                                                                            |
-|----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| `matchesReferenceImage()`                                                              | Defaults to `EXACT_SHUTTERBUG`; all reference-image engines are implemented by the provider.                                       |
-| `matchesReferenceImage(VisualValidationEngine)`                                        | `EXACT_SHUTTERBUG`, `EXACT_OPENCV`, `EXACT_EYES`, `STRICT_EYES`, `CONTENT_EYES`, and `LAYOUT_EYES` all delegate to `shaft-visual`. |
-| `doesNotMatchReferenceImage()` and its engine overload                                 | The default is `EXACT_OPENCV`; every overload delegates to the provider.                                                           |
-| Cucumber reference-image assertion steps                                               | The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path.                                                   |
-| `TouchActions.tap(String)`                                                             | Locates the reference image inside the current screenshot using OpenCV.                                                            |
-| `TouchActions.waitUntilElementIsVisible(String)`                                       | Uses OpenCV to find the supplied image.                                                                                            |
-| `TouchActions.swipeElementIntoView(String, ...)` and the scrollable-container overload | Uses image matching after each swipe.                                                                                              |
-| `ImageProcessingActions.findImageWithinCurrentPage(...)`                               | Direct provider operation.                                                                                                         |
-| `ImageProcessingActions.compareAgainstBaseline(...)`                                   | Direct provider operation for every visual engine.                                                                                 |
-| `ImageProcessingActions.loadOpenCV()`                                                  | Explicitly loads the optional provider.                                                                                            |
+<dl className="fact-list">
+  <dt><code>matchesReferenceImage()</code></dt>
+  <dd>Defaults to <code>EXACT_SHUTTERBUG</code>; all reference-image engines are implemented by the provider.</dd>
+  <dt><code>matchesReferenceImage(VisualValidationEngine)</code></dt>
+  <dd><code>EXACT_SHUTTERBUG</code>, <code>EXACT_OPENCV</code>, <code>EXACT_EYES</code>, <code>STRICT_EYES</code>, <code>CONTENT_EYES</code>, and <code>LAYOUT_EYES</code> all delegate to <code>shaft-visual</code>.</dd>
+  <dt><code>doesNotMatchReferenceImage()</code> and its engine overload</dt>
+  <dd>The default is <code>EXACT_OPENCV</code>; every overload delegates to the provider.</dd>
+  <dt>Cucumber reference-image assertion steps</dt>
+  <dd>The built-in OpenCV, Shutterbug, and Eyes steps invoke the same validation path.</dd>
+  <dt><code>TouchActions.tap(String)</code></dt>
+  <dd>Locates the reference image inside the current screenshot using OpenCV.</dd>
+  <dt><code>TouchActions.waitUntilElementIsVisible(String)</code></dt>
+  <dd>Uses OpenCV to find the supplied image.</dd>
+  <dt><code>TouchActions.swipeElementIntoView(String, ...)</code> and the scrollable-container overload</dt>
+  <dd>Uses image matching after each swipe.</dd>
+  <dt><code>ImageProcessingActions.findImageWithinCurrentPage(...)</code></dt>
+  <dd>Direct provider operation.</dd>
+  <dt><code>ImageProcessingActions.compareAgainstBaseline(...)</code></dt>
+  <dd>Direct provider operation for every visual engine.</dd>
+  <dt><code>ImageProcessingActions.loadOpenCV()</code></dt>
+  <dd>Explicitly loads the optional provider.</dd>
+</dl>
 
 The TestNG and JUnit web samples contain this visual assertion:
 
@@ -190,15 +200,22 @@ those projects to return to `shaft-engine` only.
 
 ### Functionality that remains in `shaft-engine`
 
-| Method or behavior                                                                                     | Why no visual module is needed                             |
-|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| Selenium/Appium screenshot capture and Allure attachments                                              | Uses WebDriver/Appium screenshot APIs and SHAFT reporting. |
-| `ImageProcessingActions.highlightElementInScreenshot(...)`                                             | Uses JDK `BufferedImage` and `Graphics2D`.                 |
-| `ImageProcessingActions.compareImageFolders(...)`                                                      | Uses JDK `ImageIO` and image data buffers.                 |
-| `formatElementLocatorToImagePath(...)`, `getReferenceImage(...)`, `getShutterbugDifferencesImage(...)` | Performs naming and file access only.                      |
-| Animated GIF creation                                                                                  | Does not invoke the visual provider.                       |
-| Healenium integration                                                                                  | Independent of OpenCV.                                     |
-| Normal locator-based `tap(By)`, `waitUntilElementIsVisible(By)`, and `swipeElementIntoView(By, ...)`   | Uses Selenium/Appium locators, not reference images.       |
+<dl className="fact-list">
+  <dt>Selenium/Appium screenshot capture and Allure attachments</dt>
+  <dd>Uses WebDriver/Appium screenshot APIs and SHAFT reporting.</dd>
+  <dt><code>ImageProcessingActions.highlightElementInScreenshot(...)</code></dt>
+  <dd>Uses JDK <code>BufferedImage</code> and <code>Graphics2D</code>.</dd>
+  <dt><code>ImageProcessingActions.compareImageFolders(...)</code></dt>
+  <dd>Uses JDK <code>ImageIO</code> and image data buffers.</dd>
+  <dt><code>formatElementLocatorToImagePath(...)</code>, <code>getReferenceImage(...)</code>, <code>getShutterbugDifferencesImage(...)</code></dt>
+  <dd>Performs naming and file access only.</dd>
+  <dt>Animated GIF creation</dt>
+  <dd>Does not invoke the visual provider.</dd>
+  <dt>Healenium integration</dt>
+  <dd>Independent of OpenCV.</dd>
+  <dt>Normal locator-based <code>tap(By)</code>, <code>waitUntilElementIsVisible(By)</code>, and <code>swipeElementIntoView(By, ...)</code></dt>
+  <dd>Uses Selenium/Appium locators, not reference images.</dd>
+</dl>
 
 See the detailed [visual module guide](/docs/integrations/visual).
 
@@ -271,13 +288,18 @@ SHAFT.Properties.browserStack.set()
         .browserstackAutomation(true);
 ```
 
-| SDK-dependent configuration/functionality                                     | Without `shaft-browserstack`                                                     |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| `browserStack.platformsList` multi-platform expansion                         | The value is written to YAML, but no SDK consumes it.                            |
-| `browserStack.parallelsPerPlatform` SDK parallel orchestration                | Direct SHAFT session creation still follows the test runner's own parallelism.   |
-| `browserStack.browserstackAutomation` interception switch                     | No BrowserStack SDK is present to intercept WebDriver creation.                  |
-| `browserStack.customBrowserStackYmlPath` as SDK configuration                 | SHAFT can copy the file, but only the SDK interprets its orchestration settings. |
-| SDK listeners, automatic capability override, and SDK reporting/orchestration | Unavailable; the direct SHAFT BrowserStack session still works.                  |
+<dl className="fact-list">
+  <dt><code>browserStack.platformsList</code> multi-platform expansion</dt>
+  <dd>The value is written to YAML, but no SDK consumes it.</dd>
+  <dt><code>browserStack.parallelsPerPlatform</code> SDK parallel orchestration</dt>
+  <dd>Direct SHAFT session creation still follows the test runner's own parallelism.</dd>
+  <dt><code>browserStack.browserstackAutomation</code> interception switch</dt>
+  <dd>No BrowserStack SDK is present to intercept WebDriver creation.</dd>
+  <dt><code>browserStack.customBrowserStackYmlPath</code> as SDK configuration</dt>
+  <dd>SHAFT can copy the file, but only the SDK interprets its orchestration settings.</dd>
+  <dt>SDK listeners, automatic capability override, and SDK reporting/orchestration</dt>
+  <dd>Unavailable; the direct SHAFT BrowserStack session still works.</dd>
+</dl>
 
 See the [BrowserStack module guide](/docs/integrations/browserstack) and
 [BrowserStack's SDK architecture](https://www.browserstack.com/docs/automate/selenium/how-sdk-works).
