@@ -198,6 +198,13 @@ body.dark {
   font-size: var(--site-font-small);
 }
 
+.doc-orientation a {
+  color: inherit;
+  font-weight: var(--site-font-weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .doc-card-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
