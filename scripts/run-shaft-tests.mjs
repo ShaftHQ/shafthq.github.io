@@ -1,6 +1,8 @@
 import crossSpawn from 'cross-spawn';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath, pathToFileURL} from 'node:url';
+import http from 'node:http';
+import https from 'node:https';
 import net from 'node:net';
 import {setTimeout as delay} from 'node:timers/promises';
 
@@ -28,10 +30,51 @@ export function allowlistedDocsBase(raw) {
   }
   if (hostname === 'shafthq.github.io') {
     if (parsed.protocol !== 'https:') throw new Error('SHAFT_DOCS_BASE_URL must use https for the published docs host');
-  } else if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+    return 'https://shafthq.github.io/';
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
     throw new Error('SHAFT_DOCS_BASE_URL must use http or https');
   }
-  return `${parsed.protocol}//${parsed.host}`;
+  const port = parsed.port === '' ? (parsed.protocol === 'https:' ? 443 : 80) : Number(parsed.port);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('SHAFT_DOCS_BASE_URL port is not allowed');
+  return `http://127.0.0.1:${port}/`;
+}
+
+function requestStatus(baseUrl) {
+  let parsed;
+  try {
+    parsed = new URL(baseUrl);
+  } catch {
+    return Promise.resolve(0);
+  }
+  if (parsed.hostname === 'shafthq.github.io' && parsed.protocol === 'https:') {
+    return new Promise(resolve => {
+      const request = https.get('https://shafthq.github.io/', {timeout: 5000}, response => {
+        response.resume();
+        resolve(response.statusCode ?? 0);
+      });
+      request.on('error', () => resolve(0));
+      request.on('timeout', () => request.destroy());
+    });
+  }
+  if (parsed.hostname !== '127.0.0.1' || parsed.protocol !== 'http:') return Promise.resolve(0);
+  const port = Number(parsed.port || 80);
+  if (!Number.isInteger(port) || port < 1 || port > 65535) return Promise.resolve(0);
+  return new Promise(resolve => {
+    const request = http.request({
+      hostname: '127.0.0.1',
+      port,
+      path: '/',
+      method: 'GET',
+      timeout: 5000,
+    }, response => {
+      response.resume();
+      resolve(response.statusCode ?? 0);
+    });
+    request.on('error', () => resolve(0));
+    request.on('timeout', () => request.destroy());
+    request.end();
+  });
 }
 
 const releases = JSON.parse(await readFile(new URL('../src/data/releases.json', import.meta.url), 'utf8'));
@@ -54,25 +97,8 @@ function isPortAvailable(port) {
 }
 
 async function isSiteAvailable(baseUrl) {
-  let parsed;
-  try {
-    parsed = new URL(baseUrl);
-  } catch {
-    return false;
-  }
-  const hostname = parsed.hostname;
-  if (hostname !== '127.0.0.1' && hostname !== 'localhost' && hostname !== 'shafthq.github.io') return false;
-  if (hostname === 'shafthq.github.io') {
-    if (parsed.protocol !== 'https:') return false;
-  } else if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-    return false;
-  }
-  try {
-    const response = await fetch(baseUrl, {redirect: 'manual'});
-    return response.ok || response.status === 301 || response.status === 302;
-  } catch {
-    return false;
-  }
+  const status = await requestStatus(baseUrl);
+  return status === 200 || status === 301 || status === 302;
 }
 
 async function waitForSite(baseUrl) {

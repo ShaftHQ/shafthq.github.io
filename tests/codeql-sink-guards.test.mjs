@@ -17,9 +17,11 @@ const {safeReportKey} = await import(pathToFileURL(path.join(repoRoot, 'scripts/
 const {parsePalette} = await import(pathToFileURL(path.join(repoRoot, 'tests/design-contrast.test.js')).href);
 
 const local = allowlistedDocsBase('http://127.0.0.1:3000/docs');
-assert.equal(local, 'http://127.0.0.1:3000');
+assert.equal(local, 'http://127.0.0.1:3000/');
+const localhost = allowlistedDocsBase('http://localhost:3000/docs');
+assert.equal(localhost, 'http://127.0.0.1:3000/');
 const published = allowlistedDocsBase('https://shafthq.github.io/docs/intro');
-assert.equal(published, 'https://shafthq.github.io');
+assert.equal(published, 'https://shafthq.github.io/');
 assert.throws(() => allowlistedDocsBase('https://example.com/'), /not allowlisted/);
 assert.throws(() => allowlistedDocsBase('http://169.254.169.254/latest'), /not allowlisted/);
 assert.throws(() => allowlistedDocsBase('file:///etc/passwd'), /http or https|not allowlisted|not a URL/);
