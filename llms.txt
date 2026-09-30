@@ -4,8 +4,16 @@
 
 Markdown links below are the token-lean form of each guide page. The HTML page is named inside that file.
 
-## Start
-- [How the modular SHAFT upgrade works](https://shafthq.github.io/md/start/upgrade/how-it-works.md): What the transactional upgrader guarantees: project detection, optional-module evidence, compile-validated rollback, AI repair, and Seleniu…
+## Journeys
+- [Choose a path](https://shafthq.github.io/md/journeys.md): Pick the one job you came to do. Each path ends when that job works.
+- [Create a project and run the sample](https://shafthq.github.io/md/journeys/create-a-project.md): Generate a Maven project, run its sample test, and open the report.
+- [Upgrade a Java project](https://shafthq.github.io/md/journeys/upgrade-a-project.md): Move a legacy SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven project onto current modular SHAFT and run one test.
+- [Install SHAFT skills in your agent](https://shafthq.github.io/md/journeys/skills.md): Add the SHAFT skill pack to the coding agent you already use, then load shaft-developer.
+- [Use the IntelliJ plugin](https://shafthq.github.io/md/journeys/intellij.md): Install the SHAFT plugin, open the tool window, and finish setup.
+- [Connect an MCP client](https://shafthq.github.io/md/journeys/mcp.md): Install shaft-mcp for Codex, Claude, Copilot, Grok, or another client and complete one tool call.
+- [Use shaft-cli](https://shafthq.github.io/md/journeys/cli.md): Install the SHAFT command line without an IDE or MCP client and run one command.
+- [Run the suite in CI](https://shafthq.github.io/md/journeys/ci.md): Run an existing SHAFT Maven suite headlessly and keep the Allure archive.
+- [Add a test surface](https://shafthq.github.io/md/journeys/add-a-surface.md): Add web, API, mobile, Flutter, database, CLI, or contract checks to a project that already runs SHAFT.
 - [Install managed mobile infrastructure](https://shafthq.github.io/md/start/local-infrastructure/mobile.md): Plan, approve, and install SHAFT-owned Android SDK, emulator, and Appium, or iOS and Windows Appium drivers.
 - [Install managed services and tools](https://shafthq.github.io/md/start/local-infrastructure/services.md): Plan, approve, and install SHAFT-owned Selenium Grid, Healenium, ReportPortal, BrowserStack Local, Playwright browsers, and Lighthouse, and…
 - [Install SHAFT](https://shafthq.github.io/md/start/installation.md): Generate a new SHAFT project or upgrade an existing automation project.
@@ -17,19 +25,13 @@ Markdown links below are the token-lean form of each guide page. The HTML page i
 - [Set up local infrastructure](https://shafthq.github.io/md/start/local-infrastructure.md): Diagnose, plan, approve, and install SHAFT-owned local tools through shaft-cli or Java.
 - [SHAFT at a glance](https://shafthq.github.io/md/start/overview.md): One Java automation engine for Web, Mobile, API, CLI, and Database testing.
 - [Upgrade to modular SHAFT](https://shafthq.github.io/md/start/upgrade.md): Transactionally migrate legacy or native Maven projects to modular SHAFT.
-
-## Testing
 - [API testing](https://shafthq.github.io/md/testing/api.md): Build, execute, inspect, and assert REST API requests with SHAFT.
 - [CLI testing](https://shafthq.github.io/md/testing/cli.md): Execute and validate local, Docker, and SSH commands with SHAFT.
 - [Database testing](https://shafthq.github.io/md/testing/database.md): Connect, query, and validate databases through SHAFT.
 - [Flutter testing guide](https://shafthq.github.io/md/testing/flutter.md): SHAFT Flutter guide with Locator.flutter factories and tap/type/assert sample.
-- [How SHAFT reduces flakiness](https://shafthq.github.io/md/testing/flakiness.md): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
 - [Mobile and Flutter testing](https://shafthq.github.io/md/testing/mobile.md): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
 - [UI and API contract replay](https://shafthq.github.io/md/testing/contracts.md): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
 - [Web testing](https://shafthq.github.io/md/testing/web.md): A minimal SHAFT browser test with lifecycle, actions, and assertions.
-
-## Agentic
-- [Agentic testing](https://shafthq.github.io/md/agentic/overview.md): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
 - [Connect shaft-mcp](https://shafthq.github.io/md/agentic/mcp.md): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 - [Diagnose failures with Doctor](https://shafthq.github.io/md/agentic/doctor.md): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
 - [Install and operate ChaosEngine](https://shafthq.github.io/md/agentic/chaos-engine.md): Install, inspect, recover, and understand the project-local SHAFT agent harness.
@@ -41,27 +43,11 @@ Markdown links below are the token-lean form of each guide page. The HTML page i
 - [SHAFT Pilot](https://shafthq.github.io/md/agentic/pilot.md): Capture, generation, diagnosis, reviewed repairs, and MCP interoperability — plus downloadable credential-free Pilot example assets.
 - [shaft-cli command line](https://shafthq.github.io/md/agentic/cli.md): Run all shaft-mcp tools from the command line with one-shot commands or a persistent session.
 
-## Features
-- [Agentic tool updates](https://shafthq.github.io/md/features/whats-new/agentic.md): Configure deterministic local tools, IntelliJ workflows, and optional providers.
-- [Architecture](https://shafthq.github.io/md/features/architecture.md): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine…
-- [Capture and generation updates](https://shafthq.github.io/md/features/whats-new/capture.md): Record browser, API, and mobile journeys and generate replayed SHAFT code.
-- [Evidence and report updates](https://shafthq.github.io/md/features/whats-new/evidence.md): Configure portable failure evidence, structured checkpoints, and merged reports.
-- [Features and modules](https://shafthq.github.io/md/features/modules.md): Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
-- [Features you might have missed](https://shafthq.github.io/md/features/whats-new/missed.md): Find useful locator, localization, and report compatibility features.
-- [Integrations and modules](https://shafthq.github.io/md/features/whats-new/modules.md): Add focused SHAFT integrations and understand OCR release status.
-- [Pillars of successful test automation](https://shafthq.github.io/md/features/test-automation-pillars.md): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
-- [Platform and setup updates](https://shafthq.github.io/md/features/whats-new/platform.md): Configure modular dependencies and local or remote test infrastructure.
-- [Reporting and evidence](https://shafthq.github.io/md/features/reporting.md): How SHAFT records actions, screenshots, logs, and Allure results.
-- [Testing API updates](https://shafthq.github.io/md/features/whats-new/testing.md): Use newer web, mobile, API, contract, visual, and accessibility capabilities.
-- [What's new since modularization](https://shafthq.github.io/md/features/whats-new.md): Find and use user-facing SHAFT capabilities added since the modular release.
-
-## Integrations
+## Look up a fact
 - [BrowserStack](https://shafthq.github.io/md/integrations/browserstack.md): Choose direct BrowserStack sessions or the optional SDK orchestration module.
 - [Desktop and video](https://shafthq.github.io/md/integrations/desktop-and-video.md): Optional local desktop recording and SikuliX image-based desktop automation.
 - [OCR and visible-text automation](https://shafthq.github.io/md/integrations/ocr.md): Recognize, assert, and interact with visible text in images, web pages, mobile apps, and desktop applications.
 - [Visual testing](https://shafthq.github.io/md/integrations/visual.md): Add reference-image assertions and image-based touch operations.
-
-## Reference
 - [Reference](https://shafthq.github.io/md/reference/overview.md): Detailed SHAFT actions, properties, validations, and practices.
 - [Alert Actions](https://shafthq.github.io/md/reference/actions/GUI/Alert_Actions.md): Handle browser alert dialogs — accept, dismiss, read text, and type into prompt alerts using SHAFT Engine.
 - [API Authentication](https://shafthq.github.io/md/reference/actions/API/API_Authentication.md): Configure BASIC, FORM, OAuth2, API Key, cookie, and session authentication for API tests in SHAFT Engine using setAuthentication and addHea…
@@ -110,6 +96,24 @@ Markdown links below are the token-lean form of each guide page. The HTML page i
 - [Tips: Waits and Synchronization](https://shafthq.github.io/md/reference/actions/GUI/Waits_And_Synchronization.md): SHAFT Engine synchronization tips — explicit element and browser wait strategies, custom condition waits, and clipboard action sequencing.
 - [Touch Actions](https://shafthq.github.io/md/reference/actions/GUI/Touch_Actions.md): Automate mobile touch interactions — tap, swipe, pinch to zoom, long press, and app background management using SHAFT Engine.
 - [Validations](https://shafthq.github.io/md/reference/actions/Validations.md): SHAFT Engine's built-in assertions and verifications — browser, element, file, object, number, and API response validation, JSON schema val…
+
+## Background
+Explanation pages. They are not in the user navigation. Read them when a journey links here or when you need behavior detail.
+- [Agentic testing](https://shafthq.github.io/md/agentic/overview.md): Understand how the IntelliJ plugin, MCP, Pilot, Capture, Doctor, and Heal fit together.
+- [Agentic tool updates](https://shafthq.github.io/md/features/whats-new/agentic.md): Configure deterministic local tools, IntelliJ workflows, and optional providers.
+- [Architecture](https://shafthq.github.io/md/features/architecture.md): SHAFT runtime, module, facade, and agent integration architecture — plus where SHAFT fits in a general test automation stack and the engine…
+- [Capture and generation updates](https://shafthq.github.io/md/features/whats-new/capture.md): Record browser, API, and mobile journeys and generate replayed SHAFT code.
+- [Evidence and report updates](https://shafthq.github.io/md/features/whats-new/evidence.md): Configure portable failure evidence, structured checkpoints, and merged reports.
+- [Features and modules](https://shafthq.github.io/md/features/modules.md): Select core and optional SHAFT modules by capability, then review the technology stack, project support, and funding.
+- [Features you might have missed](https://shafthq.github.io/md/features/whats-new/missed.md): Find useful locator, localization, and report compatibility features.
+- [How SHAFT reduces flakiness](https://shafthq.github.io/md/testing/flakiness.md): How SHAFT reduces common automation flakiness through semantic locators, synchronization, retry evidence, and optional locator recovery.
+- [How the modular SHAFT upgrade works](https://shafthq.github.io/md/start/upgrade/how-it-works.md): What the transactional upgrader guarantees: project detection, optional-module evidence, compile-validated rollback, AI repair, and Seleniu…
+- [Integrations and modules](https://shafthq.github.io/md/features/whats-new/modules.md): Add focused SHAFT integrations and understand OCR release status.
+- [Pillars of successful test automation](https://shafthq.github.io/md/features/test-automation-pillars.md): How SHAFT helps teams build scalable, reliable, and maintainable test automation frameworks.
+- [Platform and setup updates](https://shafthq.github.io/md/features/whats-new/platform.md): Configure modular dependencies and local or remote test infrastructure.
+- [Reporting and evidence](https://shafthq.github.io/md/features/reporting.md): How SHAFT records actions, screenshots, logs, and Allure results.
+- [Testing API updates](https://shafthq.github.io/md/features/whats-new/testing.md): Use newer web, mobile, API, contract, visual, and accessibility capabilities.
+- [What's new since modularization](https://shafthq.github.io/md/features/whats-new.md): Find and use user-facing SHAFT capabilities added since the modular release.
 
 ## Maintainers
 - [Maintainer runbooks](https://shafthq.github.io/md/maintainers/overview.md): Build, release, CI, agent guidance, and repository maintenance procedures.

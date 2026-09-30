@@ -4,386 +4,301 @@
 
 ---
 
-# How the modular SHAFT upgrade works
+# Choose a path
 
-Canonical HTML: https://shafthq.github.io/docs/start/upgrade/how-it-works
-Markdown: https://shafthq.github.io/md/start/upgrade/how-it-works.md
+Canonical HTML: https://shafthq.github.io/docs/journeys
+Markdown: https://shafthq.github.io/md/journeys.md
 
-# How the modular SHAFT upgrade works
+# Choose a path
 
-This page explains what the upgrader decides and why. To run it, follow
-[Run the upgrade](/docs/start/upgrade/run). For command options and module
-boundaries, see the [upgrade reference](/docs/start/upgrade/reference).
+SHAFT is a Java test framework (`io.github.shafthq:shaft-engine`). This guide is a set of jobs. Open the one that matches what you have today. Pages that explain how SHAFT works stay on the site for search and for agents, and they are not in this list.
 
-## What the script guarantees
-
-1. Finds supported Maven POMs without scanning generated `target`, `build`,
- `.git`, IDE, or report directories.
-2. Resolves the latest published `shaft-engine` release from Maven Central,
- unless `--shaft-version` is supplied.
-3. Compiles the unchanged project first. A broken baseline stops the migration
- before any file is changed.
-4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
- the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
- metadata onto runtime dependencies.
-5. Adds only the optional modules supported by project evidence.
-6. For Selenium/Appium source upgrades, applies conservative Java rewrites in
- the same transaction as the POM migration.
-7. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
- the local Maven repository and both main and test source are compiled.
-8. Commits the file transaction only after compilation passes.
-9. Restores every touched file byte-for-byte when validation fails.
-10. Optionally uses the OpenAI Responses API for exactly three repair attempts
- before rollback.
-
-```mermaid
-flowchart TD
- Start["Run upgrade_to_modular_shaft.py"] --> Discover["Discover Maven POMs and project type"]
- Discover --> Supported{"Legacy/modular SHAFT or supported native stack?"}
- Supported -- No --> Stop["Stop without changing files"]
- Supported -- Yes --> Resolve["Resolve latest modular SHAFT version"]
- Resolve --> Baseline["Compile unchanged project"]
- Baseline --> BaselinePass{"Baseline passes?"}
- BaselinePass -- No --> Stop
- BaselinePass -- Yes --> Snapshot["Open file transaction"]
- Snapshot --> Upgrade["Update POM and optional source rewrites"]
- Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
- Compile --> Pass{"Compilation passes?"}
- Pass -- Yes --> Commit["Commit upgraded files"]
- Pass -- No --> Key{"OpenAI API key available?"}
- Key -- No --> Rollback["Restore original bytes"]
- Key -- Yes --> Repair["Request constrained repair"]
- Repair --> Retry["Apply allowed POM/Java replacements"]
- Retry --> AICompile["Recompile after repair"]
- AICompile --> AIPass{"Compilation passes?"}
- AIPass -- Yes --> Commit
- AIPass -- No --> Attempts{"Three repair attempts exhausted?"}
- Attempts -- No --> Repair
- Attempts -- Yes --> Rollback
-```
-
-## Project detection
-
-The script supports projects when it detects one of these shapes:
-
-| Project shape | Detection |
-| --- | --- |
-| Legacy SHAFT | `io.github.shafthq:SHAFT_ENGINE` in a POM. |
-| Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
-| Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
-| Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
-| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
-| Cucumber | Cucumber dependency/import. |
-
-For multi-module builds, POMs that directly declare SHAFT or a supported native
-stack/runner pair are updated. A child module with a supported native stack is
-also updated when the test runner is declared in a parent POM or detected from
-source imports. Other reactor POMs are left unchanged.
-
-JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
-or imports, including suite-style projects that depend on
-`org.junit.platform:junit-platform-suite-api`.
-
-## Optional-module scan
-
-For legacy and existing modular SHAFT projects, optional modules are inferred
-from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
-are not printed; the report records only paths and detection reasons. Native
-projects receive `shaft-engine` only because native third-party integrations do
-not prove that the corresponding SHAFT provider API is used.
-
-POM evidence is read as Maven dependency coordinates, so compact XML and
-formatted XML are treated the same. For example, a legacy project that already
-declares `com.browserstack:browserstack-java-sdk`,
-`com.automation-remarks:video-recorder-*`, `org.openpnp:opencv`, or
-`com.sikulix:sikulixapi` selects the
-matching SHAFT optional module during migration.
-
-```mermaid
-flowchart LR
- Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion, visual engine, OpenCV/Eyes/Shutterbug, or image-path touch API?"}
- Scan --> Video{"videoParamsRecordVideo=true, zero-argument desktop recording, JAVE, or Automation Remarks?"}
- Scan --> BrowserStack{"BrowserStack SDK dependency, platformsList/parallelsPerPlatform, automation switch, or SDK YAML?"}
- Scan --> SikuliX{"SikuliX dependency or SHAFT.GUI.SikuliX usage?"}
-
- Visual -- Yes --> AddVisual["Add shaft-visual"]
- Visual -- No --> CoreVisual["Keep visual module absent"]
- Video -- Yes --> AddVideo["Add shaft-video"]
- Video -- No --> CoreVideo["Keep video module absent"]
- BrowserStack -- Yes --> AddBrowserStack["Add shaft-browserstack"]
- BrowserStack -- No --> Direct["Direct BrowserStack remains in shaft-engine"]
- SikuliX -- Yes --> AddSikuliX["Add shaft-sikulix"]
- SikuliX -- No --> CoreDesktop["Appium Windows stays in shaft-engine"]
-```
-
-Existing modular optional dependencies are preserved even when no additional
-scan evidence is found.
-
-### BrowserStack evidence
-
-The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
-ordinary remote sessions. Evidence includes:
-
-- `com.browserstack:browserstack-java-sdk`.
-- `SHAFT.Properties.browserStack.set().platformsList(...)`.
-- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
-- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
-- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
-- `browserStack.platformsList`.
-- `browserStack.parallelsPerPlatform`.
-- `browserStack.browserstackAutomation`.
-- `browserStack.customBrowserStackYmlPath`.
-- A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
-
-Direct BrowserStack WebDriver/Appium execution still requires only
-`shaft-engine`. Direct settings such as
-`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
-`shaft-browserstack` by themselves.
-
-### Visual evidence
-
-The visual module is selected for reference-image or image-engine behavior,
-including:
-
-- `matchesReferenceImage(...)` and `doesNotMatchReferenceImage(...)`.
-- `VisualValidationEngine`.
-- `findImageWithinCurrentPage(...)`, `compareAgainstBaseline(...)`, or
- `loadOpenCV()`.
-- Image-path touch/wait/swipe APIs.
-- Explicit OpenCV, Applitools Eyes, Selenium Shutterbug, or `shaft-visual`
- dependencies.
-
-Ordinary screenshots, highlighting, GIF generation, and folder comparison do
-not select `shaft-visual`.
-
-### Video evidence
-
-The video module is selected for local desktop recording:
-
-- `videoParamsRecordVideo=true`.
-- `videoParams_recordVideo=true`.
-- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
-- A zero-argument `startVideoRecording()` call.
-- Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
-
-Appium driver-native recording and cloud-provider video do not select
-`shaft-video`.
-
-### SikuliX evidence
-
-The SikuliX module is selected for image-based desktop automation:
-
-- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
-- Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
-
-Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
-`shaft-engine`.
-
-## Compilation and rollback
-
-The default validation command is:
+| You are | Path | Done when |
+|---|---|---|
+| Starting from nothing | [Create a project and run the sample](/docs/journeys/create-a-project) | The sample test runs and the report is on disk |
+| Already have a Maven test project | [Upgrade a Java project](/docs/journeys/upgrade-a-project) | The project compiles on current SHAFT and one test runs |
+| Already have a coding agent | [Install SHAFT skills](/docs/journeys/skills) | A new agent session loads `$shaft-developer` |
+| Working in IntelliJ IDEA | [Use the IntelliJ plugin](/docs/journeys/intellij) | **Tools \| SHAFT \| Open SHAFT** opens and setup verifies |
+| Using Codex, Copilot, Claude, or another MCP client | [Connect an MCP client](/docs/journeys/mcp) | The client lists SHAFT tools and one tool call returns |
+| Staying in the terminal | [Use shaft-cli](/docs/journeys/cli) | `shaft-cli` runs one command |
+| Putting the suite on a server | [Run the suite in CI](/docs/journeys/ci) | The pipeline runs the suite headlessly and keeps the report |
+| Already running SHAFT, need another kind of test | [Add a test surface](/docs/journeys/add-a-surface) | One new web, API, mobile, Flutter, database, CLI, or contract check runs |
+| Missing Android, Appium, Grid, or browsers | [Install local infrastructure](/docs/start/local-infrastructure) | `shaft-cli setup verify` passes for the profile you chose |
+| Want the project-local agent harness | [Install ChaosEngine](/docs/agentic/chaos-engine) | The installer prints a successful JSON result |
 
 ```bash
-mvn dependency:go-offline test-compile -DskipTests -Dgpg.skip
+mvn test
 ```
 
-`dependency:go-offline` resolves project dependencies and build plugins into
-the local Maven repository. `test-compile` compiles both production and test
-source without executing tests. The same command runs before and after
-migration. Use `--compile-command` only when the project requires a profile,
-settings file, module selector, or another project-specific compile entry
-point.
+That command is the check for a generated or upgraded project. Other paths name their own check on the page.
 
-The transaction records original bytes and file permissions immediately before
-the first write to each file. A normal success discards that in-memory
-snapshot. A failure, invalid AI response, path-policy violation, interruption,
-or exhausted retry budget restores the originals.
+## Related
 
-```mermaid
-sequenceDiagram
- participant User
- participant Script
- participant Files
- participant Maven
- participant OpenAI
+- [Create a project and run the sample](/docs/journeys/create-a-project)
 
- User->>Script: Start upgrade
- Script->>Maven: Compile unchanged project
- Maven-->>Script: Success
- Script->>Files: Remember original bytes
- Script->>Files: Write modular POM and optional source rewrites
- Script->>Maven: Compile upgraded project
- alt Compilation succeeds
- Maven-->>Script: Success
- Script->>Files: Commit transaction
- Script-->>User: Upgraded project retained
- else Compilation fails without API key
- Maven-->>Script: Failure
- Script->>Files: Restore original bytes
- Script-->>User: Original project restored
- else Compilation fails with API key
- Maven-->>Script: Failure diagnostics
- loop Maximum three repair attempts
- Script->>OpenAI: Redacted diagnostics and allowed files
- OpenAI-->>Script: Structured replacements
- Script->>Files: Apply validated replacements
- Script->>Maven: Recompile
- end
- alt A repair compiles
- Script->>Files: Commit transaction
- else All attempts fail
- Script->>Files: Restore POM, source, and all AI-edited files
- end
- end
-```
+---
 
-The rollback guarantee covers failures handled by the running process. An
-operating-system kill, power loss, or hardware failure can terminate any
-program before cleanup runs, which is another reason to use version control.
+# Create a project and run the sample
 
-## Optional OpenAI compile repair
+Canonical HTML: https://shafthq.github.io/docs/journeys/create-a-project
+Markdown: https://shafthq.github.io/md/journeys/create-a-project.md
 
-OpenAI repair is disabled unless a key is supplied. The safest interactive
-setup avoids shell history:
+# Create a project and run the sample
+
+For a new repository. The result is a Maven project whose sample test has run and written a report. You need the JDK and Maven version named on [Install SHAFT](/docs/start/installation).
+
+## Steps
+
+1. Open [Install SHAFT](/docs/start/installation) and use the project generator. Pick the test runner and surfaces. Download the project.
+2. From the project root, run:
 
 ```bash
-python upgrade_to_modular_shaft.py \
- --project . \
- --prompt-for-openai-key
+mvn test
 ```
 
-For CI or an existing secret manager, set `OPENAI_API_KEY` and run the normal
-command:
+ 
+
+3. Confirm the sample ran (the Maven summary is not `Total: 0`) and evidence is at .
+
+## If the sample does not run
+
+Stay on [Install SHAFT](/docs/start/installation). That page owns the Java, Maven, browser, and Surefire checks. Do not hand-write a POM until that page says generation is impossible.
+
+Next, if you need a pipeline: [Run the suite in CI](/docs/journeys/ci).
+
+How the generator chooses modules is background, not part of this path: [Features and modules](/docs/features/modules).
+
+## Related
+
+- [Install SHAFT](/docs/start/installation)
+
+---
+
+# Upgrade a Java project
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/upgrade-a-project
+Markdown: https://shafthq.github.io/md/journeys/upgrade-a-project.md
+
+# Upgrade a Java project
+
+For a Maven project that already has tests. The result is that project compiling against current modular SHAFT, with one test run. You need JDK 25, Maven or `mvnw`, and Python 3.9+ as `python`. Commit or stash local edits first.
+
+## Steps
+
+1. From the project root, follow [Run the upgrade](/docs/start/upgrade/run) through the download and the plan prompt. Answer `y` only after you read the plan.
+2. Keep the default `basic` type unless you intentionally want Selenium or Appium session code rewritten. The same page owns `session` and `full`.
+3. Run one test:
 
 ```bash
-python upgrade_to_modular_shaft.py --project . --yes
+mvn test
 ```
 
-Do not paste a real API key into the script, `pom.xml`, source code, or a
-checked-in properties file.
+ 
 
-When the upgraded compile fails, the script uses the
-[OpenAI Responses API](https://developers.openai.com/api/docs/guides/text) with
-[Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-The default model is `gpt-5.5`; override it with `--openai-model` when required.
+The check is a compile plus a test count above zero. If Maven reports `Total: 0`, the Surefire provider note on [Install SHAFT](/docs/start/installation) applies.
 
-Each request is constrained as follows:
+What the upgrader guarantees is background: [How the upgrade works](/docs/start/upgrade/how-it-works). Flags and coordinates: [Upgrade reference](/docs/start/upgrade/reference).
 
-- Compiler output is redacted for common tokens, passwords, bearer headers, and
- private keys.
-- Only candidate POMs and Java files named by compiler diagnostics are
- considered.
-- A file containing a detected secret is excluded from editable context.
-- The model can replace only existing, non-symlink `pom.xml` and `.java` files
- that were supplied in the request.
-- Absolute paths, parent traversal, new files, unrelated extensions, invalid
- XML, oversized output, and changes outside the supplied context are rejected.
-- The modular BOM/version contract is revalidated after every accepted repair.
-- The project is recompiled after each of the three repair attempts.
-- If no attempt passes, the POM and every AI-edited file are rolled back.
+## Related
 
-Use `--no-ai` to force deterministic rollback even when the environment already
-contains an API key.
+- [Run the upgrade](/docs/start/upgrade/run)
 
-## Selenium source migration
+---
 
-Source migration is opt-in and compile-validated. `basic` keeps source intact.
-`session` and `full` are rejected for REST Assured-only, Cucumber-only, and
-other non-Selenium/Appium projects.
+# Install SHAFT skills in your agent
 
-### Session upgrade rewrites
+Canonical HTML: https://shafthq.github.io/docs/journeys/skills
+Markdown: https://shafthq.github.io/md/journeys/skills.md
 
-`--upgrade-type session` performs the POM upgrade, then rewrites supported
-driver session code:
+# Install SHAFT skills in your agent
 
-- `WebDriver` type declarations, simple return types, parameters, and
- `ThreadLocal ` holders become `SHAFT.GUI.WebDriver`.
-- `new ChromeDriver(...)`, `new FirefoxDriver(...)`, `new EdgeDriver(...)`,
- `new SafariDriver(...)`, `new RemoteWebDriver(...)`, `new AndroidDriver(...)`,
- `new IOSDriver(...)`, and `new AppiumDriver(...)` are wrapped as
- `new SHAFT.GUI.WebDriver(new ...Driver(...))`.
-- `driver.close()` becomes `driver.quit()` when the variable was migrated to
- `SHAFT.GUI.WebDriver`.
+For a project that already has an agent (Codex, Claude, Copilot, Grok, or another client that reads skill files). The pack is instructions, not a hosted model. The result is a new session that can load `$shaft-developer`.
 
-Example:
+## Steps
 
-```java
-// Selenium before
-private WebDriver driver;
+1. From the project root, install skills only. On macOS or Linux:
 
-@BeforeMethod
-public void startDriver() {
- driver = new ChromeDriver();
-}
-
-@AfterMethod
-public void stopDriver() {
- driver.close();
-}
-
-// SHAFT after session upgrade
-private SHAFT.GUI.WebDriver driver;
-
-@BeforeMethod
-public void startDriver() {
- driver = new SHAFT.GUI.WebDriver(new ChromeDriver());
-}
-
-@AfterMethod
-public void stopDriver() {
- driver.quit();
-}
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-skills
 ```
 
-### Full upgrade rewrites
+ 
 
-`--upgrade-type full` runs the session upgrade, then rewrites simple
-one-statement browser and element actions:
+2. Start a new agent session in that project.
+3. Ask it to load `$shaft-developer`.
 
-```java
-// Selenium
-driver.get("https://example.com");
-driver.findElement(By.id("login")).click();
-driver.findElement(By.id("username")).sendKeys("demo");
+The check is that the agent finds the skill. Other install routes (Claude marketplace, Skills CLI, MCP init) are on [Install SHAFT agent skills](/docs/agentic/skills). Use those only if this installer is not the route you want.
 
-// SHAFT
-driver.browser().navigateToURL("https://example.com");
-driver.element().click(By.id("login"));
-driver.element().type(By.id("username"), "demo");
-```
+If the agent also needs SHAFT tools, continue to [Connect an MCP client](/docs/journeys/mcp) or [Use shaft-cli](/docs/journeys/cli).
 
-The automatic full upgrade currently targets:
+## Related
 
-- `driver.get(url)` and `driver.navigate().to(url)`.
-- `driver.findElement(locator).click()`.
-- `driver.findElement(locator).sendKeys(text)`.
-- `driver.findElement(locator).getText()`.
-- `driver.findElement(locator).isDisplayed()`.
-- `driver.findElement(locator).getAttribute(name)`.
+- [Install SHAFT agent skills](/docs/agentic/skills)
 
-The report lists files changed by source migration and records unsupported
-patterns that need manual review. Risky cases remain manual: chained Selenium
-`Actions`, JavaScript execution, custom waits, reused `WebElement` instances,
-`findElements` collection handling, exception-driven control flow, and
-assertions whose message or soft/hard behavior matters.
+---
 
-After a full upgrade, migrate element and browser assertions manually so their
-intent remains clear:
+# Use the IntelliJ plugin
 
-```java
-// Selenium/TestNG assertion
-Assert.assertTrue(driver.findElement(By.id("banner")).isDisplayed());
+Canonical HTML: https://shafthq.github.io/docs/journeys/intellij
+Markdown: https://shafthq.github.io/md/journeys/intellij.md
 
-// SHAFT assertion
-driver.element().assertThat(By.id("banner")).isVisible();
+# Use the IntelliJ plugin
+
+For IntelliJ IDEA. The result is the SHAFT tool window open and setup verified. An AI agent connection is optional.
+
+## Steps
+
+1. Install the SHAFT plugin from JetBrains Marketplace, or install a ZIP and restart if the IDE asks.
+2. Open **Tools | SHAFT | Open SHAFT**.
+3. In **Set up SHAFT tools**, let Prerequisites detect Python 3, Java, and Maven. Use **Open in Terminal** for anything missing, then **Recheck**.
+4. Choose a setup route only if you want an agent. **Open setup command in terminal**, review the command, and press Enter yourself. The plugin does not run the installer.
+5. **Verify setup** until it reports the SHAFT tools it needs.
+
+The check is a verified tool window, not a generated test. Recorder, Doctor, and coding-partner actions are documented on [IntelliJ IDEA plugin](/docs/agentic/intellij). Follow one action there after this page is done.
+
+```text
+Tools | SHAFT | Open SHAFT
 ```
 
 ## Related
 
-- [Installation](/docs/start/installation)
-- [Quick Start](/docs/start/quick-start)
-- [Modules](/docs/features/modules)
-- [Upgrade overview](/docs/start/upgrade)
+- [IntelliJ IDEA plugin](/docs/agentic/intellij)
+
+---
+
+# Connect an MCP client
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/mcp
+Markdown: https://shafthq.github.io/md/journeys/mcp.md
+
+# Connect an MCP client
+
+For an MCP client you already run. The result is that client listing SHAFT tools and one call returning. Do this after a project [runs](/docs/journeys/create-a-project) or [upgrades](/docs/journeys/upgrade-a-project). IntelliJ users should use [the plugin path](/docs/journeys/intellij) instead of this page.
+
+## Steps
+
+1. Change into the project directory.
+2. Run the installer for your OS. It configures SHAFT agent tools in the current project:
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.sh" | bash
+```
+
+```powershell
+irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.ps1" | iex
+```
+
+3. Restart the agent session so it reloads MCP servers.
+4. Ask it to call guide search:
+
+```json
+{"tool": "shaft_guide_search", "arguments": {"query": "create a project", "maxResults": 3}}
+```
+
+The check is a tool result, not a rewritten test. Client flags and the tool list stay on [Connect shaft-mcp](/docs/agentic/mcp).
+
+## Related
+
+- [Connect shaft-mcp](/docs/agentic/mcp)
+
+---
+
+# Use shaft-cli
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/cli
+Markdown: https://shafthq.github.io/md/journeys/cli.md
+
+# Use shaft-cli
+
+For a terminal-only workflow. The result is `shaft-cli` on your PATH running one command. No IDE and no MCP client configuration.
+
+## Steps
+
+1. From any directory, install the CLI and its MCP runtime:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-cli
+```
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+```
+
+2. Open a new terminal and run:
+
+```bash
+shaft-cli --help
+```
+
+The check is a help listing, not a browser session. Command names and session mode are on [shaft-cli](/docs/agentic/cli). Local Android, Grid, and browser installs continue at [Install local infrastructure](/docs/start/local-infrastructure).
+
+## Related
+
+- [shaft-cli command line](/docs/agentic/cli)
+
+---
+
+# Run the suite in CI
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/ci
+Markdown: https://shafthq.github.io/md/journeys/ci.md
+
+# Run the suite in CI
+
+For a project that already runs locally. The result is the same suite running in a pipeline without a display, and an Allure archive saved as a build artifact.
+
+## Steps
+
+1. Use a JDK and Maven that match [Install SHAFT](/docs/start/installation).
+2. Run:
+
+```bash
+mvn -e test \
+ -DheadlessExecution=true \
+ -Dallure.automaticallyOpen=false \
+ -Dallure.generateArchive=true
+```
+
+3. Publish the Allure results or archive your pipeline already collects. The job is done when the test command exits and the archive artifact exists.
+
+Property overrides and Jenkins or GitHub Actions notes stay on [Running tests in CI/CD pipelines](/docs/reference/guides/CI_CD_Integration).
+
+## Related
+
+- [Running tests in CI/CD pipelines](/docs/reference/guides/CI_CD_Integration)
+
+---
+
+# Add a test surface
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/add-a-surface
+Markdown: https://shafthq.github.io/md/journeys/add-a-surface.md
+
+# Add a test surface
+
+For a project that already has a green `mvn test`. Pick one surface, follow that page's sample, and stop when that sample is part of the same run.
+
+| Surface | Page |
+|---|---|
+| Browser | [Web testing](/docs/testing/web) |
+| HTTP API | [API testing](/docs/testing/api) |
+| Android, iOS, or mobile web | [Mobile and Flutter testing](/docs/testing/mobile) |
+| Flutter locators | [Flutter testing](/docs/testing/flutter) |
+| JDBC | [Database testing](/docs/testing/database) |
+| Local, Docker, or SSH commands | [CLI testing](/docs/testing/cli) |
+| Recorded HTTP or browser contracts | [UI and API contract replay](/docs/testing/contracts) |
+
+Generate the extra surface from [Install SHAFT](/docs/start/installation) when you would rather start a new module than edit the POM by hand. Device and browser installs are [Install local infrastructure](/docs/start/local-infrastructure), after the sample compiles.
+
+```bash
+mvn test
+```
+
+Why a locator flake happens is background: [How SHAFT reduces flakiness](/docs/testing/flakiness).
+
+## Related
+
+- [Web testing](/docs/testing/web)
 
 ---
 
@@ -2591,6 +2506,8 @@ a [Google Open Source Peer Bonus](https://opensource.googleblog.com/2023/05/goog
 
 ## Choose your path
 
+The guide home is [Choose a path](/docs/journeys). Use that list. The table below matches the same jobs.
+
 | Goal | Go directly to |
 |---|---|
 | Create a new project | [Project Generator](/docs/start/installation) |
@@ -3120,262 +3037,6 @@ Preflight is `scripts/ci/flutter_emulator_preflight.sh`. It must pass before
 - Local emulator: `.github/workflows/e2eLocalTests.yml` (`Ubuntu_Flutter_Emulator_Local`)
 - Locator tips: [Locators and Self-Healing](/docs/reference/actions/GUI/Locators_And_Self_Healing)
 - Issues: https://github.com/ShaftHQ/SHAFT_ENGINE/issues/5741 https://github.com/ShaftHQ/SHAFT_ENGINE/issues/5743
-
----
-
-# How SHAFT reduces flakiness
-
-Canonical HTML: https://shafthq.github.io/docs/testing/flakiness
-Markdown: https://shafthq.github.io/md/testing/flakiness.md
-
-# How SHAFT reduces flakiness
-
-SHAFT reduces flakiness by moving timing, locator, retry, and evidence capture
-out of individual tests and into the engine. It does not make every failure
-pass: product defects, broken test data, and real environment outages should
-still fail. The difference is that common UI timing and locator churn have one
-configured path instead of many hand-written sleeps and custom retry loops.
-
-```mermaid
-flowchart TD
- Intent["Test intent"] --> Locator["Semantic locator"]
- Locator --> Sync["Synchronized action"]
- Sync --> Evidence["Allure evidence"]
- Evidence --> Passed{"Passed?"}
- Passed -- Yes --> Result["Stable pass"]
- Passed -- No --> Retry{"Retry enabled?"}
- Retry -- No --> Failure["Original failure"]
- Retry -- Yes --> RetryEvidence["Retry with extra evidence"]
- RetryEvidence --> Final{"Still failing?"}
- Final -- No --> Flaky["Flaky signal preserved"]
- Final -- Yes --> Heal{"Heal enabled and locator missing?"}
- Heal -- No --> Failure
- Heal -- Yes --> Recovery["Validated recovery or original failure"]
-```
-
-## Semantic Locators
-
-Raw Selenium locators often bind tests to implementation details: generated
-IDs, CSS classes, absolute XPath, or DOM depth. SHAFT gives tests a higher
-level locator vocabulary. Generated and repository code must still follow the
-[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
-unique author-written id, then ARIA role, then native relative xpath only.
-
-- `SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build()` is the first
- generated-code rung when the product owns a stable author-written id.
-- `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Sign in").build()` targets
- semantic roles and text instead of brittle markup structure.
-- `SHAFT.GUI.Locator.inputField("Email")` and
- `SHAFT.GUI.Locator.clickableField("Sign in")` are Smart Locators for a
- human's throwaway exploration only. Do not emit them into generated or
- repository code.
-- `driver.element().type("Email", value)` and
- `driver.element().click("Sign in")` are intent-shaped overloads that route
- through those Smart Locators in both WebDriver and Playwright sessions.
-- `driver.act(...)` can express a guarded workflow intent, then SHAFT plans it
- into ordinary browser, element, and touch actions only when natural actions
- are enabled and the plan passes the configured trust threshold.
-
-```java title="SemanticLocators.java"
-
-By email = SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build();
-By apply = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Apply filter").build();
-
-driver.element()
- .type(email, "qa@example.com")
- .click(apply);
-```
-
-The practical effect is simple: when a team renames a CSS class or wraps a
-button in a new container, the test can keep describing what the user sees.
-When the user-facing label itself changes, the failing test points to a real
-product or requirements change instead of a hidden selector detail.
-
-## Automatic Synchronization
-
-Most flaky UI tests fail because they click before the browser is ready. SHAFT
-element actions use a configured fluent wait, poll for retriable Selenium
-states, scroll the element into view, and then perform the action. Browser and
-element actions also call lazy-loading synchronization where applicable: SHAFT
-waits for document readiness, active `fetch`/XHR quiet time, resource timing
-changes, jQuery activity, and Angular readiness when those signals exist on the
-page. For native user actions, SHAFT re-locates the element after this
-synchronization and verifies that the final target is displayed and enabled
-before acting on it.
-
-The default element lookup budget comes from
-`defaultElementIdentificationTimeout`; condition-specific waits use
-`waitForUiStateTimeout` unless you pass a shorter `Duration`. Lazy-loading
-synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
-be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
-`lazyLoadingNetworkIdleQuietWindowMillis`.
-
-Lazy-loading readiness itself is layered, so the default wait adapts to what a
-page actually does without any test-code changes:
-
-- **JS readiness engine** (default, always on) polls `document.readyState`,
- in-flight `fetch`/XHR/`sendBeacon` activity, resource-timing changes, jQuery
- and Angular activity, and a main-thread idle probe
- (`requestIdleCallback` → `requestAnimationFrame` → `setTimeout` fallback)
- every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
- `EventSource`/`WebSocket` connections are observed but never block idle, so
- SSE and long-poll pages don't pin every action at the timeout ceiling.
-- **DOM-stability quiet window** is split: cheap per-action waits use
- `lazyLoadingDomStabilityQuietWindowMillis` (default `0`, off). After
- navigation — and when you call `driver.browser().waitForLazyLoading()` —
- SHAFT also applies `lazyLoadingDomStabilityOnNavigationQuietWindowMillis`
- (default `300`ms) so in-viewport hydration can settle without turning DOM
- folding on for every click. That navigation wait is Selenium WebDriver only
- (including new-tab/window `navigateToURL`); Playwright `waitForLazyLoading()`
- remains a load-state wait. `pageLoadStrategy=eager` / `readinessState=interactive`
- unblocks Selenium/BiDi at `DOMContentLoaded`; the JS readiness engine still
- requires `loaded`/`complete` plus XHR/fetch idle and does not treat
- `interactive` as document-ready. Long-lived `EventSource`/`WebSocket` and BiDi
- in-flight counts remain advisory; they never hard-gate the wait.
-- **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
- in-flight requests via WebDriver BiDi network events when BiDi is enabled.
- This signal is advisory only: it can extend the quiet window while requests
- are genuinely in flight (aged out after 10 seconds; SSE/WebSocket upgrades
- excluded), but it never hard-gates readiness, preserving the same tolerance
- for long-poll and SSE-style pages as the JS-only path.
-
-```properties title="src/main/resources/properties/custom.properties"
-lazyLoadingPollingIntervalMillis=200
-lazyLoadingDomStabilityQuietWindowMillis=0
-lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
-waitForLazyLoadingTimeout=30
-```
-
-For content that only loads on scroll — infinite lists, or sections behind an
-`IntersectionObserver` that hydrate only once visible — call
-`scrollToLoadAll()` right before a full-page assertion or screenshot. It sweeps
-the page in bounded, viewport-height steps (up to
-`lazyLoadingScrollSweepMaxSteps`, default `20`), waiting for lazy-loading
-readiness between each step, then restores the original scroll position. It is
-never invoked automatically by any readiness wait — sweeping an entire page is
-not a safe default before an arbitrary action — so call it explicitly:
-
-```java title="ScrollToLoadAll.java"
-driver.browser().navigateToURL("https://example.test/catalog")
- .scrollToLoadAll()
- .captureScreenshot();
-```
-
-```java title="ExplicitStateWait.java"
-driver.browser().navigateToURL("https://example.test/orders")
- .and().element().click("Refresh orders")
- .waitUntil(webDriver ->
- webDriver.findElement(By.id("order-count")).getText().equals("25"));
-```
-
-Use explicit waits for business states the browser cannot infer: a queue
-finishing, a toast disappearing, a calculated value appearing, or a backend job
-reaching a terminal state. Do not add sleeps around SHAFT actions by default;
-that duplicates the engine wait and makes failures slower without making them
-more accurate.
-
-For strict WebDriver form-entry checks, enable
-`forceCheckTextWasTypedCorrectly=true`. SHAFT then verifies the final value
-after `type`, `typeSecure`, and `typeAppend`; special key sequences are skipped
-because they do not map to a stable literal field value.
-
-## Retry With Evidence
-
-Retry is a diagnostic boundary, not a cure. By default,
-`retryMaximumNumberOfAttempts=0`, so SHAFT does not hide failures unless you opt
-in. When retries are enabled, SHAFT's TestNG retry analyzer and JUnit extension
-use the same retry budget. If `forceCaptureSupportingEvidenceOnRetry=true`,
-the retry attempt turns on richer evidence such as video, animated GIF,
-WebDriver logs, page source on failure, and Playwright tracing when retry-only
-tracing is enabled.
-
-`retryMaximumNumberOfAttempts` means additional attempts after the original
-failure: `1` allows one retry, for two executions total. TestNG delegates this
-to its retry analyzer. JUnit schedules the retry after the failed attempt's
-`@AfterEach` lifecycle has finished, then runs the retry through JUnit again so
-`@BeforeEach` setup is executed for the retry attempt. Keep browser/session
-creation in setup and cleanup in teardown so each retry starts from isolated
-state.
-
-```properties title="src/main/resources/properties/custom.properties"
-retryMaximumNumberOfAttempts=1
-forceCaptureSupportingEvidenceOnRetry=true
-playwright.tracing.onRetryOnly=true
-```
-
-Keep the retry budget small. A pass-after-retry is still a flaky signal that
-should be reviewed; the value is that the retry attempt carries enough evidence
-to tell timing, locator, environment, and product failures apart.
-
-## Flake Profiler
-
-The flake profiler is disabled by default. Enable it when you need a run-level
-and per-test view of where time is going during element actions, assertions,
-wait polling, retries, and evidence capture.
-
-```properties title="src/main/resources/properties/custom.properties"
-shaft.flakeProfiler.enabled=true
-shaft.flakeProfiler.attachPerTest=true
-shaft.flakeProfiler.failOnSevereFlakeRisk=false
-shaft.flakeProfiler.slowActionThresholdMs=2000
-```
-
-The Allure attachments show slow actions, wait-heavy actions, locator lookup
-counts, match counts, stale element retries, healing attempts, retry history,
-and evidence costs. Element action duration excludes screenshot capture and
-report attachment time, while assertion and verification duration is measured
-around the validation step itself.
-
-Leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` during investigation.
-Use the JSON profile to set a realistic `shaft.flakeProfiler.slowActionThresholdMs`
-before making severe flake risk fail the run.
-
-## Optional Self Healing
-
-For web locator churn that survives the locator strategy above, SHAFT Heal can
-recover eligible locator-not-found failures. It is optional, disabled by
-default, and provided by the separate `io.github.shafthq:shaft-heal` artifact.
-
-```properties title="src/main/resources/properties/custom.properties"
-healing.strategy=shaft-heal
-healing.minimumTrustPercentage=85
-healing.ambiguityMargin=0.10
-```
-
-SHAFT first tries the original locator. Recovery runs only after a web
-locator-not-found result, and the action proceeds only when the provider returns
-exactly one validated element. The provider scores deterministic evidence such
-as accessibility names, labels, configured test IDs, stable IDs/names,
-semantic attributes, DOM fingerprints, native state, ancestor context, and
-bounded local history. Low trust, ties, changed frame locators, and changed
-shadow-host locators preserve the original failure.
-
-Use healing as a safety net while updating locators, not as a reason to ignore
-broken tests. Reports under `target/shaft-heal/reports` and Allure attachments
-show why a candidate was accepted or rejected.
-
-## What To Use First
-
-| Flakiness source | First SHAFT feature to use | Why |
-| --- | --- | --- |
-| Generated IDs, wrapper markup, or CSS churn | Author-written ids via the locator builder, then ARIA roles | Tests follow stable product identity instead of DOM implementation. |
-| Clicks before render, XHR, or framework settling | Built-in synchronization and explicit waits | Timing policy lives in one engine path. |
-| Unknown action or assertion slowdown | Flake profiler | Allure shows action, wait, retry, and evidence timings separately. |
-| Intermittent CI browser or infrastructure blips | Small retry budget with retry evidence | The suite can classify a transient failure without losing the original signal. |
-| A known web locator changed after a release | SHAFT Heal | Recovery is bounded, trust-gated, and reported. |
-| Hard-to-triage failures | Allure evidence, Doctor, and retry diagnostics | The failure carries screenshots, logs, source snapshots, and retry context. |
-
-## Related
-
-- [Web testing](/docs/testing/web)
-- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
-- [ARIA Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#aria-locators)
-- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
-- [Explicit Waits](/docs/reference/actions/GUI/Waits_And_Synchronization#explicit-waits)
-- [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions)
-- [SHAFT Heal](/docs/agentic/heal)
-- [Reporting](/docs/reference/reporting/)
-- [Properties Reference](/docs/reference/properties/PropertiesList)
 
 ---
 
@@ -4448,119 +4109,6 @@ the defaults. Maintainer detail lives in
 - [Playwright Backend](/docs/reference/actions/GUI/Playwright_Backend)
 - [UI and API contract replay](/docs/testing/contracts)
 - [Validations](/docs/reference/actions/Validations)
-
----
-
-# Agentic testing
-
-Canonical HTML: https://shafthq.github.io/docs/agentic/overview
-Markdown: https://shafthq.github.io/md/agentic/overview.md
-
-# Agentic testing without hidden automation
-
-SHAFT separates deterministic automation from optional model-provider advice.
-MCP, Capture, Doctor, and Heal remain useful without provider credentials.
-
-```mermaid
-flowchart TD
- IntelliJ["IntelliJ plugin"] --> MCP["SHAFT MCP"]
- Client["AI client"] --> MCP["SHAFT MCP"]
- MCP --> Engine["shaft-engine tools"]
- MCP --> Capture["Capture"]
- Capture --> Generated["Reviewable TestNG source"]
- Results["Allure results"] --> Doctor["Doctor"]
- Doctor --> Diagnosis["Portable diagnosis"]
- FailedLocator["Failed locator"] --> Heal["Deterministic Heal"]
- Heal --> Report["Explainable recovery report"]
- Provider["Optional provider"] -. consent + redaction .-> Doctor
- Provider -. consent + redaction .-> Heal
-```
-
-## Install SHAFT agent tools
-
-Install the project-local [ChaosEngine harness](/docs/agentic/chaos-engine) when
-you want one canonical agent workflow plus verified host adapters and local
-Memory, MemPalace, and Graphify tooling.
-
-Install the first-party skill pack without configuring an MCP client. The
-[SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
-routes, native directories, upgrade behavior, and packaging tradeoffs.
-
-Install `shaft-cli` without configuring an MCP client. This also installs its
-internal `shaft-mcp` runtime prerequisite.
-
-Change into the target project first. Public one-liners install SHAFT Agentic
-Tools (MCP, CLI, and skills):
-
-```powershell
-irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.ps1" | iex
-```
-
-```bash
-curl -fsSL "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.sh" | bash
-```
-
-CLI-only install still uses the inner Agentic Tools script:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
-```
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-cli
-```
-
-| Capability | Default behavior | Start here |
-|---|---|---|
-| IntelliJ plugin | IDE front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and Guide search | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
-| MCP | Local stdio tools; no model credentials stored | [Connect MCP](/docs/agentic/mcp) |
-| Planning | Deterministic same-origin crawl drafts Markdown test plans into `specs/`; no AI calls | [Planning test coverage](/docs/agentic/mcp#planning-test-coverage) |
-| Capture | Record and generate deterministic test code | [Capture](/docs/agentic/capture) |
-| Doctor | Analyze allowlisted evidence offline | [Doctor](/docs/agentic/doctor) |
-| Heal | Recover eligible web locators with an explainable policy | [Heal](/docs/agentic/heal) |
-| Pilot providers | Disabled until explicitly configured and approved | [Provider controls](/docs/agentic/providers) |
-
-## Why SHAFT?
-
-Compared with plain recorder/codegen tools and raw agent-written Selenium,
-SHAFT's agentic loop differs on four load-bearing points:
-
-- **Privacy-safe recording.** Typed values are externalized to test-data
- files, secrets are redacted at capture time, and a checked-in team policy
- (`.shaft/recorder-policy.json`) pins recording behavior for the whole
- repository — recordings are safe to commit and share.
-- **Compile-validated codegen.** Generated tests are compiled against SHAFT
- and optionally replayed end-to-end before you ever see them; a replay
- failure returns the code *plus* the failing step's diagnostics, never a
- silent broken file.
-- **Repo-aware generation.** The Coding Partner plans against your existing
- page objects, locator fields, and action methods before proposing new code,
- so generation extends your suite instead of forking it.
-- **A maintenance loop, not just a generator.** Doctor triages failed runs
- from Allure evidence and Heal recovers eligible locators with an
- explainable policy — the same tools that created the test keep it alive.
-
-The same workflows run on every agent — Codex, Claude Code, GitHub Copilot,
-and Gemini — because they are MCP tools, not agent-specific plugins; and the
-No-AI lane (Recorder, codegen, Doctor, Healer) works with no agent or model
-credentials at all.
-
-Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for
-Capture and Doctor CLI examples.
-
-```text
-MCP commands live on /docs/agentic/mcp#mcp-command-reference
-```
-
-## Related
-
-- [What's new: agentic tools](/docs/features/whats-new/agentic)
-- [ChaosEngine](/docs/agentic/chaos-engine)
-- [SHAFT agent skills](/docs/agentic/skills)
-- [MCP](/docs/agentic/mcp)
-- [Pilot](/docs/agentic/pilot)
-- [Doctor](/docs/agentic/doctor)
-- [Providers](/docs/agentic/providers)
 
 ---
 
@@ -8960,1002 +8508,6 @@ shaft-cli call test_plan_explore targetUrl=https://example.test goal='checkout h
 - [Overview](/docs/agentic/overview)
 - [Capture](/docs/agentic/capture)
 - [Doctor](/docs/agentic/doctor)
-
----
-
-# Agentic tool updates
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/agentic
-Markdown: https://shafthq.github.io/md/features/whats-new/agentic.md
-
-# Agentic tool updates
-
-Choose the smallest local interface that fits your workflow. Provider-backed
-advice remains optional; deterministic tools continue to work without it.
-
- 
-
-Install only the tool route your environment uses:
-
-```text
-MCP, CLI, IntelliJ, or agent skills
-```
-
-![SHAFT IntelliJ Assistant showing project guidance, local MCP tools, and a reviewed response.](/img/whats-new/intellij-assistant.png)
-
-## Related
-
-- [Agentic testing overview](/docs/agentic/overview)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Architecture
-
-Canonical HTML: https://shafthq.github.io/docs/features/architecture
-Markdown: https://shafthq.github.io/md/features/architecture.md
-
-# Architecture
-
-SHAFT has two kinds of modularity:
-
-1. Maven artifacts control dependency weight.
-2. The `SHAFT` facade exposes testing namespaces such as GUI, API, CLI, and DB.
-
-These are related, but they are not one artifact per facade namespace. Most
-functionality remains in the required `shaft-engine` JAR.
-
-## Where SHAFT fits in a test automation stack
-
-A test automation architecture separates concerns into layers — your test
-scripts, page objects/models, the engine, core libraries, and drivers/protocols
-that talk to the application under test. SHAFT Engine sits in the **engine**
-layer: it wraps and enhances industry-standard libraries (Selenium WebDriver,
-Appium, REST Assured, TestNG/JUnit, Allure) with smart element handling,
-a unified API across web/mobile/API/CLI/database testing, built-in reporting,
-and property-based configuration.
-
-| Capability | Without SHAFT | With SHAFT |
-|---|---|---|
-| Wait strategy | Manual `WebDriverWait` configuration | Automatic smart waits |
-| Element not found handling | Custom retry logic | Built-in retry with configurable attempts |
-| Screenshot capture | Manual `TakesScreenshot` code | Automatic at validation points |
-| Reporting | Manual Allure setup and step annotations | Automatic step logging and report generation |
-| Cross-browser | Manual driver management | Automatic driver management |
-
-SHAFT is an **engine**, not a framework: it does not dictate how you structure
-your tests — Page Object Model, fluent design, or any pattern you prefer all
-work — it provides the building blocks and you decide how to assemble them.
-This means SHAFT works with your team's existing conventions and can be
-adopted gradually, one test at a time, without rewriting your suite.
-
-## Published Maven artifacts
-
-```mermaid
-flowchart TB
- Consumer["Consumer project"] --> BOM["shaft-bom dependency management"]
- Consumer --> Engine["shaft-engine required runtime"]
- Consumer -.->|optional| PilotCore["shaft-pilot-core contracts + security"]
- Consumer -.->|optional| Capture["shaft-capture managed recording + privacy"]
- Consumer -.->|optional| Doctor["shaft-doctor offline evidence + diagnosis"]
- Consumer -.->|optional| AI["shaft-ai direct providers"]
- Consumer -.->|optional| Heal["shaft-heal deterministic element recovery"]
- Consumer -.->|optional| BrowserStack["shaft-browserstack BrowserStack Java SDK"]
- Consumer -.->|optional| Video["shaft-video local desktop recording"]
- Consumer -.->|optional| Visual["shaft-visual OpenCV + Eyes + Shutterbug"]
- Consumer -.->|optional| SikuliX["shaft-sikulix SikuliX desktop image automation"]
- Agent -.-> MCP["shaft-mcp executable MCP server"]
-
- BrowserStack --> Engine
- Video --> Engine
- Visual --> Engine
- SikuliX --> Engine
- MCP --> Engine
- MCP --> Capture
- MCP --> Doctor
- MCP --> AI
- PilotCore --> Engine
- Capture --> PilotCore
- Doctor --> PilotCore
- AI --> PilotCore
- Heal --> Engine
- Heal --> PilotCore
-
- Legacy["SHAFT_ENGINE relocation POM only"] -.->|relocates| Engine
-
- Engine --> GUI["Web + Appium/Flutter"]
- Engine --> API["REST API"]
- Engine --> Data["DB + CLI + test data"]
- Engine --> Support["validations + reporting accessibility + properties"]
-```
-
-| Artifact | Packaging | Consumer purpose |
-|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
-| `shaft-engine` | JAR | Required facade and core web, mobile, API, database, CLI, reporting, and accessibility implementation. |
-| `shaft-pilot-core` | JAR | Provider-neutral Pilot contracts, consent, redaction, budgets, audit metadata, and deterministic fallback. |
-| `shaft-capture` | JAR | Managed Chrome/Edge recording, deterministic privacy classification, versioned schema, and atomic JSON persistence. |
-| `shaft-doctor` | JAR | Portable redacted evidence, deterministic diagnosis, optional advisory, and approval-gated isolated repair proposals. |
-| `shaft-ai` | JAR | Optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama HTTP adapters discovered through `ServiceLoader`. |
-| `shaft-heal` | JAR | Deterministic, explainable, action-scoped web element recovery with bounded local history and optional reranking. |
-| `shaft-browserstack` | JAR | BrowserStack SDK interception and `browserstack.yml` orchestration. Direct BrowserStack sessions stay in `shaft-engine`. |
-| `shaft-video` | JAR | Local non-headless desktop recording. Appium-native recording stays in `shaft-engine`. |
-| `shaft-visual` | JAR | Reference-image assertions and image-based lookup through OpenCV, Eyes, and Shutterbug. |
-| `shaft-sikulix` | JAR | SikuliX image matching for desktop workflows that cannot be reached through DOM or Appium locators. |
-| `shaft-mcp` | thin JAR | Optional MCP server and CLI exposing browser automation, managed capture, Doctor analysis, and packaged direct adapters. |
-| `shaft-bom` | POM | Aligns all SHAFT artifact versions; adds no runtime classes. |
-| `SHAFT_ENGINE` | relocation POM | Temporary legacy-coordinate bridge to `shaft-engine`; adds no optional providers. |
-
-See the [upgrade guide](/docs/start/upgrade) for method-level
-dependency boundaries.
-
-```xml title="pom.xml"
- 
- 
- 
- io.github.shafthq 
- shaft-bom 
- ${shaft.version} 
- pom 
- import 
- 
- 
- 
-
- 
- 
- io.github.shafthq 
- shaft-engine 
- 
- 
-```
-
-## Facade architecture
-
-```mermaid
-graph TB
- SHAFT["SHAFT facade"]
-
- subgraph "Testing namespaces in shaft-engine"
- GUI["GUI Web + Mobile"]
- API["API REST Assured"]
- CLI["CLI Terminal + Files"]
- DB["DB JDBC"]
- TestData["TestData JSON + Excel + CSV + YAML"]
- Validations["Validations Fluent assertions"]
- Properties["Properties Configuration"]
- Report["Report Logs + Attachments"]
- end
-
- subgraph "GUI components"
- WebDriver["WebDriver lifecycle"]
- Browser["Browser actions"]
- Element["Element actions"]
- Touch["Touch actions"]
- Alert["Alert actions"]
- Locator["Locator builder"]
- end
-
- subgraph "Test orchestration"
- TestNG["TestNG"]
- JUnit["JUnit"]
- Cucumber["Cucumber"]
- Allure["Allure"]
- end
-
- SHAFT --> GUI
- SHAFT --> API
- SHAFT --> CLI
- SHAFT --> DB
- SHAFT --> TestData
- SHAFT --> Validations
- SHAFT --> Properties
- SHAFT --> Report
-
- GUI --> WebDriver
- WebDriver --> Browser
- WebDriver --> Element
- WebDriver --> Touch
- WebDriver --> Alert
- WebDriver --> Locator
-
- TestNG -.->|uses| SHAFT
- JUnit -.->|uses| SHAFT
- Cucumber -.->|uses| SHAFT
- SHAFT -.->|reports to| Allure
-```
-
-## Optional provider discovery
-
-`shaft-heal`, `shaft-visual`, and `shaft-video` implement SHAFT-owned provider
-interfaces and register them through Java `ServiceLoader`. The facade and
-orchestration remain in `shaft-engine`, which means users add a provider JAR
-without changing test method calls.
-
-`shaft-browserstack` is a runtime integration rather than a SHAFT provider. It
-adds `browserstack-java-sdk`; SHAFT's core BrowserStack driver path also
-generates `browserstack.yml`, which the SDK consumes when the optional module is
-present.
-
-`shaft-sikulix` is a runtime action module. It adds the SikuliX API and a small
-desktop-image action facade without shadowing `shaft-engine` classes.
-
-## Module guides
-
-- [Upgrade and module selection](/docs/start/upgrade)
-- [SHAFT Heal](/docs/agentic/heal)
-- [BrowserStack SDK module](/docs/integrations/browserstack)
-- [Visual processing module](/docs/integrations/visual)
-- [Desktop and video](/docs/integrations/desktop-and-video)
-- [SHAFT Pilot](/docs/agentic/pilot)
-- [SHAFT Pilot release runbook](/docs/maintainers/pilot-release)
-- [SHAFT MCP](/docs/agentic/mcp)
-- [Optional AI providers](/docs/agentic/providers)
-- [SHAFT Capture](/docs/agentic/capture)
-- [Maven reactor layout](/docs/maintainers/reactor)
-
-## Related
-
-- [Overview](/docs/start/overview)
-- [Quick start](/docs/start/quick-start)
-- [Modules](/docs/features/modules)
-- [Reporting](/docs/features/reporting)
-- [Underlying technology](/docs/features/modules#technology)
-- [BrowserStack](/docs/integrations/browserstack)
-
----
-
-# Capture and generation updates
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/capture
-Markdown: https://shafthq.github.io/md/features/whats-new/capture.md
-
-# Capture and generation updates
-
-Use Capture to record a working journey, correct its intent, and generate code
-that passes replay before you keep it.
-
- 
-
-Open the local Capture workflow through its documented client:
-
-```text
-/record
-```
-
-![SHAFT Capture locator picker showing scored locator choices for the selected browser element.](/img/whats-new/capture-locator-picker.png)
-
-![SHAFT Capture assertion mode with the assertion panel open and a browser target selected.](/img/whats-new/capture-assertion-mode.png)
-
-## Related
-
-- [Capture guide](/docs/agentic/capture)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Evidence and report updates
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/evidence
-Markdown: https://shafthq.github.io/md/features/whats-new/evidence.md
-
-# Evidence and report updates
-
-Use the lightest evidence profile that answers the team's diagnostic needs.
-Failed runs can retain portable reports, bundles, manifests, and structured checks.
-
- 
-
-Keep the default automatic trace profile unless the project needs another level:
-
-```properties
-shaft.trace.enabled=true
-shaft.trace.mode=auto
-```
-
-![SHAFT Trace Viewer populated with a failed action timeline, filters, and evidence detail.](/img/whats-new/trace-viewer.png)
-
-![Generated Allure report with the SHAFT Failure Brief attachment open.](/img/whats-new/failure-brief.png)
-
-## Related
-
-- [Reporting and evidence](/docs/features/reporting)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Features and modules
-
-Canonical HTML: https://shafthq.github.io/docs/features/modules
-Markdown: https://shafthq.github.io/md/features/modules.md
-
-# Features and modules
-
-The required `shaft-engine` artifact provides the public facade and core test
-automation capabilities. Add optional artifacts only when a project uses the
-capability they own.
-
-## Published artifact map
-
-| Artifact | Add it when |
-|---|---|
-| `shaft-engine` | The project needs web, mobile, API, database, CLI actions, test data, accessibility, reporting, or screenshots. |
-| `shaft-pilot-core` | An integration needs provider-neutral Pilot contracts and local-agent orchestration. |
-| `shaft-capture` | The project records browser/API flows and generates reviewable replay code. |
-| `shaft-doctor` | The project analyzes Allure evidence and failure traces offline. |
-| `shaft-ai` | Pilot needs optional direct model-provider adapters. |
-| `shaft-heal` | Web tests need deterministic, explainable locator recovery. |
-| `shaft-mcp` | An MCP client needs SHAFT browser, Capture, Doctor, healer, or guide-search tools. |
-| `shaft-cli` | Scripts or CI need repeatable one-shot access to the SHAFT tool catalog. |
-| `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
-| `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
-| `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
-| `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
-| `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
-
-`shaft-capture-proxy` supports Capture's isolated proxy runtime and is not the
-normal consumer entry point. `report-aggregate` builds reactor-wide reports
-but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
-relocation POM for older coordinates, not a new-project dependency.
-
-`shaft-ocr` is present in `SHAFT_ENGINE` source as an unreleased preview. It is
-not part of the current published BOM; wait for a containing release before
-adding it as a project dependency.
-
-## Feature-to-module map
-
-| Feature | Maven artifact |
-|--------------------------------------------------------------------------------------------------|----------------------|
-| Web, mobile/Appium/Flutter, API, database, CLI, test data, accessibility, reporting, screenshots | `shaft-engine` |
-| Direct BrowserStack WebDriver/Appium sessions and app upload | `shaft-engine` |
-| BrowserStack SDK interception, multi-platform YAML, and SDK orchestration | `shaft-browserstack` |
-| Appium Android/iOS driver-native recording | `shaft-engine` |
-| Local non-headless desktop recording | `shaft-video` |
-| Reference-image assertions and image-path touch actions | `shaft-visual` |
-| Visible-text actions and OCR assertions | `shaft-ocr` |
-| SikuliX image-based desktop automation | `shaft-sikulix` |
-| Deterministic explainable web element recovery | `shaft-heal` |
-| Screenshot highlighting, animated GIFs, and `compareImageFolders(...)` | `shaft-engine` |
-
-See the [upgrade guide](/docs/start/upgrade) for the exact method
-boundaries.
-
-Use the BOM to align the core engine with any optional modules you add:
-
-```xml title="pom.xml"
- 
- 
- 
- io.github.shafthq 
- shaft-bom 
- ${shaft.version} 
- pom 
- import 
- 
- 
- 
-
- 
- 
- io.github.shafthq 
- shaft-engine 
- 
- 
- io.github.shafthq 
- shaft-visual 
- 
- 
- io.github.shafthq 
- shaft-sikulix 
- 
- 
-```
-
-## Smart Features
-
-SHAFT's smart features target the
-[Pillars of successful test automation](/docs/features/test-automation-pillars):
-Scalability, Reliability, and Maintainability. Use that guide for the
-feature-to-pillar map; use this page for artifact and platform selection.
-
-## Supported Platforms
-
-### Browsers
-
-| | Linux | macOS | Windows | Android | iOS |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| Google Chrome | :white_check_mark: | :white_check_mark: | :white_check_mark: |:white_check_mark: | :white_check_mark: |
-| Microsoft Edge | :white_check_mark: | :white_check_mark: | :white_check_mark: |_ | _ |
-| Mozilla Firefox | :white_check_mark: | :white_check_mark: | :white_check_mark: |_ | _ |
-| Apple Safari | _ | :white_check_mark: | _ | _ | :white_check_mark: |
-
-### Apps
-
-| | Android | iOS | Windows | 
-| :--- | :---: | :---: | :---: |
-| Native |:white_check_mark: | :white_check_mark: | N/A | 
-| Hybrid | :white_check_mark: | :white_check_mark: | N/A | 
-| Flutter | :white_check_mark: | :white_check_mark: | N/A | 
-| WPF | N/A | N/A |:white_check_mark: |
-
-### Other
-
-| API | Database | CLI | PDF | JSON | YAML | Excel | Property |
-| :---: | :---: | :---:|:---:|:---:|:---:|:---:|:---:|
-| :white_check_mark: |:white_check_mark: | :white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |
-
-### Test Orchestration
-
-| TestNG | JUnit | Cucumber |
-| :---: |:---: |:---: |
-| :white_check_mark: |:white_check_mark: |:white_check_mark: |
-
----
-
-## Underlying technology 
-
-SHAFT provides one facade over established automation projects while keeping
-heavy providers optional:
-
-| Layer | Technology |
-|---|---|
-| Runtime and build | [Java 25](https://www.oracle.com/java/technologies/downloads/), [Maven](https://maven.apache.org/) |
-| Web | [Selenium](https://www.selenium.dev/) |
-| Mobile | [Appium](https://appium.io/) |
-| API | [REST Assured](https://rest-assured.io/) |
-| Test runners | [TestNG](https://testng.org/), [JUnit](https://junit.org/), [Cucumber](https://cucumber.io/) |
-| Evidence | [Allure Report](https://allurereport.org/) |
-| Optional visual providers | [OpenCV](https://opencv.org/), [Applitools](https://applitools.com/), Selenium Shutterbug |
-| Distribution | [Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine), [GitHub Container Registry](https://github.com/ShaftHQ/SHAFT_ENGINE/pkgs/container/shaft-engine-mcp) |
-
-The facade keeps test code on one entry point while the underlying libraries do
-the specialized work:
-
-```java
-SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
-
-driver.browser().navigateToURL("https://duckduckgo.com");
-driver.element().type(By.name("q"), "SHAFT Engine");
-driver.assertThat().browser().title().contains("DuckDuckGo");
-
-driver.quit();
-```
-
-See [Architecture](/docs/features/architecture) for exact dependency boundaries.
-
-## Project support and adoption
-
-### Tooling and open-source program support
-
-SHAFT has received tooling or open-source support from:
-
-- [BrowserStack](https://www.browserstack.com/)
-- [LambdaTest](https://www.lambdatest.com/)
-- [Applitools](https://applitools.com/)
-- [JetBrains Open Source Support](https://jb.gg/OpenSourceSupport)
-
-Engineers responding to anonymous community surveys have reported using SHAFT
-within organizations including Vodafone, DXC Technology, Euronet, Solutions by
-STC, IDEMIA, GET Group, EFG Holding, Jahez, Incorta, Paymob, GIZA Systems, and
-others. These names are community-reported rather than audited customer
-endorsements. No organization is represented as guaranteeing or officially
-endorsing SHAFT.
-
-### Fund continued maintenance
-
-SHAFT remains free under the MIT License. Financial support helps fund release
-maintenance, documentation, and public infrastructure through
-[GitHub Sponsors](https://github.com/sponsors/MohabMohie/).
-
-Use your own provider credentials through properties rather than hardcoding
-them in tests:
-
-```properties title="src/main/resources/properties/browserStack.properties"
-browserStack.userName=${BROWSERSTACK_USERNAME}
-browserStack.accessKey=${BROWSERSTACK_ACCESS_KEY}
-browserStack.browserstackAutomation=true
-```
-
-## Related
-
-- [What's new since modularization](/docs/features/whats-new/modules)
-- [Architecture](/docs/features/architecture)
-- [Upgrade and module selection](/docs/start/upgrade)
-- [Visual processing module](/docs/integrations/visual)
-- [Desktop and video](/docs/integrations/desktop-and-video)
-- [BrowserStack integration](/docs/integrations/browserstack)
-
----
-
-# Features you might have missed
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/missed
-Markdown: https://shafthq.github.io/md/features/whats-new/missed.md
-
-# Features you might have missed
-
-Use these focused capabilities when exact text, stable locators, or report
-tooling need more than the basic path.
-
- 
-
-Build an accessible role locator for durable page-object code:
-
-```java
-By login = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();
-```
-
-## Related
-
-- [Validations](/docs/reference/actions/Validations)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Integrations and modules
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/modules
-Markdown: https://shafthq.github.io/md/features/whats-new/modules.md
-
-# Integrations and modules
-
-Add only the artifact that owns the required capability. Let the SHAFT BOM
-manage published module versions.
-
- 
-
-Add a selected artifact without repeating its BOM-managed version:
-
-```xml
- shaft-visual 
-```
-
-## Related
-
-- [Features and modules](/docs/features/modules)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Pillars of successful test automation
-
-Canonical HTML: https://shafthq.github.io/docs/features/test-automation-pillars
-Markdown: https://shafthq.github.io/md/features/test-automation-pillars.md
-
-# Pillars of successful test automation
-
-The **Pillars of successful test automation** are **Scalability**,
-**Reliability**, and **Maintainability**. SHAFT supports them by keeping test
-intent in the test code and moving browser, mobile, API, evidence,
-configuration, and recovery mechanics into one engine.
-
-```mermaid
-flowchart LR
- Suite["SHAFT test automation framework"]
-
- subgraph Scalability["Scalability"]
- direction TB
- ScaleGoal["Run more useful coverage without duplicating test logic"]
- Parallel["Parallel execution"]
- Surfaces["Web, mobile, API, CLI, DB"]
- Remote["Grid, Docker, BrowserStack"]
- Config["Property-driven environments"]
- ScaleGoal --> Parallel --> Surfaces --> Remote --> Config
- end
-
- subgraph Reliability["Reliability"]
- direction TB
- ReliableGoal["Make failures deterministic, observable, and actionable"]
- Sync["Built-in synchronization"]
- Evidence["Allure logs, screenshots, video, traces"]
- Retry["Small retry budgets with retry evidence"]
- Checks["Fluent assertions and validations"]
- ReliableGoal --> Sync --> Evidence --> Retry --> Checks
- end
-
- subgraph Maintainability["Maintainability"]
- direction TB
- MaintainGoal["Keep tests readable as products and platforms change"]
- Facade["One SHAFT facade"]
- Locators["Smart and fluent locators"]
- Data["External test data"]
- Recovery["Optional Heal recovery"]
- MaintainGoal --> Facade --> Locators --> Data --> Recovery
- end
-
- Suite --> ScaleGoal
- Suite --> ReliableGoal
- Suite --> MaintainGoal
-```
-
-## Scalability
-
-Scalability means the framework can add browsers, devices, environments, and
-test volume without forcing every test class to fork. SHAFT does this by
-putting execution choice behind configuration and keeping the test body on the
-same facade.
-
-| SHAFT support | What it enables |
-| --- | --- |
-| WebDriver and Playwright backends | Choose Selenium/Appium WebDriver or Playwright per test setup while keeping SHAFT GUI actions. |
-| Web, mobile, API, CLI, database, and test data namespaces | Keep different test surfaces in one framework instead of separate helper stacks. |
-| TestNG, JUnit, and Cucumber integration | Use the runner that fits the project and CI pipeline. |
-| TestNG parallel settings and ThreadLocal driver pattern | Run independent test methods, classes, suites, or data providers in parallel without sharing a driver instance. |
-| `SHAFT.CrossBrowserMode` | Run the same browser test class against Chrome, Firefox, and Safari sequentially or in parallel when Docker is available. |
-| `executionAddress` | Move the same test code from local execution to Docker, Selenium Grid, BrowserStack, Appium, or another remote WebDriver endpoint. |
-| `headlessExecution` and `maximumPerformanceMode` | Reduce desktop browser overhead when the suite needs faster CI feedback. |
-| `shaft-bom` and optional modules | Add heavy capabilities such as Visual, Video, SikuliX, Heal, BrowserStack SDK, Capture, Doctor, MCP, or AI providers only when the project needs them. |
-
-```properties title="src/main/resources/properties/custom.properties"
-executionAddress=localhost:4444
-targetOperatingSystem=Linux
-targetBrowserName=chrome
-headlessExecution=true
-SHAFT.CrossBrowserMode=parallelized
-```
-
-## Reliability
-
-Reliability means a passing test represents a real pass and a failing test
-carries enough evidence to explain the failure. SHAFT reduces accidental
-flakiness by centralizing waits, retries, reports, and validation behavior.
-
-| SHAFT support | What it protects |
-| --- | --- |
-| Element lookup timeout and fluent waits | Element actions retry until the element is available instead of relying on sleeps in every test. |
-| Browser lazy-loading waits | Browser actions can wait for document readiness, network quiet time, jQuery, and Angular signals when the page exposes them. |
-| Explicit condition waits | Tests can wait for business states such as a status value, count, URL, title, or spinner state. |
-| Fluent assertions and verifications | UI, API, file, number, object, and schema checks use one reporting path. |
-| Retry analyzer and JUnit extension | Retries are opt-in and bounded by `retryMaximumNumberOfAttempts`. |
-| Retry evidence capture | `forceCaptureSupportingEvidenceOnRetry=true` enables richer evidence on retry attempts. |
-| Allure report integration | Actions, logs, screenshots, request/command evidence, and attachments are grouped with the test result. |
-| SHAFT Doctor | Failed-run evidence can be packaged and diagnosed without relying on a live provider by default. |
-
-```properties title="src/main/resources/properties/custom.properties"
-defaultElementIdentificationTimeout=10
-waitForUiStateTimeout=600
-retryMaximumNumberOfAttempts=1
-forceCaptureSupportingEvidenceOnRetry=true
-evidenceLevel=CUSTOM
-screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
-attachFullLog=true
-```
-
-Use explicit waits for application states that the browser cannot infer:
-
-```java title="ReliableStateWait.java"
-
-driver.browser().navigateToURL("https://example.test/orders");
-driver.element().click("Refresh orders");
-driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
- By.id("sync-status"), "Complete"));
-driver.assertThat(By.id("order-count")).text().isEqualTo("25");
-```
-
-## Maintainability
-
-Maintainability means product changes require small, obvious test updates.
-SHAFT helps by making tests describe user intent, keeping configuration outside
-test logic, and supporting common automation design patterns.
-
-| SHAFT support | What it keeps maintainable |
-| --- | --- |
-| `SHAFT` facade | Test code uses one entry point for GUI, API, CLI, DB, test data, properties, reporting, and validations. |
-| Fluent action chains | Tests and page objects read as workflows instead of low-level WebDriver calls. |
-| Page Object Model and thin base-class patterns | Locators, page actions, and lifecycle setup stay in predictable places. |
-| Locator Builder | Generated and repository locators use `hasAnyTagName().hasId(...)`, then `hasRole(...)`, then native relative `By.xpath(...)` only. |
-| Smart Locators | `inputField(...)` and `clickableField(...)` stay for human exploration only; generated code must not emit them. |
-| Native WebDriver access | Teams can drop to Selenium/Appium APIs only when a specialized case needs it. |
-| External test data | JSON, CSV, Excel, YAML, and properties files keep data and environment values out of test methods. |
-| Programmatic and file-based properties | Environment changes can be made through properties or Maven `-D` overrides. |
-| Optional SHAFT Heal | Web locator recovery is explicit, trust-gated, reported, and kept separate from normal test code. |
-
-```java title="MaintainableLoginTest.java"
-
-public class LoginTest {
- private SHAFT.GUI.WebDriver driver;
- private SHAFT.TestData.JSON users;
-
- @BeforeMethod
- public void setUp() {
- driver = new SHAFT.GUI.WebDriver();
- users = new SHAFT.TestData.JSON("testData/users.json");
- }
-
- @Test
- public void userCanLogIn() {
- driver.browser().navigateToURL("/login");
- driver.element()
- .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build(), users.getTestData("valid.email"))
- .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build(), users.getTestData("valid.password"))
- .click(SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build());
- driver.assertThat().browser().url().contains("/dashboard");
- }
-
- @AfterMethod(alwaysRun = true)
- public void tearDown() {
- driver.quit();
- }
-}
-```
-
-## Choosing Features By Pillar
-
-| If the team needs... | Start with... |
-| --- | --- |
-| Faster CI feedback | TestNG/JUnit parallel execution, ThreadLocal drivers, headless execution, and remote Grid capacity. |
-| Wider platform coverage | `executionAddress`, `targetOperatingSystem`, `targetBrowserName`, BrowserStack, Appium, and CrossBrowserMode. |
-| Less UI timing noise | Built-in synchronization, explicit waits, and a low retry budget with retry evidence. |
-| Better failure triage | Allure evidence, screenshots, full logs, retry artifacts, Doctor, video, and Playwright tracing where used. |
-| Lower selector churn | Author-written ids via the locator builder, ARIA roles, Page Objects, and optional SHAFT Heal. |
-| Cleaner test data changes | `SHAFT.TestData` with JSON, CSV, Excel, YAML, or properties files. |
-| Smaller dependency footprint | `shaft-engine` plus only the optional SHAFT modules the project actually uses. |
-
-## Related
-
-- [Architecture](/docs/features/architecture)
-- [Features and modules](/docs/features/modules)
-- [Web testing](/docs/testing/web)
-- [How SHAFT reduces flakiness](/docs/testing/flakiness)
-- [Parallel Execution](/docs/reference/configuration/parallelExecution)
-- [Solution Design](/docs/reference/guides/Solution_Design)
-- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
-- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
-- [Reporting and evidence](/docs/features/reporting)
-- [SHAFT Heal](/docs/agentic/heal)
-
----
-
-# Platform and setup updates
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/platform
-Markdown: https://shafthq.github.io/md/features/whats-new/platform.md
-
-# Platform and setup updates
-
-Start here when you need to install SHAFT, upgrade a project, or prepare an
-execution service. Open the full guide for exact commands and environment rules.
-
- 
-
-Verify the selected setup with a focused run:
-
-```bash
-mvn test
-```
-
-## Related
-
-- [Installation](/docs/start/installation)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# Reporting and evidence
-
-Canonical HTML: https://shafthq.github.io/docs/features/reporting
-Markdown: https://shafthq.github.io/md/features/reporting.md
-
-# Reporting and evidence
-
-SHAFT records test actions as structured Allure steps and attaches the evidence
-needed to understand failures.
-
-Generated element assertions keep the Allure step text concise: the locator is
-reported once as a step parameter, while internal element reads used to evaluate
-the assertion are kept in the debug execution log instead of repeated child
-steps.
-
-Text-entry and dropdown element actions keep the Allure timeline readable by
-showing the value being typed or selected in the step title. Long or multiline
-values are capped in the title. The step metadata keeps the normalized locator,
-including Smart Locator labels, and includes the resolved element name only when
-the engine captures one. Secure typing stays masked.
-
-```mermaid
-flowchart LR
- Action["Test action"] --> Step["Allure step"]
- Step --> Logs["Logs"]
- Step --> Screenshot["Screenshot when relevant"]
- Step --> Request["API / command evidence"]
- Logs --> Result["allure-results"]
- Screenshot --> Result
- Request --> Result
- Result --> Report["Allure report"]
- Result --> Doctor["SHAFT Doctor"]
-```
-
-Use [reporting configuration](/docs/reference/reporting) and
-[custom report messages](/docs/reference/reporting#custom-report-messages) for
-detailed controls.
-
-```properties title="src/main/resources/properties/custom.properties"
-evidenceLevel=CUSTOM
-screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
-attachFullLog=true
-createAnimatedGif=false
-```
-
-## Execution logs
-
-SHAFT writes the engine execution log through asynchronous Log4j2 appenders so
-normal test actions do not wait on file I/O. The console shows the concise
-INFO-level story, while diagnostic entries and engine internals are written at
-DEBUG level to the log file.
-
-Set `evidenceLevel=CUSTOM` before granular evidence controls such as
-`attachFullLog=true` when you want the control to override the default
-`FAILURE_ONLY` profile. The full-log attachment is streamed from a temporary
-deduplicated snapshot so the live `target/logs/log4j.log` file remains
-available for retry diagnostics, local investigation, and CI artifact
-collection.
-
-## Failure diagnostics bundle
-
-Failed and broken tests attach `shaft-diagnostics.zip` to Allure by default.
-The ZIP contains `diagnostics.json`, a sanitized handoff file for humans,
-SHAFT Doctor, and MCP clients. It includes stable test metadata, failure type,
-message, stacktrace, root-cause chain, the top project stack frame, bounded
-logs, referenced artifacts such as videos, GIFs, and the trace viewer archive,
-selected runtime/configuration metadata, redaction rules applied, size limits,
-and suggested Doctor/MCP commands.
-
-The single trace archive includes `shaft-trace.json`,
-`shaft-network.har`, and `SHAFT Trace Report.html`. The JSON `actions` array
-records ordered Selenium browser, element, touch, and validation events with
-status, duration, locator, URL, exception summary, attachment summaries, and
-redacted metadata. When enabled, the trace JSON also includes `network`,
-`console`, and `browserObservability` sections for browser HTTP exchanges,
-console messages, and unsupported-capability warnings. SHAFT also writes the
-archive under `target/shaft-traces/ /` with an `index.json` for
-local tooling.
-
-The bundle references existing artifacts instead of copying every raw file.
-Secrets in common headers, cookies, token/password assignments, and sensitive
-URL query values are masked before the JSON is attached. Disable the bundle
-with `shaft.diagnostics.enabled=false` or lower the ZIP entry cap with
-`shaft.diagnostics.maxArtifactMb`.
-
-## Failure briefs and attachment manifest
-
-Failed and broken tests also attach a compact failure brief beside the
-diagnostics bundle:
-
-- `SHAFT Failure Brief.html` opens first in the Allure report and summarizes the
- failure category, message, top project stack frame, and the first artifacts to
- inspect.
-- `shaft-failure-brief.json` exposes the same triage data for CI bots and
- local tooling.
-- `shaft-attachments-manifest.json` lists SHAFT-owned evidence such as
- screenshots, videos, traces, page snapshots, API request/response artifacts,
- accessibility reports, performance reports, and logs.
-
-The brief uses the same redaction rules as the diagnostics bundle, so common
-headers, cookies, token/password assignments, and sensitive URL query values are
-masked before the JSON and HTML are attached. API request labels omit query
-strings and include the method, path, status code, and response time when
-available.
-
-Allure 3 runs also receive a `categories.json` file in `allure-results/` with
-SHAFT's default failure groups for assertion, stale element, timeout, locator,
-API, accessibility, visual, and infrastructure failures. These categories are
-plain Allure metadata and do not require a custom Allure plugin.
-
-The attachment manifest is built from SHAFT's common attachment path and API
-filter. Specialized Allure-native attachments, such as visual comparison diffs,
-can still appear directly in the Allure report before they are routed through
-the central manifest path.
-
-## Locator health reports
-
-Enable locator health reporting when you want a run-level view of slow or flaky
-web locators without changing test code.
-
-```properties title="src/main/resources/properties/custom.properties"
-shaft.locatorHealth.enabled=true
-shaft.locatorHealth.warnBelowScore=70
-shaft.locatorHealth.attachDashboard=true
-shaft.locatorHealth.failBelowScore=-1
-slowLocatorThresholdMillis=750
-```
-
-When enabled, SHAFT records lookup counts, unique/no-match/multi-match/stale
-rates, average and p95 lookup time, polling attempts, timeouts, slow lookups,
-SHAFT Heal attempts, accepted recoveries, confidence, and selected replacement
-locators when available. It scores each locator, flags selector smells such as
-absolute XPath, index-heavy XPath, generated IDs, text-only selectors, and deep
-CSS chains, then adds plain-language recommendations.
-
-At the end of the run it writes HTML and JSON reports under
-`execution-summary/locator-health/` and attaches the JSON export to Allure. The
-HTML dashboard is attached when `shaft.locatorHealth.attachDashboard=true`. Keep
-`shaft.locatorHealth.failBelowScore=-1` while introducing the report; set it to
-a score threshold only after the suite has a stable baseline. The older
-`locatorHealthReportEnabled=true` key remains supported. When the failure trace
-viewer is enabled, failed-test trace JSON also includes the current locator
-health snapshot.
-
-## Flake and auto-wait profiler
-
-Enable the flake profiler when you need action-level timing in Allure without
-turning every wait into custom test code.
-
-```properties title="src/main/resources/properties/custom.properties"
-shaft.flakeProfiler.enabled=true
-shaft.flakeProfiler.attachPerTest=true
-shaft.flakeProfiler.failOnSevereFlakeRisk=false
-shaft.flakeProfiler.slowActionThresholdMs=2000
-```
-
-When enabled, SHAFT attaches `flake-profile.json` and `Flake Profile` HTML to
-Allure for tests that produce profiler signals. The profile records element
-actions, assertions, verifications, retry attempts, locator lookup counts,
-match counts, wait polling loops, stale/healing signals, and slow or wait-heavy
-actions. Screenshot capture, page snapshots, and report attachment time are
-tracked as evidence costs so element action duration is not inflated by report
-generation.
-
-Keep `shaft.flakeProfiler.failOnSevereFlakeRisk=false` while establishing a
-baseline. Turn it on only after the suite has known thresholds for slow,
-wait-heavy, stale, healed, or failing actions.
-
-## Related
-
-- [What's new: evidence](/docs/features/whats-new/evidence)
-- [Architecture](/docs/features/architecture)
-- [Modules](/docs/features/modules)
-- [Underlying technology](/docs/features/modules#technology)
-- [BrowserStack](/docs/integrations/browserstack)
-
----
-
-# Testing API updates
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new/testing
-Markdown: https://shafthq.github.io/md/features/whats-new/testing.md
-
-# Testing API updates
-
-Pick the test surface that owns the behavior, then follow its full guide for
-exact Java APIs and lifecycle rules.
-
- 
-
-Create a supported Playwright session explicitly:
-
-```java
-SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
-```
-
-## Related
-
-- [Web testing](/docs/testing/web)
-- [What's new since modularization](/docs/features/whats-new)
-
----
-
-# What's new since modularization
-
-Canonical HTML: https://shafthq.github.io/docs/features/whats-new
-Markdown: https://shafthq.github.io/md/features/whats-new.md
-
-# What's new since modularization
-
-Find user-facing capabilities added since `10.2.20260610` (2026-06-10). Search
-by feature name or filter by the job you need to complete. Each result opens a
-focused page with setup, usage, and canonical guide links.
-
- 
-
-Use the search field directly. No setup is required:
-
-```text
-GraphQL
-```
-
-## Related
-
-- [Upgrade an existing project](/docs/start/upgrade)
-- [Features and modules](/docs/features/modules)
 
 ---
 
@@ -24602,6 +23154,1754 @@ driver.verifyThat().element(By.id("email")).text().contains("@");
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions) — available interactions before validating
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification) — locate the elements you validate
 - [Testing: Web](/docs/testing/web) — locator strategy and web testing guide
+
+---
+
+# Agentic testing
+
+Canonical HTML: https://shafthq.github.io/docs/agentic/overview
+Markdown: https://shafthq.github.io/md/agentic/overview.md
+
+# Agentic testing without hidden automation
+
+SHAFT separates deterministic automation from optional model-provider advice.
+MCP, Capture, Doctor, and Heal remain useful without provider credentials.
+
+```mermaid
+flowchart TD
+ IntelliJ["IntelliJ plugin"] --> MCP["SHAFT MCP"]
+ Client["AI client"] --> MCP["SHAFT MCP"]
+ MCP --> Engine["shaft-engine tools"]
+ MCP --> Capture["Capture"]
+ Capture --> Generated["Reviewable TestNG source"]
+ Results["Allure results"] --> Doctor["Doctor"]
+ Doctor --> Diagnosis["Portable diagnosis"]
+ FailedLocator["Failed locator"] --> Heal["Deterministic Heal"]
+ Heal --> Report["Explainable recovery report"]
+ Provider["Optional provider"] -. consent + redaction .-> Doctor
+ Provider -. consent + redaction .-> Heal
+```
+
+## Install SHAFT agent tools
+
+Install the project-local [ChaosEngine harness](/docs/agentic/chaos-engine) when
+you want one canonical agent workflow plus verified host adapters and local
+Memory, MemPalace, and Graphify tooling.
+
+Install the first-party skill pack without configuring an MCP client. The
+[SHAFT agent skills guide](/docs/agentic/skills) owns the commands, supported
+routes, native directories, upgrade behavior, and packaging tradeoffs.
+
+Install `shaft-cli` without configuring an MCP client. This also installs its
+internal `shaft-mcp` runtime prerequisite.
+
+Change into the target project first. Public one-liners install SHAFT Agentic
+Tools (MCP, CLI, and skills):
+
+```powershell
+irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.ps1" | iex
+```
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install.sh" | bash
+```
+
+CLI-only install still uses the inner Agentic Tools script:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1 | iex; Install-ShaftMcp -Arguments @('--install-shaft-cli')"
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh | sh -s -- --install-shaft-cli
+```
+
+| Capability | Default behavior | Start here |
+|---|---|---|
+| IntelliJ plugin | IDE front door for Assistant, Coding Partner, Recorder, Doctor, Healer, Inspector, Projects, and Guide search | [IntelliJ IDEA plugin](/docs/agentic/intellij) |
+| MCP | Local stdio tools; no model credentials stored | [Connect MCP](/docs/agentic/mcp) |
+| Planning | Deterministic same-origin crawl drafts Markdown test plans into `specs/`; no AI calls | [Planning test coverage](/docs/agentic/mcp#planning-test-coverage) |
+| Capture | Record and generate deterministic test code | [Capture](/docs/agentic/capture) |
+| Doctor | Analyze allowlisted evidence offline | [Doctor](/docs/agentic/doctor) |
+| Heal | Recover eligible web locators with an explainable policy | [Heal](/docs/agentic/heal) |
+| Pilot providers | Disabled until explicitly configured and approved | [Provider controls](/docs/agentic/providers) |
+
+## Why SHAFT?
+
+Compared with plain recorder/codegen tools and raw agent-written Selenium,
+SHAFT's agentic loop differs on four load-bearing points:
+
+- **Privacy-safe recording.** Typed values are externalized to test-data
+ files, secrets are redacted at capture time, and a checked-in team policy
+ (`.shaft/recorder-policy.json`) pins recording behavior for the whole
+ repository — recordings are safe to commit and share.
+- **Compile-validated codegen.** Generated tests are compiled against SHAFT
+ and optionally replayed end-to-end before you ever see them; a replay
+ failure returns the code *plus* the failing step's diagnostics, never a
+ silent broken file.
+- **Repo-aware generation.** The Coding Partner plans against your existing
+ page objects, locator fields, and action methods before proposing new code,
+ so generation extends your suite instead of forking it.
+- **A maintenance loop, not just a generator.** Doctor triages failed runs
+ from Allure evidence and Heal recovers eligible locators with an
+ explainable policy — the same tools that created the test keep it alive.
+
+The same workflows run on every agent — Codex, Claude Code, GitHub Copilot,
+and Gemini — because they are MCP tools, not agent-specific plugins; and the
+No-AI lane (Recorder, codegen, Doctor, Healer) works with no agent or model
+credentials at all.
+
+Use the [MCP command reference](/docs/agentic/mcp#mcp-command-reference) for
+Capture and Doctor CLI examples.
+
+```text
+MCP commands live on /docs/agentic/mcp#mcp-command-reference
+```
+
+## Related
+
+- [What's new: agentic tools](/docs/features/whats-new/agentic)
+- [ChaosEngine](/docs/agentic/chaos-engine)
+- [SHAFT agent skills](/docs/agentic/skills)
+- [MCP](/docs/agentic/mcp)
+- [Pilot](/docs/agentic/pilot)
+- [Doctor](/docs/agentic/doctor)
+- [Providers](/docs/agentic/providers)
+
+---
+
+# Agentic tool updates
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/agentic
+Markdown: https://shafthq.github.io/md/features/whats-new/agentic.md
+
+# Agentic tool updates
+
+Choose the smallest local interface that fits your workflow. Provider-backed
+advice remains optional; deterministic tools continue to work without it.
+
+ 
+
+Install only the tool route your environment uses:
+
+```text
+MCP, CLI, IntelliJ, or agent skills
+```
+
+![SHAFT IntelliJ Assistant showing project guidance, local MCP tools, and a reviewed response.](/img/whats-new/intellij-assistant.png)
+
+## Related
+
+- [Agentic testing overview](/docs/agentic/overview)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Architecture
+
+Canonical HTML: https://shafthq.github.io/docs/features/architecture
+Markdown: https://shafthq.github.io/md/features/architecture.md
+
+# Architecture
+
+SHAFT has two kinds of modularity:
+
+1. Maven artifacts control dependency weight.
+2. The `SHAFT` facade exposes testing namespaces such as GUI, API, CLI, and DB.
+
+These are related, but they are not one artifact per facade namespace. Most
+functionality remains in the required `shaft-engine` JAR.
+
+## Where SHAFT fits in a test automation stack
+
+A test automation architecture separates concerns into layers — your test
+scripts, page objects/models, the engine, core libraries, and drivers/protocols
+that talk to the application under test. SHAFT Engine sits in the **engine**
+layer: it wraps and enhances industry-standard libraries (Selenium WebDriver,
+Appium, REST Assured, TestNG/JUnit, Allure) with smart element handling,
+a unified API across web/mobile/API/CLI/database testing, built-in reporting,
+and property-based configuration.
+
+| Capability | Without SHAFT | With SHAFT |
+|---|---|---|
+| Wait strategy | Manual `WebDriverWait` configuration | Automatic smart waits |
+| Element not found handling | Custom retry logic | Built-in retry with configurable attempts |
+| Screenshot capture | Manual `TakesScreenshot` code | Automatic at validation points |
+| Reporting | Manual Allure setup and step annotations | Automatic step logging and report generation |
+| Cross-browser | Manual driver management | Automatic driver management |
+
+SHAFT is an **engine**, not a framework: it does not dictate how you structure
+your tests — Page Object Model, fluent design, or any pattern you prefer all
+work — it provides the building blocks and you decide how to assemble them.
+This means SHAFT works with your team's existing conventions and can be
+adopted gradually, one test at a time, without rewriting your suite.
+
+## Published Maven artifacts
+
+```mermaid
+flowchart TB
+ Consumer["Consumer project"] --> BOM["shaft-bom dependency management"]
+ Consumer --> Engine["shaft-engine required runtime"]
+ Consumer -.->|optional| PilotCore["shaft-pilot-core contracts + security"]
+ Consumer -.->|optional| Capture["shaft-capture managed recording + privacy"]
+ Consumer -.->|optional| Doctor["shaft-doctor offline evidence + diagnosis"]
+ Consumer -.->|optional| AI["shaft-ai direct providers"]
+ Consumer -.->|optional| Heal["shaft-heal deterministic element recovery"]
+ Consumer -.->|optional| BrowserStack["shaft-browserstack BrowserStack Java SDK"]
+ Consumer -.->|optional| Video["shaft-video local desktop recording"]
+ Consumer -.->|optional| Visual["shaft-visual OpenCV + Eyes + Shutterbug"]
+ Consumer -.->|optional| SikuliX["shaft-sikulix SikuliX desktop image automation"]
+ Agent -.-> MCP["shaft-mcp executable MCP server"]
+
+ BrowserStack --> Engine
+ Video --> Engine
+ Visual --> Engine
+ SikuliX --> Engine
+ MCP --> Engine
+ MCP --> Capture
+ MCP --> Doctor
+ MCP --> AI
+ PilotCore --> Engine
+ Capture --> PilotCore
+ Doctor --> PilotCore
+ AI --> PilotCore
+ Heal --> Engine
+ Heal --> PilotCore
+
+ Legacy["SHAFT_ENGINE relocation POM only"] -.->|relocates| Engine
+
+ Engine --> GUI["Web + Appium/Flutter"]
+ Engine --> API["REST API"]
+ Engine --> Data["DB + CLI + test data"]
+ Engine --> Support["validations + reporting accessibility + properties"]
+```
+
+| Artifact | Packaging | Consumer purpose |
+|----------------------|----------------|--------------------------------------------------------------------------------------------------------------------------|
+| `shaft-engine` | JAR | Required facade and core web, mobile, API, database, CLI, reporting, and accessibility implementation. |
+| `shaft-pilot-core` | JAR | Provider-neutral Pilot contracts, consent, redaction, budgets, audit metadata, and deterministic fallback. |
+| `shaft-capture` | JAR | Managed Chrome/Edge recording, deterministic privacy classification, versioned schema, and atomic JSON persistence. |
+| `shaft-doctor` | JAR | Portable redacted evidence, deterministic diagnosis, optional advisory, and approval-gated isolated repair proposals. |
+| `shaft-ai` | JAR | Optional direct OpenAI, Anthropic, Gemini, GitHub Models, and Ollama HTTP adapters discovered through `ServiceLoader`. |
+| `shaft-heal` | JAR | Deterministic, explainable, action-scoped web element recovery with bounded local history and optional reranking. |
+| `shaft-browserstack` | JAR | BrowserStack SDK interception and `browserstack.yml` orchestration. Direct BrowserStack sessions stay in `shaft-engine`. |
+| `shaft-video` | JAR | Local non-headless desktop recording. Appium-native recording stays in `shaft-engine`. |
+| `shaft-visual` | JAR | Reference-image assertions and image-based lookup through OpenCV, Eyes, and Shutterbug. |
+| `shaft-sikulix` | JAR | SikuliX image matching for desktop workflows that cannot be reached through DOM or Appium locators. |
+| `shaft-mcp` | thin JAR | Optional MCP server and CLI exposing browser automation, managed capture, Doctor analysis, and packaged direct adapters. |
+| `shaft-bom` | POM | Aligns all SHAFT artifact versions; adds no runtime classes. |
+| `SHAFT_ENGINE` | relocation POM | Temporary legacy-coordinate bridge to `shaft-engine`; adds no optional providers. |
+
+See the [upgrade guide](/docs/start/upgrade) for method-level
+dependency boundaries.
+
+```xml title="pom.xml"
+ 
+ 
+ 
+ io.github.shafthq 
+ shaft-bom 
+ ${shaft.version} 
+ pom 
+ import 
+ 
+ 
+ 
+
+ 
+ 
+ io.github.shafthq 
+ shaft-engine 
+ 
+ 
+```
+
+## Facade architecture
+
+```mermaid
+graph TB
+ SHAFT["SHAFT facade"]
+
+ subgraph "Testing namespaces in shaft-engine"
+ GUI["GUI Web + Mobile"]
+ API["API REST Assured"]
+ CLI["CLI Terminal + Files"]
+ DB["DB JDBC"]
+ TestData["TestData JSON + Excel + CSV + YAML"]
+ Validations["Validations Fluent assertions"]
+ Properties["Properties Configuration"]
+ Report["Report Logs + Attachments"]
+ end
+
+ subgraph "GUI components"
+ WebDriver["WebDriver lifecycle"]
+ Browser["Browser actions"]
+ Element["Element actions"]
+ Touch["Touch actions"]
+ Alert["Alert actions"]
+ Locator["Locator builder"]
+ end
+
+ subgraph "Test orchestration"
+ TestNG["TestNG"]
+ JUnit["JUnit"]
+ Cucumber["Cucumber"]
+ Allure["Allure"]
+ end
+
+ SHAFT --> GUI
+ SHAFT --> API
+ SHAFT --> CLI
+ SHAFT --> DB
+ SHAFT --> TestData
+ SHAFT --> Validations
+ SHAFT --> Properties
+ SHAFT --> Report
+
+ GUI --> WebDriver
+ WebDriver --> Browser
+ WebDriver --> Element
+ WebDriver --> Touch
+ WebDriver --> Alert
+ WebDriver --> Locator
+
+ TestNG -.->|uses| SHAFT
+ JUnit -.->|uses| SHAFT
+ Cucumber -.->|uses| SHAFT
+ SHAFT -.->|reports to| Allure
+```
+
+## Optional provider discovery
+
+`shaft-heal`, `shaft-visual`, and `shaft-video` implement SHAFT-owned provider
+interfaces and register them through Java `ServiceLoader`. The facade and
+orchestration remain in `shaft-engine`, which means users add a provider JAR
+without changing test method calls.
+
+`shaft-browserstack` is a runtime integration rather than a SHAFT provider. It
+adds `browserstack-java-sdk`; SHAFT's core BrowserStack driver path also
+generates `browserstack.yml`, which the SDK consumes when the optional module is
+present.
+
+`shaft-sikulix` is a runtime action module. It adds the SikuliX API and a small
+desktop-image action facade without shadowing `shaft-engine` classes.
+
+## Module guides
+
+- [Upgrade and module selection](/docs/start/upgrade)
+- [SHAFT Heal](/docs/agentic/heal)
+- [BrowserStack SDK module](/docs/integrations/browserstack)
+- [Visual processing module](/docs/integrations/visual)
+- [Desktop and video](/docs/integrations/desktop-and-video)
+- [SHAFT Pilot](/docs/agentic/pilot)
+- [SHAFT Pilot release runbook](/docs/maintainers/pilot-release)
+- [SHAFT MCP](/docs/agentic/mcp)
+- [Optional AI providers](/docs/agentic/providers)
+- [SHAFT Capture](/docs/agentic/capture)
+- [Maven reactor layout](/docs/maintainers/reactor)
+
+## Related
+
+- [Overview](/docs/start/overview)
+- [Quick start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Reporting](/docs/features/reporting)
+- [Underlying technology](/docs/features/modules#technology)
+- [BrowserStack](/docs/integrations/browserstack)
+
+---
+
+# Capture and generation updates
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/capture
+Markdown: https://shafthq.github.io/md/features/whats-new/capture.md
+
+# Capture and generation updates
+
+Use Capture to record a working journey, correct its intent, and generate code
+that passes replay before you keep it.
+
+ 
+
+Open the local Capture workflow through its documented client:
+
+```text
+/record
+```
+
+![SHAFT Capture locator picker showing scored locator choices for the selected browser element.](/img/whats-new/capture-locator-picker.png)
+
+![SHAFT Capture assertion mode with the assertion panel open and a browser target selected.](/img/whats-new/capture-assertion-mode.png)
+
+## Related
+
+- [Capture guide](/docs/agentic/capture)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Evidence and report updates
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/evidence
+Markdown: https://shafthq.github.io/md/features/whats-new/evidence.md
+
+# Evidence and report updates
+
+Use the lightest evidence profile that answers the team's diagnostic needs.
+Failed runs can retain portable reports, bundles, manifests, and structured checks.
+
+ 
+
+Keep the default automatic trace profile unless the project needs another level:
+
+```properties
+shaft.trace.enabled=true
+shaft.trace.mode=auto
+```
+
+![SHAFT Trace Viewer populated with a failed action timeline, filters, and evidence detail.](/img/whats-new/trace-viewer.png)
+
+![Generated Allure report with the SHAFT Failure Brief attachment open.](/img/whats-new/failure-brief.png)
+
+## Related
+
+- [Reporting and evidence](/docs/features/reporting)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Features and modules
+
+Canonical HTML: https://shafthq.github.io/docs/features/modules
+Markdown: https://shafthq.github.io/md/features/modules.md
+
+# Features and modules
+
+The required `shaft-engine` artifact provides the public facade and core test
+automation capabilities. Add optional artifacts only when a project uses the
+capability they own.
+
+## Published artifact map
+
+| Artifact | Add it when |
+|---|---|
+| `shaft-engine` | The project needs web, mobile, API, database, CLI actions, test data, accessibility, reporting, or screenshots. |
+| `shaft-pilot-core` | An integration needs provider-neutral Pilot contracts and local-agent orchestration. |
+| `shaft-capture` | The project records browser/API flows and generates reviewable replay code. |
+| `shaft-doctor` | The project analyzes Allure evidence and failure traces offline. |
+| `shaft-ai` | Pilot needs optional direct model-provider adapters. |
+| `shaft-heal` | Web tests need deterministic, explainable locator recovery. |
+| `shaft-mcp` | An MCP client needs SHAFT browser, Capture, Doctor, healer, or guide-search tools. |
+| `shaft-cli` | Scripts or CI need repeatable one-shot access to the SHAFT tool catalog. |
+| `shaft-browserstack` | Tests need BrowserStack SDK interception, YAML expansion, or SDK orchestration. |
+| `shaft-video` | Local non-headless desktop runs need FFmpeg video recording. |
+| `shaft-visual` | Tests need OpenCV, Applitools Eyes, Shutterbug, or reference-image behavior. |
+| `shaft-sikulix` | Desktop tests need SikuliX image-based automation. |
+| `shaft-bom` | A project uses more than one published SHAFT library and needs aligned versions. |
+
+`shaft-capture-proxy` supports Capture's isolated proxy runtime and is not the
+normal consumer entry point. `report-aggregate` builds reactor-wide reports
+but is not deployed as a consumer dependency. `legacy-shaft-engine` is a
+relocation POM for older coordinates, not a new-project dependency.
+
+`shaft-ocr` is present in `SHAFT_ENGINE` source as an unreleased preview. It is
+not part of the current published BOM; wait for a containing release before
+adding it as a project dependency.
+
+## Feature-to-module map
+
+| Feature | Maven artifact |
+|--------------------------------------------------------------------------------------------------|----------------------|
+| Web, mobile/Appium/Flutter, API, database, CLI, test data, accessibility, reporting, screenshots | `shaft-engine` |
+| Direct BrowserStack WebDriver/Appium sessions and app upload | `shaft-engine` |
+| BrowserStack SDK interception, multi-platform YAML, and SDK orchestration | `shaft-browserstack` |
+| Appium Android/iOS driver-native recording | `shaft-engine` |
+| Local non-headless desktop recording | `shaft-video` |
+| Reference-image assertions and image-path touch actions | `shaft-visual` |
+| Visible-text actions and OCR assertions | `shaft-ocr` |
+| SikuliX image-based desktop automation | `shaft-sikulix` |
+| Deterministic explainable web element recovery | `shaft-heal` |
+| Screenshot highlighting, animated GIFs, and `compareImageFolders(...)` | `shaft-engine` |
+
+See the [upgrade guide](/docs/start/upgrade) for the exact method
+boundaries.
+
+Use the BOM to align the core engine with any optional modules you add:
+
+```xml title="pom.xml"
+ 
+ 
+ 
+ io.github.shafthq 
+ shaft-bom 
+ ${shaft.version} 
+ pom 
+ import 
+ 
+ 
+ 
+
+ 
+ 
+ io.github.shafthq 
+ shaft-engine 
+ 
+ 
+ io.github.shafthq 
+ shaft-visual 
+ 
+ 
+ io.github.shafthq 
+ shaft-sikulix 
+ 
+ 
+```
+
+## Smart Features
+
+SHAFT's smart features target the
+[Pillars of successful test automation](/docs/features/test-automation-pillars):
+Scalability, Reliability, and Maintainability. Use that guide for the
+feature-to-pillar map; use this page for artifact and platform selection.
+
+## Supported Platforms
+
+### Browsers
+
+| | Linux | macOS | Windows | Android | iOS |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| Google Chrome | :white_check_mark: | :white_check_mark: | :white_check_mark: |:white_check_mark: | :white_check_mark: |
+| Microsoft Edge | :white_check_mark: | :white_check_mark: | :white_check_mark: |_ | _ |
+| Mozilla Firefox | :white_check_mark: | :white_check_mark: | :white_check_mark: |_ | _ |
+| Apple Safari | _ | :white_check_mark: | _ | _ | :white_check_mark: |
+
+### Apps
+
+| | Android | iOS | Windows | 
+| :--- | :---: | :---: | :---: |
+| Native |:white_check_mark: | :white_check_mark: | N/A | 
+| Hybrid | :white_check_mark: | :white_check_mark: | N/A | 
+| Flutter | :white_check_mark: | :white_check_mark: | N/A | 
+| WPF | N/A | N/A |:white_check_mark: |
+
+### Other
+
+| API | Database | CLI | PDF | JSON | YAML | Excel | Property |
+| :---: | :---: | :---:|:---:|:---:|:---:|:---:|:---:|
+| :white_check_mark: |:white_check_mark: | :white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |:white_check_mark: |
+
+### Test Orchestration
+
+| TestNG | JUnit | Cucumber |
+| :---: |:---: |:---: |
+| :white_check_mark: |:white_check_mark: |:white_check_mark: |
+
+---
+
+## Underlying technology 
+
+SHAFT provides one facade over established automation projects while keeping
+heavy providers optional:
+
+| Layer | Technology |
+|---|---|
+| Runtime and build | [Java 25](https://www.oracle.com/java/technologies/downloads/), [Maven](https://maven.apache.org/) |
+| Web | [Selenium](https://www.selenium.dev/) |
+| Mobile | [Appium](https://appium.io/) |
+| API | [REST Assured](https://rest-assured.io/) |
+| Test runners | [TestNG](https://testng.org/), [JUnit](https://junit.org/), [Cucumber](https://cucumber.io/) |
+| Evidence | [Allure Report](https://allurereport.org/) |
+| Optional visual providers | [OpenCV](https://opencv.org/), [Applitools](https://applitools.com/), Selenium Shutterbug |
+| Distribution | [Maven Central](https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine), [GitHub Container Registry](https://github.com/ShaftHQ/SHAFT_ENGINE/pkgs/container/shaft-engine-mcp) |
+
+The facade keeps test code on one entry point while the underlying libraries do
+the specialized work:
+
+```java
+SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();
+
+driver.browser().navigateToURL("https://duckduckgo.com");
+driver.element().type(By.name("q"), "SHAFT Engine");
+driver.assertThat().browser().title().contains("DuckDuckGo");
+
+driver.quit();
+```
+
+See [Architecture](/docs/features/architecture) for exact dependency boundaries.
+
+## Project support and adoption
+
+### Tooling and open-source program support
+
+SHAFT has received tooling or open-source support from:
+
+- [BrowserStack](https://www.browserstack.com/)
+- [LambdaTest](https://www.lambdatest.com/)
+- [Applitools](https://applitools.com/)
+- [JetBrains Open Source Support](https://jb.gg/OpenSourceSupport)
+
+Engineers responding to anonymous community surveys have reported using SHAFT
+within organizations including Vodafone, DXC Technology, Euronet, Solutions by
+STC, IDEMIA, GET Group, EFG Holding, Jahez, Incorta, Paymob, GIZA Systems, and
+others. These names are community-reported rather than audited customer
+endorsements. No organization is represented as guaranteeing or officially
+endorsing SHAFT.
+
+### Fund continued maintenance
+
+SHAFT remains free under the MIT License. Financial support helps fund release
+maintenance, documentation, and public infrastructure through
+[GitHub Sponsors](https://github.com/sponsors/MohabMohie/).
+
+Use your own provider credentials through properties rather than hardcoding
+them in tests:
+
+```properties title="src/main/resources/properties/browserStack.properties"
+browserStack.userName=${BROWSERSTACK_USERNAME}
+browserStack.accessKey=${BROWSERSTACK_ACCESS_KEY}
+browserStack.browserstackAutomation=true
+```
+
+## Related
+
+- [What's new since modularization](/docs/features/whats-new/modules)
+- [Architecture](/docs/features/architecture)
+- [Upgrade and module selection](/docs/start/upgrade)
+- [Visual processing module](/docs/integrations/visual)
+- [Desktop and video](/docs/integrations/desktop-and-video)
+- [BrowserStack integration](/docs/integrations/browserstack)
+
+---
+
+# Features you might have missed
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/missed
+Markdown: https://shafthq.github.io/md/features/whats-new/missed.md
+
+# Features you might have missed
+
+Use these focused capabilities when exact text, stable locators, or report
+tooling need more than the basic path.
+
+ 
+
+Build an accessible role locator for durable page-object code:
+
+```java
+By login = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build();
+```
+
+## Related
+
+- [Validations](/docs/reference/actions/Validations)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# How SHAFT reduces flakiness
+
+Canonical HTML: https://shafthq.github.io/docs/testing/flakiness
+Markdown: https://shafthq.github.io/md/testing/flakiness.md
+
+# How SHAFT reduces flakiness
+
+SHAFT reduces flakiness by moving timing, locator, retry, and evidence capture
+out of individual tests and into the engine. It does not make every failure
+pass: product defects, broken test data, and real environment outages should
+still fail. The difference is that common UI timing and locator churn have one
+configured path instead of many hand-written sleeps and custom retry loops.
+
+```mermaid
+flowchart TD
+ Intent["Test intent"] --> Locator["Semantic locator"]
+ Locator --> Sync["Synchronized action"]
+ Sync --> Evidence["Allure evidence"]
+ Evidence --> Passed{"Passed?"}
+ Passed -- Yes --> Result["Stable pass"]
+ Passed -- No --> Retry{"Retry enabled?"}
+ Retry -- No --> Failure["Original failure"]
+ Retry -- Yes --> RetryEvidence["Retry with extra evidence"]
+ RetryEvidence --> Final{"Still failing?"}
+ Final -- No --> Flaky["Flaky signal preserved"]
+ Final -- Yes --> Heal{"Heal enabled and locator missing?"}
+ Heal -- No --> Failure
+ Heal -- Yes --> Recovery["Validated recovery or original failure"]
+```
+
+## Semantic Locators
+
+Raw Selenium locators often bind tests to implementation details: generated
+IDs, CSS classes, absolute XPath, or DOM depth. SHAFT gives tests a higher
+level locator vocabulary. Generated and repository code must still follow the
+[generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy):
+unique author-written id, then ARIA role, then native relative xpath only.
+
+- `SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build()` is the first
+ generated-code rung when the product owns a stable author-written id.
+- `SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Sign in").build()` targets
+ semantic roles and text instead of brittle markup structure.
+- `SHAFT.GUI.Locator.inputField("Email")` and
+ `SHAFT.GUI.Locator.clickableField("Sign in")` are Smart Locators for a
+ human's throwaway exploration only. Do not emit them into generated or
+ repository code.
+- `driver.element().type("Email", value)` and
+ `driver.element().click("Sign in")` are intent-shaped overloads that route
+ through those Smart Locators in both WebDriver and Playwright sessions.
+- `driver.act(...)` can express a guarded workflow intent, then SHAFT plans it
+ into ordinary browser, element, and touch actions only when natural actions
+ are enabled and the plan passes the configured trust threshold.
+
+```java title="SemanticLocators.java"
+
+By email = SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build();
+By apply = SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Apply filter").build();
+
+driver.element()
+ .type(email, "qa@example.com")
+ .click(apply);
+```
+
+The practical effect is simple: when a team renames a CSS class or wraps a
+button in a new container, the test can keep describing what the user sees.
+When the user-facing label itself changes, the failing test points to a real
+product or requirements change instead of a hidden selector detail.
+
+## Automatic Synchronization
+
+Most flaky UI tests fail because they click before the browser is ready. SHAFT
+element actions use a configured fluent wait, poll for retriable Selenium
+states, scroll the element into view, and then perform the action. Browser and
+element actions also call lazy-loading synchronization where applicable: SHAFT
+waits for document readiness, active `fetch`/XHR quiet time, resource timing
+changes, jQuery activity, and Angular readiness when those signals exist on the
+page. For native user actions, SHAFT re-locates the element after this
+synchronization and verifies that the final target is displayed and enabled
+before acting on it.
+
+The default element lookup budget comes from
+`defaultElementIdentificationTimeout`; condition-specific waits use
+`waitForUiStateTimeout` unless you pass a shorter `Duration`. Lazy-loading
+synchronization uses `waitForLazyLoadingTimeout`; its network quiet behavior can
+be tuned with `lazyLoadingNetworkIdleInitialObservationMillis` and
+`lazyLoadingNetworkIdleQuietWindowMillis`.
+
+Lazy-loading readiness itself is layered, so the default wait adapts to what a
+page actually does without any test-code changes:
+
+- **JS readiness engine** (default, always on) polls `document.readyState`,
+ in-flight `fetch`/XHR/`sendBeacon` activity, resource-timing changes, jQuery
+ and Angular activity, and a main-thread idle probe
+ (`requestIdleCallback` → `requestAnimationFrame` → `setTimeout` fallback)
+ every `lazyLoadingPollingIntervalMillis` (default `200`ms). Long-lived
+ `EventSource`/`WebSocket` connections are observed but never block idle, so
+ SSE and long-poll pages don't pin every action at the timeout ceiling.
+- **DOM-stability quiet window** is split: cheap per-action waits use
+ `lazyLoadingDomStabilityQuietWindowMillis` (default `0`, off). After
+ navigation — and when you call `driver.browser().waitForLazyLoading()` —
+ SHAFT also applies `lazyLoadingDomStabilityOnNavigationQuietWindowMillis`
+ (default `300`ms) so in-viewport hydration can settle without turning DOM
+ folding on for every click. That navigation wait is Selenium WebDriver only
+ (including new-tab/window `navigateToURL`); Playwright `waitForLazyLoading()`
+ remains a load-state wait. `pageLoadStrategy=eager` / `readinessState=interactive`
+ unblocks Selenium/BiDi at `DOMContentLoaded`; the JS readiness engine still
+ requires `loaded`/`complete` plus XHR/fetch idle and does not treat
+ `interactive` as document-ready. Long-lived `EventSource`/`WebSocket` and BiDi
+ in-flight counts remain advisory; they never hard-gate the wait.
+- **Advisory BiDi network layer** (gated on `platform.enableBiDi()`) tracks
+ in-flight requests via WebDriver BiDi network events when BiDi is enabled.
+ This signal is advisory only: it can extend the quiet window while requests
+ are genuinely in flight (aged out after 10 seconds; SSE/WebSocket upgrades
+ excluded), but it never hard-gates readiness, preserving the same tolerance
+ for long-poll and SSE-style pages as the JS-only path.
+
+```properties title="src/main/resources/properties/custom.properties"
+lazyLoadingPollingIntervalMillis=200
+lazyLoadingDomStabilityQuietWindowMillis=0
+lazyLoadingDomStabilityOnNavigationQuietWindowMillis=300
+waitForLazyLoadingTimeout=30
+```
+
+For content that only loads on scroll — infinite lists, or sections behind an
+`IntersectionObserver` that hydrate only once visible — call
+`scrollToLoadAll()` right before a full-page assertion or screenshot. It sweeps
+the page in bounded, viewport-height steps (up to
+`lazyLoadingScrollSweepMaxSteps`, default `20`), waiting for lazy-loading
+readiness between each step, then restores the original scroll position. It is
+never invoked automatically by any readiness wait — sweeping an entire page is
+not a safe default before an arbitrary action — so call it explicitly:
+
+```java title="ScrollToLoadAll.java"
+driver.browser().navigateToURL("https://example.test/catalog")
+ .scrollToLoadAll()
+ .captureScreenshot();
+```
+
+```java title="ExplicitStateWait.java"
+driver.browser().navigateToURL("https://example.test/orders")
+ .and().element().click("Refresh orders")
+ .waitUntil(webDriver ->
+ webDriver.findElement(By.id("order-count")).getText().equals("25"));
+```
+
+Use explicit waits for business states the browser cannot infer: a queue
+finishing, a toast disappearing, a calculated value appearing, or a backend job
+reaching a terminal state. Do not add sleeps around SHAFT actions by default;
+that duplicates the engine wait and makes failures slower without making them
+more accurate.
+
+For strict WebDriver form-entry checks, enable
+`forceCheckTextWasTypedCorrectly=true`. SHAFT then verifies the final value
+after `type`, `typeSecure`, and `typeAppend`; special key sequences are skipped
+because they do not map to a stable literal field value.
+
+## Retry With Evidence
+
+Retry is a diagnostic boundary, not a cure. By default,
+`retryMaximumNumberOfAttempts=0`, so SHAFT does not hide failures unless you opt
+in. When retries are enabled, SHAFT's TestNG retry analyzer and JUnit extension
+use the same retry budget. If `forceCaptureSupportingEvidenceOnRetry=true`,
+the retry attempt turns on richer evidence such as video, animated GIF,
+WebDriver logs, page source on failure, and Playwright tracing when retry-only
+tracing is enabled.
+
+`retryMaximumNumberOfAttempts` means additional attempts after the original
+failure: `1` allows one retry, for two executions total. TestNG delegates this
+to its retry analyzer. JUnit schedules the retry after the failed attempt's
+`@AfterEach` lifecycle has finished, then runs the retry through JUnit again so
+`@BeforeEach` setup is executed for the retry attempt. Keep browser/session
+creation in setup and cleanup in teardown so each retry starts from isolated
+state.
+
+```properties title="src/main/resources/properties/custom.properties"
+retryMaximumNumberOfAttempts=1
+forceCaptureSupportingEvidenceOnRetry=true
+playwright.tracing.onRetryOnly=true
+```
+
+Keep the retry budget small. A pass-after-retry is still a flaky signal that
+should be reviewed; the value is that the retry attempt carries enough evidence
+to tell timing, locator, environment, and product failures apart.
+
+## Flake Profiler
+
+The flake profiler is disabled by default. Enable it when you need a run-level
+and per-test view of where time is going during element actions, assertions,
+wait polling, retries, and evidence capture.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+The Allure attachments show slow actions, wait-heavy actions, locator lookup
+counts, match counts, stale element retries, healing attempts, retry history,
+and evidence costs. Element action duration excludes screenshot capture and
+report attachment time, while assertion and verification duration is measured
+around the validation step itself.
+
+Leave `shaft.flakeProfiler.failOnSevereFlakeRisk=false` during investigation.
+Use the JSON profile to set a realistic `shaft.flakeProfiler.slowActionThresholdMs`
+before making severe flake risk fail the run.
+
+## Optional Self Healing
+
+For web locator churn that survives the locator strategy above, SHAFT Heal can
+recover eligible locator-not-found failures. It is optional, disabled by
+default, and provided by the separate `io.github.shafthq:shaft-heal` artifact.
+
+```properties title="src/main/resources/properties/custom.properties"
+healing.strategy=shaft-heal
+healing.minimumTrustPercentage=85
+healing.ambiguityMargin=0.10
+```
+
+SHAFT first tries the original locator. Recovery runs only after a web
+locator-not-found result, and the action proceeds only when the provider returns
+exactly one validated element. The provider scores deterministic evidence such
+as accessibility names, labels, configured test IDs, stable IDs/names,
+semantic attributes, DOM fingerprints, native state, ancestor context, and
+bounded local history. Low trust, ties, changed frame locators, and changed
+shadow-host locators preserve the original failure.
+
+Use healing as a safety net while updating locators, not as a reason to ignore
+broken tests. Reports under `target/shaft-heal/reports` and Allure attachments
+show why a candidate was accepted or rejected.
+
+## What To Use First
+
+| Flakiness source | First SHAFT feature to use | Why |
+| --- | --- | --- |
+| Generated IDs, wrapper markup, or CSS churn | Author-written ids via the locator builder, then ARIA roles | Tests follow stable product identity instead of DOM implementation. |
+| Clicks before render, XHR, or framework settling | Built-in synchronization and explicit waits | Timing policy lives in one engine path. |
+| Unknown action or assertion slowdown | Flake profiler | Allure shows action, wait, retry, and evidence timings separately. |
+| Intermittent CI browser or infrastructure blips | Small retry budget with retry evidence | The suite can classify a transient failure without losing the original signal. |
+| A known web locator changed after a release | SHAFT Heal | Recovery is bounded, trust-gated, and reported. |
+| Hard-to-triage failures | Allure evidence, Doctor, and retry diagnostics | The failure carries screenshots, logs, source snapshots, and retry context. |
+
+## Related
+
+- [Web testing](/docs/testing/web)
+- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
+- [ARIA Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#aria-locators)
+- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
+- [Explicit Waits](/docs/reference/actions/GUI/Waits_And_Synchronization#explicit-waits)
+- [Natural Language Actions](/docs/reference/actions/GUI/Natural_Language_Actions)
+- [SHAFT Heal](/docs/agentic/heal)
+- [Reporting](/docs/reference/reporting/)
+- [Properties Reference](/docs/reference/properties/PropertiesList)
+
+---
+
+# How the modular SHAFT upgrade works
+
+Canonical HTML: https://shafthq.github.io/docs/start/upgrade/how-it-works
+Markdown: https://shafthq.github.io/md/start/upgrade/how-it-works.md
+
+# How the modular SHAFT upgrade works
+
+This page explains what the upgrader decides and why. To run it, follow
+[Run the upgrade](/docs/start/upgrade/run). For command options and module
+boundaries, see the [upgrade reference](/docs/start/upgrade/reference).
+
+## What the script guarantees
+
+1. Finds supported Maven POMs without scanning generated `target`, `build`,
+ `.git`, IDE, or report directories.
+2. Resolves the latest published `shaft-engine` release from Maven Central,
+ unless `--shaft-version` is supplied.
+3. Compiles the unchanged project first. A broken baseline stops the migration
+ before any file is changed.
+4. Parses `pom.xml` as XML, imports `shaft-bom`, adds `shaft-engine`, and removes
+ the legacy `SHAFT_ENGINE` dependency without copying BOM `pom`/`import`
+ metadata onto runtime dependencies.
+5. Adds only the optional modules supported by project evidence.
+6. For Selenium/Appium source upgrades, applies conservative Java rewrites in
+ the same transaction as the POM migration.
+7. Runs Maven `dependency:go-offline test-compile` so dependencies resolve into
+ the local Maven repository and both main and test source are compiled.
+8. Commits the file transaction only after compilation passes.
+9. Restores every touched file byte-for-byte when validation fails.
+10. Optionally uses the OpenAI Responses API for exactly three repair attempts
+ before rollback.
+
+```mermaid
+flowchart TD
+ Start["Run upgrade_to_modular_shaft.py"] --> Discover["Discover Maven POMs and project type"]
+ Discover --> Supported{"Legacy/modular SHAFT or supported native stack?"}
+ Supported -- No --> Stop["Stop without changing files"]
+ Supported -- Yes --> Resolve["Resolve latest modular SHAFT version"]
+ Resolve --> Baseline["Compile unchanged project"]
+ Baseline --> BaselinePass{"Baseline passes?"}
+ BaselinePass -- No --> Stop
+ BaselinePass -- Yes --> Snapshot["Open file transaction"]
+ Snapshot --> Upgrade["Update POM and optional source rewrites"]
+ Upgrade --> Compile["Resolve dependencies and run Maven test-compile"]
+ Compile --> Pass{"Compilation passes?"}
+ Pass -- Yes --> Commit["Commit upgraded files"]
+ Pass -- No --> Key{"OpenAI API key available?"}
+ Key -- No --> Rollback["Restore original bytes"]
+ Key -- Yes --> Repair["Request constrained repair"]
+ Repair --> Retry["Apply allowed POM/Java replacements"]
+ Retry --> AICompile["Recompile after repair"]
+ AICompile --> AIPass{"Compilation passes?"}
+ AIPass -- Yes --> Commit
+ AIPass -- No --> Attempts{"Three repair attempts exhausted?"}
+ Attempts -- No --> Repair
+ Attempts -- Yes --> Rollback
+```
+
+## Project detection
+
+The script supports projects when it detects one of these shapes:
+
+| Project shape | Detection |
+| --- | --- |
+| Legacy SHAFT | `io.github.shafthq:SHAFT_ENGINE` in a POM. |
+| Modular SHAFT | `shaft-engine`, `shaft-bom`, or an optional SHAFT module in a POM. |
+| Native Selenium | Selenium dependency/import plus TestNG or JUnit dependency/import. |
+| Native Appium | Appium dependency/import plus TestNG or JUnit dependency/import. |
+| Native REST Assured | Any `io.rest-assured:*` dependency/import plus TestNG or JUnit dependency/import. |
+| Cucumber | Cucumber dependency/import. |
+
+For multi-module builds, POMs that directly declare SHAFT or a supported native
+stack/runner pair are updated. A child module with a supported native stack is
+also updated when the test runner is declared in a parent POM or detected from
+source imports. Other reactor POMs are left unchanged.
+
+JUnit detection includes JUnit 4, JUnit Jupiter, and JUnit Platform coordinates
+or imports, including suite-style projects that depend on
+`org.junit.platform:junit-platform-suite-api`.
+
+## Optional-module scan
+
+For legacy and existing modular SHAFT projects, optional modules are inferred
+from existing POMs, Java source, properties, JSON, XML, and YAML. File contents
+are not printed; the report records only paths and detection reasons. Native
+projects receive `shaft-engine` only because native third-party integrations do
+not prove that the corresponding SHAFT provider API is used.
+
+POM evidence is read as Maven dependency coordinates, so compact XML and
+formatted XML are treated the same. For example, a legacy project that already
+declares `com.browserstack:browserstack-java-sdk`,
+`com.automation-remarks:video-recorder-*`, `org.openpnp:opencv`, or
+`com.sikulix:sikulixapi` selects the
+matching SHAFT optional module during migration.
+
+```mermaid
+flowchart LR
+ Scan["Scan code, POMs, and configuration"] --> Visual{"Reference-image assertion, visual engine, OpenCV/Eyes/Shutterbug, or image-path touch API?"}
+ Scan --> Video{"videoParamsRecordVideo=true, zero-argument desktop recording, JAVE, or Automation Remarks?"}
+ Scan --> BrowserStack{"BrowserStack SDK dependency, platformsList/parallelsPerPlatform, automation switch, or SDK YAML?"}
+ Scan --> SikuliX{"SikuliX dependency or SHAFT.GUI.SikuliX usage?"}
+
+ Visual -- Yes --> AddVisual["Add shaft-visual"]
+ Visual -- No --> CoreVisual["Keep visual module absent"]
+ Video -- Yes --> AddVideo["Add shaft-video"]
+ Video -- No --> CoreVideo["Keep video module absent"]
+ BrowserStack -- Yes --> AddBrowserStack["Add shaft-browserstack"]
+ BrowserStack -- No --> Direct["Direct BrowserStack remains in shaft-engine"]
+ SikuliX -- Yes --> AddSikuliX["Add shaft-sikulix"]
+ SikuliX -- No --> CoreDesktop["Appium Windows stays in shaft-engine"]
+```
+
+Existing modular optional dependencies are preserved even when no additional
+scan evidence is found.
+
+### BrowserStack evidence
+
+The BrowserStack module is selected for BrowserStack Java SDK behavior, not for
+ordinary remote sessions. Evidence includes:
+
+- `com.browserstack:browserstack-java-sdk`.
+- `SHAFT.Properties.browserStack.set().platformsList(...)`.
+- `SHAFT.Properties.browserStack.set().parallelsPerPlatform(...)`.
+- `SHAFT.Properties.browserStack.set().browserstackAutomation(...)`.
+- `SHAFT.Properties.browserStack.set().customBrowserStackYmlPath(...)`.
+- `browserStack.platformsList`.
+- `browserStack.parallelsPerPlatform`.
+- `browserStack.browserstackAutomation`.
+- `browserStack.customBrowserStackYmlPath`.
+- A BrowserStack YAML file with SDK `platforms` or `parallelsPerPlatform`.
+
+Direct BrowserStack WebDriver/Appium execution still requires only
+`shaft-engine`. Direct settings such as
+`SHAFT.Properties.browserStack.set().deviceName(...)` do not select
+`shaft-browserstack` by themselves.
+
+### Visual evidence
+
+The visual module is selected for reference-image or image-engine behavior,
+including:
+
+- `matchesReferenceImage(...)` and `doesNotMatchReferenceImage(...)`.
+- `VisualValidationEngine`.
+- `findImageWithinCurrentPage(...)`, `compareAgainstBaseline(...)`, or
+ `loadOpenCV()`.
+- Image-path touch/wait/swipe APIs.
+- Explicit OpenCV, Applitools Eyes, Selenium Shutterbug, or `shaft-visual`
+ dependencies.
+
+Ordinary screenshots, highlighting, GIF generation, and folder comparison do
+not select `shaft-visual`.
+
+### Video evidence
+
+The video module is selected for local desktop recording:
+
+- `videoParamsRecordVideo=true`.
+- `videoParams_recordVideo=true`.
+- `SHAFT.Properties.visuals.set().videoParamsRecordVideo(true)`.
+- A zero-argument `startVideoRecording()` call.
+- Explicit Automation Remarks, JAVE/FFmpeg, or `shaft-video` dependencies.
+
+Appium driver-native recording and cloud-provider video do not select
+`shaft-video`.
+
+### SikuliX evidence
+
+The SikuliX module is selected for image-based desktop automation:
+
+- `SHAFT.GUI.SikuliX`, `SikuliActions`, or `SikuliDriver`.
+- Explicit `com.sikulix:sikulixapi` or `shaft-sikulix` dependencies.
+
+Appium Windows desktop sessions do not select `shaft-sikulix`; they remain in
+`shaft-engine`.
+
+## Compilation and rollback
+
+The default validation command is:
+
+```bash
+mvn dependency:go-offline test-compile -DskipTests -Dgpg.skip
+```
+
+`dependency:go-offline` resolves project dependencies and build plugins into
+the local Maven repository. `test-compile` compiles both production and test
+source without executing tests. The same command runs before and after
+migration. Use `--compile-command` only when the project requires a profile,
+settings file, module selector, or another project-specific compile entry
+point.
+
+The transaction records original bytes and file permissions immediately before
+the first write to each file. A normal success discards that in-memory
+snapshot. A failure, invalid AI response, path-policy violation, interruption,
+or exhausted retry budget restores the originals.
+
+```mermaid
+sequenceDiagram
+ participant User
+ participant Script
+ participant Files
+ participant Maven
+ participant OpenAI
+
+ User->>Script: Start upgrade
+ Script->>Maven: Compile unchanged project
+ Maven-->>Script: Success
+ Script->>Files: Remember original bytes
+ Script->>Files: Write modular POM and optional source rewrites
+ Script->>Maven: Compile upgraded project
+ alt Compilation succeeds
+ Maven-->>Script: Success
+ Script->>Files: Commit transaction
+ Script-->>User: Upgraded project retained
+ else Compilation fails without API key
+ Maven-->>Script: Failure
+ Script->>Files: Restore original bytes
+ Script-->>User: Original project restored
+ else Compilation fails with API key
+ Maven-->>Script: Failure diagnostics
+ loop Maximum three repair attempts
+ Script->>OpenAI: Redacted diagnostics and allowed files
+ OpenAI-->>Script: Structured replacements
+ Script->>Files: Apply validated replacements
+ Script->>Maven: Recompile
+ end
+ alt A repair compiles
+ Script->>Files: Commit transaction
+ else All attempts fail
+ Script->>Files: Restore POM, source, and all AI-edited files
+ end
+ end
+```
+
+The rollback guarantee covers failures handled by the running process. An
+operating-system kill, power loss, or hardware failure can terminate any
+program before cleanup runs, which is another reason to use version control.
+
+## Optional OpenAI compile repair
+
+OpenAI repair is disabled unless a key is supplied. The safest interactive
+setup avoids shell history:
+
+```bash
+python upgrade_to_modular_shaft.py \
+ --project . \
+ --prompt-for-openai-key
+```
+
+For CI or an existing secret manager, set `OPENAI_API_KEY` and run the normal
+command:
+
+```bash
+python upgrade_to_modular_shaft.py --project . --yes
+```
+
+Do not paste a real API key into the script, `pom.xml`, source code, or a
+checked-in properties file.
+
+When the upgraded compile fails, the script uses the
+[OpenAI Responses API](https://developers.openai.com/api/docs/guides/text) with
+[Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
+The default model is `gpt-5.5`; override it with `--openai-model` when required.
+
+Each request is constrained as follows:
+
+- Compiler output is redacted for common tokens, passwords, bearer headers, and
+ private keys.
+- Only candidate POMs and Java files named by compiler diagnostics are
+ considered.
+- A file containing a detected secret is excluded from editable context.
+- The model can replace only existing, non-symlink `pom.xml` and `.java` files
+ that were supplied in the request.
+- Absolute paths, parent traversal, new files, unrelated extensions, invalid
+ XML, oversized output, and changes outside the supplied context are rejected.
+- The modular BOM/version contract is revalidated after every accepted repair.
+- The project is recompiled after each of the three repair attempts.
+- If no attempt passes, the POM and every AI-edited file are rolled back.
+
+Use `--no-ai` to force deterministic rollback even when the environment already
+contains an API key.
+
+## Selenium source migration
+
+Source migration is opt-in and compile-validated. `basic` keeps source intact.
+`session` and `full` are rejected for REST Assured-only, Cucumber-only, and
+other non-Selenium/Appium projects.
+
+### Session upgrade rewrites
+
+`--upgrade-type session` performs the POM upgrade, then rewrites supported
+driver session code:
+
+- `WebDriver` type declarations, simple return types, parameters, and
+ `ThreadLocal ` holders become `SHAFT.GUI.WebDriver`.
+- `new ChromeDriver(...)`, `new FirefoxDriver(...)`, `new EdgeDriver(...)`,
+ `new SafariDriver(...)`, `new RemoteWebDriver(...)`, `new AndroidDriver(...)`,
+ `new IOSDriver(...)`, and `new AppiumDriver(...)` are wrapped as
+ `new SHAFT.GUI.WebDriver(new ...Driver(...))`.
+- `driver.close()` becomes `driver.quit()` when the variable was migrated to
+ `SHAFT.GUI.WebDriver`.
+
+Example:
+
+```java
+// Selenium before
+private WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+ driver = new ChromeDriver();
+}
+
+@AfterMethod
+public void stopDriver() {
+ driver.close();
+}
+
+// SHAFT after session upgrade
+private SHAFT.GUI.WebDriver driver;
+
+@BeforeMethod
+public void startDriver() {
+ driver = new SHAFT.GUI.WebDriver(new ChromeDriver());
+}
+
+@AfterMethod
+public void stopDriver() {
+ driver.quit();
+}
+```
+
+### Full upgrade rewrites
+
+`--upgrade-type full` runs the session upgrade, then rewrites simple
+one-statement browser and element actions:
+
+```java
+// Selenium
+driver.get("https://example.com");
+driver.findElement(By.id("login")).click();
+driver.findElement(By.id("username")).sendKeys("demo");
+
+// SHAFT
+driver.browser().navigateToURL("https://example.com");
+driver.element().click(By.id("login"));
+driver.element().type(By.id("username"), "demo");
+```
+
+The automatic full upgrade currently targets:
+
+- `driver.get(url)` and `driver.navigate().to(url)`.
+- `driver.findElement(locator).click()`.
+- `driver.findElement(locator).sendKeys(text)`.
+- `driver.findElement(locator).getText()`.
+- `driver.findElement(locator).isDisplayed()`.
+- `driver.findElement(locator).getAttribute(name)`.
+
+The report lists files changed by source migration and records unsupported
+patterns that need manual review. Risky cases remain manual: chained Selenium
+`Actions`, JavaScript execution, custom waits, reused `WebElement` instances,
+`findElements` collection handling, exception-driven control flow, and
+assertions whose message or soft/hard behavior matters.
+
+After a full upgrade, migrate element and browser assertions manually so their
+intent remains clear:
+
+```java
+// Selenium/TestNG assertion
+Assert.assertTrue(driver.findElement(By.id("banner")).isDisplayed());
+
+// SHAFT assertion
+driver.element().assertThat(By.id("banner")).isVisible();
+```
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [Quick Start](/docs/start/quick-start)
+- [Modules](/docs/features/modules)
+- [Upgrade overview](/docs/start/upgrade)
+
+---
+
+# Integrations and modules
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/modules
+Markdown: https://shafthq.github.io/md/features/whats-new/modules.md
+
+# Integrations and modules
+
+Add only the artifact that owns the required capability. Let the SHAFT BOM
+manage published module versions.
+
+ 
+
+Add a selected artifact without repeating its BOM-managed version:
+
+```xml
+ shaft-visual 
+```
+
+## Related
+
+- [Features and modules](/docs/features/modules)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Pillars of successful test automation
+
+Canonical HTML: https://shafthq.github.io/docs/features/test-automation-pillars
+Markdown: https://shafthq.github.io/md/features/test-automation-pillars.md
+
+# Pillars of successful test automation
+
+The **Pillars of successful test automation** are **Scalability**,
+**Reliability**, and **Maintainability**. SHAFT supports them by keeping test
+intent in the test code and moving browser, mobile, API, evidence,
+configuration, and recovery mechanics into one engine.
+
+```mermaid
+flowchart LR
+ Suite["SHAFT test automation framework"]
+
+ subgraph Scalability["Scalability"]
+ direction TB
+ ScaleGoal["Run more useful coverage without duplicating test logic"]
+ Parallel["Parallel execution"]
+ Surfaces["Web, mobile, API, CLI, DB"]
+ Remote["Grid, Docker, BrowserStack"]
+ Config["Property-driven environments"]
+ ScaleGoal --> Parallel --> Surfaces --> Remote --> Config
+ end
+
+ subgraph Reliability["Reliability"]
+ direction TB
+ ReliableGoal["Make failures deterministic, observable, and actionable"]
+ Sync["Built-in synchronization"]
+ Evidence["Allure logs, screenshots, video, traces"]
+ Retry["Small retry budgets with retry evidence"]
+ Checks["Fluent assertions and validations"]
+ ReliableGoal --> Sync --> Evidence --> Retry --> Checks
+ end
+
+ subgraph Maintainability["Maintainability"]
+ direction TB
+ MaintainGoal["Keep tests readable as products and platforms change"]
+ Facade["One SHAFT facade"]
+ Locators["Smart and fluent locators"]
+ Data["External test data"]
+ Recovery["Optional Heal recovery"]
+ MaintainGoal --> Facade --> Locators --> Data --> Recovery
+ end
+
+ Suite --> ScaleGoal
+ Suite --> ReliableGoal
+ Suite --> MaintainGoal
+```
+
+## Scalability
+
+Scalability means the framework can add browsers, devices, environments, and
+test volume without forcing every test class to fork. SHAFT does this by
+putting execution choice behind configuration and keeping the test body on the
+same facade.
+
+| SHAFT support | What it enables |
+| --- | --- |
+| WebDriver and Playwright backends | Choose Selenium/Appium WebDriver or Playwright per test setup while keeping SHAFT GUI actions. |
+| Web, mobile, API, CLI, database, and test data namespaces | Keep different test surfaces in one framework instead of separate helper stacks. |
+| TestNG, JUnit, and Cucumber integration | Use the runner that fits the project and CI pipeline. |
+| TestNG parallel settings and ThreadLocal driver pattern | Run independent test methods, classes, suites, or data providers in parallel without sharing a driver instance. |
+| `SHAFT.CrossBrowserMode` | Run the same browser test class against Chrome, Firefox, and Safari sequentially or in parallel when Docker is available. |
+| `executionAddress` | Move the same test code from local execution to Docker, Selenium Grid, BrowserStack, Appium, or another remote WebDriver endpoint. |
+| `headlessExecution` and `maximumPerformanceMode` | Reduce desktop browser overhead when the suite needs faster CI feedback. |
+| `shaft-bom` and optional modules | Add heavy capabilities such as Visual, Video, SikuliX, Heal, BrowserStack SDK, Capture, Doctor, MCP, or AI providers only when the project needs them. |
+
+```properties title="src/main/resources/properties/custom.properties"
+executionAddress=localhost:4444
+targetOperatingSystem=Linux
+targetBrowserName=chrome
+headlessExecution=true
+SHAFT.CrossBrowserMode=parallelized
+```
+
+## Reliability
+
+Reliability means a passing test represents a real pass and a failing test
+carries enough evidence to explain the failure. SHAFT reduces accidental
+flakiness by centralizing waits, retries, reports, and validation behavior.
+
+| SHAFT support | What it protects |
+| --- | --- |
+| Element lookup timeout and fluent waits | Element actions retry until the element is available instead of relying on sleeps in every test. |
+| Browser lazy-loading waits | Browser actions can wait for document readiness, network quiet time, jQuery, and Angular signals when the page exposes them. |
+| Explicit condition waits | Tests can wait for business states such as a status value, count, URL, title, or spinner state. |
+| Fluent assertions and verifications | UI, API, file, number, object, and schema checks use one reporting path. |
+| Retry analyzer and JUnit extension | Retries are opt-in and bounded by `retryMaximumNumberOfAttempts`. |
+| Retry evidence capture | `forceCaptureSupportingEvidenceOnRetry=true` enables richer evidence on retry attempts. |
+| Allure report integration | Actions, logs, screenshots, request/command evidence, and attachments are grouped with the test result. |
+| SHAFT Doctor | Failed-run evidence can be packaged and diagnosed without relying on a live provider by default. |
+
+```properties title="src/main/resources/properties/custom.properties"
+defaultElementIdentificationTimeout=10
+waitForUiStateTimeout=600
+retryMaximumNumberOfAttempts=1
+forceCaptureSupportingEvidenceOnRetry=true
+evidenceLevel=CUSTOM
+screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
+attachFullLog=true
+```
+
+Use explicit waits for application states that the browser cannot infer:
+
+```java title="ReliableStateWait.java"
+
+driver.browser().navigateToURL("https://example.test/orders");
+driver.element().click("Refresh orders");
+driver.element().waitUntil(ExpectedConditions.textToBePresentInElementLocated(
+ By.id("sync-status"), "Complete"));
+driver.assertThat(By.id("order-count")).text().isEqualTo("25");
+```
+
+## Maintainability
+
+Maintainability means product changes require small, obvious test updates.
+SHAFT helps by making tests describe user intent, keeping configuration outside
+test logic, and supporting common automation design patterns.
+
+| SHAFT support | What it keeps maintainable |
+| --- | --- |
+| `SHAFT` facade | Test code uses one entry point for GUI, API, CLI, DB, test data, properties, reporting, and validations. |
+| Fluent action chains | Tests and page objects read as workflows instead of low-level WebDriver calls. |
+| Page Object Model and thin base-class patterns | Locators, page actions, and lifecycle setup stay in predictable places. |
+| Locator Builder | Generated and repository locators use `hasAnyTagName().hasId(...)`, then `hasRole(...)`, then native relative `By.xpath(...)` only. |
+| Smart Locators | `inputField(...)` and `clickableField(...)` stay for human exploration only; generated code must not emit them. |
+| Native WebDriver access | Teams can drop to Selenium/Appium APIs only when a specialized case needs it. |
+| External test data | JSON, CSV, Excel, YAML, and properties files keep data and environment values out of test methods. |
+| Programmatic and file-based properties | Environment changes can be made through properties or Maven `-D` overrides. |
+| Optional SHAFT Heal | Web locator recovery is explicit, trust-gated, reported, and kept separate from normal test code. |
+
+```java title="MaintainableLoginTest.java"
+
+public class LoginTest {
+ private SHAFT.GUI.WebDriver driver;
+ private SHAFT.TestData.JSON users;
+
+ @BeforeMethod
+ public void setUp() {
+ driver = new SHAFT.GUI.WebDriver();
+ users = new SHAFT.TestData.JSON("testData/users.json");
+ }
+
+ @Test
+ public void userCanLogIn() {
+ driver.browser().navigateToURL("/login");
+ driver.element()
+ .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("email").build(), users.getTestData("valid.email"))
+ .type(SHAFT.GUI.Locator.hasAnyTagName().hasId("password").build(), users.getTestData("valid.password"))
+ .click(SHAFT.GUI.Locator.hasRole(Role.BUTTON).hasNormalizedText("Log in").build());
+ driver.assertThat().browser().url().contains("/dashboard");
+ }
+
+ @AfterMethod(alwaysRun = true)
+ public void tearDown() {
+ driver.quit();
+ }
+}
+```
+
+## Choosing Features By Pillar
+
+| If the team needs... | Start with... |
+| --- | --- |
+| Faster CI feedback | TestNG/JUnit parallel execution, ThreadLocal drivers, headless execution, and remote Grid capacity. |
+| Wider platform coverage | `executionAddress`, `targetOperatingSystem`, `targetBrowserName`, BrowserStack, Appium, and CrossBrowserMode. |
+| Less UI timing noise | Built-in synchronization, explicit waits, and a low retry budget with retry evidence. |
+| Better failure triage | Allure evidence, screenshots, full logs, retry artifacts, Doctor, video, and Playwright tracing where used. |
+| Lower selector churn | Author-written ids via the locator builder, ARIA roles, Page Objects, and optional SHAFT Heal. |
+| Cleaner test data changes | `SHAFT.TestData` with JSON, CSV, Excel, YAML, or properties files. |
+| Smaller dependency footprint | `shaft-engine` plus only the optional SHAFT modules the project actually uses. |
+
+## Related
+
+- [Architecture](/docs/features/architecture)
+- [Features and modules](/docs/features/modules)
+- [Web testing](/docs/testing/web)
+- [How SHAFT reduces flakiness](/docs/testing/flakiness)
+- [Parallel Execution](/docs/reference/configuration/parallelExecution)
+- [Solution Design](/docs/reference/guides/Solution_Design)
+- [Generated locator policy](/docs/reference/actions/GUI/Locators_And_Self_Healing#generated-locator-policy)
+- [Smart Locators](/docs/reference/actions/GUI/Locators_And_Self_Healing#smart-locators)
+- [Reporting and evidence](/docs/features/reporting)
+- [SHAFT Heal](/docs/agentic/heal)
+
+---
+
+# Platform and setup updates
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/platform
+Markdown: https://shafthq.github.io/md/features/whats-new/platform.md
+
+# Platform and setup updates
+
+Start here when you need to install SHAFT, upgrade a project, or prepare an
+execution service. Open the full guide for exact commands and environment rules.
+
+ 
+
+Verify the selected setup with a focused run:
+
+```bash
+mvn test
+```
+
+## Related
+
+- [Installation](/docs/start/installation)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# Reporting and evidence
+
+Canonical HTML: https://shafthq.github.io/docs/features/reporting
+Markdown: https://shafthq.github.io/md/features/reporting.md
+
+# Reporting and evidence
+
+SHAFT records test actions as structured Allure steps and attaches the evidence
+needed to understand failures.
+
+Generated element assertions keep the Allure step text concise: the locator is
+reported once as a step parameter, while internal element reads used to evaluate
+the assertion are kept in the debug execution log instead of repeated child
+steps.
+
+Text-entry and dropdown element actions keep the Allure timeline readable by
+showing the value being typed or selected in the step title. Long or multiline
+values are capped in the title. The step metadata keeps the normalized locator,
+including Smart Locator labels, and includes the resolved element name only when
+the engine captures one. Secure typing stays masked.
+
+```mermaid
+flowchart LR
+ Action["Test action"] --> Step["Allure step"]
+ Step --> Logs["Logs"]
+ Step --> Screenshot["Screenshot when relevant"]
+ Step --> Request["API / command evidence"]
+ Logs --> Result["allure-results"]
+ Screenshot --> Result
+ Request --> Result
+ Result --> Report["Allure report"]
+ Result --> Doctor["SHAFT Doctor"]
+```
+
+Use [reporting configuration](/docs/reference/reporting) and
+[custom report messages](/docs/reference/reporting#custom-report-messages) for
+detailed controls.
+
+```properties title="src/main/resources/properties/custom.properties"
+evidenceLevel=CUSTOM
+screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly
+attachFullLog=true
+createAnimatedGif=false
+```
+
+## Execution logs
+
+SHAFT writes the engine execution log through asynchronous Log4j2 appenders so
+normal test actions do not wait on file I/O. The console shows the concise
+INFO-level story, while diagnostic entries and engine internals are written at
+DEBUG level to the log file.
+
+Set `evidenceLevel=CUSTOM` before granular evidence controls such as
+`attachFullLog=true` when you want the control to override the default
+`FAILURE_ONLY` profile. The full-log attachment is streamed from a temporary
+deduplicated snapshot so the live `target/logs/log4j.log` file remains
+available for retry diagnostics, local investigation, and CI artifact
+collection.
+
+## Failure diagnostics bundle
+
+Failed and broken tests attach `shaft-diagnostics.zip` to Allure by default.
+The ZIP contains `diagnostics.json`, a sanitized handoff file for humans,
+SHAFT Doctor, and MCP clients. It includes stable test metadata, failure type,
+message, stacktrace, root-cause chain, the top project stack frame, bounded
+logs, referenced artifacts such as videos, GIFs, and the trace viewer archive,
+selected runtime/configuration metadata, redaction rules applied, size limits,
+and suggested Doctor/MCP commands.
+
+The single trace archive includes `shaft-trace.json`,
+`shaft-network.har`, and `SHAFT Trace Report.html`. The JSON `actions` array
+records ordered Selenium browser, element, touch, and validation events with
+status, duration, locator, URL, exception summary, attachment summaries, and
+redacted metadata. When enabled, the trace JSON also includes `network`,
+`console`, and `browserObservability` sections for browser HTTP exchanges,
+console messages, and unsupported-capability warnings. SHAFT also writes the
+archive under `target/shaft-traces/ /` with an `index.json` for
+local tooling.
+
+The bundle references existing artifacts instead of copying every raw file.
+Secrets in common headers, cookies, token/password assignments, and sensitive
+URL query values are masked before the JSON is attached. Disable the bundle
+with `shaft.diagnostics.enabled=false` or lower the ZIP entry cap with
+`shaft.diagnostics.maxArtifactMb`.
+
+## Failure briefs and attachment manifest
+
+Failed and broken tests also attach a compact failure brief beside the
+diagnostics bundle:
+
+- `SHAFT Failure Brief.html` opens first in the Allure report and summarizes the
+ failure category, message, top project stack frame, and the first artifacts to
+ inspect.
+- `shaft-failure-brief.json` exposes the same triage data for CI bots and
+ local tooling.
+- `shaft-attachments-manifest.json` lists SHAFT-owned evidence such as
+ screenshots, videos, traces, page snapshots, API request/response artifacts,
+ accessibility reports, performance reports, and logs.
+
+The brief uses the same redaction rules as the diagnostics bundle, so common
+headers, cookies, token/password assignments, and sensitive URL query values are
+masked before the JSON and HTML are attached. API request labels omit query
+strings and include the method, path, status code, and response time when
+available.
+
+Allure 3 runs also receive a `categories.json` file in `allure-results/` with
+SHAFT's default failure groups for assertion, stale element, timeout, locator,
+API, accessibility, visual, and infrastructure failures. These categories are
+plain Allure metadata and do not require a custom Allure plugin.
+
+The attachment manifest is built from SHAFT's common attachment path and API
+filter. Specialized Allure-native attachments, such as visual comparison diffs,
+can still appear directly in the Allure report before they are routed through
+the central manifest path.
+
+## Locator health reports
+
+Enable locator health reporting when you want a run-level view of slow or flaky
+web locators without changing test code.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.locatorHealth.enabled=true
+shaft.locatorHealth.warnBelowScore=70
+shaft.locatorHealth.attachDashboard=true
+shaft.locatorHealth.failBelowScore=-1
+slowLocatorThresholdMillis=750
+```
+
+When enabled, SHAFT records lookup counts, unique/no-match/multi-match/stale
+rates, average and p95 lookup time, polling attempts, timeouts, slow lookups,
+SHAFT Heal attempts, accepted recoveries, confidence, and selected replacement
+locators when available. It scores each locator, flags selector smells such as
+absolute XPath, index-heavy XPath, generated IDs, text-only selectors, and deep
+CSS chains, then adds plain-language recommendations.
+
+At the end of the run it writes HTML and JSON reports under
+`execution-summary/locator-health/` and attaches the JSON export to Allure. The
+HTML dashboard is attached when `shaft.locatorHealth.attachDashboard=true`. Keep
+`shaft.locatorHealth.failBelowScore=-1` while introducing the report; set it to
+a score threshold only after the suite has a stable baseline. The older
+`locatorHealthReportEnabled=true` key remains supported. When the failure trace
+viewer is enabled, failed-test trace JSON also includes the current locator
+health snapshot.
+
+## Flake and auto-wait profiler
+
+Enable the flake profiler when you need action-level timing in Allure without
+turning every wait into custom test code.
+
+```properties title="src/main/resources/properties/custom.properties"
+shaft.flakeProfiler.enabled=true
+shaft.flakeProfiler.attachPerTest=true
+shaft.flakeProfiler.failOnSevereFlakeRisk=false
+shaft.flakeProfiler.slowActionThresholdMs=2000
+```
+
+When enabled, SHAFT attaches `flake-profile.json` and `Flake Profile` HTML to
+Allure for tests that produce profiler signals. The profile records element
+actions, assertions, verifications, retry attempts, locator lookup counts,
+match counts, wait polling loops, stale/healing signals, and slow or wait-heavy
+actions. Screenshot capture, page snapshots, and report attachment time are
+tracked as evidence costs so element action duration is not inflated by report
+generation.
+
+Keep `shaft.flakeProfiler.failOnSevereFlakeRisk=false` while establishing a
+baseline. Turn it on only after the suite has known thresholds for slow,
+wait-heavy, stale, healed, or failing actions.
+
+## Related
+
+- [What's new: evidence](/docs/features/whats-new/evidence)
+- [Architecture](/docs/features/architecture)
+- [Modules](/docs/features/modules)
+- [Underlying technology](/docs/features/modules#technology)
+- [BrowserStack](/docs/integrations/browserstack)
+
+---
+
+# Testing API updates
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new/testing
+Markdown: https://shafthq.github.io/md/features/whats-new/testing.md
+
+# Testing API updates
+
+Pick the test surface that owns the behavior, then follow its full guide for
+exact Java APIs and lifecycle rules.
+
+ 
+
+Create a supported Playwright session explicitly:
+
+```java
+SHAFT.GUI.Playwright driver = new SHAFT.GUI.Playwright();
+```
+
+## Related
+
+- [Web testing](/docs/testing/web)
+- [What's new since modularization](/docs/features/whats-new)
+
+---
+
+# What's new since modularization
+
+Canonical HTML: https://shafthq.github.io/docs/features/whats-new
+Markdown: https://shafthq.github.io/md/features/whats-new.md
+
+# What's new since modularization
+
+Find user-facing capabilities added since `10.2.20260610` (2026-06-10). Search
+by feature name or filter by the job you need to complete. Each result opens a
+focused page with setup, usage, and canonical guide links.
+
+ 
+
+Use the search field directly. No setup is required:
+
+```text
+GraphQL
+```
+
+## Related
+
+- [Upgrade an existing project](/docs/start/upgrade)
+- [Features and modules](/docs/features/modules)
 
 ---
 

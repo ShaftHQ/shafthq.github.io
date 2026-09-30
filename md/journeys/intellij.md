@@ -1,0 +1,28 @@
+# Use the IntelliJ plugin
+
+Install the SHAFT plugin, open the tool window, and finish setup.
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/intellij
+Guide index: https://shafthq.github.io/llms.txt
+
+# Use the IntelliJ plugin
+
+For IntelliJ IDEA. The result is the SHAFT tool window open and setup verified. An AI agent connection is optional.
+
+## Steps
+
+1. Install the SHAFT plugin from JetBrains Marketplace, or install a ZIP and restart if the IDE asks.
+2. Open **Tools | SHAFT | Open SHAFT**.
+3. In **Set up SHAFT tools**, let Prerequisites detect Python 3, Java, and Maven. Use **Open in Terminal** for anything missing, then **Recheck**.
+4. Choose a setup route only if you want an agent. **Open setup command in terminal**, review the command, and press Enter yourself. The plugin does not run the installer.
+5. **Verify setup** until it reports the SHAFT tools it needs.
+
+The check is a verified tool window, not a generated test. Recorder, Doctor, and coding-partner actions are documented on [IntelliJ IDEA plugin](/docs/agentic/intellij). Follow one action there after this page is done.
+
+```text
+Tools | SHAFT | Open SHAFT
+```
+
+## Related
+
+- [IntelliJ IDEA plugin](/docs/agentic/intellij)

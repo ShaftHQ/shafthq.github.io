@@ -1,0 +1,30 @@
+# Run the suite in CI
+
+Run an existing SHAFT Maven suite headlessly and keep the Allure archive.
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/ci
+Guide index: https://shafthq.github.io/llms.txt
+
+# Run the suite in CI
+
+For a project that already runs locally. The result is the same suite running in a pipeline without a display, and an Allure archive saved as a build artifact.
+
+## Steps
+
+1. Use a JDK and Maven that match [Install SHAFT](/docs/start/installation).
+2. Run:
+
+```bash
+mvn -e test \
+ -DheadlessExecution=true \
+ -Dallure.automaticallyOpen=false \
+ -Dallure.generateArchive=true
+```
+
+3. Publish the Allure results or archive your pipeline already collects. The job is done when the test command exits and the archive artifact exists.
+
+Property overrides and Jenkins or GitHub Actions notes stay on [Running tests in CI/CD pipelines](/docs/reference/guides/CI_CD_Integration).
+
+## Related
+
+- [Running tests in CI/CD pipelines](/docs/reference/guides/CI_CD_Integration)

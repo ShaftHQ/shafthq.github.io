@@ -1,0 +1,30 @@
+# Upgrade a Java project
+
+Move a legacy SHAFT, Selenium, Appium, REST Assured, or Cucumber Maven project onto current modular SHAFT and run one test.
+
+Canonical HTML: https://shafthq.github.io/docs/journeys/upgrade-a-project
+Guide index: https://shafthq.github.io/llms.txt
+
+# Upgrade a Java project
+
+For a Maven project that already has tests. The result is that project compiling against current modular SHAFT, with one test run. You need JDK 25, Maven or `mvnw`, and Python 3.9+ as `python`. Commit or stash local edits first.
+
+## Steps
+
+1. From the project root, follow [Run the upgrade](/docs/start/upgrade/run) through the download and the plan prompt. Answer `y` only after you read the plan.
+2. Keep the default `basic` type unless you intentionally want Selenium or Appium session code rewritten. The same page owns `session` and `full`.
+3. Run one test:
+
+```bash
+mvn test
+```
+
+ 
+
+The check is a compile plus a test count above zero. If Maven reports `Total: 0`, the Surefire provider note on [Install SHAFT](/docs/start/installation) applies.
+
+What the upgrader guarantees is background: [How the upgrade works](/docs/start/upgrade/how-it-works). Flags and coordinates: [Upgrade reference](/docs/start/upgrade/reference).
+
+## Related
+
+- [Run the upgrade](/docs/start/upgrade/run)
