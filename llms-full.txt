@@ -25188,6 +25188,13 @@ may override it through `PORT`.
 flyctl deploy --remote-only --config shaft-mcp/fly.toml
 ```
 
+- **Dockhold:** the root `dockhold.json` selects
+ `shaft-mcp/Dockerfile.dockhold`, which starts from the published GHCR image.
+ Open the
+ [Dockhold deploy form](https://app.dockhold.eu/new?repo=https://github.com/ShaftHQ/SHAFT_ENGINE&name=shaft-mcp&ref=oss-shaft)
+ and pick the 1 GB app size. A browser session does not fit in 512 MB.
+ Sizes and prices: [dockhold.eu/pricing](https://dockhold.eu/pricing).
+
 Do not advertise a hosted endpoint until its external integration and secrets
 are configured and its `/mcp` endpoint passes initialization.
 
