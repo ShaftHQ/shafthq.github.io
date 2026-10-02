@@ -126,6 +126,10 @@ String value = api.getResponseXMLValue("xmlPath");
 List<Object> value = api.getResponseXMLValueAsList("xmlPath");
 ```
 
+## Session headers and cookies {/* #session-headers-cookies */}
+
+`api.getHeaders()` and `api.getCookies()` return immutable snapshots of the headers and cookies attached to the `SHAFT.API` session.
+
 ## Related
 
 - [Request Builder](/docs/reference/actions/API/Request_Builder)

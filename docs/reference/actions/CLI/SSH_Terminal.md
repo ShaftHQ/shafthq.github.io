@@ -427,6 +427,24 @@ void ensureSufficientDiskSpace() {
 
 ---
 
+## Reusable SSH sessions and structured results {/* #ssh-reusable-session */}
+
+| Method | What it does |
+| --- | --- |
+| `TerminalActions.getRemoteInstance(String sshHostName, int sshPortNumber, String sshUsername, String sshKeyFileFolderName, String sshKeyFileName)` | Creates a remote terminal that reuses one SSH session for many commands until closed. |
+| `getRemoteInstance(..., boolean verbose)` | Same, and when `verbose` is true it streams command output lines to the logs while the command runs. |
+| `getRemoteInstance(SshConnectionOptions options)` | Creates a reusable remote terminal from connection options. |
+| `performSshCommand(String command)` | Runs one remote command and returns an `SshCommandResult` with stdout, stderr and exit code. |
+| `performSshCommand(String command, Map<String, String> environmentVariables)` | Same, with environment variables. |
+| `performSshCommands(List<String> commands, Map<String, String> environmentVariables)` | Runs several commands in order on the same session and returns one result per command. |
+| `executeTerminalCommand(String command)` | Runs a terminal command and returns the terminal for fluent chaining. |
+| `getJschSession()` | Returns the underlying JSch `Session` for advanced use. |
+
+```java
+TerminalActions remote = TerminalActions.getRemoteInstance("10.0.0.5", 22, "qa", "keys", "id_rsa");
+SshCommandResult result = remote.performSshCommand("uname -a");
+```
+
 ## Related
 
 - [Terminal Actions](./Terminal_Actions.md) — Local terminal execution overview and common patterns.

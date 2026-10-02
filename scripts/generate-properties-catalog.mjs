@@ -92,7 +92,7 @@ const SECTION_NAME_OVERRIDES = {
 // yet -- see design/properties-generator.md §2/§6 and the follow-up issue filed alongside this).
 const SECTION_ORDER = [
   'Platform', 'Web', 'Playwright', 'Mobile', 'API', 'Capture', 'Flags', 'Reporting', 'Allure',
-  'Timeouts', 'Visuals', 'Jira', 'Cucumber', 'Healenium', 'Healing', 'Natural Actions', 'Infrastructure', 'Ocr', 'Pilot',
+  'Timeouts', 'Visuals', 'Jira', 'Cucumber', 'Healenium', 'Healing', 'Natural Actions', 'Infrastructure', 'Ocr', 'ManagedLocalAi', 'Pilot',
   'Paths', 'Pattern', 'Tinkey', 'Internal', 'BrowserStack', 'LambdaTest', 'Performance', 'TestNG',
   'Log4j',
 ];

@@ -572,6 +572,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | validateSwipeToElement                      | `false`       | `true`, `false`                          | • Validate swipe to element action on mobile.                                                                                                                                                                                                          |
 | disableSslCertificateCheck                  | `false`       | `true`, `false`                          | • Disable SSL certificate validation.                                                                                                                                                                                                                  |
 | telemetry.enabled                           | `true`        | `true`, `false`                          | • Enable telemetry data collection for SHAFT usage analytics.                                                                                                                                                                                          |
+| hideKeyboardAfterTyping | `false` | `true`, `false` | • When `true`, hides the native soft keyboard after a successful mobile-native `type()`. |
 
   </TabItem>
 </Tabs>
@@ -656,6 +657,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | shaft.trace.includeNetwork                    | `true`        | `true`, `false` | • Reserve network evidence in the trace metadata. |
 | shaft.trace.includeConsole                    | `true`        | `true`, `false` | • Reserve console evidence in the trace metadata. |
 | shaft.trace.maxArtifactMb                     | `50`          | Integer megabytes | • Maximum size for a single trace bundle entry. |
+| shaft.trace.maxSessionMb | `512` | Integer megabytes | • Maximum total size of the trace bundle for one test session. |
 
   </TabItem>
 </Tabs>
@@ -1191,9 +1193,31 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | --- | --- | --- | --- |
 | shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
 | shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+| shaft.ocr.document.renderDpi | `300` | Integer DPI | Resolution used to rasterize document pages (for example PDF) before OCR. |
+| shaft.ocr.document.maximumInputBytes | `536870912` | Integer bytes | Largest document file accepted for OCR (512 MB). |
+| shaft.ocr.document.maximumPages | `1000` | Integer | Maximum number of pages processed per document. |
+| shaft.ocr.document.maximumPixelsPerPage | `40000000` | Integer pixels | Maximum rasterized pixels per page; larger pages are rejected. |
+| shaft.ocr.document.pageTimeoutSeconds | `120` | Integer seconds | Time limit for OCR of a single page. |
+| shaft.ocr.document.maximumAllureArtifactBytes | `26214400` | Integer bytes | Largest OCR artifact attached to Allure (25 MB). |
+| shaft.ocr.document.batchParallelism | `4` | Integer | Number of pages processed in parallel. |
+| shaft.ocr.document.maximumInFlightRasterBytes | `268435456` | Integer bytes | Memory cap for rasterized pages held at once (256 MB). |
 
   </TabItem>
 </Tabs>
+
+## ManagedLocalAi
+
+- These properties control SHAFT-managed local AI inference: whether it is enabled, which reviewed model it uses, where artifacts are cached, and its timeouts.
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| managedLocalAi.enabled | `false` | `true`, `false` | Whether SHAFT-managed local inference is enabled for the current thread. |
+| managedLocalAi.transparentProvisioning | `true` | `true`, `false` | Whether an approved request may provision missing reviewed artifacts. |
+| managedLocalAi.model | `auto` | reviewed model id or `auto` | Reviewed model identifier, or `auto` to let SHAFT choose. |
+| managedLocalAi.cacheDirectory | ` ` | absolute path or empty | Explicit cache directory; empty uses the SHAFT per-user cache. |
+| managedLocalAi.downloadTimeoutSeconds | `900` | Integer seconds | Artifact download timeout. |
+| managedLocalAi.lockTimeoutSeconds | `30` | Integer seconds | Cross-process cache lock timeout. |
+| managedLocalAi.launchTimeoutSeconds | `120` | Integer seconds | Authenticated runtime launch timeout. |
 
 ## Pilot
 

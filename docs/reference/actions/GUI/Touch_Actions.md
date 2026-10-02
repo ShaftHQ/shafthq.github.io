@@ -230,6 +230,29 @@ public class MobileTouchActionsDemo {
 }
 ```
 
+## Coordinates, files, app state and Flutter helpers {/* #touch-more */}
+
+| Method | What it does |
+| --- | --- |
+| `tapByCoordinates(int x, int y)` | Taps viewport coordinates once. |
+| `swipeByCoordinates(int startX, int startY, int endX, int endY, int durationMillis)` | Swipes between two viewport coordinates over the given duration. |
+| `pushFile(String deviceFilePath, String localFilePath)` / `pushFile(String deviceFilePath, File localFile)` | Uploads a local file to the device, emulator or simulator. |
+| `pullFile(String deviceFilePath, String localFilePath)` | Downloads a file from the device to the local machine. |
+| `saveAppState(String filePath)` | Saves a JSON snapshot of the current app state (active app, context, orientation, window size). |
+| `loadAppState(String filePath)` | Restores what can be restored from a saved app-state snapshot on the live session. |
+| `saveSessionCapabilities(String filePath)` | Saves the active Appium session capabilities to JSON so a later run can reuse the same device setup. |
+| `loadSessionCapabilities(String filePath)` | Loads previously saved Appium session capabilities from JSON. |
+| `performDoubleClick(By)`, `performLongPress(By)`, `performDragAndDrop(By source, By target)` | Flutter-native gestures on widgets, using the Flutter driver. |
+| `waitForVisible(By)` / `waitForVisible(By, Duration)` | Waits for a Flutter widget to become visible. |
+| `waitForAbsent(By)` / `waitForAbsent(By, Duration)` | Waits for a Flutter widget to disappear. |
+| `injectMockImage(File image)` / `activateInjectedImage(String imageId)` | Injects a mock camera image into a Flutter app and activates it. |
+
+```java
+driver.touch().tapByCoordinates(200, 640)
+      .pushFile("/sdcard/Download/data.json", "src/test/resources/data.json")
+      .saveAppState("target/app-state.json");
+```
+
 ## Related
 
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)

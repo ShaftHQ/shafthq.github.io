@@ -233,6 +233,21 @@ Nested iframes require switching into each level in order. See [Element Identifi
 Always call `switchToDefaultContent()` after finishing work inside an iframe — forgetting to switch back is a common cause of `NoSuchElementException` on main-page elements.
 :::
 
+## Portable locators (ShaftLocator) {/* #portable-locators */}
+
+`ShaftLocator` describes an element once and resolves it on both Selenium and Playwright.
+
+| Method | What it does |
+| --- | --- |
+| `css(String selector)` | Creates a CSS locator. |
+| `role(String role, String accessibleName)` | Creates a role plus accessible-name locator. |
+| `accessibleName(String accessibleName)` | Creates an accessible-name locator (aria-label / getByLabel). |
+| `from(By locator)` / `from(SemanticLocatorResolution)` | Converts a Selenium `By` or a semantic resolution into a portable locator. |
+| `value()` / `secondaryValue()` | Returns the locator's main value and, for role locators, the accessible name. |
+| `toBy()` | Converts to a Selenium `By`. |
+| `toPlaywrightSelector()` | Returns a Playwright string selector for CSS, XPath or text strategies. |
+| `toPlaywrightLocator(Page page)` / `toPlaywrightLocator(Locator parent)` | Resolves to a Playwright `Locator` on a page or under a parent locator. |
+
 ## Related
 
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
