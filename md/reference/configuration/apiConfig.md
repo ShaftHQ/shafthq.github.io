@@ -23,17 +23,28 @@ apiConnectionTimeout=30
 apiConnectionManagerTimeout=30
 ```
 
+- These timeouts are read when each request runs, so a `SHAFT.Properties.timeouts.set()` call after `new SHAFT.API(...)` still applies. They are per thread.
+- `0` means no timeout. The maximum is `2147483` seconds.
+- Empty, non-numeric, or out-of-range values fail fast with the key, the value, and a `Fix:` line.
+
 ---
 
-## Automatic Status Code Check
+## Status Code Assertions
 
-By default, SHAFT asserts that every response has a `2xx` status code. Disable this if you need to test non-2xx responses:
+By default, SHAFT asserts that every response has a `2xx` status code.
 
 ```properties title="src/main/resources/properties/custom.properties"
 
-# Set to false if you want to test 4xx / 5xx responses without an automatic failure
+# Disables only the implicit 2xx check for requests that set no target status code
 automaticallyAssertResponseStatusCode=false
 ```
+
+- An explicit `setTargetStatusCode(n)` is **always** asserted, whatever this flag says. For negative tests, set the expected `4xx`/`5xx` status instead of turning the flag off.
+- `setTargetStatusCode(0)` means "no explicit target". Any other value must be a three-digit status (`100`–`999`); anything else fails fast with a `Fix:` line.
+- The flag is read when each request runs, so `SHAFT.Properties.flags.set()` after `new SHAFT.API(...)` applies.
+- Booleans accept `true`/`false` in any case, with surrounding whitespace. Invalid or empty values fail with the key, the value, and a `Fix:` line.
+- A failure with no target reads `Expected a 2xx status but found N`.
+- A status mismatch is an `AssertionError` (an `Error`, not an `Exception`), so Failsafe or retry policies that handle only `Exception` will not retry it.
 
 ---
 
@@ -78,7 +89,7 @@ openapi.coverage.report.enabled=true
 openapi.coverage.threshold=80
 ```
 
-When validation is enabled, every request and response is validated against the schema automatically. When coverage reporting is enabled, SHAFT also summarizes exercised operations, untested operations, unmatched requests, and validation failures by operation ID at the end of the run.
+When validation is enabled, every request and response is validated against the schema automatically. If `swagger.validation.enabled=true` or `openapi.coverage.report.enabled=true` and `swagger.validation.url` is missing or blank, the run fails with a `Fix:` line. Invalid values for `swagger.validation.enabled`, `openapi.coverage.report.enabled`, and `openapi.coverage.threshold` fail with the key, the value, and a `Fix:` line. When coverage reporting is enabled, SHAFT also summarizes exercised operations, untested operations, unmatched requests, and validation failures by operation ID at the end of the run.
 
 ---
 

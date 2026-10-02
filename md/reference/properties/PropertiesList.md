@@ -532,7 +532,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | forceCheckStatusOfRemoteServer | `false` | `true`, `false` | • Force check status of remote server before execution. |
 | clickUsingJavascriptWhenWebDriverClickFails | `false` | `true`, `false` | • Fallback to JavaScript click when native WebDriver click fails, including invalid-state and intercepted-click failures. |
 | autoCloseDriverInstance | `true` | `true`, `false` | • Automatically close driver instance after test execution. |
-| automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Automatically assert API response status code. |
+| automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Assert the implicit `2xx` status for requests with no target status code. An explicit `setTargetStatusCode(n)` is always asserted. Read per request. Invalid values fail with a `Fix:` line. |
 | maximumPerformanceMode | `0` | `0`, `1`, `2` | • `0` → Disabled, `1` → Without Headless Execution, `2` → With Headless Execution • Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues | `false` | `true`, `false` | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation. |
 | disableCache | `false` | `true`, `false` | • To disable the cache in a browser session. |
@@ -747,9 +747,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | scriptExecutionTimeout | `30` | (seconds) | Timeout in seconds for script execution. |
 | defaultElementIdentificationTimeout | `10` | (seconds) | Default timeout in seconds for element identification. |
 | waitForUiStateTimeout | `600` | (seconds) | Default timeout in seconds for UI state waits such as `waitUntil()`. |
-| apiSocketTimeout | `30` | (seconds) | Timeout in seconds for API socket connections. |
-| apiConnectionTimeout | `30` | (seconds) | Timeout in seconds for API connections. |
-| apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds for API connection manager. |
+| apiSocketTimeout | `30` | (seconds) | Timeout in seconds for API socket reads. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
+| apiConnectionTimeout | `30` | (seconds) | Timeout in seconds to establish API connections. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
+| apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds to acquire a pooled API connection. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
 | shellSessionTimeout | `30` | (seconds) | Timeout in seconds for shell session. |
 | sshServerAliveInterval | `60` | seconds; `&lt;= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions. |
 | dockerCommandTimeout | `30` | (seconds) | Deprecated. Legacy docker-wrapped terminal command timeout. |

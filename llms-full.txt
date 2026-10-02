@@ -9679,17 +9679,28 @@ apiConnectionTimeout=30
 apiConnectionManagerTimeout=30
 ```
 
+- These timeouts are read when each request runs, so a `SHAFT.Properties.timeouts.set()` call after `new SHAFT.API(...)` still applies. They are per thread.
+- `0` means no timeout. The maximum is `2147483` seconds.
+- Empty, non-numeric, or out-of-range values fail fast with the key, the value, and a `Fix:` line.
+
 ---
 
-## Automatic Status Code Check
+## Status Code Assertions
 
-By default, SHAFT asserts that every response has a `2xx` status code. Disable this if you need to test non-2xx responses:
+By default, SHAFT asserts that every response has a `2xx` status code.
 
 ```properties title="src/main/resources/properties/custom.properties"
 
-# Set to false if you want to test 4xx / 5xx responses without an automatic failure
+# Disables only the implicit 2xx check for requests that set no target status code
 automaticallyAssertResponseStatusCode=false
 ```
+
+- An explicit `setTargetStatusCode(n)` is **always** asserted, whatever this flag says. For negative tests, set the expected `4xx`/`5xx` status instead of turning the flag off.
+- `setTargetStatusCode(0)` means "no explicit target". Any other value must be a three-digit status (`100`–`999`); anything else fails fast with a `Fix:` line.
+- The flag is read when each request runs, so `SHAFT.Properties.flags.set()` after `new SHAFT.API(...)` applies.
+- Booleans accept `true`/`false` in any case, with surrounding whitespace. Invalid or empty values fail with the key, the value, and a `Fix:` line.
+- A failure with no target reads `Expected a 2xx status but found N`.
+- A status mismatch is an `AssertionError` (an `Error`, not an `Exception`), so Failsafe or retry policies that handle only `Exception` will not retry it.
 
 ---
 
@@ -9734,7 +9745,7 @@ openapi.coverage.report.enabled=true
 openapi.coverage.threshold=80
 ```
 
-When validation is enabled, every request and response is validated against the schema automatically. When coverage reporting is enabled, SHAFT also summarizes exercised operations, untested operations, unmatched requests, and validation failures by operation ID at the end of the run.
+When validation is enabled, every request and response is validated against the schema automatically. If `swagger.validation.enabled=true` or `openapi.coverage.report.enabled=true` and `swagger.validation.url` is missing or blank, the run fails with a `Fix:` line. Invalid values for `swagger.validation.enabled`, `openapi.coverage.report.enabled`, and `openapi.coverage.threshold` fail with the key, the value, and a `Fix:` line. When coverage reporting is enabled, SHAFT also summarizes exercised operations, untested operations, unmatched requests, and validation failures by operation ID at the end of the run.
 
 ---
 
@@ -11861,7 +11872,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | forceCheckStatusOfRemoteServer | `false` | `true`, `false` | • Force check status of remote server before execution. |
 | clickUsingJavascriptWhenWebDriverClickFails | `false` | `true`, `false` | • Fallback to JavaScript click when native WebDriver click fails, including invalid-state and intercepted-click failures. |
 | autoCloseDriverInstance | `true` | `true`, `false` | • Automatically close driver instance after test execution. |
-| automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Automatically assert API response status code. |
+| automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Assert the implicit `2xx` status for requests with no target status code. An explicit `setTargetStatusCode(n)` is always asserted. Read per request. Invalid values fail with a `Fix:` line. |
 | maximumPerformanceMode | `0` | `0`, `1`, `2` | • `0` → Disabled, `1` → Without Headless Execution, `2` → With Headless Execution • Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues | `false` | `true`, `false` | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation. |
 | disableCache | `false` | `true`, `false` | • To disable the cache in a browser session. |
@@ -12076,9 +12087,9 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | scriptExecutionTimeout | `30` | (seconds) | Timeout in seconds for script execution. |
 | defaultElementIdentificationTimeout | `10` | (seconds) | Default timeout in seconds for element identification. |
 | waitForUiStateTimeout | `600` | (seconds) | Default timeout in seconds for UI state waits such as `waitUntil()`. |
-| apiSocketTimeout | `30` | (seconds) | Timeout in seconds for API socket connections. |
-| apiConnectionTimeout | `30` | (seconds) | Timeout in seconds for API connections. |
-| apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds for API connection manager. |
+| apiSocketTimeout | `30` | (seconds) | Timeout in seconds for API socket reads. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
+| apiConnectionTimeout | `30` | (seconds) | Timeout in seconds to establish API connections. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
+| apiConnectionManagerTimeout | `30` | (seconds) | Timeout in seconds to acquire a pooled API connection. Read per request, per thread; `0` means no timeout, maximum 2147483. Invalid values fail with a Fix: line. |
 | shellSessionTimeout | `30` | (seconds) | Timeout in seconds for shell session. |
 | sshServerAliveInterval | `60` | seconds; `&lt;= 0` disables keep-alive packets | JSch `ServerAliveInterval` in seconds for remote SSH sessions. |
 | dockerCommandTimeout | `30` | (seconds) | Deprecated. Legacy docker-wrapped terminal command timeout. |
