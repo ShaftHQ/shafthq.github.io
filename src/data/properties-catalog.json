@@ -835,7 +835,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Automatically assert API response status code."
+    "description": "Assert the implicit 2xx status for requests with no target status code; an explicit setTargetStatusCode(n) is always asserted. Read per request. Invalid values fail with a Fix: line."
   },
   {
     "section": "Flags",
@@ -1483,7 +1483,7 @@
     "type": "number",
     "defaultValue": "30",
     "possibleValues": "(seconds)",
-    "description": "Timeout in seconds for API socket connections."
+    "description": "Timeout in seconds for API socket reads. Read per request, per thread; 0 means no timeout, maximum 2147483. Invalid values fail with a Fix: line."
   },
   {
     "section": "Timeouts",
@@ -1492,7 +1492,7 @@
     "type": "number",
     "defaultValue": "30",
     "possibleValues": "(seconds)",
-    "description": "Timeout in seconds for API connections."
+    "description": "Timeout in seconds to establish API connections. Read per request, per thread; 0 means no timeout, maximum 2147483. Invalid values fail with a Fix: line."
   },
   {
     "section": "Timeouts",
@@ -1501,7 +1501,7 @@
     "type": "number",
     "defaultValue": "30",
     "possibleValues": "(seconds)",
-    "description": "Timeout in seconds for API connection manager."
+    "description": "Timeout in seconds to acquire a pooled API connection. Read per request, per thread; 0 means no timeout, maximum 2147483. Invalid values fail with a Fix: line."
   },
   {
     "section": "Timeouts",

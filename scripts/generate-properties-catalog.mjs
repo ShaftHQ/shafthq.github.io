@@ -247,7 +247,21 @@ function stripJavadocMarkup(text) {
 }
 
 /**
- * Extracts a one-sentence description from a raw `/** ... *\/` Javadoc block: prefers an
+ * Extracts a one-sentence description from a raw `/**
+ * Records a property key. Two accessors in one interface sharing an @Key are an intentional
+ * alias (for example dockerCommandTimeout / dockerCommandTimeoutSeconds), so the first wins and
+ * this returns false. The same key in two interfaces is a real collision and throws.
+ */
+export function registerPropertyKey(seenKeys, key, interfaceName) {
+  if (seenKeys.has(key)) {
+    if (seenKeys.get(key) === interfaceName) return false;
+    throw new Error(`Duplicate property key "${key}" found in ${interfaceName} and ${seenKeys.get(key)}. Property keys must be globally unique.`);
+  }
+  seenKeys.set(key, interfaceName);
+  return true;
+}
+
+/** ... *\/` Javadoc block: prefers an
  * `@return` line's text (or a `{@return ...}` inline short form), falls back to the first
  * sentence of the block, dropping `<p>`-separated property-key/default boilerplate lines.
  */
@@ -469,10 +483,7 @@ function buildCatalog() {
     if (!bySection.has(section)) bySection.set(section, []);
 
     for (const prop of properties) {
-      if (seenKeys.has(prop.key)) {
-        throw new Error(`Duplicate property key "${prop.key}" found in ${interfaceName} and ${seenKeys.get(prop.key)}. Property keys must be globally unique.`);
-      }
-      seenKeys.set(prop.key, interfaceName);
+      if (!registerPropertyKey(seenKeys, prop.key, interfaceName)) continue;
 
       const mdxRow = mdxLookup.get(prop.key);
       let description = mdxRow?.description || prop.javadocDescription;
