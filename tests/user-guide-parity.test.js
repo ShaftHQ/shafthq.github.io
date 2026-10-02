@@ -46,3 +46,10 @@ assert.deepStrictEqual(missing, [], `Undocumented public SHAFT methods (document
 assert.deepStrictEqual(staleExclusions, [], `Excluded methods are now documented; drop them from the exclusions:\n  ${staleExclusions.join('\n  ')}`);
 const total = Object.values(surface).reduce((sum, list) => sum + list.length, 0);
 console.log(`User-guide parity passed (${total} public methods, ${Object.keys(exclusions).length} exclusions).`);
+
+// The generator must not read files outside the engine checkout (CodeQL js/path-injection).
+import('../scripts/generate-user-guide-surface.mjs').then(({engineSourcePath}) => {
+  const root = path.resolve('/tmp/engine');
+  assert.strictEqual(engineSourcePath(root, 'shaft-engine/A.java'), path.join(root, 'shaft-engine', 'A.java'));
+  assert.throws(() => engineSourcePath(root, '../../etc/passwd'), /escapes the engine checkout/);
+}).catch((error) => { console.error(error); process.exitCode = 1; });

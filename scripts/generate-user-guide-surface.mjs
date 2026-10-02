@@ -99,14 +99,26 @@ function engineRoot() {
   const flag = process.argv.find((arg) => arg.startsWith('--engine-path='));
   const root = flag ? flag.split('=')[1] : process.env.SHAFT_ENGINE_PATH;
   if (!root) throw new Error('Pass --engine-path=<SHAFT_ENGINE checkout> or set SHAFT_ENGINE_PATH.');
-  return root;
+  const resolved = path.resolve(root);
+  if (!fs.existsSync(path.join(resolved, 'shaft-engine', 'pom.xml'))) {
+    throw new Error(`Not a SHAFT_ENGINE checkout: ${resolved}`);
+  }
+  return resolved;
+}
+
+/** Resolves a SURFACE source path inside the engine checkout, rejecting anything that escapes it. */
+export function engineSourcePath(root, rel) {
+  const base = path.resolve(root);
+  const target = path.resolve(base, rel);
+  if (!target.startsWith(base + path.sep)) throw new Error(`Source path escapes the engine checkout: ${rel}`);
+  return target;
 }
 
 function main() {
   const root = engineRoot();
   const surface = {};
   for (const [label, [rel, nested]] of Object.entries(SURFACE)) {
-    const source = fs.readFileSync(path.join(root, rel), 'utf8');
+    const source = fs.readFileSync(engineSourcePath(root, rel), 'utf8');
     surface[label] = publicMethods(classBody(source, nested));
   }
   fs.writeFileSync(OUT, `${JSON.stringify(surface, null, 2)}\n`);
