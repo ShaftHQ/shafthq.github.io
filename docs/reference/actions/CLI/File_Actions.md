@@ -198,6 +198,23 @@ For the full file validation API see the [File validations →](../Validations#f
 - **Clean up in teardown** — delete temporary files in `@AfterMethod` or `@AfterClass` to keep the workspace clean.
 - **Never store secrets in files committed to version control** — use environment variables instead.
 
+## More file actions {/* #more-file-actions */}
+
+| Method | What it does |
+| --- | --- |
+| `createFile(String folderPath, String fileName)` / `createFolder(String folderPath)` | Creates an empty file or a folder. |
+| `renameFile(String filePath, String newFileName)` | Renames a file in place. |
+| `copyFolder(String sourceFolderPath, String destinationFolderPath)` / `deleteFolder(String folderPath)` | Copies or deletes a folder. |
+| `copyFileFromJar(String sourceFolderPath, String destinationFolderPath, String fileName)` / `copyFolderFromJar(String sourceFolderPath, String destinationFolderPath)` | Extracts a file or folder from the running JAR's resources to disk. |
+| `copyFileToLocalMachine(TerminalActions terminalSession, String targetFileFolderPath, String targetFileName, String... pathToTempDirectoryOnRemoteMachine)` | Copies a file from a remote or dockerized machine to the local machine and returns its local path. |
+| `doesFileExist(String targetFile)` / `doesFileExist(String fileFolderName, String fileName, int numberOfRetries)` | Checks whether a file exists, optionally retrying. |
+| `listFilesInDirectory(String targetDirectory)` / `listFilesInDirectory(String, TrueFileFilter)` / `listFilesInDirectory(TerminalActions, String)` | Returns the file names in a directory, locally or through a terminal session. |
+| `getFileList(String targetDirectory)` | Returns the files in a directory as a `Collection<File>`. |
+| `readFileAsByteArray(String path)` | Reads a file as bytes. |
+| `readPDF(String relativeFilePath)` / `readPDF(String fileFolderName, String fileName)` | Extracts the text of a PDF file. |
+| `zipFiles(String srcFolder, String destZipFile)` | Zips a folder and returns whether it succeeded. |
+| `unpackArchive(URL url, String destinationFolderPath)` / `unpackArchive(File theFile, File targetDir)` | Downloads (when given a URL) and extracts an archive. |
+
 ## Related
 
 - [Terminal Actions](/docs/reference/actions/CLI/Terminal_Actions)

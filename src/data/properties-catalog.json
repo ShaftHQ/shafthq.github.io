@@ -231,7 +231,7 @@
     "type": "text",
     "defaultValue": "eager",
     "possibleValues": "none, eager, normal",
-    "description": "Controls when Selenium considers the page loaded."
+    "description": "Controls when Selenium considers the page loaded. Default eager waits until DOMContentLoaded."
   },
   {
     "section": "Web",
@@ -240,7 +240,7 @@
     "type": "text",
     "defaultValue": "interactive",
     "possibleValues": "interactive, none, complete",
-    "description": "Controls the document readiness state to wait for."
+    "description": "Controls the document readiness state to wait for on BiDi navigation. Default interactive."
   },
   {
     "section": "Web",
@@ -544,7 +544,7 @@
     "key": "mobile_flutterElementWaitTimeout",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "0",
+    "defaultValue": "60",
     "possibleValues": "",
     "description": "Mobile flutter element wait timeout."
   },
@@ -553,7 +553,7 @@
     "key": "mobile_flutterServerLaunchTimeout",
     "targetFile": "custom.properties",
     "type": "number",
-    "defaultValue": "0",
+    "defaultValue": "60",
     "possibleValues": "",
     "description": "Mobile flutter server launch timeout."
   },
@@ -835,7 +835,7 @@
     "type": "boolean",
     "defaultValue": "true",
     "possibleValues": "true, false",
-    "description": "Assert the implicit 2xx status for requests with no target status code; an explicit setTargetStatusCode(n) is always asserted. Read per request. Invalid values fail with a Fix: line."
+    "description": "Assert the implicit 2xx status for requests with no target status code. An explicit setTargetStatusCode(n) is always asserted. Read per request. Invalid values fail with a Fix: line."
   },
   {
     "section": "Flags",
@@ -863,6 +863,15 @@
     "defaultValue": "false",
     "possibleValues": "true, false",
     "description": "Click the element before typing when clearBeforeTypingMode is not native."
+  },
+  {
+    "section": "Flags",
+    "key": "hideKeyboardAfterTyping",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "When true, hides the native soft keyboard after a successful mobile-native type()."
   },
   {
     "section": "Flags",
@@ -1190,6 +1199,15 @@
   },
   {
     "section": "Reporting",
+    "key": "shaft.trace.maxSessionMb",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "512",
+    "possibleValues": "Integer megabytes",
+    "description": "Maximum total size of the trace bundle for one test session."
+  },
+  {
+    "section": "Reporting",
     "key": "shaft.flakeProfiler.enabled",
     "targetFile": "custom.properties",
     "type": "boolean",
@@ -1438,7 +1456,7 @@
     "type": "number",
     "defaultValue": "0",
     "possibleValues": "(milliseconds); 0 disables DOM-stability folding",
-    "description": "Cheap per-action DOM-mutation quiet window. Default 0 keeps element and validation waits from folding DOM stability."
+    "description": "Cheap per-action DOM-mutation quiet window. Default 0 keeps element/validation waits from folding DOM stability."
   },
   {
     "section": "Timeouts",
@@ -1447,7 +1465,7 @@
     "type": "number",
     "defaultValue": "300",
     "possibleValues": "(milliseconds)",
-    "description": "DOM-mutation quiet window applied after navigation and by public driver.browser().waitForLazyLoading()."
+    "description": "DOM-mutation quiet window applied after navigation and by public driver.browser().waitForLazyLoading(). Independent of the cheap global window."
   },
   {
     "section": "Timeouts",
@@ -2315,6 +2333,141 @@
     "description": "Allows a missing verified OCR runtime to be downloaded."
   },
   {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.renderDpi",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "300",
+    "possibleValues": "Integer DPI",
+    "description": "Resolution used to rasterize document pages (for example PDF) before OCR."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.maximumInputBytes",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "536870912",
+    "possibleValues": "Integer bytes",
+    "description": "Largest document file accepted for OCR (512 MB)."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.maximumPages",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "1000",
+    "possibleValues": "Integer",
+    "description": "Maximum number of pages processed per document."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.maximumPixelsPerPage",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "40000000",
+    "possibleValues": "Integer pixels",
+    "description": "Maximum rasterized pixels per page; larger pages are rejected."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.pageTimeoutSeconds",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "120",
+    "possibleValues": "Integer seconds",
+    "description": "Time limit for OCR of a single page."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.maximumAllureArtifactBytes",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "26214400",
+    "possibleValues": "Integer bytes",
+    "description": "Largest OCR artifact attached to Allure (25 MB)."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.batchParallelism",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "4",
+    "possibleValues": "Integer",
+    "description": "Number of pages processed in parallel."
+  },
+  {
+    "section": "Ocr",
+    "key": "shaft.ocr.document.maximumInFlightRasterBytes",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "268435456",
+    "possibleValues": "Integer bytes",
+    "description": "Memory cap for rasterized pages held at once (256 MB)."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.enabled",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "false",
+    "possibleValues": "true, false",
+    "description": "Whether SHAFT-managed local inference is enabled for the current thread."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.transparentProvisioning",
+    "targetFile": "custom.properties",
+    "type": "boolean",
+    "defaultValue": "true",
+    "possibleValues": "true, false",
+    "description": "Whether an approved request may provision missing reviewed artifacts."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.model",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "auto",
+    "possibleValues": "",
+    "description": "Reviewed model identifier or auto."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.cacheDirectory",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "",
+    "possibleValues": "",
+    "description": "Explicit cache directory, or blank for the SHAFT per-user cache."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.downloadTimeoutSeconds",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "900",
+    "possibleValues": "",
+    "description": "Artifact download timeout in seconds."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.lockTimeoutSeconds",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "30",
+    "possibleValues": "",
+    "description": "Cross-process cache lock timeout in seconds."
+  },
+  {
+    "section": "ManagedLocalAi",
+    "key": "managedLocalAi.launchTimeoutSeconds",
+    "targetFile": "custom.properties",
+    "type": "number",
+    "defaultValue": "120",
+    "possibleValues": "",
+    "description": "Authenticated runtime launch timeout in seconds."
+  },
+  {
     "section": "Pilot",
     "key": "pilot.ai.enabled",
     "targetFile": "custom.properties",
@@ -2924,7 +3077,7 @@
     "key": "shaftEngineVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "10.3.20260809",
+    "defaultValue": "10.3.20260930",
     "possibleValues": "version string",
     "description": "Engine version used by update checks, telemetry metadata, and internal tooling."
   },
@@ -2942,7 +3095,7 @@
     "key": "allure3Version",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "3.14.3",
+    "defaultValue": "3.19.1",
     "possibleValues": "Allure 3 npm package version",
     "description": "Allure 3 CLI package version used when SHAFT resolves the CLI through npx."
   },
@@ -2951,7 +3104,7 @@
     "key": "nodeLtsVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "24.19.0",
+    "defaultValue": "24.21.0",
     "possibleValues": "Node.js version",
     "description": "Portable Node.js version downloaded when neither allure nor npx is available on PATH."
   },
@@ -2960,7 +3113,7 @@
     "key": "appiumServerVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "3.6.0",
+    "defaultValue": "3.8.0",
     "possibleValues": "Appium npm package version",
     "description": "Appium server version used by SHAFT MCP local mobile bootstrap."
   },
@@ -2969,7 +3122,7 @@
     "key": "appiumInspectorPluginVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "2026.7.1",
+    "defaultValue": "2026.9.2",
     "possibleValues": "Appium Inspector plugin version",
     "description": "Appium Inspector plugin version used by SHAFT MCP wrapped mobile recording."
   },
@@ -2978,7 +3131,7 @@
     "key": "appiumUiAutomator2DriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "8.2.2",
+    "defaultValue": "8.7.0",
     "possibleValues": "Appium driver version",
     "description": "Appium UiAutomator2 driver version used by SHAFT MCP for Android."
   },
@@ -2987,7 +3140,7 @@
     "key": "appiumXcuitestDriverVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "12.3.0",
+    "defaultValue": "12.13.3",
     "possibleValues": "Appium driver version",
     "description": "Appium XCUITest driver version used by SHAFT MCP for iOS."
   },
@@ -2996,7 +3149,7 @@
     "key": "androidCommandLineToolsVersion",
     "targetFile": "internal.properties",
     "type": "text",
-    "defaultValue": "15859902",
+    "defaultValue": "16111833",
     "possibleValues": "Android command-line tools build number",
     "description": "Android command-line tools version used when SHAFT MCP bootstraps Android SDK tools."
   },

@@ -1,0 +1,9 @@
+{
+  "SHAFT.CLI.Terminal.getPassphrase": "JSch UserInfo callback invoked by the SSH library during authentication; tests never call it.",
+  "SHAFT.CLI.Terminal.getPassword": "JSch UserInfo callback invoked by the SSH library during authentication; tests never call it.",
+  "SHAFT.CLI.Terminal.promptKeyboardInteractive": "JSch UserInteractive callback invoked by the SSH library; tests never call it.",
+  "SHAFT.CLI.Terminal.promptPassphrase": "JSch UserInfo callback invoked by the SSH library; tests never call it.",
+  "SHAFT.CLI.Terminal.promptPassword": "JSch UserInfo callback invoked by the SSH library; tests never call it.",
+  "SHAFT.CLI.Terminal.promptYesNo": "JSch UserInfo callback invoked by the SSH library for host-key prompts; tests never call it.",
+  "SHAFT.CLI.Terminal.showMessage": "JSch UserInfo callback invoked by the SSH library; tests never call it."
+}

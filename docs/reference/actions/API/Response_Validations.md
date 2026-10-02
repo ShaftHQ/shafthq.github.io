@@ -123,6 +123,26 @@ Validate if the content of the provided actual response object does not match th
 api.assertThatResponse().doesNotMatchSchema("fileRelativePath");
 ```
 
+## Response value builders {/* #response-value-builders */}
+
+These `api.assertThatResponse()` / `api.verifyThatResponse()` methods read a value from the completed response and return a validation builder:
+
+| Method | Value |
+| --- | --- |
+| `statusCodeValue()` | Response status code as a number. |
+| `bodyValue()` | Whole response body. |
+| `headerValue(String name)` | One response header. |
+| `cookieValue(String name)` | One response cookie. |
+| `jsonValue(String path)` | One JSONPath result. |
+| `jsonValues(String path)` | A JSONPath list result. |
+| `responseTimeMillis()` | Response time in milliseconds. |
+| `matchesContract(String fileRelativePath)` | Validates the response against an order-insensitive JSON contract file. |
+
+```java
+api.assertThatResponse().statusCodeValue().isEqualTo(200);
+api.assertThatResponse().jsonValue("$.name").isEqualTo("SHAFT");
+```
+
 ## Related
 
 - [Request Builder](/docs/reference/actions/API/Request_Builder)
