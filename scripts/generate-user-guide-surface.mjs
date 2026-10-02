@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Snapshot of the public SHAFT facade action surface for the user-guide parity check (#1099).
-// Reads a SHAFT_ENGINE checkout (SHAFT_ENGINE_PATH, default ../SHAFT_ENGINE) and writes
+// Reads a SHAFT_ENGINE checkout (sibling checkout: SHAFT_ENGINE_PATH, default ../SHAFT_ENGINE) and writes
 // src/data/user-guide-surface.json. tests/user-guide-parity.test.js checks every method in the
 // snapshot is mentioned in docs/ or explicitly excluded with a reason.
 import fs from 'node:fs';
@@ -96,9 +96,13 @@ export function publicMethods(body) {
 }
 
 function engineRoot() {
-  // Environment only (no argv path): CodeQL js/path-injection, PR #1100.
-  const root = process.env.SHAFT_ENGINE_PATH || path.resolve(process.cwd(), '..', 'SHAFT_ENGINE');
-  const resolved = path.resolve(root);
+  // The engine checkout must sit beside this repository (CodeQL js/path-injection, PR #1100):
+  // SHAFT_ENGINE_PATH names a sibling directory, resolved and confined to the parent folder.
+  const parent = path.resolve(ROOT, '..');
+  const resolved = path.resolve(parent, process.env.SHAFT_ENGINE_PATH || 'SHAFT_ENGINE');
+  if (!resolved.startsWith(parent + path.sep)) {
+    throw new Error(`SHAFT_ENGINE_PATH must be a sibling of ${ROOT}: ${resolved}`);
+  }
   if (!fs.existsSync(path.join(resolved, 'shaft-engine', 'pom.xml'))) {
     throw new Error(`Not a SHAFT_ENGINE checkout: ${resolved}`);
   }
