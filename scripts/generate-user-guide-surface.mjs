@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Snapshot of the public SHAFT facade action surface for the user-guide parity check (#1099).
-// Reads a SHAFT_ENGINE checkout (SHAFT_ENGINE_PATH or --engine-path=<root>) and writes
+// Reads a SHAFT_ENGINE checkout (SHAFT_ENGINE_PATH, default ../SHAFT_ENGINE) and writes
 // src/data/user-guide-surface.json. tests/user-guide-parity.test.js checks every method in the
 // snapshot is mentioned in docs/ or explicitly excluded with a reason.
 import fs from 'node:fs';
@@ -96,9 +96,8 @@ export function publicMethods(body) {
 }
 
 function engineRoot() {
-  const flag = process.argv.find((arg) => arg.startsWith('--engine-path='));
-  const root = flag ? flag.split('=')[1] : process.env.SHAFT_ENGINE_PATH;
-  if (!root) throw new Error('Pass --engine-path=<SHAFT_ENGINE checkout> or set SHAFT_ENGINE_PATH.');
+  // Environment only (no argv path): CodeQL js/path-injection, PR #1100.
+  const root = process.env.SHAFT_ENGINE_PATH || path.resolve(process.cwd(), '..', 'SHAFT_ENGINE');
   const resolved = path.resolve(root);
   if (!fs.existsSync(path.join(resolved, 'shaft-engine', 'pom.xml'))) {
     throw new Error(`Not a SHAFT_ENGINE checkout: ${resolved}`);
