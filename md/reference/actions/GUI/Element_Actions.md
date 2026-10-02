@@ -396,6 +396,43 @@ driver.element()
  .and().click(loginButton);
 ```
 
+## Clipboard, CSS, selection and upload helpers 
+
+These `driver.element()` methods cover keyboard-clipboard flows, computed styles, and drag-and-drop uploads.
+
+| Method | What it does |
+| --- | --- |
+| `clipboard()` | Returns clipboard actions scoped to the driver session. |
+| `clipboard().copyAll(By locator)` | Selects all text in the element and copies it to the system clipboard (Ctrl+A, Ctrl+C). |
+| `clipboard().cutAll(By locator)` | Selects all text, cuts it to the clipboard (Ctrl+A, Ctrl+X), and leaves the field empty. |
+| `clipboard().deleteAll(By locator)` | Selects all text in the element and deletes it (Ctrl+A, Backspace). |
+| `clipboard().paste(By locator)` | Pastes the current system clipboard contents into the element (Ctrl+V). |
+| `get().cssValue(By locator, String propertyName)` | Returns the computed CSS value of the named property, for example `color` or `display`. |
+| `get().selectedText(By locator)` | Returns the combined text of all selected ` ` elements in a ` `. |
+| `dropFileToUpload(By locator, String filePath)` | Uploads a file by simulating a drag-and-drop onto the target drop zone. |
+| `switchToParentFrame()` | Switches focus from the current iframe to its parent frame. |
+
+When a retained element action fails, SHAFT wraps the provider error in `ActionExecutionException`; call `originalFailure()` on it to get the underlying provider exception.
+
+```java
+driver.element().clipboard().copyAll(source);
+driver.element().clipboard().paste(target);
+String color = driver.element().get().cssValue(button, "background-color");
+driver.element().dropFileToUpload(dropZone, "src/test/resources/testDataFiles/sample.pdf");
+```
+
+## Accessibility snapshots 
+
+`ariaSnapshot(...)` captures the accessible-name tree of an element serialized as YAML. It is available on the legacy WebDriver element actions (`ariaSnapshot(By)`) and on the Playwright backend, which also accepts a `ShaftLocator` or a native Playwright `Locator`.
+
+```java
+String tree = driver.element().ariaSnapshot(By.id("main-nav"));
+```
+
+## SikuliX image actions 
+
+`rightClick(String pathToTargetElementImage)` and `rightClick(byte[] targetElement)` right-click the screen region that matches the target image.
+
 ## Related
 
 - [Browser Actions](/docs/reference/actions/GUI/Browser_Actions)

@@ -535,6 +535,15 @@ By following these guidelines and examples, you can build a maintainable test da
 
 ---
 
+## Full test data reader reference 
+
+| Reader | Methods |
+| --- | --- |
+| `SHAFT.TestData.CSV` | `getRows()`, `getColumns()`, `getColumnsWithData()` (column name to row values), `getFirstColumn()`, `getLastColumn()`, `getSpecificColumnName(int)`, `getSpecificColumnData(String or int)`, `getCellCount(String or int)`, `getMaxCellValue(String or int)` and `getMinCellValue(String or int)`. |
+| `SHAFT.TestData.EXCEL` | `getColumnNameUsingRowNameAndCellData([sheetName,] rowName, cellData)` finds the column holding a value in a row, and `getLastColumnNumber([sheetName])` returns the last header column (zero based). |
+| `SHAFT.TestData.JSON` | `getTestDataAsJson(String jsonPath)`, `getTestDataAsList(String jsonPath)` and `getTestDataAsMap(String jsonPath)` read an object, list or map at a JSONPath. |
+| `SHAFT.TestData.YAML` | `getDate(key)`, `getDouble(key)`, `getLong(key)` and `getMapAs(key, Class )`; nested keys use dots, for example `"user.address.city"`. |
+
 ## Related
 
 - [File Actions](/docs/reference/actions/CLI/File_Actions) - Reading and writing files programmatically

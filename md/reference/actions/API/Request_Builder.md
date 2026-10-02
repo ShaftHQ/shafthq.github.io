@@ -455,6 +455,16 @@ public class Test_Api {
 }
 ```
 
+## Session headers, cookies and perform() 
+
+| Method | What it does |
+| --- | --- |
+| `addHeaders(Map headers)` | Appends headers to the session, used by this and every following request. |
+| `addCookies(Map cookies)` | Appends cookies to the session, used by this and every following request. |
+| `perform()` | Sends the built request and returns the response. |
+
+`performRequest()` is deprecated; use `perform()` instead.
+
 ## Related
 
 - [Response Validations](/docs/reference/actions/API/Response_Validations)

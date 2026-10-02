@@ -3792,6 +3792,44 @@ public class FlutterAppTestSuite {
 }
 ```
 
+## Mobile device, gesture, context, file, log and biometric actions 
+
+`driver.mobile()` groups native mobile controls:
+
+| Accessor | Methods |
+| --- | --- |
+| `device()` | `battery()`, `clipboard()`, `keyboard()`, `isLocked()`, `lock()`, `lock(Duration)`, `unlock()`, `orientation()` and `orientation(ScreenOrientation)`. |
+| `gestures()` | `swipe()` (swipe and scroll), `drag()`, and `zoom()` (pinch zoom). |
+| `context()` | `handles()` lists native and web contexts, `nativeApp()` switches to the native context, `webView()` switches to the first web view. |
+| `files()` | `push(String devicePath, byte[] content)`, `pushText(String devicePath, String content)`, `pushFrom(String devicePath, Path localSource)`, `pull(String devicePath)`, `pullText(String devicePath)`, `pullTo(String devicePath, Path localTarget)`, and `pullFolder(String devicePath)` (ZIP bytes). |
+| `logs()` | `messages()` returns captured device-log messages and `errors()` returns listener or provider errors. |
+| `biometrics()` | `fingerprint()` for Android emulators and `touchId()` for the iOS Simulator. |
+
+```java
+driver.mobile().device().orientation(ScreenOrientation.LANDSCAPE);
+driver.mobile().files().pushText("/sdcard/Download/note.txt", "hello");
+String note = driver.mobile().files().pullText("/sdcard/Download/note.txt");
+driver.mobile().context().webView();
+```
+
+### Mobile value assertions 
+
+`driver.assertThat().mobileValues()` and `driver.verifyThat().mobileValues()` read a live mobile value and return a validation builder for it:
+
+| Method | Value checked |
+| --- | --- |
+| `currentContextValue()`, `contextCountValue()` | Current context name and number of contexts. |
+| `appInstalledValue(String appId)`, `appStateValue(String appId)` | Whether an app is installed and its lifecycle state. |
+| `deviceLockedValue()`, `deviceOrientationValue()`, `deviceTimeValue()`, `batteryValue()` | Device lock state, orientation, time and battery reading. |
+| `logMessageCountValue()`, `logErrorCountValue()` | Number of captured device-log messages and errors. |
+| `performanceSampleCountValue()` | Number of retained performance samples. |
+| `recordingInProgressValue()`, `retainedRecordingAvailableValue()`, `retainedRecordingSizeValue()` | Screen-recording state and retained recording. |
+| `evidenceArtifactCountValue(MobileEvidenceBundle)`, `evidenceOmissionCountValue(MobileEvidenceBundle)` | Artifact and omission counts in a mobile evidence bundle. |
+
+```java
+driver.assertThat().mobileValues().deviceLockedValue().isFalse();
+```
+
 ## Related
 
 - [Testing overview](/docs/start/overview)
@@ -10682,6 +10720,46 @@ driver.browser()
 SHAFT provides automatic reporting for every browser action. Check the **Reporting** section in the sidebar for details on the rich reports generated for each action.
 :::
 
+## Tabs and windows 
+
+`openNewTab(String targetUrl)` opens the URL in a new browser tab and switches focus to it. `openNewWindow(String targetUrl)` does the same in a new window. Both exist on WebDriver and Playwright browser actions.
+
+## Browser sub-actions 
+
+`driver.browser()` exposes grouped sub-actions with the same API on the WebDriver and Playwright backends. Each group returns to browser actions with `and()`.
+
+| Accessor | Purpose and main methods |
+| --- | --- |
+| `network()` | Network conditions: `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
+| `storage()` | Web storage: `local()` and `session()` return key-value controls (`get`, `set`, `remove`, `clear`); `state()` returns storage-state controls with `save(String filePath)` and `load(String filePath)`. |
+| `downloads()` | Downloads: `all()` lists captured downloads, `latest()` returns the newest one, `waitFor(Runnable trigger)` or `waitFor(Predicate , Runnable trigger)` runs the trigger and waits for a matching download, and `clear()` resets the list. |
+| `emulation()` | Device emulation: `screen()` (viewport and screen size), `location()` (geolocation, timezone, locale), `media()` (media type, color scheme, reduced motion), and `runtime()` (user agent, scripting override). |
+| `dialog()` | Handles JavaScript dialogs (alert, confirm, prompt). |
+| `context()` | Browser context controls. |
+| `console()` | Reads captured browser console messages. |
+| `script()` | Runs JavaScript in the page. |
+| `permissions()` | Grants or clears browser permissions. |
+| `authentication()` | Registers HTTP authentication credentials. |
+
+```java
+driver.browser().network().throttle(200, 500, 250).and()
+ .storage().local().set("feature", "on").and().and()
+ .navigateToURL("https://example.com");
+
+BrowserDownload report = driver.browser().downloads()
+ .waitFor(() -> driver.element().click(By.id("export")));
+
+driver.browser().emulation().location().geolocation(30.04, 31.23).timezone("Africa/Cairo");
+```
+
+## Playwright-only browser helpers 
+
+| Method | What it does |
+| --- | --- |
+| `locator(String selector)` | Returns a native Playwright `Locator` on the current page. |
+| `getNativePage()` | Returns the underlying Playwright `Page` for advanced use. |
+| `registerNetworkInterceptionRule(BrowserNetworkInterceptionRule rule, String successMessage)` | Adds a network interception rule (for example a mock) to the session and logs the message. |
+
 ## Related
 
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
@@ -11881,6 +11959,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | validateSwipeToElement | `false` | `true`, `false` | • Validate swipe to element action on mobile. |
 | disableSslCertificateCheck | `false` | `true`, `false` | • Disable SSL certificate validation. |
 | telemetry.enabled | `true` | `true`, `false` | • Enable telemetry data collection for SHAFT usage analytics. |
+| hideKeyboardAfterTyping | `false` | `true`, `false` | • When `true`, hides the native soft keyboard after a successful mobile-native `type()`. |
 
 ## Reporting
 
@@ -11962,6 +12041,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | shaft.trace.includeNetwork | `true` | `true`, `false` | • Reserve network evidence in the trace metadata. |
 | shaft.trace.includeConsole | `true` | `true`, `false` | • Reserve console evidence in the trace metadata. |
 | shaft.trace.maxArtifactMb | `50` | Integer megabytes | • Maximum size for a single trace bundle entry. |
+| shaft.trace.maxSessionMb | `512` | Integer megabytes | • Maximum total size of the trace bundle for one test session. |
 
 ## Allure
 
@@ -12467,6 +12547,28 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | --- | --- | --- | --- |
 | shaft.ocr.cacheDirectory | ` ` | absolute path or empty | Optional OCR runtime cache override. Empty uses the platform default. |
 | shaft.ocr.downloadEnabled | `true` | `true`, `false` | Allows a missing verified OCR runtime to be downloaded. |
+| shaft.ocr.document.renderDpi | `300` | Integer DPI | Resolution used to rasterize document pages (for example PDF) before OCR. |
+| shaft.ocr.document.maximumInputBytes | `536870912` | Integer bytes | Largest document file accepted for OCR (512 MB). |
+| shaft.ocr.document.maximumPages | `1000` | Integer | Maximum number of pages processed per document. |
+| shaft.ocr.document.maximumPixelsPerPage | `40000000` | Integer pixels | Maximum rasterized pixels per page; larger pages are rejected. |
+| shaft.ocr.document.pageTimeoutSeconds | `120` | Integer seconds | Time limit for OCR of a single page. |
+| shaft.ocr.document.maximumAllureArtifactBytes | `26214400` | Integer bytes | Largest OCR artifact attached to Allure (25 MB). |
+| shaft.ocr.document.batchParallelism | `4` | Integer | Number of pages processed in parallel. |
+| shaft.ocr.document.maximumInFlightRasterBytes | `268435456` | Integer bytes | Memory cap for rasterized pages held at once (256 MB). |
+
+## ManagedLocalAi
+
+- These properties control SHAFT-managed local AI inference: whether it is enabled, which reviewed model it uses, where artifacts are cached, and its timeouts.
+
+| Property Name | Default Value | Possible Values | Description |
+| --- | --- | --- | --- |
+| managedLocalAi.enabled | `false` | `true`, `false` | Whether SHAFT-managed local inference is enabled for the current thread. |
+| managedLocalAi.transparentProvisioning | `true` | `true`, `false` | Whether an approved request may provision missing reviewed artifacts. |
+| managedLocalAi.model | `auto` | reviewed model id or `auto` | Reviewed model identifier, or `auto` to let SHAFT choose. |
+| managedLocalAi.cacheDirectory | ` ` | absolute path or empty | Explicit cache directory; empty uses the SHAFT per-user cache. |
+| managedLocalAi.downloadTimeoutSeconds | `900` | Integer seconds | Artifact download timeout. |
+| managedLocalAi.lockTimeoutSeconds | `30` | Integer seconds | Cross-process cache lock timeout. |
+| managedLocalAi.launchTimeoutSeconds | `120` | Integer seconds | Authenticated runtime launch timeout. |
 
 ## Pilot
 
@@ -13510,6 +13612,16 @@ public class UserDatabaseTest {
 
 See [Connection Strings →](./Connection_Strings) for common JDBC URL formats for each supported database.
 
+## More database methods 
+
+| Method | What it does |
+| --- | --- |
+| `executeInsertQuery(String sql)` / `executeDeleteQuery(String sql)` | Runs an INSERT or DELETE statement and returns the number of affected rows. |
+| `executeDDLStatement(String sql)` | Runs a DDL statement such as CREATE, ALTER or DROP. |
+| `getRow(String columnName, String knownCellValue)` | Returns the tab-separated rows from the latest result set whose column matches the value. |
+| `DatabaseActions.getRow(ResultSet resultSet, String columnName, String knownCellValue)` | Same lookup on a result set you pass in. |
+| `cleanup()` | Removes thread-local state held by the instance; call it at teardown in long or parallel runs. |
+
 ## Related
 
 - [Connection Strings](/docs/reference/actions/DB/Connection_Strings)
@@ -14477,6 +14589,43 @@ driver.element()
  .and().type(passwordField, "password")
  .and().click(loginButton);
 ```
+
+## Clipboard, CSS, selection and upload helpers 
+
+These `driver.element()` methods cover keyboard-clipboard flows, computed styles, and drag-and-drop uploads.
+
+| Method | What it does |
+| --- | --- |
+| `clipboard()` | Returns clipboard actions scoped to the driver session. |
+| `clipboard().copyAll(By locator)` | Selects all text in the element and copies it to the system clipboard (Ctrl+A, Ctrl+C). |
+| `clipboard().cutAll(By locator)` | Selects all text, cuts it to the clipboard (Ctrl+A, Ctrl+X), and leaves the field empty. |
+| `clipboard().deleteAll(By locator)` | Selects all text in the element and deletes it (Ctrl+A, Backspace). |
+| `clipboard().paste(By locator)` | Pastes the current system clipboard contents into the element (Ctrl+V). |
+| `get().cssValue(By locator, String propertyName)` | Returns the computed CSS value of the named property, for example `color` or `display`. |
+| `get().selectedText(By locator)` | Returns the combined text of all selected ` ` elements in a ` `. |
+| `dropFileToUpload(By locator, String filePath)` | Uploads a file by simulating a drag-and-drop onto the target drop zone. |
+| `switchToParentFrame()` | Switches focus from the current iframe to its parent frame. |
+
+When a retained element action fails, SHAFT wraps the provider error in `ActionExecutionException`; call `originalFailure()` on it to get the underlying provider exception.
+
+```java
+driver.element().clipboard().copyAll(source);
+driver.element().clipboard().paste(target);
+String color = driver.element().get().cssValue(button, "background-color");
+driver.element().dropFileToUpload(dropZone, "src/test/resources/testDataFiles/sample.pdf");
+```
+
+## Accessibility snapshots 
+
+`ariaSnapshot(...)` captures the accessible-name tree of an element serialized as YAML. It is available on the legacy WebDriver element actions (`ariaSnapshot(By)`) and on the Playwright backend, which also accepts a `ShaftLocator` or a native Playwright `Locator`.
+
+```java
+String tree = driver.element().ariaSnapshot(By.id("main-nav"));
+```
+
+## SikuliX image actions 
+
+`rightClick(String pathToTargetElementImage)` and `rightClick(byte[] targetElement)` right-click the screen region that matches the target image.
 
 ## Related
 
@@ -15497,6 +15646,23 @@ For the full file validation API see the [File validations →](../Validations#f
 - **Back up before modifying** — use `copyFile()` to save a copy before overwriting configuration files.
 - **Clean up in teardown** — delete temporary files in `@AfterMethod` or `@AfterClass` to keep the workspace clean.
 - **Never store secrets in files committed to version control** — use environment variables instead.
+
+## More file actions 
+
+| Method | What it does |
+| --- | --- |
+| `createFile(String folderPath, String fileName)` / `createFolder(String folderPath)` | Creates an empty file or a folder. |
+| `renameFile(String filePath, String newFileName)` | Renames a file in place. |
+| `copyFolder(String sourceFolderPath, String destinationFolderPath)` / `deleteFolder(String folderPath)` | Copies or deletes a folder. |
+| `copyFileFromJar(String sourceFolderPath, String destinationFolderPath, String fileName)` / `copyFolderFromJar(String sourceFolderPath, String destinationFolderPath)` | Extracts a file or folder from the running JAR's resources to disk. |
+| `copyFileToLocalMachine(TerminalActions terminalSession, String targetFileFolderPath, String targetFileName, String... pathToTempDirectoryOnRemoteMachine)` | Copies a file from a remote or dockerized machine to the local machine and returns its local path. |
+| `doesFileExist(String targetFile)` / `doesFileExist(String fileFolderName, String fileName, int numberOfRetries)` | Checks whether a file exists, optionally retrying. |
+| `listFilesInDirectory(String targetDirectory)` / `listFilesInDirectory(String, TrueFileFilter)` / `listFilesInDirectory(TerminalActions, String)` | Returns the file names in a directory, locally or through a terminal session. |
+| `getFileList(String targetDirectory)` | Returns the files in a directory as a `Collection `. |
+| `readFileAsByteArray(String path)` | Reads a file as bytes. |
+| `readPDF(String relativeFilePath)` / `readPDF(String fileFolderName, String fileName)` | Extracts the text of a PDF file. |
+| `zipFiles(String srcFolder, String destZipFile)` | Zips a folder and returns whether it succeeded. |
+| `unpackArchive(URL url, String destinationFolderPath)` / `unpackArchive(File theFile, File targetDir)` | Downloads (when given a URL) and extracts an archive. |
 
 ## Related
 
@@ -19286,6 +19452,16 @@ public class Test_Api {
 }
 ```
 
+## Session headers, cookies and perform() 
+
+| Method | What it does |
+| --- | --- |
+| `addHeaders(Map headers)` | Appends headers to the session, used by this and every following request. |
+| `addCookies(Map cookies)` | Appends cookies to the session, used by this and every following request. |
+| `perform()` | Sends the built request and returns the response. |
+
+`performRequest()` is deprecated; use `perform()` instead.
+
 ## Related
 
 - [Response Validations](/docs/reference/actions/API/Response_Validations)
@@ -19413,6 +19589,10 @@ String value = api.getResponseXMLValue("xmlPath");
 ```java
 List value = api.getResponseXMLValueAsList("xmlPath");
 ```
+
+## Session headers and cookies 
+
+`api.getHeaders()` and `api.getCookies()` return immutable snapshots of the headers and cookies attached to the `SHAFT.API` session.
 
 ## Related
 
@@ -19542,6 +19722,26 @@ api.assertThatResponse().matchesSchema("fileRelativePath");
 Validate if the content of the provided actual response object does not match the schema for the expected file content.
 ```java
 api.assertThatResponse().doesNotMatchSchema("fileRelativePath");
+```
+
+## Response value builders 
+
+These `api.assertThatResponse()` / `api.verifyThatResponse()` methods read a value from the completed response and return a validation builder:
+
+| Method | Value |
+| --- | --- |
+| `statusCodeValue()` | Response status code as a number. |
+| `bodyValue()` | Whole response body. |
+| `headerValue(String name)` | One response header. |
+| `cookieValue(String name)` | One response cookie. |
+| `jsonValue(String path)` | One JSONPath result. |
+| `jsonValues(String path)` | A JSONPath list result. |
+| `responseTimeMillis()` | Response time in milliseconds. |
+| `matchesContract(String fileRelativePath)` | Validates the response against an order-insensitive JSON contract file. |
+
+```java
+api.assertThatResponse().statusCodeValue().isEqualTo(200);
+api.assertThatResponse().jsonValue("$.name").isEqualTo("SHAFT");
 ```
 
 ## Related
@@ -20134,197 +20334,15 @@ Two timeout properties affect reusable remote SSH sessions:
 | Property | Default | Unit | Effect |
 |---|---:|---|---|
 | `shellSessionTimeout` | `30` | minutes | JSch channel timeout for SFTP/exec channels and local shell commands |
-| `sshServerAliveInterval` | `60` | seconds | JSch `ServerAliveInterval`; values `<= 0` disable keep-alive packets |
+| `sshServerAliveInterval` | `60` | seconds | JSch `ServerAliveInterval`; values ` environmentVariables)` | Same, with environment variables. |
+| `performSshCommands(List commands, Map environmentVariables)` | Runs several commands in order on the same session and returns one result per command. |
+| `executeTerminalCommand(String command)` | Runs a terminal command and returns the terminal for fluent chaining. |
+| `getJschSession()` | Returns the underlying JSch `Session` for advanced use. |
 
-Example `custom.properties` entries:
-
-```properties title="src/main/resources/properties/custom.properties"
-shellSessionTimeout=45
-sshServerAliveInterval=120
+```java
+TerminalActions remote = TerminalActions.getRemoteInstance("10.0.0.5", 22, "qa", "keys", "id_rsa");
+SshCommandResult result = remote.performSshCommand("uname -a");
 ```
-
-Use keep-alive for long-running remote sessions so idle connections are not dropped by firewalls or SSH servers.
-
----
-
-## JSch Compatibility Notes
-
-SHAFT depends on the actively maintained [`com.github.mwiede:jsch`](https://github.com/mwiede/jsch) fork. It is API-compatible with legacy JSch but tracks modern OpenSSH algorithms.
-
-Common connection issues:
-
-- **Legacy `ssh-rsa` hosts** — older servers may require enabling RSA signatures in JSch config. Pass algorithm flags through `SshConnectionOptions.extraJschConfig(...)` when using the options overload ([#3130](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3130)).
-- **Duplicate JSch artifacts** — exclude `com.jcraft:jsch` from transitive dependencies so only the mwiede coordinate remains.
-- **Host key checking** — the string-based `remoteTerminal(...)` overloads currently disable strict host-key checking for backward compatibility. Use `SshConnectionOptions` with `knownHosts` and `strictHostKeyChecking(true)` when you need strict validation ([#3130](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3130)).
-
----
-
-## Experimental Shell / PTY Support
-
-For interactive programs that need a shell lifecycle, prompts, or a pseudo-terminal — installers, CLIs, and server setup flows — open an experimental shell channel on a reusable remote terminal with `openShell(SshShellOptions)`. Prefer `performTerminalCommand(...)` for one-shot commands; reach for this only when you need to drive a prompt-response session.
-
-`openShell(...)` requires a reusable remote terminal from `SHAFT.CLI.remoteTerminal(...)`; local, dockerized, and ephemeral remote terminals are rejected. `TerminalActions.quit()` closes any open shell channels before disconnecting the underlying SSH session.
-
-```java title="SshShellInstaller.java"
-
-TerminalActions remote = SHAFT.CLI.remoteTerminal(
- "install-host.example.com", 22, "qa-user", "~/.ssh/", "id_ed25519"
-);
-
-SshShellOptions shellOptions = SshShellOptions.builder()
- .pty(true)
- .ptyType("vt100")
- .defaultTimeout(Duration.ofSeconds(30))
- .build();
-
-try (SshShellSession shell = remote.openShell(shellOptions)) {
- shell.readUntil(Pattern.compile("[$#] "));
- shell.sendLine("cd /opt/installer");
- shell.readUntil(Pattern.compile("[$#] "));
-
- shell.sendLine("./install.sh --interactive");
- shell.readUntil(Pattern.compile("Do you accept the license\\?"));
- shell.sendLine("yes");
-
- String finalOutput = shell.readUntil(Pattern.compile("Installation complete"));
- SHAFT.Validations.assertThat().object(finalOutput).contains("Installation complete");
-} finally {
- remote.quit();
-}
-```
-
-`SshShellOptions` also accepts `columns`/`rows` (PTY dimensions) and an initial `environment` map via its builder; all fields default sensibly (`pty=false`, `ptyType="vt100"`, an 80x24 terminal, and a 30-second timeout) when left unset.
-
-### Secret Prompts
-
-Use `sendSecret(...)` for passwords or other sensitive values — the text is written to the shell channel exactly like `sendLine`, but it is never written to raw logs; shell output that gets attached or logged still goes through SHAFT's existing terminal redaction path.
-
-```java title="SshShellSecretPrompt.java"
-shell.readUntil(Pattern.compile("Password:"));
-shell.sendSecret(System.getenv("SHAFT_REMOTE_SUDO_PASSWORD") + "\n");
-shell.readUntil(Pattern.compile("[$#] "));
-```
-
-`readUntil(Pattern)` blocks until the pattern matches (using the shell's default timeout) or throws a timeout error naming the pattern and elapsed duration; pass an explicit `readUntil(Pattern, Duration)` to override the default for a single read. `send(String)` writes exact text with no trailing newline, while `sendLine(String)` appends one.
-
-This API is intentionally small — it does not attempt terminal resizing, ANSI parsing, or an expect-style scripting language. For scripted, non-interactive commands, `performTerminalCommand(...)` remains the simpler choice.
-
----
-
-## Common Use Cases
-
-### Verify Server State After Deployment
-
-```java title="VerifyDeployment.java"
-
-@Test
-void verifyApplicationDeployedSuccessfully() {
- TerminalActions remote = SHAFT.CLI.remoteTerminal(
- "prod-server.example.com", 22, "ci-user", "~/.ssh/", "id_rsa"
- );
-
- try {
- String processes = remote.performTerminalCommand("pgrep -a java");
- SHAFT.Validations.assertThat()
- .object(processes)
- .contains("app.jar")
- .withCustomReportMessage("Application process must be running on the remote server");
-
- String healthResponse = remote.performTerminalCommand(
- "curl -s http://localhost:8080/health"
- );
- SHAFT.Validations.assertThat()
- .object(healthResponse)
- .contains("\"status\":\"UP\"")
- .withCustomReportMessage("Application health endpoint must return UP status");
- } finally {
- remote.quit();
- }
-}
-```
-
-### Collect Remote Logs as Test Evidence
-
-```java title="CollectRemoteLogs.java"
-TerminalActions remote = SHAFT.CLI.remoteTerminal(
- "test-server.example.com", 22, "testuser", "~/.ssh/", "id_rsa"
-);
-
-@AfterMethod
-void collectLogs() {
- try {
- remote.downloadFile("/var/log/app/test-run.log", "target/logs/test-run.log");
- String recentLogs = remote.performTerminalCommand("tail -n 100 /var/log/app/test-run.log");
- SHAFT.Report.attach("text/plain", "Remote Application Logs (last 100 lines)", recentLogs);
- } finally {
- remote.quit();
- }
-}
-```
-
-### Trigger Remote Scripts
-
-```java title="TriggerRemoteScript.java"
-TerminalActions remote = SHAFT.CLI.remoteTerminal(
- "build-server.example.com", 22, "build-user", "~/.ssh/", "id_rsa"
-);
-
-@BeforeClass
-void prepareTestEnvironment() {
- String output = remote.performTerminalCommand("bash /opt/scripts/prepare-test-env.sh");
- SHAFT.Report.log("Remote environment setup output: " + output);
-}
-
-@AfterClass
-void resetTestEnvironment() {
- try {
- remote.performTerminalCommand("bash /opt/scripts/reset-test-env.sh");
- } finally {
- remote.quit();
- }
-}
-```
-
-### Check Remote Disk Space Before Tests
-
-```java title="CheckDiskSpaceRemote.java"
-TerminalActions remote = SHAFT.CLI.remoteTerminal(
- "192.168.1.50", 22, "ops-user", "~/.ssh/", "id_rsa"
-);
-
-@BeforeClass
-void ensureSufficientDiskSpace() {
- try {
- String diskInfo = remote.performTerminalCommand(
- "df -BG /var/log | awk 'NR==2 {print $4}'"
- );
- int availableGB = Integer.parseInt(diskInfo.trim().replace("G", ""));
-
- SHAFT.Validations.assertThat()
- .number((double) availableGB)
- .isGreaterThanOrEquals(5.0)
- .withCustomReportMessage("Remote server must have at least 5 GB free on /var/log before running tests");
- } finally {
- remote.quit();
- }
-}
-```
-
----
-
-## Best Practices
-
-- **Use key-based authentication** — avoid embedding passwords in test code; use SSH key files stored securely outside the repository until the auth/options APIs you need are available ([#3130](https://github.com/ShaftHQ/SHAFT_ENGINE/issues/3130)).
-- **Store key paths in properties or env vars** — reference credentials from environment variables in CI rather than hardcoding them:
- ```properties title="src/main/resources/properties/custom.properties"
- sshKeyFolderPath=~/.ssh/
- ```
-- **Validate command output** — never silently discard return values; assert on meaningful substrings to detect unexpected failures.
-- **Attach logs as evidence** — copy or tail remote log files and attach them to the Allure report when a test fails.
-- **Always call `quit()` in teardown** — reusable sessions, port forwards, and idle-timeout tasks are cleaned up there.
-- **Scope permissions** — use a dedicated CI/CD user with the minimum permissions required (read-only where possible).
-
----
 
 ## Related
 
@@ -21535,6 +21553,15 @@ By following these guidelines and examples, you can build a maintainable test da
 
 ---
 
+## Full test data reader reference 
+
+| Reader | Methods |
+| --- | --- |
+| `SHAFT.TestData.CSV` | `getRows()`, `getColumns()`, `getColumnsWithData()` (column name to row values), `getFirstColumn()`, `getLastColumn()`, `getSpecificColumnName(int)`, `getSpecificColumnData(String or int)`, `getCellCount(String or int)`, `getMaxCellValue(String or int)` and `getMinCellValue(String or int)`. |
+| `SHAFT.TestData.EXCEL` | `getColumnNameUsingRowNameAndCellData([sheetName,] rowName, cellData)` finds the column holding a value in a row, and `getLastColumnNumber([sheetName])` returns the last header column (zero based). |
+| `SHAFT.TestData.JSON` | `getTestDataAsJson(String jsonPath)`, `getTestDataAsList(String jsonPath)` and `getTestDataAsMap(String jsonPath)` read an object, list or map at a JSONPath. |
+| `SHAFT.TestData.YAML` | `getDate(key)`, `getDouble(key)`, `getLong(key)` and `getMapAs(key, Class )`; nested keys use dots, for example `"user.address.city"`. |
+
 ## Related
 
 - [File Actions](/docs/reference/actions/CLI/File_Actions) - Reading and writing files programmatically
@@ -22364,6 +22391,21 @@ Nested iframes require switching into each level in order. See [Element Identifi
 Always call `switchToDefaultContent()` after finishing work inside an iframe — forgetting to switch back is a common cause of `NoSuchElementException` on main-page elements.
 :::
 
+## Portable locators (ShaftLocator) 
+
+`ShaftLocator` describes an element once and resolves it on both Selenium and Playwright.
+
+| Method | What it does |
+| --- | --- |
+| `css(String selector)` | Creates a CSS locator. |
+| `role(String role, String accessibleName)` | Creates a role plus accessible-name locator. |
+| `accessibleName(String accessibleName)` | Creates an accessible-name locator (aria-label / getByLabel). |
+| `from(By locator)` / `from(SemanticLocatorResolution)` | Converts a Selenium `By` or a semantic resolution into a portable locator. |
+| `value()` / `secondaryValue()` | Returns the locator's main value and, for role locators, the accessible name. |
+| `toBy()` | Converts to a Selenium `By`. |
+| `toPlaywrightSelector()` | Returns a Playwright string selector for CSS, XPath or text strategies. |
+| `toPlaywrightLocator(Page page)` / `toPlaywrightLocator(Locator parent)` | Resolves to a Playwright `Locator` on a page or under a parent locator. |
+
 ## Related
 
 - [Element Identification](/docs/reference/actions/GUI/Element_Identification)
@@ -22701,6 +22743,29 @@ public class MobileTouchActionsDemo {
  driver.quit();
  }
 }
+```
+
+## Coordinates, files, app state and Flutter helpers 
+
+| Method | What it does |
+| --- | --- |
+| `tapByCoordinates(int x, int y)` | Taps viewport coordinates once. |
+| `swipeByCoordinates(int startX, int startY, int endX, int endY, int durationMillis)` | Swipes between two viewport coordinates over the given duration. |
+| `pushFile(String deviceFilePath, String localFilePath)` / `pushFile(String deviceFilePath, File localFile)` | Uploads a local file to the device, emulator or simulator. |
+| `pullFile(String deviceFilePath, String localFilePath)` | Downloads a file from the device to the local machine. |
+| `saveAppState(String filePath)` | Saves a JSON snapshot of the current app state (active app, context, orientation, window size). |
+| `loadAppState(String filePath)` | Restores what can be restored from a saved app-state snapshot on the live session. |
+| `saveSessionCapabilities(String filePath)` | Saves the active Appium session capabilities to JSON so a later run can reuse the same device setup. |
+| `loadSessionCapabilities(String filePath)` | Loads previously saved Appium session capabilities from JSON. |
+| `performDoubleClick(By)`, `performLongPress(By)`, `performDragAndDrop(By source, By target)` | Flutter-native gestures on widgets, using the Flutter driver. |
+| `waitForVisible(By)` / `waitForVisible(By, Duration)` | Waits for a Flutter widget to become visible. |
+| `waitForAbsent(By)` / `waitForAbsent(By, Duration)` | Waits for a Flutter widget to disappear. |
+| `injectMockImage(File image)` / `activateInjectedImage(String imageId)` | Injects a mock camera image into a Flutter app and activates it. |
+
+```java
+driver.touch().tapByCoordinates(200, 640)
+ .pushFile("/sdcard/Download/data.json", "src/test/resources/data.json")
+ .saveAppState("target/app-state.json");
 ```
 
 ## Related

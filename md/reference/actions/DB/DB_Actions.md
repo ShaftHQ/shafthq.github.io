@@ -300,6 +300,16 @@ public class UserDatabaseTest {
 
 See [Connection Strings →](./Connection_Strings) for common JDBC URL formats for each supported database.
 
+## More database methods 
+
+| Method | What it does |
+| --- | --- |
+| `executeInsertQuery(String sql)` / `executeDeleteQuery(String sql)` | Runs an INSERT or DELETE statement and returns the number of affected rows. |
+| `executeDDLStatement(String sql)` | Runs a DDL statement such as CREATE, ALTER or DROP. |
+| `getRow(String columnName, String knownCellValue)` | Returns the tab-separated rows from the latest result set whose column matches the value. |
+| `DatabaseActions.getRow(ResultSet resultSet, String columnName, String knownCellValue)` | Same lookup on a result set you pass in. |
+| `cleanup()` | Removes thread-local state held by the instance; call it at teardown in long or parallel runs. |
+
 ## Related
 
 - [Connection Strings](/docs/reference/actions/DB/Connection_Strings)

@@ -752,6 +752,44 @@ public class FlutterAppTestSuite {
 }
 ```
 
+## Mobile device, gesture, context, file, log and biometric actions 
+
+`driver.mobile()` groups native mobile controls:
+
+| Accessor | Methods |
+| --- | --- |
+| `device()` | `battery()`, `clipboard()`, `keyboard()`, `isLocked()`, `lock()`, `lock(Duration)`, `unlock()`, `orientation()` and `orientation(ScreenOrientation)`. |
+| `gestures()` | `swipe()` (swipe and scroll), `drag()`, and `zoom()` (pinch zoom). |
+| `context()` | `handles()` lists native and web contexts, `nativeApp()` switches to the native context, `webView()` switches to the first web view. |
+| `files()` | `push(String devicePath, byte[] content)`, `pushText(String devicePath, String content)`, `pushFrom(String devicePath, Path localSource)`, `pull(String devicePath)`, `pullText(String devicePath)`, `pullTo(String devicePath, Path localTarget)`, and `pullFolder(String devicePath)` (ZIP bytes). |
+| `logs()` | `messages()` returns captured device-log messages and `errors()` returns listener or provider errors. |
+| `biometrics()` | `fingerprint()` for Android emulators and `touchId()` for the iOS Simulator. |
+
+```java
+driver.mobile().device().orientation(ScreenOrientation.LANDSCAPE);
+driver.mobile().files().pushText("/sdcard/Download/note.txt", "hello");
+String note = driver.mobile().files().pullText("/sdcard/Download/note.txt");
+driver.mobile().context().webView();
+```
+
+### Mobile value assertions 
+
+`driver.assertThat().mobileValues()` and `driver.verifyThat().mobileValues()` read a live mobile value and return a validation builder for it:
+
+| Method | Value checked |
+| --- | --- |
+| `currentContextValue()`, `contextCountValue()` | Current context name and number of contexts. |
+| `appInstalledValue(String appId)`, `appStateValue(String appId)` | Whether an app is installed and its lifecycle state. |
+| `deviceLockedValue()`, `deviceOrientationValue()`, `deviceTimeValue()`, `batteryValue()` | Device lock state, orientation, time and battery reading. |
+| `logMessageCountValue()`, `logErrorCountValue()` | Number of captured device-log messages and errors. |
+| `performanceSampleCountValue()` | Number of retained performance samples. |
+| `recordingInProgressValue()`, `retainedRecordingAvailableValue()`, `retainedRecordingSizeValue()` | Screen-recording state and retained recording. |
+| `evidenceArtifactCountValue(MobileEvidenceBundle)`, `evidenceOmissionCountValue(MobileEvidenceBundle)` | Artifact and omission counts in a mobile evidence bundle. |
+
+```java
+driver.assertThat().mobileValues().deviceLockedValue().isFalse();
+```
+
 ## Related
 
 - [Testing overview](/docs/start/overview)

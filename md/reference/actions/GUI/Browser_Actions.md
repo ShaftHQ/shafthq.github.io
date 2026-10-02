@@ -488,6 +488,46 @@ driver.browser()
 SHAFT provides automatic reporting for every browser action. Check the **Reporting** section in the sidebar for details on the rich reports generated for each action.
 :::
 
+## Tabs and windows 
+
+`openNewTab(String targetUrl)` opens the URL in a new browser tab and switches focus to it. `openNewWindow(String targetUrl)` does the same in a new window. Both exist on WebDriver and Playwright browser actions.
+
+## Browser sub-actions 
+
+`driver.browser()` exposes grouped sub-actions with the same API on the WebDriver and Playwright backends. Each group returns to browser actions with `and()`.
+
+| Accessor | Purpose and main methods |
+| --- | --- |
+| `network()` | Network conditions: `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
+| `storage()` | Web storage: `local()` and `session()` return key-value controls (`get`, `set`, `remove`, `clear`); `state()` returns storage-state controls with `save(String filePath)` and `load(String filePath)`. |
+| `downloads()` | Downloads: `all()` lists captured downloads, `latest()` returns the newest one, `waitFor(Runnable trigger)` or `waitFor(Predicate , Runnable trigger)` runs the trigger and waits for a matching download, and `clear()` resets the list. |
+| `emulation()` | Device emulation: `screen()` (viewport and screen size), `location()` (geolocation, timezone, locale), `media()` (media type, color scheme, reduced motion), and `runtime()` (user agent, scripting override). |
+| `dialog()` | Handles JavaScript dialogs (alert, confirm, prompt). |
+| `context()` | Browser context controls. |
+| `console()` | Reads captured browser console messages. |
+| `script()` | Runs JavaScript in the page. |
+| `permissions()` | Grants or clears browser permissions. |
+| `authentication()` | Registers HTTP authentication credentials. |
+
+```java
+driver.browser().network().throttle(200, 500, 250).and()
+ .storage().local().set("feature", "on").and().and()
+ .navigateToURL("https://example.com");
+
+BrowserDownload report = driver.browser().downloads()
+ .waitFor(() -> driver.element().click(By.id("export")));
+
+driver.browser().emulation().location().geolocation(30.04, 31.23).timezone("Africa/Cairo");
+```
+
+## Playwright-only browser helpers 
+
+| Method | What it does |
+| --- | --- |
+| `locator(String selector)` | Returns a native Playwright `Locator` on the current page. |
+| `getNativePage()` | Returns the underlying Playwright `Page` for advanced use. |
+| `registerNetworkInterceptionRule(BrowserNetworkInterceptionRule rule, String successMessage)` | Adds a network interception rule (for example a mock) to the session and logs the message. |
+
 ## Related
 
 - [Element Actions](/docs/reference/actions/GUI/Element_Actions)
