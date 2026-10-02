@@ -1,7 +1,7 @@
 // User-guide parity (#1099): every public SHAFT facade method in src/data/user-guide-surface.json
 // must be mentioned as `name(` somewhere in docs/, or be listed in
 // src/data/user-guide-parity-exclusions.json with a non-empty reason.
-// Regenerate the snapshot with: SHAFT_ENGINE_PATH=<checkout> node scripts/generate-user-guide-surface.mjs
+// Regenerate the snapshot with: node scripts/generate-user-guide-surface.mjs (needs a sibling ../SHAFT_ENGINE checkout)
 
 const assert = require('node:assert');
 const fs = require('node:fs');
