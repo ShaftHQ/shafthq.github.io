@@ -14,7 +14,13 @@ const {pathToFileURL} = require('node:url');
 
 async function main() {
   const modUrl = pathToFileURL(path.join(__dirname, '..', 'scripts', 'generate-properties-catalog.mjs')).href;
-  const {parseJavaSource, isSensitive, parseMdxDefaultsTablesFromContent} = await import(modUrl);
+  const {parseJavaSource, isSensitive, parseMdxDefaultsTablesFromContent, registerPropertyKey} = await import(modUrl);
+
+  // --- Same-interface @Key aliases are skipped; cross-interface duplicates still fail.
+  const seen = new Map();
+  assert.strictEqual(registerPropertyKey(seen, 'dockerCommandTimeout', 'Timeouts'), true);
+  assert.strictEqual(registerPropertyKey(seen, 'dockerCommandTimeout', 'Timeouts'), false);
+  assert.throws(() => registerPropertyKey(seen, 'dockerCommandTimeout', 'Flags'), /Duplicate property key/);
   assert.ok(typeof parseJavaSource === 'function', 'generate-properties-catalog.mjs must export parseJavaSource for testing');
   assert.ok(typeof isSensitive === 'function', 'generate-properties-catalog.mjs must export isSensitive for testing');
   assert.ok(typeof parseMdxDefaultsTablesFromContent === 'function', 'generate-properties-catalog.mjs must export parseMdxDefaultsTablesFromContent for testing');
