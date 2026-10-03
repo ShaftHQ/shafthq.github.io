@@ -1006,6 +1006,10 @@ SHAFT.Properties.visuals.set()
 
 ---
 
+## OpenTelemetry spans
+
+SHAFT emits an OpenTelemetry span for every test and every reported step, with steps nested under their test and failures marked as errors. It uses the global OpenTelemetry instance, so attach your own SDK or the OpenTelemetry Java agent to export the spans (for example to Jaeger or an OTLP collector). With no SDK configured, the spans do nothing and cost almost nothing.
+
 ## Recommended Configurations by Use Case
 
 ### CI/CD Pipeline (archive report as artifact)

@@ -101,6 +101,14 @@ and all 34 `playwright_*` tools (`playwright_initialize`, `playwright_quit`,
 </details>
 :::
 
+## Count locator matches
+
+`element_count` returns how many elements a locator matches on the live page, using the active engine. It's read-only:
+
+```json
+{"tool": "element_count", "arguments": {"locatorStrategy": "css", "locatorValue": "button.submit"}}
+```
+
 ## Applications
 
 Choose your MCP client and copy its command. The page detects your operating
