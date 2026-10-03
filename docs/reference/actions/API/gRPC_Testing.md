@@ -31,3 +31,10 @@ SHAFT.API.grpc("localhost:50051")
 ## Status codes and errors
 
 A non-OK status is returned rather than thrown: check `response.statusCode()` (for example `NOT_FOUND`) and `response.description()`. Each call is reported as an Allure step with the request, the response and the status code. For TLS or in-process channels, pass your own `io.grpc.Channel` to `SHAFT.API.grpc(channel)`.
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [GraphQL Testing](/docs/reference/actions/API/GraphQL_Testing)
+- [API](/docs/testing/api)
