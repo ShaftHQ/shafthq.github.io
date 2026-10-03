@@ -14,7 +14,7 @@ Use `SHAFT.API.grpc(target)` to make unary gRPC calls without generated stubs. S
 ```java
 GrpcActions.Response response = SHAFT.API.grpc("localhost:50051")
         .unary("grpc.health.v1.Health/Check", "{\"service\":\"\"}");
-SHAFT.Validations.assertThat().object(response.json("$.status")).isEqualTo("SERVING").perform();
+SHAFT.Validations.assertThat().object(response.json("$.status")).isEqualTo("SERVING");
 ```
 
 ## Descriptor set instead of reflection
