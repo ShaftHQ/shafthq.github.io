@@ -42,6 +42,7 @@ const sidebars = {
           ],
         },
         'agentic/chaos-engine',
+        'agentic/chaos-engine-addons',
       ],
     },
     {
