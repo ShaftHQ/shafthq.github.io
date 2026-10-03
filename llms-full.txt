@@ -4248,6 +4248,14 @@ and all 34 `playwright_*` tools (`playwright_initialize`, `playwright_quit`,
  
 :::
 
+## Count locator matches
+
+`element_count` returns how many elements a locator matches on the live page, using the active engine. It's read-only:
+
+```json
+{"tool": "element_count", "arguments": {"locatorStrategy": "css", "locatorValue": "button.submit"}}
+```
+
 ## Applications
 
 Choose your MCP client and copy its command. The page detects your operating
@@ -5555,6 +5563,22 @@ The reporter stops its ticker on success, cancellation, rollback, and errors.
 
 ![ChaosEngine terminal installer showing the Quantum Mandate mark, stages, elapsed time, and trace.](/img/agentic/chaos-engine-installer.png)
 
+## Install offline from a bundle
+
+On a machine with network access, build a checksum-verified bundle:
+
+```bash
+python3 chaos-engine/install.py bundle --source chaos-engine --commit --output ce.zip
+```
+
+Then install it with no network access:
+
+```bash
+python3 install.py install --project . --from-bundle ce.zip
+```
+
+Every file is checked against the bundle's sha256 manifest before anything is extracted, and any mismatch aborts the install. Runtime downloads are cached per user and keyed by sha256, so a second project reuses them. Inspect or empty that cache with `install.py cache status --component downloads` or `install.py cache purge --component downloads`.
+
 ## Installer errors
 
 Installer failures exit with status `1`. After the reporter closes and a blank
@@ -6764,6 +6788,18 @@ agent patch is accepted.
 For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
 the intended behavior. The plan should preserve working Page Object boundaries
 and reuse existing locators/actions before adding new SHAFT code.
+
+## Test feedback in the editor
+
+- **Locator match counts.** `By.*` literal locators show a gutter count of the elements they match on the live page, through the `element_count` MCP tool. With no live browser session the plugin shows a notice explaining how to start one.
+- **Last-run results.** Inlay hints show each test's last status and duration from `allure-results`. **Go to last failure** (also on the Reporting panel) jumps to the failing action.
+- **Page Object from capture.** Generate a Page Object draft from a capture session. You get a preview first, and existing files are never overwritten.
+
+## Kotlin and Gradle
+
+- The SHAFT test gutter works in Kotlin files (K1 and K2) when the Kotlin plugin is enabled.
+- SHAFT run-configuration overrides (browser, headless and so on) also apply to Gradle run configurations as `-D` system properties when the Gradle plugin is enabled.
+- The plugin is verified nightly against the latest IntelliJ EAP snapshot, and a tracking issue is opened when that run fails.
 
 ## Settings and configuration
 
@@ -10730,7 +10766,7 @@ SHAFT provides automatic reporting for every browser action. Check the **Reporti
 
 | Accessor | Purpose and main methods |
 | --- | --- |
-| `network()` | Network conditions: `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
+| `network()` | Network conditions: `offline()`, `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
 | `storage()` | Web storage: `local()` and `session()` return key-value controls (`get`, `set`, `remove`, `clear`); `state()` returns storage-state controls with `save(String filePath)` and `load(String filePath)`. |
 | `downloads()` | Downloads: `all()` lists captured downloads, `latest()` returns the newest one, `waitFor(Runnable trigger)` or `waitFor(Predicate , Runnable trigger)` runs the trigger and waits for a matching download, and `clear()` resets the list. |
 | `emulation()` | Device emulation: `screen()` (viewport and screen size), `location()` (geolocation, timezone, locale), `media()` (media type, color scheme, reduced motion), and `runtime()` (user agent, scripting override). |
@@ -11490,7 +11526,7 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 | Property Name | Default Value | Possible Values | Description |
 | ----------------------- | ------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | SHAFT.CrossBrowserMode | `off` | `off`, `sequential`, `parallelized` | • Cross Browser Mode allows SHAFT to run your test class against Chrome, Firefox, and Safari! • You need to have 'Docker Desktop' installed on your machine, and configured to use Linux images. • Off → Your tests will run normally and respect your configuration. • Sequential → Your tests will run on Chrome, Firefox, and Safari in sequence. • Parallelized → Your tests will run on Chrome, Firefox and Safari in parallel. And for each browser they will run in sequence. |
-| executionAddress | `local` | `local`, `dockerized`, `browserstack`, `host:port`, `http://host:port/wd/hub` | • For Appium, set the below settings and move to the Mobile tab to continue. • For BrowserStack, set the "Target Operating System" below, and the "Automation Name" in the Mobile tab, then configure the "browserStack.properties" file in your project directory. |
+| executionAddress | `local` | `local`, `dockerized`, `testcontainers`, `browserstack`, `host:port`, `http://host:port/wd/hub` | • For Appium, set the below settings and move to the Mobile tab to continue. • For BrowserStack, set the "Target Operating System" below, and the "Automation Name" in the Mobile tab, then configure the "browserStack.properties" file in your project directory. • `testcontainers` starts one `selenium/standalone- ` container per JVM through Testcontainers. Add `org.testcontainers:testcontainers` to your test classpath and have Docker running; SHAFT fails fast with a clear message when either is missing. |
 | targetOperatingSystem | `Linux` | `Linux`, `Windows`, `Mac`, `Android`, `iOS` | • The target operating system for test execution. |
 | com.SHAFT.proxySettings | ` ` | `host:port` | • Used to configure testing behind a proxy. e.g. corporate proxy. |
 | driverProxySettings | `true` | `true`, `false` | • To enable or disable the driver proxy. |
@@ -11600,6 +11636,8 @@ Build a `.properties` file interactively instead of copying keys by hand: search
 | pageLoadStrategy | `eager` | `none`, `eager`, `normal` | • Controls when Selenium considers the page loaded. Default `eager` waits until `DOMContentLoaded`.
 | readinessState | `interactive` | `interactive`, `none`, `complete` | • Controls the document readiness state to wait for on BiDi navigation. Default `interactive`.
 | storageStatePath | ` ` | example: `target/auth-state.json` | • Path to a storage-state JSON file automatically loaded into a freshly-initialized driver. • SHAFT navigates to the file's recorded origin (falling back to `baseURL`) first; a load failure is logged as a warning and never fails driver init. • Blank (default) disables the feature.
+| failOnBrowserConsoleErrors | `false` | `true`, `false` | • Fail a passing test when the browser console captured error-level messages that don't match `browserConsoleErrorAllowlist`. The messages are attached to the report. |
+| browserConsoleErrorAllowlist | ` ` | Java regex, example: `favicon\.ico\|ResizeObserver loop` | • Console errors matching this pattern never fail a test. Combine patterns with `\|`. |
 
 ## Playwright
 
@@ -11950,6 +11988,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | forceCheckStatusOfRemoteServer | `false` | `true`, `false` | • Force check status of remote server before execution. |
 | clickUsingJavascriptWhenWebDriverClickFails | `false` | `true`, `false` | • Fallback to JavaScript click when native WebDriver click fails, including invalid-state and intercepted-click failures. |
 | autoCloseDriverInstance | `true` | `true`, `false` | • Automatically close driver instance after test execution. |
+| reuseBrowserSession | `false` | `true`, `false` | • Reuse one browser per thread within a test class. `quit()` resets tabs, storage and cookies to `about:blank`; the real quit happens after the class or at the end of execution. |
 | automaticallyAssertResponseStatusCode | `true` | `true`, `false` | • Assert the implicit `2xx` status for requests with no target status code. An explicit `setTargetStatusCode(n)` is always asserted. Read per request. Invalid values fail with a `Fix:` line. |
 | maximumPerformanceMode | `0` | `0`, `1`, `2` | • `0` → Disabled, `1` → Without Headless Execution, `2` → With Headless Execution • Enabling maximumPerformanceMode will disable all complementary features to ensure the fastest execution possible with a 400% calculated performance boost. |
 | skipTestsWithLinkedIssues | `false` | `true`, `false` | • It is recommended to leave this feature disabled unless you explicitly want to skip any tests that have the @Issue or @Issues annotation. |
@@ -12016,6 +12055,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | openExecutionSummaryReportAfterExecution | `false` | `true`, `false` | • Open execution summary report after test execution. |
 | disableLogging | `false` | `true`, `false` | • Disable all logging output. |
 | attachFullLog | `false` | `true`, `false` | • Attach a streamed, deduplicated snapshot of the full engine log to the Allure report after test execution without deleting the live log file. |
+| attachFailureEvidence | `true` | `true`, `false` | • Attach one redacted "Failure evidence" JSON (at most 256 KB) when an element action fails: locator, match counts per frame, nearest candidates, URL, title and screenshot reference. |
 | evidenceLevel | `FAILURE_ONLY` | `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, `CUSTOM` | • Select the evidence profile. Profile values except `CUSTOM` override granular screenshot, page-source, GIF, video, WebDriver-log, full-log, diagnostics, and trace controls. |
 | locatorHealthReportEnabled | `false` | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
 | shaft.locatorHealth.enabled | `false` | `true`, `false` | • Generate end-of-run locator health reports. |
@@ -15946,6 +15986,45 @@ GraphQL APIs typically return HTTP 200 even when errors occur — always validat
 
 ---
 
+# gRPC API Testing
+
+Canonical HTML: https://shafthq.github.io/docs/reference/actions/API/gRPC_Testing
+Markdown: https://shafthq.github.io/md/reference/actions/API/gRPC_Testing.md
+
+Use `SHAFT.API.grpc(target)` to make unary gRPC calls without generated stubs. SHAFT resolves message types through server reflection, or through a descriptor set you provide. Requests and responses are JSON, so the usual JSON assertions work on the result.
+
+## Unary call with server reflection
+
+```java
+GrpcActions.Response response = SHAFT.API.grpc("localhost:50051")
+ .unary("grpc.health.v1.Health/Check", "{\"service\":\"\"}");
+SHAFT.Validations.assertThat().object(response.json("$.status")).isEqualTo("SERVING");
+```
+
+## Descriptor set instead of reflection
+
+Build the set with `protoc --include_imports --descriptor_set_out=services.desc ...`, then:
+
+```java
+SHAFT.API.grpc("localhost:50051")
+ .withDescriptorSet(Path.of("services.desc"))
+ .withTimeout(10)
+ .unary("shop.Orders/Get", "{\"id\":42}");
+```
+
+## Status codes and errors
+
+A non-OK status is returned rather than thrown: check `response.statusCode()` (for example `NOT_FOUND`) and `response.description()`. Each call is reported as an Allure step with the request, the response and the status code. For TLS or in-process channels, pass your own `io.grpc.Channel` to `SHAFT.API.grpc(channel)`.
+
+## Related
+
+- [Request Builder](/docs/reference/actions/API/Request_Builder)
+- [Response Validations](/docs/reference/actions/API/Response_Validations)
+- [GraphQL Testing](/docs/reference/actions/API/GraphQL_Testing)
+- [API](/docs/testing/api)
+
+---
+
 # JUnit Integration
 
 Canonical HTML: https://shafthq.github.io/docs/reference/guides/JUnit_Integration
@@ -18791,6 +18870,10 @@ SHAFT.Properties.visuals.set()
  
 
 ---
+
+## OpenTelemetry spans
+
+SHAFT emits an OpenTelemetry span for every test and every reported step, with steps nested under their test and failures marked as errors. It uses the global OpenTelemetry instance, so attach your own SDK or the OpenTelemetry Java agent to export the spans (for example to Jaeger or an OTLP collector). With no SDK configured, the spans do nothing and cost almost nothing.
 
 ## Recommended Configurations by Use Case
 

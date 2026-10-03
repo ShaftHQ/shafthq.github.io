@@ -849,6 +849,18 @@ For Selenium-to-SHAFT work, select the legacy snippet or test first and describe
 the intended behavior. The plan should preserve working Page Object boundaries
 and reuse existing locators/actions before adding new SHAFT code.
 
+## Test feedback in the editor
+
+- **Locator match counts.** `By.*` literal locators show a gutter count of the elements they match on the live page, through the `element_count` MCP tool. With no live browser session the plugin shows a notice explaining how to start one.
+- **Last-run results.** Inlay hints show each test's last status and duration from `allure-results`. **Go to last failure** (also on the Reporting panel) jumps to the failing action.
+- **Page Object from capture.** Generate a Page Object draft from a capture session. You get a preview first, and existing files are never overwritten.
+
+## Kotlin and Gradle
+
+- The SHAFT test gutter works in Kotlin files (K1 and K2) when the Kotlin plugin is enabled.
+- SHAFT run-configuration overrides (browser, headless and so on) also apply to Gradle run configurations as `-D` system properties when the Gradle plugin is enabled.
+- The plugin is verified nightly against the latest IntelliJ EAP snapshot, and a tracking issue is opened when that run fails.
+
 ## Settings and configuration
 
 Use **Settings | SHAFT** to configure the plugin's connection, execution,

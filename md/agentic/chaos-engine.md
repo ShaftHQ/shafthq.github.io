@@ -81,6 +81,22 @@ The reporter stops its ticker on success, cancellation, rollback, and errors.
 
 ![ChaosEngine terminal installer showing the Quantum Mandate mark, stages, elapsed time, and trace.](/img/agentic/chaos-engine-installer.png)
 
+## Install offline from a bundle
+
+On a machine with network access, build a checksum-verified bundle:
+
+```bash
+python3 chaos-engine/install.py bundle --source chaos-engine --commit --output ce.zip
+```
+
+Then install it with no network access:
+
+```bash
+python3 install.py install --project . --from-bundle ce.zip
+```
+
+Every file is checked against the bundle's sha256 manifest before anything is extracted, and any mismatch aborts the install. Runtime downloads are cached per user and keyed by sha256, so a second project reuses them. Inspect or empty that cache with `install.py cache status --component downloads` or `install.py cache purge --component downloads`.
+
 ## Installer errors
 
 Installer failures exit with status `1`. After the reporter closes and a blank

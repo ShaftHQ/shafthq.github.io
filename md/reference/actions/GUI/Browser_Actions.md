@@ -498,7 +498,7 @@ SHAFT provides automatic reporting for every browser action. Check the **Reporti
 
 | Accessor | Purpose and main methods |
 | --- | --- |
-| `network()` | Network conditions: `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
+| `network()` | Network conditions: `offline()`, `online()`, `throttle(long latencyMs, long downloadKbps, long uploadKbps)`, and `block(String... urlPatterns)` to block matching requests. |
 | `storage()` | Web storage: `local()` and `session()` return key-value controls (`get`, `set`, `remove`, `clear`); `state()` returns storage-state controls with `save(String filePath)` and `load(String filePath)`. |
 | `downloads()` | Downloads: `all()` lists captured downloads, `latest()` returns the newest one, `waitFor(Runnable trigger)` or `waitFor(Predicate , Runnable trigger)` runs the trigger and waits for a matching download, and `clear()` resets the list. |
 | `emulation()` | Device emulation: `screen()` (viewport and screen size), `location()` (geolocation, timezone, locale), `media()` (media type, color scheme, reduced motion), and `runtime()` (user agent, scripting override). |
