@@ -345,6 +345,7 @@ purge, and manual population commands.
 
 ## Related
 
+- [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons)
 - [Install SHAFT agent skills](/docs/agentic/skills)
 - [Agentic testing overview](/docs/agentic/overview)
 - [Connect SHAFT MCP](/docs/agentic/mcp)

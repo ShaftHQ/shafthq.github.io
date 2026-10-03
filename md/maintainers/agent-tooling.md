@@ -23,6 +23,7 @@ agent-assisted SHAFT maintenance. Repository guidance (`AGENTS.md`,
 | graphify | Deterministic repository map (structure queries, pre-search file selection) | Repository controller using an isolated uv tool environment |
 | context7 | Post-cutoff library docs MCP | `npx @upstash/context7-mcp` (project `.mcp.json`) |
 | maven-tools-mcp | Live Maven Central facts MCP | Optional receipt-pinned Java 25 JAR in an installer-owned shared cache discovered by the [ChaosEngine installer](https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/INSTALL.md#optional-native-maven-tools-mcp) |
+| ChaosEngine add-ons | Opt-in `shaft-core-developers`, `shaft-engine-users`, and `design-skills` bundles (never installed by default) | `--with- ` installer flags; see [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons) |
 | Claude Code plugins | jdtls-lsp, frontend-design, mcp-server-dev | Auto-installed from `.claude/settings.json` `enabledPlugins` |
 
 The `fable` and `superpowers` plugins were removed in the 2026-07-17 harness
@@ -378,5 +379,6 @@ py -3 scripts/ci/validate_agent_setup.py # in SHAFT_ENGINE
 
 ## Related
 
+- [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons)
 - [Maintainer overview](/docs/maintainers/overview)
 - [Agent guidance maintenance](/docs/maintainers/agent-guidance)

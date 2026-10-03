@@ -32,6 +32,7 @@ Markdown links below are the token-lean form of each guide page. The HTML page i
 - [Mobile and Flutter testing](https://shafthq.github.io/md/testing/mobile.md): Configure Appium and automate Android, iOS, mobile web, and Flutter applications.
 - [UI and API contract replay](https://shafthq.github.io/md/testing/contracts.md): Record browser and SHAFT.API traffic, replay captured responses, and validate live traffic against deterministic contracts.
 - [Web testing](https://shafthq.github.io/md/testing/web.md): A minimal SHAFT browser test with lifecycle, actions, and assertions.
+- [Add optional ChaosEngine skills](https://shafthq.github.io/md/agentic/chaos-engine-addons.md): Install, list, upgrade, and remove the optional ChaosEngine add-ons for design work, SHAFT users, and SHAFT contributors.
 - [Connect shaft-mcp](https://shafthq.github.io/md/agentic/mcp.md): Run SHAFT browser, guide search, Capture, Doctor, and healer tools from Codex, Copilot, and other MCP clients.
 - [Diagnose failures with Doctor](https://shafthq.github.io/md/agentic/doctor.md): Build deterministic, portable diagnoses from explicitly allowlisted test evidence.
 - [Install and operate ChaosEngine](https://shafthq.github.io/md/agentic/chaos-engine.md): Install, inspect, recover, and understand the project-local SHAFT agent harness.
