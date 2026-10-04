@@ -1,0 +1,169 @@
+WEBVTT
+
+00:00:00.800 --> 00:00:03.210
+Install ChaosEngine in one command.
+
+00:00:03.800 --> 00:00:07.130
+Everything you are about
+to see is a real install,
+
+00:00:07.560 --> 00:00:09.650
+recorded on a clean Linux account.
+
+00:00:11.367 --> 00:00:15.617
+ChaosEngine is a portable working
+contract for software agents.
+
+00:00:16.000 --> 00:00:21.650
+It gives Codex, Claude Code, Grok,
+Gemini and GitHub Copilot the same skills,
+
+00:00:22.200 --> 00:00:24.411
+the same hooks and the same health checks.
+
+00:00:26.100 --> 00:00:27.890
+One command runs six steps.
+
+00:00:28.333 --> 00:00:33.223
+It resolves the latest source and
+downloads only the ChaosEngine folder.
+
+00:00:33.700 --> 00:00:38.970
+It installs the core, then provisions the
+tools it needs inside your home folder.
+
+00:00:39.367 --> 00:00:44.537
+Finally, it verifies the result with
+doctor and activates your agent clients.
+
+00:00:46.433 --> 00:00:49.403
+By default, you get the lean
+core and nothing else.
+
+00:00:49.800 --> 00:00:53.930
+Three add-ons are optional,
+and never installed unless you ask.
+
+00:00:54.300 --> 00:00:58.170
+Design skills, for web,
+image, motion and video work.
+
+00:00:58.500 --> 00:01:02.110
+SHAFT engine users,
+for projects that test with SHAFT.
+
+00:01:02.433 --> 00:01:06.143
+And SHAFT core developers,
+for contributors to SHAFT itself.
+
+00:01:06.653 --> 00:01:08.823
+It brings the users add-on with it.
+
+00:01:10.533 --> 00:01:12.383
+Each add-on has its own flag.
+
+00:01:12.833 --> 00:01:17.383
+Each add-on has a with flag to add it,
+and a without flag to remove it.
+
+00:01:17.700 --> 00:01:21.970
+Or list them in the CHAOS_ENGINE_ADDONS
+environment variable.
+
+00:01:23.867 --> 00:01:25.377
+Now let's do it for real.
+
+00:01:28.800 --> 00:01:34.210
+This is a fresh Linux account with an
+empty project: one commit and a README.
+
+00:01:34.833 --> 00:01:37.863
+Set the installer URL,
+then pipe it to bash.
+
+00:01:48.167 --> 00:01:49.697
+The core lands in seconds.
+
+00:01:50.100 --> 00:01:54.190
+Provisioning takes longer.
+It fetches uv, Python,
+
+00:01:54.700 --> 00:01:58.570
+Node and Java into your home folder,
+so nothing touches the system.
+
+00:02:01.133 --> 00:02:05.403
+Installation successful.
+The installer ran doctor itself:
+
+00:02:06.313 --> 00:02:08.524
+fifteen of fifteen components are healthy.
+
+00:02:08.700 --> 00:02:13.730
+It also prints a first-session brief, and
+the agent hosts it found on this machine.
+
+00:02:14.467 --> 00:02:16.857
+You can run doctor yourself at any time.
+
+00:02:21.400 --> 00:02:25.570
+It flags graphify as degraded
+and prints the repair command.
+
+00:02:26.133 --> 00:02:30.183
+Now add two add-ons: design
+skills and SHAFT engine users.
+
+00:02:30.667 --> 00:02:33.037
+Same one-liner, two extra flags.
+
+00:02:39.733 --> 00:02:44.123
+This run re-checks and re-provisions
+the tools, so it takes a few minutes.
+
+00:02:44.633 --> 00:02:45.543
+We've sped it up.
+
+00:02:47.600 --> 00:02:52.170
+The addons command lists what is
+installed, with the flag for each one.
+
+00:03:01.000 --> 00:03:04.890
+The files live under .chaos-engine/addons.
+
+00:03:05.440 --> 00:03:06.808
+Here are the design cards.
+
+00:03:07.400 --> 00:03:10.930
+Changed your mind? The without
+flag removes an add-on.
+
+00:03:13.267 --> 00:03:17.018
+Removing it takes seconds.
+Only design skills is left,
+
+00:03:17.087 --> 00:03:19.617
+and later upgrades keep what you selected.
+
+00:03:20.800 --> 00:03:22.590
+On Windows, use PowerShell.
+
+00:03:23.200 --> 00:03:26.051
+To pass switches, use
+the script block form.
+
+00:03:26.120 --> 00:03:30.370
+Or set the environment variable
+and keep the classic one-liner.
+
+00:03:32.733 --> 00:03:35.183
+One command. A lean, healthy core.
+
+00:03:35.733 --> 00:03:37.423
+Add-ons only when you want them.
+
+00:03:37.767 --> 00:03:40.397
+The full guide is in the SHAFT user guide.
+
+00:03:40.927 --> 00:03:43.337
+This narration uses a synthetic voice.

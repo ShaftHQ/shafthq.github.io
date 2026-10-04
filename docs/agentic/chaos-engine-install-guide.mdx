@@ -1,0 +1,132 @@
+---
+id: chaos-engine-install-guide
+title: ChaosEngine install guide
+description: Silent step loops for the ChaosEngine one-liner, doctor, add-ons, listing, and removal.
+slug: /agentic/chaos-engine-install-guide
+keywords: [ChaosEngine, install guide, add-ons, doctor, one-liner]
+tags: [agents, skills, install]
+---
+
+# ChaosEngine install guide
+
+Each clip is a real install on a clean Linux account (ChaosEngine `main`
+`3a02d90`), re-timed with labelled speed-ups. With reduced motion enabled, the
+page shows a still frame and the text instead of the loop.
+
+Prefer the full narrated walkthrough on
+[Install and operate ChaosEngine](/docs/agentic/chaos-engine). Add-on flags are
+on [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons).
+
+## Step 1 — Run the one-liner in your project
+
+From the project folder (it needs at least one commit), run:
+
+```bash
+url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"
+curl -fsSL "$url" | bash -s -- "$url"
+```
+
+<figure>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/video/chaosengine-install/guide/01-run-one-liner.jpg"
+    style={{width: '100%', borderRadius: '8px', border: '1px solid var(--ifm-color-emphasis-300)'}}
+  >
+    <source src="/video/chaosengine-install/guide/01-run-one-liner.webm" type="video/webm" />
+    <source src="/video/chaosengine-install/guide/01-run-one-liner.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Six steps: resolve, download, install core, provision tools, verify, activate clients.</figcaption>
+</figure>
+
+## Step 2 — Check health with doctor
+
+```bash
+python3 .chaos-engine/install.py doctor --project .
+```
+
+<figure>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/video/chaosengine-install/guide/02-verify-doctor.jpg"
+    style={{width: '100%', borderRadius: '8px', border: '1px solid var(--ifm-color-emphasis-300)'}}
+  >
+    <source src="/video/chaosengine-install/guide/02-verify-doctor.webm" type="video/webm" />
+    <source src="/video/chaosengine-install/guide/02-verify-doctor.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Anything flagged comes with the exact <code>repair --component</code> command.</figcaption>
+</figure>
+
+## Step 3 — Add optional add-ons
+
+```bash
+curl -fsSL "$url" | bash -s -- "$url" --with-design-skills --with-shaft-engine-users
+```
+
+<figure>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/video/chaosengine-install/guide/03-add-addons.jpg"
+    style={{width: '100%', borderRadius: '8px', border: '1px solid var(--ifm-color-emphasis-300)'}}
+  >
+    <source src="/video/chaosengine-install/guide/03-add-addons.webm" type="video/webm" />
+    <source src="/video/chaosengine-install/guide/03-add-addons.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Never installed by default; the selection is remembered on upgrade.</figcaption>
+</figure>
+
+## Step 4 — See what is installed
+
+```bash
+python3 .chaos-engine/install.py addons --project .
+```
+
+<figure>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/video/chaosengine-install/guide/04-list-addons.jpg"
+    style={{width: '100%', borderRadius: '8px', border: '1px solid var(--ifm-color-emphasis-300)'}}
+  >
+    <source src="/video/chaosengine-install/guide/04-list-addons.webm" type="video/webm" />
+    <source src="/video/chaosengine-install/guide/04-list-addons.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Files land under <code>.chaos-engine/addons/&lt;name&gt;/</code>.</figcaption>
+</figure>
+
+## Step 5 — Remove one
+
+```bash
+curl -fsSL "$url" | bash -s -- "$url" --without-shaft-engine-users
+```
+
+<figure>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    poster="/video/chaosengine-install/guide/05-remove-addon.jpg"
+    style={{width: '100%', borderRadius: '8px', border: '1px solid var(--ifm-color-emphasis-300)'}}
+  >
+    <source src="/video/chaosengine-install/guide/05-remove-addon.webm" type="video/webm" />
+    <source src="/video/chaosengine-install/guide/05-remove-addon.mp4" type="video/mp4" />
+  </video>
+  <figcaption>Only design-skills remains.</figcaption>
+</figure>
+
+## Related
+
+- [Install and operate ChaosEngine](/docs/agentic/chaos-engine)
+- [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons)
+- [ChaosEngine install video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/chaosengine-install-video-20261004)
