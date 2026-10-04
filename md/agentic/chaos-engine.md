@@ -13,6 +13,130 @@ adapters, and provisions required tools without relying on manual machine
 machine setup. It installs supported upstream tools for your user account and
 records the exact executables used by generated hooks and MCP servers.
 
+## Watch the install
+
+This walkthrough is a real ChaosEngine install on a clean Linux account
+(ChaosEngine `main` `3a02d90`), with synthetic narration. Captions are in the
+file; prefer them when you watch without sound.
+
+### Chapters
+
+- **0:00** — Introduction
+- **0:10** — What ChaosEngine is
+- **0:25** — What the installer does
+- **0:45** — Core and add-ons
+- **1:10** — Installer flags
+- **1:23** — Hands-on: core install
+- **2:14** — Verify with doctor
+- **2:25** — Optional add-ons
+- **3:07** — Remove an add-on
+- **3:20** — Windows
+- **3:32** — Wrap-up
+
+Step-by-step silent loops live on the
+[ChaosEngine install guide](/docs/agentic/chaos-engine-install-guide).
+Optional add-on flags are on
+[Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons).
+Full-quality masters are in the
+[ChaosEngine install video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/chaosengine-install-video-20261004).
+
+ 
+ Transcript 
+
+Install ChaosEngine in one command.
+
+Everything you are about to see is a real install,
+
+recorded on a clean Linux account.
+
+ChaosEngine is a portable working contract for software agents.
+
+It gives Codex, Claude Code, Grok, Gemini and GitHub Copilot the same skills,
+
+the same hooks and the same health checks.
+
+One command runs six steps.
+
+It resolves the latest source and downloads only the ChaosEngine folder.
+
+It installs the core, then provisions the tools it needs inside your home folder.
+
+Finally, it verifies the result with doctor and activates your agent clients.
+
+By default, you get the lean core and nothing else.
+
+Three add-ons are optional, and never installed unless you ask.
+
+Design skills, for web, image, motion and video work.
+
+SHAFT engine users, for projects that test with SHAFT.
+
+And SHAFT core developers, for contributors to SHAFT itself.
+
+It brings the users add-on with it.
+
+Each add-on has its own flag.
+
+Each add-on has a with flag to add it, and a without flag to remove it.
+
+Or list them in the CHAOS_ENGINE_ADDONS environment variable.
+
+Now let's do it for real.
+
+This is a fresh Linux account with an empty project: one commit and a README.
+
+Set the installer URL, then pipe it to bash.
+
+The core lands in seconds.
+
+Provisioning takes longer. It fetches uv, Python,
+
+Node and Java into your home folder, so nothing touches the system.
+
+Installation successful. The installer ran doctor itself:
+
+fifteen of fifteen components are healthy.
+
+It also prints a first-session brief, and the agent hosts it found on this machine.
+
+You can run doctor yourself at any time.
+
+It flags graphify as degraded and prints the repair command.
+
+Now add two add-ons: design skills and SHAFT engine users.
+
+Same one-liner, two extra flags.
+
+This run re-checks and re-provisions the tools, so it takes a few minutes.
+
+We've sped it up.
+
+The addons command lists what is installed, with the flag for each one.
+
+The files live under .chaos-engine/addons.
+
+Here are the design cards.
+
+Changed your mind? The without flag removes an add-on.
+
+Removing it takes seconds. Only design skills is left,
+
+and later upgrades keep what you selected.
+
+On Windows, use PowerShell.
+
+To pass switches, use the script block form.
+
+Or set the environment variable and keep the classic one-liner.
+
+One command. A lean, healthy core.
+
+Add-ons only when you want them.
+
+The full guide is in the SHAFT user guide.
+
+This narration uses a synthetic voice.
+
 ## Install from a terminal
 
 Run the command for your operating system from the project root. `curl | bash`
