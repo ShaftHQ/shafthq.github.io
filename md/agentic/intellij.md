@@ -25,9 +25,20 @@ IntelliJ's Java plugin; Java-specific actions are registered only when Java
 support is available. First run shows **Set up SHAFT tools** inside the tool
 window. SHAFT tools are required; connecting an AI agent is optional:
 
-0. **Prerequisites** detects Python 3, Java, Maven, Node.js when needed, and the
- selected agent CLI. Missing tools and the optional SHAFT Engine warm-up use
- **Open in Terminal**; **Recheck** detects them again after installation.
+0. **Prerequisites** detects Python 3, Java, Maven, Node.js when an npm-based
+ agent CLI needs it, and the selected agent CLI. **Copy** on a missing tool
+ copies that tool's install command and opens IntelliJ Terminal with the
+ command pre-typed. If the terminal cannot open, the command stays on the
+ clipboard and the status tells you to paste it. The optional SHAFT Engine
+ warm-up uses the same **Open in Terminal** path. **Recheck** detects the
+ tools again after installation. Grok Build does not use Node. Its command is
+ `curl -fsSL https://x.ai/cli/install.sh | bash` on macOS and Linux, and
+ `irm https://x.ai/cli/install.ps1 | iex` on Windows. Antigravity CLI (`agy`)
+ uses `curl -fsSL https://antigravity.google/cli/install.sh | bash` on macOS
+ and Linux, and `irm https://antigravity.google/cli/install.ps1 | iex` on
+ Windows. A `grok` binary already at `~/.grok/bin` (or `agy` at
+ `~/.local/bin`, and on Windows under `%LOCALAPPDATA%\agy\bin`) is reported
+ present even when the IDE process PATH does not list that directory yet.
 1. **Choose setup route** starts unselected with a **Select an option** placeholder.
  Choose Codex CLI, Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI,
  GitHub Copilot in IntelliJ, or Gemini in IntelliJ. **Check** validates the
