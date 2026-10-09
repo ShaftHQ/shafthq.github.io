@@ -1,0 +1,185 @@
+WEBVTT
+
+00:00:00.250 --> 00:00:05.070
+Three lines of Java. Waits, screenshots
+and a report included.
+
+00:00:06.317 --> 00:00:12.092
+In plain Selenium, the same test needs an
+explicit wait, a screenshot helper,
+
+00:00:12.092 --> 00:00:15.917
+report wiring, and a separate client for
+API calls.
+
+00:00:16.217 --> 00:00:19.677
+Every team writes that plumbing, and every
+copy drifts.
+
+00:00:19.977 --> 00:00:25.100
+Measured on the same test, that is 44
+lines in plain Selenium,
+
+00:00:25.100 --> 00:00:26.587
+and 17 with SHAFT.
+
+00:00:29.550 --> 00:00:32.640
+SHAFT puts every surface behind one entry
+point.
+
+00:00:32.940 --> 00:00:37.911
+SHAFT.GUI.WebDriver drives browsers and
+Appium
+
+00:00:37.911 --> 00:00:41.694
+apps. SHAFT.API wraps REST Assured.
+
+00:00:41.694 --> 00:00:47.422
+SHAFT.DB and SHAFT.CLI cover databases and
+terminals.
+
+00:00:47.830 --> 00:00:52.389
+Test data comes from JSON, Excel, CSV or
+YAML files,
+
+00:00:52.389 --> 00:00:56.510
+and every check uses the same assertThat
+style.
+
+00:00:59.450 --> 00:01:01.310
+SHAFT handles timing for you.
+
+00:01:01.610 --> 00:01:05.595
+Every element action retries until the
+element is ready,
+
+00:01:05.595 --> 00:01:07.730
+up to a timeout you configure.
+
+00:01:08.030 --> 00:01:11.997
+After navigation, it waits for the page to
+go quiet:
+
+00:01:11.997 --> 00:01:15.430
+300 milliseconds without changes, by
+default.
+
+00:01:15.730 --> 00:01:19.373
+For business states, like an order status
+turning complete,
+
+00:01:19.373 --> 00:01:21.720
+you wait on that condition explicitly.
+
+00:01:22.020 --> 00:01:24.322
+Retries are opt-in and bounded,
+
+00:01:24.322 --> 00:01:28.630
+and locators can target accessible roles
+and visible text.
+
+00:01:31.583 --> 00:01:36.576
+Every action becomes an Allure step.
+Failures get screenshots by default,
+
+00:01:36.576 --> 00:01:39.243
+and validation points can get them too.
+
+00:01:39.543 --> 00:01:40.822
+When a test fails,
+
+00:01:40.822 --> 00:01:45.158
+SHAFT attaches a diagnostics bundle and a
+trace with the DOM,
+
+00:01:45.158 --> 00:01:48.143
+network and console evidence it collected.
+
+00:01:48.443 --> 00:01:52.223
+So the report explains the failure, not
+just the stack trace.
+
+00:01:55.183 --> 00:01:58.293
+Where tests run is configuration, not
+code.
+
+00:01:58.593 --> 00:02:03.927
+Change the execution address, and the same
+class runs locally, in Docker,
+
+00:02:03.927 --> 00:02:07.873
+on a Selenium Grid, or on BrowserStack and
+LambdaTest.
+
+00:02:08.173 --> 00:02:11.740
+Cross browser mode can run one class on
+Chrome,
+
+00:02:11.740 --> 00:02:15.003
+Firefox and Safari in parallel with
+Docker.
+
+00:02:15.303 --> 00:02:17.535
+Use TestNG, JUnit or Cucumber,
+
+00:02:17.535 --> 00:02:20.809
+and switch the browser backend to
+Playwright
+
+00:02:20.809 --> 00:02:23.413
+without rewriting your SHAFT steps.
+
+00:02:26.350 --> 00:02:29.610
+Already have a Selenium suite? Run the
+upgrader.
+
+00:02:29.910 --> 00:02:34.914
+It compiles your project first, adds the
+SHAFT bill of materials and engine,
+
+00:02:34.914 --> 00:02:37.680
+and keeps your existing tests as they are.
+
+00:02:37.980 --> 00:02:43.160
+If the build fails afterwards, every
+touched file is restored, byte for byte.
+
+00:02:43.460 --> 00:02:44.788
+When you are ready,
+
+00:02:44.788 --> 00:02:50.240
+session and full modes rewrite Selenium
+code inside the same safe transaction.
+
+00:02:51.183 --> 00:02:55.833
+The agentic tools are optional, and they
+work without an AI provider.
+
+00:02:56.133 --> 00:03:00.716
+Capture records a flow and generates
+compiling test code.
+
+00:03:00.716 --> 00:03:03.690
+Doctor diagnoses failed runs offline.
+
+00:03:03.690 --> 00:03:08.273
+Heal recovers changed locators and
+explains every choice.
+
+00:03:08.573 --> 00:03:14.123
+The same tools reach IntelliJ through a
+plugin, and any agent through MCP.
+
+00:03:17.083 --> 00:03:20.497
+SHAFT is MIT licensed and built in
+
+00:03:20.497 --> 00:03:24.213
+public since 2018, with 216 releases.
+
+00:03:24.613 --> 00:03:28.986
+Generate a project at shafthq.github.io,
+run mvn
+
+00:03:28.986 --> 00:03:31.992
+test, and read your first report.
+
