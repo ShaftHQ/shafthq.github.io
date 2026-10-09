@@ -1749,6 +1749,29 @@ flowchart TD
  Sample --> Run
 ```
 
+## Watch the technical walkthrough
+
+A 3.5-minute tour of the API, synchronization, evidence, scale options,
+the upgrader, and the optional agentic tools, using real SHAFT code and real
+runs. English captions are on by default.
+
+ 
+ 
+ 
+ 
+
+- **0:00** SHAFT in three lines, and the plumbing it replaces
+- **0:29** One API
+- **0:59** Reliability
+- **1:31** Evidence
+- **1:54** Scale
+- **2:25** Migrate
+- **2:50** Agentic, optional
+- **3:16** Start
+
+The narration uses a synthetic voice. The full-quality master, captions, and
+sources are on the [SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-20261009).
+
 ## Three-minute useful test
 
 The fastest useful evaluation is: generate a project, run the included sample,
@@ -2470,6 +2493,27 @@ flowchart LR
  IntelliJ --> MCP
  MCP --> Engine
 ```
+
+## Watch SHAFT in 100 seconds
+
+Why teams choose SHAFT for new Java test automation, and how an existing
+Selenium suite adopts it without a rewrite. English captions are on by default;
+the video never plays until you start it.
+
+ 
+ 
+ 
+ 
+
+- **0:00** Red build: bug or flaky test?
+- **0:20** One engine on proven tools
+- **0:36** Waits, reports and scale built in
+- **0:57** Upgrade an existing suite
+- **1:16** Open source, and how to start
+
+The narration uses a synthetic voice. A 9:16 cut, full-quality masters,
+captions, and a source for every number are on the
+[SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-20261009).
 
 ## Start in 90 seconds
 

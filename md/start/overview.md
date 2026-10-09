@@ -34,6 +34,27 @@ flowchart LR
  MCP --> Engine
 ```
 
+## Watch SHAFT in 100 seconds
+
+Why teams choose SHAFT for new Java test automation, and how an existing
+Selenium suite adopts it without a rewrite. English captions are on by default;
+the video never plays until you start it.
+
+ 
+ 
+ 
+ 
+
+- **0:00** Red build: bug or flaky test?
+- **0:20** One engine on proven tools
+- **0:36** Waits, reports and scale built in
+- **0:57** Upgrade an existing suite
+- **1:16** Open source, and how to start
+
+The narration uses a synthetic voice. A 9:16 cut, full-quality masters,
+captions, and a source for every number are on the
+[SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-20261009).
+
 ## Start in 90 seconds
 
 Use the [SHAFT Project Generator](/docs/start/installation) to choose your test
