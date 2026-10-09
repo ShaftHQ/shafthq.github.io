@@ -53,7 +53,7 @@ the video never plays until you start it.
 
 The narration uses a synthetic voice. A 9:16 cut, full-quality masters,
 captions, and a source for every number are on the
-[SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-20261009).
+[SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-v2-20261009).
 
 ## Start in 90 seconds
 

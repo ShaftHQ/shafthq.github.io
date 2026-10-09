@@ -73,7 +73,7 @@ runs. English captions are on by default.
 - **3:16** Start
 
 The narration uses a synthetic voice. The full-quality master, captions, and
-sources are on the [SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-20261009).
+sources are on the [SHAFT feature video release](https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/shaft-feature-video-v2-20261009).
 
 ## Three-minute useful test
 
