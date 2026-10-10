@@ -23,142 +23,90 @@ Install the plugin from JetBrains Marketplace when it is published, then open
 IntelliJ IDEA when the IDE prompts for restart so the SHAFT tool window and
 actions are fully registered. The core Assistant tool window can load without
 IntelliJ's Java plugin; Java-specific actions are registered only when Java
-support is available. First run shows **Set up SHAFT tools** inside the tool
-window. SHAFT tools are required; connecting an AI agent is optional:
+support is available. First run shows a five-step wizard inside the tool
+window. SHAFT tools are required; connecting an AI agent is optional.
 
-0. **Prerequisites** detects Python 3, Java, Maven, Node.js when an npm-based
-   agent CLI needs it, and the selected agent CLI. **Copy** on a missing tool
-   copies that tool's install command and opens IntelliJ Terminal with the
-   command pre-typed. If the terminal cannot open, the command stays on the
-   clipboard and the status tells you to paste it. The optional SHAFT Engine
-   warm-up uses the same **Open in Terminal** path. **Recheck** detects the
-   tools again after installation. Grok Build does not use Node. Its command is
-   `curl -fsSL https://x.ai/cli/install.sh | bash` on macOS and Linux, and
-   `irm https://x.ai/cli/install.ps1 | iex` on Windows. Antigravity CLI (`agy`)
-   uses `curl -fsSL https://antigravity.google/cli/install.sh | bash` on macOS
-   and Linux, and `irm https://antigravity.google/cli/install.ps1 | iex` on
-   Windows. A `grok` binary already at `~/.grok/bin` (or `agy` at
-   `~/.local/bin`, and on Windows under `%LOCALAPPDATA%\agy\bin`) is reported
-   present even when the IDE process PATH does not list that directory yet.
-1. **Choose setup route** starts unselected with a **Select an option** placeholder.
-   Choose Codex CLI, Claude Code, Claude Desktop, Grok CLI, GitHub Copilot CLI,
-   GitHub Copilot in IntelliJ, or Gemini in IntelliJ. **Check** validates the
-   chosen route when the plugin can observe it.
-2. **Open setup command** prepares the route-specific Agentic Tools installer
-   through **Open setup command in terminal**. The plugin copies the command,
-   opens IntelliJ Terminal, and pre-types it. Review the command and press Enter
-   yourself; the plugin never executes the installer.
-3. **Verify setup** finds the installed SHAFT MCP command, verifies the
-   workspace, and asks the selected local agent whether it can access
-   `shaft-mcp`. Success reveals **Ready** and **Open Assistant**. When a stale
-   CLI session blocks access, recovery also uses **Open in Terminal**.
+1. **This project** shows the detected JDK, build tool, operating system, and
+   whether an MCP command is already present. The installer target defaults to
+   the IntelliJ plugin. Continue.
+2. **Prerequisites** lists only a missing JDK, Maven 3.9+, or Git. Tools that
+   are already present collapse to one **Ready** line. Each missing tool has
+   one command you can copy.
+3. **Agent** recommends one agent and says why. Other agents stay behind
+   **Use a different agent**. An API key field appears only for an agent that
+   needs one. The plugin stores a pasted key in IntelliJ Password Safe.
+4. **Install and check** shows the installer command. **Copy** puts it on the
+   clipboard and pre-types it in the IDE terminal. Review the command and press
+   Enter yourself. The plugin does not execute the installer. **Check** is a
+   separate action. The step says **Waiting**, **Checking**, **Verified**, or
+   **Needs attention**. **Verified** appears only after you press **Check** and
+   the check passes. A failed check keeps the command visible, names the
+   problem in one sentence, and offers **Retry**.
+5. **First success** finishes setup when you choose **Open the Assistant** or
+   **Record a sample flow**.
 
-After verification, **Optional: Upgrade project** unlocks. It reads the open
-project's `pom.xml`, compares its SHAFT version with the latest release, and
-opens the deterministic upgrade command in IntelliJ Terminal. Agent-driven
-upgrades use the upgrader bundled with the installed SHAFT MCP first, announce
-that source, and visibly announce any fallback to the current `origin/main`
-upgrader. Existing source-edit approval covers agent repair only when both
-deterministic paths fail. See the [Upgrade guide](/docs/start/upgrade).
+**Skip** says that agent tools stay unavailable until setup is finished. It
+does not delete chat or saved keys. The tool window can open setup again.
+People who already have a verified MCP install are not shown the wizard.
+A plugin update drops a stale MCP command, keeps that verified install off the
+wizard, and shows **Updated to** the new version once.
 
-Setup readiness has two lanes. The recorder, persisted-recording codegen,
-Doctor, and Healer only need the verified SHAFT MCP, so when the MCP check
-passes but the selected agent is missing or unreachable, setup still completes
-with a **Start without an agent** button. Free-text scenario codegen needs the
-Codex local CLI in addition to the verified MCP. The agent diagnostics and
-restart recovery stay visible for that optional second lane. The wizard is also
-project-aware: the Upgrade step distinguishes
-"already on the latest SHAFT" (green), "SHAFT upgrade available", "Maven
-project without SHAFT" (adopt via the upgrade command), and "no `pom.xml` at
-all" (scaffold a project first), so an empty folder is never told to upgrade.
+On macOS and Linux the copied command downloads and runs the `main` branch
+installer for the IntelliJ plugin target. You run it. The plugin does not.
 
-After setup, the main view header keeps a persistent **readiness strip** showing:
+```bash
+tmp="${TMPDIR:-/tmp}/install-shaft-agentic-tools.sh"
+curl -fL https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.sh -o "$tmp" && sh "$tmp" --intellij-plugin --install-shaft-skills
+```
 
-- **MCP** — "verified / failed / not checked" with a one-click **Recheck** button that runs a live connection probe so a broken MCP never fails silently mid-session.
-- **Workspace** — "OK" or "unavailable" reflecting the root folder state.
-- **Agent** — "ready" or "optional" (not connected) showing whether chat is available.
-- **Recording active** — a badge appearing whenever a SHAFT recording session is running.
+Project upgrade is not a wizard step. See the [Upgrade guide](/docs/start/upgrade).
 
-The Ready row in setup shows an explicit checklist: "MCP connected · Workspace root OK · Agent ready|Agent optional (not connected) · Ready to record".
+**Back** returns to the previous step and leaves saved chat and keys in place.
+When a prerequisite is missing, **Continue anyway** is an explicit second
+choice. Codex CLI is the recommendation when no agent is saved yet, because it
+runs locally and does not need an API key. **Use a different agent** lists the
+other agents. An API key field appears only for Gemini. A pasted key is stored
+in IntelliJ Password Safe. **Advanced**, on the agent step and the install
+step, can change the installer target or reset setup after a confirmation. The
+default target is the IntelliJ plugin.
 
-The Marketplace plugin does not download or execute installer scripts at
-runtime. It only helps you choose the agent, copy the terminal installer
-command, find the installed `shaft-mcp.args` automatically, then stores and
-starts that local command. Copied commands fetch
-`scripts/mcp/install-shaft-agentic-tools` from the `main` branch. Public
-one-liners stay `scripts/mcp/install.ps1` and `install.sh`.
-After a command has passed setup, opening SHAFT shows the Assistant view.
-Without a verified MCP command, the landing view keeps the click-through setup
-visible. Unverified settings stay behind the same setup gate until
-**Verify setup** passes.
+![SHAFT IntelliJ first-run wizard on the project step, with the detected JDK, build tool, and operating system, and Continue under those facts](/img/agentic/intellij-plugin-first-run-wizard.png)
 
-![SHAFT IntelliJ setup showing required SHAFT tools, an optional AI agent, and the three-step setup rail](/img/agentic/intellij-plugin-mcp-setup.png)
+![SHAFT IntelliJ first-run wizard in a narrow dark tool window, still on the project step, with Continue directly under the step](/img/agentic/intellij-plugin-first-run-wizard-narrow-dark.png)
 
-Setup opens with a simple vertical stepper with visible state chips, only
-showing the buttons relevant to the current step. The path reads as
-**Prerequisites -> Choose setup route -> Open setup command -> Verify setup -> Ready -> Optional: Upgrade project**.
-Every state chip reflects a real verification of what is on the machine or in
-the project — never a "you clicked the button" heuristic — and a check that
-ran and did not pass shows an explicit red **Failed** chip with recovery
-guidance instead of silently staying neutral.
-The whole setup flow scrolls vertically when it outgrows the tool window (the
-scrollbar appears only when needed, and content re-wraps instead of scrolling
-sideways), so the bottom of the page always stays reachable.
-There is no recommended-agent label. The agent choice owns the installer
-target, so changing the route also changes the copied Agentic Tools command
-and invalidates stale setup verification. Internal installer-source/branch
-details and the managed stdio command are not shown as setup inputs. Test
-failures stay inline with categorized troubleshooting, client-specific next
-steps, copyable diagnostic output, copyable SHAFT MCP docs link, and the retry
-action remains enabled.
+The install step says **Waiting** until you press **Check**. **Checking** is
+the in-progress state. **Verified** appears only after **Check** passes and
+SHAFT can resolve a local MCP command. A blank command stays on **Needs
+attention** even when the probe would otherwise pass. **Needs attention** keeps
+the command on screen, shows "The check needs attention. Copy the command, run
+it yourself, then try again.", and changes the primary action to **Retry**.
 
-Selecting **Gemini in IntelliJ** from **Agent** detects configured Gemini
-environment variables. When no still-present source was selected previously,
-`GOOGLE_API_KEY` is the automatic default before `GEMINI_API_KEY`; select the
-detected variable to use it without copying its value into plugin settings or
-IntelliJ Password Safe. **Check agent connection** validates
-the selected credential against Gemini before it reports the route as ready.
-If neither variable is present, paste a Google AI Studio API key into the
-masked field. The plugin stores a pasted key in IntelliJ Password Safe, saves
-the Cloud/Gemini Assistant route with a default model, and passes only the
-selected credential to the SHAFT MCP process. The installer target switches to
-`intellij-plugin` because Gemini prompts run through SHAFT MCP provider chat
-instead of an external agent CLI.
+**Report this problem** is available in that failure state. **Allow and file**
+stays off until you choose it, and that choice is remembered. The report is a
+public GitHub issue on
+[ShaftHQ/SHAFT_ENGINE](https://github.com/ShaftHQ/SHAFT_ENGINE/issues). When
+`gh` is signed in, SHAFT files the issue. Otherwise it opens a prefilled
+browser form. The issue keeps the plugin version, IDE build, operating system,
+wizard step, exception class, the top `com.shaft` frame, and the plain-language
+sentence. It removes API keys, `ghp_` and `sk-` tokens, Bearer secrets, email
+addresses, and absolute home or project paths. **Not now** leaves the failure
+on screen and files nothing. **Settings | SHAFT** can turn the same reports on
+later with **File setup problem reports as public GitHub issues**.
 
-![SHAFT IntelliJ Assistant setup wizard with Gemini in IntelliJ selected and an empty Gemini API key field for pasting a Google AI Studio key](/img/agentic/intellij-plugin-mcp-setup-gemini.png)
+The last step can store two local ratings, ease and usefulness, on this
+machine. Those ratings stay in plugin settings.
 
-![Completed SHAFT IntelliJ setup showing verified MCP tools and Start without an agent](/img/agentic/intellij-plugin-mcp-setup-success.png)
+**Open the Assistant** or **Record a sample flow** writes the resolved MCP
+command, marks setup complete, and opens the Assistant. Until that action, the
+tool window stays on the wizard.
 
-![SHAFT IntelliJ Assistant setup in dark mode with Verify setup marked Failed and Copy actions for diagnostics and the SHAFT MCP docs link](/img/agentic/intellij-plugin-mcp-setup-error-dark.png)
+On Windows the copied command is:
 
-Troubleshooting details distinguish the failure type when the plugin can infer
-it:
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command '$installer=Join-Path $env:TEMP "install-shaft-agentic-tools.ps1"; Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/scripts/mcp/install-shaft-agentic-tools.ps1" -OutFile $installer; & $installer -Client intellij-plugin --install-shaft-skills'
+```
 
-- **Java/runtime**: install or select a Java runtime that can run `shaft-mcp`,
-  then retry.
-- **Maven artifact resolution**: check Maven Central or proxy access for
-  `io.github.shafthq:shaft-mcp`, then retry.
-- **Client configuration**: confirm the selected client can write and read its
-  MCP configuration file.
-- **Client runtime**: install the selected client CLI or add it to `PATH`, then
-  retry.
-- **MCP command**: rerun the terminal installer, then click **Verify setup** so
-  SHAFT can find the installed command automatically.
-- **MCP probe**: rerun the installer command, then click **Verify setup** once
-  it finishes.
-
-The setup pane uses **Open setup command in terminal** for runnable setup
-commands and **Copy** for diagnostic output or links. A terminal action copies
-and pre-types its command, but never runs it.
-Codex users should verify `codex mcp list`, Claude users should
-verify `claude mcp list` or restart Claude Desktop after desktop config changes,
-GitHub Copilot users should check the Copilot MCP configuration and
-organization MCP policy, and SHAFT IntelliJ plugin users should run the
-`intellij-plugin` target before checking setup.
-
-After the test succeeds, setup shows the verified runtime/workspace, **Ready**,
-and **Open Assistant** action without showing the managed stdio command or
-probe logs. The plugin starts the configured stdio command on the first tool
+After setup, the plugin starts the configured stdio command on the first tool
 invocation and keeps that MCP server process alive across tool calls, so
 session-based tools (a running Capture recording, an initialized live
 driver) keep running between commands; the process is restarted transparently
@@ -222,7 +170,7 @@ local agent turn, whose MCP process (and with it the recording browser) ends
 seconds after the reply.
 
 Enabling **Settings | SHAFT | Enable advanced workflows and provider options**
-(Expert mode, also available as a checkbox on the setup view) reveals the
+(Expert mode) reveals the
 **Workflow** selector with every specialist surface: **Guided**, **Recorder**,
 **Inspector**, **Triage**, **Visual Baselines**, **Evidence**, **Projects**, and
 **Advanced**. These
@@ -269,11 +217,7 @@ project and return the upgrader command first. The command should be in its own
 fenced block, and the agent should wait for you to run it before source edits.
 Use the [Upgrade guide](/docs/start/upgrade) as the canonical source for the
 copyable command; this page documents the IDE workflow around that command.
-The setup wizard's **Upgrade project** step, in the prerequisites sequence on this page, offers the same
-command as a one-click copy before you ever open the Assistant chat; this
-chat-driven flow and the **Projects** workflow's upgrade template are
-alternatives for triggering it later, mid-session, with repository-aware
-framing.
+The **Projects** workflow can preview or apply the same upgrade after setup.
 
 ```mermaid
 flowchart TD
@@ -291,7 +235,7 @@ the higher-risk action rewrites.
 
 ### Record and generate a new scenario
 
-Select the Codex local CLI route and complete **Verify setup** before you start.
+Select the Codex local CLI route and finish the first-run wizard before you start.
 The protected free-text workflow needs both
 the local CLI and a verified `shaft-mcp` connection. Other Assistant chat and
 persisted-recording codegen remain available through their supported routes.
@@ -751,8 +695,8 @@ The workflow selector exposes curated MCP requests for common automation jobs:
   summarization, report remediation, guarded reruns, and review-only locator
   proposals.
 - Projects: create new SHAFT example projects and preview or apply the modular
-  SHAFT upgrader against the open Java project (the setup wizard's **Upgrade
-  project** step offers the same upgrade as a first-run, one-click copy).
+  SHAFT upgrader against the open Java project. Ask the Assistant to upgrade
+  the project, or use this workflow after setup.
 - Guided: displays only Target URL, a prominent live status, and the recorder
   controls by default; all other fields and the Coding Partner/Locator sections
   are behind an **Advanced options** toggle (auto-expanded when expert mode is
@@ -912,7 +856,7 @@ direct child module's `pom.xml`/`build.gradle`/`build.gradle.kts`). In a
 project that does not depend on SHAFT yet, mutating or SHAFT-reporting-only
 tools -- project upgrade, focused verification, and Doctor/Heal triage -- are
 not dispatched; the Assistant instead replies with a message pointing you at
-**Create SHAFT Project** or **Upgrade project** in the Projects workflow.
+**Create SHAFT Project** in the Projects workflow.
 Read-only tools such as guide search and coding-partner planning are not
 gated, since they are useful while you are still adopting SHAFT. The MCP
 connection heartbeat also stays idle in a non-SHAFT project instead of
@@ -965,47 +909,19 @@ flag), and any SHAFT tool request that still reaches the approval bridge is
 auto-allowed with an `Auto-approved SHAFT tool` transcript milestone. Shell
 commands and third-party MCP servers keep the interactive approval bubble.
 
-### Connection & agents
+### Configure and reset
 
-Once initial setup is complete, returning to the setup screen also shows a
-**Connection & agents** button alongside **Enable expert mode** and **Reset
-everything**. Unlike Reset everything, this re-runs the real connection and
-agent readiness check in place — bringing the choose/install/check steps back
-into view so you can confirm status or switch agents — without touching any
-saved settings, provider keys, tool approvals, or chat history.
+After setup, the Assistant shows **Configure** next to the current agent.
+**Configure** opens the five-step wizard again from **This project**. Saved
+settings, provider keys, tool approvals, and chat history stay in place.
 
-### Reset everything
-
-Once initial setup is complete, returning to the settings screen shows the
-**Enable expert mode** toggle and a **Reset everything** button. Reset
-everything asks for confirmation, then factory-resets every plugin-local data
-store:
-
-- SHAFT settings return to factory defaults, so the fresh-install setup view
-  renders again.
-- Saved provider API keys are removed from IntelliJ Password Safe.
-- Tool approvals are cleared for every open project: the approve-all flag,
-  remembered per-tool approvals, and any pending single-use grants.
-- Assistant chat history is deleted for every open project.
-- Every open SHAFT tool window re-renders back to the setup view.
-
-**User code is never touched.** Reset everything only deletes plugin-local
-data; your Java source, test files, Page Objects, locators, and project
-settings remain unchanged.
-
-### Reset and reinstall
-
-The **Reset / reinstall** button appears once setup is complete or when the
-details pane is expanded. Clicking it:
-
-- Clears the stored MCP command configuration.
-- Clears transient plugin state so setup prompts appear again on next use
-  (chat history is preserved; project settings are not affected).
-- Copies the installer command to the clipboard for manual reinstallation.
-
-**User code is never touched.** Reset only affects the SHAFT plugin
-configuration and MCP connection; your Java source, test files, Page Objects,
-locators, and project settings remain unchanged.
+**Advanced** on the agent step and the install step includes **Reset setup**.
+After you confirm, SHAFT returns settings to factory defaults, removes saved
+provider API keys from IntelliJ Password Safe, clears tool approvals for open
+projects, deletes Assistant chat for open projects, and shows the wizard again.
+Project source stays unchanged. A plugin update uses a different reset: it
+drops a stale MCP command, keeps a finished wizard off this screen, and
+preserves chat.
 
 Configure Codex, Claude, GitHub Copilot, and other MCP clients outside the
 plugin from the [SHAFT MCP guide](/docs/agentic/mcp).
