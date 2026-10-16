@@ -26035,6 +26035,14 @@ without demanding commits, pushes, harness synchronization, tracker writes,
 cleanup, or mutation of unrelated work. Confirmed NUL corruption still blocks
 because it is an immediate repository-safety condition.
 
+## Local model runs
+
+Moved from the SHAFT_ENGINE README (ShaftHQ/SHAFT_ENGINE#7095).
+
+- FreeToken / llama.cpp on the ROG laptop: resolve it with `chaos-engine/skills/local-agency` (`dispatch.py --prefer freetoken`, or the OpenAI-compatible endpoint on `:8080`).
+- Colibri is optional, and only when `http://127.0.0.1:8000` is READY. It is not the default on 6 GB VRAM laptops.
+- Proof-runner note (ShaftHQ/SHAFT_ENGINE#6045): the preferred dense coder is Qwen2.5-Coder-7B Q4_K_M via llama-server when the FreeToken KV cache is about 8k.
+
 ## Health checklist
 
 ```bash
