@@ -32,6 +32,8 @@ jobs:
 
       - name: Build site (generates sitemap)
         run: yarn build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Update static sitemap file
         run: cp build/sitemap.xml static/sitemap.xml

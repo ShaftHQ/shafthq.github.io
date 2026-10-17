@@ -111,30 +111,29 @@ public class SiteRenderTest {
 
         shaft.assertThat().browser().title().contains("SHAFT");
         visible(By.xpath("//h1[normalize-space()='Write the test. SHAFT does the rest.']"));
-        SHAFT.Validations.assertThat().object(attribute(link("Start a new project"), "href"))
-                .contains("/docs/start/quick-start#new-project-generation");
-        SHAFT.Validations.assertThat().object(attribute(link("Star on GitHub"), "href"))
+        SHAFT.Validations.assertThat().object(attribute(link("Create new project"), "href"))
+                .contains("/project-generator");
+        SHAFT.Validations.assertThat().object(attribute(link("Read the user guide"), "href"))
+                .contains("/docs/journeys");
+        WebElement star = visible(By.cssSelector("[data-testid='landing-hero-star']"));
+        SHAFT.Validations.assertThat().object(attribute(star, "href"))
                 .contains("github.com/ShaftHQ/SHAFT_ENGINE");
-        SHAFT.Validations.assertThat().object(attribute(link("Read quick start"), "href"))
-                .contains("/docs/start/quick-start#choose-your-path");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Start a new SHAFT project"), "href"))
-                .contains("/docs/start/quick-start#new-project-generation");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Upgrade an existing project"), "href"))
-                .contains("/docs/start/quick-start#existing-project-upgrade");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Connect MCP after the basics"), "href"))
-                .contains("/docs/start/quick-start#mcp-integration");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Mobile GUI"), "href"))
-                .contains("/docs/testing/mobile");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("API"), "href"))
-                .contains("/docs/testing/api");
-        SHAFT.Validations.assertThat().object(rawAttribute(By.xpath("//a[normalize-space()='MCP setup and commands']"), "href"))
-                .contains("/docs/agentic/mcp");
-        SHAFT.Validations.assertThat().object(rawAttribute(cardLink("Add coverage beyond the browser"), "href"))
-                .contains("#testing-surfaces");
-        SHAFT.Validations.assertThat().object(rawAttribute(By.cssSelector("#connect-ai-agent"), "id"))
-                .contains("connect-ai-agent");
-        clickRaw(cardLink("Add coverage beyond the browser"));
-        wait.until(driver -> "#testing-surfaces".equals(currentHash()));
+        SHAFT.Validations.assertThat().object(attribute(star, "aria-label"))
+                .contains("Star on GitHub");
+        SHAFT.Validations.assertThat().object(rawAttribute(outcomeLink("Create a project"), "href"))
+                .contains("/docs/journeys/create-a-project");
+        SHAFT.Validations.assertThat().object(rawAttribute(outcomeLink("Upgrade a Java project"), "href"))
+                .contains("/docs/journeys/upgrade-a-project");
+        SHAFT.Validations.assertThat().object(rawAttribute(outcomeLink("Run in CI"), "href"))
+                .contains("/docs/journeys/ci");
+        for (String surface : List.of("Web", "Mobile", "Desktop", "API", "Database", "CLI")) {
+            SHAFT.Validations.assertThat().object(browser.findElements(By.xpath("//*[@role='tab'][normalize-space()='" + surface + "']")).size())
+                    .isEqualTo(1);
+        }
+        SHAFT.Validations.assertThat().object(rawAttribute(By.cssSelector("[data-testid='landing-hero-workflow']"), "href"))
+                .contains("#agent-workflow");
+        clickRaw(By.cssSelector("[data-testid='landing-hero-workflow']"));
+        wait.until(driver -> "#agent-workflow".equals(currentHash()));
     }
 
     @Test(dataProvider = "primaryRoutes")
@@ -262,9 +261,11 @@ public class SiteRenderTest {
     public void darkModeRemainsReadable() {
         navigate("/");
 
-        List<WebElement> toggles = browser.findElements(By.cssSelector("button[title*='Switch between dark and light mode']"));
-        if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
-            click(By.cssSelector("button[title*='Switch between dark and light mode']"));
+        // The toggle cycles system, light, and dark (respectPrefersColorScheme), so click until dark.
+        List<WebElement> toggles = browser.findElements(By.cssSelector("button[aria-label*='Switch between dark and light mode']"));
+        for (int i = 0; i < 3 && !toggles.isEmpty() && toggles.getFirst().isDisplayed()
+                && !"dark".equals(script("return document.documentElement.dataset.theme;")); i++) {
+            click(By.cssSelector("button[aria-label*='Switch between dark and light mode']"));
         }
         visible(By.xpath("//h1[normalize-space()='Write the test. SHAFT does the rest.']"));
     }
@@ -326,8 +327,8 @@ public class SiteRenderTest {
         return By.xpath("//a[normalize-space()='" + text + "']");
     }
 
-    private By cardLink(String title) {
-        return By.xpath("//a[.//*[normalize-space()='" + title + "']]");
+    private By outcomeLink(String title) {
+        return By.xpath("//*[@data-testid='landing-outcomes']//article[.//h3[normalize-space()='" + title + "']]//a");
     }
 
     private By buttonLocator(String text) {

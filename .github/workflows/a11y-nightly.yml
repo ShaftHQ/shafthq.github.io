@@ -39,6 +39,8 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Scan every page
         id: scan

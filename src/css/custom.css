@@ -607,14 +607,16 @@ input[placeholder='Search']:focus-visible {
   }
 }
 
-/* #1128: reduced motion turns off every transition and animation site-wide. */
+/* #1128: reduced motion turns off every transition and animation site-wide.
+   0.01ms, not 0s: Docusaurus collapsibles (<details>, sidebar categories) finish
+   closing on transitionend, which a zero duration never fires (#1130 review). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0s !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0s !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

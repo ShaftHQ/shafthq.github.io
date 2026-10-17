@@ -13,14 +13,14 @@ test('hero leads with the README headline, routes to the workflow H2, and offers
   await expect(page.getByTestId('landing-hero')).toContainText('One Java engine for web, mobile, API, CLI, database, and desktop.');
   await expect(page.getByTestId('landing-hero')).not.toContainText('The user guide is the one path through this site.');
   await expect(page.getByTestId('landing-hero-star')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
-  await expect(page.getByTestId('landing-hero-star')).toHaveAccessibleName(/Star SHAFT on GitHub/);
+  await expect(page.getByTestId('landing-hero-star')).toHaveAccessibleName(/^Star on GitHub, [\d,]+ stars$/);
   await expect(page.getByTestId('landing-hero-actions').locator('.button--primary')).toHaveCount(1);
   await page.getByTestId('landing-hero-workflow').click();
   await expect(page).toHaveURL(/#agent-workflow$/);
   await expect(page.getByTestId('landing-agent-workflow')).toBeInViewport();
   await expect.poll(() => anchorGap(page, 'agent-workflow'), {timeout: 5_000}).toBeLessThanOrEqual(120);
   expect(await anchorGap(page, 'agent-workflow')).toBeGreaterThanOrEqual(8);
-  await expect(page.getByTestId('landing-final').getByRole('link', {name: /Star SHAFT on GitHub/})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
+  await expect(page.getByTestId('landing-final').getByRole('link', {name: /^Star on GitHub/})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
 });
 
 // #1128: both CTAs sit fully inside the first screen in both themes.
@@ -74,6 +74,38 @@ test('hero clip autoplays muted with a working pause control (#1128)', async ({p
   await expect(toggle).toHaveAccessibleName('Play the clip');
 });
 
+test('hero clip stops when the visitor turns on reduced motion after load (#1130 review)', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('/');
+  const video = page.getByTestId('landing-hero-clip');
+  await expect.poll(() => video.evaluate((v) => !v.paused), {timeout: 10_000}).toBe(true);
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
+  await expect(page.getByTestId('landing-hero-clip-toggle')).toHaveAccessibleName('Play the clip');
+});
+
+test('without JavaScript the hero clip offers no dead play button (#1130 review)', async ({browser, baseURL}) => {
+  const context = await browser.newContext({javaScriptEnabled: false, baseURL});
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page.getByTestId('landing-hero-clip')).toBeVisible();
+  await expect(page.getByTestId('landing-hero-clip-toggle')).toBeHidden();
+  await context.close();
+});
+
+test('both star CTAs show the total and their accessible name contains the visible text (#1130 review, WCAG 2.5.3)', async ({page}) => {
+  await page.goto('/');
+  for (const id of ['landing-hero-star', 'landing-final-star']) {
+    const star = page.getByTestId(id);
+    await star.scrollIntoViewIfNeeded();
+    await expect(star).toBeVisible();
+    await expect(star).toContainText('Star on GitHub');
+    await expect(star).toContainText(/^Star on GitHub\s*[\d,]+$/);
+    const visible = (await star.innerText()).replace(/\s+/g, ' ').trim().replace(/^Star on GitHub ?/, '');
+    await expect(star).toHaveAccessibleName(new RegExp(`^Star on GitHub, ${visible.replace(',', ',?')} stars$`));
+  }
+});
+
 test('overview video downloads nothing before the visitor starts it (#1128)', async ({page}) => {
   const videoRequests = [];
   page.on('request', (request) => { if (request.url().includes('shaft-business-v2.mp4')) videoRequests.push(request.url()); });
@@ -100,9 +132,9 @@ for (const [width, height] of [[1280, 800], [1440, 900], [390, 844]]) {
     await page.setViewportSize({width, height});
     await page.goto('/');
     await page.mouse.move(5, 5);
-    await page.waitForTimeout(6_000);
     const launcher = page.getByRole('button', {name: 'Open AutoBot Chat'});
-    if (await launcher.count() === 0 || !(await launcher.isVisible())) return;
+    // The launcher always hydrates (idle callback or timeout); never pass vacuously.
+    await expect(launcher).toBeVisible({timeout: 15_000});
     const bot = await launcher.boundingBox();
     const boxes = await page.getByTestId('landing-hero').locator('a, button, h1, video, figcaption, p').evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().toJSON()).filter((r) => r.width > 0 && r.top < innerHeight));
     for (const r of boxes) {

@@ -625,7 +625,7 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme: darkTheme,
-        additionalLanguages: ['java', 'json', 'properties', 'yaml', 'xml-doc'],
+        additionalLanguages: ['java', 'json', 'properties', 'yaml'],
       },
     }),
 };

@@ -30,7 +30,8 @@ assert(!index.includes('The user guide is the one path through this site.') && !
 assert(index.includes('snippets.firstRunCommand') && index.includes('Generate project') && index.includes('Inspect report'), 'Hero proof rail must render the reusable first-run command.');
 assert(index.includes('See agent-to-evidence workflow') && index.includes('href="#agent-workflow"'), 'Hero must link directly to the workflow.');
 // #1128: the star is a first-class hero action with a build-time star total.
-assert(index.includes('landing-${suffix}-star') && !index.includes("placement === 'final' && <a"), 'GitHub star CTA must render in both the hero and final clusters.');
+// The star CTA's behaviour (both clusters, total, accessible name) is tested in the browser:
+// tests/e2e/homepage.spec.js "both star CTAs show the total and their accessible name contains the visible text".
 assert(index.includes("import projectSignals from '../data/project-signals.json'") && index.includes('projectSignals.stars'), 'Hero star CTA must show the build-time star total.');
 assert(fs.existsSync(path.join(root, 'scripts', 'fetch-project-signals.mjs')) && packageJson.scripts.build.includes('fetch-project-signals.mjs'), 'Build must refresh project signals before docusaurus build.');
 assert(index.includes('view_agent_workflow') && index.includes('landing_conversion'), 'Workflow anchor analytics must preserve the CTA event shape.');
@@ -142,3 +143,22 @@ try {
 } finally {
   fs.rmSync(socialCardTempDir, {recursive: true, force: true});
 }
+
+// #1130 review: the PR gate runs every homepage browser test and the reduced-motion collapse check.
+{
+  const prBuild = fs.readFileSync(path.join(root, '.github', 'workflows', 'pr-build.yml'), 'utf8');
+  const runs = prBuild.split('\n').filter((line) => /^\s*run:/.test(line));
+  assert(runs.some((line) => line.includes('tests/e2e/homepage.spec.js') && !line.includes('--grep') && line.includes('--project=chromium')), 'PR gate must run the full homepage spec on Chromium (#1130 review).');
+  assert(runs.some((line) => line.includes('tests/e2e/reduced-motion-collapse.spec.js')), 'PR gate must run the reduced-motion collapse spec (#1130 review).');
+  // Every build step passes the workflow token so the star fetch is not rate limited.
+  for (const workflow of ['pr-build.yml', 'deploy.yml', 'a11y-nightly.yml', 'update-sitemap.yml']) {
+    const text = fs.readFileSync(path.join(root, '.github', 'workflows', workflow), 'utf8');
+    const steps = text.split(/\n(?=\s*- (?:name|uses):)/).filter((step) => /run:\s*yarn build\s*$/m.test(step));
+    assert(steps.length > 0, `${workflow} must have a yarn build step.`);
+    for (const step of steps) assert(/env:\s*\n\s*GITHUB_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/.test(step), `${workflow} build step must pass GITHUB_TOKEN (#1130 review).`);
+  }
+  assert(packageJson.scripts['test:homepage'].includes('tests/project-signals.test.mjs'), 'test:homepage must run the project-signals validation tests.');
+  assert(packageJson.scripts['test:docs'].includes('tests/faicon-props.test.mjs'), 'test:docs must reject string FAIcon icon props.');
+  assert(/^\d+$/.test(projectSignals.javaVersion), 'Committed javaVersion must be a number, never undefined.');
+}
+

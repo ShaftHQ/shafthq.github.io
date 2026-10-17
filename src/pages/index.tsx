@@ -33,9 +33,11 @@ const productImages: ProductImage[] = [
   {id: 'assistant', title: 'Keep guidance in the IDE', body: 'Connect project context, MCP tools, and focused assistance where engineers work.', image: '/img/agentic/intellij-plugin-assistant.png', ...preview('intellij-plugin-assistant'), width: 860, height: 780, alt: 'SHAFT IntelliJ Assistant showing agentic project guidance inside the IDE.'},
 ];
 
+// Guard against "Java undefined" if the signal is ever missing (#1130 review).
+const javaVersion = /^\d+$/.test(String(projectSignals.javaVersion ?? '')) ? String(projectSignals.javaVersion) : '';
 const trustSignals: Array<[string, string, string]> = [
   ['SHAFT release', `SHAFT ${projectSignals.engineVersion} is the current release on Maven Central.`, `${github}/releases`],
-  ['Java baseline', `Builds and runs on Java ${projectSignals.javaVersion}.`, '/docs/start/installation'],
+  ...(javaVersion ? [['Java baseline', `Builds and runs on Java ${javaVersion}.`, '/docs/start/installation'] as [string, string, string]] : []),
   ['MIT license', 'Use, fork, and inspect it under a permissive license.', `${github}/blob/main/LICENSE`],
   ['CI gate', 'Every pull request runs the same public checks.', `${github}/actions`],
   ['Selenium ecosystem', 'Listed in Selenium’s official ecosystem directory.', 'https://www.selenium.dev/ecosystem/#frameworks'],
@@ -83,23 +85,43 @@ function track(ctaName: ConversionName, placement: Placement, destination: strin
   browser.gtag?.('event', 'landing_conversion', {cta_name: ctaName, placement, destination});
 }
 
+type SaveDataConnection = EventTarget & {saveData?: boolean};
+
 function HeroClip(): JSX.Element {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const userPaused = React.useRef(false);
   const [playing, setPlaying] = React.useState(false);
+  // The play/pause control only works with JavaScript; without it the server HTML keeps it hidden.
+  const [ready, setReady] = React.useState(false);
   React.useEffect(() => {
+    setReady(true);
     const video = videoRef.current;
     if (!video) return undefined;
-    const connection = (navigator as Navigator & {connection?: {saveData?: boolean}}).connection;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || connection?.saveData) return undefined;
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (navigator as Navigator & {connection?: SaveDataConnection}).connection;
+    const allowed = (): boolean => !motion.matches && !connection?.saveData;
+    let loaded = document.readyState === 'complete';
     // Start after the load event so the clip never competes with the headline for first paint.
-    const start = (): void => { video.preload = 'auto'; video.play().catch(() => undefined); };
-    if (document.readyState === 'complete') { start(); return undefined; }
-    window.addEventListener('load', start, {once: true});
-    return () => window.removeEventListener('load', start);
+    // Re-evaluated whenever reduced motion or Save-Data changes (#1130 review).
+    const evaluate = (): void => {
+      if (!allowed()) { video.pause(); return; }
+      if (loaded && !userPaused.current && video.paused) { video.preload = 'auto'; video.play().catch(() => undefined); }
+    };
+    const onLoad = (): void => { loaded = true; evaluate(); };
+    evaluate();
+    if (!loaded) window.addEventListener('load', onLoad, {once: true});
+    motion.addEventListener('change', evaluate);
+    connection?.addEventListener?.('change', evaluate);
+    return () => {
+      window.removeEventListener('load', onLoad);
+      motion.removeEventListener('change', evaluate);
+      connection?.removeEventListener?.('change', evaluate);
+    };
   }, []);
   const toggle = (): void => {
     const video = videoRef.current;
     if (!video) return;
+    userPaused.current = !video.paused;
     if (video.paused) { video.preload = 'auto'; video.play().catch(() => undefined); } else video.pause();
   };
   return <figure className={styles.heroFigure}>
@@ -108,13 +130,14 @@ function HeroClip(): JSX.Element {
         <source src="/video/shaft-hero-1280x720.mp4" type="video/mp4" />
         <track kind="captions" src="/video/shaft-hero.en.vtt" srcLang="en" label="English" />
       </video>
-      <button type="button" className={styles.clipToggle} data-testid="landing-hero-clip-toggle" onClick={toggle} aria-label={playing ? 'Pause the clip' : 'Play the clip'}><FontAwesomeIcon icon={playing ? faPause : faPlay} aria-hidden="true" /></button>
+      <button type="button" className={styles.clipToggle} data-testid="landing-hero-clip-toggle" hidden={!ready} onClick={toggle} aria-label={playing ? 'Pause the clip' : 'Play the clip'}><FontAwesomeIcon icon={playing ? faPause : faPlay} aria-hidden="true" /></button>
     </div>
     <figcaption><strong>Real run, no mockups.</strong> A 3-line test, <code>mvn test</code>, and the report it writes.</figcaption>
   </figure>;
 }
 
-const starLabel = typeof projectSignals.stars === 'number' ? `Star SHAFT on GitHub, ${projectSignals.stars.toLocaleString('en-US')} stars` : 'Star SHAFT on GitHub';
+// WCAG 2.5.3: the accessible name starts with the visible text.
+const starLabel = typeof projectSignals.stars === 'number' ? `Star on GitHub, ${projectSignals.stars.toLocaleString('en-US')} stars` : 'Star on GitHub';
 
 function Ctas({placement}: {placement: Placement}): JSX.Element {
   const suffix = placement === 'hero' ? 'hero' : 'final';
@@ -193,7 +216,7 @@ export default function Home(): JSX.Element {
       <div className={styles.faq}><Heading as="h3">Common questions</Heading>
         <details><summary>Is SHAFT free to use?</summary><p>Yes. SHAFT is open source under the <Link to={`${github}/blob/main/LICENSE`}>MIT license</Link>.</p></details>
         <details><summary>Do I have to rewrite my Selenium tests?</summary><p>No. Move an existing Maven suite onto current SHAFT and run one test first. <Link to="/docs/journeys/upgrade-a-project">Upgrade a project</Link>.</p></details>
-        <details><summary>Which Java version do I need?</summary><p>Java {projectSignals.javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p></details>
+        <details><summary>Which Java version do I need?</summary>{javaVersion ? <p>Java {javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p> : <p><Link to="/docs/start/installation">Installation</Link> lists the supported Java version.</p>}</details>
       </div>
     </div></section>
 
