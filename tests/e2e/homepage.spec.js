@@ -7,19 +7,153 @@ const anchorGap = (page, id) => page.evaluate((targetId) => {
   return Math.round(target.getBoundingClientRect().top - navbar.getBoundingClientRect().bottom);
 }, id);
 
-test('hero routes users to a workflow H2 clear of the sticky nav without a GitHub distraction', async ({page}) => {
+test('hero leads with the README headline, routes to the workflow H2, and offers the star (#1128)', async ({page}) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', {name: 'Release decisions backed by inspectable evidence.'})).toBeVisible();
-  await expect(page.getByTestId('landing-hero')).toContainText('Run one Java project across web, mobile, API, database, and CLI.');
-  await expect(page.getByTestId('landing-hero')).toContainText('The user guide is the one path through this site.');
-  await expect(page.getByTestId('landing-hero-actions').getByRole('link', {name: 'Star on GitHub'})).toHaveCount(0);
+  await expect(page.getByRole('heading', {level: 1, name: 'Write the test. SHAFT does the rest.'})).toBeVisible();
+  await expect(page.getByTestId('landing-hero')).toContainText('One Java engine for web, mobile, API, CLI, database, and desktop.');
+  await expect(page.getByTestId('landing-hero')).not.toContainText('The user guide is the one path through this site.');
+  await expect(page.getByTestId('landing-hero-star')).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
+  await expect(page.getByTestId('landing-hero-star')).toHaveAccessibleName(/^Star on GitHub, [\d,]+ stars$/);
+  await expect(page.getByTestId('landing-hero-actions').locator('.button--primary')).toHaveCount(1);
   await page.getByTestId('landing-hero-workflow').click();
   await expect(page).toHaveURL(/#agent-workflow$/);
   await expect(page.getByTestId('landing-agent-workflow')).toBeInViewport();
   await expect.poll(() => anchorGap(page, 'agent-workflow'), {timeout: 5_000}).toBeLessThanOrEqual(120);
   expect(await anchorGap(page, 'agent-workflow')).toBeGreaterThanOrEqual(8);
-  await expect(page.getByTestId('landing-final').getByRole('link', {name: 'Star on GitHub'})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
+  await expect(page.getByTestId('landing-final').getByRole('link', {name: /^Star on GitHub/})).toHaveAttribute('href', 'https://github.com/ShaftHQ/SHAFT_ENGINE');
 });
+
+// #1128: both CTAs sit fully inside the first screen in both themes.
+for (const [width, height] of [[1280, 800], [1440, 900], [390, 844]]) {
+  for (const theme of ['light', 'dark']) {
+    test(`hero CTAs fit the fold at ${width}x${height} in ${theme}`, async ({page}) => {
+      await page.setViewportSize({width, height});
+      await page.emulateMedia({colorScheme: theme, reducedMotion: 'reduce'});
+      await page.goto('/');
+      for (const id of ['landing-hero-create-project', 'landing-hero-documentation']) {
+        const box = await page.getByTestId(id).boundingBox();
+        expect(box, id).not.toBeNull();
+        expect(box.y + box.height, `${id} bottom`).toBeLessThanOrEqual(height - 24);
+      }
+      const h1Lines = await page.locator('h1').evaluate((h) => Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)));
+      expect(h1Lines).toBeLessThanOrEqual(width < 600 ? 3 : 2);
+    });
+  }
+}
+
+// #1130 round 1: CI runners render system-ui as DejaVu Sans, about 18% wider than Noto Sans.
+for (const [width, height] of [[1280, 800], [1440, 900]]) {
+  test(`H1 stays on two lines at ${width}x${height} in a wide fallback font (#1130 review)`, async ({page}) => {
+    await page.setViewportSize({width, height});
+    await page.goto('/');
+    await page.addStyleTag({content: '.hero h1, [data-testid="landing-hero"] h1 { font-family: "DejaVu Sans", Verdana, sans-serif !important; }'});
+    const h1Lines = await page.locator('h1').evaluate((h) => Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)));
+    expect(h1Lines).toBeLessThanOrEqual(2);
+  });
+}
+
+test('site follows the OS colour scheme when no theme is stored (#1128)', async ({page}) => {
+  await page.emulateMedia({colorScheme: 'dark'});
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+});
+
+test('hero clip stays a poster under reduced motion and nothing animates (#1128)', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await page.goto('/');
+  const video = page.getByTestId('landing-hero-clip');
+  await expect(video).toHaveAttribute('preload', 'none');
+  await expect(video).toHaveAttribute('poster', /shaft-hero-poster/);
+  await page.waitForLoadState('load');
+  expect(await video.evaluate((v) => v.paused)).toBe(true);
+  const moving = await page.evaluate(() => [...document.querySelectorAll('main *')].filter((element) => {
+    const style = getComputedStyle(element);
+    return (style.animationName !== 'none' && parseFloat(style.animationDuration) > 0.01) || parseFloat(style.transitionDuration) > 0.01;
+  }).length);
+  expect(moving).toBe(0);
+});
+
+test('hero clip autoplays muted with a working pause control (#1128)', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('/');
+  const video = page.getByTestId('landing-hero-clip');
+  await expect.poll(() => video.evaluate((v) => !v.paused && v.muted), {timeout: 10_000}).toBe(true);
+  const toggle = page.getByTestId('landing-hero-clip-toggle');
+  await expect(toggle).toHaveAccessibleName('Pause the clip');
+  await toggle.click();
+  await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
+  await expect(toggle).toHaveAccessibleName('Play the clip');
+});
+
+test('hero clip stops when the visitor turns on reduced motion after load (#1130 review)', async ({page}) => {
+  await page.emulateMedia({reducedMotion: 'no-preference'});
+  await page.goto('/');
+  const video = page.getByTestId('landing-hero-clip');
+  await expect.poll(() => video.evaluate((v) => !v.paused), {timeout: 10_000}).toBe(true);
+  await page.emulateMedia({reducedMotion: 'reduce'});
+  await expect.poll(() => video.evaluate((v) => v.paused)).toBe(true);
+  await expect(page.getByTestId('landing-hero-clip-toggle')).toHaveAccessibleName('Play the clip');
+});
+
+test('without JavaScript the hero clip offers no dead play button (#1130 review)', async ({browser, baseURL}) => {
+  const context = await browser.newContext({javaScriptEnabled: false, baseURL});
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page.getByTestId('landing-hero-clip')).toBeVisible();
+  await expect(page.getByTestId('landing-hero-clip-toggle')).toBeHidden();
+  await context.close();
+});
+
+test('both star CTAs show the total and their accessible name contains the visible text (#1130 review, WCAG 2.5.3)', async ({page}) => {
+  await page.goto('/');
+  for (const id of ['landing-hero-star', 'landing-final-star']) {
+    const star = page.getByTestId(id);
+    await star.scrollIntoViewIfNeeded();
+    await expect(star).toBeVisible();
+    await expect(star).toContainText('Star on GitHub');
+    await expect(star).toContainText(/^Star on GitHub\s*[\d,]+$/);
+    const visible = (await star.innerText()).replace(/\s+/g, ' ').trim().replace(/^Star on GitHub ?/, '');
+    await expect(star).toHaveAccessibleName(new RegExp(`^Star on GitHub, ${visible.replace(',', ',?')} stars$`));
+  }
+});
+
+test('overview video downloads nothing before the visitor starts it (#1128)', async ({page}) => {
+  const videoRequests = [];
+  page.on('request', (request) => { if (request.url().includes('shaft-business-v2.mp4')) videoRequests.push(request.url()); });
+  await page.goto('/');
+  const video = page.getByTestId('landing-video').locator('video');
+  await video.scrollIntoViewIfNeeded();
+  await expect(video).toHaveAttribute('preload', 'none');
+  await expect(video.locator('track[kind="captions"]')).toHaveAttribute('src', /shaft-business-v2\.en\.vtt/);
+  expect(videoRequests).toEqual([]);
+});
+
+test('page has a single footer landmark and the mobile drawer leads with Get started (#1128)', async ({page}) => {
+  await page.goto('/');
+  await expect(page.locator('footer')).toHaveCount(1);
+  await page.setViewportSize({width: 390, height: 844});
+  await page.locator('.navbar__toggle').click();
+  const first = page.locator('.navbar-sidebar .menu__list .menu__link').first();
+  await expect(first).toHaveText('Get started');
+  await expect(first).toHaveAttribute('href', '/project-generator');
+});
+
+for (const [width, height] of [[1280, 800], [1440, 900], [390, 844]]) {
+  test(`AutoBot launcher never covers hero content at ${width}x${height} (#1128)`, async ({page}) => {
+    await page.setViewportSize({width, height});
+    await page.goto('/');
+    await page.mouse.move(5, 5);
+    const launcher = page.getByRole('button', {name: 'Open AutoBot Chat'});
+    // The launcher always hydrates (idle callback or timeout); never pass vacuously.
+    await expect(launcher).toBeVisible({timeout: 15_000});
+    const bot = await launcher.boundingBox();
+    const boxes = await page.getByTestId('landing-hero').locator('a, button, h1, video, figcaption, p').evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().toJSON()).filter((r) => r.width > 0 && r.top < innerHeight));
+    for (const r of boxes) {
+      const intersects = r.left < bot.x + bot.width && r.right > bot.x && r.top < bot.y + bot.height && r.bottom > bot.y;
+      expect.soft(intersects, `launcher ${JSON.stringify(bot)} overlaps ${JSON.stringify(r)}`).toBe(false);
+    }
+  });
+}
 
 test('landing CTAs retain destinations and conversion payloads', async ({page}) => {
   const ctas = [
@@ -27,6 +161,7 @@ test('landing CTAs retain destinations and conversion payloads', async ({page}) 
     ['landing-hero-documentation', '/docs/journeys', 'explore_documentation', 'hero'],
     ['landing-hero-workflow', '#agent-workflow', 'view_agent_workflow', 'hero'],
     ['landing-final-create-project', '/project-generator', 'create_project', 'final'],
+    ['landing-hero-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'star_github', 'hero'],
     ['landing-final-documentation', '/docs/journeys', 'explore_documentation', 'final'],
     ['landing-final-star', 'https://github.com/ShaftHQ/SHAFT_ENGINE', 'star_github', 'final'],
   ];
@@ -94,7 +229,7 @@ test('landing remains visible, motion-free, and contained at narrow widths', asy
     await page.setViewportSize(viewport);
     await page.goto('/');
     await expect(page.getByTestId('landing-main')).toBeVisible();
-    await expect(page.locator('svg').filter({hasText: 'Intent · Java · Run · Evidence'})).toHaveCSS('display', 'none');
+    await expect(page.locator('svg').filter({hasText: 'Intent · Java · Run · Evidence'})).toHaveCount(0);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1)).toBe(true);
   }
 });
@@ -106,9 +241,9 @@ test('full-resolution evidence waits for activation, supports control/keyboard/w
   });
   await page.setViewportSize({width: 1440, height: 1000});
   await page.goto('/');
-  await expect(page.getByTestId('landing-hero').locator('img[src*="previews/allure-passed-evidence"]')).toBeVisible();
+  await expect(page.getByTestId('landing-proof').locator('img[src*="previews/allure-passed-evidence"]')).toBeVisible();
   expect(fullResolutionRequests).toEqual([]);
-  const trigger = page.getByTestId('landing-hero').getByTestId('image-viewer-trigger');
+  const trigger = page.getByTestId('landing-proof').getByTestId('image-viewer-trigger');
   await trigger.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog', {name: 'Lightbox'})).toBeVisible();

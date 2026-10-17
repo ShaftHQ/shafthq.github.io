@@ -93,7 +93,7 @@ const config = {
       tagName: 'meta',
       attributes: {
         property: 'og:image:alt',
-        content: 'SHAFT Engine S identity beside a real SHAFT Overview report',
+        content: 'Write the test. SHAFT does the rest. The SHAFT logo beside a real passing Allure report.',
       },
     },
     {
@@ -482,8 +482,13 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      // #1128: follow the visitor's OS theme when they have not picked one.
+      colorMode: {
+        defaultMode: 'light',
+        respectPrefersColorScheme: true,
+      },
       metadata: [
-        {name: 'description', content: 'SHAFT is a unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured with zero boilerplate.'},
+        {name: 'description', content: 'SHAFT is an open-source Java test automation engine for web, mobile, API, CLI, database, and desktop, built on Selenium, Appium, and REST Assured, with an Allure report on every run.'},
         {name: 'robots', content: 'index, follow'},
       ],
       mermaid: {
@@ -516,8 +521,12 @@ const config = {
         logo: {
           alt: 'SHAFT_Engine',
           src: 'img/shaft.svg',
+          width: 32,
+          height: 32,
         },
         items: [
+          // #1128: shown only in the mobile drawer (custom.css), as its first action.
+          {to: '/project-generator', label: 'Get started', position: 'left', className: 'navbar-get-started'},
           {
             type: 'doc',
             docId: 'journeys/index',
@@ -578,8 +587,8 @@ const config = {
                 href: 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
               },
               {
-                label: 'Facebook',
-                href: 'https://www.facebook.com/groups/Automatest',
+                label: 'Security policy',
+                href: 'https://github.com/ShaftHQ/SHAFT_ENGINE/security/policy',
               },
             ],
           },
@@ -591,18 +600,24 @@ const config = {
                 to: '/blog',
               },
               {
-                label: 'GitHub Pages',
-                href: 'https://shafthq.github.io/',
+                label: 'GitHub',
+                href: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
+              },
+              {
+                label: 'Releases',
+                href: 'https://github.com/ShaftHQ/SHAFT_ENGINE/releases',
               },
             ],
           },
         ],
         logo: {
           style: {
-            height: '150px',
+            height: '96px',
           },
           alt: 'ShaftHQ Logo',
           src: '/img/shaft.svg',
+          width: 96,
+          height: 96,
           href: 'https://github.com/ShaftHQ',
         },
         copyright: `Copyright © ${new Date().getFullYear()} ShaftHQ. Built with Docusaurus and GitHub Pages.`,
@@ -610,7 +625,7 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme: darkTheme,
-        additionalLanguages: ['java', 'json', 'properties', 'yaml', 'xml-doc'],
+        additionalLanguages: ['java', 'json', 'properties', 'yaml'],
       },
     }),
 };

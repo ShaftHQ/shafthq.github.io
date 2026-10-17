@@ -40,6 +40,8 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Web performance budgets
         run: yarn test:web-budgets
@@ -50,8 +52,13 @@ jobs:
       - name: Diátaxis split pages and moved-anchor forwarding
         run: yarn playwright test tests/e2e/diataxis-split.spec.js --project=chromium
 
-      - name: Wide table and first-run layout checks
-        run: yarn playwright test tests/e2e/wide-tables.spec.js tests/e2e/homepage.spec.js --project=chromium --grep "wide tables|scrollable-region-focusable|tables that fit|first-run strip"
+      - name: Wide table checks
+        run: yarn playwright test tests/e2e/wide-tables.spec.js --project=chromium --grep "wide tables|scrollable-region-focusable|tables that fit"
+
+      # Every homepage browser test gates the PR (#1130 review), plus the
+      # reduced-motion collapse check for docs <details> and sidebar categories.
+      - name: Homepage and reduced-motion browser tests
+        run: yarn playwright test tests/e2e/homepage.spec.js tests/e2e/reduced-motion-collapse.spec.js --project=chromium
 
       - name: Project generator cross-browser smoke test
         run: yarn test:project-generator:cross-browser

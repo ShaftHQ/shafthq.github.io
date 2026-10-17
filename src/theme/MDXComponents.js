@@ -1,21 +1,20 @@
 import React from 'react';
-// Import the original mapper
 import MDXComponents from '@theme-original/MDXComponents';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import the FontAwesomeIcon component.
-import { library } from '@fortawesome/fontawesome-svg-core'; // Import the library component.
-import { fab } from '@fortawesome/free-brands-svg-icons'; // Import all brands icons.
-import { fas } from '@fortawesome/free-solid-svg-icons'; // Import all solid icons.
+import BrowserOnly from '@docusaurus/BrowserOnly';
 
-library.add(fab, fas); // Add all icons to the library so you can use them without importing them individually.
+// FAIcon stays available in MDX. Pass an imported icon object
+// (for example `icon={faStar}`), because the full Font Awesome library is no
+// longer registered globally (#1128): it shipped about 1 MB to every page.
+// The icon component loads on demand, so Font Awesome stays out of the main
+// bundle every page downloads (#1130 review). Icons are decorative; the server
+// HTML renders none.
+const LazyFontAwesomeIcon = React.lazy(() => import('@fortawesome/react-fontawesome').then((module) => ({default: module.FontAwesomeIcon})));
+
+function FAIcon(props) {
+  return <BrowserOnly>{() => <React.Suspense fallback={null}><LazyFontAwesomeIcon {...props} /></React.Suspense>}</BrowserOnly>;
+}
 
 export default {
-    // Re-use the default mapping
-    ...MDXComponents,
-    FAIcon: FontAwesomeIcon, // Make the FontAwesomeIcon component available in MDX as <icon />.
-
-    /**
-     * https://docusaurus.community/knowledge/design/icons/fontawesome/
-     * https://fontawesome.com/search?o=r&m=free
-     * Works with all .MDX files
-     */
+  ...MDXComponents,
+  FAIcon,
 };

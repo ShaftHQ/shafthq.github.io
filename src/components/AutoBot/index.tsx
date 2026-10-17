@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './styles.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library, type IconProp } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faTrash, faUser, faWindowMinimize } from '@fortawesome/free-solid-svg-icons';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-library.add(fas);
 
 interface Message {
   role: 'user' | 'assistant';
@@ -341,7 +339,7 @@ Focus on helping users with:
                 aria-label="Clear chat"
                 title="Clear chat"
               >
-                <FontAwesomeIcon icon={"fa-solid fa-trash" as IconProp} />
+                <FontAwesomeIcon icon={faTrash} />
               </button>
               <button
                 type="button"
@@ -350,7 +348,7 @@ Focus on helping users with:
                 aria-label="Minimize chat"
                 title="Minimize chat"
               >
-                <FontAwesomeIcon icon={"fa-solid fa-window-minimize" as IconProp} />
+                <FontAwesomeIcon icon={faWindowMinimize} />
               </button>
             </div>
           </div>
@@ -389,7 +387,7 @@ Focus on helping users with:
                   </div>
                   {message.role === 'user' && (
                     <div className={styles.messageAvatar}>
-                      <FontAwesomeIcon icon={"fa-solid fa-user" as IconProp} />
+                      <FontAwesomeIcon icon={faUser} />
                     </div>
                   )}
                 </div>
@@ -435,7 +433,7 @@ Focus on helping users with:
               disabled={!input.trim() || isLoading}
               aria-label="Send message"
             >
-              <FontAwesomeIcon icon={"fa-solid fa-paper-plane" as IconProp} />
+              <FontAwesomeIcon icon={faPaperPlane} />
             </button>
           </div>
 

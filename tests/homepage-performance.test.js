@@ -23,11 +23,17 @@ function webpDimensions(asset) {
   throw new Error(`Unsupported WebP preview encoding: ${type}`);
 }
 
-assert(index.includes('<main data-testid="landing-main">') && index.includes('<h1>Release decisions backed by inspectable evidence.</h1>'), 'Homepage must retain one semantic main landmark and the approved H1.');
-assert(index.includes('Run one Java project across web, mobile, API, database, and CLI. Keep native engine control, then connect Capture, Doctor, Heal, and MCP when they add evidence.'), 'Hero must lead with the approved task-first proposition.');
+// #1128: the landing H1 matches the SHAFT_ENGINE README headline word for word.
+assert(index.includes('<main data-testid="landing-main">') && index.includes('<h1>Write the test. SHAFT does the rest.</h1>'), 'Homepage must retain one semantic main landmark and the README H1.');
+assert(index.includes('One Java engine for web, mobile, API, CLI, database, and desktop. Drivers, waits, and evidence are handled. Every run ends in an Allure report.'), 'Hero lead must match the README proposition (#1128).');
+assert(!index.includes('The user guide is the one path through this site.') && !index.includes('logoPlate'), 'Hero must drop the meta-line and logo plate so both CTAs fit the fold (#1128).');
 assert(index.includes('snippets.firstRunCommand') && index.includes('Generate project') && index.includes('Inspect report'), 'Hero proof rail must render the reusable first-run command.');
 assert(index.includes('See agent-to-evidence workflow') && index.includes('href="#agent-workflow"'), 'Hero must link directly to the workflow.');
-assert(index.includes("placement === 'final'") && index.includes('landing-${suffix}-star'), 'GitHub CTA must remain only in the final CTA cluster.');
+// #1128: the star is a first-class hero action with a build-time star total.
+// The star CTA's behaviour (both clusters, total, accessible name) is tested in the browser:
+// tests/e2e/homepage.spec.js "both star CTAs show the total and their accessible name contains the visible text".
+assert(index.includes("import projectSignals from '../data/project-signals.json'") && index.includes('projectSignals.stars'), 'Hero star CTA must show the build-time star total.');
+assert(fs.existsSync(path.join(root, 'scripts', 'fetch-project-signals.mjs')) && packageJson.scripts.build.includes('fetch-project-signals.mjs'), 'Build must refresh project signals before docusaurus build.');
 assert(index.includes('view_agent_workflow') && index.includes('landing_conversion'), 'Workflow anchor analytics must preserve the CTA event shape.');
 assert(!/io\.github\.shafthq\s*:\s*shaft-engine|<artifactId>shaft-engine<\/artifactId>|landing-dependency-snippet/.test(index), 'Homepage must not prescribe a direct Maven dependency.');
 
@@ -38,15 +44,20 @@ for (const removed of ['landing-evidence', 'landing-product-gallery', 'landing-a
 
 assert(index.includes('data-testid="landing-outcomes"'), 'Homepage must expose the outcome router.');
 for (const outcome of ['Create a project', 'Upgrade a Java project', 'Install skills', 'Use the IntelliJ plugin', 'Connect an MCP client', 'Use shaft-cli', 'Run in CI', 'Add a test surface', 'Install local infrastructure', 'Install ChaosEngine']) assert(index.includes(outcome), `Outcome router must include ${outcome}.`);
-assert(index.includes('data-testid="landing-surfaces"') && index.includes('One evidence model across five test surfaces'), 'Homepage must expose the five-surface explorer.');
-for (const surface of ['Web', 'Mobile', 'API', 'Database', 'CLI']) assert(index.includes(`label: '${surface}'`), `Surface explorer must include ${surface}.`);
+assert(index.includes('data-testid="landing-surfaces"') && index.includes('One evidence model across six test surfaces'), 'Homepage must expose the six-surface explorer, matching the README (#1128).');
+for (const surface of ['Web', 'Mobile', 'Desktop', 'API', 'Database', 'CLI']) assert(index.includes(`label: '${surface}'`), `Surface explorer must include ${surface}.`);
 assert((index.match(/<AccessibleTabs/g) || []).length === 2, 'Workflow and surface explorer must reuse one tab primitive.');
 assert(tabs.includes('role="tablist"') && tabs.includes('role="tab"') && tabs.includes('role="tabpanel"'), 'Tab primitive must expose native tab semantics.');
 assert(tabs.includes('ArrowLeft') && tabs.includes('ArrowRight') && tabs.includes("case 'Home'") && tabs.includes("case 'End'") && tabs.includes("case 'Enter'") && tabs.includes("case ' '"), 'Tab primitive must support roving keyboard navigation and activation.');
 assert(tabs.includes('aria-controls') && tabs.includes('aria-labelledby') && tabs.includes('tabIndex={selected ? 0 : -1}'), 'Tab primitive must link controls, panels, and roving tabindex.');
 
-assert(index.includes("import releases from '../data/releases.json'"), 'Trust ledger must use the checked-in release data.');
-for (const ledger of ['SHAFT release', 'Java baseline', 'MIT license', 'CI gate', 'Security policy', 'Release history', 'Selenium ecosystem']) assert(index.includes(ledger), `Trust ledger must include ${ledger}.`);
+// #1128: the ledger reads checked-in project signals, refreshed from Maven Central at build time.
+const projectSignals = JSON.parse(fs.readFileSync(path.join(root, 'src', 'data', 'project-signals.json'), 'utf8'));
+assert(index.includes("import projectSignals from '../data/project-signals.json'") && /^\d+\.\d+\.\d{8}$/.test(projectSignals.engineVersion) && projectSignals.javaVersion, 'Trust ledger must use the checked-in project signals.');
+// #1128: five proofs, each with its own destination; the version comes from the build-time signal.
+for (const ledger of ['SHAFT release', 'Java baseline', 'MIT license', 'CI gate', 'Selenium ecosystem']) assert(index.includes(`'${ledger}'`), `Trust ledger must include ${ledger}.`);
+for (const removed of ['Release history', 'Trust, performance, and community']) assert(!index.includes(removed), `Trust ledger must not repeat ${removed}.`);
+assert(index.includes('projectSignals.engineVersion'), 'Trust ledger must show the build-time engine version.');
 assert(index.includes('<details') && index.includes('View community-reported use') && index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Community reported use must be a native disclosure with provenance.');
 for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must keep verified supporter ${sponsor} separate.`);
 
@@ -73,8 +84,13 @@ assert(viewer.includes('items.map(({image, alt, width, height}) => ({src: image,
 assert(viewer.includes("React.lazy(async ()") && viewer.includes("import('yet-another-react-lightbox')") && viewer.includes('maxZoomPixelRatio: 64'), 'Deep zoom must still lazy-load after activation.');
 assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Homepage must keep the approved lightbox dependency version.');
 
-assert(index.includes('EvidenceTrail') && !index.includes('TechnicalOrbit'), 'Hero must replace the generic orbit with a product-specific trail.');
-assert(styles.includes('3.6s') && !styles.includes('infinite') && styles.includes('.evidenceTrail { display: none; }'), 'Trail must run once under four seconds and disappear for reduced motion.');
+// #1128: the decorative trail is replaced by the real hero clip and a single proof-tick motion.
+assert(!index.includes('EvidenceTrail') && !index.includes('TechnicalOrbit') && !styles.includes('evidenceTrail'), 'Hero must not render the decorative trail or orbit.');
+assert(index.includes('/video/shaft-hero-1280x720.mp4') && index.includes('preload="none"') && index.includes('muted') && index.includes('playsInline') && index.includes('prefers-reduced-motion: reduce') && index.includes('saveData'), 'Hero clip must be muted, lazy, and skip autoplay for reduced motion or Save-Data.');
+assert(index.includes('landing-hero-clip-toggle'), 'Hero clip must offer a pause control (WCAG 2.2.2).');
+assert(!/infinite/.test(styles) && /@keyframes proofTick/.test(styles), 'Proof ticks animate once, never infinitely.');
+const heroClip = fs.statSync(path.join(root, 'static', 'video', 'shaft-hero-1280x720.mp4')).size;
+assert(heroClip <= 1.5 * 1024 * 1024, `Hero clip is ${heroClip} bytes; budget is 1.5 MB.`);
 assert(styles.includes('180ms') && styles.includes('240ms'), 'Interactive transitions must stay within the approved duration range.');
 assert(!/stroke-dash|transition:[^;]*(?:color|background)/.test(styles), 'Homepage must animate only transform and opacity.');
 assert(styles.includes('.workflowGrid :global(.token.function)') && styles.includes('.surfacePanel :global(.token.string)') && styles.includes('.surfaceSection .eyebrow'), 'Landing code and dark-surface labels must retain tokenized contrast overrides.');
@@ -90,6 +106,18 @@ for (const [pattern, description] of forbiddenViewerCursorRuntime) {
   assert(!pattern.test(viewer), `ImageViewer must not restore ${description}.`);
   assert(pattern.test(cursorChaseMutation), `Cursor-chase guard must reject ${description}.`);
 }
+
+
+// #1128 additional landing requirements.
+assert(index.includes('data-testid="landing-proof"') && index.includes('.and().element().assertThat(By.cssSelector("h1")).isVisible();') && index.includes('BUILD SUCCESS'), 'Proof strip must show the README test and its real BUILD SUCCESS output.');
+assert(index.includes('data-testid="landing-video"') && index.includes('/video/shaft-feature/shaft-business-v2.mp4') && index.includes('shaft-business-v2.en.vtt'), 'Landing must offer the v2 overview video with captions.');
+assert(config.includes('respectPrefersColorScheme: true'), 'The site must follow the visitor colour scheme (#1128).');
+assert(!index.includes('<footer'), 'Landing support credits must not add a second footer landmark (#1128).');
+assert(!index.includes('/img/community/dxc.png') || index.includes('DXC Technology imagery is reproduced courtesy of DXC Technology'), 'DXC imagery in the community list keeps its required attribution (#1128).');
+assert(!/label: 'Facebook'|label: 'GitHub Pages'/.test(config), 'Footer must drop the Facebook and self-referencing GitHub Pages links (#1128).');
+assert(fs.statSync(path.join(root, 'static', 'img', 'shaft.svg')).size <= 15 * 1024, 'Navbar logo must stay under 15 KB (#1128).');
+assert(config.includes("className: 'navbar-get-started'"), 'Mobile drawer must lead with a Get started action (#1128).');
+assert(!/library\.add\(\s*fa[sb]/.test(fs.readFileSync(path.join(root, 'src', 'components', 'AutoBot', 'index.tsx'), 'utf8') + fs.readFileSync(path.join(root, 'src', 'theme', 'MDXComponents.js'), 'utf8')), 'No component may register the whole Font Awesome icon set (#1128).');
 
 assert(config.includes("content: siteAsset('/img/shaft-social-card.png')"), 'Open Graph metadata must use the deterministic SHAFT product social card.');
 // Issue #1075: ImgBot was removed. No bot may rewrite committed image bytes. The
@@ -115,3 +143,22 @@ try {
 } finally {
   fs.rmSync(socialCardTempDir, {recursive: true, force: true});
 }
+
+// #1130 review: the PR gate runs every homepage browser test and the reduced-motion collapse check.
+{
+  const prBuild = fs.readFileSync(path.join(root, '.github', 'workflows', 'pr-build.yml'), 'utf8');
+  const runs = prBuild.split('\n').filter((line) => /^\s*run:/.test(line));
+  assert(runs.some((line) => line.includes('tests/e2e/homepage.spec.js') && !line.includes('--grep') && line.includes('--project=chromium')), 'PR gate must run the full homepage spec on Chromium (#1130 review).');
+  assert(runs.some((line) => line.includes('tests/e2e/reduced-motion-collapse.spec.js')), 'PR gate must run the reduced-motion collapse spec (#1130 review).');
+  // Every build step passes the workflow token so the star fetch is not rate limited.
+  for (const workflow of ['pr-build.yml', 'deploy.yml', 'a11y-nightly.yml', 'update-sitemap.yml']) {
+    const text = fs.readFileSync(path.join(root, '.github', 'workflows', workflow), 'utf8');
+    const steps = text.split(/\n(?=\s*- (?:name|uses):)/).filter((step) => /run:\s*yarn build\s*$/m.test(step));
+    assert(steps.length > 0, `${workflow} must have a yarn build step.`);
+    for (const step of steps) assert(/env:\s*\n\s*GITHUB_TOKEN:\s*\$\{\{\s*github\.token\s*\}\}/.test(step), `${workflow} build step must pass GITHUB_TOKEN (#1130 review).`);
+  }
+  assert(packageJson.scripts['test:homepage'].includes('tests/project-signals.test.mjs'), 'test:homepage must run the project-signals validation tests.');
+  assert(packageJson.scripts['test:docs'].includes('tests/faicon-props.test.mjs'), 'test:docs must reject string FAIcon icon props.');
+  assert(/^\d+$/.test(projectSignals.javaVersion), 'Committed javaVersion must be a number, never undefined.');
+}
+

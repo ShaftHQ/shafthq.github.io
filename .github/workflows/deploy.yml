@@ -27,6 +27,8 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       # Publish the full static guide to GitHub Pages for the canonical public URL.
       # AutoBot calls the Cloudflare Worker API because GitHub Pages is static-only.

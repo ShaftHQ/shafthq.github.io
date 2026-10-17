@@ -171,12 +171,36 @@ function drawScaled(image, x, y, width, height) {
   }
 }
 
+// Area-average (box filter) resampling, so downscaled report text stays legible.
+function drawResampled(image, x, y, width, height) {
+  for (let row = 0; row < height; row += 1) {
+    const y0 = row * image.height / height;
+    const y1 = (row + 1) * image.height / height;
+    for (let column = 0; column < width; column += 1) {
+      const x0 = column * image.width / width;
+      const x1 = (column + 1) * image.width / width;
+      let red = 0; let green = 0; let blue = 0; let alpha = 0; let weight = 0;
+      for (let sy = Math.floor(y0); sy < Math.min(image.height, Math.ceil(y1)); sy += 1) {
+        const wy = Math.min(y1, sy + 1) - Math.max(y0, sy);
+        for (let sx = Math.floor(x0); sx < Math.min(image.width, Math.ceil(x1)); sx += 1) {
+          const w = wy * (Math.min(x1, sx + 1) - Math.max(x0, sx));
+          const offset = (sy * image.width + sx) * 4;
+          const a = image.pixels[offset + 3] * w;
+          red += image.pixels[offset] * a; green += image.pixels[offset + 1] * a; blue += image.pixels[offset + 2] * a;
+          alpha += a; weight += w;
+        }
+      }
+      if (alpha > 0) setPixel(x + column, y + row, Math.round(red / alpha), Math.round(green / alpha), Math.round(blue / alpha), Math.round(alpha / weight));
+    }
+  }
+}
+
 function drawScaledContain(image, x, y, width, height, background) {
   fillRect(x, y, width, height, background);
   const scale = Math.min(width / image.width, height / image.height);
   const scaledWidth = Math.round(image.width * scale);
   const scaledHeight = Math.round(image.height * scale);
-  drawScaled(
+  drawResampled(
     image,
     x + Math.floor((width - scaledWidth) / 2),
     y + Math.floor((height - scaledHeight) / 2),
@@ -185,31 +209,36 @@ function drawScaledContain(image, x, y, width, height, background) {
   );
 }
 
+// #1128 layout: README headline and the real passing Allure result from the hero clip.
+// Headline and URL are pre-rendered bitmaps in design/social-card/, so these bytes
+// never depend on the fonts of the machine that runs this script.
 async function generateCard(output) {
   const resolvedRoot = path.resolve(repoRoot);
   const cardPath = path.resolve(resolvedRoot, output);
   if (!cardPath.startsWith(`${resolvedRoot}${path.sep}`)) {
     throw new Error(`path escapes ${resolvedRoot}`);
   }
+  const sources = path.join(repoRoot, 'design', 'social-card');
   const logoSvg = await readFile(path.join(repoRoot, 'static', 'img', 'shaft.svg'), 'utf8');
   const embeddedLogo = logoSvg.match(/base64,([^"']+)/)?.[1];
   if (!embeddedLogo) throw new Error('SHAFT identity SVG does not contain its embedded PNG source.');
   const logo = decodePng(Buffer.from(embeddedLogo, 'base64'));
-  const reportDashboard = decodePng(await readFile(path.join(repoRoot, 'static', 'img', 'allure-shaft-report-dashboard.png')));
+  const headline = decodePng(await readFile(path.join(sources, 'headline.png')));
+  const siteUrl = decodePng(await readFile(path.join(sources, 'url.png')));
+  const reportDashboard = decodePng(await readFile(path.join(sources, 'allure-passed-card.png')));
 
   fillRect(0, 0, WIDTH, HEIGHT, [16, 42, 49, 255]);
   fillRect(0, 0, 18, HEIGHT, [0, 110, 192, 255]);
   fillRect(18, 0, 5, HEIGHT, [76, 194, 255, 180]);
-  roundedRect(66, 164, 260, 260, 18, [245, 253, 255, 255]);
-  drawScaled(logo, 96, 194, 200, 200);
-  roundedRect(358, 48, 790, 534, 18, [7, 17, 31, 150]);
-  roundedRect(370, 36, 790, 534, 18, [245, 253, 255, 255]);
-  fillRect(392, 58, 746, 6, [0, 110, 192, 255]);
-  drawScaledContain(reportDashboard, 392, 82, 746, 466, [43, 52, 64, 255]);
-  fillRect(66, 458, 260, 8, [0, 110, 192, 255]);
-  fillRect(66, 480, 190, 6, [76, 194, 255, 220]);
-  fillRect(66, 502, 230, 6, [200, 214, 231, 160]);
-  fillRect(66, 524, 160, 6, [200, 214, 231, 120]);
+  roundedRect(66, 58, 120, 120, 16, [245, 253, 255, 255]);
+  drawResampled(logo, 76, 68, 100, 100);
+  drawResampled(headline, 214, 50, headline.width, headline.height);
+  drawResampled(siteUrl, WIDTH - 66 - siteUrl.width, 62, siteUrl.width, siteUrl.height);
+  const cardWidth = WIDTH - 132;
+  const cardHeight = Math.round(reportDashboard.height * cardWidth / reportDashboard.width);
+  const cardY = HEIGHT - 30 - cardHeight;
+  roundedRect(74, cardY + 10, cardWidth, cardHeight, 12, [7, 17, 31, 150]);
+  drawScaledContain(reportDashboard, 66, cardY, cardWidth, cardHeight, [16, 42, 49, 255]);
   await writeFile(cardPath, encodePng(WIDTH, HEIGHT, canvas));
 }
 

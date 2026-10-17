@@ -172,7 +172,8 @@ async function assertClearsContrast(page, label, selector, samplePoints) {
       `${light.ratio.toFixed(2)}:1, needs >= ${light.required}:1`,
   ).toBeGreaterThanOrEqual(light.required);
 
-  await page.getByLabel(/Switch between dark and light mode/).click();
+  for (let click = 0; click < 3 && (await page.locator('html').getAttribute('data-theme')) !== 'dark'; click += 1) await page.getByRole('button', {name: /Switch between dark and light mode/}).click(); // #1128: the toggle cycles system, light, dark.
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await page.waitForTimeout(200);
 
   const dark = await measureContrast(page, selector, samplePoints);
@@ -300,7 +301,7 @@ test('hero evidence caption clears WCAG AA contrast on its rendered card', async
 });
 
 test('selected tabs clear WCAG AA contrast in dark theme', async ({page}) => {
-  await page.getByRole('button', {name: /Switch between dark and light mode/}).click();
+  for (let click = 0; click < 3 && (await page.locator('html').getAttribute('data-theme')) !== 'dark'; click += 1) await page.getByRole('button', {name: /Switch between dark and light mode/}).click(); // #1128: the toggle cycles system, light, dark.
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   await assertClearsContrast(
     page,
