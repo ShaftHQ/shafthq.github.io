@@ -93,6 +93,11 @@ changed routes while editing.
   claims.
 - Do not commit secrets, generated builds, Playwright reports, or local
   credential files.
+- In MDX, pass `FAIcon` an imported icon object (`icon={faStar}`). String and
+  array props such as `icon="star"` or `icon={["fas", "star"]}` render nothing,
+  and `yarn test:docs` rejects them. `FAIcon` renders client-side only (through
+  `BrowserOnly`), so icons are missing from the server HTML: never make an icon
+  the only carrier of meaning.
 
 For coordinated engine changes, update this guide in the same delivery and link
 the engine pull request.

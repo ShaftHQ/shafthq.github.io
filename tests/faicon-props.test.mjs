@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import {findStringIconProps, scanRepository} from '../scripts/check-faicon-props.mjs';
 
-for (const bad of ['<FAIcon icon="star" />', "<FAIcon icon='github' />", '<FAIcon\n  size="lg"\n  icon="fa-solid fa-star"\n/>', '<FAIcon icon={"star"} />', "<FAIcon icon={'star'} />", '<FAIcon icon={`star`} />', '<FontAwesomeIcon icon="star" />']) {
+for (const bad of ['<FAIcon icon="star" />', "<FAIcon icon='github' />", '<FAIcon\n  size="lg"\n  icon="fa-solid fa-star"\n/>', '<FAIcon icon={"star"} />', "<FAIcon icon={'star'} />", '<FAIcon icon={`star`} />', '<FontAwesomeIcon icon="star" />', '<FAIcon icon={["fas","star"]} />', "<FAIcon icon={ ['fab', 'github'] } />", '<FontAwesomeIcon icon={["far", "bell"]} />']) {
   assert.equal(findStringIconProps(bad).length, 1, `must reject: ${bad}`);
 }
 for (const good of ['<FAIcon icon={faStar} />', '<FAIcon icon={faGithub} size="lg" />', 'Use `<FAIcon icon="x" />` only in prose? no: inline code is ignored', '```jsx\n<FAIcon icon="star" />\n```']) {
