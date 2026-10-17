@@ -25,7 +25,7 @@
 .final h2 {
   margin: 0;
   color: var(--site-color-on-dark);
-  font-size: clamp(2.3rem, 3.9vw, 3.6rem);
+  font-size: clamp(2.3rem, 3.4vw, 3.6rem); /* fits 2 lines at 1280+ even in wide fallback fonts (DejaVu Sans on Linux) */
   line-height: 1.05;
   letter-spacing: -0.02em;
   text-wrap: balance;

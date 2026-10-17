@@ -41,6 +41,17 @@ for (const [width, height] of [[1280, 800], [1440, 900], [390, 844]]) {
   }
 }
 
+// #1130 round 1: CI runners render system-ui as DejaVu Sans, about 18% wider than Noto Sans.
+for (const [width, height] of [[1280, 800], [1440, 900]]) {
+  test(`H1 stays on two lines at ${width}x${height} in a wide fallback font (#1130 review)`, async ({page}) => {
+    await page.setViewportSize({width, height});
+    await page.goto('/');
+    await page.addStyleTag({content: '.hero h1, [data-testid="landing-hero"] h1 { font-family: "DejaVu Sans", Verdana, sans-serif !important; }'});
+    const h1Lines = await page.locator('h1').evaluate((h) => Math.round(h.getBoundingClientRect().height / parseFloat(getComputedStyle(h).lineHeight)));
+    expect(h1Lines).toBeLessThanOrEqual(2);
+  });
+}
+
 test('site follows the OS colour scheme when no theme is stored (#1128)', async ({page}) => {
   await page.emulateMedia({colorScheme: 'dark'});
   await page.goto('/');
