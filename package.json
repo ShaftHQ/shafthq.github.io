@@ -7,7 +7,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build",
+    "build": "node scripts/fetch-project-signals.mjs && node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",

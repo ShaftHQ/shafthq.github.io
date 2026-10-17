@@ -27,7 +27,7 @@ test('built homepage has no automatically detectable WCAG A or AA violations', a
 
 test('built homepage dark theme has no automatically detectable WCAG A or AA violations', async ({page}) => {
   await page.goto('/');
-  await page.getByRole('button', {name: /Switch between dark and light mode/}).click();
+  for (let click = 0; click < 3 && (await page.locator('html').getAttribute('data-theme')) !== 'dark'; click += 1) await page.getByRole('button', {name: /Switch between dark and light mode/}).click(); // #1128: the toggle cycles system, light, dark.
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 
   const {violations} = await scan(page);

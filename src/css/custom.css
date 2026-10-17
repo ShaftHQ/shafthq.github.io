@@ -39,6 +39,11 @@ html {
   --site-color-muted: #c8d6e7;
   --site-color-muted-rgb: 200, 214, 231;
   --site-color-on-dark: #ffffff;
+  /* #1128: the action colour on deep landing surfaces (hero, final CTA). #006ec0 is 2.86:1 against deep there. */
+  --site-hero-primary: #4cc2ff;
+  --site-hero-on-primary: #07111f;
+  --site-color-pass: #14804a;
+  --site-on-pass: #ffffff;
   --site-font-display: clamp(2.45rem, 5vw, 4.3rem);
   --site-font-display-small: clamp(2.2rem, 9vw, 2.65rem);
   --site-font-heading: clamp(2rem, 4vw, 3.4rem);
@@ -98,6 +103,8 @@ body.dark {
   --site-color-muted: #dff5f4;
   --site-color-muted-rgb: 223, 245, 244;
   --site-color-on-dark: #f5fdff;
+  --site-color-pass: #4ade80;
+  --site-on-pass: #07111f;
 }
 /* Wide tables (#1076): src/plugins/rehype-table-region.js wraps every Markdown
  * table in .table-scroll. The wrapper scrolls instead of the page: the table is
@@ -599,3 +606,35 @@ input[placeholder='Search']:focus-visible {
     animation: none;
   }
 }
+
+/* #1128: reduced motion turns off every transition and animation site-wide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/* #1128: "Get started" leads the mobile drawer; the desktop hero already carries it. */
+.navbar__items .navbar__item.navbar-get-started { display: none; }
+.navbar-sidebar .menu__link.navbar-get-started {
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  color: var(--site-color-on-dark);
+  background: var(--ifm-color-primary);
+  font-weight: var(--site-font-weight-bold);
+}
+[data-theme='dark'] .navbar-sidebar .menu__link.navbar-get-started { color: var(--site-color-deep); }
+
+/* #1128: keep the three footer link columns side by side on phones. */
+@media (max-width: 996px) {
+  .footer__links > .row { flex-wrap: nowrap; }
+  .footer__links .footer__col { flex: 1 1 0; min-width: 0; margin-bottom: 1rem; }
+}
+
+/* #1128: Font Awesome injects its sizing CSS from JavaScript after hydration.
+   Ship the core rule statically so server-rendered icons don't jump (CLS). */
+svg.svg-inline--fa { display: inline-block; height: 1em; overflow: visible; box-sizing: content-box; vertical-align: -0.125em; }

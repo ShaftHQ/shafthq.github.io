@@ -110,7 +110,7 @@ public class SiteRenderTest {
         navigate("/");
 
         shaft.assertThat().browser().title().contains("SHAFT");
-        visible(By.xpath("//h1[normalize-space()='Ship automation evidence, not boilerplate code.']"));
+        visible(By.xpath("//h1[normalize-space()='Write the test. SHAFT does the rest.']"));
         SHAFT.Validations.assertThat().object(attribute(link("Start a new project"), "href"))
                 .contains("/docs/start/quick-start#new-project-generation");
         SHAFT.Validations.assertThat().object(attribute(link("Star on GitHub"), "href"))
@@ -266,7 +266,7 @@ public class SiteRenderTest {
         if (!toggles.isEmpty() && toggles.getFirst().isDisplayed()) {
             click(By.cssSelector("button[title*='Switch between dark and light mode']"));
         }
-        visible(By.xpath("//h1[normalize-space()='Ship automation evidence, not boilerplate code.']"));
+        visible(By.xpath("//h1[normalize-space()='Write the test. SHAFT does the rest.']"));
     }
 
     @Test

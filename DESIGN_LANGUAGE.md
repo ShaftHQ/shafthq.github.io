@@ -26,6 +26,11 @@ This file is the canonical reference for visual styling changes in the Docusauru
 - Muted RGB: `223, 245, 244` (`--site-color-muted-rgb`)
 - On-dark: `#f5fdff` (`--site-color-on-dark`)
 
+### Landing action tokens (#1128)
+
+- Hero action: `#4cc2ff` (`--site-hero-primary`) with `#07111f` text (`--site-hero-on-primary`) in both themes. Light primary `#006ec0` measures 2.86:1 against the deep hero surface (below the 3:1 UI minimum); `#4cc2ff` measures 7.49:1 and its text 9.44:1.
+- Pass tick: `--site-color-pass` with `--site-on-pass` (`#ffffff` light, `#07111f` dark).
+
 ### Semantic status colors
 
 - Light pass: `#14804a`; dark pass: `#4ade80`.
@@ -73,6 +78,9 @@ Only these weights are allowed for reusable UI styles: `400|500|600|700`.
 - Focus outlines and semantic utility shadows when tokenized colors fail contrast; capture those overrides as token references in `src/css/custom.css`.
 
 ## Navigation, focus, and viewport rules
+
+- Reduced motion turns off every transition and animation site-wide (`src/css/custom.css`).
+- The site follows the visitor's OS colour scheme until they pick a theme (`respectPrefersColorScheme`).
 
 - Keyboard focus uses a 3px solid `--ifm-color-primary` outline site-wide. On
   deep landing surfaces (hero, final CTA, surface explorer, footer) the ring uses

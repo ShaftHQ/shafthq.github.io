@@ -2,14 +2,15 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import Head from '@docusaurus/Head';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlack} from '@fortawesome/free-brands-svg-icons';
-import {faBookOpen, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
+import {faBookOpen, faCheck, faPause, faPlay, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import {AccessibleTabs} from '../components/AccessibleTabs';
 import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
 import snippets from '../data/snippets.json';
-import releases from '../data/releases.json';
+import projectSignals from '../data/project-signals.json';
 import styles from './index.module.css';
 
 type ConversionName = 'create_project' | 'explore_documentation' | 'star_github' | 'view_agent_workflow';
@@ -33,31 +34,33 @@ const productImages: ProductImage[] = [
 ];
 
 const trustSignals: Array<[string, string, string]> = [
-  ['SHAFT release', `Inspect SHAFT ${releases.engineVersion} releases and changes.`, `${github}/releases`],
-  ['Java baseline', `Build the current release on Java ${releases.javaVersion}.`, '/docs/start/installation'],
-  ['MIT license', 'Use and inspect SHAFT under a permissive open-source license.', `${github}/blob/main/LICENSE`],
-  ['CI gate', 'Review the same pull-request checks used by the project.', `${github}/actions`],
-  ['Security policy', 'Check supported versions and private disclosure guidance.', `${github}/security/policy`],
-  ['Release history', 'Inspect published versions, dates, and changes.', `${github}/releases`],
-  ['Selenium ecosystem', 'Find SHAFT in Selenium’s official ecosystem directory.', 'https://www.selenium.dev/ecosystem/#frameworks'],
+  ['SHAFT release', `SHAFT ${projectSignals.engineVersion} is the current release on Maven Central.`, `${github}/releases`],
+  ['Java baseline', `Builds and runs on Java ${projectSignals.javaVersion}.`, '/docs/start/installation'],
+  ['MIT license', 'Use, fork, and inspect it under a permissive license.', `${github}/blob/main/LICENSE`],
+  ['CI gate', 'Every pull request runs the same public checks.', `${github}/actions`],
+  ['Selenium ecosystem', 'Listed in Selenium’s official ecosystem directory.', 'https://www.selenium.dev/ecosystem/#frameworks'],
 ];
 
+const readmeTest = 'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser().navigateToURL("https://shafthq.github.io/")\n      .and().element().assertThat(By.cssSelector("h1")).isVisible();\ndriver.quit();';
+const runOutput = '$ mvn test\n[INFO] Running hero.QuickStartTest\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0\n[INFO] BUILD SUCCESS';
+
 const outcomes = [
-  {title: 'Create a project', body: 'Generate a Maven project and run the sample.', to: '/docs/journeys/create-a-project', action: 'Create a project'},
-  {title: 'Upgrade a Java project', body: 'Move an existing Maven suite onto current SHAFT and run one test.', to: '/docs/journeys/upgrade-a-project', action: 'Upgrade a project'},
-  {title: 'Install skills', body: 'Add the SHAFT skill pack to the agent you already use.', to: '/docs/journeys/skills', action: 'Install skills'},
-  {title: 'Use the IntelliJ plugin', body: 'Open the SHAFT tool window and finish setup.', to: '/docs/journeys/intellij', action: 'Use the plugin'},
-  {title: 'Connect an MCP client', body: 'List SHAFT tools in Codex, Copilot, Claude, or another client.', to: '/docs/journeys/mcp', action: 'Connect MCP'},
-  {title: 'Use shaft-cli', body: 'Run one SHAFT command from the terminal.', to: '/docs/journeys/cli', action: 'Use shaft-cli'},
-  {title: 'Run in CI', body: 'Run the suite headlessly and keep the report.', to: '/docs/journeys/ci', action: 'Run in CI'},
-  {title: 'Add a test surface', body: 'Add web, API, mobile, database, or CLI to a project that already runs.', to: '/docs/journeys/add-a-surface', action: 'Add a surface'},
-  {title: 'Install local infrastructure', body: 'Install the Android, Appium, Grid, or browser profile you chose.', to: '/docs/start/local-infrastructure', action: 'Install infrastructure'},
-  {title: 'Install ChaosEngine', body: 'Install the project-local agent harness and read the result.', to: '/docs/agentic/chaos-engine', action: 'Install ChaosEngine'},
+  {primary: true, title: 'Create a project', body: 'Generate a Maven project and run the sample.', to: '/docs/journeys/create-a-project', action: 'Create a project'},
+  {primary: true, title: 'Upgrade a Java project', body: 'Move an existing Maven suite onto current SHAFT and run one test.', to: '/docs/journeys/upgrade-a-project', action: 'Upgrade a project'},
+  {group: 'Agents and IDE', title: 'Install skills', body: 'Add the SHAFT skill pack to the agent you already use.', to: '/docs/journeys/skills', action: 'Install skills'},
+  {group: 'Agents and IDE', title: 'Use the IntelliJ plugin', body: 'Open the SHAFT tool window and finish setup.', to: '/docs/journeys/intellij', action: 'Use the plugin'},
+  {group: 'Agents and IDE', title: 'Connect an MCP client', body: 'List SHAFT tools in Codex, Copilot, Claude, or another client.', to: '/docs/journeys/mcp', action: 'Connect MCP'},
+  {group: 'Agents and IDE', title: 'Use shaft-cli', body: 'Run one SHAFT command from the terminal.', to: '/docs/journeys/cli', action: 'Use shaft-cli'},
+  {primary: true, title: 'Run in CI', body: 'Run the suite headlessly and keep the report.', to: '/docs/journeys/ci', action: 'Run in CI'},
+  {group: 'Surfaces and infrastructure', title: 'Add a test surface', body: 'Add web, API, mobile, database, or CLI to a project that already runs.', to: '/docs/journeys/add-a-surface', action: 'Add a surface'},
+  {group: 'Surfaces and infrastructure', title: 'Install local infrastructure', body: 'Install the Android, Appium, Grid, or browser profile you chose.', to: '/docs/start/local-infrastructure', action: 'Install infrastructure'},
+  {group: 'Agents and IDE', title: 'Install ChaosEngine', body: 'Install the project-local agent harness and read the result.', to: '/docs/agentic/chaos-engine', action: 'Install ChaosEngine'},
 ];
 
 const surfaceTabs = [
   {id: 'web', label: 'Web', engine: 'Selenium WebDriver', evidence: 'Actions, screenshots, trace context, and Allure steps.', guide: '/docs/testing/web', code: 'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser().navigateToURL("https://example.com");\ndriver.element().click(By.id("submit"));'},
   {id: 'mobile', label: 'Mobile', engine: 'Appium', evidence: 'Touch actions, device context, screenshots, and native trace evidence.', guide: '/docs/testing/mobile', code: 'driver.touch().tap(SHAFT.GUI.Locator.accessibilityId("Views"));\ndriver.assertThat().element(By.id("screen")).exists().perform();'},
+  {id: 'desktop', label: 'Desktop', engine: 'Appium Windows driver', evidence: 'The same click and type facade as web, with UIA control routing and report evidence.', guide: '/docs/testing/mobile#windows-desktop-apps', code: 'SHAFT.Properties.platform.set()\n        .targetPlatform("Windows")\n        .executionAddress("http://127.0.0.1:4723");\nnew DriverFactory().getHelper(DriverFactory.DriverType.APPIUM_WINDOWS);'},
   {id: 'api', label: 'API', engine: 'REST Assured', evidence: 'Requests, responses, assertions, and report attachments.', guide: '/docs/testing/api', code: 'SHAFT.API api = new SHAFT.API(apiFixtureUrl);\napi.get("users").performRequest();'},
   {id: 'database', label: 'Database', engine: 'JDBC', evidence: 'Connection target, query result, validation, and report evidence.', guide: '/docs/testing/database', code: 'SHAFT.DB database = new SHAFT.DB("jdbc:h2:mem:test");\nResultSet rows = database.executeSelectQuery("SELECT 1");'},
   {id: 'cli', label: 'CLI', engine: 'Local, Docker, SSH', evidence: 'Commands, captured output, and validation in the same report.', guide: '/docs/testing/cli', code: 'String output = SHAFT.CLI.terminal()\n        .performTerminalCommand("echo Hello SHAFT");'},
@@ -80,17 +83,45 @@ function track(ctaName: ConversionName, placement: Placement, destination: strin
   browser.gtag?.('event', 'landing_conversion', {cta_name: ctaName, placement, destination});
 }
 
-function EvidenceTrail(): JSX.Element {
-  return <svg className={styles.evidenceTrail} viewBox="0 0 760 280" aria-hidden="true" focusable="false"><path d="M48 196C162 42 271 252 380 126S573 45 704 112" /><circle cx="48" cy="196" r="6" /><circle cx="380" cy="126" r="6" /><circle cx="704" cy="112" r="6" /><text x="58" y="232">Intent · Java · Run · Evidence</text></svg>;
+function HeroClip(): JSX.Element {
+  const videoRef = React.useRef<HTMLVideoElement | null>(null);
+  const [playing, setPlaying] = React.useState(false);
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    const connection = (navigator as Navigator & {connection?: {saveData?: boolean}}).connection;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || connection?.saveData) return undefined;
+    // Start after the load event so the clip never competes with the headline for first paint.
+    const start = (): void => { video.preload = 'auto'; video.play().catch(() => undefined); };
+    if (document.readyState === 'complete') { start(); return undefined; }
+    window.addEventListener('load', start, {once: true});
+    return () => window.removeEventListener('load', start);
+  }, []);
+  const toggle = (): void => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) { video.preload = 'auto'; video.play().catch(() => undefined); } else video.pause();
+  };
+  return <figure className={styles.heroFigure}>
+    <div className={styles.clipFrame}>
+      <video ref={videoRef} data-testid="landing-hero-clip" className={styles.clip} muted playsInline loop preload="none" poster="/img/video/shaft-hero-poster.webp" width={1280} height={720} aria-label="SHAFT in 26 seconds: a three-line test, mvn test passing, and the green Allure report it produces." onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}>
+        <source src="/video/shaft-hero-1280x720.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/shaft-hero.en.vtt" srcLang="en" label="English" />
+      </video>
+      <button type="button" className={styles.clipToggle} data-testid="landing-hero-clip-toggle" onClick={toggle} aria-label={playing ? 'Pause the clip' : 'Play the clip'}><FontAwesomeIcon icon={playing ? faPause : faPlay} aria-hidden="true" /></button>
+    </div>
+    <figcaption><strong>Real run, no mockups.</strong> A 3-line test, <code>mvn test</code>, and the report it writes.</figcaption>
+  </figure>;
 }
+
+const starLabel = typeof projectSignals.stars === 'number' ? `Star SHAFT on GitHub, ${projectSignals.stars.toLocaleString('en-US')} stars` : 'Star SHAFT on GitHub';
 
 function Ctas({placement}: {placement: Placement}): JSX.Element {
   const suffix = placement === 'hero' ? 'hero' : 'final';
   return <div className={styles.actions} data-testid={`landing-${suffix}-actions`}>
     <Link className="button button--primary button--lg" data-testid={`landing-${suffix}-create-project`} to="/project-generator" onClick={() => track('create_project', placement, '/project-generator')}><FontAwesomeIcon icon={faTerminal} aria-hidden="true" />Create new project</Link>
     <Link className="button button--secondary button--lg" data-testid={`landing-${suffix}-documentation`} to="/docs/journeys" onClick={() => track('explore_documentation', placement, '/docs/journeys')}><FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />Read the user guide</Link>
-    {placement === 'hero' && <a className={styles.workflowLink} data-testid="landing-hero-workflow" href="#agent-workflow" onClick={() => track('view_agent_workflow', placement, '#agent-workflow')}>See agent-to-evidence workflow</a>}
-    {placement === 'final' && <a className="button button--secondary button--lg" data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" />Star on GitHub</a>}
+    <div className={styles.starRow}><a className={styles.starLink} data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" aria-label={starLabel} onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" /><span>Star on GitHub</span>{typeof projectSignals.stars === 'number' && <span className={styles.starTotal} aria-hidden="true">{projectSignals.stars.toLocaleString('en-US')}</span>}</a></div>
   </div>;
 }
 
@@ -105,20 +136,70 @@ export default function Home(): JSX.Element {
   ];
   const explorerTabs = surfaceTabs.map((surface) => ({id: surface.id, label: surface.label, panel: <div className={styles.surfacePanel}><div><p className={styles.eyebrow}>Native engine</p><Heading as="h3">{surface.engine}</Heading><p>{surface.evidence}</p><Link to={surface.guide}>Read {surface.label.toLowerCase()} guide</Link></div><CodeBlock language="java" title={`${surface.label} SHAFT snippet`}>{surface.code}</CodeBlock></div>}));
 
-  return <Layout title="SHAFT Engine" description="Release decisions backed by inspectable test evidence."><main data-testid="landing-main">
-    <header className={styles.hero} data-testid="landing-hero"><EvidenceTrail /><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}><div className={styles.brandRow}><div className={styles.logoPlate}><img className={styles.logo} src="/img/shaft.svg" width="92" height="92" alt="SHAFT" /></div><p className={styles.kicker} data-testid="landing-hero-kicker">SHAFT Engine: open-source Java test automation framework</p></div><h1>Release decisions backed by inspectable evidence.</h1><p className={styles.lead}>Run one Java project across web, mobile, API, database, and CLI. Keep native engine control, then connect Capture, Doctor, Heal, and MCP when they add evidence.</p><p className={styles.guideLine}>The user guide is the one path through this site.</p><Ctas placement="hero" /><div className={styles.firstRun}><p className={styles.firstRunLabel} id="first-run-label">Your first run</p><ol className={styles.proofRail} aria-labelledby="first-run-label"><li>Generate project</li><li><code>{snippets.firstRunCommand}</code></li><li>Inspect report</li></ol><p className={styles.firstRunNote}>Adding SHAFT to an existing Maven project? <Link to="/docs/start/installation">Install SHAFT</Link></p></div></div><figure className={styles.heroFigure}><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={`${styles.evidenceMedia} ${styles.heroMedia}`} imageClassName={styles.evidenceImage} eager /><figcaption><strong>Real SHAFT execution.</strong> Open the report evidence and inspect it.</figcaption></figure></div></header>
+  const primaryOutcomes = outcomes.filter((outcome) => outcome.primary);
+  const outcomeGroups = ['Agents and IDE', 'Surfaces and infrastructure'].map((group) => ({group, items: outcomes.filter((outcome) => outcome.group === group)}));
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SHAFT Engine',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Windows, macOS, Linux',
+    softwareVersion: projectSignals.engineVersion,
+    license: 'https://opensource.org/licenses/MIT',
+    codeRepository: github,
+    url: 'https://shafthq.github.io/',
+    description: 'Open-source Java test automation framework for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.',
+    offers: {'@type': 'Offer', price: '0', priceCurrency: 'USD'},
+  };
 
-    <section className={`${styles.section} ${styles.workflowSection}`} data-testid="landing-agent-workflow" aria-labelledby="agent-workflow"><div className="container"><Heading as="h2" id="agent-workflow">From intent to reviewable Java and evidence.</Heading><p className={styles.intro}>Use evidence to keep engineers in control and give delivery leaders a reviewable release signal.</p><AccessibleTabs id="agent-workflow-tabs" label="Agent-to-evidence workflow" tabs={workflowTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /><p className={styles.boundary}>Model choice remains with the MCP client. Tests remain ordinary Java. Proposals do not silently edit, approve, or merge.</p></div></section>
+  return <Layout title="SHAFT: Java test automation with built-in evidence" description="Write the test. SHAFT does the rest. One open-source Java engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.">
+    <Head><script type="application/ld+json">{JSON.stringify(structuredData)}</script></Head>
+    <main data-testid="landing-main">
+    <header className={styles.hero} data-testid="landing-hero"><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}>
+      <p className={styles.kicker} data-testid="landing-hero-kicker">SHAFT Engine · open-source Java test automation framework</p>
+      <h1>Write the test. SHAFT does the rest.</h1>
+      <p className={styles.lead}>One Java engine for web, mobile, API, CLI, database, and desktop. Drivers, waits, and evidence are handled. Every run ends in an Allure report.</p>
+      <Ctas placement="hero" />
+      <div className={styles.firstRun}><p className={styles.firstRunLabel} id="first-run-label">Your first run</p><ol className={styles.proofRail} aria-labelledby="first-run-label"><li>Generate project</li><li><code>{snippets.firstRunCommand}</code></li><li>Inspect report</li></ol><p className={styles.firstRunNote}>Already on Maven? <Link to="/docs/start/installation">Install SHAFT</Link> · <a className={styles.workflowLink} data-testid="landing-hero-workflow" href="#agent-workflow" onClick={() => track('view_agent_workflow', 'hero', '#agent-workflow')}>See agent-to-evidence workflow</a></p></div>
+    </div><HeroClip /></div></header>
 
-    <section className={styles.section} data-testid="landing-outcomes" aria-labelledby="outcomes-heading"><div className="container"><Heading as="h2" id="outcomes-heading">Start from the job in front of you</Heading><p className={styles.intro}>For engineers, preserve native Java control. For delivery leaders, make release evidence easy to inspect. The quick start still documents the <Link to="/docs/start/quick-start#existing-project-upgrade">existing-project upgrade</Link>.</p><div className={styles.outcomeGrid}>{outcomes.map((outcome) => <article key={outcome.title}><Heading as="h3">{outcome.title}</Heading><p>{outcome.body}</p><Link to={outcome.to}>{outcome.action}</Link></article>)}</div></div></section>
+    <section className={`${styles.section} ${styles.proofSection}`} data-testid="landing-proof" aria-labelledby="proof-heading"><div className="container">
+      <Heading as="h2" id="proof-heading">Three lines in. A green report out.</Heading>
+      <ol className={styles.proofSteps}>
+        <li><p className={styles.stepLabel}><FontAwesomeIcon icon={faCheck} aria-hidden="true" className={styles.tick} />Write</p><CodeBlock language="java" title="QuickStartTest.java">{readmeTest}</CodeBlock></li>
+        <li><p className={styles.stepLabel}><FontAwesomeIcon icon={faCheck} aria-hidden="true" className={styles.tick} />Run</p><CodeBlock language="text" title="Terminal">{runOutput}</CodeBlock></li>
+        <li><p className={styles.stepLabel}><FontAwesomeIcon icon={faCheck} aria-hidden="true" className={styles.tick} />Prove</p><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /></li>
+      </ol>
+      <p className={styles.proofNote}>Output from a real run of this test. Open the report to inspect every step, screenshot, and log.</p>
+    </div></section>
 
-    <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="surface-explorer"><div className="container"><Heading as="h2" id="surface-explorer">One evidence model across five test surfaces</Heading><p className={styles.intro}>Start with the native engine. Keep the evidence and Java suite in one place.</p><AccessibleTabs id="surface-explorer-tabs" label="Testing surfaces" tabs={explorerTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /></div></section>
+    <section className={styles.section} data-testid="landing-video" aria-labelledby="video-heading"><div className={`container ${styles.videoLayout}`}>
+      <div><Heading as="h2" id="video-heading">See SHAFT in 100 seconds</Heading><p className={styles.intro}>Why teams pick SHAFT for new Java suites, and how an existing Selenium suite moves over without a rewrite. Captions are on; nothing downloads until you press play.</p>
+        <ol className={styles.chapters} aria-label="Video chapters"><li><span>0:00</span> Red build: bug or flaky test?</li><li><span>0:20</span> One engine on proven tools</li><li><span>0:36</span> Waits, reports and scale built in</li><li><span>0:57</span> Upgrade an existing suite</li><li><span>1:16</span> Open source, and how to start</li></ol>
+        <p><Link to="/docs/start/quick-start">Prefer the technical walkthrough? Watch it in the quick start.</Link></p></div>
+      <video className={styles.overviewVideo} controls preload="none" poster="/img/video/shaft-overview-v2-poster.webp" width={1280} height={720} aria-label="SHAFT in 100 seconds, overview video"><source src="/video/shaft-feature/shaft-business-v2.mp4" type="video/mp4" /><track kind="captions" src="/video/shaft-feature/shaft-business-v2.en.vtt" srcLang="en" label="English" default /></video>
+    </div></section>
 
-    <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Trust, performance, and community</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div></div></section>
+    <section className={`${styles.section} ${styles.workflowSection}`} data-testid="landing-agent-workflow" aria-labelledby="agent-workflow"><div className="container"><Heading as="h2" id="agent-workflow">From intent to reviewable Java and evidence.</Heading><p className={styles.intro}>Capture a flow, review the Java it generates, and diagnose failures from the evidence. Engineers stay in control; leads get a release signal they can inspect.</p><AccessibleTabs id="agent-workflow-tabs" label="Agent-to-evidence workflow" tabs={workflowTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /><p className={styles.boundary}>Model choice remains with the MCP client. Tests remain ordinary Java. Proposals do not silently edit, approve, or merge.</p></div></section>
 
-    <section className={styles.final} id="get-started" data-testid="landing-final"><div className={`container ${styles.finalContent}`}><Heading as="h2">Start with a project. Keep the evidence.</Heading><p>Generate a focused starter, examine the documentation, or follow development on GitHub.</p><Ctas placement="final" /></div></section>
+    <section className={styles.section} data-testid="landing-outcomes" aria-labelledby="outcomes-heading"><div className="container"><Heading as="h2" id="outcomes-heading">Pick your starting point</Heading><p className={styles.intro}>Most teams start with one of these three. Upgrading an older suite? The quick start also covers the <Link to="/docs/start/quick-start#existing-project-upgrade">existing-project upgrade</Link>.</p>
+      <div className={styles.outcomeGrid}>{primaryOutcomes.map((outcome) => <article key={outcome.title}><Heading as="h3">{outcome.title}</Heading><p>{outcome.body}</p><Link to={outcome.to}>{outcome.action}</Link></article>)}</div>
+      <div className={styles.outcomeMore}>{outcomeGroups.map(({group, items}) => <div key={group}><Heading as="h3">{group}</Heading><ul>{items.map((outcome) => <li key={outcome.title}><Link to={outcome.to}>{outcome.title}</Link><span>{outcome.body}</span></li>)}</ul></div>)}</div>
+    </div></section>
 
-    <footer className={styles.footer} data-testid="landing-footer"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} /></a>)}</div><p className={styles.attribution}>JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><details className={styles.communityDetails}><summary>View community-reported use</summary><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div></details><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="Star SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></footer>
+    <section className={`${styles.section} ${styles.surfaceSection}`} data-testid="landing-surfaces" aria-labelledby="surface-explorer"><div className="container"><Heading as="h2" id="surface-explorer">One evidence model across six test surfaces</Heading><p className={styles.intro}>Each surface runs on its native engine. The suite, the API style, and the report stay the same.</p><AccessibleTabs id="surface-explorer-tabs" label="Testing surfaces" tabs={explorerTabs} className={styles.tabs} tabListClassName={styles.tabList} tabClassName={styles.tab} panelClassName={styles.tabPanel} /></div></section>
+
+    <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Open, current, and checked</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div>
+      <div className={styles.faq}><Heading as="h3">Common questions</Heading>
+        <details><summary>Is SHAFT free to use?</summary><p>Yes. SHAFT is open source under the <Link to={`${github}/blob/main/LICENSE`}>MIT license</Link>.</p></details>
+        <details><summary>Do I have to rewrite my Selenium tests?</summary><p>No. Move an existing Maven suite onto current SHAFT and run one test first. <Link to="/docs/journeys/upgrade-a-project">Upgrade a project</Link>.</p></details>
+        <details><summary>Which Java version do I need?</summary><p>Java {projectSignals.javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p></details>
+      </div>
+    </div></section>
+
+    <section className={styles.final} id="get-started" data-testid="landing-final"><div className={`container ${styles.finalContent}`}><Heading as="h2">Write your first test today.</Heading><p>Generate a starter project, read the guide, or star the repo so other testers find it.</p><Ctas placement="final" /></div></section>
+
+    <section className={styles.footer} data-testid="landing-footer" aria-label="Support and community"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} />{name === 'JetBrains' && <span className={styles.wordmarkName} aria-hidden="true">JetBrains</span>}</a>)}</div><p className={styles.attribution}>These companies provide tooling or open-source program support. This is not a claim of financial sponsorship, customer status, or endorsement. JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><details className={styles.communityDetails}><summary>View community-reported use</summary><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div></details><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></section>
     <SharedImageViewer items={productImages} activeItem={activeImage} onClose={closeImage} />
   </main></Layout>;
 }
