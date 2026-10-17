@@ -1,12 +1,13 @@
 // #1130 review: Font Awesome icons are imported by name; there is no global
 // library registration, so a string icon prop renders nothing. This scan
-// rejects <FAIcon icon="..."> and <FontAwesomeIcon icon="..."> (also {'...'}).
+// rejects <FAIcon icon="..."> and <FontAwesomeIcon icon="..."> (also {'...'} and
+// array props such as {["fas", "star"]}, #1131).
 import {readdirSync, readFileSync, statSync} from 'node:fs';
 import {join, relative} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
-const TAG = /<(FAIcon|FontAwesomeIcon)\b[^>]*?\sicon\s*=\s*(?:"[^"]*"|'[^']*'|\{\s*(?:"[^"]*"|'[^']*'|`[^`]*`)\s*\})/g;
+const TAG = /<(FAIcon|FontAwesomeIcon)\b[^>]*?\sicon\s*=\s*(?:"[^"]*"|'[^']*'|\{\s*(?:"[^"]*"|'[^']*'|`[^`]*`)\s*\}|\{\s*\[)/g;
 
 function stripCode(text) {
   // Blank out fenced and inline code so examples in prose are not flagged; keep line numbers.
