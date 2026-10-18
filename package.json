@@ -60,7 +60,7 @@
     "yet-another-react-lightbox": "3.32.2"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.13.0",
+    "@axe-core/playwright": "4.14.0",
     "@docusaurus/module-type-aliases": "^3.9.2",
     "@docusaurus/tsconfig": "^3.10.2",
     "@docusaurus/types": "^3.8.1",
