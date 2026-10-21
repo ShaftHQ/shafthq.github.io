@@ -587,6 +587,10 @@ const config = {
                 href: 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw',
               },
               {
+                label: 'Training',
+                href: 'https://www.automatest.org',
+              },
+              {
                 label: 'Security policy',
                 href: 'https://github.com/ShaftHQ/SHAFT_ENGINE/security/policy',
               },
