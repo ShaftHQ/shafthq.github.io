@@ -347,6 +347,7 @@
     linear-gradient(rgba(var(--site-color-on-dark-rgb), 0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(var(--site-color-on-dark-rgb), 0.05) 1px, transparent 1px);
   background-size: 3rem 3rem;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 75%);
   mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 75%);
 }
 .hero::after {
@@ -420,9 +421,10 @@
   border-radius: 0.6rem;
   transition: transform 180ms ease;
 }
-.outcomeGrid article:hover { transform: translateY(-2px); box-shadow: 0 0.75rem 2rem rgba(var(--site-color-deep-rgb), 0.12); }
+@media (hover: hover) and (pointer: fine) {
+  .outcomeGrid article:hover { transform: translateY(-2px); box-shadow: 0 0.75rem 2rem rgba(var(--site-color-deep-rgb), 0.12); }
+}
 .outcomeGrid article a { font-weight: var(--site-font-weight-bold); }
-:global([data-theme='dark']) .outcomeGrid article,
 :global([data-theme='dark']) .workflowGrid,
 :global([data-theme='dark']) .tabList,
 :global([data-theme='dark']) .evidenceMedia,
@@ -434,7 +436,9 @@
 .surfacePanel { border-radius: 0.75rem; }
 
 .trustGrid { overflow: hidden; border: 1px solid rgba(var(--site-color-deep-rgb), 0.16); border-radius: 0.75rem; background: var(--ifm-background-color); }
-.trustGrid a:hover { background: rgba(var(--site-color-primary-rgb), 0.06); }
+@media (hover: hover) and (pointer: fine) {
+  .trustGrid a:hover { background: rgba(var(--site-color-primary-rgb), 0.06); }
+}
 .trustGrid strong { color: var(--site-color-primary); }
 
 .final { padding: 6rem 0; text-align: center; }
@@ -457,4 +461,3 @@
   .firstRun { padding: 0.85rem; }
   .final .actions { justify-content: stretch; }
 }
-:global([data-theme='dark']) .outcomeGrid article { border-top-color: var(--site-color-primary); }
