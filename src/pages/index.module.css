@@ -415,8 +415,9 @@
 .surfaceSection .intro { color: rgba(var(--site-color-on-dark-rgb), 0.86); }
 
 .outcomeGrid article {
+  --outcome-card-edge: rgba(var(--site-color-deep-rgb), 0.14);
   padding: 1.4rem 1.5rem;
-  border: 1px solid rgba(var(--site-color-deep-rgb), 0.14);
+  border: 1px solid var(--outcome-card-edge);
   border-top: 4px solid var(--site-color-primary);
   border-radius: 0.6rem;
   transition: transform 180ms ease;
@@ -425,6 +426,8 @@
   .outcomeGrid article:hover { transform: translateY(-2px); box-shadow: 0 0.75rem 2rem rgba(var(--site-color-deep-rgb), 0.12); }
 }
 .outcomeGrid article a { font-weight: var(--site-font-weight-bold); }
+/* Dark: only the side/bottom edge token changes, so the primary top rule stays without a second override. */
+:global([data-theme='dark']) .outcomeGrid article { --outcome-card-edge: rgba(var(--site-color-on-dark-rgb), 0.16); }
 :global([data-theme='dark']) .workflowGrid,
 :global([data-theme='dark']) .tabList,
 :global([data-theme='dark']) .evidenceMedia,
