@@ -179,8 +179,8 @@ export default function Home(): JSX.Element {
     <Head><script type="application/ld+json">{JSON.stringify(structuredData)}</script></Head>
     <main data-testid="landing-main">
     <header className={styles.hero} data-testid="landing-hero"><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}>
-      <p className={styles.kicker} data-testid="landing-hero-kicker">SHAFT Engine · open-source Java test automation framework</p>
-      <h1>Write the test. SHAFT does the rest.</h1>
+      <p className={styles.kicker} data-testid="landing-hero-kicker"><span className={styles.kickerDot} aria-hidden="true" />SHAFT Engine · open-source Java test automation framework</p>
+      <h1><span className={styles.h1Line}>Write the test.</span> <span className={`${styles.h1Line} ${styles.h1Accent}`}>SHAFT does the rest.</span></h1>
       <p className={styles.lead}>One Java engine for web, mobile, API, CLI, database, and desktop. Drivers, waits, and evidence are handled. Every run ends in an Allure report.</p>
       <Ctas placement="hero" />
       <div className={styles.firstRun}><p className={styles.firstRunLabel} id="first-run-label">Your first run</p><ol className={styles.proofRail} aria-labelledby="first-run-label"><li>Generate project</li><li><code>{snippets.firstRunCommand}</code></li><li>Inspect report</li></ol><p className={styles.firstRunNote}>Already on Maven? <Link to="/docs/start/installation">Install SHAFT</Link> · <a className={styles.workflowLink} data-testid="landing-hero-workflow" href="#agent-workflow" onClick={() => track('view_agent_workflow', 'hero', '#agent-workflow')}>See agent-to-evidence workflow</a></p></div>

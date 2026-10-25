@@ -23,8 +23,8 @@ function webpDimensions(asset) {
   throw new Error(`Unsupported WebP preview encoding: ${type}`);
 }
 
-// #1128: the landing H1 matches the SHAFT_ENGINE README headline word for word.
-assert(index.includes('<main data-testid="landing-main">') && index.includes('<h1>Write the test. SHAFT does the rest.</h1>'), 'Homepage must retain one semantic main landmark and the README H1.');
+// #1128: the landing H1 (#1138: split into two styled lines) matches the SHAFT_ENGINE README headline word for word.
+assert(index.includes('<main data-testid="landing-main">') && /<h1><span[^>]*>Write the test\.<\/span> <span[^>]*>SHAFT does the rest\.<\/span><\/h1>/.test(index), 'Homepage must retain one semantic main landmark and the README H1.');
 assert(index.includes('One Java engine for web, mobile, API, CLI, database, and desktop. Drivers, waits, and evidence are handled. Every run ends in an Allure report.'), 'Hero lead must match the README proposition (#1128).');
 assert(!index.includes('The user guide is the one path through this site.') && !index.includes('logoPlate'), 'Hero must drop the meta-line and logo plate so both CTAs fit the fold (#1128).');
 assert(index.includes('snippets.firstRunCommand') && index.includes('Generate project') && index.includes('Inspect report'), 'Hero proof rail must render the reusable first-run command.');
