@@ -327,3 +327,140 @@
   .starRow { display: flex; justify-content: center; }
   .tabList { max-width: 100%; }
 }
+
+/* ---- #1138 landing polish: SHAFT brand tokens only ---- */
+.hero,
+.final {
+  background:
+    radial-gradient(circle at 82% 30%, rgba(var(--site-color-primary-rgb), 0.24), transparent 32rem),
+    radial-gradient(circle at 8% 100%, rgba(var(--site-color-primary-rgb), 0.12), transparent 26rem),
+    var(--site-color-deep);
+}
+/* Decorative engineering grid, faded out toward the copy edge. */
+.hero::before,
+.final::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(var(--site-color-on-dark-rgb), 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--site-color-on-dark-rgb), 0.05) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 70% 40%, #000 0%, transparent 75%);
+}
+.hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  content: '';
+  background: linear-gradient(90deg, transparent, var(--site-hero-primary), transparent);
+  opacity: 0.7;
+}
+.hero { padding: 4.5rem 0 5rem; }
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-width: 100%;
+  margin-bottom: 1.4rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid rgba(var(--site-color-on-dark-rgb), 0.24);
+  border-radius: 999px;
+  background: rgba(var(--site-color-on-dark-rgb), 0.06);
+  color: rgba(var(--site-color-on-dark-rgb), 0.92);
+}
+.kickerDot { flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--site-hero-primary); box-shadow: 0 0 0 0.25rem rgba(var(--site-color-primary-rgb), 0.25); }
+
+.hero h1 { font-size: clamp(2.3rem, 3.4vw, 3.6rem); line-height: 1.06; }
+.h1Line { display: block; }
+.h1Accent { color: var(--site-hero-primary); }
+
+.lead { margin: 1.4rem 0 2rem; }
+
+.firstRun {
+  margin-top: 2rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid rgba(var(--site-color-on-dark-rgb), 0.18);
+  border-radius: 0.6rem;
+  background: rgba(var(--site-color-on-dark-rgb), 0.04);
+}
+.proofRail li + li::before { color: var(--site-hero-primary); }
+
+.heroFigure {
+  border-color: rgba(var(--site-color-on-dark-rgb), 0.22);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0 1px rgba(var(--site-color-primary-rgb), 0.18), 0 1.5rem 4rem rgba(var(--site-color-primary-rgb), 0.18), 0 1.4rem 3.5rem rgba(var(--site-color-deep-rgb), 0.5);
+}
+
+/* Section headings: short brand accent bar. */
+.section > :global(.container) > h2::before,
+.footer h2::before {
+  display: block;
+  width: 2.75rem;
+  height: 4px;
+  margin-bottom: 1rem;
+  border-radius: 2px;
+  content: '';
+  background: var(--site-color-primary);
+}
+.surfaceSection > :global(.container) > h2::before,
+.footer h2::before { background: var(--site-hero-primary); }
+.section { padding: 5.5rem 0; }
+.intro { color: var(--ifm-color-emphasis-800); }
+.surfaceSection .intro { color: rgba(var(--site-color-on-dark-rgb), 0.86); }
+
+.outcomeGrid article {
+  --outcome-card-edge: rgba(var(--site-color-deep-rgb), 0.14);
+  padding: 1.4rem 1.5rem;
+  border: 1px solid var(--outcome-card-edge);
+  border-top: 4px solid var(--site-color-primary);
+  border-radius: 0.6rem;
+  transition: transform 180ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .outcomeGrid article:hover { transform: translateY(-2px); box-shadow: 0 0.75rem 2rem rgba(var(--site-color-deep-rgb), 0.12); }
+}
+.outcomeGrid article a { font-weight: var(--site-font-weight-bold); }
+/* Dark: only the side/bottom edge token changes, so the primary top rule stays without a second override. */
+:global([data-theme='dark']) .outcomeGrid article { --outcome-card-edge: rgba(var(--site-color-on-dark-rgb), 0.16); }
+:global([data-theme='dark']) .workflowGrid,
+:global([data-theme='dark']) .tabList,
+:global([data-theme='dark']) .evidenceMedia,
+:global([data-theme='dark']) .trustGrid,
+:global([data-theme='dark']) .trustGrid a,
+:global([data-theme='dark']) .faq details { border-color: rgba(var(--site-color-on-dark-rgb), 0.16); }
+
+.workflowGrid,
+.surfacePanel { border-radius: 0.75rem; }
+
+.trustGrid { overflow: hidden; border: 1px solid rgba(var(--site-color-deep-rgb), 0.16); border-radius: 0.75rem; background: var(--ifm-background-color); }
+@media (hover: hover) and (pointer: fine) {
+  .trustGrid a:hover { background: rgba(var(--site-color-primary-rgb), 0.06); }
+}
+.trustGrid strong { color: var(--site-color-primary); }
+
+.final { padding: 6rem 0; text-align: center; }
+.final::after { position: absolute; top: 0; right: 0; left: 0; height: 3px; content: ''; background: linear-gradient(90deg, transparent, var(--site-hero-primary), transparent); opacity: 0.7; }
+.finalContent { display: flex; flex-direction: column; align-items: center; }
+.final p { margin-inline: auto; }
+.final .actions { justify-content: center; }
+.final .starRow { display: flex; justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .outcomeGrid article { transition: none; }
+  .outcomeGrid article:hover { transform: none; }
+}
+
+@media (max-width: 760px) {
+  .hero { padding: 2.5rem 0 3rem; }
+  .section { padding: 3.25rem 0; }
+  .final { padding: 3.5rem 0; }
+  .kicker { border-radius: 0.75rem; }
+  .firstRun { padding: 0.85rem; }
+  .final .actions { justify-content: stretch; }
+}
