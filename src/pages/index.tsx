@@ -136,7 +136,8 @@ function HeroClip(): JSX.Element {
   </figure>;
 }
 
-// WCAG 2.5.3: the accessible name starts with the visible text.
+// WCAG 2.5.3: on-screen words, including the count, must occur in the accessible name.
+// Flex gap is not a text node, so the count needs its own word boundary or axe reads "GitHub416".
 const starLabel = typeof projectSignals.stars === 'number' ? `Star on GitHub, ${projectSignals.stars.toLocaleString('en-US')} stars` : 'Star on GitHub';
 
 function Ctas({placement}: {placement: Placement}): JSX.Element {
@@ -144,7 +145,7 @@ function Ctas({placement}: {placement: Placement}): JSX.Element {
   return <div className={styles.actions} data-testid={`landing-${suffix}-actions`}>
     <Link className="button button--primary button--lg" data-testid={`landing-${suffix}-create-project`} to="/project-generator" onClick={() => track('create_project', placement, '/project-generator')}><FontAwesomeIcon icon={faTerminal} aria-hidden="true" />Create new project</Link>
     <Link className="button button--secondary button--lg" data-testid={`landing-${suffix}-documentation`} to="/docs/journeys" onClick={() => track('explore_documentation', placement, '/docs/journeys')}><FontAwesomeIcon icon={faBookOpen} aria-hidden="true" />Read the user guide</Link>
-    <div className={styles.starRow}><a className={styles.starLink} data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" aria-label={starLabel} onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" /><span>Star on GitHub</span>{typeof projectSignals.stars === 'number' && <span className={styles.starTotal} aria-hidden="true">{projectSignals.stars.toLocaleString('en-US')}</span>}</a></div>
+    <div className={styles.starRow}><a className={styles.starLink} data-testid={`landing-${suffix}-star`} href={github} target="_blank" rel="noreferrer" aria-label={starLabel} onClick={() => track('star_github', placement, github)}><FontAwesomeIcon icon={faStar} aria-hidden="true" /><span>Star on GitHub</span>{typeof projectSignals.stars === 'number' && <>{' '}<span className={styles.starTotal} aria-hidden="true">{projectSignals.stars.toLocaleString('en-US')}</span></>}</a></div>
   </div>;
 }
 
