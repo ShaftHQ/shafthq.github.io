@@ -10,6 +10,7 @@ import {AccessibleTabs} from '../components/AccessibleTabs';
 import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
 import snippets from '../data/snippets.json';
 import projectSignals from '../data/project-signals.json';
+import usageMetrics from '../data/usage-metrics.json';
 import {getHomepageFaqs, homepageFaqPageJsonLd} from '../data/homepage-faqs';
 import styles from './index.module.css';
 
@@ -160,6 +161,14 @@ function HeroClip(): JSX.Element {
 
 // WCAG 2.5.3: on-screen words, including the count, must occur in the accessible name.
 // Flex gap is not a text node, so the count needs its own word boundary or axe reads "GitHub416".
+const fmt = (n: number): string => n.toLocaleString('en-US');
+const usageMetricsStrip: Array<[string, string]> = [
+  [fmt(usageMetrics.testsRun30d), `Tests run in 30 days (${usageMetrics.testsRun30dRange})`],
+  [fmt(usageMetrics.activeUsers30d), `Active users in 30 days (${usageMetrics.activeUsers30dRange})`],
+  [fmt(usageMetrics.activeUsers12m), `Active users in 12 months (${usageMetrics.activeUsers12mRange})`],
+  [fmt(usageMetrics.countries), `Countries in 12 months (${usageMetrics.countriesRange})`],
+];
+
 const starLabel = typeof projectSignals.stars === 'number' ? `Star on GitHub, ${projectSignals.stars.toLocaleString('en-US')} stars` : 'Star on GitHub';
 
 function Ctas({placement}: {placement: Placement}): JSX.Element {
@@ -222,6 +231,13 @@ export default function Home(): JSX.Element {
         <li><p className={styles.stepLabel}><FontAwesomeIcon icon={faCheck} aria-hidden="true" className={styles.tick} />Prove</p><ImageViewerTrigger item={productImages[0]} onOpen={openImage} className={styles.evidenceMedia} imageClassName={styles.evidenceImage} /></li>
       </ol>
       <p className={styles.proofNote}>Output from a real run of this test. Open the report to inspect every step, screenshot, and log.</p>
+    </div></section>
+
+    <section className={`${styles.section} ${styles.usageSection}`} data-testid="landing-usage" aria-labelledby="usage-heading"><div className="container">
+      <Heading as="h2" id="usage-heading">Usage, measured</Heading>
+      <p className={styles.intro}>Public SHAFT traffic from Google Analytics 4 (Engine property) and GitHub. Exact counts, not rounded up. As of {usageMetrics.asOf}.</p>
+      <div className={styles.usageGrid} role="list">{usageMetricsStrip.map(([value, label]) => <div key={label} className={styles.usageStat} role="listitem"><strong>{value}</strong><span>{label}</span></div>)}</div>
+      <p className={styles.usageCite}>Source: {usageMetrics.source}. Stars on this page come from the live GitHub count ({typeof projectSignals.stars === 'number' ? `${projectSignals.stars.toLocaleString('en-US')} as committed baseline` : 'see GitHub'}); releases snapshot {usageMetrics.releases.toLocaleString('en-US')}.</p>
     </div></section>
 
     <section className={styles.section} data-testid="landing-video" aria-labelledby="video-heading"><div className={`container ${styles.videoLayout}`}>
