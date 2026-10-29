@@ -233,7 +233,7 @@ export default function Home(): JSX.Element {
       <p className={styles.proofNote}>Output from a real run of this test. Open the report to inspect every step, screenshot, and log.</p>
     </div></section>
 
-    <section className={`${styles.section} ${styles.usageSection}`} data-testid="landing-usage" aria-labelledby="usage-heading"><div className="container">
+    <section className={styles.section} data-testid="landing-usage" aria-labelledby="usage-heading"><div className="container">
       <Heading as="h2" id="usage-heading">Usage, measured</Heading>
       <p className={styles.intro}>Public SHAFT traffic from Google Analytics 4 (Engine property) and GitHub. Exact counts, not rounded up. As of {usageMetrics.asOf}.</p>
       <div className={styles.usageGrid} role="list">{usageMetricsStrip.map(([value, label]) => <div key={label} className={styles.usageStat} role="listitem"><strong>{value}</strong><span>{label}</span></div>)}</div>
