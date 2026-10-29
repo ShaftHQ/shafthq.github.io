@@ -116,6 +116,7 @@ const config = {
         operatingSystem: 'Windows, macOS, Linux',
         description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
         url: siteUrl,
+        codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
         license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
         author: {
           '@type': 'Organization',
@@ -143,8 +144,34 @@ const config = {
         sameAs: [
           'https://github.com/ShaftHQ',
           'https://www.facebook.com/groups/Automatest',
+          'https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine',
+          'https://www.selenium.dev/ecosystem/#frameworks',
         ],
         description: 'Open-source test automation organization behind SHAFT Engine — a unified testing framework for Web, Mobile, API, CLI, and Database testing.',
+      }),
+    },
+    {
+      tagName: 'script',
+      attributes: {
+        type: 'application/ld+json',
+      },
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareSourceCode',
+        name: 'SHAFT_ENGINE',
+        alternateName: ['SHAFT', 'SHAFT Engine', 'shaft-engine'],
+        description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
+        codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
+        url: siteUrl,
+        programmingLanguage: 'Java',
+        runtimePlatform: 'JVM',
+        license: 'https://opensource.org/licenses/MIT',
+        identifier: 'io.github.shafthq:shaft-engine',
+        author: {
+          '@type': 'Organization',
+          name: 'ShaftHQ',
+          url: 'https://github.com/ShaftHQ',
+        },
       }),
     },
   ],
@@ -242,9 +269,13 @@ const config = {
         sitemap: {
           changefreq: 'weekly',
           priority: 0.5,
+          // /search is a thin UI shell (issue #1152); also filtered below.
+          ignorePatterns: ['/search'],
           createSitemapItems: async ({defaultCreateSitemapItems, ...params}) => {
             const items = await defaultCreateSitemapItems(params);
-            return items.map((item) => {
+            return items
+              .filter((item) => !/\/search\/?$/.test(new URL(item.url).pathname))
+              .map((item) => {
               // Boost priority for high-value entry pages.
               if (item.url.includes('/docs/start/overview')) {
                 return {...item, priority: 0.9};
@@ -490,6 +521,8 @@ const config = {
       metadata: [
         {name: 'description', content: 'SHAFT is an open-source Java test automation engine for web, mobile, API, CLI, database, and desktop, built on Selenium, Appium, and REST Assured, with an Allure report on every run.'},
         {name: 'robots', content: 'index, follow'},
+        // Bing Webmaster Tools site verification (public meta; also see static/BingSiteAuth.xml).
+        {name: 'msvalidate.01', content: 'B2E359CCB779DC0FD19AA7831E0B82BD'},
       ],
       mermaid: {
         theme: {
@@ -610,6 +643,11 @@ const config = {
               {
                 label: 'Releases',
                 href: 'https://github.com/ShaftHQ/SHAFT_ENGINE/releases',
+              },
+              {
+                label: 'llms.txt',
+                // pathname:// skips the broken-link checker for static files.
+                href: 'pathname:///llms.txt',
               },
             ],
           },

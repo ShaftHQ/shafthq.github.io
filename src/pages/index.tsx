@@ -11,6 +11,7 @@ import {AccessibleTabs} from '../components/AccessibleTabs';
 import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
 import snippets from '../data/snippets.json';
 import projectSignals from '../data/project-signals.json';
+import {getHomepageFaqs, homepageFaqPageJsonLd} from '../data/homepage-faqs';
 import styles from './index.module.css';
 
 type ConversionName = 'create_project' | 'explore_documentation' | 'star_github' | 'view_agent_workflow';
@@ -162,6 +163,7 @@ export default function Home(): JSX.Element {
 
   const primaryOutcomes = outcomes.filter((outcome) => outcome.primary);
   const outcomeGroups = ['Agents and IDE', 'Surfaces and infrastructure'].map((group) => ({group, items: outcomes.filter((outcome) => outcome.group === group)}));
+  const homepageFaqs = getHomepageFaqs(javaVersion);
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -175,9 +177,13 @@ export default function Home(): JSX.Element {
     description: 'Open-source Java test automation framework for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.',
     offers: {'@type': 'Offer', price: '0', priceCurrency: 'USD'},
   };
+  const faqPageData = homepageFaqPageJsonLd(homepageFaqs);
 
   return <Layout title="SHAFT: Java test automation with built-in evidence" description="Write the test. SHAFT does the rest. One open-source Java engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.">
-    <Head><script type="application/ld+json">{JSON.stringify(structuredData)}</script></Head>
+    <Head>
+      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+      <script type="application/ld+json">{JSON.stringify(faqPageData)}</script>
+    </Head>
     <main data-testid="landing-main">
     <header className={styles.hero} data-testid="landing-hero"><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}>
       <p className={styles.kicker} data-testid="landing-hero-kicker"><span className={styles.kickerDot} aria-hidden="true" />SHAFT Engine · open-source Java test automation framework</p>
@@ -215,9 +221,9 @@ export default function Home(): JSX.Element {
 
     <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Open, current, and checked</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div>
       <div className={styles.faq}><Heading as="h3">Common questions</Heading>
-        <details><summary>Is SHAFT free to use?</summary><p>Yes. SHAFT is open source under the <Link to={`${github}/blob/main/LICENSE`}>MIT license</Link>.</p></details>
-        <details><summary>Do I have to rewrite my Selenium tests?</summary><p>No. Move an existing Maven suite onto current SHAFT and run one test first. <Link to="/docs/journeys/upgrade-a-project">Upgrade a project</Link>.</p></details>
-        <details><summary>Which Java version do I need?</summary>{javaVersion ? <p>Java {javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p> : <p><Link to="/docs/start/installation">Installation</Link> lists the supported Java version.</p>}</details>
+        <details><summary>{homepageFaqs[0].question}</summary><p>Yes. SHAFT is open source under the <Link to={`${github}/blob/main/LICENSE`}>MIT license</Link>.</p></details>
+        <details><summary>{homepageFaqs[1].question}</summary><p>No. Move an existing Maven suite onto current SHAFT and run one test first. <Link to="/docs/journeys/upgrade-a-project">Upgrade a project</Link>.</p></details>
+        <details><summary>{homepageFaqs[2].question}</summary>{javaVersion ? <p>Java {javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p> : <p><Link to="/docs/start/installation">Installation</Link> lists the supported Java version.</p>}</details>
       </div>
     </div></section>
 
