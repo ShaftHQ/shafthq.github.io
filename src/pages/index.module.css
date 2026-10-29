@@ -252,13 +252,13 @@
 .surfacePanel { align-items: start; }
 .surfacePanel a { font-weight: var(--site-font-weight-bold); }
 
-.usageGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .75rem; margin-top: 1rem; }
-.usageStat { display: grid; gap: .35rem; min-width: 0; padding: 1rem; border: 1px solid rgba(var(--site-color-deep-rgb), .16); border-radius: .75rem; background: var(--ifm-background-color); }
-.usageStat strong { color: var(--site-color-primary); font-size: clamp(1.35rem, 2.4vw, 1.85rem); font-weight: var(--site-font-weight-bold); line-height: 1.15; }
-.usageStat span { line-height: 1.45; color: var(--ifm-color-content-secondary); font-size: .92rem; }
-.usageCite { margin-top: 1rem; color: var(--ifm-color-content-secondary); font-size: .9rem; line-height: 1.5; }
-@media (max-width: 996px) { .usageGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .usageGrid { grid-template-columns: minmax(0, 1fr); } }
+.usageGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap:.75rem; margin-top:1rem; }
+.usageStat { display:grid; gap:.35rem; min-width:0; padding:1rem; border:1px solid rgba(var(--site-color-deep-rgb),.16); border-radius:.75rem; background:var(--ifm-background-color); }
+.usageStat strong { color:var(--site-color-primary); font-size:clamp(1.35rem,2.4vw,1.85rem); font-weight:var(--site-font-weight-bold); line-height:1.15; }
+.usageStat span,.usageCite{color:var(--ifm-color-content-secondary);font-size:.9rem;line-height:1.45}
+.usageCite{margin-top:1rem}
+@media (max-width:996px){ .usageGrid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:560px){ .usageGrid{ grid-template-columns:minmax(0,1fr); } }
 
 .trustSection { background: rgba(var(--site-color-primary-rgb), 0.07); }
 .trustGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid rgba(var(--site-color-deep-rgb), 0.18); }
@@ -378,7 +378,8 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .workflowEvidence > *:nth-child(n + 2) { display: none; }
-  .footer { padding: 2.75rem 0 2rem; }
+  .footer { padding: 2.75rem 0 7.25rem; }
+  .communityLogos { padding: 0 4.75rem 5.25rem 0; }
   .footer section + section { margin-top: 2rem; }
   .starRow { display: flex; justify-content: center; }
   .tabList { max-width: 100%; }
