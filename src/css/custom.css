@@ -7,7 +7,6 @@
 /* Smooth scrolling for the entire site */
 html {
   scroll-behavior: smooth;
-  scroll-padding-bottom: var(--site-fab-clearance);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -63,8 +62,6 @@ html {
   --site-font-weight-medium: 600;
   --site-font-weight-bold: 700;
   --site-anchor-offset: calc(var(--ifm-navbar-height) + 1rem);
-  /* AutoBot FAB footprint (button + inset + buffer). Keep page chrome clear of it. */
-  --site-fab-clearance: 5.25rem;
 }
 
 /* Keep hash-linked doc targets visible below the sticky navbar. */
