@@ -186,10 +186,12 @@ test('landing CTAs retain destinations and conversion payloads', async ({page}) 
 
 test('footer Slack CTA retains its trusted invite destination', async ({page}) => {
   await page.goto('/');
-  await expect(page.getByTestId('landing-footer').getByRole('link', {name: 'Slack'})).toHaveAttribute(
+  // P1-01: landing band no longer duplicates Slack/GitHub; theme footer is the single owner.
+  await expect(page.locator('footer.footer, .theme-layout-footer').getByRole('link', {name: 'Slack'})).toHaveAttribute(
     'href',
     /^https:\/\/join\.slack\.com\/t\/shaft-engine\/.+$/,
   );
+  await expect(page.getByTestId('landing-footer').getByRole('link', {name: 'Slack'})).toHaveCount(0);
 });
 
 async function assertTabs(page, tablistName, first, second, last = second) {
@@ -268,7 +270,7 @@ test('community-reported logos stay behind their native disclosure', async ({pag
   await page.goto('/');
   const details = page.getByTestId('landing-footer').locator('details');
   await details.locator('summary').click();
-  await expect(details.locator('a:has(img[src^="/img/community/"])')).toHaveCount(22);
+  await expect(details.locator('a:has(img[src^="/img/community/"])')).toHaveCount(24);
   await expect(page.getByText('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.')).toBeVisible();
 });
 

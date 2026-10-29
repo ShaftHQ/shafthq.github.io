@@ -26,9 +26,19 @@ test('built homepage has no automatically detectable WCAG A or AA violations', a
 });
 
 test('built homepage dark theme has no automatically detectable WCAG A or AA violations', async ({page}) => {
-  await page.goto('/');
+  await page.emulateMedia({colorScheme: 'dark', reducedMotion: 'reduce'});
+  await page.goto('/?docusaurus-theme=dark');
   for (let click = 0; click < 3 && (await page.locator('html').getAttribute('data-theme')) !== 'dark'; click += 1) await page.getByRole('button', {name: /Switch between dark and light mode/}).click(); // #1128: the toggle cycles system, light, dark.
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect.poll(async () => page.evaluate(() => {
+    const heading = document.getElementById('proof-heading');
+    const pre = document.querySelector('pre.prism-code');
+    const preBg = pre ? getComputedStyle(pre).backgroundColor : '';
+    return !!heading
+      && getComputedStyle(heading).color === 'rgb(227, 227, 227)'
+      && getComputedStyle(document.body).color === 'rgb(227, 227, 227)'
+      && preBg === 'rgb(40, 42, 54)';
+  })).toBe(true);
 
   const {violations} = await scan(page);
 
