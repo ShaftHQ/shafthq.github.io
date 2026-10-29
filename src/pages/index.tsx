@@ -97,7 +97,7 @@ const reportedUse = [
   ['Baianat', 'https://www.baianat.com/', '/img/community/baianat.png'],
   ['DXC Technology', 'https://dxc.com/', '/img/community/dxc.png'],
   ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
-  ['HRSD', 'https://www.hrsd.gov.sa/en', '/img/community/hrsd.png'],
+  ['Ministry of Human Resources and Social Development', 'https://www.hrsd.gov.sa/en', '/img/community/hrsd.png'],
   ['InnovationTeam', 'https://www.innovationteam.com/', '/img/community/innovationteam.png'],
 ];
 

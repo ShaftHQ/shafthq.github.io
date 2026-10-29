@@ -276,9 +276,9 @@
 .communityDetails { margin-top: 1rem; }
 .communityDetails summary { width: max-content; max-width: 100%; cursor: pointer; color: var(--site-color-on-dark); font-weight: var(--site-font-weight-bold); }
 .communityLogos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.65rem; margin-top: 1rem; }
-.communityLogos a { min-width: 0; min-height: 7.5rem; flex-direction: column; gap: 0.65rem; padding: 0.75rem; color: var(--site-color-deep-alt); text-align: center; }
+.communityLogos a { min-width: 0; min-height: 7.5rem; flex-direction: column; gap: 0.65rem; padding: 0.75rem; color: var(--site-color-deep-alt); text-align: center; height: 100%; }
 .communityLogos img { display: block; width: 100%; max-width: 112px; height: 44px; object-fit: contain; }
-.communityLogos span { font-size: var(--site-font-caption); font-weight: var(--site-font-weight-bold); line-height: 1.25; }
+.communityLogos span { font-size: var(--site-font-caption); font-weight: var(--site-font-weight-bold); line-height: 1.25; overflow-wrap: anywhere; hyphens: auto; }
 .disclaimer,
 .attribution { max-width: 78ch; margin: 1.25rem 0 0; color: var(--site-color-muted); font-size: var(--site-font-small); line-height: 1.55; }
 .footerLinks { display: flex; gap: 1.25rem; margin-top: 2.5rem; }
