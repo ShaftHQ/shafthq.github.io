@@ -1,0 +1,194 @@
+[
+  {
+    "name": "_VOIS / Vodafone",
+    "ok": true,
+    "meanC": 6.81,
+    "failFrac": 0.012,
+    "ink": 753600,
+    "src": "http://127.0.0.1:4177/img/community/vois.png?v=1793302538525"
+  },
+  {
+    "name": "GET Group",
+    "ok": true,
+    "meanC": 3.56,
+    "failFrac": 0.373,
+    "ink": 832,
+    "src": "http://127.0.0.1:4177/img/community/get-group.ico?v=1793302538525"
+  },
+  {
+    "name": "Ministry of Municipalities and Housing",
+    "ok": true,
+    "meanC": 13.33,
+    "failFrac": 0.006,
+    "ink": 22400,
+    "src": "http://127.0.0.1:4177/img/community/momah.png?v=1793302538525"
+  },
+  {
+    "name": "Vodafone Egypt",
+    "ok": true,
+    "meanC": 4.81,
+    "failFrac": 0,
+    "ink": 6107,
+    "src": "http://127.0.0.1:4177/img/community/vodafone-egypt.svg?v=1793302538525"
+  },
+  {
+    "name": "Solutions by STC",
+    "ok": true,
+    "meanC": 10.44,
+    "failFrac": 0,
+    "ink": 89277,
+    "src": "http://127.0.0.1:4177/img/community/solutions-by-stc.svg?v=1793302538525"
+  },
+  {
+    "name": "GIZA Systems",
+    "ok": true,
+    "meanC": 7.57,
+    "failFrac": 0.154,
+    "ink": 46875,
+    "src": "http://127.0.0.1:4177/img/community/giza-systems.png?v=1793302538525"
+  },
+  {
+    "name": "Euronet",
+    "ok": true,
+    "meanC": 8.84,
+    "failFrac": 0,
+    "ink": 967610,
+    "src": "http://127.0.0.1:4177/img/community/euronet.png?v=1793302538525"
+  },
+  {
+    "name": "Terkwaz",
+    "ok": true,
+    "meanC": 7.69,
+    "failFrac": 0.116,
+    "ink": 17280,
+    "src": "http://127.0.0.1:4177/img/community/terkwaz.png?v=1793302538525"
+  },
+  {
+    "name": "Incorta",
+    "ok": true,
+    "meanC": 3.79,
+    "failFrac": 0.097,
+    "ink": 65536,
+    "src": "http://127.0.0.1:4177/img/community/incorta.png?v=1793302538525"
+  },
+  {
+    "name": "BayanTech",
+    "ok": true,
+    "meanC": 8.7,
+    "failFrac": 0.09,
+    "ink": 14080,
+    "src": "http://127.0.0.1:4177/img/community/bayantech.png?v=1793302538525"
+  },
+  {
+    "name": "adam.ai",
+    "ok": true,
+    "meanC": 9.7,
+    "failFrac": 0,
+    "ink": 1874,
+    "src": "http://127.0.0.1:4177/img/community/adam-ai.svg?v=1793302538525"
+  },
+  {
+    "name": "ACT",
+    "ok": true,
+    "meanC": 7.74,
+    "failFrac": 0.193,
+    "ink": 19200,
+    "src": "http://127.0.0.1:4177/img/community/act.png?v=1793302538525"
+  },
+  {
+    "name": "elmenus",
+    "ok": true,
+    "meanC": 3.31,
+    "failFrac": 0.141,
+    "ink": 468790,
+    "src": "http://127.0.0.1:4177/img/community/elmenus.png?v=1793302538525"
+  },
+  {
+    "name": "IDEMIA",
+    "ok": true,
+    "meanC": 9.41,
+    "failFrac": 0,
+    "ink": 2719,
+    "src": "http://127.0.0.1:4177/img/community/idemia.png?v=1793302538525"
+  },
+  {
+    "name": "iHorizons",
+    "ok": true,
+    "meanC": 3.65,
+    "failFrac": 0.222,
+    "ink": 12320,
+    "src": "http://127.0.0.1:4177/img/community/ihorizons.png?v=1793302538525"
+  },
+  {
+    "name": "Robusta",
+    "ok": true,
+    "meanC": 3.45,
+    "failFrac": 0,
+    "ink": 446199,
+    "src": "http://127.0.0.1:4177/img/community/robusta.png?v=1793302538525"
+  },
+  {
+    "name": "Paymob",
+    "ok": true,
+    "meanC": 3.85,
+    "failFrac": 0,
+    "ink": 102173,
+    "src": "http://127.0.0.1:4177/img/community/paymob.png?v=1793302538525"
+  },
+  {
+    "name": "Jahez",
+    "ok": true,
+    "meanC": 4.13,
+    "failFrac": 0.044,
+    "ink": 95641,
+    "src": "http://127.0.0.1:4177/img/community/jahez.png?v=1793302538526"
+  },
+  {
+    "name": "Salt Bank",
+    "ok": true,
+    "meanC": 3.71,
+    "failFrac": 0.38,
+    "ink": 44692,
+    "src": "http://127.0.0.1:4177/img/community/salt-bank.svg?v=1793302538526"
+  },
+  {
+    "name": "Baianat",
+    "ok": true,
+    "meanC": 6.97,
+    "failFrac": 0.103,
+    "ink": 76176,
+    "src": "http://127.0.0.1:4177/img/community/baianat.png?v=1793302538526"
+  },
+  {
+    "name": "DXC Technology",
+    "ok": true,
+    "meanC": 10.52,
+    "failFrac": 0,
+    "ink": 365523,
+    "src": "http://127.0.0.1:4177/img/community/dxc.png?v=1793302538526"
+  },
+  {
+    "name": "EFG Holding",
+    "ok": true,
+    "meanC": 6.34,
+    "failFrac": 0.12,
+    "ink": 12320,
+    "src": "http://127.0.0.1:4177/img/community/efg-holding.png?v=1793302538526"
+  },
+  {
+    "name": "HRSD",
+    "ok": true,
+    "meanC": 10.75,
+    "failFrac": 0.05,
+    "ink": 22400,
+    "src": "http://127.0.0.1:4177/img/community/hrsd.png?v=1793302538526"
+  },
+  {
+    "name": "InnovationTeam",
+    "ok": true,
+    "meanC": 4.82,
+    "failFrac": 0.184,
+    "ink": 17280,
+    "src": "http://127.0.0.1:4177/img/community/innovationteam.png?v=1793302538526"
+  }
+]
