@@ -1,7 +1,7 @@
 // #1130 review: the build-time project signals are validated inside the
 // fetch script. A bad reply keeps the committed value; it never reaches the page.
 import assert from 'node:assert/strict';
-import {resolveSignals, shouldWrite, VERSION_PATTERN} from '../scripts/fetch-project-signals.mjs';
+import {resolveSignals, shouldWrite, VERSION_PATTERN, assertFreshInCi} from '../scripts/fetch-project-signals.mjs';
 
 const current = {engineVersion: '10.4.20261013', javaVersion: '25', stars: 414};
 const metadata = (release) => `<metadata><versioning><release>${release}</release></versioning></metadata>`;
@@ -106,3 +106,24 @@ assert.equal(shouldWrite({env: {CI: 'true'}, current, next}), true);
 assert.equal(shouldWrite({env: {CI: 'true'}, current, next: {...next, stars: 0}}), false, 'invalid values are never written');
 
 console.log('project-signals tests passed');
+
+// CI freshness assert fails when Maven release differs from resolved signals.
+{
+  const {impl} = mockFetch({maven: reply(200, metadata('10.4.20261201')), github: reply(200, {stargazers_count: 420})});
+  let threw = false;
+  try {
+    await assertFreshInCi({fetchImpl: impl, signals: current, env: {CI: 'true'}});
+  } catch (error) {
+    threw = /stale/.test(error.message);
+  }
+  assert.equal(threw, true);
+}
+{
+  const {impl} = mockFetch({maven: reply(200, metadata(current.engineVersion)), github: reply(200, {stargazers_count: 420})});
+  const result = await assertFreshInCi({fetchImpl: impl, signals: current, env: {CI: 'true'}});
+  assert.equal(result.ok, true);
+}
+{
+  const result = await assertFreshInCi({signals: current, env: {CI: 'false'}});
+  assert.equal(result.skipped, true);
+}

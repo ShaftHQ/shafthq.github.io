@@ -5,7 +5,6 @@ import Heading from '@theme/Heading';
 import Head from '@docusaurus/Head';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSlack} from '@fortawesome/free-brands-svg-icons';
 import {faBookOpen, faCheck, faPause, faPlay, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
 import {AccessibleTabs} from '../components/AccessibleTabs';
 import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components/ImageViewer';
@@ -18,7 +17,6 @@ type ConversionName = 'create_project' | 'explore_documentation' | 'star_github'
 type Placement = 'hero' | 'final';
 
 const github = 'https://github.com/ShaftHQ/SHAFT_ENGINE';
-const slack = 'https://join.slack.com/t/shaft-engine/shared_invite/zt-oii5i2gg-0ZGnih_Y34NjK7QqDn01Dw';
 
 const preview = (name: string): Pick<ProductImage, 'preview' | 'previewSrcSet' | 'previewSizes'> => ({
   preview: `/img/evidence/previews/${name}-480.webp`,
@@ -44,7 +42,7 @@ const trustSignals: Array<[string, string, string]> = [
   ['Selenium ecosystem', 'Listed in Selenium’s official ecosystem directory.', 'https://www.selenium.dev/ecosystem/#frameworks'],
 ];
 
-const readmeTest = 'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser().navigateToURL("https://shafthq.github.io/")\n      .and().element().assertThat(By.cssSelector("h1")).isVisible();\ndriver.quit();';
+const readmeTest = 'SHAFT.GUI.WebDriver driver = new SHAFT.GUI.WebDriver();\ndriver.browser()\n      .navigateToURL("https://shafthq.github.io/")\n      .and().element().assertThat(By.cssSelector("h1")).isVisible();\ndriver.quit();';
 const runOutput = '$ mvn test\n[INFO] Running hero.QuickStartTest\n[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0\n[INFO] BUILD SUCCESS';
 
 const outcomes = [
@@ -77,7 +75,30 @@ const sponsors = [
 ];
 
 const reportedUse = [
-  ['_VOIS / Vodafone', 'https://www.voiscentre.com/', '/img/community/vois.png'], ['GET Group', 'https://www.getgroup.com/', '/img/community/get-group.ico'], ['Ministry of Municipalities and Housing', 'https://momah.gov.sa/', '/img/community/momah.png'], ['Vodafone Egypt', 'https://web.vodafone.com.eg/', '/img/community/vodafone-egypt.svg'], ['Solutions by STC', 'https://solutions.com.sa/', '/img/community/solutions-by-stc.svg'], ['GIZA Systems', 'https://gizasystems.com/', '/img/community/giza-systems.png'], ['Euronet', 'https://www.euronetworldwide.com/', '/img/community/euronet.png'], ['Terkwaz', 'https://www.linkedin.com/company/terkwazjo', '/img/community/terkwaz.png'], ['Incorta', 'https://www.incorta.com/', '/img/community/incorta.png'], ['BayanTech', 'https://bayan-tech.com/', '/img/community/bayantech.png'], ['adam.ai', 'https://adam.ai/', '/img/community/adam-ai.svg'], ['ACT', 'https://www.act.eg/', '/img/community/act.png'], ['elmenus', 'https://www.elmenus.com/', '/img/community/elmenus.png'], ['IDEMIA', 'https://www.idemia.com/', '/img/community/idemia.png'], ['iHorizons', 'https://www.ihorizons.com/', '/img/community/ihorizons.png'], ['Robusta', 'https://robustagroup.com/', '/img/community/robusta.png'], ['Paymob', 'https://paymob.com/', '/img/community/paymob.png'], ['Jahez', 'https://jahezgroup.com/', '/img/community/jahez.png'], ['Salt Bank', 'https://salt.bank/', '/img/community/salt-bank.svg'], ['Baianat', 'https://www.baianat.com/', '/img/community/baianat.png'], ['DXC Technology', 'https://dxc.com/', '/img/community/dxc.png'], ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
+  ['_VOIS / Vodafone', 'https://www.voiscentre.com/', '/img/community/vois.png'],
+  ['GET Group', 'https://www.getgroup.com/', '/img/community/get-group.ico'],
+  ['Ministry of Municipalities and Housing', 'https://momah.gov.sa/', '/img/community/momah.png'],
+  ['Vodafone Egypt', 'https://web.vodafone.com.eg/', '/img/community/vodafone-egypt.svg'],
+  ['Solutions by STC', 'https://www.linkedin.com/company/solutionsbystc/', '/img/community/solutions-by-stc.svg'],
+  ['GIZA Systems', 'https://gizasystems.com/', '/img/community/giza-systems.png'],
+  ['Euronet', 'https://www.euronet.com/', '/img/community/euronet.png'],
+  ['Terkwaz', 'https://www.linkedin.com/company/terkwazjo', '/img/community/terkwaz.png'],
+  ['Incorta', 'https://www.incorta.com/', '/img/community/incorta.png'],
+  ['BayanTech', 'https://bayan-tech.com/', '/img/community/bayantech.png'],
+  ['adam.ai', 'https://adam.ai/', '/img/community/adam-ai.svg'],
+  ['ACT', 'https://www.act.eg/', '/img/community/act.png'],
+  ['elmenus', 'https://www.elmenus.com/', '/img/community/elmenus.png'],
+  ['IDEMIA', 'https://www.idemia.com/', '/img/community/idemia.png'],
+  ['iHorizons', 'https://www.ihorizons.com/', '/img/community/ihorizons.png'],
+  ['Robusta', 'https://robustagroup.com/', '/img/community/robusta.png'],
+  ['Paymob', 'https://paymob.com/', '/img/community/paymob.png'],
+  ['Jahez', 'https://jahezgroup.com/', '/img/community/jahez.png'],
+  ['Salt Bank', 'https://salt.bank/', '/img/community/salt-bank.svg'],
+  ['Baianat', 'https://www.baianat.com/', '/img/community/baianat.png'],
+  ['DXC Technology', 'https://dxc.com/', '/img/community/dxc.png'],
+  ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
+  ['HRSD', 'https://www.hrsd.gov.sa/en', '/img/community/hrsd.svg'],
+  ['InnovationTeam', 'https://www.innovationteam.com/', '/img/community/innovationteam.png'],
 ];
 
 function track(ctaName: ConversionName, placement: Placement, destination: string): void {
@@ -229,7 +250,7 @@ export default function Home(): JSX.Element {
 
     <section className={styles.final} id="get-started" data-testid="landing-final"><div className={`container ${styles.finalContent}`}><Heading as="h2">Write your first test today.</Heading><p>Generate a starter project, read the guide, or star the repo so other testers find it.</p><Ctas placement="final" /></div></section>
 
-    <section className={styles.footer} data-testid="landing-footer" aria-label="Support and community"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} />{name === 'JetBrains' && <span className={styles.wordmarkName} aria-hidden="true">JetBrains</span>}</a>)}</div><p className={styles.attribution}>These companies provide tooling or open-source program support. This is not a claim of financial sponsorship, customer status, or endorsement. JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><details className={styles.communityDetails}><summary>View community-reported use</summary><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div></details><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section><nav className={styles.footerLinks} aria-label="Community links"><a href={slack} target="_blank" rel="noreferrer"><FontAwesomeIcon icon={faSlack} aria-hidden="true" />Slack</a><a href={github} target="_blank" rel="noreferrer" aria-label="SHAFT on GitHub"><FontAwesomeIcon icon={faStar} aria-hidden="true" />GitHub</a></nav></div></section>
+    <section className={styles.footer} data-testid="landing-footer" aria-label="Support and community"><div className="container"><section aria-labelledby="support-heading"><Heading as="h2" id="support-heading">Supported by</Heading><div className={styles.wordmarks}>{sponsors.map(({name, href, logo}) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="160" height="48" loading="lazy" alt={`${name} logo`} />{name === 'JetBrains' && <span className={styles.wordmarkName} aria-hidden="true">JetBrains</span>}</a>)}</div><p className={styles.attribution}>Tooling and open-source program support only — not sponsorship or endorsement. JetBrains and the JetBrains logo are trademarks of JetBrains s.r.o. DXC Technology imagery is reproduced courtesy of DXC Technology; unauthorized use is not permitted.</p></section><section aria-labelledby="reported-heading"><Heading as="h2" id="reported-heading">Community-reported use</Heading><details className={styles.communityDetails}><summary>View community-reported use</summary><div className={styles.communityLogos}>{reportedUse.map(([name, href, logo]) => <a href={href} key={name} target="_blank" rel="noreferrer"><img src={logo} width="112" height="44" loading="lazy" alt={`${name} logo`} /><span>{name}</span></a>)}</div></details><p className={styles.disclaimer}>Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.</p></section></div></section>
     <SharedImageViewer items={productImages} activeItem={activeImage} onClose={closeImage} />
   </main></Layout>;
 }

@@ -66,6 +66,24 @@ export function shouldWrite({env, current, next}) {
   return env.CI === 'true' && valid(next) && JSON.stringify(next) !== JSON.stringify(current);
 }
 
+
+export async function assertFreshInCi({fetchImpl = fetch, signals, env = process.env, log = console.warn}) {
+  if (env.CI !== 'true' || env.ASSERT_SIGNALS_FRESH === '0') return {ok: true, skipped: true};
+  try {
+    const live = await fetchVersion(fetchImpl);
+    if (live !== signals.engineVersion) {
+      const error = new Error(`project-signals stale: committed/resolved ${signals.engineVersion} != Maven release ${live}`);
+      error.code = 'STALE_SIGNALS';
+      throw error;
+    }
+    return {ok: true, live};
+  } catch (error) {
+    if (error.code === 'STALE_SIGNALS') throw error;
+    log(`project-signals freshness assert: could not confirm live release (${error.message})`);
+    throw error;
+  }
+}
+
 async function main() {
   const target = fileURLToPath(new URL('../src/data/project-signals.json', import.meta.url));
   const releases = JSON.parse(await readFile(fileURLToPath(new URL('../src/data/releases.json', import.meta.url)), 'utf8'));
@@ -73,6 +91,7 @@ async function main() {
   const {signals} = await resolveSignals({current, javaVersion: releases.javaVersion, token: process.env.GITHUB_TOKEN});
   if (shouldWrite({env: process.env, current, next: signals})) await writeFile(target, `${JSON.stringify(signals, null, 2)}\n`);
   else if (JSON.stringify(signals) !== JSON.stringify(current)) console.log('project-signals: newer values found; the committed file is only rewritten in CI.');
+  await assertFreshInCi({signals});
   console.log(`project-signals: SHAFT ${signals.engineVersion}, Java ${signals.javaVersion}, ${signals.stars} stars`);
 }
 
