@@ -1,0 +1,26 @@
+[
+  {
+    "theme": "light",
+    "bottomHits": [],
+    "alignHits": [],
+    "innovHits": [],
+    "fabBox": {
+      "x": 327,
+      "y": 661,
+      "width": 52,
+      "height": 52
+    }
+  },
+  {
+    "theme": "dark",
+    "bottomHits": [],
+    "alignHits": [],
+    "innovHits": [],
+    "fabBox": {
+      "x": 327,
+      "y": 661,
+      "width": 52,
+      "height": 52
+    }
+  }
+]

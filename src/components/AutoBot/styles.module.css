@@ -439,8 +439,8 @@
 
 @media (max-width: 768px) {
   .autoBotContainer {
-    right: 14px;
-    bottom: 14px;
+    right: max(14px, env(safe-area-inset-right, 0px));
+    bottom: max(14px, env(safe-area-inset-bottom, 0px));
   }
 
   .chatButton {

@@ -262,7 +262,7 @@
 .final { padding: 5rem 0; }
 .finalContent { position: relative; z-index: 1; }
 
-.footer { padding: 4.5rem 0 3rem; color: var(--site-color-on-dark); background: var(--site-color-deep-alt); }
+.footer { padding: 4.5rem 0 calc(3rem + var(--site-fab-clearance)); color: var(--site-color-on-dark); background: var(--site-color-deep-alt); }
 .footer h2 { color: var(--site-color-on-dark); font-size: var(--site-font-card-title-lg); }
 .footer section + section { margin-top: 3.5rem; }
 .wordmarks { display: grid; grid-template-columns: repeat(4, minmax(0, 12rem)); gap: 0.75rem; }
@@ -370,7 +370,12 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .workflowEvidence > *:nth-child(n + 2) { display: none; }
-  .footer { padding: 2.75rem 0 2rem; }
+  .footer { padding: 2.75rem 0 calc(2rem + var(--site-fab-clearance)); }
+  /* Keep community tiles out from under the fixed AutoBot FAB on narrow viewports. */
+  .communityLogos {
+    padding-bottom: var(--site-fab-clearance);
+    padding-inline-end: calc(var(--site-fab-clearance) - 0.5rem);
+  }
   .footer section + section { margin-top: 2rem; }
   .starRow { display: flex; justify-content: center; }
   .tabList { max-width: 100%; }
