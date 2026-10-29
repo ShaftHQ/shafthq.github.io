@@ -119,3 +119,16 @@ unchanged.
 - Add redirects to the `plugin-client-redirects` config in
   `docusaurus.config.js` when replacing a public route.
 - Coordinate public behavior changes with a linked SHAFT_ENGINE pull request.
+
+## AI / search visibility
+
+After a deploy that changes SEO, schema, `robots.txt`, or `llms.txt`:
+
+1. Confirm `https://shafthq.github.io/robots.txt` still Allows GPTBot, OAI-SearchBot, ChatGPT-User, Google-Extended, PerplexityBot, ClaudeBot, Claude-SearchBot, Applebot-Extended, and bingbot (and still Disallows `/assets/`).
+2. Confirm `https://shafthq.github.io/llms.txt` and `llms-full.txt` return HTTP 200.
+3. Confirm `/search` HTML has `noindex` and is absent from `sitemap.xml`.
+4. Confirm an unknown path returns HTTP 404 with `noindex`.
+5. Spot-check homepage LD+JSON for `FAQPage`, `SoftwareApplication`, `Organization` (with Maven Central in `sameAs`), and `SoftwareSourceCode`.
+6. Spot-check one docs page for `BreadcrumbList`.
+7. Re-run AI-style queries (ChatGPT / Gemini / Perplexity / Claude / Grok) for "What is SHAFT_ENGINE test automation?" and note whether the user guide is cited.
+
