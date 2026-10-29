@@ -19,9 +19,10 @@
     {
       "name": "Ministry of Municipalities and Housing",
       "file": "momah.png",
-      "sourceUrl": "https://momah.gov.sa/themes/custom/momrah/assets/images/mh-logo-full.png",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:0502a8a974b32306093be17115def876731e7703362335bbf224f95be3076c49"
+      "sourceUrl": "https://momah.gov.sa/themes/custom/momrah-theme/logo.svg",
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:5b5fc5441b962253b009a7c307971b5ecdfb93d7bb9f55172be46db200bf9dfc",
+      "treatment": "official colour mark on deep plate for >=3:1 vs light tile"
     },
     {
       "name": "Vodafone Egypt",
@@ -55,8 +56,9 @@
       "name": "Terkwaz",
       "file": "terkwaz.png",
       "sourceUrl": "https://images.wuzzuf-data.net/files/company_logo/Terkwaz-Solutions-Jordan-35434-1578830823.png",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:e3f628a1146b1f749189da01b55b586982da7de1c196db6cd9242082d0917515"
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:c2395fc6a8a532fc9e08dea89dadf0d4b013c0a2b089717eb1e77f4d5037e362",
+      "treatment": "existing mark on deep plate for >=3:1 vs light tile"
     },
     {
       "name": "Incorta",
@@ -68,9 +70,10 @@
     {
       "name": "BayanTech",
       "file": "bayantech.png",
-      "sourceUrl": "https://bayan-tech.com/wp-content/uploads/2020/01/Bayan-Logo-2.png",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:39f8aa7a1d39befc048eac19e07eb2ff6e1567348389b69530f63de2ce84dca3"
+      "sourceUrl": "https://bayan-tech.com/wp-content/uploads/2024/09/Bayan-Logo.png",
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:78b8a8d991496f04972c7a3ddd31371564c01ed8bafd2a23735a36097822f6a0",
+      "treatment": "official colour mark on deep plate for >=3:1 vs light tile"
     },
     {
       "name": "adam.ai",
@@ -82,9 +85,10 @@
     {
       "name": "ACT",
       "file": "act.png",
-      "sourceUrl": "https://www.act.eg/assets/ACT%20Logo%20White.png",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:1fd291769f6fe4bcddf2cde5aaa3c54d8a47368ec70a1577db8e0d0b1342461c"
+      "sourceUrl": "https://www.act.eg/assets/logo-CjmJZDEs.webp",
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:cff1e563bfe889116bff6cf23ceca25418e8395325760e745f722844853fc5e9",
+      "treatment": "official orange site logo on deep plate (prior asset was white-on-transparent)"
     },
     {
       "name": "elmenus",
@@ -104,8 +108,9 @@
       "name": "iHorizons",
       "file": "ihorizons.png",
       "sourceUrl": "https://www.ihorizons.com/themes/gavias_meipaly/logo.png",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:613392d82bd59462d1ba83cc43aa0a4ab021a90f523ebf519649e3ed813a9cce"
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:9f781f40635ea1bcbab4096483e1d0f4fc48a6dde1fc1e53301f6b817cb7c8e6",
+      "treatment": "official-white-wordmark-on-deep-plate (#102a31); site only ships white logo"
     },
     {
       "name": "Robusta",
@@ -132,8 +137,9 @@
       "name": "Salt Bank",
       "file": "salt-bank.svg",
       "sourceUrl": "https://salt.bank/themes/ideabank/assets/logos/salt.svg",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:908abadddb5fbb00d53236f716540817c9f1583f8321d2d79716e97ad6851d63"
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:c5f01d0c1c7c822f50e95a72d3cbde89d0b39961b56996ff47c7c98c20668b35",
+      "treatment": "official path + official #00C7C7\u2192#7BFD80 gradient on deep plate (orphan <symbol> previously rendered blank)"
     },
     {
       "name": "Baianat",
@@ -152,18 +158,20 @@
     {
       "name": "EFG Holding",
       "file": "efg-holding.png",
-      "sourceUrl": "https://efgholding.com/en/media/media-kit",
-      "retrieved": "2026-08-26",
-      "checksum": "sha256:6aafd4cd7cadbc6b5ac90f4cceabc6d5a6f1266ff53eff7b4192be648a983d45"
+      "sourceUrl": "https://efgholding.com/uploads/logo_84cc2a9a06.svg",
+      "retrieved": "2026-10-29",
+      "checksum": "sha256:50469c209773fdb668f8cb0d629e34defb2606c8f423ff587dac39785bbcbd17",
+      "treatment": "official light mark on deep plate (site SVG uses #F5F5F5 for dark UIs)"
     },
     {
       "name": "HRSD",
-      "file": "hrsd.svg",
-      "sourceUrl": "https://www.hrsd.gov.sa/themes/custom/hrsd_saud/logo_en.svg",
+      "file": "hrsd.png",
+      "sourceUrl": "https://www.hrsd.gov.sa/en",
       "page": "https://www.hrsd.gov.sa/en",
       "license_note": "Official ministry website brand mark; nominative identification only, not endorsement.",
       "retrieved": "2026-10-29",
-      "checksum": "sha256:fcff9fe1b7825831a4cf2dadcb48f3802552fb3ec564c3d8f9ba3c507f620407"
+      "checksum": "sha256:4cf95aecf4e4d9707b6985ab66680f9d0209af718a5449da66b23a2f0d5f2347",
+      "treatment": "official colour SVG rasterized onto deep plate (#102a31) for >=3:1 vs light tile"
     },
     {
       "name": "InnovationTeam",
@@ -172,7 +180,9 @@
       "page": "https://www.innovationteam.com/",
       "license_note": "Official site CDN brand lockup; black background removed locally for tile contrast. Nominative identification only, not endorsement.",
       "retrieved": "2026-10-29",
-      "checksum": "sha256:2c1ac1c075e7ab586629f211ded388a973cfe2e9e1754fa0e5068b08ca367bb0"
+      "checksum": "sha256:d7ecf8af24a6c4023ee6e74eb1806b2b3bfec3fd5228725a5bf27de5e93a13a5",
+      "treatment": "official white+blue wordmark on deep plate"
     }
-  ]
+  ],
+  "contrastGate": "logo ink vs community tile background (#ffffff / --site-color-on-dark) mean contrast >= 3:1 and failFrac <= 0.55 in both themes (tiles stay light)"
 }

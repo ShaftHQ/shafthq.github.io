@@ -1,0 +1,200 @@
+{
+  "tile": [
+    255,
+    255,
+    255
+  ],
+  "meanMin": 3.0,
+  "failFracMax": 0.55,
+  "failed": 0,
+  "rows": [
+    {
+      "file": "act.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 7.74,
+      "failFrac": 0.193,
+      "ink": 19200
+    },
+    {
+      "file": "adam-ai.svg",
+      "type": "svg",
+      "ok": true,
+      "hasPlate": false,
+      "orphanSymbol": false
+    },
+    {
+      "file": "baianat.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 6.98,
+      "failFrac": 0.103,
+      "ink": 76176
+    },
+    {
+      "file": "bayantech.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 8.7,
+      "failFrac": 0.09,
+      "ink": 14080
+    },
+    {
+      "file": "dxc.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 10.31,
+      "failFrac": 0.0,
+      "ink": 365523
+    },
+    {
+      "file": "efg-holding.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 6.34,
+      "failFrac": 0.12,
+      "ink": 12320
+    },
+    {
+      "file": "elmenus.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.31,
+      "failFrac": 0.141,
+      "ink": 468790
+    },
+    {
+      "file": "euronet.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 8.66,
+      "failFrac": 0.0,
+      "ink": 967610
+    },
+    {
+      "file": "get-group.ico",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.56,
+      "failFrac": 0.373,
+      "ink": 832
+    },
+    {
+      "file": "giza-systems.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 7.51,
+      "failFrac": 0.154,
+      "ink": 46875
+    },
+    {
+      "file": "hrsd.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 10.75,
+      "failFrac": 0.05,
+      "ink": 22400
+    },
+    {
+      "file": "idemia.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 9.15,
+      "failFrac": 0.0,
+      "ink": 2719
+    },
+    {
+      "file": "ihorizons.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.65,
+      "failFrac": 0.222,
+      "ink": 12320
+    },
+    {
+      "file": "incorta.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.76,
+      "failFrac": 0.097,
+      "ink": 65536
+    },
+    {
+      "file": "innovationteam.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 4.82,
+      "failFrac": 0.184,
+      "ink": 17280
+    },
+    {
+      "file": "jahez.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 4.12,
+      "failFrac": 0.044,
+      "ink": 95641
+    },
+    {
+      "file": "momah.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 13.33,
+      "failFrac": 0.006,
+      "ink": 22400
+    },
+    {
+      "file": "paymob.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.85,
+      "failFrac": 0.0,
+      "ink": 102173
+    },
+    {
+      "file": "robusta.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 3.45,
+      "failFrac": 0.0,
+      "ink": 446199
+    },
+    {
+      "file": "salt-bank.svg",
+      "type": "svg",
+      "ok": true,
+      "hasPlate": true,
+      "orphanSymbol": false
+    },
+    {
+      "file": "solutions-by-stc.svg",
+      "type": "svg",
+      "ok": true,
+      "hasPlate": false,
+      "orphanSymbol": false
+    },
+    {
+      "file": "terkwaz.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 7.69,
+      "failFrac": 0.116,
+      "ink": 17280
+    },
+    {
+      "file": "vodafone-egypt.svg",
+      "type": "svg",
+      "ok": true,
+      "hasPlate": false,
+      "orphanSymbol": false
+    },
+    {
+      "file": "vois.png",
+      "type": "raster",
+      "ok": true,
+      "meanC": 6.72,
+      "failFrac": 0.012,
+      "ink": 753600
+    }
+  ]
+}
