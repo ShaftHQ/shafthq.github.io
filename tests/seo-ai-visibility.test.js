@@ -44,6 +44,10 @@ assert(config.includes('https://www.selenium.dev/ecosystem/#frameworks'), 'Organ
 assert(config.includes("ignorePatterns: ['/search']") || config.includes('ignorePatterns: ["/search"]'), 'Sitemap must ignore /search');
 assert(config.includes("label: 'llms.txt'") && (config.includes("href: 'pathname:///llms.txt'") || config.includes("href: '/llms.txt'")), 'Footer must link llms.txt for humans/agents');
 assert(config.includes("codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE'"), 'SoftwareApplication must name the code repository');
+assert(/name:\s*'msvalidate\.01'/.test(config), 'themeConfig.metadata must include Bing msvalidate.01');
+const msvalidateMatch = config.match(/name:\s*'msvalidate\.01',\s*content:\s*'([A-F0-9]+)'/i);
+assert(msvalidateMatch && msvalidateMatch[1].length >= 16, 'msvalidate.01 content must be a non-empty hex token');
+
 
 assert(faqs.includes("FAQPage") && faqs.includes('getHomepageFaqs') && faqs.includes('Is SHAFT free to use?'), 'Shared FAQ data must power FAQPage');
 assert((faqs.match(/question:/g) || []).length >= 3, 'Homepage FAQs must list at least 3 questions');

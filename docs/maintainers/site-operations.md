@@ -124,7 +124,7 @@ unchanged.
 
 After a deploy that changes SEO, schema, `robots.txt`, or `llms.txt`:
 
-1. Confirm `https://shafthq.github.io/robots.txt` still Allows GPTBot, OAI-SearchBot, ChatGPT-User, Google-Extended, PerplexityBot, ClaudeBot, Claude-SearchBot, Applebot-Extended, and bingbot (and still Disallows `/assets/`).
+1. Confirm homepage `<head>` still has `msvalidate.01` (Bing Webmaster) and `https://shafthq.github.io/robots.txt` still Allows GPTBot, OAI-SearchBot, ChatGPT-User, Google-Extended, PerplexityBot, ClaudeBot, Claude-SearchBot, Applebot-Extended, and bingbot (and still Disallows `/assets/`).
 2. Confirm `https://shafthq.github.io/llms.txt` and `llms-full.txt` return HTTP 200.
 3. Confirm `/search` HTML has `noindex` and is absent from `sitemap.xml`.
 4. Confirm an unknown path returns HTTP 404 with `noindex`.

@@ -521,6 +521,8 @@ const config = {
       metadata: [
         {name: 'description', content: 'SHAFT is an open-source Java test automation engine for web, mobile, API, CLI, database, and desktop, built on Selenium, Appium, and REST Assured, with an Allure report on every run.'},
         {name: 'robots', content: 'index, follow'},
+        // Bing Webmaster Tools site verification (public meta; also see static/BingSiteAuth.xml).
+        {name: 'msvalidate.01', content: 'B2E359CCB779DC0FD19AA7831E0B82BD'},
       ],
       mermaid: {
         theme: {
