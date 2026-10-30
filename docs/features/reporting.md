@@ -39,6 +39,9 @@ Use [reporting configuration](/docs/reference/reporting) and
 [custom report messages](/docs/reference/reporting#custom-report-messages) for
 detailed controls.
 
+Enable [source code attachments](/docs/reference/reporting#source-code-attachments)
+to show the Java call site beside an action or validation's other evidence.
+
 ```properties title="src/main/resources/properties/custom.properties"
 evidenceLevel=CUSTOM
 screenshotParams_whenToTakeAScreenshot=ValidationPointsOnly

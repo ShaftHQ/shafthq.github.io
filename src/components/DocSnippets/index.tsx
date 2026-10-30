@@ -71,6 +71,10 @@ export function FirstRunNoOpenCommand(): JSX.Element {
   return <CodeBlock language="bash">{snippets.firstRunNoOpenCommand}</CodeBlock>;
 }
 
+export function SourceCodeAttachmentCommand(): JSX.Element {
+  return <CodeBlock language="bash">{snippets.sourceCodeAttachmentCommand}</CodeBlock>;
+}
+
 export function BrowserSelectionProperties(): JSX.Element {
   return (
     <CodeBlock language="properties" title="src/main/resources/properties/custom.properties">
