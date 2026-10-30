@@ -1,0 +1,97 @@
+name: Dependabot auto-merge
+
+# Arms Dependabot pull requests for auto-merge once required checks pass.
+# Uses pull_request_target so GITHUB_TOKEN can write (Dependabot pull_request
+# tokens are read-only); never checks out or executes PR code.
+#
+# allow_auto_merge alone does not merge anything — this workflow must call
+# `gh pr merge --auto`. schedule + workflow_dispatch re-arm if auto-merge is
+# cleared (for example after a force-push or while the branch was BEHIND under
+# strict required status checks). Schedule/dispatch skips drafts and
+# CONFLICTING PRs and soft-fails per PR (::warning, exit 0) so one unarmable
+# PR cannot spam ~72 red runs/day.
+
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
+    types: [opened, reopened, synchronize]
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number || 'rearm' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request_target' }}
+
+jobs:
+  enable-auto-merge:
+    name: Enable Dependabot auto-merge
+    if: >-
+      github.event_name != 'pull_request_target'
+      || (
+        github.event.pull_request.user.login == 'dependabot[bot]'
+        && github.event.pull_request.head.repo.full_name == github.repository
+      )
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - name: Enable auto-merge (this PR)
+        if: github.event_name == 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        # Repo allows merge commits only (no squash/rebase).
+        run: |
+          set -euo pipefail
+          gh pr merge --auto --merge "$PR_URL"
+          state="$(gh pr view "$PR_URL" --json state,autoMergeRequest,mergeStateStatus)"
+          echo "post-arm: $state"
+          echo "$state" | jq -e '
+            .autoMergeRequest != null
+            or .state != "OPEN"
+          ' >/dev/null
+
+      - name: Re-arm open Dependabot PRs
+        if: github.event_name != 'pull_request_target'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mapfile -t urls < <(
+            gh pr list --author 'app/dependabot' --state open --limit 50 \
+              --json url,autoMergeRequest,isDraft,mergeable \
+              --jq '.[]
+                | select(.autoMergeRequest == null)
+                | select(.isDraft == false)
+                | select(.mergeable != "CONFLICTING")
+                | .url'
+          )
+          if [ "${#urls[@]}" -eq 0 ]; then
+            echo "No open Dependabot PRs need re-arming."
+            exit 0
+          fi
+          warned=0
+          for url in "${urls[@]}"; do
+            echo "Re-arming $url"
+            if ! gh pr merge --auto --merge "$url"; then
+              echo "::warning::gh pr merge --auto failed for $url (left unarmed)"
+              warned=$((warned + 1))
+              continue
+            fi
+            state="$(gh pr view "$url" --json state,autoMergeRequest,mergeStateStatus)"
+            echo "post-arm: $state"
+            if ! echo "$state" | jq -e '
+              .autoMergeRequest != null
+              or .state != "OPEN"
+            ' >/dev/null; then
+              echo "::warning::auto-merge not armed for $url"
+              warned=$((warned + 1))
+            fi
+          done
+          if [ "$warned" -gt 0 ]; then
+            echo "::warning::Could not arm $warned Dependabot PR(s); schedule soft-fail (exit 0)."
+          fi
+          exit 0
