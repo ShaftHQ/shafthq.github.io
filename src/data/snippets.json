@@ -6,6 +6,7 @@
     "posix": "python3 .chaos-engine/install.py status --project . --json\npython3 .chaos-engine/install.py explain SessionStart --project . --host codex --json\npython3 .chaos-engine/install.py rollback --project ."
   },
   "firstRunNoOpenCommand": "mvn test -Dallure.automaticallyOpen=false -Dallure.open=false",
+  "sourceCodeAttachmentCommand": "mvn test -DwhenToAttachSourceCode=FailuresOnly -Dallure.automaticallyOpen=false -DheadlessExecution=true",
   "allureReportPath": "allure-results and the generated Allure report under the project target output",
   "browserSelectionProperties": "targetBrowserName=CHROME\nheadlessExecution=true\ncreateAnimatedGif=true\nallure.singleFile=true",
   "lighthouseSetupCommands": "shaft-cli setup status --profile LIGHTHOUSE\nshaft-cli setup plan \\\n  --profile LIGHTHOUSE \\\n  --mode MANAGED \\\n  --output /absolute/path/lighthouse-plan.json\nshaft-cli setup install \\\n  --plan /absolute/path/lighthouse-plan.json \\\n  --approve sha256:<reviewed-digest>\nshaft-cli setup verify --profile LIGHTHOUSE",

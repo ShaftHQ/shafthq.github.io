@@ -1019,6 +1019,15 @@
   },
   {
     "section": "Reporting",
+    "key": "whenToAttachSourceCode",
+    "targetFile": "custom.properties",
+    "type": "text",
+    "defaultValue": "Never",
+    "possibleValues": "Never, FailuresOnly, ValidationPointsOnly, Always",
+    "description": "Attach a five-line Java source snippet to eligible Allure steps. Validation mode includes assertions/verifications and failed actions. Independent of evidenceLevel and trace code context. See source code attachments."
+  },
+  {
+    "section": "Reporting",
     "key": "locatorHealthReportEnabled",
     "targetFile": "custom.properties",
     "type": "boolean",
