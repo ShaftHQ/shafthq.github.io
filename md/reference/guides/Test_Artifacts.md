@@ -18,6 +18,7 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Allure archive** | `allure-report-archive/` | Portable ZIP when `allure.generateArchive=true` |
 | **Execution summary** | `execution-summary/` | Lightweight HTML summary report |
 | **Screenshots** | Attached inside `allure-results/` | Captured on failures by default; validation and every-action screenshots depend on `evidenceLevel` or granular screenshot policy |
+| **Source code** | HTML attached to an action or validation inside `allure-results/` | Opt in with [`whenToAttachSourceCode`](/docs/reference/reporting#source-code-attachments) to see the Java call site and two surrounding lines on each side |
 | **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `videoParams_recordVideo=true`, or when `evidenceLevel=FULL` |
 | **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, when `evidenceLevel=FULL`, or on retry evidence capture |
 | **Failure trace viewer** | Attached inside `allure-results/` | `shaft-trace.zip` on failed tests by default; the archive contains `SHAFT Trace Report.html` and `shaft-trace.json` |

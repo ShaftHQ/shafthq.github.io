@@ -39,6 +39,76 @@ The **Allure Report** is the primary report in SHAFT. It opens automatically in 
 - Test history and trend graphs across multiple runs
 - Environment information and categories
 
+### Source code attachments
+
+Set `whenToAttachSourceCode` to attach the Java call site directly to an action
+or validation step. The default is `Never`. Each enabled attachment shows the
+relative source path, method, and up to five numbered lines: the executed line
+plus two lines above and below. An arrow and a highlighted background identify
+the active line. The surrounding lines provide context; they are not marked as
+executed.
+
+Choose one configuration method:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/Reporting.properties"
+whenToAttachSourceCode=FailuresOnly
+```
+
+ 
+ 
+
+ 
+
+ 
+ 
+
+```java
+SHAFT.Properties.reporting.set().whenToAttachSourceCode("FailuresOnly");
+```
+
+ 
+ 
+
+| Value | Steps that receive an attachment |
+| --- | --- |
+| `Never` | None, including failures. This feature does not resolve source files. |
+| `FailuresOnly` | Failed or broken actions and validations. Earlier successful steps remain unchanged if the test later fails. |
+| `ValidationPointsOnly` | Successful and failed assertions/verifications, plus failed or broken actions. |
+| `Always` | Every eligible executed action and validation, whether it passes or fails. |
+
+Run the tests, open the Allure report, and expand an action or validation step.
+Select its **Source code** attachment to preview the HTML or download the file.
+The attachment contains selectable text and works without external assets.
+Skipped steps, internal logging, and attachment-helper steps do not receive
+source attachments.
+
+This setting is independent of `evidenceLevel`: you do not need `CUSTOM`, and
+profiles such as `FAST` or `FULL` do not override your choice. It is also separate
+from `shaft.trace.includeCodeContext`, which controls source evidence inside
+the failure trace. Setting `whenToAttachSourceCode=Never` does not remove code
+context from other enabled artifacts.
+
+Keep the matching Java source files on the test runner in standard Maven
+source roots. The call site can be in a test, page object, or helper. When source
+or line metadata is unavailable, the attachment shows the known location and
+an explanation instead of failing the test. Several calls on one line share
+that line number, and the fixed context window may not include an entire
+multiline statement.
+
+:::danger Source disclosure
+Enable this attachment only when the report may include your source code.
+SHAFT applies its existing source-secret redaction, but arbitrary hardcoded
+secrets in surrounding lines may not be detected. Review the code and report
+before sharing it.
+:::
+
+![Allure validation step showing five numbered Java source lines, with the executed line marked by an arrow and a yellow highlight.](/img/evidence/allure-source-code-attachment.png)
+
+*A passing validation with `whenToAttachSourceCode=Always`, rendered in Allure Report 3.22.1.*
+
 ### Failure trace viewer
 
 When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
@@ -1047,6 +1117,8 @@ Key properties quick reference:
  Default false . Open the Execution Summary report after the run 
  evidenceLevel 
  Default FAILURE_ONLY . Evidence profile: FAILURE_ONLY , BALANCED , FAST , FULL , or CUSTOM 
+ whenToAttachSourceCode 
+ Default Never . Per-step source-code attachment policy: Never , FailuresOnly , ValidationPointsOnly , or Always . Independent of evidence profiles and trace code context 
  locatorHealthReportEnabled 
  Default false . Generate end-of-run HTML/JSON locator health reports and Allure attachments 
  shaft.locatorHealth.enabled 

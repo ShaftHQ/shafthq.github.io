@@ -563,6 +563,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  var flakeProfilerEnabled = SHAFT.Properties.reporting.flakeProfilerEnabled();
  var diagnosticsBundleEnabled = SHAFT.Properties.reporting.diagnosticsBundleEnabled();
  var evidenceLevel = SHAFT.Properties.reporting.evidenceLevel();
+ var whenToAttachSourceCode = SHAFT.Properties.reporting.whenToAttachSourceCode();
  var traceMode = SHAFT.Properties.reporting.traceMode();
 
  /** set **/
@@ -582,7 +583,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  .diagnosticsMaxArtifactMb(50)
  .traceEnabled(true)
  .traceMode("failure")
- .evidenceLevel("FAILURE_ONLY");
+ .evidenceLevel("FAILURE_ONLY")
+ .whenToAttachSourceCode("FailuresOnly");
  ```
 
  
@@ -603,6 +605,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | attachFullLog | `false` | `true`, `false` | • Attach a streamed, deduplicated snapshot of the full engine log to the Allure report after test execution without deleting the live log file. |
 | attachFailureEvidence | `true` | `true`, `false` | • Attach one redacted "Failure evidence" JSON (at most 256 KB) when an element action fails: locator, match counts per frame, nearest candidates, URL, title and screenshot reference. |
 | evidenceLevel | `FAILURE_ONLY` | `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, `CUSTOM` | • Select the evidence profile. Profile values except `CUSTOM` override granular screenshot, page-source, GIF, video, WebDriver-log, full-log, diagnostics, and trace controls. |
+| whenToAttachSourceCode | `Never` | `Never`, `FailuresOnly`, `ValidationPointsOnly`, `Always` | • Attach a five-line Java source snippet to eligible Allure steps. Validation mode includes assertions/verifications and failed actions. Independent of `evidenceLevel` and trace code context. See [source code attachments](/docs/reference/reporting#source-code-attachments). |
 | locatorHealthReportEnabled | `false` | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
 | shaft.locatorHealth.enabled | `false` | `true`, `false` | • Generate end-of-run locator health reports. |
 | shaft.locatorHealth.warnBelowScore | `70` | `0` to `100` | • Mark locators below this health score as risky in the dashboard. |

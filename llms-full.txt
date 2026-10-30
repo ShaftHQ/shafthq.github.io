@@ -12315,6 +12315,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  var flakeProfilerEnabled = SHAFT.Properties.reporting.flakeProfilerEnabled();
  var diagnosticsBundleEnabled = SHAFT.Properties.reporting.diagnosticsBundleEnabled();
  var evidenceLevel = SHAFT.Properties.reporting.evidenceLevel();
+ var whenToAttachSourceCode = SHAFT.Properties.reporting.whenToAttachSourceCode();
  var traceMode = SHAFT.Properties.reporting.traceMode();
 
  /** set **/
@@ -12334,7 +12335,8 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
  .diagnosticsMaxArtifactMb(50)
  .traceEnabled(true)
  .traceMode("failure")
- .evidenceLevel("FAILURE_ONLY");
+ .evidenceLevel("FAILURE_ONLY")
+ .whenToAttachSourceCode("FailuresOnly");
  ```
 
  
@@ -12355,6 +12357,7 @@ This section lists all configurable properties related to Swagger/OpenAPI contra
 | attachFullLog | `false` | `true`, `false` | • Attach a streamed, deduplicated snapshot of the full engine log to the Allure report after test execution without deleting the live log file. |
 | attachFailureEvidence | `true` | `true`, `false` | • Attach one redacted "Failure evidence" JSON (at most 256 KB) when an element action fails: locator, match counts per frame, nearest candidates, URL, title and screenshot reference. |
 | evidenceLevel | `FAILURE_ONLY` | `FAILURE_ONLY`, `BALANCED`, `FAST`, `FULL`, `CUSTOM` | • Select the evidence profile. Profile values except `CUSTOM` override granular screenshot, page-source, GIF, video, WebDriver-log, full-log, diagnostics, and trace controls. |
+| whenToAttachSourceCode | `Never` | `Never`, `FailuresOnly`, `ValidationPointsOnly`, `Always` | • Attach a five-line Java source snippet to eligible Allure steps. Validation mode includes assertions/verifications and failed actions. Independent of `evidenceLevel` and trace code context. See [source code attachments](/docs/reference/reporting#source-code-attachments). |
 | locatorHealthReportEnabled | `false` | `true`, `false` | • Generate end-of-run HTML/JSON locator health reports and attach them to Allure. |
 | shaft.locatorHealth.enabled | `false` | `true`, `false` | • Generate end-of-run locator health reports. |
 | shaft.locatorHealth.warnBelowScore | `70` | `0` to `100` | • Mark locators below this health score as risky in the dashboard. |
@@ -18236,6 +18239,76 @@ The **Allure Report** is the primary report in SHAFT. It opens automatically in 
 - Test history and trend graphs across multiple runs
 - Environment information and categories
 
+### Source code attachments
+
+Set `whenToAttachSourceCode` to attach the Java call site directly to an action
+or validation step. The default is `Never`. Each enabled attachment shows the
+relative source path, method, and up to five numbered lines: the executed line
+plus two lines above and below. An arrow and a highlighted background identify
+the active line. The surrounding lines provide context; they are not marked as
+executed.
+
+Choose one configuration method:
+
+ 
+ 
+
+```properties title="src/main/resources/properties/Reporting.properties"
+whenToAttachSourceCode=FailuresOnly
+```
+
+ 
+ 
+
+ 
+
+ 
+ 
+
+```java
+SHAFT.Properties.reporting.set().whenToAttachSourceCode("FailuresOnly");
+```
+
+ 
+ 
+
+| Value | Steps that receive an attachment |
+| --- | --- |
+| `Never` | None, including failures. This feature does not resolve source files. |
+| `FailuresOnly` | Failed or broken actions and validations. Earlier successful steps remain unchanged if the test later fails. |
+| `ValidationPointsOnly` | Successful and failed assertions/verifications, plus failed or broken actions. |
+| `Always` | Every eligible executed action and validation, whether it passes or fails. |
+
+Run the tests, open the Allure report, and expand an action or validation step.
+Select its **Source code** attachment to preview the HTML or download the file.
+The attachment contains selectable text and works without external assets.
+Skipped steps, internal logging, and attachment-helper steps do not receive
+source attachments.
+
+This setting is independent of `evidenceLevel`: you do not need `CUSTOM`, and
+profiles such as `FAST` or `FULL` do not override your choice. It is also separate
+from `shaft.trace.includeCodeContext`, which controls source evidence inside
+the failure trace. Setting `whenToAttachSourceCode=Never` does not remove code
+context from other enabled artifacts.
+
+Keep the matching Java source files on the test runner in standard Maven
+source roots. The call site can be in a test, page object, or helper. When source
+or line metadata is unavailable, the attachment shows the known location and
+an explanation instead of failing the test. Several calls on one line share
+that line number, and the fixed context window may not include an entire
+multiline statement.
+
+:::danger Source disclosure
+Enable this attachment only when the report may include your source code.
+SHAFT applies its existing source-secret redaction, but arbitrary hardcoded
+secrets in surrounding lines may not be detected. Review the code and report
+before sharing it.
+:::
+
+![Allure validation step showing five numbered Java source lines, with the executed line marked by an arrow and a yellow highlight.](/img/evidence/allure-source-code-attachment.png)
+
+*A passing validation with `whenToAttachSourceCode=Always`, rendered in Allure Report 3.22.1.*
+
 ### Failure trace viewer
 
 When a test fails, SHAFT attaches a failure trace viewer to Allure by default.
@@ -19244,6 +19317,8 @@ Key properties quick reference:
  Default false . Open the Execution Summary report after the run 
  evidenceLevel 
  Default FAILURE_ONLY . Evidence profile: FAILURE_ONLY , BALANCED , FAST , FULL , or CUSTOM 
+ whenToAttachSourceCode 
+ Default Never . Per-step source-code attachment policy: Never , FailuresOnly , ValidationPointsOnly , or Always . Independent of evidence profiles and trace code context 
  locatorHealthReportEnabled 
  Default false . Generate end-of-run HTML/JSON locator health reports and Allure attachments 
  shaft.locatorHealth.enabled 
@@ -20937,6 +21012,7 @@ After a test run, SHAFT generates several artifacts that you can use for debuggi
 | **Allure archive** | `allure-report-archive/` | Portable ZIP when `allure.generateArchive=true` |
 | **Execution summary** | `execution-summary/` | Lightweight HTML summary report |
 | **Screenshots** | Attached inside `allure-results/` | Captured on failures by default; validation and every-action screenshots depend on `evidenceLevel` or granular screenshot policy |
+| **Source code** | HTML attached to an action or validation inside `allure-results/` | Opt in with [`whenToAttachSourceCode`](/docs/reference/reporting#source-code-attachments) to see the Java call site and two surrounding lines on each side |
 | **Videos** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `videoParams_recordVideo=true`, or when `evidenceLevel=FULL` |
 | **Animated GIFs** | Generated under `video.folder`, attached inside `allure-results/` | When `evidenceLevel=CUSTOM` and `createAnimatedGif=true`, when `evidenceLevel=FULL`, or on retry evidence capture |
 | **Failure trace viewer** | Attached inside `allure-results/` | `shaft-trace.zip` on failed tests by default; the archive contains `SHAFT Trace Report.html` and `shaft-trace.json` |
@@ -25170,6 +25246,9 @@ flowchart LR
 Use [reporting configuration](/docs/reference/reporting) and
 [custom report messages](/docs/reference/reporting#custom-report-messages) for
 detailed controls.
+
+Enable [source code attachments](/docs/reference/reporting#source-code-attachments)
+to show the Java call site beside an action or validation's other evidence.
 
 ```properties title="src/main/resources/properties/custom.properties"
 evidenceLevel=CUSTOM
