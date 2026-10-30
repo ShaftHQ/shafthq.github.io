@@ -21,12 +21,12 @@ const accessibilityAudit = fs.readFileSync(
 
 assert.strictEqual(
   packageJson.devDependencies['@playwright/test'],
-  '1.63.0',
+  '1.64.1',
   'Playwright Test must be exact so its managed Chromium revision is reproducible.',
 );
 assert.strictEqual(
   packageJson.devDependencies['@axe-core/playwright'],
-  '4.13.0',
+  '4.14.0',
   'The Playwright axe adapter must be exact so local and CI audits use the same rules.',
 );
 assert.strictEqual(

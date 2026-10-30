@@ -68,6 +68,8 @@ try {
     const git = spawnSync('git', args, {cwd: fixture, encoding: 'utf8'});
     assert.equal(git.status, 0, git.stderr);
   }
+  // Platform-native absolute path outside the fixture (Windows rejects POSIX /tmp as non-absolute).
+  const outsideGraphOut = path.join(os.tmpdir(), 'not-the-cache');
   const probe = spawnSync('python3', ['-c', `
 import os, sys
 from pathlib import Path
@@ -77,13 +79,22 @@ import graphify_maintenance as maintenance
 
 root = Path(${JSON.stringify(fixture)}).resolve()
 expected = (root / "graphify-out").resolve()
+outside = ${JSON.stringify(outsideGraphOut)}
 os.environ.pop("SHAFT_GRAPHIFY_OUT", None)
 assert resolver.find_shared_graph_out(root) == expected
 
 os.environ["SHAFT_GRAPHIFY_OUT"] = str(expected)
 assert resolver.find_shared_graph_out(root) == expected
 
-os.environ["SHAFT_GRAPHIFY_OUT"] = "/tmp/not-the-cache"
+os.environ["SHAFT_GRAPHIFY_OUT"] = "relative-not-absolute"
+try:
+    resolver.find_shared_graph_out(root)
+except RuntimeError as error:
+    assert "absolute path" in str(error)
+else:
+    raise SystemExit("relative SHAFT_GRAPHIFY_OUT was accepted")
+
+os.environ["SHAFT_GRAPHIFY_OUT"] = outside
 try:
     resolver.find_shared_graph_out(root)
 except RuntimeError as error:
@@ -91,7 +102,7 @@ except RuntimeError as error:
 else:
     raise SystemExit("outside graphify-out was accepted")
 
-os.environ["SHAFT_GRAPHIFY_OUT"] = "/tmp/not-the-cache"
+os.environ["SHAFT_GRAPHIFY_OUT"] = outside
 try:
     maintenance.refresh(root, expected)
 except ValueError as error:
