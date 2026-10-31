@@ -43,7 +43,7 @@
       "url": "https://shafthq.github.io/docs/agentic/chaos-engine",
       "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE/tree/main/chaos-engine",
       "license": "https://opensource.org/licenses/MIT",
-      "softwareVersion": "REFRESH_AT_APPLY_FROM_chaos-engine/VERSION",
+      "softwareVersion": "2026.10.31.5",
       "author": {
         "@id": "https://shafthq.github.io/#organization"
       },

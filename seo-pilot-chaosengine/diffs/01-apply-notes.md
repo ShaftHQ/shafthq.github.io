@@ -30,7 +30,7 @@ On `/docs/agentic/chaos-engine` (and preferably `chaos-engine-install-guide`, `c
 
 ## W2 — live-refresh stats before publish
 
-- Set `SoftwareApplication.softwareVersion` from live `chaos-engine/VERSION` at apply time (pilot snapshot **2026.10.31.5** in `evidence/ce-VERSION.txt` / `evidence/gh-live-2026-10-31.json`).
+- Graph ships snapshot `softwareVersion` **2026.10.31.5** (from `evidence/ce-VERSION.txt` @ 2026-10-31 13:33 Africa/Cairo). **Re-fetch VERSION at publish** and replace if newer; never leave a placeholder string in live HTML.
 - Do **not** invent a ChaosEngine star count (CE is a subtree, not a separate repo). Parent SHAFT_ENGINE stars only if dated + sourced, preferably via badge.
 
 ## Riskiest assumption + check
