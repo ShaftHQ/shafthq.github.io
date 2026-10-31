@@ -1,0 +1,44 @@
+# AI / agent crawl hints: machine-readable docs at /llms.txt and /llms-full.txt
+# (markdown corpus for quotable answers). Keep /assets/ disallowed for all agents.
+
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /assets/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /assets/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /assets/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /assets/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /assets/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /assets/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /assets/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /assets/
+
+User-agent: bingbot
+Allow: /
+Disallow: /assets/
+
+Sitemap: https://shafthq.github.io/sitemap.xml

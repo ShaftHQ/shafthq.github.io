@@ -1,0 +1,14 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "description": "Open-source test automation organization behind SHAFT Engine \u2014 a unified testing framework for Web, Mobile, API, CLI, and Database testing.",
+  "logo": "https://shafthq.github.io/img/shaft.svg",
+  "name": "ShaftHQ",
+  "sameAs": [
+    "https://github.com/ShaftHQ",
+    "https://www.facebook.com/groups/Automatest",
+    "https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine",
+    "https://www.selenium.dev/ecosystem/#frameworks"
+  ],
+  "url": "https://shafthq.github.io"
+}

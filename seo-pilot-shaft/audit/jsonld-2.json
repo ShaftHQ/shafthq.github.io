@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "applicationCategory": "DeveloperApplication",
+  "author": {
+    "@type": "Organization",
+    "name": "ShaftHQ",
+    "url": "https://github.com/ShaftHQ"
+  },
+  "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+  "description": "Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.",
+  "license": "https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE",
+  "name": "SHAFT Engine",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "operatingSystem": "Windows, macOS, Linux",
+  "url": "https://shafthq.github.io"
+}

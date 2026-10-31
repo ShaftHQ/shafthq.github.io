@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. SHAFT is open source under the MIT license."
+      },
+      "name": "Is SHAFT free to use?"
+    },
+    {
+      "@type": "Question",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Move an existing Maven suite onto current SHAFT and run one test first."
+      },
+      "name": "Do I have to rewrite my Selenium tests?"
+    },
+    {
+      "@type": "Question",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Java 25. Installation lists the rest."
+      },
+      "name": "Which Java version do I need?"
+    }
+  ]
+}

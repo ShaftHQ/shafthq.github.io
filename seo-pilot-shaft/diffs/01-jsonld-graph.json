@@ -1,0 +1,140 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://shafthq.github.io/#organization",
+      "name": "ShaftHQ",
+      "url": "https://shafthq.github.io/",
+      "logo": "https://shafthq.github.io/img/shaft.svg",
+      "description": "Open-source organization behind SHAFT Engine \u2014 a MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.",
+      "sameAs": [
+        "https://github.com/ShaftHQ",
+        "https://github.com/ShaftHQ/SHAFT_ENGINE",
+        "https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine",
+        "https://www.selenium.dev/ecosystem/#frameworks",
+        "https://www.youtube.com/@MohabMohieElDeen",
+        "https://www.facebook.com/groups/Automatest"
+      ]
+    },
+    {
+      "@type": "Person",
+      "@id": "https://shafthq.github.io/#person-mohab-mohie",
+      "name": "Mohab Mohie",
+      "url": "https://shafthq.github.io/entity",
+      "jobTitle": "Creator of SHAFT_ENGINE",
+      "description": "Creator and maintainer of SHAFT_ENGINE, the open-source Java test automation engine documented at shafthq.github.io.",
+      "sameAs": [
+        "https://github.com/MohabMohie",
+        "https://www.linkedin.com/in/mohabmohie",
+        "https://www.youtube.com/@MohabMohieElDeen",
+        "https://github.com/ShaftHQ/SHAFT_ENGINE"
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://shafthq.github.io/#software",
+      "name": "SHAFT Engine",
+      "alternateName": [
+        "SHAFT",
+        "SHAFT_ENGINE",
+        "shaft-engine"
+      ],
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "description": "Open-source Java test automation engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.",
+      "url": "https://shafthq.github.io/",
+      "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+      "license": "https://opensource.org/licenses/MIT",
+      "downloadUrl": "https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine",
+      "author": {
+        "@id": "https://shafthq.github.io/#organization"
+      },
+      "creator": {
+        "@id": "https://shafthq.github.io/#person-mohab-mohie"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://shafthq.github.io/#source",
+      "name": "SHAFT_ENGINE",
+      "alternateName": [
+        "SHAFT",
+        "SHAFT Engine",
+        "shaft-engine"
+      ],
+      "description": "Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.",
+      "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+      "url": "https://shafthq.github.io/",
+      "programmingLanguage": "Java",
+      "runtimePlatform": "JVM",
+      "license": "https://opensource.org/licenses/MIT",
+      "identifier": "io.github.shafthq:shaft-engine",
+      "author": {
+        "@id": "https://shafthq.github.io/#organization"
+      },
+      "creator": {
+        "@id": "https://shafthq.github.io/#person-mohab-mohie"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://shafthq.github.io/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is SHAFT Engine?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SHAFT Engine is an open-source Java test automation engine for web, mobile, API, CLI, database, and desktop. It wraps Selenium, Appium, and REST Assured behind one fluent API and writes an Allure report on every run. The user guide is at https://shafthq.github.io/."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is SHAFT free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. SHAFT is open source under the MIT license."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to rewrite my Selenium tests?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Move an existing Maven suite onto current SHAFT and run one test first. See Upgrade a project in the user guide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which Java version do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Java 25. Installation lists the rest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What Maven coordinate do I use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use io.github.shafthq:shaft-engine with the version from Maven Central (or shaft-bom). The legacy SHAFT_ENGINE coordinate is a relocation only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who created SHAFT_ENGINE?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mohab Mohie created SHAFT_ENGINE and maintains it with the ShaftHQ community. See the Welcome blog post on the user guide."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "fetched_at_africa_cairo": "2026-10-31 13:17 EET",
+  "source": "GitHub API (gh)",
+  "repo": {
+    "created_at": "2018-07-15T07:02:02Z",
+    "description": "Java test automation framework for web, mobile, API, CLI, database, and desktop E2E testing with a fluent API and built-in reporting.",
+    "forks": 155,
+    "homepage": "https://shafthq.github.io/",
+    "html_url": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+    "license": "MIT",
+    "pushed_at": "2026-10-31T11:15:50Z",
+    "stars": 418,
+    "topics": [
+      "automation",
+      "automation-engine",
+      "e2e-testing",
+      "end-to-end-testing",
+      "java",
+      "mcp-server",
+      "test-automation",
+      "test-automation-framework",
+      "testing-framework",
+      "testing-tools"
+    ]
+  },
+  "releases_totalCount": 228,
+  "latestRelease": {
+    "tagName": "10.4.20261031",
+    "publishedAt": "2026-10-31T09:27:42Z",
+    "url": "https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/10.4.20261031"
+  }
+}
