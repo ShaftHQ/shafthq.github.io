@@ -1,0 +1,22 @@
+HTTP/2 404 
+server: GitHub.com
+content-type: text/html; charset=utf-8
+x-origin-cache: HIT
+access-control-allow-origin: *
+strict-transport-security: max-age=31556952
+etag: "6ae47cca-36b9"
+x-proxy-cache: MISS
+x-github-request-id: E15A:3A45C0:C963AC:FC20D2:6AE5D1B3
+x-github-edge-region: iad
+accept-ranges: bytes
+age: 0
+date: Sat, 31 Oct 2026 11:32:03 GMT
+via: 1.1 varnish
+x-served-by: cache-iad-kcgs7200103-IAD
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1793446323.475903,VS0,VE19
+vary: Accept-Encoding
+x-fastly-request-id: 459f2b6328810cba9675f08119739d03b4659a15
+content-length: 14009
+

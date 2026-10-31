@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "item": "https://shafthq.github.io/",
+      "name": "Home",
+      "position": 1
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://shafthq.github.io/docs/journeys",
+      "name": "Journeys",
+      "position": 2
+    },
+    {
+      "@type": "ListItem",
+      "item": "https://shafthq.github.io/docs/agentic/chaos-engine-addons",
+      "name": "Add optional ChaosEngine skills",
+      "position": 3
+    }
+  ]
+}

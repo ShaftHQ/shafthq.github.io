@@ -1,0 +1,8 @@
+{
+  "url": "https://www.automatest.org",
+  "name": "Automatest",
+  "description": "",
+  "image": "//images.squarespace-cdn.com/content/v1/688f439a7f52da04c9b43cac/bf0b2fbb-b129-4830-a1ed-9051cc43eea1/wordmark-clean.png",
+  "@context": "http://schema.org",
+  "@type": "WebSite"
+}

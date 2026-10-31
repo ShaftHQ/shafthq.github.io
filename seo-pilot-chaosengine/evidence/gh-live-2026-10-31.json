@@ -1,0 +1,70 @@
+{
+  "fetched_at_africa_cairo": "2026-10-31T13:33+02:00",
+  "repo": {
+    "full_name": "ShaftHQ/SHAFT_ENGINE",
+    "description": "Java test automation framework for web, mobile, API, CLI, database, and desktop E2E testing with a fluent API and built-in reporting.",
+    "homepage": "https://shafthq.github.io/",
+    "html_url": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+    "stargazers_count": 418,
+    "forks_count": 155,
+    "license": "MIT",
+    "default_branch": "main",
+    "pushed_at": "2026-10-31T11:15:50Z",
+    "topics": [
+      "automation",
+      "automation-engine",
+      "e2e-testing",
+      "end-to-end-testing",
+      "java",
+      "mcp-server",
+      "test-automation",
+      "test-automation-framework",
+      "testing-framework",
+      "testing-tools"
+    ]
+  },
+  "chaosengine_releases_sample": [
+    {
+      "tag": "chaosengine-install-video-20261004",
+      "name": "ChaosEngine install video (2026-10-04 r3h)",
+      "published_at": "2026-10-04T07:14:41Z",
+      "html_url": "https://github.com/ShaftHQ/SHAFT_ENGINE/releases/tag/chaosengine-install-video-20261004"
+    }
+  ],
+  "chaos_engine_version_file": {
+    "name": "VERSION",
+    "path": "chaos-engine/VERSION",
+    "sha": "71af683696829bc22930bdc43996d2fdd833cce4",
+    "size": 13,
+    "download_url": "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/VERSION",
+    "type": "file",
+    "html_url": "https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/chaos-engine/VERSION"
+  },
+  "recent_chaos_engine_commits": [
+    {
+      "sha": "36dfc30a4361ac06a966ef7418bb2c0f2ea35a1e",
+      "date": "2026-10-31T06:55:47Z",
+      "message": "fix(ce): SkillSpector baseline + L57 wording for content-pipeline gates"
+    },
+    {
+      "sha": "f27cfd971c6862d3229f6c50be08b42a613579c6",
+      "date": "2026-10-31T06:48:26Z",
+      "message": "feat(ce): content-pipeline gates L56\u2013L59 + wardrobe/METHOD extends"
+    },
+    {
+      "sha": "73f9612da490ce660cc87a0aaf4d8e7c875fde06",
+      "date": "2026-10-31T06:25:23Z",
+      "message": "fix(ce): L54 keep 'explicit' without bare placeholder"
+    },
+    {
+      "sha": "7dfb2c4b8f9e79fabeff720b9f8dca637d502b81",
+      "date": "2026-10-31T06:12:32Z",
+      "message": "fix(ce): Agent Guidance \u2014 repo-only profile helper, catalog regen, L54 wording"
+    },
+    {
+      "sha": "7317e98c0d793dfa2ec4829b75f9efb172825dbd",
+      "date": "2026-10-31T06:03:37Z",
+      "message": "docs(ce): catalog routes for 2026.10.31.5 retro refs"
+    }
+  ]
+}

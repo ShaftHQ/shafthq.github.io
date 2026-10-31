@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "alternateName": [
+    "SHAFT",
+    "SHAFT Engine",
+    "shaft-engine"
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "ShaftHQ",
+    "url": "https://github.com/ShaftHQ"
+  },
+  "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
+  "description": "Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.",
+  "identifier": "io.github.shafthq:shaft-engine",
+  "license": "https://opensource.org/licenses/MIT",
+  "name": "SHAFT_ENGINE",
+  "programmingLanguage": "Java",
+  "runtimePlatform": "JVM",
+  "url": "https://shafthq.github.io"
+}

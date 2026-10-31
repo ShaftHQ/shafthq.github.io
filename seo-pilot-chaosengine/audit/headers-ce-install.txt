@@ -1,0 +1,27 @@
+Connection: close
+Content-Length: 31354
+Server: GitHub.com
+Content-Type: text/html; charset=utf-8
+x-origin-cache: HIT
+Last-Modified: Fri, 30 Oct 2026 11:17:29 GMT
+Access-Control-Allow-Origin: *
+Strict-Transport-Security: max-age=31556952
+ETag: "6ae47cc9-7a7a"
+expires: Sat, 31 Oct 2026 11:42:25 GMT
+Cache-Control: max-age=600
+x-proxy-cache: MISS
+X-GitHub-Request-Id: F588:1158EF:1928FE8:1B606C1:6AE5D1C9
+x-github-edge-region: iad
+Accept-Ranges: bytes
+Date: Sat, 31 Oct 2026 11:33:02 GMT
+Via: 1.1 varnish
+Age: 37
+X-Served-By: cache-iad-kcgs7200056-IAD
+X-Cache: HIT
+X-Cache-Hits: 1
+X-Timer: S1793446382.047221,VS0,VE2
+Vary: Accept-Encoding
+X-Fastly-Request-ID: 1c1b0c16b340f2e807b722a17591c49210ee2f74
+
+final: https://shafthq.github.io/docs/agentic/chaos-engine-install-guide
+status: 200

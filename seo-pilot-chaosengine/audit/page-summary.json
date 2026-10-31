@@ -1,0 +1,76 @@
+[
+  {
+    "name": "ce-docs",
+    "url": "https://shafthq.github.io/docs/agentic/chaos-engine",
+    "final": "https://shafthq.github.io/docs/agentic/chaos-engine",
+    "code": 200,
+    "title": "Install and operate ChaosEngine | SHAFT User Guide",
+    "description": null,
+    "og:image": null,
+    "canonical": null,
+    "jsonld_count": 0,
+    "jsonld_types": [],
+    "faqish": 1,
+    "size": 60088
+  },
+  {
+    "name": "ce-install",
+    "url": "https://shafthq.github.io/docs/agentic/chaos-engine-install-guide",
+    "final": "https://shafthq.github.io/docs/agentic/chaos-engine-install-guide",
+    "code": 200,
+    "title": "ChaosEngine install guide | SHAFT User Guide",
+    "description": null,
+    "og:image": null,
+    "canonical": null,
+    "jsonld_count": 0,
+    "jsonld_types": [],
+    "faqish": 0,
+    "size": 31299
+  },
+  {
+    "name": "ce-addons",
+    "url": "https://shafthq.github.io/docs/agentic/chaos-engine-addons",
+    "final": "https://shafthq.github.io/docs/agentic/chaos-engine-addons",
+    "code": 200,
+    "title": "Add optional ChaosEngine skills | SHAFT User Guide",
+    "description": null,
+    "og:image": null,
+    "canonical": null,
+    "jsonld_count": 0,
+    "jsonld_types": [],
+    "faqish": 0,
+    "size": 32611
+  },
+  {
+    "name": "ce-auto",
+    "url": "https://www.automatest.org/chaosengine",
+    "final": "https://www.automatest.org/chaosengine",
+    "code": 200,
+    "title": "ChaosEngine &mdash; Automatest",
+    "description": "ChaosEngine: portable working contract for agents. Evidence first, research before edit, owned delivery — from Automatest and ShaftHQ.",
+    "og:image": "http://static1.squarespace.com/static/688f439a7f52da04c9b43cac/t/6ae344dab5906308beca10f7/1793279194546/og-chaosengine.png?format=1500w",
+    "canonical": "https://www.automatest.org/chaosengine",
+    "jsonld_count": 1,
+    "jsonld_types": [
+      [
+        "WebSite"
+      ]
+    ],
+    "faqish": 0,
+    "size": 265706
+  },
+  {
+    "name": "home",
+    "url": "https://shafthq.github.io/",
+    "final": "https://shafthq.github.io/",
+    "code": 200,
+    "title": "SHAFT: Java test automation with built-in evidence | SHAFT User Guide",
+    "description": null,
+    "og:image": null,
+    "canonical": null,
+    "jsonld_count": 0,
+    "jsonld_types": [],
+    "faqish": 6,
+    "size": 70809
+  }
+]

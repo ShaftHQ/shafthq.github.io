@@ -1,0 +1,26 @@
+Connection: close
+Content-Length: 70840
+Server: GitHub.com
+Content-Type: text/html; charset=utf-8
+Last-Modified: Fri, 30 Oct 2026 11:17:29 GMT
+Access-Control-Allow-Origin: *
+Strict-Transport-Security: max-age=31556952
+ETag: "6ae47cc9-114b8"
+expires: Sat, 31 Oct 2026 11:33:01 GMT
+Cache-Control: max-age=600
+x-proxy-cache: MISS
+X-GitHub-Request-Id: 5A40:3BD5AB:BD357E:EF8F97:6AE5CF95
+x-github-edge-region: iad
+Accept-Ranges: bytes
+Age: 0
+Date: Sat, 31 Oct 2026 11:33:02 GMT
+Via: 1.1 varnish
+X-Served-By: cache-iad-kcgs7200158-IAD
+X-Cache: HIT
+X-Cache-Hits: 0
+X-Timer: S1793446383.968106,VS0,VE24
+Vary: Accept-Encoding
+X-Fastly-Request-ID: 83c9d7314618d87e0aee3ce01d9042d3bde99391
+
+final: https://shafthq.github.io/
+status: 200
