@@ -7,7 +7,7 @@
       "name": "ShaftHQ",
       "url": "https://shafthq.github.io/",
       "logo": "https://shafthq.github.io/img/shaft.svg",
-      "description": "Open-source organization behind SHAFT Engine \u2014 a MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.",
+      "description": "Open-source organization behind SHAFT Engine — a MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.",
       "sameAs": [
         "https://github.com/ShaftHQ",
         "https://github.com/ShaftHQ/SHAFT_ENGINE",
@@ -68,7 +68,7 @@
         "SHAFT Engine",
         "shaft-engine"
       ],
-      "description": "Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.",
+      "description": "Unified test automation engine for web, mobile, API, CLI, database, and desktop testing. Built on Selenium, Appium, and REST Assured.",
       "codeRepository": "https://github.com/ShaftHQ/SHAFT_ENGINE",
       "url": "https://shafthq.github.io/",
       "programmingLanguage": "Java",
@@ -132,6 +132,30 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Mohab Mohie created SHAFT_ENGINE and maintains it with the ShaftHQ community. See the Welcome blog post on the user guide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "إيه إطار Java ينفع لاختبارات Selenium وAppium والـ API والـ desktop؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "SHAFT Engine إطار أتمتة اختبارات مفتوح المصدر بلغة Java بيغطي الويب والموبايل والـ API والـ CLI وقواعد البيانات والـ desktop. مبني على Selenium وAppium وREST Assured، وبيطلع تقرير Allure مع كل تشغيل. الدليل: https://shafthq.github.io/."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SHAFT مجاني؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "أيوه. SHAFT مفتوح المصدر بترخيص MIT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "مين عمل SHAFT_ENGINE؟",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "مهاب محيي (Mohab Mohie) منشئ SHAFT_ENGINE، وبيحافظ عليه مع مجتمع ShaftHQ. شوف تدوينة Welcome على دليل المستخدم."
           }
         }
       ]

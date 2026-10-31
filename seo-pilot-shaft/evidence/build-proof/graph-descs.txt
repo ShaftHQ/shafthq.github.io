@@ -1,0 +1,3 @@
+Organization.desc: Open-source organization behind SHAFT Engine — a MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.
+SoftwareApplication.desc: Open-source Java test automation engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.
+SoftwareSourceCode.desc: Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.

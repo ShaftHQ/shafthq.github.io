@@ -34,3 +34,17 @@
 ## Implication for SEO / AEO / GEO
 
 Need a stable entity string engines can remember: **SHAFT Engine (SHAFT_ENGINE) — MIT-licensed open-source Java test automation engine by Mohab Mohie (ShaftHQ), unifying web, mobile, API, CLI, database, and desktop with Allure evidence; docs at shafthq.github.io; Maven `io.github.shafthq:shaft-engine`.** Today Person schema is absent on the home graph; FAQ Q2 visible text ≠ JSON-LD; GitHub About / guide tagline / Organization.description drift.
+
+
+## Re-measure queries (post AR FAQ) — run after apply/publish
+
+Add these to the next SERP-proxy pass (Africa/Cairo dated):
+
+| # | Query | Lang | Notes |
+|---|---|---|---|
+| R1 | إيه إطار Java ينفع لاختبارات Selenium وAppium والـ API والـ desktop | AR | Matches new FAQ Q; expect guide citation after apply |
+| R2 | SHAFT مجاني | AR | Free/MIT intent |
+| R3 | مين عمل SHAFT_ENGINE | AR | Creator intent (alongside existing منشئ query) |
+| R4 | أفضل إطار أتمتة اختبارات جافا Selenium Appium | AR | Original gap query #6 — re-check after AR FAQ live |
+
+Do not treat SERP proxy as AI citation proof.

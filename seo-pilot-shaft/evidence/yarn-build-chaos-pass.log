@@ -1,0 +1,25 @@
+yarn run v1.22.22
+$ node scripts/fetch-project-signals.mjs && node scripts/build-autobot-index.mjs && node scripts/build-llms-txt.mjs && docusaurus build
+project-signals: newer values found; the committed file is only rewritten in CI.
+project-signals: SHAFT 10.4.20261031, Java 25, 418 stars
+[Documentation Loader] Indexed 119 files into 1470 chunks
+Wrote 1470 AutoBot retrieval chunks to static/autobot-index.json.
+[Documentation Loader] Indexed 119 files into 1470 chunks
+Wrote 119 pages to static/llms.txt (23598 bytes).
+Wrote 119 pages to static/llms-full.txt (1103591 bytes).
+Wrote 119 Markdown pages under static/md/.
+[INFO] [en] Creating an optimized production build...
+[WARNING] Docusaurus found blog posts without truncation markers:
+- "blog/2025-03-27-swagger-validation.md"
+- "blog/2024-01-27-virtual-threads-release.md"
+- "blog/2023-04-27-bingAI.md"
+- "blog/2023-02-28-we-need-your-support.md"
+- "blog/2023-02-12-self-managed-appium-execution.md"
+- "blog/2023-01-24-selenium-ecosystem.md"
+- "blog/2023-01-21-welcome/index.md"
+
+We recommend using truncation markers (`<!-- truncate -->` or `{/* truncate */}`) in blog posts to create shorter previews on blog paginated lists.
+Tip: turn this security off with the `onUntruncatedBlogPosts: 'ignore'` blog plugin option.
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.
+Done in 11.13s.

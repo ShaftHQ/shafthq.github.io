@@ -1,7 +1,7 @@
 # PLAN — SEO + AEO + GEO pilot 2: shafthq.github.io (SHAFT_ENGINE user guide)
 
 **Status:** PLAN + DIFF ONLY. **No merge. No publish. Coach must sign; Mohab approves publish.**  
-**Branch:** `seo-pilot-shaft` (base `master` `f2509320a3`)  
+**Branch:** `seo-pilot-shaft` (merge-base `origin/master` **`68d18cdf`**)  
 **Identity:** ChaosEngine `<chaosengine@mail.grokbot.com>` (this repo ONLY)  
 **Designer:** Carl → Chaos (tech accuracy) → Coach sign → Mohab publish OK  
 **retrieve:** used → mempalace `skipped(no-relevant-hits)`; CE worktree doctor tools/memory repair blocked — proceeded with live audit + pilot1 lessons.  
@@ -44,7 +44,7 @@ Make **SHAFT Engine / SHAFT_ENGINE** the consistent entity answer engines cite f
 
 ## Priority order (top 5 for Coach)
 
-1. **Fix FAQ byte-match + expand AEO FAQ** (shared `answerText` rendered in visible `<details>`). File: `diffs/05-faq-aeo-blocks.md` + `diffs/05-homepage-faqs.ts`.
+1. **Fix FAQ byte-match + expand AEO FAQ (EN + AR)** (shared `answerText` rendered in visible `<details>`). File: `diffs/05-faq-aeo-blocks.md` + `diffs/05-homepage-faqs.ts`.
 2. **Replace duplicate home JSON-LD** with one `@graph`: SoftwareApplication + SoftwareSourceCode + Organization + **Person (Mohab)** + FAQPage. Files: `diffs/01-jsonld-graph.json`, `diffs/01-apply-notes.md`.
 3. **Entity facts page** `/entity` (EN) for GEO cite target. File: `diffs/04-entity-page.md`.
 4. **llms.txt header block** (creator, Maven coordinate, prefer guide for engine Qs). File: `diffs/03-llms-header.md` (build-script patch notes).
@@ -71,7 +71,9 @@ Also: refresh `project-signals` stars/version notes (`diffs/09-project-signals.m
   4. Which Java version do I need?
   5. What Maven coordinate do I use?
   6. Who created SHAFT_ENGINE?
+  7–9. Arabic factual Qs for Selenium+Appium+API+desktop / free / creator (no unsourced “أفضل”)
 - No HowTo schema.
+- Apply: **W1** one `@graph` only (dedupe page vs config); **W2** refresh `project-signals` before publish.
 - YT Automatest Q&A series: **cite only if product-relevant**; training Q&As stay on automatest.org pilot — do not duplicate trainee-oriented answers here.
 
 ## GEO changes (detail)
