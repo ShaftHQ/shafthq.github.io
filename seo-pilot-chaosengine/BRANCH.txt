@@ -5,3 +5,5 @@ base (merge-base origin/master): f2509320a39b1d794dd382cafd948d293c58b9fc
 note: pilot2 applying separately on seo-shaft-apply — keep pilot3 rebaseable
 suppress: Chaos ProductJsonLd + useLocation (build-proof/suppress-mechanism.patch)
 VERSION snapshot: 2026.10.31.5 (refresh at publish; 2026.10.31.6 pending)
+tip: df4b3d94e173ee1ddbd1a77915b43ba51ae05c42
+ls-remote: df4b3d94e173ee1ddbd1a77915b43ba51ae05c42
