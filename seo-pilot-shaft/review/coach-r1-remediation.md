@@ -1,4 +1,6 @@
 # Coach r1 FAIL remediation
+**Remediation commit:** `d44849822f4f52f879bd59f67b378424d1d3e090`
+
 
 Subject FAIL: `c325a5b` / cherry `b6838fb9bb` (`review/coach-adversarial-r1.md`).
 Chaos tech review: `/workspace/reviews/seo-pilot-tech-review.md` (same blocker #1; build PASS).
