@@ -46,6 +46,10 @@ const config = {
   organizationName: 'ShaftHQ', // Usually your GitHub org/user name.
   projectName: 'shafthq.github.io', // Usually your repo name.
 
+  // SHAFT Organization/Software*/FAQ JSON-LD moved to src/theme/ProductJsonLd.tsx
+  // (route-conditional via useLocation). Config headTags cannot vary by route —
+  // see Docusaurus headTags docs + discussion #9075. Keeps W1: exactly one
+  // ld+json script on non-ChaosEngine routes; CE routes suppress SHAFT Software*.
   headTags: [
     {
       tagName: 'meta',
@@ -102,77 +106,6 @@ const config = {
         name: 'twitter:card',
         content: 'summary_large_image',
       },
-    },
-    {
-      tagName: 'script',
-      attributes: {
-        type: 'application/ld+json',
-      },
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareApplication',
-        name: 'SHAFT Engine',
-        applicationCategory: 'DeveloperApplication',
-        operatingSystem: 'Windows, macOS, Linux',
-        description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
-        url: siteUrl,
-        codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
-        license: 'https://github.com/ShaftHQ/SHAFT_ENGINE/blob/main/LICENSE',
-        author: {
-          '@type': 'Organization',
-          name: 'ShaftHQ',
-          url: 'https://github.com/ShaftHQ',
-        },
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'USD',
-        },
-      }),
-    },
-    {
-      tagName: 'script',
-      attributes: {
-        type: 'application/ld+json',
-      },
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'Organization',
-        name: 'ShaftHQ',
-        url: siteUrl,
-        logo: siteAsset('/img/shaft.svg'),
-        sameAs: [
-          'https://github.com/ShaftHQ',
-          'https://www.facebook.com/groups/Automatest',
-          'https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine',
-          'https://www.selenium.dev/ecosystem/#frameworks',
-        ],
-        description: 'Open-source test automation organization behind SHAFT Engine — a unified testing framework for Web, Mobile, API, CLI, and Database testing.',
-      }),
-    },
-    {
-      tagName: 'script',
-      attributes: {
-        type: 'application/ld+json',
-      },
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareSourceCode',
-        name: 'SHAFT_ENGINE',
-        alternateName: ['SHAFT', 'SHAFT Engine', 'shaft-engine'],
-        description: 'Unified test automation engine for Web, Mobile, API, CLI, and Database testing. Built on Selenium, Appium, and REST Assured.',
-        codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE',
-        url: siteUrl,
-        programmingLanguage: 'Java',
-        runtimePlatform: 'JVM',
-        license: 'https://opensource.org/licenses/MIT',
-        identifier: 'io.github.shafthq:shaft-engine',
-        author: {
-          '@type': 'Organization',
-          name: 'ShaftHQ',
-          url: 'https://github.com/ShaftHQ',
-        },
-      }),
     },
   ],
 

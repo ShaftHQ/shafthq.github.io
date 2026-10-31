@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
-import Heading from '@theme/Heading';
 import Head from '@docusaurus/Head';
+import Heading from '@theme/Heading';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBookOpen, faCheck, faPause, faPlay, faStar, faTerminal} from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +11,8 @@ import {ImageViewerTrigger, ProductImage, SharedImageViewer} from '../components
 import snippets from '../data/snippets.json';
 import projectSignals from '../data/project-signals.json';
 import usageMetrics from '../data/usage-metrics.json';
-import {getHomepageFaqs, homepageFaqPageJsonLd} from '../data/homepage-faqs';
+import {getHomepageFaqs} from '../data/homepage-faqs';
+import {buildShaftJsonLd} from '../data/shaft-jsonld';
 import styles from './index.module.css';
 
 type ConversionName = 'create_project' | 'explore_documentation' | 'star_github' | 'view_agent_workflow';
@@ -194,25 +195,11 @@ export default function Home(): JSX.Element {
   const primaryOutcomes = outcomes.filter((outcome) => outcome.primary);
   const outcomeGroups = ['Agents and IDE', 'Surfaces and infrastructure'].map((group) => ({group, items: outcomes.filter((outcome) => outcome.group === group)}));
   const homepageFaqs = getHomepageFaqs(javaVersion);
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'SHAFT Engine',
-    applicationCategory: 'DeveloperApplication',
-    operatingSystem: 'Windows, macOS, Linux',
-    softwareVersion: projectSignals.engineVersion,
-    license: 'https://opensource.org/licenses/MIT',
-    codeRepository: github,
-    url: 'https://shafthq.github.io/',
-    description: 'Open-source Java test automation framework for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.',
-    offers: {'@type': 'Offer', price: '0', priceCurrency: 'USD'},
-  };
-  const faqPageData = homepageFaqPageJsonLd(homepageFaqs);
+  const shaftJsonLd = buildShaftJsonLd(homepageFaqs);
 
   return <Layout title="SHAFT: Java test automation with built-in evidence" description="Write the test. SHAFT does the rest. One open-source Java engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.">
     <Head>
-      <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      <script type="application/ld+json">{JSON.stringify(faqPageData)}</script>
+      <script type="application/ld+json">{JSON.stringify(shaftJsonLd)}</script>
     </Head>
     <main data-testid="landing-main">
     <header className={styles.hero} data-testid="landing-hero"><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}>
@@ -258,9 +245,12 @@ export default function Home(): JSX.Element {
 
     <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Open, current, and checked</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div>
       <div className={styles.faq}><Heading as="h3">Common questions</Heading>
-        <details><summary>{homepageFaqs[0].question}</summary><p>Yes. SHAFT is open source under the <Link to={`${github}/blob/main/LICENSE`}>MIT license</Link>.</p></details>
-        <details><summary>{homepageFaqs[1].question}</summary><p>No. Move an existing Maven suite onto current SHAFT and run one test first. <Link to="/docs/journeys/upgrade-a-project">Upgrade a project</Link>.</p></details>
-        <details><summary>{homepageFaqs[2].question}</summary>{javaVersion ? <p>Java {javaVersion}. <Link to="/docs/start/installation">Installation</Link> lists the rest.</p> : <p><Link to="/docs/start/installation">Installation</Link> lists the supported Java version.</p>}</details>
+        {homepageFaqs.map((faq) => (
+          <details key={faq.question} {...(faq.rtl ? {dir: 'rtl', lang: 'ar'} : {})}>
+            <summary>{faq.question}</summary>
+            <p>{faq.answerText}</p>
+          </details>
+        ))}
       </div>
     </div></section>
 
