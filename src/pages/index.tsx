@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
+import Head from '@docusaurus/Head';
 import Heading from '@theme/Heading';
 import CodeBlock from '@theme/CodeBlock';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -11,6 +12,7 @@ import snippets from '../data/snippets.json';
 import projectSignals from '../data/project-signals.json';
 import usageMetrics from '../data/usage-metrics.json';
 import {getHomepageFaqs} from '../data/homepage-faqs';
+import {buildShaftJsonLd} from '../data/shaft-jsonld';
 import styles from './index.module.css';
 
 type ConversionName = 'create_project' | 'explore_documentation' | 'star_github' | 'view_agent_workflow';
@@ -193,8 +195,12 @@ export default function Home(): JSX.Element {
   const primaryOutcomes = outcomes.filter((outcome) => outcome.primary);
   const outcomeGroups = ['Agents and IDE', 'Surfaces and infrastructure'].map((group) => ({group, items: outcomes.filter((outcome) => outcome.group === group)}));
   const homepageFaqs = getHomepageFaqs(javaVersion);
+  const shaftJsonLd = buildShaftJsonLd(homepageFaqs);
 
   return <Layout title="SHAFT: Java test automation with built-in evidence" description="Write the test. SHAFT does the rest. One open-source Java engine for web, mobile, API, CLI, database, and desktop, with an Allure report on every run.">
+    <Head>
+      <script type="application/ld+json">{JSON.stringify(shaftJsonLd)}</script>
+    </Head>
     <main data-testid="landing-main">
     <header className={styles.hero} data-testid="landing-hero"><div className={`container ${styles.heroLayout}`}><div className={styles.heroCopy}>
       <p className={styles.kicker} data-testid="landing-hero-kicker"><span className={styles.kickerDot} aria-hidden="true" />SHAFT Engine · open-source Java test automation framework</p>
