@@ -1,1 +1,4 @@
-branch seo-pilot-shaft (worktree /workspace/wt-seo-pilot-shaft); base master f2509320a3
+branch seo-pilot-shaft
+base master f2509320a3
+plan d708276d16b3c513a09a003d28b0ffc6c182c8e4
+fix-slim d6dab55ae1217a0e079510edd4dcbbbb7e914ed2

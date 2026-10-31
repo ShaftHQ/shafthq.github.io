@@ -53,7 +53,7 @@ Source: `src/data/homepage-faqs.ts` vs `src/pages/index.tsx` FAQ `<details>` (ha
 | Asset | Status |
 |---|---|
 | robots.txt | 200; path `Disallow: /assets/` only; **AI bots explicitly ALLOW** (GPTBot, OAI-SearchBot, ChatGPT-User, Google-Extended, PerplexityBot, ClaudeBot, Claude-SearchBot, Applebot-Extended, bingbot). Keep ALLOW. |
-| sitemap.xml | 200; **387** `<loc>` URLs (docs/blog/pages). Home included. |
+| sitemap.xml | 200 at audit time; **387** `<loc>` URLs (docs/blog/pages). Home included. Sample retained as `audit/sitemap-sample.xml` (full dump dropped for pack size). |
 | llms.txt | 200 ~24 KB; solid journey index; **no Person/creator entity block**, no FAQ cites, no Maven coordinate one-liner at top beyond generic blurb |
 | llms-full.txt | 200 ~1.1 MB; build-generated corpus |
 
