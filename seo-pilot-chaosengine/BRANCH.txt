@@ -3,9 +3,8 @@ identity: ChaosEngine <chaosengine@mail.grokbot.com>
 mode: remediation of coach-adversarial-r1 FAIL (B1/B2/B3)
 base (merge-base origin/master): f2509320a39b1d794dd382cafd948d293c58b9fc
 code-commit (B1/B2/B3): df4b3d94e173ee1ddbd1a77915b43ba51ae05c42
-tip: cc3a3eec1576ee4e636398bf3c9542db3094365a
-ls-remote origin/seo-pilot-chaosengine: cc3a3eec1576ee4e636398bf3c9542db3094365a
-note: tip may advance by BRANCH.txt meta commits; code-commit is the remediation payload
+ls-remote (at report time): 7d58808e908cbde53af25a10ee676e0b085e79c7
+note: use git ls-remote for live tip; code-commit is the remediation payload
 note: pilot2 applying separately on seo-shaft-apply — keep pilot3 rebaseable
 suppress: Chaos ProductJsonLd + useLocation (build-proof/suppress-mechanism.patch)
 VERSION snapshot: 2026.10.31.5 (refresh at publish; 2026.10.31.6 pending)
