@@ -8,6 +8,8 @@ const assert = (condition, message) => {
 
 const robots = fs.readFileSync(path.join(root, 'static', 'robots.txt'), 'utf8');
 const config = fs.readFileSync(path.join(root, 'docusaurus.config.js'), 'utf8');
+const productJsonLd = fs.readFileSync(path.join(root, 'src', 'theme', 'ProductJsonLd.tsx'), 'utf8');
+const rootTheme = fs.readFileSync(path.join(root, 'src', 'theme', 'Root.tsx'), 'utf8');
 const index = fs.readFileSync(path.join(root, 'src', 'pages', 'index.tsx'), 'utf8');
 const faqs = fs.readFileSync(path.join(root, 'src', 'data', 'homepage-faqs.ts'), 'utf8');
 const searchPage = fs.readFileSync(path.join(root, 'src', 'theme', 'SearchPage', 'index.tsx'), 'utf8');
@@ -38,21 +40,26 @@ assert(robots.includes('llms.txt'), 'robots.txt must point agents at llms.txt');
 assert(robots.includes('Sitemap: https://shafthq.github.io/sitemap.xml'), 'robots.txt must keep the sitemap line');
 assert(!/Disallow:\s*\/\s*$/m.test(robots.split('User-agent: GPTBot')[1].split('User-agent:')[0]), 'Do not Disallow / for GPTBot');
 
-assert(config.includes("'@type': 'SoftwareSourceCode'") || config.includes('"@type": "SoftwareSourceCode"') || config.includes("@type: 'SoftwareSourceCode'") || config.includes("'@type': 'SoftwareSourceCode'"), 'Config must emit SoftwareSourceCode');
-assert(config.includes('https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine'), 'Organization sameAs must include Maven Central');
-assert(config.includes('https://www.selenium.dev/ecosystem/#frameworks'), 'Organization sameAs must include Selenium ecosystem');
+assert(!/type:\s*'application\/ld\+json'/.test(config), 'Config headTags must not emit ld+json (moved to ProductJsonLd)');
+assert(productJsonLd.includes("'SoftwareSourceCode'") || productJsonLd.includes('"SoftwareSourceCode"'), 'ProductJsonLd must emit SoftwareSourceCode');
+assert(productJsonLd.includes('https://central.sonatype.com/artifact/io.github.shafthq/shaft-engine'), 'Organization sameAs must include Maven Central');
+assert(productJsonLd.includes('https://www.selenium.dev/ecosystem/#frameworks'), 'Organization sameAs must include Selenium ecosystem');
+assert(productJsonLd.includes("codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE'") || productJsonLd.includes('codeRepository: "https://github.com/ShaftHQ/SHAFT_ENGINE"'), 'SoftwareApplication must name the code repository');
+assert(productJsonLd.includes('isChaosEngineRoute') && productJsonLd.includes('/docs/agentic/chaos-engine'), 'ProductJsonLd must suppress SHAFT Software* on ChaosEngine routes');
+assert(rootTheme.includes('ProductJsonLd'), 'Root must mount ProductJsonLd');
 assert(config.includes("ignorePatterns: ['/search']") || config.includes('ignorePatterns: ["/search"]'), 'Sitemap must ignore /search');
 assert(config.includes("label: 'llms.txt'") && (config.includes("href: 'pathname:///llms.txt'") || config.includes("href: '/llms.txt'")), 'Footer must link llms.txt for humans/agents');
-assert(config.includes("codeRepository: 'https://github.com/ShaftHQ/SHAFT_ENGINE'"), 'SoftwareApplication must name the code repository');
 assert(/name:\s*'msvalidate\.01'/.test(config), 'themeConfig.metadata must include Bing msvalidate.01');
 const msvalidateMatch = config.match(/name:\s*'msvalidate\.01',\s*content:\s*'([A-F0-9]+)'/i);
 assert(msvalidateMatch && msvalidateMatch[1].length >= 16, 'msvalidate.01 content must be a non-empty hex token');
 
 
 assert(faqs.includes("FAQPage") && faqs.includes('getHomepageFaqs') && faqs.includes('Is SHAFT free to use?'), 'Shared FAQ data must power FAQPage');
+assert(faqs.includes('What is SHAFT Engine?') && faqs.includes('rtl'), 'Homepage FAQs must include lead EN question and AR rtl entries');
 assert((faqs.match(/question:/g) || []).length >= 3, 'Homepage FAQs must list at least 3 questions');
-assert(index.includes('getHomepageFaqs') && index.includes('homepageFaqPageJsonLd') && index.includes('faqPageData'), 'Homepage must emit FAQPage JSON-LD from shared FAQ data');
-assert(index.includes('homepageFaqs[0].question') && index.includes('Common questions'), 'Visible FAQ section must reuse shared questions');
+assert(index.includes('getHomepageFaqs') && index.includes('answerText') && index.includes('Common questions'), 'Homepage must render visible FAQ answerText from shared FAQ data');
+assert(index.includes('homepageFaqs.map') && !index.includes('homepageFaqPageJsonLd'), 'Homepage FAQ JSON-LD is owned by ProductJsonLd, not page Head');
+assert(productJsonLd.includes('FAQPage') && productJsonLd.includes('getHomepageFaqs'), 'ProductJsonLd must emit FAQPage from shared FAQ data on homepage');
 
 assert(searchPage.includes('noindex') && searchPage.includes('@theme-original/SearchPage'), 'Search page must wrap original with noindex');
 assert(notFound.includes('noindex') && notFound.includes('@theme-original/NotFound/Content'), '404 Content must wrap original with noindex');
@@ -85,6 +92,14 @@ if (fs.existsSync(buildDir)) {
   assert(/name=["']?robots["']?[^>]*content=["'][^"']*noindex/i.test(searchHtml) || /content=["'][^"']*noindex[^"']*["'][^>]*name=["']?robots["']?/i.test(searchHtml), 'Built /search must contain robots noindex');
   const homeHtml = fs.readFileSync(path.join(buildDir, 'index.html'), 'utf8');
   assert(homeHtml.includes('FAQPage') && homeHtml.includes('SoftwareSourceCode') && homeHtml.includes('central.sonatype.com/artifact/io.github.shafthq/shaft-engine'), 'Built homepage must include FAQPage, SoftwareSourceCode, and Maven sameAs');
+  const homeLd = (homeHtml.match(/ld\+json/g) || []).length;
+  assert(homeLd === 1, `Built homepage must have exactly 1 ld+json script, got ${homeLd}`);
+  const cePath = resolveBuiltPage('docs', 'agentic', 'chaos-engine');
+  if (cePath) {
+    const ceHtml = fs.readFileSync(cePath, 'utf8');
+    assert(!ceHtml.includes('SHAFT Engine') || !ceHtml.includes('"@type":"SoftwareApplication"'), 'Built ChaosEngine doc must not include SHAFT SoftwareApplication');
+    assert(!/"@type":"SoftwareApplication"/.test(ceHtml), 'Built ChaosEngine doc must omit SoftwareApplication');
+  }
   const overviewHtmlPath = resolveBuiltPage('docs', 'start', 'overview');
   if (overviewHtmlPath) {
     const overviewHtml = fs.readFileSync(overviewHtmlPath, 'utf8');
