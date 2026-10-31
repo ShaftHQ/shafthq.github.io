@@ -1,13 +1,15 @@
 ---
 id: chaos-engine
 title: Install and operate ChaosEngine
-description: Install, inspect, recover, and understand the project-local SHAFT agent harness.
+description: ChaosEngine — MIT-licensed provider-neutral agent harness by ShaftHQ (not the 1993 video game). Install, inspect, recover, and operate the project-local working contract.
 slug: /agentic/chaos-engine
 keywords: [ChaosEngine, agent harness, install, upgrade, Codex, Claude, Gemini, Grok, Copilot]
 tags: [agents, skills, install]
 ---
 
 import {ChaosEngineOperatorCommands, ReflectionReceiptCommand} from '@site/src/components/DocSnippets';
+import {chaosEngineFaqs} from '@site/src/data/chaosengine-faqs';
+
 
 # Install and operate ChaosEngine
 
@@ -488,6 +490,16 @@ Docker mode pins the resolved stable image. ChaosEngine never installs or
 starts Docker. See the [agent tooling cache
 runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
 purge, and manual population commands.
+
+
+## Common questions
+
+{chaosEngineFaqs.map((faq) => (
+  <details key={faq.id} {...(faq.rtl ? {dir: 'rtl', lang: 'ar'} : {})}>
+    <summary>{faq.question}</summary>
+    <p>{faq.answerText}</p>
+  </details>
+))}
 
 ## Related
 

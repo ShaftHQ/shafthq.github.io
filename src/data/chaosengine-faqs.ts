@@ -1,0 +1,62 @@
+/** Single source for ChaosEngine FAQ — visible details + FAQPage Answer.text must match byte-for-byte. */
+export type ChaosEngineFaq = {
+  id: string;
+  lang: 'en' | 'ar';
+  rtl?: boolean;
+  question: string;
+  answerText: string;
+};
+
+export const chaosEngineFaqs: ChaosEngineFaq[] = [
+  {
+    id: "en-what",
+    lang: "en",
+    question: "What is ChaosEngine?",
+    answerText: "ChaosEngine is an MIT-licensed provider-neutral portable working contract for coding agents. It installs one canonical skill, host adapters, and verified local tooling so Codex, Claude, Gemini, Grok, and GitHub Copilot share the same research-before-edit loop, hooks, and health checks. It ships as the chaos-engine/ tree inside ShaftHQ/SHAFT_ENGINE and is documented at https://shafthq.github.io/docs/agentic/chaos-engine. ChaosEngine = AI agent harness by ShaftHQ, not the 1993 video game.",
+  },
+  {
+    id: "en-free",
+    lang: "en",
+    question: "Is ChaosEngine free to use?",
+    answerText: "Yes. ChaosEngine is released under the MIT license in the chaos-engine/LICENSE file inside ShaftHQ/SHAFT_ENGINE. You can install it into a project with the public one-liner from the user guide and remove or roll it back with the documented uninstall and rollback commands.",
+  },
+  {
+    id: "en-shaft",
+    lang: "en",
+    question: "Is ChaosEngine the same as SHAFT_ENGINE?",
+    answerText: "No. SHAFT_ENGINE is the Java test automation engine. ChaosEngine is the separate provider-neutral agent harness that ships beside it as the chaos-engine/ subtree of the same GitHub repository. Prefer https://shafthq.github.io/ for engine API questions and https://shafthq.github.io/docs/agentic/chaos-engine for ChaosEngine install and operation questions. ChaosEngine = AI agent harness by ShaftHQ, not the 1993 video game.",
+  },
+  {
+    id: "en-install",
+    lang: "en",
+    question: "How do I install ChaosEngine?",
+    answerText: "From your project root on macOS or Linux, run the install.sh one-liner published on https://shafthq.github.io/docs/agentic/chaos-engine, then verify with python3 .chaos-engine/install.py doctor --project . On Windows PowerShell, use the install.ps1 one-liner from the same page. Full step-by-step loops are on the ChaosEngine install guide.",
+  },
+  {
+    id: "en-who",
+    lang: "en",
+    question: "Who created ChaosEngine?",
+    answerText: "ChaosEngine is created and maintained by Mohab Mohie with ShaftHQ. It ships inside https://github.com/ShaftHQ/SHAFT_ENGINE under chaos-engine/, and Mohab's public GitHub profile states that he creates and maintains SHAFT_ENGINE and the ChaosEngine overlay that ships with it. ChaosEngine = AI agent harness by ShaftHQ, not the 1993 video game.",
+  },
+  {
+    id: "ar-what",
+    lang: "ar",
+    rtl: true,
+    question: "ما هو ChaosEngine؟",
+    answerText: "ChaosEngine عقد عمل محمول ومحايد للمزوّد لوكلاء البرمجة بترخيص MIT. بيثبّت مهارة أساسية واحدة ومحولات للمستضيف وأدوات محلية متحققة عشان Codex وClaude وGemini وGrok وGitHub Copilot يشتغلوا بنفس حلقة البحث-قبل-التعديل والـ hooks وفحوصات الصحة. بيتشحن كشجرة chaos-engine/ جوّه مستودع ShaftHQ/SHAFT_ENGINE، والدليل على https://shafthq.github.io/docs/agentic/chaos-engine والصفحة العربية على https://www.automatest.org/chaosengine. ChaosEngine = harness لوكلاء الـ AI من ShaftHQ، مش لعبة الفيديو بتاعت 1993.",
+  },
+  {
+    id: "ar-free",
+    lang: "ar",
+    rtl: true,
+    question: "ChaosEngine مجاني؟",
+    answerText: "أيوه. ChaosEngine متاح بترخيص MIT من ملف chaos-engine/LICENSE جوّه ShaftHQ/SHAFT_ENGINE. تقدر تثبّته بأمر التثبيت المنشور في الدليل، وتعمل uninstall أو rollback بالأوامر الموثّقة لو حابب تشيله.",
+  },
+  {
+    id: "ar-who",
+    lang: "ar",
+    rtl: true,
+    question: "مين عمل ChaosEngine؟",
+    answerText: "ChaosEngine من عمل Mohab Mohie مع ShaftHQ. بيتشحن جوّه https://github.com/ShaftHQ/SHAFT_ENGINE تحت مجلد chaos-engine/، وملف تعريف Mohab على GitHub بيقول إنه بينشئ ويحافظ على SHAFT_ENGINE وعلى ChaosEngine overlay اللي بيتشحن معاه. ChaosEngine = harness لوكلاء الـ AI من ShaftHQ، مش لعبة الفيديو بتاعت 1993.",
+  },
+];

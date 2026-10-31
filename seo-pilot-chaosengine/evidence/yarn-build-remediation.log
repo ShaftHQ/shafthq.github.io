@@ -1,0 +1,14 @@
+[INFO] [en] Creating an optimized production build...
+[WARNING] Docusaurus found blog posts without truncation markers:
+- "blog/2025-03-27-swagger-validation.md"
+- "blog/2024-01-27-virtual-threads-release.md"
+- "blog/2023-04-27-bingAI.md"
+- "blog/2023-02-28-we-need-your-support.md"
+- "blog/2023-02-12-self-managed-appium-execution.md"
+- "blog/2023-01-24-selenium-ecosystem.md"
+- "blog/2023-01-21-welcome/index.md"
+
+We recommend using truncation markers (`<!-- truncate -->` or `{/* truncate */}`) in blog posts to create shorter previews on blog paginated lists.
+Tip: turn this security off with the `onUntruncatedBlogPosts: 'ignore'` blog plugin option.
+[SUCCESS] Generated static files in "build".
+[INFO] Use `npm run serve` command to test your build locally.

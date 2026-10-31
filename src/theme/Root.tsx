@@ -1,6 +1,7 @@
 import { useLocation } from '@docusaurus/router';
 import Head from '@docusaurus/Head';
 import React, { Suspense, useEffect, useState } from 'react';
+import ProductJsonLd from './ProductJsonLd';
 const LazyAutoBot = React.lazy(() => import('@site/src/components/AutoBot'));
 
 const HASH_SCROLL_RETRY_DELAYS_MS = [0, 150, 450, 900];
@@ -187,6 +188,7 @@ export default function Root({ children }: React.PropsWithChildren) {
           content="width=device-width, initial-scale=1, interactive-widget=resizes-content"
         />
       </Head>
+      <ProductJsonLd />
       <HashTargetScrollSync />
       {children}
       <DeferredAutoBot />
