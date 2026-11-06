@@ -101,7 +101,7 @@ const reportedUse = [
   ['EFG Holding', 'https://efgholding.com/', '/img/community/efg-holding.png'],
   ['Ministry of Human Resources and Social Development', 'https://www.hrsd.gov.sa/en', '/img/community/hrsd.png'],
   ['InnovationTeam', 'https://www.innovationteam.com/', '/img/community/innovationteam.png'],
-  ['Yellow Services / QDB', 'https://www.qdb.qa/', '/img/community/qdb.png'],
+  ['Yellow Services / QDB', 'https://www.qdb.qa/', ''],
   ['CME', '', ''],
   ['Kantar', 'https://www.kantar.com/', '/img/community/kantar.png'],
   ['STC', 'https://www.stc.com.sa/', ''],
