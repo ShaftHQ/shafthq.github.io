@@ -104,6 +104,7 @@ const reportedUse = [
   ['Yellow Services / QDB', 'https://www.qdb.qa/', '/img/community/qdb.png'],
   ['CME', '', ''],
   ['Kantar', 'https://www.kantar.com/', '/img/community/kantar.png'],
+  ['STC', 'https://www.stc.com.sa/', ''],
   ['Saudi Capabilities', '', ''],
 ];
 
