@@ -58,7 +58,7 @@ assert(index.includes("import projectSignals from '../data/project-signals.json'
 for (const ledger of ['SHAFT release', 'Java baseline', 'MIT license', 'CI gate', 'Selenium ecosystem']) assert(index.includes(`'${ledger}'`), `Trust ledger must include ${ledger}.`);
 for (const removed of ['Release history', 'Trust, performance, and community']) assert(!index.includes(removed), `Trust ledger must not repeat ${removed}.`);
 assert(index.includes('projectSignals.engineVersion'), 'Trust ledger must show the build-time engine version.');
-assert(index.includes('<details') && index.includes('View community-reported use') && index.includes('Organization names were reported through anonymous community surveys. This list is unaudited and does not imply endorsement.'), 'Community reported use must be a native disclosure with provenance.');
+assert(index.includes('<details') && index.includes('View community-reported use') && index.includes('* Company names were collected via community members and are unverified; listing does not imply endorsement.') && index.includes('<span>{name}*</span>'), 'Community reported use must be a native disclosure with provenance.');
 for (const sponsor of ['JetBrains', 'BrowserStack', 'LambdaTest / TestMu', 'Applitools']) assert(index.includes(sponsor), `Homepage must keep verified supporter ${sponsor} separate.`);
 
 const imagePreviews = [
