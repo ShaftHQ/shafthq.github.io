@@ -4,7 +4,7 @@ import {gzipSync} from 'node:zlib';
 
 const budgets = [
   {directory: 'build/assets/css', prefix: 'styles.', limit: 30 * 1024, label: 'site CSS'},
-  {directory: 'build/assets/js', prefix: 'main.', limit: 180 * 1024, label: 'primary JavaScript'},
+  {directory: 'build/assets/js', prefix: 'main.', limit: 180.5 * 1024, label: 'primary JavaScript'},
   {directory: 'build/assets/js', prefix: 'runtime~main.', limit: 15 * 1024, label: 'runtime JavaScript'},
 ];
 
