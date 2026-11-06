@@ -10,6 +10,10 @@ const LEAD =
   'Ships as the chaos-engine/ tree inside ShaftHQ/SHAFT_ENGINE. ' +
   'ChaosEngine is not The Chaos Engine, the 1993 Bitmap Brothers video game; it is not chaos-engineering or fault-injection tooling; and it is not a standalone ShaftHQ repository.';
 
+const LEAD_AR =
+  'ChaosEngine harness لوكلاء البرمجة بترخيص MIT من ShaftHQ، بيتشحن كشجرة chaos-engine/ جوّه ShaftHQ/SHAFT_ENGINE. ' +
+  'ChaosEngine مش لعبة The Chaos Engine بتاعت Bitmap Brothers سنة 1993، ومش أداة chaos engineering أو fault injection، ومش مستودع مستقل في ShaftHQ.';
+
 export default function ChaosEngineEntityPage(): JSX.Element {
   return (
     <Layout
@@ -24,6 +28,7 @@ export default function ChaosEngineEntityPage(): JSX.Element {
       <main className="container margin-vert--lg" style={{maxWidth: 820}}>
         <h1>ChaosEngine — entity facts</h1>
         <p><strong>{LEAD}</strong></p>
+        <p dir="rtl" lang="ar"><strong>{LEAD_AR}</strong></p>
         <p>
           Not chaos-engineering / fault-injection tooling, and not a standalone
           ShaftHQ GitHub repository — the source tree lives inside{' '}

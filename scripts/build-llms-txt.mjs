@@ -179,6 +179,8 @@ function buildLlmsTxt(pages, siteName, siteDescription) {
     '',
     '> MIT-licensed provider-neutral portable working contract for coding agents. Installs one canonical skill, host adapters, and verified local tooling for Codex, Claude, Gemini, Grok, and GitHub Copilot without tying a project to one model or client. Ships as the chaos-engine/ tree inside ShaftHQ/SHAFT_ENGINE. ChaosEngine is not The Chaos Engine, the 1993 Bitmap Brothers video game; it is not chaos-engineering or fault-injection tooling; and it is not a standalone ShaftHQ repository.',
     '',
+    '> بالعربي: ChaosEngine مش لعبة The Chaos Engine بتاعت Bitmap Brothers سنة 1993، ومش أداة chaos engineering أو fault injection، ومش مستودع مستقل في ShaftHQ.',
+    '',
     '- Docs: https://shafthq.github.io/docs/agentic/chaos-engine',
     '- Install guide: https://shafthq.github.io/docs/agentic/chaos-engine-install-guide',
     '- Add-ons: https://shafthq.github.io/docs/agentic/chaos-engine-addons',

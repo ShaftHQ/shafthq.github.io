@@ -24,7 +24,7 @@ export const SHAFT_PERSON = {
   '@id': 'https://shafthq.github.io/#person-mohab-mohie',
   name: 'Mohab Mohie',
   url: 'https://shafthq.github.io/entity',
-  jobTitle: 'Founder and CEO, Automatest',
+  jobTitle: 'Founder and CEO',
   description:
     'Founder and CEO of Automatest. Created and maintains SHAFT_ENGINE, the open-source Java test automation engine documented at shafthq.github.io, and ChaosEngine, the provider-neutral AI agent harness that ships inside it.',
   worksFor: {'@type': 'Organization', name: 'Automatest', url: 'https://www.automatest.org/'},

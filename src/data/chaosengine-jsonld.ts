@@ -7,11 +7,15 @@ import {SHAFT_ORGANIZATION, SHAFT_PERSON} from './shaft-jsonld';
  * source as the visible <details>, so it matches byte-for-byte.
  */
 export const CHAOSENGINE_VERSION = '0.4.20261104.2';
+export const CHAOSENGINE_DISAMBIGUATION_AR =
+  'ChaosEngine مش لعبة The Chaos Engine بتاعت Bitmap Brothers سنة 1993، ومش أداة chaos engineering أو fault injection، ومش مستودع مستقل في ShaftHQ.';
 export const CHAOSENGINE_DISAMBIGUATION =
   'ChaosEngine is not The Chaos Engine, the 1993 Bitmap Brothers video game; it is not chaos-engineering or fault-injection tooling; and it is not a standalone ShaftHQ repository.';
 const DESCRIPTION =
   'An MIT-licensed provider-neutral AI agent harness (portable working contract for coding agents). Installs one canonical skill, host adapters, and verified local tooling for Codex, Claude, Gemini, Grok, and GitHub Copilot without tying a project to one model or client. Ships as the chaos-engine/ tree inside ShaftHQ/SHAFT_ENGINE. ' +
-  CHAOSENGINE_DISAMBIGUATION;
+  CHAOSENGINE_DISAMBIGUATION +
+  ' ' +
+  CHAOSENGINE_DISAMBIGUATION_AR;
 const PAGE = 'https://shafthq.github.io/docs/agentic/chaos-engine';
 const SOURCE = 'https://github.com/ShaftHQ/SHAFT_ENGINE/tree/main/chaos-engine';
 const ORG_REF = {'@id': SHAFT_ORGANIZATION['@id']};
