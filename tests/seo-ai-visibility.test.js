@@ -98,8 +98,15 @@ if (fs.existsSync(buildDir)) {
   const cePath = resolveBuiltPage('docs', 'agentic', 'chaos-engine');
   if (cePath) {
     const ceHtml = fs.readFileSync(cePath, 'utf8');
-    assert(!ceHtml.includes('SHAFT Engine') || !ceHtml.includes('"@type":"SoftwareApplication"'), 'Built ChaosEngine doc must not include SHAFT SoftwareApplication');
-    assert(!/"@type":"SoftwareApplication"/.test(ceHtml), 'Built ChaosEngine doc must omit SoftwareApplication');
+    const ceNodes = [...ceHtml.matchAll(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/g)]
+      .flatMap((m) => {
+        const d = JSON.parse(m[1]);
+        return d['@graph'] || [d];
+      });
+    const ceApps = ceNodes.filter((n) => n['@type'] === 'SoftwareApplication').map((n) => n.name);
+    assert(!ceApps.includes('SHAFT Engine'), 'Built ChaosEngine doc must not include SHAFT SoftwareApplication');
+    assert(ceApps.includes('ChaosEngine'), 'Built ChaosEngine doc must include ChaosEngine SoftwareApplication');
+    assert(!ceNodes.some((n) => n['@id'] === 'https://shafthq.github.io/#faq'), 'Built ChaosEngine doc must omit SHAFT FAQPage');
   }
   const overviewHtmlPath = resolveBuiltPage('docs', 'start', 'overview');
   if (overviewHtmlPath) {
