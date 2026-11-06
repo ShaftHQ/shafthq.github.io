@@ -1,6 +1,6 @@
 # Install and operate ChaosEngine
 
-Install, inspect, recover, and understand the project-local SHAFT agent harness.
+ChaosEngine — MIT-licensed provider-neutral AI agent harness by ShaftHQ (not the 1993 Bitmap Brothers game, not chaos-engineering tooling). Install, inspect, recover, and operate the project-local working contract.
 
 Canonical HTML: https://shafthq.github.io/docs/agentic/chaos-engine
 Guide index: https://shafthq.github.io/llms.txt
@@ -466,6 +466,15 @@ Docker mode pins the resolved stable image. ChaosEngine never installs or
 starts Docker. See the [agent tooling cache
 runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
 purge, and manual population commands.
+
+## Common questions
+
+{chaosEngineFaqs.map((faq) => (
+ 
+ {faq.question} 
+ {faq.answerText} 
+ 
+))}
 
 ## Related
 

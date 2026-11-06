@@ -6194,6 +6194,15 @@ starts Docker. See the [agent tooling cache
 runbook](/docs/maintainers/agent-tooling#maven-tools-mcp-cache) for status,
 purge, and manual population commands.
 
+## Common questions
+
+{chaosEngineFaqs.map((faq) => (
+ 
+ {faq.question} 
+ {faq.answerText} 
+ 
+))}
+
 ## Related
 
 - [Add optional ChaosEngine skills](/docs/agentic/chaos-engine-addons)
