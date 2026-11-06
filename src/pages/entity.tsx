@@ -19,7 +19,7 @@ export default function EntityPage(): JSX.Element {
         <Heading as="h1">SHAFT Engine — entity facts</Heading>
         <p>
           <strong>SHAFT Engine</strong> (also <strong>SHAFT</strong>, <strong>SHAFT_ENGINE</strong>, Maven{' '}
-          <code>io.github.shafthq:shaft-engine</code>) is a MIT-licensed open-source Java test automation engine for web,
+          <code>io.github.shafthq:shaft-engine</code>) is an MIT-licensed open-source Java test automation engine for web,
           mobile, API, CLI, database, and desktop testing. Drivers, waits, and evidence are handled; every run ends in an
           Allure report.
         </p>
@@ -34,7 +34,7 @@ export default function EntityPage(): JSX.Element {
           <tbody>
             <tr>
               <td>Creator</td>
-              <td>Mohab Mohie</td>
+              <td>Mohab Mohie, Founder and CEO of Automatest; created SHAFT_ENGINE and ChaosEngine</td>
               <td>
                 <Link to="/blog/welcome">Welcome</Link> (author title: SHAFT_Engine creator); Maven Central developers
               </td>

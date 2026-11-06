@@ -8,7 +8,7 @@ export const SHAFT_ORGANIZATION = {
   url: 'https://shafthq.github.io/',
   logo: 'https://shafthq.github.io/img/shaft.svg',
   description:
-    'Open-source organization behind SHAFT Engine — a MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.',
+    'Open-source organization behind SHAFT Engine — an MIT-licensed Java test automation engine for web, mobile, API, CLI, database, and desktop.',
   sameAs: [
     'https://github.com/ShaftHQ',
     'https://github.com/ShaftHQ/SHAFT_ENGINE',
@@ -24,10 +24,12 @@ export const SHAFT_PERSON = {
   '@id': 'https://shafthq.github.io/#person-mohab-mohie',
   name: 'Mohab Mohie',
   url: 'https://shafthq.github.io/entity',
-  jobTitle: 'Creator of SHAFT_ENGINE',
+  jobTitle: 'Founder and CEO',
   description:
-    'Creator and maintainer of SHAFT_ENGINE, the open-source Java test automation engine documented at shafthq.github.io.',
+    'Founder and CEO of Automatest. Created and maintains SHAFT_ENGINE, the open-source Java test automation engine documented at shafthq.github.io, and ChaosEngine, the provider-neutral AI agent harness that ships inside it.',
+  worksFor: {'@type': 'Organization', name: 'Automatest', url: 'https://www.automatest.org/'},
   sameAs: [
+    'https://www.automatest.org/#person-mohab-mohie',
     'https://github.com/MohabMohie',
     'https://www.linkedin.com/in/mohabmohie',
     'https://www.youtube.com/@MohabMohieElDeen',
