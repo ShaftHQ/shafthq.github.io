@@ -82,7 +82,7 @@ assert(viewer.includes('preview: string') && viewer.includes('previewSrcSet: str
 assert(viewer.includes('src={item.preview}') && viewer.includes('srcSet={item.previewSrcSet}') && viewer.includes('sizes={item.previewSizes}'), 'In-page image elements must load previews responsively.');
 assert(viewer.includes('items.map(({image, alt, width, height}) => ({src: image, alt, width, height}))'), 'Lightbox must retain original full-resolution sources.');
 assert(viewer.includes("React.lazy(async ()") && viewer.includes("import('yet-another-react-lightbox')") && viewer.includes('maxZoomPixelRatio: 64'), 'Deep zoom must still lazy-load after activation.');
-assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.32.2', 'Homepage must keep the approved lightbox dependency version.');
+assert(packageJson.dependencies['yet-another-react-lightbox'] === '3.33.0', 'Homepage must keep the approved lightbox dependency version.');
 
 // #1128: the decorative trail is replaced by the real hero clip and a single proof-tick motion.
 assert(!index.includes('EvidenceTrail') && !index.includes('TechnicalOrbit') && !styles.includes('evidenceTrail'), 'Hero must not render the decorative trail or orbit.');
