@@ -15,7 +15,7 @@ export default function EntityPage(): JSX.Element {
     <Layout
       title="SHAFT Engine entity facts"
       description="Entity facts for SHAFT Engine — MIT-licensed open-source Java test automation for web, mobile, API, CLI, database, and desktop.">
-      <main className="container margin-vert--lg" data-testid="entity-main">
+      <main className="container margin-vert--lg e" data-testid="entity-main">
         <Heading as="h1">SHAFT Engine — entity facts</Heading>
         <p>
           <strong>SHAFT Engine</strong> (also <strong>SHAFT</strong>, <strong>SHAFT_ENGINE</strong>, Maven{' '}

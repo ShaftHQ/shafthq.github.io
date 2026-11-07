@@ -97,6 +97,30 @@ for (const theme of ['light', 'dark']) {
   }
 }
 
+// Entity fact pages are custom React, not .markdown, so the docs prose
+// underline does not cover their inline links (#1169).
+for (const path of ['/entity', '/entity/chaos-engine']) {
+  test(`${path} dark theme has no link-in-text-block violations`, async ({page}) => {
+    // Nightly scan viewport. At the default 1280px width the stargazers link is not reported.
+    await page.setViewportSize({width: 1440, height: 900});
+    await page.emulateMedia({colorScheme: 'dark', reducedMotion: 'reduce'});
+    await page.goto(`${path}?docusaurus-theme=dark`);
+    for (let click = 0; click < 3 && (await page.locator('html').getAttribute('data-theme')) !== 'dark'; click += 1) {
+      await page.getByRole('button', {name: /Switch between dark and light mode/}).click();
+    }
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    await expect(page.locator('main')).toBeVisible();
+
+    const {violations, passes} = await new AxeBuilder({page})
+      .include('main')
+      .withRules(['link-in-text-block'])
+      .analyze();
+
+    expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    expect(passes.some(({id}) => id === 'link-in-text-block')).toBe(true);
+  });
+}
+
 const viewportWidths = [320, 390, 768, 1440, 2560, 3840];
 const overflowPages = ['/', '/docs/start/overview', '/docs/features/whats-new/evidence'];
 
