@@ -79,7 +79,7 @@ function lockedPackages(lockText, name) {
 
 const lockText = fs.readFileSync(path.join(repoRoot, 'yarn.lock'), 'utf8');
 const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'));
-const qsFloor = '6.16.0';
+const qsFloor = '6.16.1';
 for (const pin of [packageJson.resolutions.qs, packageJson.overrides.qs]) {
   const floor = String(pin).replace(/^[^\d]*/, '');
   assert.ok(
@@ -93,6 +93,32 @@ for (const entry of lockedPackages(lockText, 'qs')) {
     `installed qs ${entry.version} (${entry.requests.join(', ')}) must be >= ${qsFloor}`,
   );
   console.log(`qs ${entry.version} >= ${qsFloor}`);
+}
+const serializeFloor = '7.1.3';
+for (const pin of [
+  packageJson.resolutions['serialize-javascript'],
+  packageJson.overrides['serialize-javascript'],
+]) {
+  const floor = String(pin).replace(/^[^\d]*/, '');
+  assert.ok(
+    compareSemver(floor, serializeFloor) >= 0,
+    `serialize-javascript pin ${pin} must be at least ${serializeFloor}`,
+  );
+}
+for (const entry of lockedPackages(lockText, 'serialize-javascript')) {
+  assert.ok(
+    compareSemver(entry.version, serializeFloor) >= 0,
+    `installed serialize-javascript ${entry.version} (${entry.requests.join(', ')}) must be >= ${serializeFloor}`,
+  );
+  console.log(`serialize-javascript ${entry.version} >= ${serializeFloor}`);
+}
+const katexFloor = '0.18.2';
+for (const entry of lockedPackages(lockText, 'katex')) {
+  assert.ok(
+    compareSemver(entry.version, katexFloor) >= 0,
+    `installed katex ${entry.version} (${entry.requests.join(', ')}) must be >= ${katexFloor}`,
+  );
+  console.log(`katex ${entry.version} >= ${katexFloor}`);
 }
 for (const entry of lockedPackages(lockText, 'postcss-selector-parser')) {
   const major = Number(entry.version.split('.')[0]);
