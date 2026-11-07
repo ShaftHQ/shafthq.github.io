@@ -6,6 +6,8 @@ import {
 } from '@docusaurus/plugin-content-docs/client';
 import {PageMetadata} from '@docusaurus/theme-common';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {isChaosEngineRoute} from '@site/src/theme/ProductJsonLd';
+import chaosEngineJsonLd, {chaosEngineJsonLdNoFaq} from '@site/src/data/chaosengine-jsonld';
 
 type Crumb = {label: string; href?: string};
 
@@ -100,6 +102,15 @@ export default function DocItemMetadata(): ReactNode {
               ),
             )}
           </script>
+          {isChaosEngineRoute(metadata.permalink) ? (
+            <script type="application/ld+json">
+              {JSON.stringify(
+                metadata.permalink === '/docs/agentic/chaos-engine'
+                  ? chaosEngineJsonLd
+                  : chaosEngineJsonLdNoFaq,
+              )}
+            </script>
+          ) : null}
         </Head>
       )}
     </>
