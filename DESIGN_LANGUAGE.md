@@ -85,7 +85,7 @@ Only these weights are allowed for reusable UI styles: `400|500|600|700`.
 - Keyboard focus uses a 3px solid `--ifm-color-primary` outline site-wide. On
   deep landing surfaces (hero, final CTA, surface explorer, footer) the ring uses
   `--site-color-on-dark`, because primary blue is below 3:1 there.
-- Links inside docs prose are underlined; color alone is not enough in the dark theme.
+- Links inside docs prose and entity fact pages are underlined; color alone is not enough in the dark theme.
 - The current sidebar page and navbar section carry an inset primary bar plus
   weight, not only a tint.
 - Touch targets in the mobile/tablet navigation and on coarse pointers are at
