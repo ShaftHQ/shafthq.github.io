@@ -480,14 +480,14 @@ input[placeholder='Search']:focus-visible {
 
 /* Links inside running prose must not rely on color alone (WCAG 1.4.1). In the
    dark theme the link blue is only ~1.6:1 against body text, so underline them.
-   Entity fact pages are custom React, not .markdown (#1169). */
-:where(.theme-doc-markdown, .markdown, .entity-facts) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card) {
+   .e is the custom entity fact pages (#1169). */
+:where(.theme-doc-markdown, .markdown, .e) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card) {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
 
-:where(.theme-doc-markdown, .markdown, .entity-facts) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card):hover {
+:where(.theme-doc-markdown, .markdown, .e) :where(p, li, td, th, dd, blockquote) a:not(.button):not(.doc-card):hover {
   text-decoration-thickness: 2px;
 }
 

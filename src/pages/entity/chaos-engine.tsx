@@ -25,7 +25,7 @@ export default function ChaosEngineEntityPage(): JSX.Element {
           {JSON.stringify(chaosEngineJsonLd)}
         </script>
       </Head>
-      <main className="container margin-vert--lg entity-facts" style={{maxWidth: 820}}>
+      <main className="container margin-vert--lg e" style={{maxWidth: 820}}>
         <h1>ChaosEngine — entity facts</h1>
         <p><strong>{LEAD}</strong></p>
         <p dir="rtl" lang="ar"><strong>{LEAD_AR}</strong></p>
