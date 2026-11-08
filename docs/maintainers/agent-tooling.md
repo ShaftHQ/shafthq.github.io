@@ -325,6 +325,10 @@ irm "https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/in
 url="https://raw.githubusercontent.com/ShaftHQ/SHAFT_ENGINE/main/chaos-engine/install.sh"; curl -fsSL "$url" | bash -s -- "$url"
 ```
 
+Client inference and the explicit `--hosts` / `-Hosts` / `CHAOS_ENGINE_HOST`
+forms are under
+[Clients this command can complete](/docs/agentic/chaos-engine#clients-this-command-can-complete).
+
 Install Maven Tools on POSIX:
 
 ```sh
