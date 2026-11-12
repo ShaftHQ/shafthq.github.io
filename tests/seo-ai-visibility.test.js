@@ -56,8 +56,10 @@ assert(msvalidateMatch && msvalidateMatch[1].length >= 16, 'msvalidate.01 conten
 
 
 assert(faqs.includes("FAQPage") && faqs.includes('getHomepageFaqs') && faqs.includes('Is SHAFT free to use?'), 'Shared FAQ data must power FAQPage');
-assert(faqs.includes('What is SHAFT Engine?') && faqs.includes('rtl'), 'Homepage FAQs must include lead EN question and AR rtl entries');
-assert((faqs.match(/question:/g) || []).length >= 3, 'Homepage FAQs must list at least 3 questions');
+assert(faqs.includes('What is SHAFT Engine?') && faqs.includes('Is SHAFT free to use?') && faqs.includes('Who created SHAFT_ENGINE?'), 'Homepage FAQs must keep the English coverage of the removed Arabic block');
+assert(!/[\u0600-\u06FF]/.test(faqs), 'Homepage FAQs must not contain Arabic script');
+assert(!faqs.includes('rtl'), 'Homepage FAQs must not mark an RTL or Arabic entry');
+assert((faqs.match(/question: '/g) || []).length === 6, 'Homepage FAQs must list exactly the six English questions');
 assert(index.includes('getHomepageFaqs') && index.includes('answerText') && index.includes('Common questions'), 'Homepage must render visible FAQ answerText from shared FAQ data');
 assert(index.includes('homepageFaqs.map') && !index.includes('homepageFaqPageJsonLd'), 'Homepage FAQ JSON-LD is owned by ProductJsonLd, not page Head');
 assert(shaftJsonLd.includes('FAQPage') && index.includes('buildShaftJsonLd') && index.includes('application/ld+json'), 'Homepage must emit FAQ @graph via buildShaftJsonLd');
