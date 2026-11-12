@@ -73,7 +73,7 @@
   "resolutions": {
     "serialize-javascript": "^7.1.4",
     "minimatch": "^3.1.4",
-    "node-forge": ">=1.4.2",
+    "node-forge": ">=1.4.3",
     "qs": "^6.17.1",
     "mermaid": "12.3.0",
     "**/sockjs/uuid": "^11.1.1",
@@ -82,7 +82,7 @@
   "overrides": {
     "serialize-javascript": "^7.1.4",
     "minimatch": "^3.1.4",
-    "node-forge": ">=1.4.2",
+    "node-forge": ">=1.4.3",
     "qs": "^6.17.1",
     "mermaid": "12.3.0",
     "sockjs": {
