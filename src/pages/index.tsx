@@ -251,7 +251,7 @@ export default function Home(): JSX.Element {
     <section className={`${styles.section} ${styles.trustSection}`} data-testid="landing-trust" aria-labelledby="trust-heading"><div className="container"><Heading as="h2" id="trust-heading">Open, current, and checked</Heading><div className={styles.trustGrid}>{trustSignals.map(([title, detail, href]) => <Link to={href} key={title}><strong>{title}</strong><span>{detail}</span></Link>)}</div>
       <div className={styles.faq}><Heading as="h3">Common questions</Heading>
         {homepageFaqs.map((faq) => (
-          <details key={faq.question} {...(faq.rtl ? {dir: 'rtl', lang: 'ar'} : {})}>
+          <details key={faq.question}>
             <summary>{faq.question}</summary>
             <p>{faq.answerText}</p>
           </details>

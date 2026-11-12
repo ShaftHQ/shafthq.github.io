@@ -113,7 +113,7 @@ export default function EntityPage(): JSX.Element {
         <Heading as="h2">Common questions</Heading>
         <div>
           {faqs.map((faq) => (
-            <details key={faq.question} {...(faq.rtl ? {dir: 'rtl', lang: 'ar'} : {})}>
+            <details key={faq.question}>
               <summary>{faq.question}</summary>
               <p>{faq.answerText}</p>
             </details>

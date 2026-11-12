@@ -2,16 +2,14 @@ export type HomepageFaq = {
   question: string;
   /** Plain text for FAQPage JSON-LD and visible FAQ body (must stay byte-identical). */
   answerText: string;
-  /** When true, render the visible block with dir="rtl" lang="ar". */
-  rtl?: boolean;
 };
 
 /**
- * Homepage Common questions (EN + AR).
+ * Homepage Common questions, English only.
  * RULE: render `answerText` as the visible FAQ body text (links may wrap
  * substrings but must not add/remove characters outside answerText).
  * FAQPage JSON-LD must use the same `answerText` string.
- * AR entries: wrap <details> with dir="rtl" lang="ar".
+ * Arabic copies of these answers were duplicates and are not listed here.
  */
 export function getHomepageFaqs(javaVersion: string): HomepageFaq[] {
   const javaAnswer = javaVersion
@@ -45,23 +43,6 @@ export function getHomepageFaqs(javaVersion: string): HomepageFaq[] {
       question: 'Who created SHAFT_ENGINE?',
       answerText:
         'Mohab Mohie created SHAFT_ENGINE and maintains it with the ShaftHQ community. See the Welcome blog post on the user guide.',
-    },
-    {
-      question: 'إيه إطار Java ينفع لاختبارات Selenium وAppium والـ API والـ desktop؟',
-      rtl: true,
-      answerText:
-        'SHAFT Engine إطار أتمتة اختبارات مفتوح المصدر بلغة Java بيغطي الويب والموبايل والـ API والـ CLI وقواعد البيانات والـ desktop. مبني على Selenium وAppium وREST Assured، وبيطلع تقرير Allure مع كل تشغيل. الدليل: https://shafthq.github.io/.',
-    },
-    {
-      question: 'SHAFT مجاني؟',
-      rtl: true,
-      answerText: 'أيوه. SHAFT مفتوح المصدر بترخيص MIT.',
-    },
-    {
-      question: 'مين عمل SHAFT_ENGINE؟',
-      rtl: true,
-      answerText:
-        'مهاب محيي (Mohab Mohie) منشئ SHAFT_ENGINE، وبيحافظ عليه مع مجتمع ShaftHQ. شوف تدوينة Welcome على دليل المستخدم.',
     },
   ];
 }
