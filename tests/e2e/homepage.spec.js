@@ -270,7 +270,7 @@ test('community-reported logos stay behind their native disclosure', async ({pag
   await page.goto('/');
   const details = page.getByTestId('landing-footer').locator('details');
   await details.locator('summary').click();
-  await expect(details.locator('a:has(img[src^="/img/community/"])')).toHaveCount(25);
+  await expect(details.locator('a:has(img[src^="/img/community/"])')).toHaveCount(29);
   await expect(page.getByText('* Company names were collected via community members and are unverified; listing does not imply endorsement.')).toBeVisible();
 });
 
