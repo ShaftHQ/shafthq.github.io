@@ -226,7 +226,7 @@ String elementSize = driver.element().getSize(elementLocator);
 
 ### getElementsCount()
 
-Returns the number of elements matching a locator.
+Returns the number of elements matching a locator. The count is `findElements` matches and does not require `isDisplayed()`. `driver.element().isPresent(locator, timeout)` is true when `findElements` returns a match, including one with `isDisplayed()` false. A below-fold control that `findElements` does not return is not present; scrolling it into view is `swipeElementIntoView`.
 
 ```java title="GetElementsCountExample.java"
 int resultCount = driver.element().getElementsCount(By.cssSelector("h3.LC20lb"));
