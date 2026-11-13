@@ -230,8 +230,16 @@ String elementSize = driver.element().getSize(elementLocator);
 
 Returns the number of elements matching a locator. The count is `findElements` matches and does not require `isDisplayed()`. `driver.element().isPresent(locator, timeout)` is true when `findElements` returns a match, including one with `isDisplayed()` false. A below-fold control that `findElements` does not return is not present; scrolling it into view is `swipeElementIntoView`.
 
+`driver.element().isPresentInPageSource(locator)` reads the current page source once. It is true when that document lists the node, including `displayed=false`, even when `findElements` does not return it. `getPageSourceElementsCount(locator)` counts those nodes. The locator is an id, a name, an accessibility id, or an xpath. This read does not poll.
+
 ```java title="GetElementsCountExample.java"
 int resultCount = driver.element().getElementsCount(By.cssSelector("h3.LC20lb"));
+```
+
+```java title="PageSourcePresenceExample.java"
+By terms = SHAFT.GUI.Locator.accessibilityId("generic_termsAndConditions_checkBox");
+boolean inTree = driver.element().isPresentInPageSource(terms);
+int treeCount = driver.element().getPageSourceElementsCount(terms);
 ```
 
 ### isElementDisplayed()
