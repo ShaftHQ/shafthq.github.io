@@ -22595,7 +22595,7 @@ Keep `minReplicaCount=0` to avoid paying for idle browser nodes; set Kubernetes 
 
 ## Network mocking and interception 
 
-`driver.browser().interceptRequest()` matches outgoing browser requests to replace responses with controlled test data, or lets real responses continue and validates them with SHAFT API validations. It relies on Selenium DevTools, so use a DevTools-capable browser (Chrome or Edge).
+`driver.browser().interceptRequest()` matches outgoing browser requests to replace responses with controlled test data, or lets real responses continue and validates them with SHAFT API validations. It relies on Selenium DevTools, so use a DevTools-capable browser (Chrome or Edge). This path is web and WebView DevTools only, not BiDi `network.addIntercept`. A native Appium session needs an out-of-band proxy.
 
 ```java title="NetworkMocking.java"
 driver.browser()
