@@ -29,17 +29,23 @@ concurrency:
 jobs:
   enable-auto-merge:
     name: Enable Dependabot auto-merge
-    if: >-
-      github.event_name != 'pull_request_target'
-      || (
-        github.event.pull_request.user.login == 'dependabot[bot]'
-        && github.event.pull_request.head.repo.full_name == github.repository
-      )
+    # The job always runs. A job-level if skips the check on human pull requests,
+    # and a skipped check is not a successful merge gate. The step conditions
+    # still arm auto-merge only for Dependabot.
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
+      - name: Leave human pull requests unarmed
+        if: >-
+          github.event_name == 'pull_request_target'
+          && github.event.pull_request.user.login != 'dependabot[bot]'
+        run: echo "This pull request is not from Dependabot. Auto-merge stays unarmed."
+
       - name: Enable auto-merge (this PR)
-        if: github.event_name == 'pull_request_target'
+        if: >-
+          github.event_name == 'pull_request_target'
+          && github.event.pull_request.user.login == 'dependabot[bot]'
+          && github.event.pull_request.head.repo.full_name == github.repository
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
