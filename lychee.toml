@@ -6,10 +6,10 @@ scheme = ["https", "http"]
 # Resolve root-relative links (/docs/..) against the site; the exclude list
 # below then skips them because the Docusaurus build already checks them.
 base_url = "https://shafthq.github.io"
-max_retries = 3
-retry_wait_time = 5
+max_retries = 5
+retry_wait_time = 10
 timeout = 30
-max_concurrency = 8
+max_concurrency = 4
 # 403/429 are commonly bot protection or rate limiting, not dead links.
 accept = ["200..=299", "403", "429"]
 cache = true

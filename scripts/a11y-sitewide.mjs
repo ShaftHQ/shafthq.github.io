@@ -86,12 +86,12 @@ const record = (theme, page, result) => {
   }
 };
 const axeWorker = async (theme, list) => {
-  const context = await browser.newContext({viewport: {width: 1440, height: 900}, reducedMotion: 'reduce'});
+  const context = await browser.newContext({viewport: {width: 1440, height: 900}, reducedMotion: 'reduce', colorScheme: theme});
   const page = await context.newPage();
   for (const p of list) {
     try {
       await page.goto(`${base}${p}?docusaurus-theme=${theme}`, {waitUntil: 'load', timeout: 30_000});
-      await page.waitForTimeout(150);
+      await page.waitForFunction((expected) => document.documentElement.dataset.theme === expected, theme, {timeout: 5_000});
       let builder = new AxeBuilder({page}).withTags(wcagTags);
       for (const selector of excluded) builder = builder.exclude(selector);
       record(theme, p, await builder.analyze());
