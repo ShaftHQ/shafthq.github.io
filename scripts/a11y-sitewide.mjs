@@ -75,23 +75,63 @@ const record = (theme, page, result) => {
   for (const violation of result.violations) {
     const groupKey = safeReportKey(`${theme}:${violation.id}`);
     const entry = violations.get(groupKey) ?? {
-      rule: violation.id, theme, impact: violation.impact, help: violation.helpUrl, nodes: 0, pages: new Map(), samples: [],
+      rule: violation.id, theme, impact: violation.impact, help: violation.helpUrl, nodes: 0, pages: new Map(), samples: [], details: [],
     };
     violations.set(groupKey, entry);
     entry.nodes += violation.nodes.length;
     entry.pages.set(pageKey, violation.nodes.length);
     for (const node of violation.nodes.slice(0, 2)) {
-      if (entry.samples.length < 8) entry.samples.push(`${page} ${node.target.join(' ')}`);
+      if (entry.samples.length < 8) {
+        entry.samples.push(`${page} ${node.target.join(' ')}`);
+        if (node.failureSummary) {
+          entry.details.push(`${page} ${node.target.join(' ')}: ${String(node.failureSummary).replace(/\s+/g, ' ').trim().slice(0, 300)}`);
+        }
+      }
     }
   }
 };
+const settledThemeColor = {
+  light: 'rgb(28, 30, 33)',
+  dark: 'rgb(227, 227, 227)',
+};
 const axeWorker = async (theme, list) => {
   const context = await browser.newContext({viewport: {width: 1440, height: 900}, reducedMotion: 'reduce', colorScheme: theme});
+  await context.addInitScript((expected) => {
+    try {
+      window.localStorage.setItem('theme', expected);
+    } catch {
+      // Ignore storage restrictions on non-HTTP origins.
+    }
+  }, theme);
   const page = await context.newPage();
   for (const p of list) {
     try {
       await page.goto(`${base}${p}?docusaurus-theme=${theme}`, {waitUntil: 'load', timeout: 30_000});
-      await page.waitForFunction((expected) => document.documentElement.dataset.theme === expected, theme, {timeout: 5_000});
+      await page.waitForFunction(
+        ({expected, expectedColor}) =>
+          document.documentElement.dataset.theme === expected
+          && document.body !== null
+          && getComputedStyle(document.body).color === expectedColor,
+        {expected: theme, expectedColor: settledThemeColor[theme]},
+        {timeout: 10_000},
+      );
+      await page.evaluate(async () => {
+        if (document.fonts && document.fonts.ready) await document.fonts.ready;
+        const animations = document.getAnimations().filter((a) => {
+          const timing = a.effect && typeof a.effect.getComputedTiming === 'function' ? a.effect.getComputedTiming() : null;
+          return !timing || timing.iterations !== Infinity;
+        });
+        await Promise.allSettled(animations.map((a) => a.finished));
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      });
+      await page.waitForFunction(
+        ({expected, expectedColor}) =>
+          document.documentElement.dataset.theme === expected
+          && document.body !== null
+          && getComputedStyle(document.body).color === expectedColor,
+        {expected: theme, expectedColor: settledThemeColor[theme]},
+        {timeout: 5_000},
+      );
       let builder = new AxeBuilder({page}).withTags(wcagTags);
       for (const selector of excluded) builder = builder.exclude(selector);
       record(theme, p, await builder.analyze());
@@ -117,9 +157,9 @@ const overflowWorker = async (list) => {
 };
 const split = (list, n) => Array.from({length: n}, (_, i) => list.filter((_, j) => j % n === i));
 await Promise.all([
-  ...split(paths, 3).map((list) => axeWorker('light', list)),
-  ...split(paths, 3).map((list) => axeWorker('dark', list)),
-  ...split(paths, 2).map((list) => overflowWorker(list)),
+  ...split(paths, 2).map((list) => axeWorker('light', list)),
+  ...split(paths, 2).map((list) => axeWorker('dark', list)),
+  ...split(paths, 1).map((list) => overflowWorker(list)),
 ]);
 await browser.close();
 
@@ -129,6 +169,7 @@ for (const [key, entry] of violations) {
   violationReport[safeReportKey(key)] = {
     rule: entry.rule, theme: entry.theme, impact: entry.impact, help: entry.help,
     nodes: entry.nodes, pages: publicRecord(entry.pages), samples: entry.samples,
+    details: entry.details,
   };
 }
 const report = {

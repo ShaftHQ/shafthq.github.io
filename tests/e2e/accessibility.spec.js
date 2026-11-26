@@ -79,12 +79,22 @@ test('audit detects an injected unnamed button', async ({page}) => {
 // the navigation chrome, and the 320px-3840px viewport range.
 const docsPages = ['/docs/start/overview', '/docs/start/quick-start'];
 
+const expectedBodyColor = {
+  light: 'rgb(28, 30, 33)',
+  dark: 'rgb(227, 227, 227)',
+};
+
 for (const theme of ['light', 'dark']) {
   for (const path of docsPages) {
     test(`${path} ${theme} theme has no automatically detectable WCAG A or AA violations`, async ({page}) => {
+      await page.emulateMedia({colorScheme: theme, reducedMotion: 'reduce'});
       await page.goto(`${path}?docusaurus-theme=${theme}`);
       await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
       await expect(page.locator('article h1')).toBeVisible();
+      await expect.poll(async () => page.evaluate((expectedColor) =>
+        document.documentElement.dataset.theme !== ''
+        && getComputedStyle(document.body).color === expectedColor,
+      expectedBodyColor[theme])).toBe(true);
 
       const {violations} = await new AxeBuilder({page})
         .withTags(wcagTags)
