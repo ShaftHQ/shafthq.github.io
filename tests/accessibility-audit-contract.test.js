@@ -77,3 +77,30 @@ assert.match(
 );
 
 console.log('Accessibility audit contract checks passed.');
+
+(async () => {
+  const { pathToFileURL } = require('node:url');
+  const { extractThemeStorageKeys } = await import(
+    pathToFileURL(path.join(repoRoot, 'scripts', 'a11y-sitewide.mjs')).href,
+  );
+  const snippet = '<script>window.localStorage.getItem("theme-d4e")</script>';
+  assert.deepStrictEqual(extractThemeStorageKeys(snippet), ['theme', 'theme-d4e']);
+  assert.deepStrictEqual(extractThemeStorageKeys("no theme key here"), ['theme']);
+  assert.deepStrictEqual(extractThemeStorageKeys(null), ['theme']);
+  assert.deepStrictEqual(extractThemeStorageKeys(42), ['theme']);
+  assert.deepStrictEqual(extractThemeStorageKeys(undefined), ['theme']);
+  assert.deepStrictEqual(extractThemeStorageKeys(''), ['theme']);
+  assert.deepStrictEqual(
+    extractThemeStorageKeys("localStorage.getItem('theme-abc')"),
+    ['theme', 'theme-abc'],
+  );
+  assert.deepStrictEqual(
+    extractThemeStorageKeys('localStorage.getItem("theme")'),
+    ['theme'],
+  );
+  assert.deepStrictEqual(
+    extractThemeStorageKeys('localStorage.getItem("nottheme")'),
+    ['theme'],
+  );
+  console.log('extractThemeStorageKeys checks passed.');
+})();

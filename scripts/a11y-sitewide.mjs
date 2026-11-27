@@ -9,10 +9,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {chromium} from '@playwright/test';
-import AxeBuilderModule from '@axe-core/playwright';
 
-const AxeBuilder = AxeBuilderModule.default ?? AxeBuilderModule;
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, value, index, all) => {
     if (value.startsWith('--')) pairs.push([value.slice(2), all[index + 1]]);
@@ -55,9 +52,23 @@ function publicRecord(map) {
   return out;
 }
 
+/** Extract Docusaurus localStorage theme keys from built HTML, always including 'theme'. */
+export function extractThemeStorageKeys(html) {
+  const keys = ['theme'];
+  if (typeof html === 'string') {
+    for (const match of html.matchAll(/localStorage\.getItem\(\s*(['"])(theme[^'"]*)\1\s*\)/g)) {
+      if (!keys.includes(match[2])) keys.push(match[2]);
+    }
+  }
+  return keys;
+}
+
 const isDirectRun = process.argv[1] !== undefined && import.meta.url === pathToFileURL(process.argv[1]).href;
 if (isDirectRun) {
-const sitemap = path.join(buildDir, 'sitemap.xml');
+  const {chromium} = await import('@playwright/test');
+  const AxeBuilderModule = await import('@axe-core/playwright');
+  const AxeBuilder = AxeBuilderModule.default ?? AxeBuilderModule;
+  const sitemap = path.join(buildDir, 'sitemap.xml');
 if (!fs.existsSync(sitemap)) {
   console.error(`Missing ${sitemap}; run yarn build first.`);
   process.exit(2);
@@ -94,25 +105,35 @@ const settledThemeColor = {
   light: 'rgb(28, 30, 33)',
   dark: 'rgb(227, 227, 227)',
 };
+const oppositeThemeColor = {
+  light: 'rgb(227, 227, 227)',
+  dark: 'rgb(28, 30, 33)',
+};
+const indexHtmlPath = path.join(buildDir, 'index.html');
+const themeStorageKeys = fs.existsSync(indexHtmlPath)
+  ? extractThemeStorageKeys(fs.readFileSync(indexHtmlPath, 'utf8'))
+  : ['theme'];
 const axeWorker = async (theme, list) => {
   const context = await browser.newContext({viewport: {width: 1440, height: 900}, reducedMotion: 'reduce', colorScheme: theme});
-  await context.addInitScript((expected) => {
+  await context.addInitScript(({keys, expected}) => {
     try {
-      window.localStorage.setItem('theme', expected);
+      for (const key of keys) window.localStorage.setItem(key, expected);
     } catch {
       // Ignore storage restrictions on non-HTTP origins.
     }
-  }, theme);
+  }, {keys: themeStorageKeys, expected: theme});
   const page = await context.newPage();
   for (const p of list) {
     try {
       await page.goto(`${base}${p}?docusaurus-theme=${theme}`, {waitUntil: 'load', timeout: 30_000});
       await page.waitForFunction(
-        ({expected, expectedColor}) =>
+        ({expected, expectedColor, oppositeColor}) =>
           document.documentElement.dataset.theme === expected
+          && document.documentElement.dataset.themeChoice === expected
           && document.body !== null
-          && getComputedStyle(document.body).color === expectedColor,
-        {expected: theme, expectedColor: settledThemeColor[theme]},
+          && getComputedStyle(document.body).color === expectedColor
+          && Array.from(document.querySelectorAll('article code')).every((code) => getComputedStyle(code).color !== oppositeColor),
+        {expected: theme, expectedColor: settledThemeColor[theme], oppositeColor: oppositeThemeColor[theme]},
         {timeout: 10_000},
       );
       await page.evaluate(async () => {
@@ -125,11 +146,13 @@ const axeWorker = async (theme, list) => {
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       });
       await page.waitForFunction(
-        ({expected, expectedColor}) =>
+        ({expected, expectedColor, oppositeColor}) =>
           document.documentElement.dataset.theme === expected
+          && document.documentElement.dataset.themeChoice === expected
           && document.body !== null
-          && getComputedStyle(document.body).color === expectedColor,
-        {expected: theme, expectedColor: settledThemeColor[theme]},
+          && getComputedStyle(document.body).color === expectedColor
+          && Array.from(document.querySelectorAll('article code')).every((code) => getComputedStyle(code).color !== oppositeColor),
+        {expected: theme, expectedColor: settledThemeColor[theme], oppositeColor: oppositeThemeColor[theme]},
         {timeout: 5_000},
       );
       let builder = new AxeBuilder({page}).withTags(wcagTags);
